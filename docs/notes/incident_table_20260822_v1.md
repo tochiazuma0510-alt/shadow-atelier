@@ -1,0 +1,27 @@
+# incident_table_20260822_v1 — 計器バグ・捕獲台帳(append-only・Sol 便 154 §3 の要求で新設)
+
+**規約**: 各捕獲に一意 ID(INC-NN)。列 = 対象 artifact / 生の反証者(誰が・どうやって捕獲したか)/ 旧結論 / 修理・supersession / 現況 sha(UNKNOWN 可)/ 未解決点。**追記のみ・書き換え禁止**。
+**訂正の記帳(便 154 §3)**: ①状態.md の「捕獲 7 件」と便 154 の「8 件」の集計不一致 → **正 = 内部捕獲 8 件**(状態.md は INC-08(End nullspace)を数え漏れ)。②便 154 の「各捕獲が cert の bug_history に生値で残る」は**誤り・撤回** — 実際に bug_history 欄を持つのは K₃ producer cert のみ(2 件)・972 は別名の erratum 欄・closure/H²/K₃ crosscheck には該当欄なし。本表がその代替の正本である。
+
+| ID | 対象 artifact | 生の反証者(捕獲経路) | 旧結論 | 修理・supersession | 現況 | 未解決点 |
+|---|---|---|---|---|---|---|
+| INC-01 | 83 K 水準 producer(survival v3)の A₁/A₂ 行列 | 独立照合器の不再現 → **語水準アービター**(witness σ-語 308/248 を両系が行列不使用の Φ 直接検査で 0,0 一致) | order2 の 2 代表 DIES(Fredholm 証明書つき) | producer の作用向きバグと確定・DIES 撤回(裁定 1438)・恒久対策 = 差分定義 A | cert: koubou83_survival_v3_1(bug_history 2 件あり) | なし |
+| INC-02 | K₃ 装置の τ/z 規約+中心補正 κ | 較正ゲート(K₃_ord 実測 36 との不一致) | (装置初期版の κ 無視) | κ=3 中心補正を実装・規約 TAU-1 群(1〜7)新設 | K₃ cert に反映 | なし |
+| INC-03 | K₃ 装置の char-3 符号(Aξ) | 途中経過「3-冪のみ生存」の構造的綺麗さを疑った再点検(CANARY 型)+γ-canary | 22 候補の大半 DIES(偽) | Aξ=+r→−r 修理 → 全員 SURVIVES へ反転・規約 CHAR-1(標数移行符号表)新設 | cert: koubou83_survival_k3_v1_1 | なし |
+| INC-04 | 972 旧 m 掃引 v1〜v5(j=7) | falsifier CV-9 判読(意味論 DIFFERENT — 関係加群会計は T56(iv) と別述語) | 「(iv) の m 掃引証拠」 | 証拠格ゼロへ・ERRATUM-972-M-01 執行・B 線モスボール | cert 2 本に erratum 欄 | ERRATUM の a_wrong_rhs 誤記は INC-07 で訂正 |
+| INC-05 | K₃ 独立照合器 v1(空虚検証) | 破壊対照の考案(witness 削除で PASS のままになることを実証) | 「照合器 v2 24/24 PASS」(空虚 — 全空間 tracker で係数を見ていない) | 係数追跡を復元・破壊対照(witness 削除 = 判別子)を義務化 | crosscheck v2(削除対照 18/24 で修理を実証) | なし |
+| INC-06 | 972 A 型計器 P0(naive judge) | 972 専任数学者の 972-01 裁定(RHS と宇宙の点検) | (m₁ 系の判定値) | **Ad(δ) 形 LHS×語水準 RHS=1 の混成**+f 宇宙 27(正 = 6×27=162)を特定・v3 仕様で二系統述語を明文化 | audit_P0_naive_judge_v4.py(修正版)・v3 spec | A 型 v3 建造中(発走前 CV-9) |
+| INC-07 | ERRATUM-972-M-01 の理由欄 a_wrong_rhs | Sol 便 154 §4(**外部捕獲**) | 「RHS=1 自体が誤った述語」 | 正 = 「語水準 RHS=1 は有効な等価系・欠陥は Ad 形との混成」— 両 cert に d_correction 追記 | d972_atype cert v1/v2(追記済) | なし |
+| INC-08 | End_{F_p[Q]}(V) 測定の nullspace 方向 | 数学者の自己点検(次元の側の取り違え) | (初回測定値) | 方向修正 → dim End=24/12 確定 | closure cert end_ring_dims | End 次元からの「安くない」読解は別途撤回(Sol §2) |
+| INC-09 | **83 full-48 掃引 producer(koubou83_A2_48sweep_v1.g:283-291)** | **Sol 便 154 §1 F1(外部捕獲 — 内部網は捕獲できず)**。工房裏取り済(照合器 check_koubou83_survival_k3.py:146,575 は cond3 実装済) | 「GT(N) 全 48 元が p=2,3 で 1 段生存」 | charmOk が pΛ_N 第三条件((A+B)≡0 mod 3p)を欠く — コメントの「refinement だから除外」は誤り(定義から従う)。一般式により p=2/5 も同疑い。**修正 v2 を全素数で再走中** | v2 cert 未完 | **再走の帰結(死者が出れば fake 候補)・照合器の突合対象を full-48 へ拡張** |
+
+| INC-10 | A2 掃引 v2 producer(koubou83_A2_48sweep_v2.g 建造中) | **implementer の自己捕獲**(デバッグ実行で cond1=false の数学的矛盾(-2 mod 2=0 のはず)を検出) | (発行前) | GAP の未宣言変数=グローバル挙動により `EvalWitnessAt` が local 宣言から漏れ、p=3 用ソルバ構築が p=2 用の同名関数を上書きする破損 — local 宣言追加で修正・再検証済み | v2 cert 発行前に修理済(cert sha ffc559f3…) | なし |
+| INC-11 | A2 掃引 v2 の p=2 判定(cond3 の意味論) | **陽性対照 [11,1] の死**(C-83-ARITH-PC が設計どおり発火 — 算術的 shadow は理論が全水準生存を保証するのに p=2/窓 154163 で死亡) | 「p=2 で 55 行死亡(24/48・17/48)」 | **解決 = (a) artifact 55/55(裁定 1518・INC-12 が機構)**: 数学者の定理 A2-TAUT(p≠3 では cond3 は cond1∧2 の下で恒真)+192/192 機械確認・[11,1] は正条件 TRUE(abg(w)=(−6,0,0))— 対照は完璧に機能・K₅ 波及なし | 解決済(v2 cert の p=2 死行は artifact と追記対象) | なし(残件は WARN-A2-1 へ分離) |
+| INC-12 | A2 掃引 v2 の cond3 実装(p=2 流用)+司令塔の発注 | 数学者の独立復号(cert の cond3 ≡ [9\|(A+B)] を 192/192 で同定) | 「一般式 mod 3p を実装した」(実際は p=3 用の 9\| を p=2 に流用) | **二重の教訓**: ①実装 = 述語の流用バグ ②発注 = **司令塔が Sol の指摘射程(p=3 のみ)を越えて p=2/5 へ一般化した**ことが事故の温床(数学的には正しい一般化だったが恒真 = 無内容で、artifact 死 55 件と PC 死騒動を生んだ)。「coset 不変性証明の正しさ」が誤りを厳密に見せた = CANARY-1 教科書例。**規律: 監査指摘の修正は指摘の射程で閉じる・一般化は別札で裁定してから** | v2 cert に artifact 注記予定 | **WARN-A2-1(別件・未決)**: cond1/2 成分が独立復号と 62/192 不一致(export 取り違え vs AVecp/BVecp バグ)— 判別 canary 発注済・判別まで full-48 は両素数 candidate |
+
+| INC-13 | producer 系全体の可換化単位(ComputeLinking) | **数学者の §8 導出**(ABGamma=2·ab を 96/96 機械確認・「別不変量」説(implementer)を反証) | 「二つの復号器は別の量を測っている」(WARN-A2-1)・v1/v2 の p=2「48/48」 | **単位 2 倍(交差数を 2 で割っていない)と特定** ⟹ 定理 UNIT-INV により p=3/K₅ は不可視で無傷・**p=2 は mod-2 検査が全て恒真化 = 未検査と判明 → UNKNOWN へ撤回**・規約 PIN-AB-1(生成元 assert 4 本)+UNIT-1 新設・PIN-AB-1 準拠 v3 再走発注 | K₃ crosscheck verdict に維持理由を追記・v3 走行中 | P-A2-3(修正後 p=2 の 48/48 か否か)= open |
+
+**ARB-1 の実例(canary A の盲点)**: 「同一規約での再実装 0/296 一致」は内部整合の確認にすぎず、単位規約の誤りは原理的に捕まえられない(UNIT-1: 単位は生成元での値でしか検査できない)。数学者自身も pin 起草中に (a,b,γ)(Δ²) を誤記し**自分の assert に落とされて訂正** — pin が機能した実例として §8.7 に記録。
+
+## 教訓(内部網がなぜ INC-09 を逃したか)
+独立照合器は正しい条件(cond3)を持っていたが、**突合対象が「登録 24 行」に限られ、producer の full-48 主張そのものを照合対象にしていなかった** — 「主張の母数」と「照合の母数」の一致検査が欠けていた。恒久対策(候補・便 155 で Sol 諮問): **CLAIM-COVER-1 = 主張の全数(full-N)を掲げる cert は、照合器の検査母数がその全数と一致することを cert 内で機械照合してから格付けする**。

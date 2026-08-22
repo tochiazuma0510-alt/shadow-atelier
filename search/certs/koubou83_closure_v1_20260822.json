@@ -110,5 +110,12 @@
     },
     "canaries": "Identity matrix and rho(c) (c=(sigma1 sigma2 sigma1)^2, the central element) both confirmed to lie in End for every (window,p) combination -- PASS. dim End >= 1 confirmed for all four measurements.",
     "conclusion": "dim End is IDENTICAL at p=2 and p=3 within each window (24 for 154161, 12 for 154163), and notably EQUALS K_ord for that window (K_ord=24 for 154161, K_ord=12 for 154163, as measured much earlier in this campaign via direct x^n membership probes) -- both well within the ambient dBasis^2 bound. Per the mathematician's lemma KER-pi (ker pi* = End_Q(V).e), a LARGER End dimension gives a quantitative explanation for why the obstruction vanishes 'cheaply' -- i.e. why H^2 obstruction classes were found to be zero for every candidate tested (koubou83_h2_obstruction_v1): there is a large-dimensional space of Q-equivariant endomorphisms available to absorb any would-be obstruction into the kernel of pi*."
+  },
+  "erratum_20260822_sol154": {
+    "verdict": "REMANDED (Sol reply 154, AUDIT_154_VERDICT: sashimodoshi)",
+    "status_downgrade": "This cert is a HARD-CODED single-system aggregate without row manifest / input hashes / witness digests; it must NOT be used as cross-checked evidence (Sol sec.3).",
+    "A2_invalid_F1": "The A2 line ('full-48 survive p=2,3') is INVALID: the producer scratchpad/koubou83_A2_48sweep_v1.g:283-291 tested only 2 of the 3 conditions for membership in p*Lambda_N (missing (A+B)=0 mod 3p; for p=3 this is 9|(A+B), which the independent checker check_koubou83_survival_k3.py:146,575 does implement). Supported now: p=2 full-48 = single-system candidate (same 3rd-condition suspicion applies to p=2/5 by the uniform formula); p=3 = only the 24 checker-verified rows are cross-checked. Corrected v2 sweep (all primes, 3 conditions) is running; its cert will supersede A2.",
+    "language_F3": "'fake zero / profinite-genuine side / depth-line closed' are RETRACTED as mathematical conclusions; correct statement: registered finite probes produced no fake certificate; overall verdict UNKNOWN-DEPTH/UNKNOWN-STRUCTURAL.",
+    "incident_table": "docs/notes/incident_table_20260822_v1.md (INC-09)"
   }
 }

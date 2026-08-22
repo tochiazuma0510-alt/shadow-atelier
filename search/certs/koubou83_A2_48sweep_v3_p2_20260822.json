@@ -1,0 +1,4457 @@
+{
+  "cert_schema": "koubou83-A2-48sweep-v3-p2/1",
+  "generated": "2026-08-22T19:22:14.998656",
+  "purpose": "WARN-A2-1 / theorem UNIT-2 fix re-run, p=2 ONLY. koubou83_A2_48sweep_v2.g's ComputeLinking summed signed crossing counts without dividing by 2 (mathematician's ruling: scratchpad/c83_inn_lift_lemma_v1.md sec.8, theorem UNIT-2 / UNIT-INV). This scalar-2 error is invisible to any mod-(power of 3 or 5) test (gcd(2,M)=1) but makes every mod-2 test (p=2's cond1, cond2, legal-gamma) VACUOUSLY TRUE. Consequence: p=2 charming/legal was NEVER actually imposed nor checked in v1 or v2. This file re-derives ab(f)=(deg_x f, deg_y f) via PIN-AB-1 (halved strand-linking, l_jk := signed_crossing_count/2) with a mandatory 4-pin assert block plus a runtime purity/evenness guard on every ABGamma call, and re-solves the FULL augmented system (same architecture as v1/v2 -- cond1/cond2/legal-gamma were already baked into augMat's T/G/A/B target rows since v1; fixing only the coefficient VALUES, via the corrected ABGamma, is mathematically sufficient: solvability of the augmented system is an EXHAUSTIVE existence proof over the full basis-word coset, not a partial search).",
+  "supersession": {
+    "supersedes": "search/certs/koubou83_A2_48sweep_v2_20260822.json (p=2 HALF ONLY)",
+    "p3_status": "UNCHANGED and remains authoritative: theorem UNIT-INV (gcd(2,9)=gcd(2,3)=1) proves the units bug is invisible to every p=3 test (cond1: 3|a, cond2: 3|b, cond3: 9|(a+b), legal: 3|gamma). p=3 was NOT rerun (commander instruction: no rerun needed for p=3).",
+    "p2_status": "The v2 cert's p=2 result (24/48 window 154161, 17/48 window 154163, cond3_method='invariant-gcd(p,3)=1-baseline-definitive') and v1's p=2 result (48/48, cond3 never checked at all) are BOTH WITHDRAWN. This file's p=2 result supersedes them."
+  },
+  "pin_ab_1_assert_block": {
+    "all_4_pins_passed": true,
+    "ab_gamma_sigma1_sq": [
+      1,
+      0,
+      0
+    ],
+    "ab_gamma_sigma2_sq": [
+      0,
+      1,
+      0
+    ],
+    "ab_gamma_delta_sq": [
+      0,
+      0,
+      1
+    ],
+    "raw_unhalved_crossing_count_delta_sq": [
+      2,
+      2,
+      2
+    ],
+    "note": "Asserted once at script top (before any window-specific work) via Error()-on-failure; script printed 'PIN-AB-1 ASSERT BLOCK: ALL 4 PINS PASSED' and continued, confirming all 4 pins held. The same purity/evenness guard (final permutation = identity, all raw lk even) fired on EVERY ABGamma call throughout the real sweep (basis words, shadow generators, witnesses) with zero violations (the run completed without any PIN-AB-1 PURITY/EVENNESS VIOLATION error)."
+  },
+  "provenance": {
+    "script_path": "scratchpad/koubou83_A2_48sweep_v3_p2.g",
+    "script_sha256": "a739cc01610e51ae5c0c81bbbc77858266a2cdb812f4c470fdfef3af5ceb887b",
+    "rows_jsonl_path": "search/certs/koubou83_A2_48sweep_v3_p2_20260822_rows.jsonl",
+    "rows_jsonl_sha256": "a8a2bec20086f9314c9f7031834e80b8f478b37021c29c4dee09b4213a256afa",
+    "rows_jsonl_bytes": 31566,
+    "witness_jsonl_path": "search/certs/koubou83_A2_48sweep_v3_p2_20260822_witness.jsonl",
+    "witness_jsonl_sha256": "b588f84c3dc5ff2550a421a4c0029f9bddb26f9df71aaf41712f77c090d4dfc4",
+    "witness_jsonl_bytes": 71458,
+    "run_log_path": "scratchpad/koubou83_A2_48sweep_v3_p2_run.log",
+    "run_log_sha256": "7fc1a668edb2a65dcf546a6eb5b338cf1a9231f4204f4099580f37a695b6201e",
+    "gap_invocation": ".\\gap.ps1 scratchpad\\koubou83_A2_48sweep_v3_p2.g (-o 2g per project convention)",
+    "gap_version": "gap-4.16.0",
+    "elapsed_ms_this_run": 128125,
+    "v2_cert_reference_sha256": "ffc559f3bbb15fd0e3ec31730134166ea83dab55e3424abc81c6560aebc1583e"
+  },
+  "universe": {
+    "windows": [
+      [
+        1152,
+        154161
+      ],
+      [
+        1152,
+        154163
+      ]
+    ],
+    "prime_swept": 2,
+    "shadows_per_window": 48,
+    "note": "p=3 not included in this file's universe (no rerun; see supersession.p3_status)."
+  },
+  "pre_registered_predictions": {
+    "P-A2-1_positive_control_11_1_survives_p2": {
+      "predicted": true,
+      "observed": true,
+      "rows": [
+        {
+          "window": [
+            1152,
+            154161
+          ],
+          "shadow_idx": 43,
+          "m": 11,
+          "f_xyword": [],
+          "p": 2,
+          "solvable": true,
+          "legalOk": true,
+          "cond1": true,
+          "cond2": true,
+          "cond3": true,
+          "cond3_method": "tautological-A2-TAUT-p-neq-3",
+          "kerDim": 22,
+          "directOk": true,
+          "assumption_violated": false,
+          "survives_v3": true,
+          "survives_v2_units_broken": true,
+          "changed_v2_to_v3": false
+        },
+        {
+          "window": [
+            1152,
+            154163
+          ],
+          "shadow_idx": 43,
+          "m": 11,
+          "f_xyword": [],
+          "p": 2,
+          "solvable": true,
+          "legalOk": true,
+          "cond1": true,
+          "cond2": true,
+          "cond3": true,
+          "cond3_method": "tautological-A2-TAUT-p-neq-3",
+          "kerDim": 10,
+          "directOk": true,
+          "assumption_violated": false,
+          "survives_v3": true,
+          "survives_v2_units_broken": false,
+          "changed_v2_to_v3": true
+        }
+      ]
+    },
+    "P-A2-2_identity_shadow_survives_p2": {
+      "predicted": true,
+      "observed": true,
+      "rows": [
+        {
+          "window": [
+            1152,
+            154161
+          ],
+          "shadow_idx": 1,
+          "m": 0,
+          "f_xyword": [],
+          "p": 2,
+          "solvable": true,
+          "legalOk": true,
+          "cond1": true,
+          "cond2": true,
+          "cond3": true,
+          "cond3_method": "tautological-A2-TAUT-p-neq-3",
+          "kerDim": 22,
+          "directOk": true,
+          "assumption_violated": false,
+          "survives_v3": true,
+          "survives_v2_units_broken": true,
+          "changed_v2_to_v3": false
+        },
+        {
+          "window": [
+            1152,
+            154163
+          ],
+          "shadow_idx": 1,
+          "m": 0,
+          "f_xyword": [],
+          "p": 2,
+          "solvable": true,
+          "legalOk": true,
+          "cond1": true,
+          "cond2": true,
+          "cond3": true,
+          "cond3_method": "tautological-A2-TAUT-p-neq-3",
+          "kerDim": 10,
+          "directOk": true,
+          "assumption_violated": false,
+          "survives_v3": true,
+          "survives_v2_units_broken": true,
+          "changed_v2_to_v3": false
+        }
+      ]
+    },
+    "P-A2-3_is_full_48_of_48_open_no_bias": {
+      "measured_result_reported_as_is": {
+        "1152_154161": 48,
+        "1152_154163": 48
+      }
+    }
+  },
+  "summary_by_window": {
+    "1152_154161": {
+      "n_survive_v3_p2": 48,
+      "n_total": 48,
+      "n_changed_from_v2_broken_units": 24,
+      "n_unsolvable_proven_death": 0,
+      "n_assumption_violated": 0,
+      "v2_broken_units_survive_count_for_reference": 24
+    },
+    "1152_154163": {
+      "n_survive_v3_p2": 48,
+      "n_total": 48,
+      "n_changed_from_v2_broken_units": 31,
+      "n_unsolvable_proven_death": 0,
+      "n_assumption_violated": 0,
+      "v2_broken_units_survive_count_for_reference": 17
+    }
+  },
+  "diff_vs_v2_broken_units": {
+    "n_rows_changed": 55,
+    "note": "changed_v2_to_v3=true rows are exactly the rows that DIED under the v2 units-broken re-verification (i.e. failed the CORRECT cond1/cond2 when re-checked against v2's produced witness) and are now shown to SURVIVE once the augmented system is genuinely re-solved with corrected units (a fresh witness, not a post-hoc patch of the old one).",
+    "changed_rows": [
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 4,
+        "m": 0,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 5,
+        "m": 0,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 6,
+        "m": 0,
+        "f_xyword": [
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 7,
+        "m": 2,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 8,
+        "m": 2,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 10,
+        "m": 2,
+        "f_xyword": [
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 12,
+        "m": 2,
+        "f_xyword": [
+          -2,
+          -2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 14,
+        "m": 3,
+        "f_xyword": [
+          -1,
+          2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 18,
+        "m": 3,
+        "f_xyword": [
+          -1,
+          -2,
+          -2,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 20,
+        "m": 5,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 21,
+        "m": 5,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 24,
+        "m": 5,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 26,
+        "m": 6,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 27,
+        "m": 6,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 30,
+        "m": 6,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 32,
+        "m": 8,
+        "f_xyword": [
+          -1,
+          2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 36,
+        "m": 8,
+        "f_xyword": [
+          -1,
+          -2,
+          -2,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 37,
+        "m": 9,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 38,
+        "m": 9,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 40,
+        "m": 9,
+        "f_xyword": [
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 42,
+        "m": 9,
+        "f_xyword": [
+          -2,
+          -2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 46,
+        "m": 11,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 47,
+        "m": 11,
+        "f_xyword": [
+          -1,
+          -1,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154161
+        ],
+        "shadow_idx": 48,
+        "m": 11,
+        "f_xyword": [
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 22,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 4,
+        "m": 0,
+        "f_xyword": [
+          1,
+          -2,
+          -2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 5,
+        "m": 0,
+        "f_xyword": [
+          1,
+          2,
+          -1,
+          -1,
+          -2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 6,
+        "m": 0,
+        "f_xyword": [
+          1,
+          1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 10,
+        "m": 2,
+        "f_xyword": [
+          2,
+          2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 12,
+        "m": 2,
+        "f_xyword": [
+          2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 13,
+        "m": 3,
+        "f_xyword": [
+          1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 14,
+        "m": 3,
+        "f_xyword": [
+          -1,
+          2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 15,
+        "m": 3,
+        "f_xyword": [
+          2,
+          1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 16,
+        "m": 3,
+        "f_xyword": [
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 17,
+        "m": 3,
+        "f_xyword": [
+          -2,
+          -2,
+          -1,
+          -2,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 18,
+        "m": 3,
+        "f_xyword": [
+          -2,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 19,
+        "m": 5,
+        "f_xyword": [
+          -1,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 20,
+        "m": 5,
+        "f_xyword": [
+          1,
+          2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 21,
+        "m": 5,
+        "f_xyword": [
+          -1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 24,
+        "m": 5,
+        "f_xyword": [
+          1,
+          1,
+          2,
+          -1,
+          -2,
+          -1,
+          -2,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 28,
+        "m": 6,
+        "f_xyword": [
+          -2,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 29,
+        "m": 6,
+        "f_xyword": [
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 31,
+        "m": 8,
+        "f_xyword": [
+          1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 33,
+        "m": 8,
+        "f_xyword": [
+          2,
+          1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 34,
+        "m": 8,
+        "f_xyword": [
+          -2,
+          -1,
+          -2,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 36,
+        "m": 8,
+        "f_xyword": [
+          -2,
+          -1,
+          -1,
+          -2,
+          -1,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 37,
+        "m": 9,
+        "f_xyword": [
+          1,
+          1,
+          2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 38,
+        "m": 9,
+        "f_xyword": [
+          -1,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 39,
+        "m": 9,
+        "f_xyword": [
+          -1,
+          -1,
+          -2,
+          -1,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 41,
+        "m": 9,
+        "f_xyword": [
+          1,
+          1,
+          2,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 42,
+        "m": 9,
+        "f_xyword": [
+          2,
+          -1,
+          -1,
+          -2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 43,
+        "m": 11,
+        "f_xyword": [],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 44,
+        "m": 11,
+        "f_xyword": [
+          2,
+          -1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 45,
+        "m": 11,
+        "f_xyword": [
+          -2,
+          1
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 46,
+        "m": 11,
+        "f_xyword": [
+          1,
+          -2,
+          -2,
+          -1,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      },
+      {
+        "window": [
+          1152,
+          154163
+        ],
+        "shadow_idx": 48,
+        "m": 11,
+        "f_xyword": [
+          1,
+          1,
+          -2,
+          -1,
+          -1,
+          -2,
+          -2
+        ],
+        "p": 2,
+        "solvable": true,
+        "legalOk": true,
+        "cond1": true,
+        "cond2": true,
+        "cond3": true,
+        "cond3_method": "tautological-A2-TAUT-p-neq-3",
+        "kerDim": 10,
+        "directOk": true,
+        "assumption_violated": false,
+        "survives_v3": true,
+        "survives_v2_units_broken": false,
+        "changed_v2_to_v3": true
+      }
+    ]
+  },
+  "row_manifest": [
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 1,
+      "m": 0,
+      "f_xyword": [],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 2,
+      "m": 0,
+      "f_xyword": [
+        2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 3,
+      "m": 0,
+      "f_xyword": [
+        -2,
+        1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 4,
+      "m": 0,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 5,
+      "m": 0,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 6,
+      "m": 0,
+      "f_xyword": [
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 7,
+      "m": 2,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 8,
+      "m": 2,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 9,
+      "m": 2,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 10,
+      "m": 2,
+      "f_xyword": [
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 11,
+      "m": 2,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 12,
+      "m": 2,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 13,
+      "m": 3,
+      "f_xyword": [
+        1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 14,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 15,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 16,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 17,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 18,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        -2,
+        -2,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 19,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 20,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 21,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 22,
+      "m": 5,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 23,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 24,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 25,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 26,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 27,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 28,
+      "m": 6,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 29,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 30,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 31,
+      "m": 8,
+      "f_xyword": [
+        1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 32,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 33,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 34,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 35,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 36,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        -2,
+        -2,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 37,
+      "m": 9,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 38,
+      "m": 9,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 39,
+      "m": 9,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 40,
+      "m": 9,
+      "f_xyword": [
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 41,
+      "m": 9,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 42,
+      "m": 9,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 43,
+      "m": 11,
+      "f_xyword": [],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 44,
+      "m": 11,
+      "f_xyword": [
+        2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 45,
+      "m": 11,
+      "f_xyword": [
+        -2,
+        1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 46,
+      "m": 11,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 47,
+      "m": 11,
+      "f_xyword": [
+        -1,
+        -1,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154161
+      ],
+      "shadow_idx": 48,
+      "m": 11,
+      "f_xyword": [
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 22,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 1,
+      "m": 0,
+      "f_xyword": [],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 2,
+      "m": 0,
+      "f_xyword": [
+        2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 3,
+      "m": 0,
+      "f_xyword": [
+        -2,
+        1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 4,
+      "m": 0,
+      "f_xyword": [
+        1,
+        -2,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 5,
+      "m": 0,
+      "f_xyword": [
+        1,
+        2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 6,
+      "m": 0,
+      "f_xyword": [
+        1,
+        1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 7,
+      "m": 2,
+      "f_xyword": [
+        1,
+        1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 8,
+      "m": 2,
+      "f_xyword": [
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 9,
+      "m": 2,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 10,
+      "m": 2,
+      "f_xyword": [
+        2,
+        2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 11,
+      "m": 2,
+      "f_xyword": [
+        1,
+        1,
+        2,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 12,
+      "m": 2,
+      "f_xyword": [
+        2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 13,
+      "m": 3,
+      "f_xyword": [
+        1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 14,
+      "m": 3,
+      "f_xyword": [
+        -1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 15,
+      "m": 3,
+      "f_xyword": [
+        2,
+        1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 16,
+      "m": 3,
+      "f_xyword": [
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 17,
+      "m": 3,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 18,
+      "m": 3,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 19,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 20,
+      "m": 5,
+      "f_xyword": [
+        1,
+        2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 21,
+      "m": 5,
+      "f_xyword": [
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 22,
+      "m": 5,
+      "f_xyword": [
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 23,
+      "m": 5,
+      "f_xyword": [
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 24,
+      "m": 5,
+      "f_xyword": [
+        1,
+        1,
+        2,
+        -1,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 25,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 26,
+      "m": 6,
+      "f_xyword": [
+        1,
+        2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 27,
+      "m": 6,
+      "f_xyword": [
+        -1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 28,
+      "m": 6,
+      "f_xyword": [
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 29,
+      "m": 6,
+      "f_xyword": [
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 30,
+      "m": 6,
+      "f_xyword": [
+        1,
+        1,
+        2,
+        -1,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 31,
+      "m": 8,
+      "f_xyword": [
+        1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 32,
+      "m": 8,
+      "f_xyword": [
+        -1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 33,
+      "m": 8,
+      "f_xyword": [
+        2,
+        1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 34,
+      "m": 8,
+      "f_xyword": [
+        -2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 35,
+      "m": 8,
+      "f_xyword": [
+        -2,
+        -2,
+        -1,
+        -2,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 36,
+      "m": 8,
+      "f_xyword": [
+        -2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 37,
+      "m": 9,
+      "f_xyword": [
+        1,
+        1,
+        2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 38,
+      "m": 9,
+      "f_xyword": [
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 39,
+      "m": 9,
+      "f_xyword": [
+        -1,
+        -1,
+        -2,
+        -1,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 40,
+      "m": 9,
+      "f_xyword": [
+        2,
+        2,
+        -1,
+        -2,
+        -2,
+        -1,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 41,
+      "m": 9,
+      "f_xyword": [
+        1,
+        1,
+        2,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 42,
+      "m": 9,
+      "f_xyword": [
+        2,
+        -1,
+        -1,
+        -2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 43,
+      "m": 11,
+      "f_xyword": [],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 44,
+      "m": 11,
+      "f_xyword": [
+        2,
+        -1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 45,
+      "m": 11,
+      "f_xyword": [
+        -2,
+        1
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 46,
+      "m": 11,
+      "f_xyword": [
+        1,
+        -2,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 47,
+      "m": 11,
+      "f_xyword": [
+        1,
+        2,
+        -1,
+        -1,
+        -2,
+        -1,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": true,
+      "changed_v2_to_v3": false
+    },
+    {
+      "window": [
+        1152,
+        154163
+      ],
+      "shadow_idx": 48,
+      "m": 11,
+      "f_xyword": [
+        1,
+        1,
+        -2,
+        -1,
+        -1,
+        -2,
+        -2
+      ],
+      "p": 2,
+      "solvable": true,
+      "legalOk": true,
+      "cond1": true,
+      "cond2": true,
+      "cond3": true,
+      "cond3_method": "tautological-A2-TAUT-p-neq-3",
+      "kerDim": 10,
+      "directOk": true,
+      "assumption_violated": false,
+      "survives_v3": true,
+      "survives_v2_units_broken": false,
+      "changed_v2_to_v3": true
+    }
+  ]
+}

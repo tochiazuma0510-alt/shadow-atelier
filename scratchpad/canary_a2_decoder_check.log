@@ -1,0 +1,176 @@
+﻿gap.exe : Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_ch
+eck.g:130
+At C:\Users\81905\Desktop\shadow-atelier\gap.ps1:13 char:1
++ & "$gapRoot\runtime\opt\gap-4.16.0\gap.exe" -q --quitonbreak -o 2g @E ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Syntax warning:...der_check.g:130:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  posOf := function(g) return Position(Els, g); end;;
+                                       ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:152
+      Dx := List([1..nn], ii->zerop);;  Dy := List([1..nn], ii->zerop);;
+                     ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:152
+      Dx := List([1..nn], ii->zerop);;  Dy := List([1..nn], ii->zerop);;
+                                                       ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:153
+      pre := Identity(PN);;
+                      ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:155
+        if l = 1 then Dx[posOf(pre)] := Dx[posOf(pre)] + onep;  pre := pre*x;
+                         ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:155
+        if l = 1 then Dx[posOf(pre)] := Dx[posOf(pre)] + onep;  pre := pre*x;
+                                           ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:155
+        if l = 1 then Dx[posOf(pre)] := Dx[posOf(pre)] + onep;  pre := pre*x;
+                                                                           ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:156
+        elif l = -1 then pre := pre*x^-1;  Dx[posOf(pre)] := Dx[posOf(pre)] + negonep;
+                                    ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:156
+        elif l = -1 then pre := pre*x^-1;  Dx[posOf(pre)] := Dx[posOf(pre)] + negonep;
+                                              ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:156
+        elif l = -1 then pre := pre*x^-1;  Dx[posOf(pre)] := Dx[posOf(pre)] + negonep;
+                                                                ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:157
+        elif l = 2 then Dy[posOf(pre)] := Dy[posOf(pre)] + onep;  pre := pre*y;
+                           ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:157
+        elif l = 2 then Dy[posOf(pre)] := Dy[posOf(pre)] + onep;  pre := pre*y;
+                                             ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:157
+        elif l = 2 then Dy[posOf(pre)] := Dy[posOf(pre)] + onep;  pre := pre*y;
+                                                                             ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:158
+        elif l = -2 then pre := pre*y^-1;  Dy[posOf(pre)] := Dy[posOf(pre)] + negonep;
+                                    ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:158
+        elif l = -2 then pre := pre*y^-1;  Dy[posOf(pre)] := Dy[posOf(pre)] + negonep;
+                                              ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:158
+        elif l = -2 then pre := pre*y^-1;  Dy[posOf(pre)] := Dy[posOf(pre)] + negonep;
+                                                                ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:163
+    Dmat := NullMat(2*nn, nn, GF(p));;
+                      ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:163
+    Dmat := NullMat(2*nn, nn, GF(p));;
+                          ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:164
+    for i in [1..nn] do
+                 ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+              ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+                    ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+                           ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+                                          ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+                                                ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:165
+      Dmat[i][posOf(Els[i]*x)] := Dmat[i][posOf(Els[i]*x)] + onep;
+                                                       ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+           ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                 ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                       ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                              ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                                          ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                                                ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                                                      ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:167
+      Dmat[nn+i][posOf(Els[i]*y)] := Dmat[nn+i][posOf(Els[i]*y)] + onep;
+                                                             ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:168
+      Dmat[nn+i][i] := Dmat[nn+i][i] + negonep;
+           ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:168
+      Dmat[nn+i][i] := Dmat[nn+i][i] + negonep;
+                            ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:171
+    cinv := c^-1;;
+            ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:172
+    Pmat := NullMat(2*nn, 2*nn, GF(p));;
+                      ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:172
+    Pmat := NullMat(2*nn, 2*nn, GF(p));;
+                            ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:173
+    for i in [1..nn] do
+                 ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:174
+      Pmat[i][posOf(cinv*Els[i])] := onep;;
+              ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:174
+      Pmat[i][posOf(cinv*Els[i])] := onep;;
+                         ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:175
+      Pmat[nn+i][nn+posOf(cinv*Els[i])] := onep;;
+           ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:175
+      Pmat[nn+i][nn+posOf(cinv*Els[i])] := onep;;
+                 ^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:175
+
+### WINDOW [ 1152, 154161 ] ###
+      Pmat[nn+i][nn+posOf(cinv*Els[i])] := onep;;
+                    ^^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:175
+      Pmat[nn+i][nn+posOf(cinv*Els[i])] := onep;;
+                               ^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:183
+      mword := FreeReduce(Concatenation(w, RepWord(m0xy, -k)));;
+                                                   ^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:184
+      ev := evXY(mword, x, y);;
+            ^^^^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:184
+      ev := evXY(mword, x, y);;
+                        ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:184
+      ev := evXY(mword, x, y);;
+                           ^
+Syntax warning: Unbound global variable in C:\Users\81905\Desktop\shadow-atelier\scratchpad\canary_a2_decoder_check.g:185
+      if ev <> Identity(PN) then Error("PhiMapP BOOKKEEPING-FAIL"); fi;
+                        ^^
+  p=2  dBasis=98
+  p=3  dBasis=98
+
+### WINDOW [ 1152, 154163 ] ###
+  p=2  dBasis=50
+  p=3  dBasis=50
+
+===== CANARY A SUMMARY =====
+total basis-word evaluations (both windows, both primes): 296
+RAW convention (no /2) -- producer ABGamma vs fresh independent reimpl: mismatches=0  (0 mismatches means producer's core linking algorithm is coding-bug-free)
+odd-lk-sum basis words (halved/xy-doubled convention NOT applicable): 0 / 296
+among EVEN-lk-sum basis words: producer == 2*halved(independent) : match=296  mismatch=0
+
+--- detail (first 20 mismatch lines, if any) ---
+
+CANARY_A_DONE
+ELAPSED_MS=4000

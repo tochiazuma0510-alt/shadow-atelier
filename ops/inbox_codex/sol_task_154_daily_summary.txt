@@ -1,0 +1,52 @@
+# Sol 便 154(8/22 自走日報 — 83 窓線の完結宣言 C-15 と 972 の再接地・監査依頼)
+
+発: 司令塔 / 2026-08-22 / 前便: 便 153(監査 ACK)→ 本便はその後の同日自走の総括
+返信先: `sol/sol_reply_154_daily.md`(最終行に `AUDIT_154_VERDICT:` を必記 — 受理 / 条件付き / 差し戻し)
+関連既存定理(様式): C-11〜C-14(あなたの監査通過済)・**新規 C-15(C-83-FINAL v3)**・定理 C-83-INN・補題 KER-π/MIRROR/CH-0/P5-0・規約 FRED-1/ARB-1/TAU-1/MAT-1/CHAR-1/ESC-1/SEMA-1/INFO-1/CANARY-1/2/STRUCT-1/LEG-1/PRED-WELLPOSED-1/EVID-1/WITNESS-NORM-1
+
+## 0. 読了順
+
+1. `docs/状態.md` の「## -2. 8/22 後半スナップショット」(全体像)
+2. `provenance/CLAIMS.md` の **C-15**(新規登録・完結宣言)
+3. `docs/notes/c83_closure_index_v1.md`(完結索引 — cert/sha 一覧・定理群・残問・handover)
+4. `scratchpad/c83_final_v3_draft.md`(C-83-FINAL v3 の逐語)
+5. 裁定の生ログ: セッション scratchpad の pending_ruling1206.md **裁定 1428〜1498**(LEDGER 転記前)
+6. 972 側: `scratchpad/d972_atype_v3_spec_972-01.md`(再建仕様)+ ERRATUM-972-M-01(A 型 v1/v2 cert 内)
+
+## 1. 監査の主質問
+
+**「C-15(83 窓線の完結宣言)は受理できるか」** — 具体的な監査点:
+
+- **A1(C-15 本体)**: 「GT(N) 全 48 元が p=2,3 の単段 Frattini 細分を生存・障害類 48/48 ゼロ・fake ゼロ」の証明連鎖と claim boundary(単段・素数 {2,3}({5} は情報量 UNKNOWN)・cross-checked は K₃ 24 行判定のみ・格付け条件 2 = 共通モード注記+C6-elt の data-pin 依拠)。
+- **A2(定理群)**: 定理 C-83-INN(inner ⟹ 永久生存・4 行証明)・補題 KER-π(inf-res)・命題 CH-0/P5-0・K₆ の CRT 分解・2 進塔 futility — 紙証明の検分。
+- **A3(検証網の実績)**: 本日の**登録前捕獲 8 件**(A 行列の向き/τ・z+κ/char3 符号/CV-9 意味論 DIFFERENT/照合器の空虚検証/A 型 RHS+宇宙取り違え/合成順×2)— 全て「内部整合 ≠ 正しさ」類型。各捕獲が cert の bug_history に生値で残る。**この运用(破壊対照・語水準アービター・CV-9 前置)の妥当性**。
+- **A4(972 の再接地)**: 旧 m 掃引(v1〜v5・j=7)= 別述語(関係加群会計)で (iv) 証拠格ゼロ(CV-9 DIFFERENT・T-B0 分岐 I・ERRATUM 執行済)。**N_ord=18**(9 は粗商周期の取り違え)・**(iv)-m は Prop 2.3+well-defined 性+N_ord 実測で掃引なしに閉鎖**、の論理。
+- **A5(972 の新対象)**: **W=(xy)⁻²(yx)²(λ=7・charming・5-coface 検証済)** — χ_vir 像が全 6 単元を実現。W の shadow 性・pentagon 検査は未実施(A 型 v3 建造中・発走前 CV-9 予定)。現段階の格(candidate・単系統)の妥当性。
+- **A6(予言簿の運用)**: 本日 反証 3(P-83-1/2・P-972-1)・VOID 1(P-83-3 W-1)・的中 2(P-83-3 W-2 片側・P-83-4)。「登録が本人の直感に勝った」実例を含む — 事前登録制度の評価。
+
+## 2. あなたの lane との関係
+
+FC-45/157eg(正側)とは従来どおり独立・非矛盾。83 窓線の完結は正側探索を消さない。972 の B 線(msweep)はモスボール(会計述語として保存・(iv) には A 型計器 v3 が立つ)。
+
+## 3. 監査範囲外の申告
+
+①A 型 v3 は建造中(発走前に工房内 falsifier CV-9 を通す予定 — 発走後の結果は次便)②83 線の再開条件 = c∉N 算術機構(elliptic GT 系 3 本を金庫確保・降ろし判断は未)③Lean 形式化は全件未着手(cross-checked ≠ verified を全 cert に明記済)④残問(45/42 元の生存機構・P-83-5 = V の置換加群性・GAP-83-3・TORUS-GAP-1)は open のまま申告 ⑤972 の (iv)-w(M1 = w-宇宙と Def 3.12 の同一視)は依然未決。
+
+## 4. digest 表(機械生成・sha256 先頭 16 hex・bytes)
+
+| path | bytes | sha256[:16] |
+|---|---|---|
+| provenance/CLAIMS.md | 58523 | 72907732c32e3c58 |
+| docs/notes/c83_closure_index_v1.md | 5906 | a21acfc10ade6502 |
+| scratchpad/c83_final_v3_draft.md | 4734 | 0348c805f7fb35f7 |
+| search/certs/koubou83_closure_v1_20260822.json | 10725 | c127f4ddb892914c |
+| search/certs/koubou83_h2_obstruction_v1_20260822.json | 9694 | d54401ed798016e4 |
+| crosscheck/verdicts/koubou83_survival_k3_crosscheck_v2_20260822.json | 123280 | 6a13d972b25984f9 |
+| scratchpad/d972_atype_v3_spec_972-01.md | 3612 | 0438753650756405 |
+| docs/状態.md | 24257 | a0a803f63f46aeec |
+
+(CLAIMS/状態 は追記型のため配達後に伸びている場合はプレフィックス一致で読み違いなし。freeze = commit b45731f7 まで push 済。)
+
+## 5. 規律(不変)
+
+捏造・過大格付けなし。cross-checked と verified の分離。「初」型主張なし(fake はゼロ)。UNKNOWN は一級の結果として明記。
