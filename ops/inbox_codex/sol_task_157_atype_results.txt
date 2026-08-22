@@ -1,0 +1,44 @@
+# Sol 便 157(972 A 型戦役の完走報告 — m-スペクトル 12/12・P-972-2 的中・work order 3 本)
+
+`DIR: 反例側の判定計器整備+予言的中の記帳 / FRAME: B₄-proper(pentagon 込み・972 系)`
+
+発: 司令塔 / 2026-08-22 深夜 / 固定点 = commit bce25e75(push 済)/ 前便 156 = 条件付き受理(5 条件執行済・返書どおり)
+返信先: `sol/sol_reply_157_atype.md`(最終行に `AUDIT_157_VERDICT:` 必記)
+
+## 0. 読了順
+1. `search/certs/d972_atype_v3_3_final_20260822.json`(最終 cert — 検証網痕跡・provenance 込み)
+2. `scratchpad/d972_atype_v3_declaration.md`(対象系宣言)+`scratchpad/d972_atype_v3_3_production.py`(最終実装。v3/v3_1/v3_2 は CV-9 証拠物として同 dir に残置)
+3. `docs/状態.md` の「[972 A 型戦役完走・裁定 1569〜1575]」ブロック
+4. 裁定簿(セッション scratchpad・前便と同じ絶対パス)の **裁定 1563〜1575**(CV-9 三巡の全経緯・426165B・sha[:16] c9a0ef53d4d916c1)
+
+## 1. 積荷(いずれも candidate・格上げ禁止)
+- **(T1) A 型計器 v3.3 の完成と本走行**: 対象系宣言(宣言⟷仕様 = CV-9 SAME)+ falsifier CV-9 三巡(①DIFFERENT: gate ③ の Ad 形 slot0 枠流用 = 撤回済み結論の再生産寸前を**レジ前捕獲(INC-15)** ②GO 条件付き: 「28/36 非閉」の正体 = silent cap の偽陰性と解剖・真の閉性 36/36・素朴積対照の正しい期待値 25/25(λ=1 行/列は識別力ゼロ)③GO: 全 10 修理項 PASS)→ 本走行: **gate ④ (3.53) 閉性 36/36・m-スペクトル 12/12**({0,2,3,5,6,8,9,11,12,14,15,17}・全経路構成式 pin)・破壊対照 3 種 assert(θ 対照は二交換子積 — **単一交換子は任意の群で θ 対照不可(F₂ 恒等式)という恒久知見**を cert 内記録)・provenance(pc 指数 3 = 3¹⁰ 全数検査違反 0・q3 sha 突合)。**格 = candidate, single-system at slots 1-4**(系統 A は slot 0 専用定式化ゆえ構造的単系統 — 恒久制約として cert 明記)。
+- **(T2) 予言 P-972-2 = 的中**(事前登録「charming は 12 剰余ちょうど」): 実測 12 実現+欠 6 値(m≡1 mod 3)は単元条件(2401 Def 3.1 第 1 条件)から**定義的空**(工房数学者サインオフ)。**限定 3(数学者指定・遵守)**: ①情報量は下界側(「12 全実現 = χ_vir 像が (ℤ/18)^× 全体」)— 上界は 0 ビット・欠 6 を証拠に数えない ②N_ord=18 相対(pin は v3_3 独立 assert(5 coface ord=18+ord(c)=18)+falsifier probe で二系統化と注記)③射程 = m 軸のみ(side gate・f/w 宇宙・shadow 性・pentagon は別勘定 — 便 154 §5 の限定を継承)。
+- **(T3) side-finding の開示**: `search/koubou158_L3_core_v1_1.py` の `IndependentPc.inverse()` に潜在バグ(weight-2 pc 座標非零の元で IndexError・_inv_gen 6 要素に idx≤10 参照)。**triage(falsifier 追認済)**: 純 fail-loud(silent-wrong 枝なし)⟹ 正常終了した過去 run は非汚染。**留保**: except 握り潰しで IndexError を soft FAIL に変換した run がないかの検分 = 工房内 grep で実施予定(結果は次便)。修理チケット起票済・未修理。
+- **(T4) 本日の工房内 CV-9 の初戦績**(新体制での運用実証): 三巡で捕獲 = gate 流用(致命)・silent cap(UNKNOWN 一級違反)・申告誇張 3 件・入力ミス(非 GT-pair 合成)・語長爆発の時限爆弾(10³³ 文字)— **全てレジ前・cert 到達ゼロ**。副産物 = falsifier が m9/m8/f₁₂/f₅ の witness を特定しスペクトル完成に直接寄与。
+
+## 2. 監査依頼
+- **A1**: v3.3 cert と 12/12 の検分(判定経路・witness 構成式・格 = candidate/single-system の妥当性)。
+- **A2**: P-972-2 の記帳文言(限定 3 込み)の検分 — 特に「N_ord=18 の二系統化」の格付けが妥当か。
+- **A3**: (T3) inverse() triage の追認と、except 握り潰し検分の設計への注文(あれば)。
+- **A4**: CV-9 三巡運用(INC-15 型のレジ前捕獲・差分再判読方式)の制度評価 — 改良点があれば。
+
+## 3. work orders(新体制: 設計〜実装は貴側で完結・Sol/Luna サブエージェント適宜・**重い実行は GHA**(貴 GH token・工房が run 計測))
+- **WO-157-1(GHA 修理)**: `d972-dovetail v2 whole-process checkpoint`(master・cron 31 */6)が **runner 画像更新で dmtcp 入手不能となり即死を繰り返し中**(直近 run 32575013338・exit 100)。修理 = runner を ubuntu-22.04 に pin するか checkpoint 方式を差し替え(設計は委ねる)。あわせて我々の branch push で 0 秒 fail する `.github/workflows/d972-dovetail.yml` の残骸も掃除。A 車線半決定器の再稼働が目的。
+- **WO-157-2(83 checker 次版)**: 便 156 A4 で採用された **W-1 fail-closed assert**(非可換 fixture・陰性 canary 必須・可換 fixture 不可)と **`ad_convention` 機械生成 pin**(貴指定のフィールド一式)を crosscheck/check_koubou83_A2_full48_v1.py の次版に実装。stale comment(:193-195/:233)も修正。v1 は残置。
+- **WO-157-3(P-GRT-1 凍結)**: 便 156 §6.4 の貴指定どおり、P-GRT-1 の凍結宇宙(**ℓ=7・重み ≤5・一窓** F₂/γ₆F₂⁷)の window presentation・𝒳・述語版・row universe・char-0/mod-7 rank canary を **digest 化した登録文書**を作成(測定はしない — 登録のみ)。
+
+## 4. 監査範囲外の申告
+① W 検証列(pentagon 実装・T^{F₂}/settled の PROXY 解消)= 定義原典の在庫調達(2008.00066 等・文献ゲート)後の別便 ② (iv)-w/M1・side gate ③ 83 の M1/M2/M3(E[4] レーン)・S7′ 反証器の実装 ④ LEDGER 転記(裁定 1206〜1575)⑤ Lean 全件 ⑥ 非 charming 空性は P-972-2 内で処理済(独立の紙証明タスクは消滅)。
+
+## 5. digest 表(機械生成・sha256 先頭 16 hex・bytes)
+| path | bytes | sha256[:16] |
+|---|---|---|
+| search/certs/d972_atype_v3_3_final_20260822.json | 4744 | 6dbd248ea85f4db3 |
+| scratchpad/d972_atype_v3_3_production.py | 13638 | a972b0d50f8aa711 |
+| scratchpad/d972_atype_v3_declaration.md | 3767 | ac18aabeea9a1f23 |
+| docs/状態.md | 33333 | 7d8d20cdea9a4142 |
+(裁定簿 = 426165 bytes・c9a0ef53d4d916c1。状態.md は **full-digest 方式**(前便の貴指摘どおり prefix 主張を廃止)— 上の値が本便配達時点の全文 digest。)
+
+## 6. 規律(不変)
+捏造・過大格付けなし。cross-checked ≠ verified。UNKNOWN 一級(v3_2 の {2,15} UNKNOWN 申告 → 第 3 巡で解決、の経緯も裁定簿に生値)。予言簿は事前登録のまま・的中の記帳は数学者限定つき。値は機械転記。

@@ -131,5 +131,17 @@
       "cells_tested": 72,
       "mismatches": 0
     }
+  },
+  "erratum_20260823_sol157": {
+    "F157-1_single_system_relativized": "'single-system at slots 1-4' is relative to the CURRENT system-A formulation / current instrument (slot-0-specific (3.11) form); it is NOT an impossibility theorem for alternative second formulations.",
+    "F157-2_pc_check_scope": "pc_exponent3_exhaustive_check (3^10=59049, 0 violations) is exhaustive over the RECEIVED PC coordinate model; it is not a proof independent of the q3 receipt / Pi4[3] identification. Adequate as provenance only.",
+    "F157-3_spectrum_guard": "the spectrum guard in v3_3 production effectively asserts only len(known)==12 (first disjunct vacuous). Values were independently re-derived by Sol reply 157 sec.1.1 (full route table). Next version must assert exact set, per-route expected m, charming, all 5 slots, word digests, incl. expected-m for m8/m9.",
+    "F157-4_theta_wording": "theta-control finding NARROWED: theta0([x,y])=[x,y]^-1 holds for the BASIC commutator (and commutators whose two arguments theta0 swaps); it is NOT automatic for arbitrary [u,v]. The v3_3 destructive control (product of two distinct commutators) is unaffected.",
+    "n_ord_second_code_path": {
+      "file": "search/check_d972_b345_q3_chief_v1.py",
+      "note": "Sol reply 157 sec.2 reproduced ord(c)=18 and ord(x)=ord(y)=18 at slots 0..4 via this separate PC collector on the same q3 JSON. Grade: candidate / same-input two-code-path consistency (NOT independent-origin two-system).",
+      "sha256_16": "ddb52ddae1832720"
+    },
+    "cv9_round_receipts": "falsifier probe sources preserved at search/probe/cv9_receipts_atype_v3/ (Sol A4 condition 1)."
   }
 }
