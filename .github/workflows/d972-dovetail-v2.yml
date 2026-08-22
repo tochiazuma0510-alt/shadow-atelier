@@ -158,14 +158,15 @@ jobs:
           dmtcp_command_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["command_help_probe"]["required_output_tokens"][0])')
           dmtcp_restart_help_allowed_code=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["allowed_exit_codes"]; assert len(x)==1; print(x[0])')
           dmtcp_restart_help_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["restart_help_probe"]["required_output_tokens"][0])')
-          dmtcp_checkpoint_allowed_code=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["allowed_exit_codes"]; assert len(x)==1; print(x[0])')
-          dmtcp_checkpoint_token=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["required_output_tokens"][0])')
+          dmtcp_checkpoint_allowed_codes=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["allowed_exit_codes"]; assert x == [0,2]; print(",".join(map(str,x)))')
+          dmtcp_checkpoint_token=$(python3 -c 'import json; x=json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["required_output_tokens_by_exit_code"]; assert x["0"] == [] and len(x["2"]) == 1; print(x["2"][0])')
           dmtcp_checkpoint_image_glob=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["image_glob"])')
           dmtcp_checkpoint_image_depth=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["image_max_depth"])')
           dmtcp_restart_script=$(python3 -c 'import json; print(json.load(open("search/d972_dovetail_manifest_v2.json"))["dmtcp_provisioning"]["checkpoint_kill_probe"]["restart_script"])')
           test "$dmtcp_command_help_token" = "--kcheckpoint"
           test "$dmtcp_restart_help_token" = "--ckptdir"
           test "$dmtcp_checkpoint_token" = "Computation was checkpointed and killed."
+          test "$dmtcp_checkpoint_allowed_codes" = "0,2"
           test "$dmtcp_checkpoint_image_glob" = "*.dmtcp"
           test "$dmtcp_checkpoint_image_depth" = "1"
           test "$dmtcp_restart_script" = "dmtcp_restart_script.sh"
@@ -230,7 +231,7 @@ jobs:
           grep -Fq -- "$dmtcp_command_help_token" <<<"$dmtcp_command_help"
           grep -Fq -- "$dmtcp_restart_help_token" <<<"$dmtcp_restart_help"
           dmtcp_version="$dmtcp_version; command_help_exit=$dmtcp_command_help_rc; restart_help_exit=$dmtcp_restart_help_rc"
-          echo "D972_CHECKPOINT_ALLOWED_CODE=$dmtcp_checkpoint_allowed_code" >> "$GITHUB_ENV"
+          echo "D972_CHECKPOINT_ALLOWED_CODES=$dmtcp_checkpoint_allowed_codes" >> "$GITHUB_ENV"
           echo "D972_CHECKPOINT_TOKEN=$dmtcp_checkpoint_token" >> "$GITHUB_ENV"
           echo "D972_CHECKPOINT_IMAGE_GLOB=$dmtcp_checkpoint_image_glob" >> "$GITHUB_ENV"
           echo "D972_CHECKPOINT_IMAGE_DEPTH=$dmtcp_checkpoint_image_depth" >> "$GITHUB_ENV"
@@ -277,8 +278,12 @@ jobs:
           checkpoint_rc=$?
           set -e
           printf '%s\n' "$checkpoint_output" > "$smoke/checkpoint-command.txt"
-          test "$checkpoint_rc" = "$D972_CHECKPOINT_ALLOWED_CODE"
-          grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output"
+          printf 'D972_SMOKE_CHECKPOINT_RESULT rc=%s output=%q\n' "$checkpoint_rc" "$checkpoint_output"
+          case "$checkpoint_rc" in
+            0) ;;
+            2) grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output" ;;
+            *) echo "unexpected DMTCP checkpoint exit: $checkpoint_rc" >&2; exit 1 ;;
+          esac
           wait "$smoke_pid" || true
           test -e "$smoke/ckpt/$D972_RESTART_SCRIPT"
           mapfile -t smoke_images < <(find "$smoke/ckpt" -maxdepth "$D972_CHECKPOINT_IMAGE_DEPTH" -type f -name "$D972_CHECKPOINT_IMAGE_GLOB" -print | sort)
@@ -524,12 +529,24 @@ jobs:
             checkpoint_rc=$?
             set -e
             printf '%s\n' "$checkpoint_output" > "$RUNTIME_ROOT/checkpoint-command.txt"
-            test "$checkpoint_rc" = "$D972_CHECKPOINT_ALLOWED_CODE"
-            grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output"
+            printf 'D972_CAMPAIGN_CHECKPOINT_RESULT rc=%s output=%q\n' "$checkpoint_rc" "$checkpoint_output"
+            case "$checkpoint_rc" in
+              0) ;;
+              2) grep -Fq -- "$D972_CHECKPOINT_TOKEN" <<<"$checkpoint_output" ;;
+              *) echo "unexpected DMTCP checkpoint exit: $checkpoint_rc" >&2; exit 1 ;;
+            esac
             test -e "$current_ckpt_dir/$D972_RESTART_SCRIPT"
             mapfile -t current_images < <(find "$current_ckpt_dir" -maxdepth "$D972_CHECKPOINT_IMAGE_DEPTH" -type f -name "$D972_CHECKPOINT_IMAGE_GLOB" -print | sort)
             ((${#current_images[@]} > 0))
-            wait "$computation_pid" || true
+            set +e
+            wait "$computation_pid"
+            computation_rc=$?
+            set -e
+            printf 'D972_CAMPAIGN_PROCESS_EXIT rc=%s images=%s\n' "$computation_rc" "${#current_images[@]}"
+            if kill -0 "$computation_pid" 2>/dev/null; then
+              echo "checkpointed computation remained alive" >&2
+              exit 1
+            fi
             python3 "$CHECKER_V2" seal-envelope \
               --checkpoint-dir "$current_ckpt_dir" --state "$RUNTIME_ROOT/state.json" \
               --envelope "$PENDING_ENVELOPE" \

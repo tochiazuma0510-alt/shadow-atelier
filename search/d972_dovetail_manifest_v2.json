@@ -39,8 +39,12 @@
     },
     "checkpoint_kill_probe": {
       "argv": ["dmtcp_command", "--kcheckpoint"],
-      "allowed_exit_codes": [2],
-      "required_output_tokens": ["Computation was checkpointed and killed."],
+      "allowed_exit_codes": [0, 2],
+      "required_output_tokens_by_exit_code": {
+        "0": [],
+        "2": ["Computation was checkpointed and killed."]
+      },
+      "exit_semantics": "DMTCP 4.2.0 Kc returns 0 on coordinator NOERROR or 2 with the killed token on the NOT_RUNNING completion race; both require the same restart-script, image-set, and process-death postconditions",
       "image_glob": "*.dmtcp",
       "image_max_depth": 1,
       "restart_script": "dmtcp_restart_script.sh"
@@ -55,7 +59,7 @@
     "calibration_paper_premise": "sol/sol_reply_143_typedfiber.md#5.4"
   },
   "dmtcp_contract": {
-      "contract_version": "d972-dmtcp-whole-process/v2.1",
+      "contract_version": "d972-dmtcp-whole-process/v2.2",
       "legacy_seed_workflow_rebind": {
         "version": "d972-legacy-seed-workflow-rebind/v1",
         "scope": "fresh-genesis-seed-only",
@@ -272,7 +276,7 @@
     },
     "smoke_test_required_each_run": true,
     "provisioning_sha256": "11b344f5af7c4057f64bbb2a251626b4394b0e12c5a3bc9649dabce34129cfca",
-      "contract_sha256": "343ffe0b5c14d186b6e423c449048084c2b6a03e0e651c160a61810887f0c750"
+      "contract_sha256": "5025d1cdcd3006c6a51b939aac062313aa4f419f175e53bdac386ac38331ba63"
   },
   "launch_spec": {
     "cwd": ".",

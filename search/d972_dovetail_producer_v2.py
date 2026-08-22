@@ -521,6 +521,15 @@ def install_v2_adapter(legacy: Any, manifest: dict[str, Any]) -> None:
 
 def self_test() -> int:
     manifest = load_manifest()
+    checkpoint_probe = manifest["dmtcp_provisioning"]["checkpoint_kill_probe"]
+    if (checkpoint_probe.get("allowed_exit_codes") != [0, 2] or
+            checkpoint_probe.get("required_output_tokens_by_exit_code") != {
+                "0": [], "2": ["Computation was checkpointed and killed."]
+            } or
+            "process-death postconditions" not in checkpoint_probe.get(
+                "exit_semantics", ""
+            )):
+        raise RuntimeError("self-test DMTCP Kc dual-exit contract drift")
     rewrites = manifest["dmtcp_contract"]["gap_4_12_materialized_rewrites"]
     base_rewrites = rewrites.get("base_permutation_groups", {})
     list_rewrites = rewrites.get("table_group", {})
