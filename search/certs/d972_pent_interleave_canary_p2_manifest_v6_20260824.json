@@ -1,0 +1,145 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-execution-manifest/v6",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "v6 destructive-order-control and warning repair; unchanged bounded corrected p=2 quotient/instrument/gated stage",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v6.g",
+      "bytes": 11266,
+      "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43",
+      "role": "versioned wrapper producer"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p2_prereg_v6_20260824.json",
+      "bytes": 4481,
+      "sha256": "ee2c30f5995520799a1e575ef14daafa0225afc9191abf94350f2f731032d0f4",
+      "role": "v6 preregistration"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v5.g",
+      "bytes": 42108,
+      "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+      "role": "authenticated frozen producer base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ portability dependency reached through v5 base"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "predecessor_run": {
+    "run_id": 32648846482,
+    "commit": "71c02503ea2a9b8398f827e1b06bb22519620dc5",
+    "major_pass_markers": [
+      "Q2 order=128 class=3",
+      "Q3 order=512 class=3",
+      "Q4 order=67108864 class=3",
+      "deletions=4 cofaces=5 iota_image_order=128"
+    ],
+    "stop": "no noncommuting wrong-order discriminator in full Q2 universe",
+    "receipt_emitted": false
+  },
+  "effective_source_contract": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_effective_v6.g",
+    "construction": "authenticate v5 base, apply exact counted replacements, compute SHA-256, closed-write/readback, print hash marker, then Read",
+    "patch_count_drift_is_failure": true,
+    "runtime_sha256_required": true,
+    "base_overwritten": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p2_v6.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P2_V6_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_API_PROVENANCE_PASS",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P2_V6_STAGE0_REPLAY_PASS",
+    "PENT159N_P2_V6_MARKED_API_PIN_PASS",
+    "PENT159N_P2_V6_Q2_PASS order=128 class=3",
+    "PENT159N_P2_V6_Q3_PASS",
+    "PENT159N_P2_V6_Q4_PASS",
+    "PENT159N_P2_V6_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P2_V6_WRONG_ORDER_CONTROL_PASS",
+    "PENT159N_P2_V6_INSTRUMENT_PASS",
+    "PENT159N_P2_V6_GATED_PASS",
+    "PENT159N_P2_V6_RECEIPT_WRITTEN",
+    "PENT159N_P2_V6_FINAL_MARKER"
+  ],
+  "warning_gate": {
+    "forbidden": [
+      "Syntax warning:",
+      "Unbound global variable",
+      "Syntax error:",
+      "Error,"
+    ],
+    "repairs": [
+      "two FlushAllStreams calls use ValueGlobal/CallFuncList after IsBoundGlobal",
+      "deletion hom_internal access uses an explicit indexed loop"
+    ]
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p2_effective_v6.g",
+    "ci/out/d972_pent_interleave_canary_p2_receipt_v6_20260824.json",
+    "ci/out/d972_pent159n_nq_configure_v4.log",
+    "ci/out/d972_pent159n_nq_make_v4.log",
+    "ci/out/d972_pent159n_nq_shell_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_shell_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_build_v4.ok"
+  ],
+  "acceptance": {
+    "all_ordered_markers_required": true,
+    "no_warning_or_error_diagnostic": true,
+    "effective_source_runtime_hash_recorded": true,
+    "receipt_closed_write_readback_required": true,
+    "downloaded_receipt_path_bytes_sha256_required_before_checker_handoff": true,
+    "generic_workflow_note": "the broker must enforce v6 markers and warning/error exclusions from run.log"
+  },
+  "selective_publish": [
+    "search/d972_pent_interleave_canary_p2_v6.g",
+    "search/certs/d972_pent_interleave_canary_p2_prereg_v6_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p2_manifest_v6_20260824.json"
+  ],
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_v2_v3_v4_v5_edited": false,
+    "main_sol_reply_edited": false
+  },
+  "next_routing": {
+    "p3": "separate versioned stage if measured p2 instrument or actual gated subset is blind",
+    "row36_diamond": "separate later stage",
+    "automatic_K2_naming": false
+  }
+}

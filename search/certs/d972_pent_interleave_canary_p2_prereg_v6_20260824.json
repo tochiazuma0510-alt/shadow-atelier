@@ -1,0 +1,102 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v6",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_V6_MEASUREMENT",
+  "scope": "versioned destructive-control/scoping repair after the v5 quotient and map gates passed",
+  "producer_wrapper": {
+    "path": "search/d972_pent_interleave_canary_p2_v6.g",
+    "bytes": 11266,
+    "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43"
+  },
+  "authenticated_base": {
+    "path": "search/d972_pent_interleave_canary_p2_v5.g",
+    "bytes": 42108,
+    "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+    "edited_by_v6": false
+  },
+  "runtime_outputs": {
+    "effective_source": "ci/out/d972_pent_interleave_canary_p2_effective_v6.g",
+    "receipt": "ci/out/d972_pent_interleave_canary_p2_receipt_v6_20260824.json",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN",
+    "effective_source_hash": "MEASURE_AND_PRINT_BEFORE_READ"
+  },
+  "predecessor_observation": {
+    "run_id": 32648846482,
+    "commit": "71c02503ea2a9b8398f827e1b06bb22519620dc5",
+    "passed": {
+      "Q2": {"order": 128, "nilpotency_class": 3},
+      "Q3": {"order": 512, "nilpotency_class": 3},
+      "Q4": {"order": 67108864, "nilpotency_class": 3},
+      "deletion_maps": 4,
+      "coface_maps": 5,
+      "F2_to_PB3_image_order": 128
+    },
+    "exact_stop": "PENT159N_V5: no noncommuting wrong-order discriminator in full Q2 universe",
+    "adjudication": "the corrected p=2 quotient may be blind to the order mutant; the contract requires an independent noncommuting discriminator, not that it live in Q2",
+    "receipt_emitted": false
+  },
+  "v6_exact_changes": [
+    "preserve and count correct-versus-mutant equality/distinction on all 128 Q2 word representatives",
+    "preserve and count correct-versus-mutant noncommutation on all 128 Q2 word representatives",
+    "remove the fatal requirement that Q2 itself supply a noncommuting order discriminator",
+    "add a separate explicit S3 five-factor correct-versus-reversed word canary",
+    "record both the Q2 observation and the S3 discriminator in the receipt",
+    "replace two optional FlushAllStreams direct references by ValueGlobal/CallFuncList",
+    "replace the deletion-map arrow expression by an explicit indexed loop",
+    "rename semantic markers, schema, source path, receipt path, and firewall version to v6"
+  ],
+  "independent_order_canary": {
+    "group": "S3",
+    "factor_assignment": {
+      "A": "identity",
+      "B": "identity",
+      "C": "identity",
+      "E": "(2,3)",
+      "F": "(1,2,3)"
+    },
+    "correct_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "mutant_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "required": ["images distinct", "commutator nonidentity"],
+    "role": "multiplication-order destructive control only; no Brunnian, charming, or quotient-sensitivity claim"
+  },
+  "unchanged_mathematical_universe": {
+    "prime": 2,
+    "window": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "quotients": ["Q2", "Q3", "Q4"],
+    "commutator_instrument": "every DerivedSubgroup(Q2) element exactly once using integral exponent-sum-zero representatives",
+    "actual_gate": "every m in 0..N_ord-1 times every Q2 element; unit, derived, both gentle hexagons, onto",
+    "dpap": "phi12_3_4^-1 * phi1_2_34^-1 * phi234 * phi1_23_4 * phi123",
+    "paper_native_rule": "paper f1*...*fk = native GAP fk*...*f1"
+  },
+  "not_preregistered": [
+    "Q2 correct-versus-mutant distinct count in the repaired run",
+    "commutator defect histogram",
+    "actual charming+onto survivor count",
+    "actual charming nonzero count"
+  ],
+  "routing_159o": {
+    "p3_required_if_p2_instrument_or_actual_gate_blind": true,
+    "no_universal_class3_inference_from_p2": true,
+    "automatic_K2_naming": false
+  },
+  "deferred": [
+    "p-specific M containment",
+    "K1 intersection isolation/diamond",
+    "complete row36 raw fibre",
+    "CLAIM-COVER-PENT-CANARY-2"
+  ],
+  "fail_closed": {
+    "every exact textual patch has a required occurrence count": true,
+    "effective source closed-write/readback/hash required before Read": true,
+    "any patch-count drift is failure": true,
+    "any Syntax error or Error diagnostic is failure": true,
+    "receipt and final marker required": true
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "v5_overwritten": false
+  }
+}
