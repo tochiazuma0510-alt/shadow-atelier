@@ -1,0 +1,200 @@
+{
+  "schema": "d972-row36-pent-bridge-p3-outcome-execution-manifest/v11",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "prime-local p=3 fixed zero-based row36 full outcome over the exact frozen v8 preregistration; reconstruct and authenticate the preregistration before any outcome, evaluate the same 17,496 canonical signed words and 34,992 ordered rows, and emit no mode, K2, p2, or all-prime inference",
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_report_or_artifact_opened": false,
+    "authorized_frozen_verdict_pin_only": "crosscheck/verdicts/d972_pent_interleave_canary_crosscheck_p3_v2_20260824.json | 22901 | 73d4cb3f242d74f796021af922e1771c68f9256bcddedcbe2a277539f79c2781",
+    "independent_row_checker_pending": true,
+    "checker_handoff_after_run_allowlist": [
+      "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+      "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json"
+    ],
+    "checker_handoff_forbidden": [
+      "producer source",
+      "producer helper",
+      "producer report",
+      "GAP or Python log",
+      "GAP transition or Q4 result",
+      "preregistration artifact",
+      "other checker artifacts"
+    ]
+  },
+  "frozen_preregistration": {
+    "prior_run_id": 32670144124,
+    "prior_commit": "75a2f8ca62c94c7b7a8f08cccdd8bbff371b4f99",
+    "downloaded_artifact_path": "ci/row36_p3_prereg_artifacts_32670144124/d972_row36_pent_bridge_p3_prereg_v8_20260824.json",
+    "runtime_reconstructed_path": "search/certs/d972_row36_pent_bridge_p3_prereg_v8_20260824.json",
+    "bytes": 66337660,
+    "sha256": "2d33542ba797440ec96d16e02f9f8d7ea537048eb84d02b2ce57153d147faea4",
+    "schema": "d972-row36-pent-bridge-p3-prereg/v8",
+    "status": "PREREGISTERED_BEFORE_ROW_PREDICATE_OUTCOME",
+    "canonical_words": 17496,
+    "raw_rows": 34992,
+    "central_m_lifts_in_order": [0, 18],
+    "canonical_word_roster_sha256": "25a1192cb60321035feb5f36045c4417eb0a92a07e1be7918cbabadff19a04a1",
+    "raw_roster_sha256": "644e254535d210c2cf16778ee2d09b762358fb80ea0a82c839f5a8e1c01561ee",
+    "predicate_outcomes_evaluated": false,
+    "reconstruction_rule": "the v8 transition worker and v8 Python prepare lane must recreate these exact 66,337,660 bytes and SHA-256 before the v11 Q4 worker is read"
+  },
+  "transition_orientation_binding": {
+    "prior_transition_result_bytes": 150826,
+    "prior_transition_result_sha256": "3dcb6493a536c2ff000e349bd29d81166430c067293ee6d43de950859a1d6faa",
+    "state_count": 2187,
+    "signed_transition_cells": 17496,
+    "projection_word_count": 2187,
+    "projection_signed_prefix_steps": 14748,
+    "full_gate_trace_rows": 19683,
+    "typed_bridge": "the abstract paper append is native left multiplication s -> rho(letter)s; no inversion or sign flip",
+    "state2_four_way_zero_based_indices": {
+      "native_written_right": 7,
+      "paper_left_target": 1,
+      "native_eval_inverse_word": 5,
+      "paper_left_reverse_inverse": 2
+    },
+    "all_state_preflight_replayed_locally_without_predicates": true
+  },
+  "outcome_contract_frozen_before_run": {
+    "Q4_public_pc_record_sha256": "042ab5607977d896401c3373ce4b37285cfd4eeb03925c7fa2559bbe3dea9384",
+    "Q4_order": "2541865828329",
+    "Q4_nilpotency_class": 3,
+    "Q4_defining_pc_rank": 26,
+    "Q4_power_rows": 26,
+    "Q4_conjugate_rows": 325,
+    "Q4_inverse_conjugate_rows": 325,
+    "Q4_marked_generators": 6,
+    "literal_A18_source_relator_gate_before_census": "10/10 identity required",
+    "old_count_fitting_reversal_mutant": "phi12_3_4 relator 1 must be nonidentity before census",
+    "literal_Dpap_native": "F*E*C*B^-1*A^-1",
+    "old_section_9_1_mutant_native": "A^-1*B^-1*C*E*F",
+    "same_signed_word_rule": "each frozen canonical word is evaluated directly in all five literal A.18 coface contexts; its two hexagons, charming, onto, literal Dpap, and mutant ledgers retain that exact word identity",
+    "enumeration_order": "m=0 then m=18; within each m, frozen L code then frozen Hall vector/word order from v8 preregistration",
+    "raw_equals_evaluated_equals_expected_required": 34992,
+    "no_omission_or_duplicate_required": true,
+    "exact_row36_reduction_every_row_required": true,
+    "onto_evaluated_despite_earlier_gate_failure_every_row_required": true,
+    "CLAIM_COVER_token": "CLAIM-COVER-PENT-CANARY-2",
+    "quotient_canary_rerun": false
+  },
+  "pre_freeze_audits": {
+    "Python_compile": "PASS for generator, adapter, and v11 entry point",
+    "GAP_worker_generator_idempotence": "PASS",
+    "GAP_static_quote_and_bracket_balance": "PASS for v8 transition worker, v11 Q4 worker, and v11 launcher",
+    "recursive_runtime_import_closure": "8 Python import files, 14 local import edges, 0 unresolved; the launcher additionally authenticates the complete prior 16-file preregistration lineage",
+    "pin_triple_audit": "42/42 launcher pin triples match local immutable bytes and SHA-256",
+    "outcome_free_local_transition_preflight": "PASS: 2,187 projections, 14,748 prefix steps, 17,496 transition cells, state2 discriminator (7,1,5,2)",
+    "pre_freeze_implementation_trap_and_repair": {
+      "first_stop": "PC_COLLECTION_CAP: (25, 7)",
+      "cause": "the preregistration v6 layer selects its GAP transition-table validator inside build_raw, but v11 consumes an already frozen prereg and initially called the untouched generic rank-seven validator",
+      "repair": "explicitly select v6.validate_pc_receipt_v6 after authenticating the canary and before any inverse collection; the outcome-free replay then passed",
+      "predicate_or_Dpap_outcome_evaluated": false
+    }
+  },
+  "new_source_pins": [
+    {
+      "path": "search/d972_row36_pent_bridge_p3_q4_worker_generator_v11.py",
+      "bytes": 11418,
+      "sha256": "5c0663d75d12b9aee188f502a66819cec6c2d25a320ca5e28132362208aaab3a"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_q4_outcome_worker_v11.g",
+      "bytes": 3258958,
+      "sha256": "3838da922ddd7117e2d134a5c773a6ed606b2e656f8ce6c70ee82e6f7b9e691c"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_p3_v11.py",
+      "bytes": 18451,
+      "sha256": "a72dfa6194a3a5490abd18dd3cfb17f79de3040b7930b8bc1cd3eb9bf802609b"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_producer_v11.py",
+      "bytes": 194,
+      "sha256": "c2ce7326bbd8e95ca6043d3a9cbeaf1d4979357da84d19e1ca4e830483a75ad6"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+      "bytes": 14846,
+      "sha256": "03709a4dcb6e7c39765307c000a9fe62382615c25b3001d1d12465836f711139"
+    }
+  ],
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "workflow_bytes": 11346,
+    "workflow_sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+    "script": "search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "300",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "packages": "GAP 4.16.0 core only; no NQ, ANUPQ, SmallGrp, AutPGrp, or json package build/load",
+    "estimated_resources": "one ubuntu-latest runner, up to 300 minutes, GAP heap cap 12g; prereg reconstruction repeats the successful 1,102,248 residual-path stage, then the static rank-26 pc worker evaluates 17,496 bounded words"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P3_V11_COMPLETE_PIN_CLOSURE_PASS pins=42",
+    "PENT159O_ROW36_P3_V11_EXEC_START prime=3 frozen_prereg=v8 canonical_words=17496 raw_rows=34992",
+    "PENT159O_ROW36_P3_V11_TRANSITION_WORKER_START outcome_free=true states=2187",
+    "PENT159O_ROW36_P3_WORKER_V8_ORIENTATION_PASS state=2",
+    "PENT159O_ROW36_P3_WORKER_V8_PASS states=2187",
+    "PENT159O_ROW36_P3_V11_TRANSITION_RESULT_AUTHENTICATED states=2187 signed_tables=4",
+    "PENT159O_ROW36_P3_V11_PREREG_RECONSTRUCTION_START predicates=false raw_rows=34992",
+    "PENT159O_ROW36_P3_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=1102248",
+    "PENT159O_ROW36_P3_V8_FINAL OUTCOME_FREE_PREREGISTRATION_FROZEN__PREDICATE_EXECUTION_NOT_RUN",
+    "PENT159O_ROW36_P3_V11_PREREG_AUTHENTICATED_BEFORE_OUTCOME words=17496 raw_rows=34992",
+    "PENT159O_ROW36_P3_V11_Q4_WORKER_START words=17496 direct_same_signed_word=true literal_A18=true",
+    "PENT159O_ROW36_P3_WORKER_V11_PUBLIC_PC_PASS units=26 powers=26 conjugates=325 inverse_conjugates=325 marks=6 inverse_marks=6 order=2541865828329 class=3",
+    "PENT159O_ROW36_P3_WORKER_V11_A18_WORD_GATE_PASS literal_relators=10 mutant_rejected=true words=17496",
+    "PENT159O_ROW36_P3_WORKER_V11_PASS words=17496 literal_relators=10 direct_same_word=true",
+    "PENT159O_ROW36_P3_V11_Q4_RESULT_PRESENT",
+    "PENT159O_ROW36_P3_V11_PYTHON_OUTCOME_START words=17496 raw_rows=34992",
+    "PENT159O_ROW36_P3_V11_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P3_V11_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P3_V11_RECEIPT_PIN",
+    "PENT159O_ROW36_P3_V11_MANIFEST_PIN",
+    "PENT159O_ROW36_P3_V11_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED raw=evaluated=expected=34992 no_mode_no_K2=true"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP",
+    "PIN_MISSING",
+    "PC_COLLECTION_CAP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p3_transition_results_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_prereg_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_prepare_v11.log",
+    "ci/out/d972_row36_pent_bridge_p3_q4_results_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_execute_v11.log",
+    "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json"
+  ],
+  "selective_publish_files": [
+    "search/d972_row36_pent_bridge_p3_q4_worker_generator_v11.py",
+    "search/d972_row36_pent_bridge_p3_q4_outcome_worker_v11.g",
+    "search/d972_row36_pent_bridge_common_p3_v11.py",
+    "search/d972_row36_pent_bridge_p3_producer_v11.py",
+    "search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+    "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v11_20260824.json"
+  ],
+  "promotion_boundary": {
+    "p3_prime_local_only": true,
+    "p2_inference": false,
+    "independent_checker_required": true,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_inference": false
+  },
+  "terminal_token": "PENT159O_ROW36_P3_OUTCOME_EXECUTION_MANIFEST_V11_FROZEN"
+}
