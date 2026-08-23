@@ -1,0 +1,165 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-execution-manifest/v9",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "unique remaining PB4_quotient receipt-field assignment repair; unchanged bounded corrected p2 run",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v9.g",
+      "bytes": 9397,
+      "sha256": "5c3c0c854b750e8162a3f3e648000f6c43771f669bfc7388eafdc99ec89128ba",
+      "role": "v9 producer wrapper"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p2_prereg_v9_20260824.json",
+      "bytes": 3973,
+      "sha256": "85086d71711cbd0fd905d338a63e7387f7f64aec68719ed172356c7198362b78",
+      "role": "v9 preregistration"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v8.g",
+      "bytes": 8983,
+      "sha256": "7b00c22889511e94586550e7ba9068c5dcbd898da43c246492079108731d07da",
+      "role": "authenticated immediate predecessor"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v7.g",
+      "bytes": 10725,
+      "sha256": "d8599a670af5bb2909e03db31a537e209ef9472d8a96a7e42fa734bde7c0e5a9",
+      "role": "authenticated generated-wrapper base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v6.g",
+      "bytes": 11266,
+      "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43",
+      "role": "authenticated wrapper-generation dependency"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v5.g",
+      "bytes": 42108,
+      "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+      "role": "authenticated mathematical base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ portability dependency"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "generated_source_pins": [
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_source_v9.g",
+      "bytes": 10786,
+      "sha256": "18b83d62fbfddaf474d48eda77a323c5b131f6633eb8dd1eb1c6aa9676643b1e"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_wrapper_v9.g",
+      "bytes": 15470,
+      "sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v9.g",
+      "bytes": 15971,
+      "sha256": "d36191bec066d26ac83bb488d78b122259a92dc529e4ea3cc187e9e916e1659e"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_effective_v9.g",
+      "bytes": 47496,
+      "sha256": "1d020d26a7aedb34a6b2d5732b0d95e36cc13b7c2a5e0424209d012d1695643d"
+    }
+  ],
+  "predecessor_run": {
+    "run_id": 32650825593,
+    "commit": "e7a4cb0f",
+    "outer_gate_result": "correct_failure",
+    "exact_stop": "Syntax error: := expected at effective v8 line 1040 (`PB4_quotient:`)",
+    "receipt_emitted": false,
+    "v8_may_be_promoted_as_receipt": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p2_v9.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P2_V9_V7_BOOTSTRAP_SOURCE_WRITTEN",
+    "PENT159N_P2_V9_V7_BOOTSTRAP_WRAPPER_WRITTEN",
+    "PENT159N_P2_V9_V7_BOOTSTRAP_COMPLETE",
+    "PENT159N_P2_V9_WRAPPER_SOURCE_WRITTEN",
+    "PENT159N_P2_V9_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P2_V9_STAGE0_REPLAY_PASS",
+    "PENT159N_P2_V9_MARKED_API_PIN_PASS",
+    "PENT159N_P2_V9_Q2_PASS order=128 class=3",
+    "PENT159N_P2_V9_Q3_PASS",
+    "PENT159N_P2_V9_Q4_PASS",
+    "PENT159N_P2_V9_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P2_V9_WRONG_ORDER_CONTROL_PASS",
+    "PENT159N_P2_V9_INSTRUMENT_PASS universe=8 nonzero=4",
+    "PENT159N_P2_V9_A5_CENTRAL_PASS",
+    "PENT159N_P2_V9_GATED_PASS",
+    "PENT159N_P2_V9_RECEIPT_WRITTEN",
+    "PENT159N_P2_V9_FINAL_MARKER",
+    "PENT159N_P2_V9_OUTER_FINAL_PASS"
+  ],
+  "diagnostic_and_terminal_gate": {
+    "forbidden_run_log_substrings": ["Syntax error:", "Syntax warning:", "Unbound global variable", "Error,"],
+    "workflow_success_alone_is_insufficient": true,
+    "all_ordered_markers_required": true,
+    "generated_source_hashes_must_match": true,
+    "receipt_artifact_required": true,
+    "receipt_closed_write_and_outer_readback_required": true,
+    "broker_must_recompute_downloaded_receipt_bytes_sha256": true,
+    "fail_closed_if_any_requirement_missing": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_source_v9.g",
+    "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_wrapper_v9.g",
+    "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v9.g",
+    "ci/out/d972_pent_interleave_canary_p2_effective_v9.g",
+    "ci/out/d972_pent_interleave_canary_p2_receipt_v9_20260824.json"
+  ],
+  "selective_publish": [
+    "search/d972_pent_interleave_canary_p2_v9.g",
+    "search/certs/d972_pent_interleave_canary_p2_prereg_v9_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p2_manifest_v9_20260824.json"
+  ],
+  "p3_followup": {
+    "same_gap_run_lane_feasible": true,
+    "requires_separate_versioned_bundle": true,
+    "dispatch_after_v9_receipt_closes_if_p2_blind": true,
+    "no_universal_prime_inference": true,
+    "automatic_K2_naming": false
+  },
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_v2_v3_v4_v5_v6_v7_v8_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
