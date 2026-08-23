@@ -1,0 +1,138 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v5",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_P2_MEASUREMENT",
+  "scope": "corrected p=2 finite quotient, Brunnian/deletion canary, complete commutator instrument, and separately gated charming+onto subset only",
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_p2_v5.g",
+    "bytes": 42108,
+    "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c"
+  },
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v5_20260824.json",
+    "bytes": null,
+    "sha256": null,
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "mathematical_window": {
+    "prime": 2,
+    "subgroup": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "nilpotency_class_bound": 3,
+    "quotients": [
+      "Q2=F2/D4_2(F2)",
+      "Q3=PB3/D4_2(PB3)",
+      "Q4=PB4/D4_2(PB4)"
+    ],
+    "only_preregistered_numeric_calibration": {
+      "Q2_order": 128,
+      "Q2_nilpotency_class": 3
+    },
+    "Q3_order": "MEASURE",
+    "Q4_order": "MEASURE",
+    "defect_histograms": "MEASURE",
+    "gated_survivors": "MEASURE"
+  },
+  "construction": {
+    "PB3_PB4_presentations": "recursive Fadell-Neuwirth semidirect presentations with faithful Artin replay",
+    "pair_order": ["12", "13", "14", "23", "24", "34"],
+    "nq_api": "NqCallANU_NQ record -> NqInitFromTheLeftCollector -> NqPcpGroupByCollector and NqPcpElementByWord(nqrec.Images)",
+    "forbidden_api_effect": "no U:=Subgroup(fp_group,ordinary_generators), no NqEpimorphismByNqOutput source-membership coset enumeration",
+    "identical_relators_literal_order": ["u^4", "Comm(u,v)^2"],
+    "class_bound": 3,
+    "required_receipts": [
+      "exact pc power/conjugate presentations",
+      "marked generator coordinates",
+      "all source pure-braid relators and identity images",
+      "lower-central factors",
+      "Jennings/Zassenhaus series sizes",
+      "five marked cofaces",
+      "four marked ordinary deletions"
+    ]
+  },
+  "paper_convention": {
+    "paper_product_native_rule": "paper f1*...*fk evaluates as native GAP fk*...*f1",
+    "dpap": [
+      "phi12_3_4^-1",
+      "phi1_2_34^-1",
+      "phi234",
+      "phi1_23_4",
+      "phi123"
+    ],
+    "dpap_semantics": "RHS^-1 * LHS from 2008 equation (2.20)",
+    "A18_slots_0_to_4": ["phi234", "phi12_3_4", "phi1_23_4", "phi1_2_34", "phi123"],
+    "tau_y_paper": "y^-1*x^-1",
+    "tau_y_native_gap": "X^-1*Y^-1",
+    "rejected_tau_native": "(X*Y)^-1"
+  },
+  "commutator_instrument": {
+    "universe": "every element of DerivedSubgroup(Q2) exactly once",
+    "representatives": "canonical marked BFS words adjusted by killed fourth powers to literal exponent sums (0,0), hence integral free commutator words",
+    "required_coverage": [
+      "Q2 BFS covers all 128 elements",
+      "derived pc coordinates are unique",
+      "enumerated count equals measured derived subgroup order",
+      "coverage SHA-256 binds every f coordinate and representative word"
+    ],
+    "required_outputs": [
+      "full defect histogram",
+      "nonzero image set",
+      "canonical first nonzero",
+      "all four exact deletion bits for every row",
+      "measured integral Dpap image subgroup",
+      "measured degree-3 four-deletion kernel"
+    ],
+    "interpretation": "algebraic over-universe only; a nonzero row is not automatically charming"
+  },
+  "actual_gate": {
+    "m_range": "0..N_ord-1, with N_ord measured from marked x12,x23,c in Q3",
+    "f_range": "all 128 Q2 elements",
+    "sequential_gates": [
+      "gcd(2m+1,N_ord)=1",
+      "f in DerivedSubgroup(Q2)",
+      "literal gentle hexagon (3.10)",
+      "literal gentle hexagon (3.11)",
+      "exact marked onto generation in Q2"
+    ],
+    "required_coverage": "N_ord*128 evaluated unique (m,pc-coordinate) keys; no omission or duplicate digest",
+    "actual_charming_witness": "only a surviving gated pair with nonidentity Dpap in Q4"
+  },
+  "hard_fail_controls": [
+    "original gamma4(G)G^2 relabelled class-3",
+    "wrong Dpap factor order without a noncommuting discriminator",
+    "LHS/RHS inversion",
+    "one deletion omitted",
+    "deletion strand-renumbering shift",
+    "one coface swapped",
+    "wrong tau native word",
+    "identity-only instrument",
+    "charming without onto",
+    "omitted or duplicate universe row"
+  ],
+  "routing_159o": {
+    "if_p2_actual_gated_subset_is_blind": "run a separately preregistered p=3 instrument/gated subset before any depth-stop",
+    "if_p2_commutator_instrument_is_blind": "also run p=3 instrument before any universal class-3 statement",
+    "forbidden_inference": "p=2 blindness implies all class-3 primes blind",
+    "automatic_K2_naming": false
+  },
+  "deferred_from_v5": [
+    "p-specific M containment",
+    "K1 intersection isolation/diamond proof",
+    "complete row36 raw reduction fibre",
+    "CLAIM-COVER-PENT-CANARY-2",
+    "p=3 unless routed by measured p=2 receipt"
+  ],
+  "fail_closed": {
+    "local_gap": "BLOCKED_BY_WIN32_SIGNAL_PIPE",
+    "first_missing_datum": "marked PB4/D4_2 direct NQ return and descent of all four deletion maps",
+    "no_expected_candidate_values_imported": true,
+    "missing_receipt_or_final_marker_is_failure": true,
+    "any_GAP_Syntax_error_or_Error_diagnostic_is_failure": true
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "receipt_to_be_handed_by_immutable_path_bytes_sha_only": true
+  }
+}
