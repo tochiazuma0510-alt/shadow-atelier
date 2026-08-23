@@ -1,0 +1,175 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-execution-manifest/v8",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "exact-count one-token receipt syntax repair; unchanged bounded corrected p2 run",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v8.g",
+      "bytes": 8983,
+      "sha256": "7b00c22889511e94586550e7ba9068c5dcbd898da43c246492079108731d07da",
+      "role": "v8 producer wrapper"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p2_prereg_v8_20260824.json",
+      "bytes": 4583,
+      "sha256": "c20a1f494ac4e02324e08b425a2b6026772b2d62a61d2b0003f768a30477b747",
+      "role": "v8 preregistration"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v7.g",
+      "bytes": 10725,
+      "sha256": "d8599a670af5bb2909e03db31a537e209ef9472d8a96a7e42fa734bde7c0e5a9",
+      "role": "authenticated v7 outer-generator base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v6.g",
+      "bytes": 11266,
+      "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43",
+      "role": "authenticated v7 wrapper-generation dependency"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v5.g",
+      "bytes": 42108,
+      "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+      "role": "authenticated mathematical base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ portability dependency"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "generated_source_pins": [
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_source_v8.g",
+      "bytes": 10786,
+      "sha256": "0133195af813b8b264c9680b04b14b83f11a4269bcc3fa351b410a18c7e8e9e3"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_wrapper_v8.g",
+      "bytes": 15470,
+      "sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v8.g",
+      "bytes": 15791,
+      "sha256": "f15999b5d7249cfe84b69a0dc4e51ad1e16244a6144ace64e8efc9c88d0f3141"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_effective_v8.g",
+      "bytes": 47495,
+      "sha256": "8be94c1ea3bb1524201a69348b28333ddfcd1435cf8cb7aa62a28195b49537ec"
+    }
+  ],
+  "predecessor_run": {
+    "run_id": 32650001325,
+    "commit": "43e7d7d3",
+    "workflow_conclusion": "success_but_semantically_invalid",
+    "math_gates_through_actual_charming_gate_passed": true,
+    "exact_stop": "Syntax error: := expected at effective v7 line 1039 (`identity:`)",
+    "receipt_emitted": false,
+    "v7_may_be_promoted_as_receipt": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p2_v8.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P2_V8_V7_BOOTSTRAP_SOURCE_WRITTEN",
+    "PENT159N_P2_V8_V7_BOOTSTRAP_WRAPPER_WRITTEN",
+    "PENT159N_P2_V8_V7_BOOTSTRAP_COMPLETE",
+    "PENT159N_P2_V8_WRAPPER_SOURCE_WRITTEN",
+    "PENT159N_P2_V8_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P2_V8_STAGE0_REPLAY_PASS",
+    "PENT159N_P2_V8_MARKED_API_PIN_PASS",
+    "PENT159N_P2_V8_Q2_PASS order=128 class=3",
+    "PENT159N_P2_V8_Q3_PASS",
+    "PENT159N_P2_V8_Q4_PASS",
+    "PENT159N_P2_V8_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P2_V8_WRONG_ORDER_CONTROL_PASS",
+    "PENT159N_P2_V8_INSTRUMENT_PASS universe=8 nonzero=4",
+    "PENT159N_P2_V8_A5_CENTRAL_PASS",
+    "PENT159N_P2_V8_GATED_PASS",
+    "PENT159N_P2_V8_RECEIPT_WRITTEN",
+    "PENT159N_P2_V8_FINAL_MARKER",
+    "PENT159N_P2_V8_OUTER_FINAL_PASS"
+  ],
+  "diagnostic_and_terminal_gate": {
+    "forbidden_run_log_substrings": [
+      "Syntax error:",
+      "Syntax warning:",
+      "Unbound global variable",
+      "Error,"
+    ],
+    "workflow_success_alone_is_insufficient": true,
+    "all_ordered_markers_required": true,
+    "generated_source_hashes_must_match": true,
+    "receipt_artifact_required": true,
+    "receipt_closed_write_and_outer_readback_required": true,
+    "broker_must_recompute_downloaded_receipt_bytes_sha256": true,
+    "fail_closed_if_any_requirement_missing": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_source_v8.g",
+    "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_wrapper_v8.g",
+    "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v8.g",
+    "ci/out/d972_pent_interleave_canary_p2_effective_v8.g",
+    "ci/out/d972_pent_interleave_canary_p2_receipt_v8_20260824.json",
+    "ci/out/d972_pent159n_nq_configure_v4.log",
+    "ci/out/d972_pent159n_nq_make_v4.log",
+    "ci/out/d972_pent159n_nq_shell_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_shell_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_build_v4.ok"
+  ],
+  "selective_publish": [
+    "search/d972_pent_interleave_canary_p2_v8.g",
+    "search/certs/d972_pent_interleave_canary_p2_prereg_v8_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p2_manifest_v8_20260824.json"
+  ],
+  "p3_followup": {
+    "trigger_already_observed_in_v7": "p2 actual-charming+onto survivors are Dpap-blind",
+    "same_gap_run_lane_feasible": true,
+    "requires_separate_versioned_source_prereg_manifest_receipt": true,
+    "dispatch_after_v8_receipt_closes": true,
+    "no_universal_prime_inference": true,
+    "automatic_K2_naming": false
+  },
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_v2_v3_v4_v5_v6_v7_edited": false,
+    "main_sol_reply_edited": false
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v8",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_V8_MEASUREMENT",
+  "scope": "one-token receipt-syntax repair after the v7 mathematical gates passed but no receipt was emitted",
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_p2_v8.g",
+    "bytes": 8983,
+    "sha256": "7b00c22889511e94586550e7ba9068c5dcbd898da43c246492079108731d07da"
+  },
+  "authenticated_predecessor": {
+    "path": "search/d972_pent_interleave_canary_p2_v7.g",
+    "bytes": 10725,
+    "sha256": "d8599a670af5bb2909e03db31a537e209ef9472d8a96a7e42fa734bde7c0e5a9",
+    "generated_wrapper_bytes": 15470,
+    "generated_wrapper_sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14",
+    "edited_by_v8": false
+  },
+  "authenticated_mathematical_base": {
+    "path": "search/d972_pent_interleave_canary_p2_v5.g",
+    "bytes": 42108,
+    "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+    "edited_by_v8": false
+  },
+  "deterministic_generated_sources": [
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_source_v8.g",
+      "bytes": 10786,
+      "sha256": "0133195af813b8b264c9680b04b14b83f11a4269bcc3fa351b410a18c7e8e9e3"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_v7_bootstrap_wrapper_v8.g",
+      "bytes": 15470,
+      "sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v8.g",
+      "bytes": 15791,
+      "sha256": "f15999b5d7249cfe84b69a0dc4e51ad1e16244a6144ace64e8efc9c88d0f3141"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_effective_v8.g",
+      "bytes": 47495,
+      "sha256": "8be94c1ea3bb1524201a69348b28333ddfcd1435cf8cb7aa62a28195b49537ec"
+    }
+  ],
+  "v7_run_diagnosis": {
+    "run_id": 32650001325,
+    "commit": "43e7d7d3",
+    "workflow_conclusion": "success_but_semantically_invalid",
+    "run_log": {
+      "bytes": 6551,
+      "sha256": "a3d93f8e7ca8295d387efebf11f5e67712d256f2c24d7f35cd8434649f9b4c3f"
+    },
+    "job_log": {
+      "bytes": 134871,
+      "sha256": "a6b33c3af0f5a6addcc59114b07baf2a010d1993db9576469ed3623ecc692082"
+    },
+    "exact_diagnostic": "Syntax error: := expected at effective v7 line 1039",
+    "exact_bad_token": "identity:",
+    "cause": "frozen v5 original_W2 receipt field omitted '='; nested GAP Read returned after syntax diagnostics and the runner did not propagate them",
+    "receipt_emitted": false,
+    "promotable_producer_receipt": false
+  },
+  "v7_GHA_observations_only": {
+    "Q2": {"order": 128, "class": 3},
+    "Q3": {"order": 512, "class": 3},
+    "Q4": {"order": 67108864, "class": 3},
+    "deletions_descended": 4,
+    "cofaces_descended": 5,
+    "F2_to_PB3_image_order": 128,
+    "wrong_order_control": true,
+    "commutator_instrument": {"universe": 8, "nonzero": 4},
+    "A5_central_gate": true,
+    "actual_charming_onto_gate": {"N_ord": 4, "raw_pairs": 512, "survivors": 8, "nonzero_survivors": 0},
+    "promotion_rule": "observations remain GHA-observed only until v8 emits and closes a receipt"
+  },
+  "v8_change_contract": {
+    "mathematical_universe_changed": false,
+    "only_effective_semantic_patch": "identity: -> identity:=",
+    "old_occurrence_required": 1,
+    "old_occurrence_after_patch_required": 0,
+    "generated_source_hashes_required": true,
+    "receipt_closed_write_required": true,
+    "outer_receipt_readback_hash_required": true,
+    "required_terminal_markers": [
+      "PENT159N_P2_V8_RECEIPT_WRITTEN",
+      "PENT159N_P2_V8_FINAL_MARKER",
+      "PENT159N_P2_V8_OUTER_FINAL_PASS"
+    ],
+    "forbidden_run_log_diagnostics": ["Syntax error:", "Syntax warning:", "Unbound global variable", "Error,"]
+  },
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v8_20260824.json",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "routing": {
+    "p2_blind_result_requires_separate_p3_stage": true,
+    "p3_same_gap_run_lane_feasible": true,
+    "p3_requires_separate_versioned_bundle": true,
+    "no_p2_to_all_class3_inference": true,
+    "automatic_K2_naming": false
+  },
+  "deferred": [
+    "p-specific M containment",
+    "K1 intersection isolation/diamond",
+    "complete row36 raw fibre",
+    "CLAIM-COVER-PENT-CANARY-2"
+  ],
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "v1_v2_v3_v4_v5_v6_v7_overwritten": false
+  }
+}
