@@ -1,0 +1,130 @@
+{
+  "schema": "d972-pent-interleave-nq-portability-stage0-manifest/v3",
+  "date": "2026-08-23",
+  "author_role": "Luna producer",
+  "scope": "Linux NQ path-representation portability repair for corrected-pentagon stage 0 only",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "terminal_token": "PENT159N_NQ_PORTABILITY_V3_DISPATCH_READY",
+  "observed_predecessor_run": {
+    "run_id": 32646202194,
+    "commit": "1bb1df66d491b17034d755a7bb826e6b5402c1e7",
+    "result": "FAILED_AFTER_NQ_BUILD_BEFORE_LOAD",
+    "diagnostic": "PENT159N_V2: built/discovered NQ executable path mismatch",
+    "artifact_uploaded": false,
+    "adjudication": "path-representation transport failure; no mathematical result"
+  },
+  "preserved_inputs": {
+    "v1_producer": {
+      "path": "search/d972_pent_interleave_canary_producer_v1.g",
+      "bytes": 2257,
+      "sha256": "c21b7758f244997d1da9c15c3b09b71a13b1995b379596c849a8eacccc202d6d"
+    },
+    "v2_producer": {
+      "path": "search/d972_pent_interleave_canary_stage0_v2.g",
+      "bytes": 9639,
+      "sha256": "1d68dd33a96572e920398fc14eb70ba6a61d0c3d532f0ba382594d6eebdee67f"
+    },
+    "v2_manifest": {
+      "path": "search/certs/d972_pent_interleave_canary_stage0_manifest_v2_20260823.json",
+      "bytes": 4727,
+      "sha256": "ba60a00c7373872adb41f77f703b2daf9cd6cf36fbe1e9d02376047997c013ee"
+    },
+    "v2_report": {
+      "path": "sol/luna_reply_159n_pent_canaries_v2_addendum.md",
+      "bytes": 6794,
+      "sha256": "f39817c828779d40e864bdb7865c928386d5d2ce23af5f8cc2e35e9c69912b42"
+    }
+  },
+  "workflow_pin": {
+    "path": ".github/workflows/gap-run.yml",
+    "bytes": 11346,
+    "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+    "edited_by_v3": false
+  },
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_stage0_v3.g",
+    "bytes": 11968,
+    "sha256": "09848f459c277d938b9ad248198214641226d85b2637db8a647087516d5c24bd",
+    "delegates_after_load_to": "search/d972_pent_interleave_canary_producer_v1.g"
+  },
+  "nq_source_and_build_contract": {
+    "package_name": "nq",
+    "version": "2.5.11",
+    "gap_root_source": "unique normalized GAPInfo.RootPaths member whose pkg directory directly contains the unique NQ InstallationPath",
+    "package_info_sha256": "e5e3370aa823163909a5130f1d803f43051e606305915718bcf7a363e5af5264",
+    "configure_sha256": "4c09599a55cbdf0eb22998280e197f64ebb2e6ca5ca884b80e3e8d55c1ca0bd0",
+    "makefile_in_sha256": "84def846c51b5fe54b79b1ca312ac5629c383ccadbe43349da4d40efa9c5d003",
+    "build_when_executable_absent": [
+      "./configure --with-gaproot=<authenticated GAPInfo.RootPaths root>",
+      "make -j2"
+    ],
+    "environment_lookup_used": false
+  },
+  "path_reconciliation_contract": {
+    "shell_raw": "exactly one executable nq from find <authenticated NQ InstallationPath>/bin -type f -name nq -perm -111 -print",
+    "gap_raw": "Filename(DirectoriesPackagePrograms(\"nq\"),\"nq\")",
+    "raw_paths_printed_before_comparison": true,
+    "canonicalization": "Linux realpath -- applied independently to each raw path",
+    "comparison": "byte equality of the two LF-stripped realpath outputs",
+    "other_normalization_or_approximation": false,
+    "raw_marker": "PENT159N_NQ_PATH_RAW",
+    "canonical_marker": "PENT159N_NQ_PATH_CANONICAL",
+    "pass_marker": "PENT159N_NQ_PATH_EQUIVALENCE_PASS"
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_stage0_v3.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "30",
+    "with_pquot_packages": true
+  },
+  "expected_artifact_paths_on_build_branch": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent159n_nq_configure_v3.log",
+    "ci/out/d972_pent159n_nq_make_v3.log",
+    "ci/out/d972_pent159n_nq_shell_path_raw_v3.txt",
+    "ci/out/d972_pent159n_nq_shell_path_realpath_v3.txt",
+    "ci/out/d972_pent159n_nq_gap_path_raw_v3.txt",
+    "ci/out/d972_pent159n_nq_gap_path_realpath_v3.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v3.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v3.txt",
+    "ci/out/d972_pent159n_nq_build_v3.ok"
+  ],
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_PATH_RAW",
+    "PENT159N_NQ_PATH_CANONICAL",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_V1_DELEGATION_PIN_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_PASS",
+    "PENT159N_GAP_STAGE0_V3_PASS"
+  ],
+  "fail_closed": {
+    "forbidden_diagnostics": [
+      "Syntax error:",
+      "Error,",
+      "PENT159N_V3: canonical shell/GAP NQ executable path mismatch"
+    ],
+    "missing_final_marker_is_failure": true,
+    "no_pb4_or_canary_claim_from_stage0": true,
+    "producer_resume_required": true
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened": false,
+    "checker_report_opened": false
+  },
+  "mutations": {
+    "git_used": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_or_v2_edited": false
+  }
+}
