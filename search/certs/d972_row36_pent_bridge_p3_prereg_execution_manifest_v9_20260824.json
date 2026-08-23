@@ -1,0 +1,93 @@
+{
+  "schema": "d972-row36-pent-bridge-p3-prereg-execution-manifest/v9",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "dependency-complete launcher for the frozen p3-v8 outcome-free preregistration; no mathematical, transition, universe, canonical-section, or predicate change",
+  "v8_run_observation": {
+    "run_id": 32669385054,
+    "math_status": "PASS",
+    "state2": {
+      "paper_word": [1,1,2,-1,-2,-1],
+      "target_coords": [0,0,0,0,0,0,1],
+      "native_written_right_coords": [0,0,0,0,0,2,1],
+      "native_written_right_index_one_based": 8,
+      "reversed_native_and_paper_left_index_one_based": 2
+    },
+    "transition_result": {
+      "path": "ci/out/d972_row36_pent_bridge_p3_transition_results_v8_20260824.json",
+      "bytes": 150826,
+      "sha256": "3dcb6493a536c2ff000e349bd29d81166430c067293ee6d43de950859a1d6faa"
+    },
+    "last_python_pass": "PENT159O_ROW36_P3_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=1102248",
+    "exact_stop": "PIN_MISSING: search/d972_row36_pent_bridge_p3_producer_v2.py",
+    "classification": "transitive frozen runtime dependency omitted from the selective publication; not a mathematical or resource failure",
+    "preregistration_emitted": false,
+    "predicate_outcome_evaluated": false
+  },
+  "v9_repair": {
+    "launcher_action": "authenticate the missing v2 entry and every v8 top-level bundle file, then Read the exact frozen v8 driver",
+    "delegated_output_schema_and_paths": "v8",
+    "math_source_change": false,
+    "transition_change": false,
+    "universe_or_predicate_change": false,
+    "canonical_section_change": false,
+    "outcome_evaluated": false
+  },
+  "immutable_inputs": [
+    {"path":"search/d972_row36_pent_bridge_p3_producer_v2.py","bytes":199,"sha256":"41cf6a9d7d580083c1e451a831dd10c53243bb44869494e6e5e97a922a3bab72"},
+    {"path":"search/d972_row36_pent_bridge_common_p3_v8.py","bytes":15321,"sha256":"46194661f3d80c5d95025a3e4efad3b0ba25a28d9f77657d554060cb070e3d9e"},
+    {"path":"search/d972_row36_pent_bridge_p3_producer_v8.py","bytes":198,"sha256":"bd1911b1b9f2a3665e81529694be8e6d421d93a713644c6355e9f360ed7b6a3b"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_generator_v8.py","bytes":8962,"sha256":"2c56f5a77e5809f5976778739cab3487d30bb58074d171c74fd59ee6f9fcd27b"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_v8.g","bytes":54599,"sha256":"dc87c6872a68141f30be15ebad05d9ea12f343347fdf953e944d335294559035"},
+    {"path":"search/d972_row36_pent_bridge_p3_prereg_gha_v8.g","bytes":7160,"sha256":"fa06dc6d2989e8a7402a39876252067b891e8b66d4d9441fe0ba646f7429e20e"},
+    {"path":"search/certs/d972_row36_pent_bridge_p3_prereg_execution_manifest_v8_20260824.json","bytes":8598,"sha256":"9a3699215c3ce331539028db5c12d30ce594175dfec3975ddb83fc2f2285786c"},
+    {"path":"search/d972_row36_pent_bridge_p3_prereg_gha_v9.g","bytes":2059,"sha256":"8b90fb8aca1c54ded0453226d1171f49b29ab1f9a47f8303f12c128a9ad0ea6c"},
+    {"path":".github/workflows/gap-run.yml","bytes":11346,"sha256":"7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763"}
+  ],
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p3_prereg_gha_v9.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P3_V9_PIN_PASS path=search/d972_row36_pent_bridge_p3_producer_v2.py",
+    "PENT159O_ROW36_P3_V9_DEPENDENCY_COMPLETE_PASS",
+    "PENT159O_ROW36_P3_V8_WORKER_START",
+    "PENT159O_ROW36_P3_WORKER_V8_ORIENTATION_PASS state=2",
+    "PENT159O_ROW36_P3_WORKER_V8_PASS states=2187",
+    "PENT159O_ROW36_P3_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=1102248",
+    "PENT159O_ROW36_P3_V1_PREREG_WRITTEN",
+    "PENT159O_ROW36_P3_V1_PREPARE_PASS",
+    "PENT159O_ROW36_P3_V8_PREREG_WRITTEN",
+    "PENT159O_ROW36_P3_V8_FINAL OUTCOME_FREE_PREREGISTRATION_FROZEN__PREDICATE_EXECUTION_NOT_RUN"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:","Syntax warning:","Unbound global variable","Error,",
+    "Traceback","SyntaxError","MemoryError","Killed","STATE_STOP","PIN_MISSING"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p3_transition_results_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_prepare_v8.log",
+    "ci/out/d972_row36_pent_bridge_p3_prereg_v8_20260824.json"
+  ],
+  "selective_publish_new_or_missing_files_only": [
+    "search/d972_row36_pent_bridge_p3_producer_v2.py",
+    "search/d972_row36_pent_bridge_p3_prereg_gha_v9.g",
+    "search/certs/d972_row36_pent_bridge_p3_prereg_execution_manifest_v9_20260824.json"
+  ],
+  "promotion_boundary": {
+    "p3_prime_local_only": true,
+    "p2_inference": false,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_inference": false
+  },
+  "terminal_token": "PENT159O_ROW36_P3_PREREG_EXECUTION_MANIFEST_V9_FROZEN"
+}
