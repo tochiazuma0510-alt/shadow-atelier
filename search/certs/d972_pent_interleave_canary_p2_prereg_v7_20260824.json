@@ -1,0 +1,102 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v7",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_V7_MEASUREMENT",
+  "scope": "PB3 A.5 full-twist convention repair after v6 closed quotients, maps, order control, and p2 commutator instrument",
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_p2_v7.g",
+    "bytes": 10725,
+    "sha256": "d8599a670af5bb2909e03db31a537e209ef9472d8a96a7e42fa734bde7c0e5a9"
+  },
+  "authenticated_wrapper_base": {
+    "path": "search/d972_pent_interleave_canary_p2_v6.g",
+    "bytes": 11266,
+    "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43",
+    "edited_by_v7": false
+  },
+  "authenticated_mathematical_base": {
+    "path": "search/d972_pent_interleave_canary_p2_v5.g",
+    "bytes": 42108,
+    "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+    "edited_by_v7": false
+  },
+  "deterministic_generated_sources": [
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v7.g",
+      "bytes": 15470,
+      "sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_effective_v7.g",
+      "bytes": 47494,
+      "sha256": "a950d60f5bd456582e18dd5db59db5375d64ea371852d31e0de4ca8eb75f3072"
+    }
+  ],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v7_20260824.json",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "predecessor_observation": {
+    "run_id": 32649385042,
+    "commit": "902c413c62b5d412a2601f8161ee16862d617cb0",
+    "passed": {
+      "Q2": {"order": 128, "class": 3},
+      "Q3": {"order": 512, "class": 3},
+      "Q4": {"order": 67108864, "class": 3},
+      "deletions": 4,
+      "cofaces": 5,
+      "F2_to_PB3_image_order": 128,
+      "wrong_order_control": true,
+      "commutator_instrument": {"universe": 8, "nonzero": 4}
+    },
+    "exact_stop": "PENT159N_V6: PB3 full-twist marking is not central",
+    "cause_under_test": "global Paper reversal was applied to marks belonging to the faithful Artin/native fp presentation"
+  },
+  "A5_full_twist_contract": {
+    "displayed_forms": ["x23*x12*x13", "x12*x13*x23", "(sigma1*sigma2)^3"],
+    "native_pure_words_tested": [[3,1,2], [1,2,3]],
+    "all_cyclic_native_words_tested": [[1,2,3], [2,3,1], [3,1,2]],
+    "native_sigma_word": [1,2,1,2,1,2],
+    "source_requirements": [
+      "all cyclic pure words have identical faithful Artin images",
+      "their Artin image equals (sigma1*sigma2)^3",
+      "the native pure word commutes with each A12,A13,A23 under faithful Artin"
+    ],
+    "quotient_requirements": [
+      "all three native cyclic marked products are equal",
+      "the common Q3 element commutes with every marked generator",
+      "N_ord uses this common native element"
+    ],
+    "rejected_global_paper_reversals": [[3,2,1], [2,1,3]],
+    "rejected_reversal_requirement": "neither reversed value is central in Q3",
+    "centrality_may_not_be_weakened": true
+  },
+  "unchanged_observation_and_universes": {
+    "preserve_v6_instrument_counts_in_new_measurement": true,
+    "prime": 2,
+    "window": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "dpap_order": "phi12_3_4^-1 * phi1_2_34^-1 * phi234 * phi1_23_4 * phi123",
+    "complete_actual_gate": "all m in 0..N_ord-1 times all 128 Q2 elements; unit, derived, both gentle hexagons, onto",
+    "actual_gate_results": "MEASURE"
+  },
+  "routing": {
+    "bounded_p3_can_follow_same_gap_run_lane": true,
+    "p3_requires_separate_versioned_source_prereg_manifest_receipt": true,
+    "p3_trigger": "p2 complete instrument or exact actual charming+onto subset blind, per 159o",
+    "no_p2_to_all_class3_inference": true,
+    "automatic_K2_naming": false
+  },
+  "deferred": [
+    "p-specific M containment",
+    "K1 intersection isolation/diamond",
+    "complete row36 raw fibre",
+    "CLAIM-COVER-PENT-CANARY-2"
+  ],
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "v5_v6_overwritten": false
+  }
+}

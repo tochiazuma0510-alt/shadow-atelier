@@ -1,0 +1,148 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-execution-manifest/v7",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "v7 A.5 faithful-Artin/native PB3 full-twist repair; unchanged bounded corrected p2 run",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v7.g",
+      "bytes": 10725,
+      "sha256": "d8599a670af5bb2909e03db31a537e209ef9472d8a96a7e42fa734bde7c0e5a9",
+      "role": "v7 producer wrapper"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p2_prereg_v7_20260824.json",
+      "bytes": 4135,
+      "sha256": "c4a068d987dcadb6fa5da93dd65005f7a35f5600c5f7129436554fa9bc44d5fb",
+      "role": "v7 preregistration"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v6.g",
+      "bytes": 11266,
+      "sha256": "5806069bbacfff91e5abae1b4adaac1670967507a879bf8761cbbea41d49bb43",
+      "role": "authenticated wrapper base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v5.g",
+      "bytes": 42108,
+      "sha256": "4be7bb2cac38c718240a5333b50c358f0de5b7b15d5993d4241b442a16be5d0c",
+      "role": "authenticated mathematical base"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ portability dependency"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "generated_source_pins": [
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v7.g",
+      "bytes": 15470,
+      "sha256": "fc4fc99605ae135cefd52cb59f81aed2dc9d0dec4761fbdad9865fd77005bc14"
+    },
+    {
+      "path": "ci/out/d972_pent_interleave_canary_p2_effective_v7.g",
+      "bytes": 47494,
+      "sha256": "a950d60f5bd456582e18dd5db59db5375d64ea371852d31e0de4ca8eb75f3072"
+    }
+  ],
+  "predecessor_run": {
+    "run_id": 32649385042,
+    "commit": "902c413c62b5d412a2601f8161ee16862d617cb0",
+    "passed": [
+      "Q2 order=128 class=3",
+      "Q3 order=512 class=3",
+      "Q4 order=67108864 class=3",
+      "4 deletions + 5 cofaces + iota image 128",
+      "independent wrong-order control",
+      "complete commutator instrument universe=8 nonzero=4"
+    ],
+    "stop": "PB3 full-twist marking is not central",
+    "receipt_emitted": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p2_v7.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P2_V7_WRAPPER_SOURCE_WRITTEN",
+    "PENT159N_P2_V7_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P2_V7_STAGE0_REPLAY_PASS",
+    "PENT159N_P2_V7_MARKED_API_PIN_PASS",
+    "PENT159N_P2_V7_Q2_PASS order=128 class=3",
+    "PENT159N_P2_V7_Q3_PASS",
+    "PENT159N_P2_V7_Q4_PASS",
+    "PENT159N_P2_V7_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P2_V7_WRONG_ORDER_CONTROL_PASS",
+    "PENT159N_P2_V7_INSTRUMENT_PASS universe=8 nonzero=4",
+    "PENT159N_P2_V7_A5_CENTRAL_PASS",
+    "PENT159N_P2_V7_GATED_PASS",
+    "PENT159N_P2_V7_RECEIPT_WRITTEN",
+    "PENT159N_P2_V7_FINAL_MARKER"
+  ],
+  "diagnostic_gate": {
+    "forbidden": ["Syntax warning:", "Unbound global variable", "Syntax error:", "Error,"],
+    "all_markers_required": true,
+    "generated_source_hashes_must_match": true,
+    "receipt_closed_write_readback_required": true,
+    "broker_must_recompute_downloaded_receipt_bytes_sha256": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p2_wrapper_effective_v7.g",
+    "ci/out/d972_pent_interleave_canary_p2_effective_v7.g",
+    "ci/out/d972_pent_interleave_canary_p2_receipt_v7_20260824.json",
+    "ci/out/d972_pent159n_nq_configure_v4.log",
+    "ci/out/d972_pent159n_nq_make_v4.log",
+    "ci/out/d972_pent159n_nq_shell_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_shell_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_build_v4.ok"
+  ],
+  "selective_publish": [
+    "search/d972_pent_interleave_canary_p2_v7.g",
+    "search/certs/d972_pent_interleave_canary_p2_prereg_v7_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p2_manifest_v7_20260824.json"
+  ],
+  "p3_followup": {
+    "same_gap_run_lane_feasible": true,
+    "requires_separate_versioned_bundle": true,
+    "dispatch_only_if_p2_routing_requires": true,
+    "automatic_K2_naming": false
+  },
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_v2_v3_v4_v5_v6_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
