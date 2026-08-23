@@ -84,7 +84,13 @@
       "path": "search/koubou158_prodrung_v1.py",
       "bytes": 26567,
       "sha256": "a0e1e47a76b9d6379e9f2b16334140ec0eaf1e0b4d70f4793ae4f676949015a1",
-      "role": "prodrung producer source"
+      "role": "prodrung single-process producer source"
+    },
+    {
+      "path": "search/koubou158_prodrung_j5_resume_v1.py",
+      "bytes": 14421,
+      "sha256": "af56df3f5301437b13cf2113f75d0a2b15d0ce4b97a300f8ad4d5527c2b872c2",
+      "role": "load-bearing resumable j=5 producer/finalizer source used for the recorded 8/10 partition"
     },
     {
       "path": "search/koubou158_M2_msweep_v3.py",
