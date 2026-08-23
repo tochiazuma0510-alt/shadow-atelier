@@ -1,0 +1,154 @@
+{
+  "schema": "d972-row36-pent-bridge-p3-outcome-execution-manifest/v12",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "launcher-only repair of the frozen p=3 v11 fixed-row36 outcome execution; accept the exact V1 preregistration markers emitted by the already frozen Python prepare entry while preserving the exact 66,337,660-byte preregistration SHA gate and every subsequent v11 Q4, census, receipt, and manifest gate",
+  "prior_run_diagnosis": {
+    "run_id": 32671573263,
+    "terminal_phase": "pre-outcome preregistration reconstruction",
+    "passed": [
+      "all immutable source pins",
+      "transition worker and typed orientation gates",
+      "1,102,248 residual paths",
+      "exact preregistration reconstruction"
+    ],
+    "exact_emitted_markers": [
+      "PENT159O_ROW36_P3_V1_PREREG_WRITTEN path=search/certs/d972_row36_pent_bridge_p3_prereg_v8_20260824.json bytes=66337660 sha256=2d33542ba797440ec96d16e02f9f8d7ea537048eb84d02b2ce57153d147faea4",
+      "PENT159O_ROW36_P3_V1_PREPARE_PASS"
+    ],
+    "exact_stop": "v11 additionally required nonexistent V8_PREREG_WRITTEN and V8_FINAL wrapper markers",
+    "Q4_worker_started": false,
+    "row_predicate_or_census_started": false,
+    "semantic_result": null
+  },
+  "repair": {
+    "kind": "authenticated launcher-only exact-count substitution",
+    "frozen_v11_launcher": {
+      "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+      "bytes": 14846,
+      "sha256": "03709a4dcb6e7c39765307c000a9fe62382615c25b3001d1d12465836f711139"
+    },
+    "frozen_v11_execution_manifest": {
+      "path": "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v11_20260824.json",
+      "bytes": 10604,
+      "sha256": "7970c4c84ec7ef27b253934980f3b3388730ad47319d09e5c13f2ab13877d253"
+    },
+    "substitutions": [
+      {
+        "old": "PENT159O_ROW36_P3_V8_PREREG_WRITTEN",
+        "new": "PENT159O_ROW36_P3_V1_PREREG_WRITTEN",
+        "expected_old_occurrences": 1,
+        "expected_new_occurrences_before": 1,
+        "expected_old_occurrences_after": 0,
+        "expected_new_occurrences_after": 2
+      },
+      {
+        "old": "PENT159O_ROW36_P3_V8_FINAL OUTCOME_FREE_PREREGISTRATION_FROZEN__PREDICATE_EXECUTION_NOT_RUN",
+        "new": "PENT159O_ROW36_P3_V1_PREPARE_PASS",
+        "expected_old_occurrences": 1,
+        "expected_new_occurrences_before": 1,
+        "expected_old_occurrences_after": 0,
+        "expected_new_occurrences_after": 2
+      }
+    ],
+    "generated_effective_launcher": {
+      "path": "ci/out/d972_row36_pent_bridge_p3_outcome_effective_v12.g",
+      "bytes": 14788,
+      "sha256": "cb841608a845e3a35cbc17cdd97cb9cda8f3f7b5b2e90ecbe15b657024c049f3",
+      "must_be_absent_before_generation": true,
+      "exact_readback_required": true
+    },
+    "unchanged_contract": "the generated effective launcher differs from v11 only in the two required-marker string literals; it delegates all 42 immutable pin checks, exact preregistration byte/SHA and schema gates, literal A.18 Q4 worker, same-word census, CLAIM-COVER, and receipt/manifest checks to v11",
+    "universe_or_predicate_change": false,
+    "mathematical_change": false
+  },
+  "new_source_pin": {
+    "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v12.g",
+    "bytes": 5590,
+    "sha256": "d42b704180d4726aef5fc2d677b226576c361dd1aeef2db8d0effabd2da8d326"
+  },
+  "frozen_preregistration": {
+    "schema": "d972-row36-pent-bridge-p3-prereg/v8",
+    "bytes": 66337660,
+    "sha256": "2d33542ba797440ec96d16e02f9f8d7ea537048eb84d02b2ce57153d147faea4",
+    "canonical_words": 17496,
+    "raw_rows": 34992,
+    "canonical_word_roster_sha256": "25a1192cb60321035feb5f36045c4417eb0a92a07e1be7918cbabadff19a04a1",
+    "raw_roster_sha256": "644e254535d210c2cf16778ee2d09b762358fb80ea0a82c839f5a8e1c01561ee",
+    "predicate_outcomes_evaluated": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p3_outcome_gha_v12.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "300",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "packages": "GAP 4.16.0 core only; no NQ, ANUPQ, SmallGrp, AutPGrp, or json package build/load"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P3_V12_START launcher_only=true failed_run=32671573263 outcome_started=false",
+    "PENT159O_ROW36_P3_V12_PIN_PASS path=search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+    "PENT159O_ROW36_P3_V12_PIN_PASS path=search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v11_20260824.json",
+    "PENT159O_ROW36_P3_V12_EFFECTIVE_DRIVER_PIN path=ci/out/d972_row36_pent_bridge_p3_outcome_effective_v12.g bytes=14788 sha256=cb841608a845e3a35cbc17cdd97cb9cda8f3f7b5b2e90ecbe15b657024c049f3",
+    "PENT159O_ROW36_P3_V12_MARKER_REPAIR_PASS replacements=2 exact_v1_prepare_contract=true prereg_byte_sha_gate_preserved=true",
+    "PENT159O_ROW36_P3_V12_DELEGATE_START frozen_outcome_launcher=v11",
+    "PENT159O_ROW36_P3_V11_COMPLETE_PIN_CLOSURE_PASS pins=42",
+    "PENT159O_ROW36_P3_V1_PREREG_WRITTEN",
+    "PENT159O_ROW36_P3_V1_PREPARE_PASS",
+    "PENT159O_ROW36_P3_V11_PREREG_AUTHENTICATED_BEFORE_OUTCOME words=17496 raw_rows=34992",
+    "PENT159O_ROW36_P3_WORKER_V11_A18_WORD_GATE_PASS literal_relators=10 mutant_rejected=true words=17496",
+    "PENT159O_ROW36_P3_WORKER_V11_PASS words=17496 literal_relators=10 direct_same_word=true",
+    "PENT159O_ROW36_P3_V11_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P3_V11_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P3_V11_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED raw=evaluated=expected=34992 no_mode_no_K2=true"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP",
+    "PIN_MISSING",
+    "PC_COLLECTION_CAP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p3_outcome_effective_v12.g",
+    "ci/out/d972_row36_pent_bridge_p3_transition_results_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_prereg_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_prepare_v11.log",
+    "ci/out/d972_row36_pent_bridge_p3_q4_results_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_execute_v11.log",
+    "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json"
+  ],
+  "checker_handoff_after_success_allowlist": [
+    "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json"
+  ],
+  "selective_publish_files": [
+    "search/d972_row36_pent_bridge_p3_outcome_gha_v12.g",
+    "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v12_20260824.json"
+  ],
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_report_or_artifact_opened": false,
+    "independent_checker_required_after_candidate_run": true
+  },
+  "promotion_boundary": {
+    "p3_prime_local_only": true,
+    "p2_inference": false,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_inference": false
+  },
+  "terminal_token": "PENT159O_ROW36_P3_OUTCOME_EXECUTION_MANIFEST_V12_FROZEN"
+}
