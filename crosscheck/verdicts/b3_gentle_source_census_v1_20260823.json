@@ -1,0 +1,150 @@
+{
+  "checker": "crosscheck/check_b3_gate2g_source_census_v1.py",
+  "first_missing_datum": "NONE_FOR_GATE_2G_NAMED_K36_CENSUS",
+  "manifest": {
+    "bytes": 8003,
+    "path": "search/certs/b3_gentle_source_census_execution_manifest_v1_20260823.json",
+    "sha256": "0603ac227074ae1ad1405baadd32d3a38c0517fe84deeadfc165490650b95b84"
+  },
+  "receipt": {
+    "bytes": 887124,
+    "path": "search/certs/b3_gentle_source_census_preflight_v1_20260823.json",
+    "sha256": "c30077133305c07ca0e58c9eaa700d42a512a6bbbce96c9c27d161e921e1aaf2"
+  },
+  "replay": {
+    "CLAIM-COVER-1": {
+      "fibre_histogram": {
+        "2": 972
+      },
+      "fibre_vector_sha256": "9c118db9cc2ce808ca1901f7eead515e94d35ef4e1d3067d456b387d281b2ada",
+      "independent_checker_closed": true,
+      "reduction_pairs_sha256": "fe664e2b5900292a83b421b286406e4a055eaaf731390654ec85df4b273bdd24",
+      "source_roster_sha256": "7b3cf3432c95e93580ef0096d734b00d1554800b1850b047096b5c60afaaa9f5",
+      "source_rows": 1944,
+      "target_roster_sha256": "6dfac1f00a9d82150d018bf273f6dad47700b283ef0d51dbce2b6de9213d0962",
+      "target_rows": 972
+    },
+    "IDX3": {
+      "all_open": true,
+      "pin_count": 5,
+      "separate": true,
+      "typed_map": "STOP"
+    },
+    "component_census": {
+      "K36_GT": 216,
+      "K36_raw_charming": 34992,
+      "K9_GT": 108,
+      "K9_raw_charming": 8748,
+      "NS4_GT": 54,
+      "NS4_membership_source": "full generation_detail pass set; settled receipt used only for ordered equality/hash calibration",
+      "NS4_raw_charming": 3024
+    },
+    "contract": {
+      "bridge_bound": true,
+      "candidate_terminal": "B3_SURVIVES_IN_NAMED_K",
+      "terminal_input": "UNKNOWN_PENDING_INDEPENDENT_CHECKER"
+    },
+    "controls": {
+      "all_pass": true,
+      "required_eight": {
+        "confuse onto with charming": {
+          "fixture": {
+            "charming": true,
+            "onto": false
+          },
+          "rejected": true
+        },
+        "coverage_and_type_controls": {
+          "B3_normal_K_le_M_strictness_break_rejected": true,
+          "identity_positive_lift": {
+            "source_id": "S0001",
+            "target_id": "T0001"
+          },
+          "nonidentity_finite_positive_lift": {
+            "arithmetic_typing": "UNKNOWN_SEPARATE_IDX3_PIN",
+            "source_id": "S0019",
+            "target_id": "T0055"
+          },
+          "reduction_key_flip_rejected": true,
+          "settled_membership_mix_rejected": true,
+          "source_duplicate_rejected": true,
+          "source_omission_rejected": true,
+          "target_key_flip_rejected": true,
+          "type_break_mutants_rejected": 4
+        },
+        "drop charming commutator": {
+          "fixture": "x has nonzero reflection parity",
+          "rejected": true
+        },
+        "drop charming unit": {
+          "fixture_m": 1,
+          "rejected": true
+        },
+        "inverse convention": {
+          "rejected": true,
+          "row_mismatches": 192
+        },
+        "paper-m/artifact-exponent shift": {
+          "changed_rows": 1944,
+          "rejected": true
+        },
+        "representative change": {
+          "passed": true,
+          "relation_appended": "x^36=1"
+        },
+        "sigma1/sigma2 swap": {
+          "rejected": true,
+          "row_mismatches": 212
+        },
+        "word multiplication order": {
+          "rejected": true,
+          "row_mismatches": 180
+        }
+      }
+    },
+    "cross_checked": true,
+    "frozen_input_pins": {
+      "all_match": true,
+      "count": 28
+    },
+    "group_audit": {
+      "D_n_convention": "r^a s^e; written-order multiplication",
+      "G36_derived_order": 1458,
+      "G36_order": 23328,
+      "G36_solvable_by_embedding": true,
+      "G9_derived_order": 729,
+      "G9_order": 2916,
+      "G9_solvable_by_embedding": true,
+      "GF8_convention": "GF(2)[t]/(t^3+t+1), low-bit encoding",
+      "Goursat_reason": "G_n is a subgroup of solvable D_n^3; simple nonsolvable PSL(2,8) has no common nontrivial quotient",
+      "K36_le_K9_paper_rule": "9 divides lcm(36,2)=36",
+      "PSL2_8_order": 504,
+      "PSL2_8_perfect": true,
+      "PSL2_8_simple": true,
+      "PSL2_8_simplicity_enumeration": {
+        "conjugacy_classes": 9,
+        "nonidentity_classes": 8
+      },
+      "strict_F2_ratio": 8
+    },
+    "inventory": {
+      "all_required_fields": true,
+      "candidate_count": 11,
+      "selected": "K^(36) intersection N_S4"
+    },
+    "observation": "B3_SURVIVES_IN_NAMED_K",
+    "producer_or_search_helper_imported": false,
+    "producer_source_opened_or_imported": false,
+    "search_helper_semantics_inspected": false,
+    "universes": {
+      "source_raw": 423263232,
+      "source_roof": true,
+      "target_raw": 26453952,
+      "target_roof": true
+    },
+    "verified": false
+  },
+  "schema": "b3-gate2g-source-census-independent-check/v1",
+  "status": "PASS",
+  "terminal_token": "B3_SURVIVES_IN_NAMED_K"
+}
