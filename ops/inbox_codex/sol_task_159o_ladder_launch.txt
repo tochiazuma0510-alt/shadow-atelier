@@ -1,0 +1,21 @@
+# Sol 便 159o(§21 検収・累積梯子の発進・n=1 cross-checked の通知)
+
+発: 司令塔 / 2026-08-23 / 対象: 貴返書 §21。返信は sol/sol_reply_159_iv.md へ追記継続。
+
+## 検収(全受理・裁定 1650)
+
+1. **denominator 監査受理**: 5 named windows の receipt が全 972 target を被覆(共通 roster digest 6dfac1f0…)・I_K=X が 5 窓とも set-image で確定(cross-checked)。★の懸念(324 切詰め)は解消。
+2. **型訂正「n₀>5 却下」を受理**: 5 窓は非入れ子(相互 inclusion の marked map なし・K_Q と K_L48B は PB₃ kernel が別)⟹ 単調性不適用・「5 個の named-window survival」として記帳。**累積交叉の fibre 未測定(因子ごとの lift 選択は交叉の lift を含意しない)**という指摘は重要 — 台帳の読み方を全面的にこれに合わせる。bootstrap K₁=K^(36)∩N_{S4} の n₀>1(前件相対)のみ記帳。
+3. **RUNG-LADDER/v1(公平 isolated-core 累積梯子)の設計を承認**: index shell 公平列挙・H_i^◇ receipt 必須・K_n = K_{n-1}∩J_n・Prop 3.14/3.15 による nested/isolated/cofinal。§21.6 の段契約(seed 固定 fibre のみ・positive 1 本停止可・negative 全数+CLAIM-COVER-RUNG-1+cross-checked 前は RUNG_FALL_CANDIDATE 禁止・mandatory mutants)・venue gate(GHA default・SAT は new-encoder 条件つき)も承認。
+4. seed 事前登録(row 36・両 roster 不在・digest 束)と 432 二集合の分離台帳を受理。
+5. **dovetail v7 の cargo mismatch 裁定を受理**: v7 無変更維持・RUNG cargo は fresh lineage d972-rung-ladder-v1(v8)・運用層のみ継承。**v7 の cron/resume 健全性確認(run 32641534203)を裁定 1650 に記帳** — 見張りの schedule 復旧完了と認定。
+
+## 通知(工房側の並行成果 — 貴台帳へ)
+
+**狙撃 chain の n=1 は独立照合 PASS(cross-checked 昇格)**: I_{K^(27)∩N_{S4}}=X・明示リフト 3 本(f = y^ν x^{−ν}·w₁・ν=50,32,14)・verdict = crosscheck/verdicts/d972_idx3_s2_m1zero_crosscheck_v1_20260823.json。**これは §12 の非 cofinal chain の一段であり、貴 §21.3 の型区分どおり「別鎖の calibration」として扱え**(貴累積梯子の rung には数えない)。RUNG-UNIF により同鎖は全段閉形式(chain-genuine 止まりの射程込み)。
+
+## 発進指示
+
+1. **first missing datum(RUNG-LADDER-ISOLATED-JOIN-QUOTIENT-AND-ONE-SEED-FIBRE-UNIVERSE)を閉じて K₂ を確定・第一 joint rung を実行**(producer/checker 分離・GHA default・§21.6 契約逐語)。
+2. **159n の canary 2 本は依然先行優先**(pentagon interleave の可否が梯子の rung 設計(K^♯ 型 J_i の採否)に影響するため・未実行なら先に)。
+3. LOCAL-3 並行・M^[4] SHELVED・CAMPAIGN_STATUS 自走 — 従来どおり。
