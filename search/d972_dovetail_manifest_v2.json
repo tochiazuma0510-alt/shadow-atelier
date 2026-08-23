@@ -1,6 +1,6 @@
 {
   "schema": "d972-dovetail-orchestration/v2",
-  "campaign_id": "d972-roof-A-semidecision-v2-calibration-v6",
+  "campaign_id": "d972-roof-A-semidecision-v2-calibration-v7-cron5-mem8g",
   "universe_id": "B3-stable-marked-extensions-over-K9-intersection-NS4-k-ge-8-skip3-7/v4",
   "prefix_policy": {
     "skipped_k_range": [3, 7],
@@ -324,7 +324,7 @@
     ]
   },
   "resume_policy": {
-    "artifact_name": "d972-dovetail-v2-calibration-v6-state",
+    "artifact_name": "d972-dovetail-v2-calibration-v7-cron5-mem8g-state",
     "latest_predecessor_only": true,
     "explicit_run_must_equal_latest": true,
     "source_commit_checkout_required": true,

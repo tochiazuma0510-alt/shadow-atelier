@@ -49,6 +49,7 @@ CALIBRATION_SCHEMA = "d972-independent-calibration/v6-direct-bq"
 CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v4-direct-bq"
 CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v6.json"
 CALIBRATION_FAILURE_TAIL_BYTES = 32768
+CALIBRATION_GAP_MAX_WORKSPACE = "8g"
 CALIBRATION_SCRIPT_VARIANT = "d972-v6-direct-explicit-bq-v3"
 CALIBRATION_COMPLETE_LINE = b"D972_CAL_COMPLETE v6"
 ZERO_SHA = "0" * 64
@@ -142,6 +143,18 @@ def _safe_command_argv(command: Sequence[Any], script_path: Path) -> list[str]:
             result.append(Path(value).name)
         else:
             result.append(value)
+    return result
+
+
+def bounded_calibration_gap_command(
+    command: Sequence[str], command_mode: str,
+) -> list[str]:
+    """Give the POSIX calibration an explicit, receipt-visible GAP ceiling."""
+    result = list(command)
+    if command_mode == "posix-gap-cli":
+        require(result and Path(result[0]).name == "gap",
+                "STATE_STOP calibration POSIX GAP command drift")
+        result[1:1] = ["-o", CALIBRATION_GAP_MAX_WORKSPACE]
     return result
 
 
@@ -1403,6 +1416,7 @@ def install_checkpointed_checker_adapter(
                 os.fsync(handle.fileno())
             stage = "calibration.gap.select-command"
             command, command_mode = legacy.select_gap_command(script_path)
+            command = bounded_calibration_gap_command(command, command_mode)
             stage = "calibration.gap.execute"
             completed = subprocess.run(
                 command, cwd=ROOT, capture_output=True, text=False, check=False,
@@ -1716,6 +1730,20 @@ def synthetic_calibration_gate_and_receipt(legacy: Any) -> tuple[dict[str, Any],
 
 def self_test() -> int:
     manifest = load_manifest()
+    require(
+        bounded_calibration_gap_command(
+            ["/usr/bin/gap", "-q", "--quitonbreak", "fixture.g"],
+            "posix-gap-cli",
+        ) == [
+            "/usr/bin/gap", "-o", CALIBRATION_GAP_MAX_WORKSPACE,
+            "-q", "--quitonbreak", "fixture.g",
+        ] and
+        bounded_calibration_gap_command(
+            ["powershell.exe", "-File", "gap.ps1", "fixture.g"],
+            "windows-gap.ps1",
+        ) == ["powershell.exe", "-File", "gap.ps1", "fixture.g"],
+        "self-test calibration GAP memory command",
+    )
     fixed_script = independent_calibration_gap_script([[1, -2], [2]], ["toy"])
     quotient_constructor = "NaturalHomomorphismByNormal" + "Subgroup"
     quotient_size_call = "Size(" + "Q)"
