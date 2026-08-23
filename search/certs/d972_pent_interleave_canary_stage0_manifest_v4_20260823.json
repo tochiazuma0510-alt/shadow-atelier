@@ -1,0 +1,131 @@
+{
+  "schema": "d972-pent-interleave-direct-nq-calibration-manifest/v4",
+  "date": "2026-08-23",
+  "author_role": "Luna producer",
+  "scope": "F2/D4^(2) stage-0 calibration only; no PB4 or pentagon canary",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "terminal_token": "PENT159N_DIRECT_NQ_STAGE0_V4_DISPATCH_READY",
+  "observed_predecessor_run": {
+    "run_id": 32646646538,
+    "commit": "6d2ac0fa9b68aa74e8bb9a2a5f0d0df319d9b4e2",
+    "passed": [
+      "NQ source authentication",
+      "NQ build",
+      "raw/realpath equivalence",
+      "NQ package load"
+    ],
+    "stop_after_v1_delegation": "Error, the coset enumeration has defined more than 4096000 cosets",
+    "adjudication": "v1 epimorphism source-subgroup construction/resource stop; no mathematical result"
+  },
+  "preserved_source_pins": [
+    {
+      "path": "search/d972_pent_interleave_canary_producer_v1.g",
+      "bytes": 2257,
+      "sha256": "c21b7758f244997d1da9c15c3b09b71a13b1995b379596c849a8eacccc202d6d"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v2.g",
+      "bytes": 9639,
+      "sha256": "1d68dd33a96572e920398fc14eb70ba6a61d0c3d532f0ba382594d6eebdee67f"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v3.g",
+      "bytes": 11968,
+      "sha256": "09848f459c277d938b9ad248198214641226d85b2637db8a647087516d5c24bd"
+    }
+  ],
+  "workflow_pin": {
+    "path": ".github/workflows/gap-run.yml",
+    "bytes": 11346,
+    "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+    "edited_by_v4": false
+  },
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+    "bytes": 14287,
+    "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657"
+  },
+  "nq_source_contract": {
+    "package": "nq",
+    "version": "2.5.11",
+    "package_info_sha256": "e5e3370aa823163909a5130f1d803f43051e606305915718bcf7a363e5af5264",
+    "configure_sha256": "4c09599a55cbdf0eb22998280e197f64ebb2e6ca5ca884b80e3e8d55c1ca0bd0",
+    "makefile_in_sha256": "84def846c51b5fe54b79b1ca312ac5629c383ccadbe43349da4d40efa9c5d003",
+    "api_implementation_path": "gap/nq.gi",
+    "api_implementation_sha256": "a274e10aca9a453c565e66ec0337e80ab01658ef3eb1be094f292d8132f4c749",
+    "api_manual_path": "doc/functions.xml",
+    "api_manual_sha256": "f693fd6f8919ee8abf05eb77862b23ed5b2376ca4a63e1cdfe8e27446a311d7b"
+  },
+  "api_audit": {
+    "v1_call": "NqEpimorphismNilpotentQuotient(E,idgens,3)",
+    "v1_implementation_effect": "gap/nq.gi lines 679-686 forms U := Subgroup(E, ordinary_generators) before GroupHomomorphismByImagesNC",
+    "v4_call": "NilpotentQuotient(E,idgens,3)",
+    "v4_implementation_effect": "gap/nq.gi lines 628-640 passes the same group/idgens/class to NqCallANU_NQ and returns NqPcpGroupByNqOutput directly",
+    "manual_contract": "doc/functions.xml lines 27-44 and 262-286: idgens are underlying free-group generators and their relators are identical laws",
+    "mathematical_input_changed": false,
+    "epimorphism_or_marked_images_constructed": false
+  },
+  "calibration_preregistration": {
+    "free_generators": ["x", "y"],
+    "identical_generators": ["u", "v"],
+    "identical_relators_literal_order": ["u^4", "Comm(u,v)^2"],
+    "nilpotency_class_bound": 3,
+    "required_result_type": "IsPcpGroup",
+    "required_order": 128,
+    "required_nilpotency_class": 3
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_stage0_v4.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "30",
+    "with_pquot_packages": true
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_API_PROVENANCE_PASS",
+    "PENT159N_NQ_PATH_RAW",
+    "PENT159N_NQ_PATH_CANONICAL",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_V1_CALIBRATION_AUDIT_PIN_PASS",
+    "PENT159N_NQ_DIRECT_CALL_BEGIN",
+    "PENT159N_NQ_DIRECT_CALL_RETURN",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_NQ_DIRECT_STAGE0_PASS api=NilpotentQuotient order=128 class=3",
+    "PENT159N_GAP_STAGE0_V4_PASS"
+  ],
+  "expected_artifact_paths_on_build_branch": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent159n_nq_configure_v4.log",
+    "ci/out/d972_pent159n_nq_make_v4.log",
+    "ci/out/d972_pent159n_nq_shell_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_shell_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_raw_v4.txt",
+    "ci/out/d972_pent159n_nq_gap_path_realpath_v4.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v4.txt",
+    "ci/out/d972_pent159n_nq_build_v4.ok"
+  ],
+  "fail_closed": {
+    "forbidden_diagnostics": ["Syntax error:", "Error,"],
+    "missing_direct_return_marker_is_failure": true,
+    "missing_final_marker_is_failure": true,
+    "local_execution": "BLOCKED_BY_WIN32_SIGNAL_PIPE",
+    "semantic_canary_status": "UNKNOWN",
+    "producer_resume_required_after_stage0": true
+  },
+  "firewall_and_mutations": {
+    "checker_material_opened_or_imported": false,
+    "git_used": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "v1_v2_v3_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
