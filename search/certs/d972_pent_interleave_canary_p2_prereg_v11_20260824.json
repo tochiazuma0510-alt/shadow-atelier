@@ -1,0 +1,112 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v11",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_LITERAL_A18_REPAIR_MEASUREMENT",
+  "scope": "prime-local p=2 rerun with printed Appendix A.18 cofaces, a mandatory per-coface PB3 source-relator gate before every finite quotient/census, literal Dpap order, and the old section 9.1 ordering as mutant only",
+  "semantic_predecessor": {
+    "producer_run_id": 32652710118,
+    "producer_commit": "4e2de61961e167d058bcf963e6add5a0eb6edfe0",
+    "receipt_bytes": 214729,
+    "receipt_sha256": "79fc3b392f6e9c514c469c92e230c60d244472a15c252ccc482666943faf387e",
+    "run_log_bytes": 7206,
+    "run_log_sha256": "40c0b9845c012da41c516a9d994e57af407bb993dfa554d9acc2fa9bb54bc0a4",
+    "status_for_this_boundary": "REJECTED: count-fitting direct-use A.18 product reversal was not a PB3 homomorphism",
+    "numeric_sensitivity_tokens_imported": false
+  },
+  "producer_inputs": {
+    "outer_path": "search/d972_pent_interleave_canary_p2_v11.g",
+    "outer_bytes": 19354,
+    "outer_sha256": "bb795216135b6b38e9257009f9c073a0085df1ec0e728207201a4145af0bab7b",
+    "literal_a18_overlay_path": "search/d972_pent_interleave_literal_a18_p2_overlay_v11.g",
+    "literal_a18_overlay_bytes": 6048,
+    "literal_a18_overlay_sha256": "a20a3dc8e4847109ee7172040495421027678b4cb4167247f64b948df20c13a8",
+    "authenticated_base_path": "search/d972_pent_interleave_canary_p2_math_v10.g",
+    "authenticated_base_bytes": 54180,
+    "authenticated_base_sha256": "c3df3d2ae54f7cfaf8f18e4f98e1f2bf4f9754b06902c6b5a2bfd134490f26d0",
+    "generated_effective_path": "ci/out/d972_pent_interleave_canary_p2_math_effective_v11.g",
+    "generated_effective_bytes": 56314,
+    "generated_effective_sha256": "6f6f7b1a9adbc54882006865b29b77d8560fefbaa5e015c6d60511dc56a96404"
+  },
+  "paper_source_pin": {
+    "document": "papers/dolgushev-2008.00066-gt-shadows-original.pdf",
+    "location": "Appendix A, formula (A.18), PDF/page image 49",
+    "visual_audit_performed": true,
+    "slot_order": ["phi234", "phi12_3_4", "phi1_23_4", "phi1_2_34", "phi123"],
+    "PB3_generator_order": ["x12", "x13", "x23"],
+    "PB4_generator_order": ["x12", "x13", "x14", "x23", "x24", "x34"],
+    "printed_paper_word_table": [
+      [[4], [5], [6]],
+      [[2, 4], [3, 5], [6]],
+      [[1, 2], [3], [5, 6]],
+      [[1], [2, 3], [4, 5]],
+      [[1], [2], [4]]
+    ],
+    "paper_to_native_rule": "reverse each generator-image word exactly once, preserve signs, do not invert",
+    "serialized_native_word_table": [
+      [[4], [5], [6]],
+      [[4, 2], [5, 3], [6]],
+      [[2, 1], [3], [6, 5]],
+      [[1], [3, 2], [5, 4]],
+      [[1], [2], [4]]
+    ]
+  },
+  "mandatory_pre_census_homomorphism_gate": {
+    "placement": "after construction and faithful-Artin replay of the frozen PB3/PB4 source presentations; before Q2/Q3/Q4 construction and before any enumeration",
+    "coface_count": 5,
+    "PB3_source_relator_count": 2,
+    "required_row_count": 10,
+    "method": "substitute each once-serialized A.18 native table into each frozen signed PB3 relator, expand to B4, and require the faithful Artin automorphism image to be identity",
+    "all_ten_literal_rows_must_pass": true,
+    "destructive_mutant": "consume the printed paper table directly as native",
+    "required_mutant_failure": {
+      "slot": "phi12_3_4",
+      "slot_index_zero_based": 1,
+      "source_relator_index": 1,
+      "must_pass": false
+    },
+    "all_digests_and_words": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "finite_universe": {
+    "prime": 2,
+    "quotient_law": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "nilpotency_class": 3,
+    "Q2_expected_order": 128,
+    "complete_Q2_BFS_required": true,
+    "four_deletions_and_five_repaired_cofaces_required": true,
+    "complete_commutator_instrument_required": true,
+    "actual_charming_onto_gate_separate_from_instrument": true,
+    "numeric_census_results": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "Dpap_contract": {
+    "coface_contexts_must_use": "the same once-serialized native word table admitted by the source-relator and finite-homomorphism gates",
+    "literal_paper_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "literal_native_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_paper_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_native_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "section_9_1_order_accepted_as_literal": false,
+    "actual_same_row_noncommuting_control_required": true,
+    "external_S3_canary_accepted_as_pass": false
+  },
+  "out_of_scope": [
+    "class 4",
+    "row 36 full fibre",
+    "mode selection",
+    "K2 naming or inference",
+    "all-prime inference"
+  ],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v11_20260824.json",
+    "schema": "d972-pent-interleave-canary-p2/v11",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "main_sol_reply_edited": false,
+    "prior_version_overwritten": false
+  }
+}

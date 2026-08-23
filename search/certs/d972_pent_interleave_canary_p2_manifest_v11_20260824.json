@@ -1,0 +1,153 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-execution-manifest/v11",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "bounded p=2 literal-A.18 semantic repair; no class4, row36, mode, K2, or universal-prime work",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p2_v11.g",
+      "bytes": 19354,
+      "sha256": "bb795216135b6b38e9257009f9c073a0085df1ec0e728207201a4145af0bab7b",
+      "role": "fail-closed generator and outer semantic gate"
+    },
+    {
+      "path": "search/d972_pent_interleave_literal_a18_p2_overlay_v11.g",
+      "bytes": 6048,
+      "sha256": "a20a3dc8e4847109ee7172040495421027678b4cb4167247f64b948df20c13a8",
+      "role": "pre-census printed-A.18 serialization and ten-row source-relator gate"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p2_prereg_v11_20260824.json",
+      "bytes": 5261,
+      "sha256": "020baf26f154038f6bd79d3e16d94f868adaf638f5bc22216045f954e52fef25",
+      "role": "frozen premeasurement contract"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p2_math_v10.g",
+      "bytes": 54180,
+      "sha256": "c3df3d2ae54f7cfaf8f18e4f98e1f2bf4f9754b06902c6b5a2bfd134490f26d0",
+      "role": "authenticated frozen producer base; not executed before repair generation"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ Linux build and direct-pc calibration dependency"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing authorized workflow; not edited"
+    }
+  ],
+  "generated_effective_source_gate": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_math_effective_v11.g",
+    "bytes": 56314,
+    "sha256": "6f6f7b1a9adbc54882006865b29b77d8560fefbaa5e015c6d60511dc56a96404",
+    "must_be_written_and_hash_checked_before_Read": true
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p2_v11.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P2_V11_INPUT_PINS_PASS",
+    "PENT159N_P2_V11_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS version=2.5.11",
+    "PENT159N_NQ_API_PROVENANCE_PASS version=2.5.11",
+    "PENT159N_NQ_PATH_RAW",
+    "PENT159N_NQ_PATH_CANONICAL",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS version=2.5.11",
+    "PENT159N_NQ_DIRECT_CALL_RETURN api=NilpotentQuotient result_is_pcp=true",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_NQ_DIRECT_STAGE0_PASS",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P2_V11_STAGE0_REPLAY_PASS",
+    "PENT159N_P2_V11_MARKED_API_PIN_PASS",
+    "PENT159N_P2_V11_PHASE BUILD_PRESENTATIONS",
+    "PENT159N_P2_V11_PHASE LITERAL_A18_SOURCE_RELATOR_GATE_BEFORE_CENSUS",
+    "PENT159N_P2_V11_LITERAL_A18_SOURCE_RELATORS_PASS cofaces=5 relators_per_coface=2 rows=10",
+    "PENT159N_P2_V11_Q2_PASS order=128 class=3",
+    "PENT159N_P2_V11_Q3_PASS",
+    "PENT159N_P2_V11_Q4_PASS",
+    "PENT159N_P2_V11_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P2_V11_LITERAL_DPAP_FORMULA_PIN_PASS literal_paper=A^-1*B^-1*C*E*F literal_native=F*E*C*B^-1*A^-1 section_9_1_mutant_paper=F*E*C*B^-1*A^-1 section_9_1_mutant_native=A^-1*B^-1*C*E*F",
+    "PENT159N_P2_V11_WRONG_ORDER_CONTROL_PASS q2_universe=128",
+    "PENT159N_P2_V11_INSTRUMENT_PASS universe=8",
+    "PENT159N_P2_V11_A5_CENTRAL_PASS",
+    "PENT159N_P2_V11_GATED_PASS",
+    "PENT159N_P2_V11_RECEIPT_WRITTEN",
+    "PENT159N_P2_V11_FINAL_MARKER",
+    "PENT159N_P2_V11_OUTER_FINAL_PASS"
+  ],
+  "receipt_semantic_gate": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v11_20260824.json",
+    "schema": "d972-pent-interleave-canary-p2/v11",
+    "literal_A18_gate_before_Q2_construction": true,
+    "literal_A18_relator_row_count": 10,
+    "all_literal_A18_relator_rows_pass": true,
+    "direct_use_reversal_accepted_as_coface": false,
+    "required_reversal_mutant_failure": "phi12_3_4 source relator 1",
+    "coface_map_and_context_native_tables_identical": true,
+    "literal_Dpap_paper_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "section_9_1_order_mutant_only": true,
+    "complete_Q2_universe_count": 128,
+    "actual_same_row_noncommuting_control_count": "integer > 0; not preregistered",
+    "external_S3_calibration_accepted_as_pass": false,
+    "closed_write_and_outer_readback_hash_required": true
+  },
+  "diagnostic_and_terminal_gate": {
+    "forbidden_run_log_substrings": [
+      "Syntax error:",
+      "Syntax warning:",
+      "Unbound global variable",
+      "Error,"
+    ],
+    "workflow_success_alone_is_insufficient": true,
+    "all_ordered_markers_required": true,
+    "generated_effective_source_artifact_required": true,
+    "receipt_artifact_required": true,
+    "broker_must_recompute_artifact_bytes_and_sha256": true,
+    "fail_closed_if_any_requirement_missing": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p2_math_effective_v11.g",
+    "ci/out/d972_pent_interleave_canary_p2_receipt_v11_20260824.json"
+  ],
+  "selective_publish_new_files_only": [
+    "search/d972_pent_interleave_literal_a18_p2_overlay_v11.g",
+    "search/d972_pent_interleave_canary_p2_v11.g",
+    "search/certs/d972_pent_interleave_canary_p2_prereg_v11_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p2_manifest_v11_20260824.json"
+  ],
+  "post_run_routing": {
+    "producer_GHA_result_is_candidate_until_independent_checker_replay": true,
+    "handoff_only_receipt_and_manifest_to_independent_checker": true,
+    "p2_and_p3_repairs_reported_separately": true,
+    "no_universal_prime_inference": true,
+    "automatic_K2_naming": false
+  },
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "p2_v1_through_v10_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
