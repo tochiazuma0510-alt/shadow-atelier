@@ -1,0 +1,113 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v10",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_V10_CONTROL_REPAIR_MEASUREMENT",
+  "scope": "prime-local p=2 replay of the successful v9 quotient/map/instrument/gated stage with a repaired actual five-coface wrong-factor-order control",
+  "producer": {
+    "outer_path": "search/d972_pent_interleave_canary_p2_v10.g",
+    "outer_bytes": 5259,
+    "outer_sha256": "2a684b70b25d6355c5c042bf2ae0cd4ba128f735f15a3140bfff3681ff1c603b",
+    "math_path": "search/d972_pent_interleave_canary_p2_math_v10.g",
+    "math_bytes": 54180,
+    "math_sha256": "c3df3d2ae54f7cfaf8f18e4f98e1f2bf4f9754b06902c6b5a2bfd134490f26d0"
+  },
+  "authenticated_predecessor_measurement": {
+    "run_id": 32651230906,
+    "commit": null,
+    "receipt_path": "ci/out/d972_pent_interleave_canary_p2_receipt_v9_20260824.json",
+    "receipt_bytes": 211971,
+    "receipt_sha256": "bc1e3e0e610f6043567017b220c4e7947da9c5541a2130dbd63116b28ea9c84e",
+    "run_log_bytes": 7855,
+    "run_log_sha256": "b93a3a082d15e50263e86be0268320fbd6b49b7de5428c59e53865d9ec8b0f91",
+    "core_status": "GHA-observed Q2/Q3/Q4/maps/instrument/gated PASS; prior destructive control not accepted for the corrected contract"
+  },
+  "unchanged_mathematical_universe": {
+    "prime": 2,
+    "quotient_law": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "nilpotency_class": 3,
+    "Q2_order": 128,
+    "Q2_complete_BFS_required": true,
+    "Q3_and_Q4_presentations_and_markings_unchanged_from_authenticated_v9_effective_source": true,
+    "deletion_count": 4,
+    "coface_count": 5,
+    "complete_commutator_instrument_required": true,
+    "actual_charming_onto_gate_separate_from_instrument": true
+  },
+  "wrong_order_control_contract": {
+    "scan_universe": "every one of the 128 marked Q2 elements exactly once",
+    "coface_slot_values": {
+      "C": "phi234(f)",
+      "A": "phi12_3_4(f)",
+      "E": "phi1_23_4(f)",
+      "B": "phi1_2_34(f)",
+      "F": "phi123(f)"
+    },
+    "correct_paper_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "correct_native_GAP_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "reversed_mutant_paper_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "reversed_mutant_native_GAP_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "same_row_pass_requirements": [
+      "literal correct residual differs from reversed-order residual",
+      "at least one pair among the five actual coface-derived factors has nonidentity commutator"
+    ],
+    "aggregate_counts_required": [
+      "complete-Q2 residual-distinct rows",
+      "complete-Q2 residual-commutator-nonidentity rows",
+      "rows with a noncommuting coface-factor pair",
+      "rows satisfying both residual distinction and factor noncommutation",
+      "total noncommuting factor pairs"
+    ],
+    "first_witness_required_fields": [
+      "f_word",
+      "f_coords",
+      "five factor labels and coordinates",
+      "noncommuting factor-pair labels/positions/commutator coordinates",
+      "correct and mutant residual coordinates"
+    ],
+    "all_numeric_control_counts": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN",
+    "fail_closed_if_no_same_row_witness": true,
+    "external_S3_canary_role": "calibration-only",
+    "external_S3_canary_accepted_as_pass": false
+  },
+  "source_derivation": {
+    "base": "authenticated p2 v9 effective source artifact",
+    "base_bytes": 47496,
+    "base_sha256": "1d020d26a7aedb34a6b2d5732b0d95e36cc13b7c2a5e0424209d012d1695643d",
+    "allowed_semantic_change": "replace the prior external-canary pass criterion by the complete actual-coface aggregate and same-row witness gate",
+    "quotient_map_instrument_gate_semantics_changed": false,
+    "prior_v1_through_v9_files_overwritten": false
+  },
+  "authenticated_dependencies": [
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "NQ Linux portability build and F2 D4_2 direct-pc calibration"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v10_20260824.json",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "routing": {
+    "run_p2_control_repair_before_p3": true,
+    "resume_separate_p3_bundle_only_after_p2_checker_handoff": true,
+    "no_p2_to_all_class3_inference": true,
+    "automatic_K2_naming": false
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
