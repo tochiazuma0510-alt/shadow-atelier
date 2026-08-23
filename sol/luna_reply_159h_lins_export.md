@@ -1,6 +1,6 @@
 # Luna 便 159h — LINS marked strictness export
 
-STATUS: READY_FOR_PARENT_BROKER_GHA_DISPATCH
+STATUS: READY_FOR_PARENT_BROKER_GHA_REDISPATCH_PORTABILITY_REPAIR
 
 FULL_RESULT: UNKNOWN_NOT_YET_DISPATCHED
 
@@ -81,8 +81,8 @@ J_PB3 = <(x_M,q_L(x)),(y_M,q_L(y)),(1,q_L(c))>
 
 | path | bytes | SHA256 |
 |---|---:|---|
-| `search/lins_marked_strictness_export_v1.g` | 14,402 | `e2c1182994bde5b6f5db4c4fa71aeb2c55c13cda9798d95cf6fdea4df3f34b86` |
-| `search/certs/lins_marked_strictness_export_manifest_v1_20260823.json` | 4,347 | `c12b3874d1319fa285d898328d6ae656549b441473a590f23b53cbf3cc03809d` |
+| `search/lins_marked_strictness_export_v1.g` | 14,064 | `74924dd639470a48d94770578c9ae9b5e22657483461f2063632150948979ec1` |
+| `search/certs/lins_marked_strictness_export_manifest_v1_20260823.json` | 5,075 | `c15d7dc422b9b1e3aa5caad7a825210ee31d2e1fc51071de6c936053a0cc3272` |
 
 producer が hard-pin する既存 census は 3,395,546 bytes、SHA256
 `d0832df8a4e61adff45c5c24c8eba32f5d388f55412907ed5ffdf714b2b4b958`。
@@ -92,14 +92,30 @@ manifest に列挙した。
 
 ## 4. local preflight
 
-bound 12 と bound 8 の二回を `gap.ps1` 経由で試みたが、どちらも script parse 前に local GAP runtime が
+修理前に bound 12 と bound 8 の二回を `gap.ps1` 経由で試みたが、どちらも script parse 前に local GAP runtime が
 
 ```text
 fatal error - couldn't create signal pipe, Win32 error 5
 ```
 
-で終了した。従って syntax/runtime preflight は **UNKNOWN_ENV_BLOCKED**。これは数学的陰性ではない。
+で終了した。従って local syntax/runtime preflight は **UNKNOWN_ENV_BLOCKED**。これは数学的陰性ではない。
 一時 output は生成されず、production 値も一切得ていない。
+
+修理後にも `gap.ps1 -ExtraArgs -c` で `LINS_MARKED_INDEX_HI:=8` と `%TEMP%` output を pre-bind して
+bounded check を一回再試行したが、同じ signal-pipe 初期化で parse 前に停止した。従って修理後 local
+preflight も同じく **UNKNOWN_ENV_BLOCKED** であり、GHA portability rerun を代用しない。
+
+一方、親 broker の GHA run `32625745834` は workflow preamble を引用符込みで正しく producer へ渡し、
+script 冒頭まで到達した。その後 GAP 4.16.0 で `GetEnv` が unbound のため、LINS 呼出し前に停止した。
+これは portability fault であり 4,265-node 計算結果ではない。本修理では `GetEnv` 依存を全削除し、
+
+```text
+workflow preamble が LINS_MARKED_INDEX_HI / LINS_MARKED_OUTPUT を pre-bind した場合はその値を保持
+pre-bind が無い場合は bound=2000 / versioned default output を設定
+```
+
+という二経路だけにした。数学宇宙、row schema、joint-image 計算、4,265-row CLAIM-COVER は変更していない。
+run `32625745834` は superseded failed run であり、production run id として再利用しない。
 
 ## 5. 親 broker 用 GHA launch 契約
 
@@ -133,13 +149,14 @@ ci/out/driver.g
 
 ## 6. publish 注意
 
-観測時点の branch は `koubou158/m2-msweep-v5-gha`、remote tip は
-`fbd427a8328a8d4e221cc05b821d027b0f2ac3f0`。local branch は remote に対し diverged しており、通常の
-push は reject の見込み。親 broker は上記 producer と manifest の二ファイルだけを remote tip の子 commit
-へ選択的に載せ、fast-forward push してから dispatch する必要がある。dirty worktree の既存 user changes や
-workflow files を commit に混ぜてはならない。
+初回 publish 前に観測した branch は `koubou158/m2-msweep-v5-gha`、remote tip は
+`fbd427a8328a8d4e221cc05b821d027b0f2ac3f0`。run `32625745834` の発射後なので、この値を再 publish の
+parent SHA に使ってはならない。親 broker は **dispatch 時点の current remote tip** を再取得し、上記 producer、
+manifest、本専用報告の三ファイルだけをその子 commit へ選択的に載せ、fast-forward push してから redispatch
+する必要がある。dirty worktree の既存 user changes や workflow files を commit に混ぜてはならない。
 
-run id と dispatched commit SHA は未発行なので `null`。親 dispatch 後、最終返書には両方を記録すること。
+superseded run id は `32625745834`。修理版 run id と dispatched commit SHA は未発行なので `null`。
+親 redispatch 後、最終返書には修理版の両方を記録すること。
 
 ## 7. claim level
 
@@ -147,7 +164,7 @@ run id と dispatched commit SHA は未発行なので `null`。親 dispatch 後
 未走行、独立 checker も無く、cross-checked でも Lean verified でもない。最初の欠品は
 
 ```text
-GHA_RUN_ID_AND_COMPLETE_4265_ROW_ARTIFACT
+SUPERSEDING_GHA_RUN_ID_AND_COMPLETE_4265_ROW_ARTIFACT
 ```
 
 である。

@@ -1,6 +1,6 @@
 {
   "schema": "lins-marked-strictness-export-execution-manifest/v1",
-  "status": "READY_FOR_PARENT_BROKER_GHA_DISPATCH",
+  "status": "READY_FOR_PARENT_BROKER_GHA_REDISPATCH_PORTABILITY_REPAIR",
   "authority": "ruling 1624 / ops/inbox_codex/sol_task_159h_next_axis.txt section next-axis-2",
   "campaign_scope": {
     "universe": "one LowIndexNormalSubgroupsSearch(B3,2000) call; all 4,265 nonidentity nodes",
@@ -23,8 +23,8 @@
   "source_pins": [
     {
       "path": "search/lins_marked_strictness_export_v1.g",
-      "bytes": 14402,
-      "sha256": "e2c1182994bde5b6f5db4c4fa71aeb2c55c13cda9798d95cf6fdea4df3f34b86"
+      "bytes": 14064,
+      "sha256": "74924dd639470a48d94770578c9ae9b5e22657483461f2063632150948979ec1"
     },
     {
       "path": "search/certs/lins_census_2000_v1_20260811.json",
@@ -62,7 +62,8 @@
     "workflow_path": ".github/workflows/gap-run.yml",
     "ref": "koubou158/m2-msweep-v5-gha",
     "same_branch_as_current": true,
-    "remote_ref_before_publish": "fbd427a8328a8d4e221cc05b821d027b0f2ac3f0",
+    "remote_ref_before_first_publish": "fbd427a8328a8d4e221cc05b821d027b0f2ac3f0",
+    "superseding_publish_parent": "CURRENT_REMOTE_TIP_AT_PARENT_BROKER_TIME",
     "inputs": {
       "script": "search/lins_marked_strictness_export_v1.g",
       "preamble": "LINS_MARKED_OUTPUT:=\"ci/out/lins_marked_export/lins_marked_strictness_export_v1_20260823.json\";;",
@@ -108,16 +109,26 @@
     "timeout_minutes": 240,
     "timeout_semantics": "UNKNOWN_RESOURCE, never a mathematical absence claim"
   },
+  "gha_portability_repair": {
+    "supersedes_run_id": 32625745834,
+    "observed_failure": "GAP 4.16.0 reached the producer with the quoted preamble, then stopped because GetEnv was unbound",
+    "repair": "removed all GetEnv dependence; retain pre-bound LINS_MARKED_INDEX_HI/LINS_MARKED_OUTPUT and production defaults",
+    "mathematical_scope_changed": false,
+    "claim_cover_changed": false
+  },
   "local_preflight": {
-    "attempted_bounds": [12, 8],
+    "pre_repair_attempted_bounds": [12, 8],
+    "post_repair_attempted_bounds": [8],
+    "post_repair_override_method": "gap.ps1 ExtraArgs -c pre-bound LINS_MARKED_INDEX_HI and LINS_MARKED_OUTPUT",
     "status": "UNKNOWN_ENV_BLOCKED",
-    "blocker": "local GAP 4.16.0 runtime exited before parsing the script: fatal error couldn't create signal pipe, Win32 error 5",
+    "blocker": "local GAP 4.16.0 runtime exited before parsing every pre/post-repair attempt: fatal error couldn't create signal pipe, Win32 error 5",
     "mathematical_interpretation": "none"
   },
   "broker_contract": {
     "commit_push_dispatch_owner": "parent Sol session only",
     "child_credentials_used": false,
     "workflow_modified": false,
+    "superseded_run_id": 32625745834,
     "run_id": null,
     "dispatched_commit_sha": null
   }

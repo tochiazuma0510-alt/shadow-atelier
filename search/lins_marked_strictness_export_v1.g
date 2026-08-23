@@ -19,10 +19,10 @@
 ## |J_PB3|/|PB3/M|=[M:K].  Thus F2 strictness is measured from the marked
 ## joint image, not inferred from L<>1, IdGroup, or a twin label.
 ##
-## Full production is GHA-only.  A bounded local preflight can set either
-## global LINS_MARKED_INDEX_HI before Read(), or environment variable
-## LINS_MARKED_INDEX_HI.  The output can likewise be overridden through
-## LINS_MARKED_OUTPUT.  Preflight output makes no 4,265-row CLAIM-COVER.
+## Full production is GHA-only.  A bounded local preflight can pre-bind the
+## global LINS_MARKED_INDEX_HI before Read().  The output can likewise be
+## overridden by pre-binding LINS_MARKED_OUTPUT.  Preflight output makes no
+## 4,265-row CLAIM-COVER.  No environment API is used (GAP 4.16 portability).
 #############################################################################
 
 Read("search/probe/wac_v1/gap_output_prelude.g");;
@@ -37,21 +37,11 @@ LMEV1ReferenceCensusSHA :=
   "d0832df8a4e61adff45c5c24c8eba32f5d388f55412907ed5ffdf714b2b4b958";;
 
 if not IsBound(LINS_MARKED_INDEX_HI) then
-  LMEV1EnvBound := GetEnv("LINS_MARKED_INDEX_HI");;
-  if LMEV1EnvBound <> fail and Length(LMEV1EnvBound) > 0 then
-    LINS_MARKED_INDEX_HI := Int(LMEV1EnvBound);;
-  else
-    LINS_MARKED_INDEX_HI := 2000;;
-  fi;
+  LINS_MARKED_INDEX_HI := 2000;;
 fi;
 if not IsBound(LINS_MARKED_OUTPUT) then
-  LMEV1EnvOutput := GetEnv("LINS_MARKED_OUTPUT");;
-  if LMEV1EnvOutput <> fail and Length(LMEV1EnvOutput) > 0 then
-    LINS_MARKED_OUTPUT := LMEV1EnvOutput;;
-  else
-    LINS_MARKED_OUTPUT :=
-      "search/certs/lins_marked_strictness_export_v1_20260823.json";;
-  fi;
+  LINS_MARKED_OUTPUT :=
+    "search/certs/lins_marked_strictness_export_v1_20260823.json";;
 fi;
 
 if not IsInt(LINS_MARKED_INDEX_HI) or LINS_MARKED_INDEX_HI < 2 or
