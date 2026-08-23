@@ -1,0 +1,109 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v13",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_V13_WRAPPER_REPAIR_EXECUTION",
+  "scope": "prime-local p=2 literal-A.18 v12 computation with only the stale inner bounded-scope firewall replacement repaired in a versioned v13 wrapper",
+  "superseded_v12_execution": {
+    "run_id": 32658002131,
+    "commit": "23879d3d3d4f8033a20cef0aafa5b541ec5a3332",
+    "status": "FAILED_BEFORE_MATH_EXECUTION_NO_ARTIFACT",
+    "first_error": "PENT159N_P2_OUTER_V12: replacement count drift bounded-scope firewall expected=1 observed=0",
+    "diagnosis": "the v12 generator rewrote the inner version-boundary result to p2_v1_through_v11 but left the immediately following bounded-scope needle at p2_v1_through_v10",
+    "semantic_measurement_imported": false,
+    "files_overwritten": false
+  },
+  "repair_exactness": {
+    "derivation_base_path": "search/d972_pent_interleave_canary_p2_v12.g",
+    "derivation_base_bytes": 9940,
+    "derivation_base_sha256": "6b0bb30824053a3214d006b31fc9c0446f96d5207c818e479fcc5ad5a90b2d27",
+    "stale_inner_token": "p2_v1_through_v10_edited:=false",
+    "replacement_inner_token": "p2_v1_through_v12_edited:=false",
+    "required_exact_replacement_count": 2,
+    "changes_to_formulas_maps_universes_or_gate_order": false,
+    "internal_G12_O12_V12_symbols_retained_for_immutable_v12_overlay": true,
+    "v12_generator_or_overlay_modified": false
+  },
+  "producer_inputs": {
+    "top_wrapper_path": "search/d972_pent_interleave_canary_p2_v13.g",
+    "top_wrapper_bytes": 7784,
+    "top_wrapper_sha256": "6a2fd38a77dad7e89b155a183e7ea4d45ae8641a9099b027a7cae6d14d51297e",
+    "finite_gate_overlay_path": "search/d972_pent_interleave_literal_a18_p2_overlay_v12.g",
+    "finite_gate_overlay_bytes": 5687,
+    "finite_gate_overlay_sha256": "755e431a91478ee5ca3581ecb84b4be10b1c569983d4ebaca494857cd4adb28d",
+    "generated_effective_generator_path": "ci/out/d972_pent_interleave_canary_p2_generator_effective_v13.g",
+    "generated_effective_generator_bytes": 10146,
+    "generated_effective_generator_sha256": "a0521b49339fcd76bea3d6d943f27dca75a76052180c36ed85788b2521c7da8d",
+    "generated_outer_path": "ci/out/d972_pent_interleave_canary_p2_outer_effective_v13.g",
+    "generated_outer_bytes": 19760,
+    "generated_outer_sha256": "5c0b51fdb12f502ca492bae94c72f12e1c4564aaeccfc621a10fd809822e8f95",
+    "generated_math_path": "ci/out/d972_pent_interleave_canary_p2_math_effective_v13.g",
+    "generated_math_bytes": 56666,
+    "generated_math_sha256": "aeacb7e1c344f9a22b9abab5d580a20c367885ca339817f3b9475db91364323a"
+  },
+  "literal_A18_table": {
+    "source": "Dolgushev et al. Appendix A, formula (A.18), PDF/page image 49",
+    "slot_order": ["phi234", "phi12_3_4", "phi1_23_4", "phi1_2_34", "phi123"],
+    "printed_paper_words": [
+      [[4], [5], [6]],
+      [[2, 4], [3, 5], [6]],
+      [[1, 2], [3], [5, 6]],
+      [[1], [2, 3], [4, 5]],
+      [[1], [2], [4]]
+    ],
+    "native_serialization": "reverse each word exactly once; preserve signs; do not invert",
+    "serialized_native_words": [
+      [[4], [5], [6]],
+      [[4, 2], [5, 3], [6]],
+      [[2, 1], [3], [6, 5]],
+      [[1], [3, 2], [5, 4]],
+      [[1], [2], [4]]
+    ]
+  },
+  "mandatory_finite_source_relator_gate": {
+    "target": "marked Q4=PB4/D4_2(PB4)",
+    "placement": "after Q4 construction and pc-coordinate binding; before deletion/coface map construction and before Q2 BFS or any census",
+    "PB3_source_relator_count": 2,
+    "coface_count": 5,
+    "literal_row_count": 10,
+    "literal_requirement": "all ten relator images are identity",
+    "direct_use_reversal_mutant": {
+      "role": "destructive control only; never accepted as A.18",
+      "required_nonidentity_slot": "phi12_3_4",
+      "required_nonidentity_source_relator_index": 1,
+      "coordinate_and_digest": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+    }
+  },
+  "Dpap_contract": {
+    "contexts": "the same once-serialized native table that passed the finite source-relator gate",
+    "literal_paper_factors": ["A^-1", "B^-1", "C", "E", "F"],
+    "literal_native_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_paper_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_order_mutant_only": true,
+    "actual_same_row_noncommuting_control_required": true,
+    "external_S3_accepted_as_pass": false
+  },
+  "finite_universe": {
+    "prime": 2,
+    "law": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "class": 3,
+    "Q2_expected_order": 128,
+    "complete_commutator_instrument": true,
+    "actual_charming_onto_gate_separate": true,
+    "numeric_results": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "out_of_scope": ["class4", "row36", "mode", "K2", "all-prime inference"],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v13_20260824.json",
+    "schema": "d972-pent-interleave-canary-p2/v13",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
