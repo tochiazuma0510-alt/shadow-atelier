@@ -1,0 +1,158 @@
+{
+  "schema": "d972-row36-pent-bridge-p2-execution-manifest/v3",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "prime-local p=2 fixed zero-based row-36 joint-fibre bridge; 64 rows; no quotient-canary rerun",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_row36_pent_bridge_common_v1.py",
+      "bytes": 72409,
+      "sha256": "d3e27775b59baa150c255c15feb2ab5809bdc299265278772f0428d2f1de0a79",
+      "role": "self-contained finite groups, pc collector, universe, same-word predicates and Dpap engine"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v2.py",
+      "bytes": 7891,
+      "sha256": "46ab60bf06e1bec03725a69349914e4bd9e786c41ce0946b0387f74493a55ecc",
+      "role": "bounded factorwise automorphism replay and GHA output routing"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v3.py",
+      "bytes": 14091,
+      "sha256": "95ff60fe351aa0020aa5353d805cd8588c7d16cbfc45acdca862097d67cafcb5",
+      "role": "complete per-row onto replay, closure cache, exact abelianization gate, v3 receipt seal"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_producer_v3.py",
+      "bytes": 189,
+      "sha256": "8e9eb2cbbe06a687a0f66f75b2f6efcdc136ddac75b5a6d0edd3950b29ee9098",
+      "role": "prime-local p=2 entry point"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_gha_v3.g",
+      "bytes": 4445,
+      "sha256": "41b69fd7e7464254fb7d22d1bf36ee4928964231c54d4baa6315193f80b42030",
+      "role": "existing gap-run workflow launcher and fail-closed output/terminal gate"
+    },
+    {
+      "path": "search/certs/d972_row36_pent_bridge_p2_prereg_v3_20260824.json",
+      "bytes": 112307,
+      "sha256": "a88fac834e6a5238b95b8d364af4fd7ec4fa343386a75577f29bdb5647ce71ea",
+      "role": "outcome-free frozen 64-row coordinate and canonical-word universe"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing workflow; not edited"
+    }
+  ],
+  "preregistration_gate": {
+    "written_before_any_row_predicate_or_Dpap_outcome": true,
+    "raw_count": 64,
+    "joint_kernel_count": 32,
+    "ordered_m_lifts": [0, 18],
+    "all_rows_reduce_to_zero_based_row_36": true,
+    "source_status_literal": "PREREGISTERED_BEFORE_ROW_PREDICATE_OUTCOME",
+    "terminal_token": "PENT159O_ROW36_P2_PREREG_V3_FROZEN"
+  },
+  "local_resource_observation": {
+    "attempt_1": {
+      "timeout_seconds": 120,
+      "last_marker": "COLLECTORS_START",
+      "receipt_or_prereg_emitted": false
+    },
+    "attempt_2": {
+      "timeout_seconds": 180,
+      "last_marker": "COLLECTORS_PASS",
+      "receipt_or_prereg_emitted": false
+    },
+    "classification": "generic rank-26 Python inverse-expansion resource trap, not a semantic result",
+    "v3_repair": "consume immutable v14 exported A.18 gate at prepare; direct same-word Q4 execution uses explicit exported inverse marks and no arbitrary dense inverse expansion"
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p2_gha_v3.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "python_command_inside_launcher": "python3 search/d972_row36_pent_bridge_p2_producer_v3.py execute --out-dir ci/out",
+    "estimated_resources": {
+      "cpu": "single-core bounded finite replay, expected below 120 minutes",
+      "peak_rss": "below 2 GiB for p=2",
+      "artifact_bytes": "below 20 MiB"
+    }
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P2_V3_PIN_PASS path=search/d972_row36_pent_bridge_common_v1.py",
+    "PENT159O_ROW36_P2_V3_PIN_PASS path=search/d972_row36_pent_bridge_common_v2.py",
+    "PENT159O_ROW36_P2_V3_PIN_PASS path=search/d972_row36_pent_bridge_common_v3.py",
+    "PENT159O_ROW36_P2_V3_PIN_PASS path=search/d972_row36_pent_bridge_p2_producer_v3.py",
+    "PENT159O_ROW36_P2_V3_PIN_PASS path=search/certs/d972_row36_pent_bridge_p2_prereg_v3_20260824.json",
+    "PENT159O_ROW36_P2_V3_EXEC_START direct_same_word=true quotient_rerun=false",
+    "PENT159O_ROW36_P2_V1_PREPARE_GATE IMPORTED_A18_10_OF_10_PIN_PASS",
+    "PENT159O_ROW36_P2_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=2016",
+    "PENT159O_ROW36_P2_V1_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V1_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V1_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED",
+    "PENT159O_ROW36_P2_V3_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V3_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V3_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p2_python_v3.log",
+    "ci/out/d972_row36_pent_bridge_p2_receipt_v3_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p2_manifest_v3_20260824.json"
+  ],
+  "receipt_semantic_gate": {
+    "schema": "d972-row36-pent-bridge-p2-receipt/v3",
+    "raw_count": 64,
+    "evaluated_count": 64,
+    "expected_count": 64,
+    "all_rows_reduce_to_frozen_key": true,
+    "onto_evaluated_for_every_materialized_row": true,
+    "literal_Dpap_evaluated_for_every_materialized_row_with_same_word_digest": true,
+    "claim_cover_token": "CLAIM-COVER-PENT-CANARY-2",
+    "terminal_token": "PENT159O_ROW36_P2_PRODUCER_V3_CANDIDATE__CHECKER_REQUIRED"
+  },
+  "selective_publish_new_files_only": [
+    "search/d972_row36_pent_bridge_common_v1.py",
+    "search/d972_row36_pent_bridge_common_v2.py",
+    "search/d972_row36_pent_bridge_common_v3.py",
+    "search/d972_row36_pent_bridge_p2_producer_v3.py",
+    "search/d972_row36_pent_bridge_p2_gha_v3.g",
+    "search/certs/d972_row36_pent_bridge_p2_prereg_v3_20260824.json",
+    "search/certs/d972_row36_pent_bridge_p2_execution_manifest_v3_20260824.json"
+  ],
+  "checker_handoff_after_success": {
+    "allowlist_only": [
+      "ci/out/d972_row36_pent_bridge_p2_receipt_v3_20260824.json",
+      "ci/out/d972_row36_pent_bridge_p2_manifest_v3_20260824.json"
+    ],
+    "producer_source_log_report_forbidden": true
+  },
+  "promotion_boundary": {
+    "producer_candidate_until_independent_checker": true,
+    "p3_not_inferred": true,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_promotion": false
+  },
+  "terminal_token": "PENT159O_ROW36_P2_EXECUTION_MANIFEST_V3_FROZEN"
+}
