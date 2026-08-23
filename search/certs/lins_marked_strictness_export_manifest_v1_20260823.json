@@ -1,0 +1,124 @@
+{
+  "schema": "lins-marked-strictness-export-execution-manifest/v1",
+  "status": "READY_FOR_PARENT_BROKER_GHA_DISPATCH",
+  "authority": "ruling 1624 / ops/inbox_codex/sol_task_159h_next_axis.txt section next-axis-2",
+  "campaign_scope": {
+    "universe": "one LowIndexNormalSubgroupsSearch(B3,2000) call; all 4,265 nonidentity nodes",
+    "row_schema": [
+      "canonical node id and generator words",
+      "marked sigma1,sigma2,x,y,c permutation map",
+      "Core_B3(L)=L normality receipt",
+      "F2 and PB3 joint-image orders with M=K^(9) cap N_S4",
+      "F2 and PB3 strictness ratios for K=M cap Core_B3(L)",
+      "per-row source digest"
+    ],
+    "claim_cover": "4265/4265 or fail-closed; bounded preflight never claims full coverage",
+    "excluded_claims": [
+      "no GT(K) enumeration",
+      "no isolated/genuine/non-arithmetic verdict",
+      "no OBS-UNIF-1 promotion",
+      "no Lean verification"
+    ]
+  },
+  "source_pins": [
+    {
+      "path": "search/lins_marked_strictness_export_v1.g",
+      "bytes": 14402,
+      "sha256": "e2c1182994bde5b6f5db4c4fa71aeb2c55c13cda9798d95cf6fdea4df3f34b86"
+    },
+    {
+      "path": "search/certs/lins_census_2000_v1_20260811.json",
+      "bytes": 3395546,
+      "sha256": "d0832df8a4e61adff45c5c24c8eba32f5d388f55412907ed5ffdf714b2b4b958"
+    },
+    {
+      "path": "search/gaplib_common.g",
+      "bytes": 8793,
+      "sha256": "f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911"
+    },
+    {
+      "path": "search/week3-battery-common.g",
+      "bytes": 35094,
+      "sha256": "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998"
+    },
+    {
+      "path": "search/week3-psl-common.g",
+      "bytes": 22184,
+      "sha256": "e48e50d55562983415b5691d07e3d893182620b1f73b8fe35ea77815ad9695c4"
+    },
+    {
+      "path": "search/probe/wac_v1/gap_output_prelude.g",
+      "bytes": 1007,
+      "sha256": "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763"
+    }
+  ],
+  "gha_dispatch": {
+    "workflow_name": "gap-run",
+    "workflow_path": ".github/workflows/gap-run.yml",
+    "ref": "koubou158/m2-msweep-v5-gha",
+    "same_branch_as_current": true,
+    "remote_ref_before_publish": "fbd427a8328a8d4e221cc05b821d027b0f2ac3f0",
+    "inputs": {
+      "script": "search/lins_marked_strictness_export_v1.g",
+      "preamble": "LINS_MARKED_OUTPUT:=\"ci/out/lins_marked_export/lins_marked_strictness_export_v1_20260823.json\";;",
+      "out_dir": "ci/out/lins_marked_export",
+      "timeout_min": "240",
+      "with_pquot_packages": false
+    },
+    "gh_cli_argv": [
+      "gh",
+      "workflow",
+      "run",
+      "gap-run.yml",
+      "--ref",
+      "koubou158/m2-msweep-v5-gha",
+      "-f",
+      "script=search/lins_marked_strictness_export_v1.g",
+      "-f",
+      "preamble=LINS_MARKED_OUTPUT:=\"ci/out/lins_marked_export/lins_marked_strictness_export_v1_20260823.json\";;",
+      "-f",
+      "out_dir=ci/out/lins_marked_export",
+      "-f",
+      "timeout_min=240",
+      "-f",
+      "with_pquot_packages=false"
+    ],
+    "fire_marker_used": false,
+    "expected_artifact_name": "gap-run-out",
+    "expected_payload": [
+      "ci/out/lins_marked_export/lins_marked_strictness_export_v1_20260823.json",
+      "ci/out/run.log",
+      "ci/out/driver.g"
+    ],
+    "completion_markers": [
+      "LMEV1_OUTPUT",
+      "LMEV1_SUMMARY rows=4265",
+      "ALL_DONE"
+    ]
+  },
+  "runtime_budget": {
+    "reference_lins_elapsed_ms": 616926,
+    "reference_old_total_elapsed_ms": 2846337,
+    "estimate": "60-180 minutes including 4,265 exact joint-image size computations and runner setup",
+    "timeout_minutes": 240,
+    "timeout_semantics": "UNKNOWN_RESOURCE, never a mathematical absence claim"
+  },
+  "local_preflight": {
+    "attempted_bounds": [12, 8],
+    "status": "UNKNOWN_ENV_BLOCKED",
+    "blocker": "local GAP 4.16.0 runtime exited before parsing the script: fatal error couldn't create signal pipe, Win32 error 5",
+    "mathematical_interpretation": "none"
+  },
+  "broker_contract": {
+    "commit_push_dispatch_owner": "parent Sol session only",
+    "child_credentials_used": false,
+    "workflow_modified": false,
+    "run_id": null,
+    "dispatched_commit_sha": null
+  }
+}
