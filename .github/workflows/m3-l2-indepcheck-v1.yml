@@ -1,0 +1,63 @@
+name: m3-l2-indepcheck-v1
+
+# M3(E[4] レーン)独立照合の GHA venue(段2)。
+# ローカル(-o 2g / -o 384m 両方)で単一窓ですら 10 分 cap 超過・原因はローカル機の空きメモリ
+# 枯渇(実測 8%程度)と特定(司令塔裁定)。GAP プロセス自体の実メモリ需要は小さい(位数 1152
+# の群・16 元の P^ab)ため、GHA runner(潤沢メモリ)へ計算を移送するだけで解決する見込み。
+#
+# DISPATCH GATE: workflow_dispatch ONLY.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  M3L2_SCRIPT_SHA256: "d50b7b1d34737a8faa7fc48094c6ff79cbdc2f1762ad81291b06cd191ed57d58"
+  M3L2_SPEC_SHA256: "5013eafa1d138712cb815514e098db4183aaefd43be72d94ee74662c5c1fbefd"
+
+jobs:
+  m3-l2-indepcheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup GAP 4.16.0
+        uses: gap-actions/setup-gap@v3.8.0
+        with:
+          gap-version: "4.16.0"
+
+      - name: Pin input hashes (fail-closed)
+        shell: bash
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$M3L2_SCRIPT_SHA256" search/koubou83_m3_l2_check_v2.g | sha256sum --check --status
+          printf '%s  %s\n' "$M3L2_SPEC_SHA256" scratchpad/koubou83_m3_l2_linear_spec_v1.md | sha256sum --check --status
+
+      - name: Run M3(E[4]) independent checker (v2, linear evaluation)
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ci/out
+          gap -q --quitonbreak -o 8g search/koubou83_m3_l2_check_v2.g 2>&1 | tee ci/out/gap-m3-l2-indepcheck.log
+          gap_status=${PIPESTATUS[0]}
+          test "$gap_status" -eq 0
+          ! grep -Eq '(^|[[:space:]])(Syntax error:|Error,|break loop)' ci/out/gap-m3-l2-indepcheck.log
+          grep -Fxc 'KOUBOU83_M3_L2_INDEPCHECK_V2_DONE' ci/out/gap-m3-l2-indepcheck.log | grep -Fx 1
+          test -s search/certs/koubou83_m3_l2_indepcheck_v1_20260823.json
+          cp search/certs/koubou83_m3_l2_indepcheck_v1_20260823.json ci/out/
+          sha256sum search/certs/koubou83_m3_l2_indepcheck_v1_20260823.json | tee ci/out/cert-sha256.txt
+
+      - name: Upload M3-L2 evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: m3-l2-indepcheck-v1-${{ github.run_id }}-attempt${{ github.run_attempt }}
+          if-no-files-found: warn
+          path: ci/out/
+          retention-days: 30
