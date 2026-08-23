@@ -1,0 +1,128 @@
+{
+  "schema": "d972-row36-pent-bridge-p3-prereg-execution-manifest/v8",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "prime-local p3 paper/native transition-orientation repair and outcome-free 34,992-row preregistration; universe, canonical-section algorithm, predicates, and promotion boundary unchanged",
+  "author_firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_report_or_artifact_opened": false,
+    "authorized_frozen_checker_input_only": "crosscheck/verdicts/d972_pent_interleave_canary_crosscheck_p3_v2_20260824.json",
+    "predicate_outcome_evaluated": false
+  },
+  "v7_run_observation": {
+    "run_id": 32668755598,
+    "commit": "96af1d09b3b106c1cf722e74f9a1e74d9ddf18c6",
+    "publication_history_note": "append-only bad worker blob commit 7e69d345 was repaired at 96af1d09; run used the corrected exact bytes",
+    "passed": [
+      "PENT159O_ROW36_P3_WORKER_V7_PUBLIC_PC_PASS",
+      "PENT159O_ROW36_P3_WORKER_V7_STATE_SERIALIZATION_PASS states=2187 order=explicit_base3_lex index_roundtrip=2187"
+    ],
+    "exact_stop": "PENT159O_ROW36_P3_WORKER_V7: signed projection replay drift state=2",
+    "artifact_uploaded": false,
+    "preregistration_emitted": false,
+    "mathematical_outcome": false
+  },
+  "diagnosis": {
+    "frozen_state2_zero_based_coords": [0,0,0,0,0,0,1],
+    "frozen_state2_paper_word": [1,1,2,-1,-2,-1],
+    "paper_source_convention": "P159P3V1PaperWordEval evaluates paper factors in reverse native GAP multiplication order",
+    "paper_append_rule": "appending one letter on the paper right is native GAP left multiplication by the corresponding mark",
+    "v7_error": "replayed paper projection words through native state*mark right transitions",
+    "state_serialization_error": false,
+    "public_pc_failure": false
+  },
+  "v8_exact_repair": {
+    "state_roster": "explicit base-three lex defining-basis coordinates, 2,187 states",
+    "GAP_exports": [
+      "two native-right positive permutations state*mark",
+      "their two inverse permutations",
+      "two paper-append/native-left positive permutations mark*state",
+      "their two inverse permutations"
+    ],
+    "destructive_state2_gate": "print native direct word, reversed-native word, native-right replay index, and paper-left replay index; require only reversed-native/paper-left to equal frozen state2 and require the branches differ",
+    "complete_projection_gate": "all 2,187 frozen canary paper words replay through paper-left signed transitions",
+    "native_table_product_bridge": "table_mul(left,right) replays a paper word for left starting at right, yielding native left*right; all 2,187 states are checked against both native-right and paper-left mark products",
+    "public_pc_replay_after_bridge": "7 powers, 7 inverses, 21 conjugates, 21 inverse conjugates, 2 marked inverse rows, free source rank 2 with zero relators",
+    "universe_or_predicate_change": false,
+    "canonical_section_change": false,
+    "outcome_evaluated": false,
+    "quotient_canary_rerun": false
+  },
+  "immutable_inputs": [
+    {"path":"search/d972_row36_pent_bridge_common_v1.py","bytes":72409,"sha256":"d3e27775b59baa150c255c15feb2ab5809bdc299265278772f0428d2f1de0a79"},
+    {"path":"search/d972_row36_pent_bridge_common_v2.py","bytes":7891,"sha256":"46ab60bf06e1bec03725a69349914e4bd9e786c41ce0946b0387f74493a55ecc"},
+    {"path":"search/d972_row36_pent_bridge_common_v3.py","bytes":14091,"sha256":"95ff60fe351aa0020aa5353d805cd8588c7d16cbfc45acdca862097d67cafcb5"},
+    {"path":"search/d972_row36_pent_bridge_common_p3_v6.py","bytes":27352,"sha256":"f6ac99a0d55394d675cab43690631b528a8e95270b7abfe432a94b321c411ab1"},
+    {"path":"search/d972_row36_pent_bridge_p3_producer_v6.py","bytes":198,"sha256":"5d557a642e34274462750e466795650a608810e6555964736c5e92aac911e2a2"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_v6.g","bytes":50712,"sha256":"0133616171025f250bdc2f89dab0b56c0af920dc88f5b396631b5fe5f05ba7d1"},
+    {"path":"search/d972_row36_pent_bridge_common_p3_v7.py","bytes":4843,"sha256":"bcfafa18e646d9ac2ef4b5b3d8693a1547da761a34335f6f0c2643938baf270c"},
+    {"path":"search/d972_row36_pent_bridge_p3_producer_v7.py","bytes":198,"sha256":"b1fba6374d37608a0e1faef4ad7ed6087c25b84c2bde33a6903cb37926111acc"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_generator_v7.py","bytes":2878,"sha256":"6ab35d7a2fd4d9c3b1a7a5ed4dc5c0597ff199b1cea1faa6fd3b5a652834fe36"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_v7.g","bytes":51254,"sha256":"de654fc73fb3d69f7736c97b48b04619122bdca04c015817ff07c27a321f6768"},
+    {"path":"search/d972_row36_pent_bridge_common_p3_v8.py","bytes":15321,"sha256":"46194661f3d80c5d95025a3e4efad3b0ba25a28d9f77657d554060cb070e3d9e"},
+    {"path":"search/d972_row36_pent_bridge_p3_producer_v8.py","bytes":198,"sha256":"bd1911b1b9f2a3665e81529694be8e6d421d93a713644c6355e9f360ed7b6a3b"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_generator_v8.py","bytes":8962,"sha256":"2c56f5a77e5809f5976778739cab3487d30bb58074d171c74fd59ee6f9fcd27b"},
+    {"path":"search/d972_row36_pent_bridge_p3_transition_worker_v8.g","bytes":54599,"sha256":"dc87c6872a68141f30be15ebad05d9ea12f343347fdf953e944d335294559035"},
+    {"path":"search/d972_row36_pent_bridge_p3_prereg_gha_v8.g","bytes":7160,"sha256":"fa06dc6d2989e8a7402a39876252067b891e8b66d4d9441fe0ba646f7429e20e"},
+    {"path":".github/workflows/gap-run.yml","bytes":11346,"sha256":"7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763"},
+    {"path":"ci/pent159n_p3_v5_artifacts_32661138818/d972_pent_interleave_canary_p3_receipt_v5_20260824.json","bytes":5223102,"sha256":"8838dbfecbb8f487265801de860c91207de56e4acf5e98088e6d9cd161390530"},
+    {"path":"crosscheck/verdicts/d972_pent_interleave_canary_crosscheck_p3_v2_20260824.json","bytes":22901,"sha256":"73d4cb3f242d74f796021af922e1771c68f9256bcddedcbe2a277539f79c2781"}
+  ],
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p3_prereg_gha_v8.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P3_V8_PIN_PASS path=search/d972_row36_pent_bridge_common_v1.py",
+    "PENT159O_ROW36_P3_V8_WORKER_START",
+    "PENT159O_ROW36_P3_WORKER_V8_PUBLIC_PC_PASS",
+    "PENT159O_ROW36_P3_WORKER_V8_STATE_SERIALIZATION_PASS states=2187 order=explicit_base3_lex index_roundtrip=2187",
+    "PENT159O_ROW36_P3_WORKER_V8_ORIENTATION_PASS state=2",
+    "PENT159O_ROW36_P3_WORKER_V8_PASS states=2187 native_right_positive=2 native_right_inverse=2 paper_left_positive=2 paper_left_inverse=2 signed_paper_replays=2187",
+    "PENT159O_ROW36_P3_V8_TRANSITION_RESULT_PRESENT",
+    "PENT159O_ROW36_P3_V8_PYTHON_PREPARE_START raw_rows=34992 predicates=false",
+    "PENT159O_ROW36_P3_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=1102248",
+    "PENT159O_ROW36_P3_V1_PREREG_WRITTEN",
+    "PENT159O_ROW36_P3_V1_PREPARE_PASS",
+    "PENT159O_ROW36_P3_V8_PREREG_WRITTEN",
+    "PENT159O_ROW36_P3_V8_FINAL OUTCOME_FREE_PREREGISTRATION_FROZEN__PREDICATE_EXECUTION_NOT_RUN"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:","Syntax warning:","Unbound global variable","Error,",
+    "Traceback","SyntaxError","MemoryError","Killed","STATE_STOP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p3_transition_results_v8_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_python_prepare_v8.log",
+    "ci/out/d972_row36_pent_bridge_p3_prereg_v8_20260824.json"
+  ],
+  "selective_publish_new_files_only": [
+    "search/d972_row36_pent_bridge_common_p3_v8.py",
+    "search/d972_row36_pent_bridge_p3_producer_v8.py",
+    "search/d972_row36_pent_bridge_p3_transition_worker_generator_v8.py",
+    "search/d972_row36_pent_bridge_p3_transition_worker_v8.g",
+    "search/d972_row36_pent_bridge_p3_prereg_gha_v8.g",
+    "search/certs/d972_row36_pent_bridge_p3_prereg_execution_manifest_v8_20260824.json"
+  ],
+  "post_run_routing": {
+    "publish_preregistration_before_any_predicate_execution": true,
+    "checker_handoff_at_prereg_stage": false,
+    "new_versioned_same-word_Q4_execution_bundle_required_next": true
+  },
+  "promotion_boundary": {
+    "p3_prime_local_only": true,
+    "p2_inference": false,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_inference": false
+  },
+  "terminal_token": "PENT159O_ROW36_P3_PREREG_EXECUTION_MANIFEST_V8_FROZEN"
+}
