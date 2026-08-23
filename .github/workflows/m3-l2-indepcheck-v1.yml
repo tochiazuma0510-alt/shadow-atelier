@@ -5,16 +5,28 @@ name: m3-l2-indepcheck-v1
 # 枯渇(実測 8%程度)と特定(司令塔裁定)。GAP プロセス自体の実メモリ需要は小さい(位数 1152
 # の群・16 元の P^ab)ため、GHA runner(潤沢メモリ)へ計算を移送するだけで解決する見込み。
 #
-# DISPATCH GATE: workflow_dispatch ONLY.
+# DISPATCH GATE: push to this branch (paths below) + workflow_dispatch.
+# workflow_dispatch alone could not be used for the FIRST run because GitHub only registers a
+# brand-new workflow_dispatch workflow in its Actions registry once the file has landed on the
+# default branch at least once (measured: gh workflow run -> 404 "not found on the default
+# branch" even though the push itself succeeded). Commander ruling (2026-08-23): use push-trigger
+# instead of merging this one-off measurement yml onto master. workflow_dispatch is kept for any
+# later re-run once GitHub has indexed the workflow.
 
 on:
+  push:
+    branches:
+      - koubou158/m2-msweep-v5-gha
+    paths:
+      - 'search/koubou83_m3_l2_*'
+      - '.github/workflows/m3-l2-indepcheck-v1.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 env:
-  M3L2_SCRIPT_SHA256: "d50b7b1d34737a8faa7fc48094c6ff79cbdc2f1762ad81291b06cd191ed57d58"
+  M3L2_SCRIPT_SHA256: "961fdffbe3c2b1a6eed6e273f3f43242cab7c535faf95a21bf1d49e1e59bd9d3"
   M3L2_SPEC_SHA256: "5013eafa1d138712cb815514e098db4183aaefd43be72d94ee74662c5c1fbefd"
 
 jobs:

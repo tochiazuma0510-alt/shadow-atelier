@@ -2,6 +2,7 @@
 ## M3(E[4] レーン)独立照合 v2 -- 線形則版(仕様: scratchpad/koubou83_m3_l2_linear_spec_v1.md)。
 ## 段2(GHA venue)裁定: local(-o 2g / -o 384m 両方)で単一窓ですら 10 分 cap 超過・
 ## 原因はローカル機の空きメモリ枯渇(実測 8%程度)と特定・司令塔裁定によりGHAへ計算を移送。
+## 発火: push-trigger touch commit(2026-08-23・裁定: workflow_dispatch は新規ワークフロー未登録のため不可)。
 ##
 ## 著者分離: 線形則(定理 PUSH・正準基底・A の値・自己検証例・5項目の行列語訳)の導出は
 ## 工房数学者(scratchpad/koubou83_m3_l2_linear_spec_v1.md、著者分離のため c83_m3_e4_lane_v1.md
