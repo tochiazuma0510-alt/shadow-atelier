@@ -1,0 +1,119 @@
+{
+  "schema": "d972-pent-interleave-canary-p2-prereg/v14",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_LITERAL_IDENTITY_SERIALIZATION_MEASUREMENT",
+  "scope": "prime-local p=2 correction of only the A.18 generator-image serialization, with a bounded Artin-action canary before NQ and a mandatory marked-Q4 ten-row gate before maps/BFS/census",
+  "superseded_v13_execution": {
+    "run_id": 32659175114,
+    "commit": "00403fa558f2d013bebe6b46c14dd63ded3fc58e",
+    "status": "FAILED_AFTER_Q4_BEFORE_MAPS_BFS_OR_CENSUS_NO_ARTIFACT",
+    "first_error": "PENT159N_P2_V12_A18: literal coface failed finite source relator slot=1 relator=1",
+    "diagnosis": "v13 incorrectly reversed each displayed A.18 generator-image product; phi12_3_4 was consumed as [4,2],[5,3],[6] instead of the printed [2,4],[3,5],[6]",
+    "semantic_measurement_imported": false,
+    "Q2_Q3_Q4_construction_markers_observed_only": true,
+    "files_overwritten": false
+  },
+  "paper_pin": {
+    "path": "papers/dolgushev-2008.00066-gt-shadows-original.pdf",
+    "bytes": 602485,
+    "sha256": "c44eba890f83c1ac84a44a5b52fd5c6849250b242331d7eaaff9dd983167fb33",
+    "page": 49,
+    "formula": "A.18",
+    "phi12_3_4_x12": "x13*x23",
+    "phi12_3_4_x13": "x14*x24",
+    "interpretation": "values of a group homomorphism are native group products in literal written order"
+  },
+  "literal_A18_table": {
+    "PB4_generator_order": ["x12", "x13", "x14", "x23", "x24", "x34"],
+    "PB3_generator_order": ["x12", "x13", "x23"],
+    "slot_order": ["phi234", "phi12_3_4", "phi1_23_4", "phi1_2_34", "phi123"],
+    "printed_and_native_words": [
+      [[4], [5], [6]],
+      [[2, 4], [3, 5], [6]],
+      [[1, 2], [3], [5, 6]],
+      [[1], [2, 3], [4, 5]],
+      [[1], [2], [4]]
+    ],
+    "A18_paper_to_native_rule": "identity; no reversal and no Paper() call",
+    "Dpap_outer_factor_Paper_bridge_is_separate": true,
+    "old_reversal_mutant_words": [
+      [[4], [5], [6]],
+      [[4, 2], [5, 3], [6]],
+      [[2, 1], [3], [6, 5]],
+      [[1], [3, 2], [5, 4]],
+      [[1], [2], [4]]
+    ]
+  },
+  "explicit_relator_word_pins": {
+    "PB3_relator_1": [-1, 2, 1, 2, 3, -2, -3, -2],
+    "PB3_relator_2": [-1, 3, 1, 2, -3, -2],
+    "phi12_3_4_literal_relator_1_image_in_PB4_generators": [-4, -2, 3, 5, 2, 4, 3, 5, 6, -5, -3, -6, -5, -3],
+    "phi12_3_4_old_reversal_relator_1_image_in_PB4_generators": [-2, -4, 5, 3, 4, 2, 5, 3, 6, -3, -5, -6, -3, -5]
+  },
+  "independent_bounded_artin_canary": {
+    "model": "finite S4 evaluation of the faithful Artin B4 action on an F4 generator tuple",
+    "role": "independent bounded serialization canary; not a standalone proof",
+    "input_tuple_images": [[3, 2, 1, 4], [3, 4, 2, 1], [2, 1, 3, 4], [4, 2, 1, 3]],
+    "literal_row_count": 10,
+    "required_literal_result": "all ten output tuples equal the input tuple",
+    "required_mutant_failure": "old reversed phi12_3_4 relator 1 output tuple differs from input",
+    "record_per_row": ["slot", "source relator", "PB4 pure image word", "B4 Artin braid word", "output tuple images", "pass bit"]
+  },
+  "mandatory_finite_source_relator_gate": {
+    "target": "marked Q4=PB4/D4_2(PB4)",
+    "placement": "after Q4 construction and pc-coordinate binding; before deletion/coface map construction and before Q2 BFS or any census",
+    "PB3_source_relator_count": 2,
+    "coface_count": 5,
+    "literal_row_count": 10,
+    "literal_requirement": "all ten literal-order relator images are identity",
+    "required_mutant_failure": "old reversed phi12_3_4 relator 1 is nonidentity",
+    "numeric_coordinates_and_digests": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "producer_inputs": {
+    "top_generator_path": "search/d972_pent_interleave_canary_p2_v14.g",
+    "top_generator_bytes": 10804,
+    "top_generator_sha256": "0455ca2531c90cf28994c9eb8319aa95016f22b7b57fe5b1d5f2477e24c648f1",
+    "identity_serialization_overlay_path": "search/d972_pent_interleave_literal_a18_p2_overlay_v14.g",
+    "identity_serialization_overlay_bytes": 11655,
+    "identity_serialization_overlay_sha256": "f06fd415816deeaac12ae70d98b0125f58a39ab78dbced578c97b0b9102ae1d8",
+    "generated_outer_path": "ci/out/d972_pent_interleave_canary_p2_outer_effective_v14.g",
+    "generated_outer_bytes": 19822,
+    "generated_outer_sha256": "61d36d5d47ea44ab6cc43c532a65273fc387a66c74b5baecb7c71b97af43b86d",
+    "generated_math_path": "ci/out/d972_pent_interleave_canary_p2_math_effective_v14.g",
+    "generated_math_bytes": 56724,
+    "generated_math_sha256": "c0085eea895d3ec9282af130ae77f3cbded9082e71e81a9b88fbec11284b5d63"
+  },
+  "Dpap_contract": {
+    "contexts": "the same literal-order A.18 table that passed both gates",
+    "literal_paper_factors": ["A^-1", "B^-1", "C", "E", "F"],
+    "literal_native_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_paper_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_order_mutant_only": true,
+    "actual_same_row_noncommuting_control_required": true,
+    "external_S3_accepted_as_pass": false
+  },
+  "finite_universe": {
+    "prime": 2,
+    "law": "D4_2(G)=G^4 gamma2(G)^2 gamma4(G)",
+    "class": 3,
+    "Q2_expected_order": 128,
+    "complete_commutator_instrument": true,
+    "actual_charming_onto_gate_separate": true,
+    "numeric_results": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "out_of_scope": ["p3 execution", "class4", "row36", "mode", "K2", "all-prime inference"],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p2_receipt_v14_20260824.json",
+    "schema": "d972-pent-interleave-canary-p2/v14",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
