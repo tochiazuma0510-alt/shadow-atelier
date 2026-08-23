@@ -1,0 +1,123 @@
+{
+  "schema": "d972-pent-interleave-nq-portability-stage0-manifest/v2",
+  "date": "2026-08-23",
+  "author_role": "Luna producer",
+  "scope": "Linux portability repair for corrected-pentagon stage 0 only",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "terminal_token": "PENT159N_NQ_PORTABILITY_V2_DISPATCH_READY",
+  "observed_predecessor_runs": [
+    {
+      "run_id": 32645265812,
+      "commit": "406917be",
+      "with_pquot_packages": "not_pinned_in_v2_handoff",
+      "result": "FAILED_BEFORE_NQ_LOAD",
+      "diagnostic": "Package nq: executable program is not available / Error, PENT159N: nq package unavailable"
+    },
+    {
+      "run_id": 32645293578,
+      "with_pquot_packages": true,
+      "result": "FAILED_BEFORE_NQ_LOAD",
+      "diagnostic": "Package nq: executable program is not available / Error, PENT159N: nq package unavailable",
+      "adjudication": "not evidence for or against the mathematical calibration"
+    }
+  ],
+  "preserved_v1": {
+    "source": {
+      "path": "search/d972_pent_interleave_canary_producer_v1.g",
+      "bytes": 2257,
+      "sha256": "c21b7758f244997d1da9c15c3b09b71a13b1995b379596c849a8eacccc202d6d"
+    },
+    "receipt": {
+      "path": "search/certs/d972_pent_interleave_canary_v1_20260823.json",
+      "bytes": 9844,
+      "sha256": "2a69c0ab95da81086764dae60abcb32d5fb51d6b7abd30f2d251343358b341d1"
+    },
+    "manifest": {
+      "path": "search/certs/d972_pent_interleave_canary_manifest_v1_20260823.json",
+      "bytes": 1880,
+      "sha256": "c59150b5d9beff3b6abf6a7daf9128ead97a8f9ee2408bcb5c742506d47bd323"
+    }
+  },
+  "workflow_pin": {
+    "path": ".github/workflows/gap-run.yml",
+    "bytes": 11346,
+    "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+    "edited_by_v2": false
+  },
+  "producer": {
+    "path": "search/d972_pent_interleave_canary_stage0_v2.g",
+    "bytes": 9639,
+    "sha256": "1d68dd33a96572e920398fc14eb70ba6a61d0c3d532f0ba382594d6eebdee67f",
+    "delegates_after_load_to": "search/d972_pent_interleave_canary_producer_v1.g"
+  },
+  "nq_source_contract": {
+    "package_name": "nq",
+    "version": "2.5.11",
+    "package_directory_source": "the unique PackageInfo(\"nq\")[1].InstallationPath",
+    "gap_root_source": "the unique normalized member of GAPInfo.RootPaths for which InstallationPath is exactly one direct child of <root>/pkg/",
+    "package_parent_equality_gate": "InstallationPath == <derived GAP root>/pkg/<single directory name>/",
+    "environment_lookup_used": false,
+    "package_info_sha256": "e5e3370aa823163909a5130f1d803f43051e606305915718bcf7a363e5af5264",
+    "configure_sha256": "4c09599a55cbdf0eb22998280e197f64ebb2e6ca5ca884b80e3e8d55c1ca0bd0",
+    "makefile_in_sha256": "84def846c51b5fe54b79b1ca312ac5629c383ccadbe43349da4d40efa9c5d003",
+    "build_when_executable_absent": [
+      "./configure --with-gaproot=<authenticated GAPInfo.RootPaths root>",
+      "make -j2"
+    ],
+    "post_build_gates": [
+      "exactly one executable named nq under the package bin tree",
+      "DirectoriesPackagePrograms(\"nq\") selects the same path",
+      "64-character lowercase SHA-256 for generated Makefile and executable",
+      "LoadPackage(\"nq\") returns true"
+    ]
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_stage0_v2.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "30",
+    "with_pquot_packages": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent159n_nq_configure_v2.log",
+    "ci/out/d972_pent159n_nq_make_v2.log",
+    "ci/out/d972_pent159n_nq_binary_path_v2.txt",
+    "ci/out/d972_pent159n_nq_binary_sha256_v2.txt",
+    "ci/out/d972_pent159n_nq_generated_makefile_sha256_v2.txt",
+    "ci/out/d972_pent159n_nq_build_v2.ok"
+  ],
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_NQ_SOURCE_PIN_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS",
+    "PENT159N_V1_DELEGATION_PIN_PASS",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_GAP_STAGE0_PASS",
+    "PENT159N_GAP_STAGE0_V2_PASS"
+  ],
+  "fail_closed": {
+    "forbidden_diagnostics": [
+      "Syntax error:",
+      "Error,",
+      "Package nq: executable program is not available"
+    ],
+    "missing_final_marker_is_failure": true,
+    "no_pb4_or_canary_claim_from_stage0": true,
+    "producer_resume_required": true
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened": false,
+    "checker_report_opened": false
+  },
+  "mutations": {
+    "git_used": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false
+  }
+}
