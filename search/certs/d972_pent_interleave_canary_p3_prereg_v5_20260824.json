@@ -1,0 +1,153 @@
+{
+  "schema": "d972-pent-interleave-canary-p3-prereg/v5",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_P3_LITERAL_IDENTITY_SERIALIZATION_MEASUREMENT",
+  "scope": "prime-local p=3 correction of only the A.18 generator-image serialization, with a bounded Artin-action canary and a mandatory marked-Q4 ten-row gate before maps/BFS/census",
+  "prior_version_routing": {
+    "p3_v2_run_id": 32653488263,
+    "p3_v2_commit": "248cc7d1c0421edcb6bf16db29361941d9080a29",
+    "p3_v2_generated_effective_source_bytes": 54203,
+    "p3_v2_generated_effective_source_sha256": "986533bf179e9352fe54471b082994f06981282b895edf16491c7f4c7891dabe",
+    "p3_v2_status": "PRODUCER_OUTPUT_SEMANTIC_TOKEN_REJECTED_AT_A18_BOUNDARY",
+    "p3_v2_numeric_sensitivity_imported": false,
+    "p3_v3_status": "UNEXECUTED_DRAFT_DERIVATION_TEMPLATE_ONLY",
+    "p3_v4_status": "HELD_UNEXECUTED_AFTER_SHARED_A18_REVERSAL_REJECTION",
+    "prior_files_overwritten": false
+  },
+  "prime_local_independence": {
+    "prime": 3,
+    "p2_result_used_as_numeric_or_semantic_input": false,
+    "p3_execution_basis": "bounded literal-A.18 semantic-repair authorization",
+    "p2_and_p3_must_be_reported_separately": true,
+    "all_class3_prime_inference_forbidden": true,
+    "automatic_K2_naming_forbidden": true
+  },
+  "paper_pin": {
+    "path": "papers/dolgushev-2008.00066-gt-shadows-original.pdf",
+    "bytes": 602485,
+    "sha256": "c44eba890f83c1ac84a44a5b52fd5c6849250b242331d7eaaff9dd983167fb33",
+    "page": 49,
+    "formula": "A.18",
+    "phi12_3_4_x12": "x13*x23",
+    "phi12_3_4_x13": "x14*x24",
+    "interpretation": "values of a group homomorphism are native group products in literal written order"
+  },
+  "literal_A18_table": {
+    "PB4_generator_order": ["x12", "x13", "x14", "x23", "x24", "x34"],
+    "PB3_generator_order": ["x12", "x13", "x23"],
+    "slot_order": ["phi234", "phi12_3_4", "phi1_23_4", "phi1_2_34", "phi123"],
+    "printed_and_native_words": [
+      [[4], [5], [6]],
+      [[2, 4], [3, 5], [6]],
+      [[1, 2], [3], [5, 6]],
+      [[1], [2, 3], [4, 5]],
+      [[1], [2], [4]]
+    ],
+    "A18_paper_to_native_rule": "identity; no reversal and no Paper() call",
+    "Dpap_outer_factor_Paper_bridge_is_separate": true,
+    "old_reversal_mutant_words": [
+      [[4], [5], [6]],
+      [[4, 2], [5, 3], [6]],
+      [[2, 1], [3], [6, 5]],
+      [[1], [3, 2], [5, 4]],
+      [[1], [2], [4]]
+    ]
+  },
+  "explicit_relator_word_pins": {
+    "PB3_relator_1": [-1, 2, 1, 2, 3, -2, -3, -2],
+    "PB3_relator_2": [-1, 3, 1, 2, -3, -2],
+    "phi12_3_4_literal_relator_1_image_in_PB4_generators": [-4, -2, 3, 5, 2, 4, 3, 5, 6, -5, -3, -6, -5, -3],
+    "phi12_3_4_old_reversal_relator_1_image_in_PB4_generators": [-2, -4, 5, 3, 4, 2, 5, 3, 6, -3, -5, -6, -3, -5]
+  },
+  "independent_bounded_artin_canary": {
+    "model": "finite S4 evaluation of the faithful Artin B4 action on an F4 generator tuple",
+    "role": "independent bounded serialization canary; not a standalone proof",
+    "input_tuple_images": [[3, 2, 1, 4], [3, 4, 2, 1], [2, 1, 3, 4], [4, 2, 1, 3]],
+    "literal_row_count": 10,
+    "required_literal_result": "all ten output tuples equal the input tuple",
+    "required_mutant_failure": "old reversed phi12_3_4 relator 1 output tuple differs from input",
+    "placement": "overlay initialization before quotient construction",
+    "record_per_row": ["slot", "source relator", "PB4 pure image word", "B4 Artin braid word", "output tuple images", "pass bit"]
+  },
+  "mandatory_finite_source_relator_gate": {
+    "target": "marked Q4=PB4/D4_3(PB4)",
+    "placement": "after Q4 construction and pc-coordinate binding; before deletion/coface maps and before Q2 BFS or any census",
+    "PB3_source_relator_count": 2,
+    "coface_count": 5,
+    "literal_row_count": 10,
+    "literal_requirement": "all ten literal-order relator images are identity",
+    "required_mutant_failure": "old reversed phi12_3_4 relator 1 is nonidentity",
+    "numeric_coordinates_and_digests": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "producer_inputs": {
+    "top_generator_path": "search/d972_pent_interleave_canary_p3_v5.g",
+    "top_generator_bytes": 9557,
+    "top_generator_sha256": "86223bc410ee1fd9f2c9143d5de291e5d91e3ca7fc898db21421ab3df0f64130",
+    "identity_serialization_overlay_path": "search/d972_pent_interleave_literal_a18_p3_overlay_v5.g",
+    "identity_serialization_overlay_bytes": 11501,
+    "identity_serialization_overlay_sha256": "99d3b67d2fc7b0661505a37b8925ac60b88b6195059d3c2e6df1e41c6431b50f",
+    "aggregate_control_overlay_path": "search/d972_pent_interleave_canary_p3_control_overlay_v5.g",
+    "aggregate_control_overlay_bytes": 5342,
+    "aggregate_control_overlay_sha256": "ed4f66247e7a13aedf2c782223cf5f5a4bbbe48554ba71e6f4b210da28599052",
+    "generated_outer_path": "ci/out/d972_pent_interleave_canary_p3_outer_effective_v5.g",
+    "generated_outer_bytes": 22325,
+    "generated_outer_sha256": "c8c80e647a926ed33ac3795924f173bf162611a4f5d4325ac9441eeac84813ab",
+    "generated_math_path": "ci/out/d972_pent_interleave_canary_p3_math_effective_v5.g",
+    "generated_math_bytes": 56816,
+    "generated_math_sha256": "bf7c81cf593309ea63f0e411174e1bb04f1e075455a08b3e7a06e091d017936a"
+  },
+  "Dpap_contract": {
+    "contexts": "the same literal-order A.18 table admitted by both relator gates",
+    "literal_paper_factors": ["A^-1", "B^-1", "C", "E", "F"],
+    "literal_native_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_paper_factors": ["F", "E", "C", "B^-1", "A^-1"],
+    "section_9_1_mutant_native_factors": ["A^-1", "B^-1", "C", "E", "F"],
+    "section_9_1_order_mutant_only": true,
+    "actual_same_row_noncommuting_control_required": true,
+    "external_S3_accepted_as_pass": false
+  },
+  "finite_universe": {
+    "prime": 3,
+    "law": "D4_3(G)=G^9 gamma2(G)^3 gamma4(G)",
+    "nq_identical_relators_in_literal_order": ["u^9", "Comm(u,v)^3"],
+    "class_bound": 3,
+    "Q2_expected_order": 2187,
+    "Q2_expected_class": 3,
+    "Q3_order": "UNMEASURED",
+    "Q4_order": "UNMEASURED",
+    "complete_Q2_word_roster": "all 2187 elements exactly once by canonical BFS coordinates",
+    "complete_commutator_instrument": true,
+    "actual_charming_onto_gate_separate": true,
+    "wrong_order_actual_coface_aggregate_complete": true,
+    "numeric_results": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "wrong_order_control": {
+    "required_source": "an actual f from the complete 2187-element Q2 roster, through all five homomorphism-gated literal A.18 cofaces",
+    "same_row_requirements": ["literal residual differs from the section 9.1 mutant residual", "at least one of the ten factor pairs is noncommuting"],
+    "aggregate_counts_required": ["residual-distinct rows", "residual-commutator-nonidentity rows", "factor-noncommuting rows", "distinct-and-factor-noncommuting rows", "total noncommuting factor pairs"],
+    "first_witness_required": true,
+    "fail_closed_if_absent": true,
+    "all_numeric_counts": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN"
+  },
+  "out_of_scope": ["p2 inference", "class4", "row36", "p-specific M containment", "isolation or diamond", "mode", "K2", "all-prime inference"],
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p3_receipt_v5_20260824.json",
+    "schema": "d972-pent-interleave-canary-p3/v5",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "local_preflight": {
+    "gap_execution": "BLOCKED_BY_KNOWN_WIN32_SIGNAL_PIPE_ERROR",
+    "authoritative_lane": "Linux GHA gap-run with bundled NQ portability stage",
+    "semantic_measurement_performed": false
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "p2_or_prior_p3_files_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
