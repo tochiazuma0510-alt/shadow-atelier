@@ -1,0 +1,222 @@
+{
+  "schema": "d972-row36-pent-bridge-p2-execution-manifest/v5",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "prime-local p=2 fixed zero-based row-36 joint-fibre bridge; exactly the frozen 64 rows and predicates from v3/v4",
+  "v4_stop": {
+    "run_id": 32665138236,
+    "commit": "7cc3179c",
+    "elapsed_seconds": 49,
+    "last_marker": "PENT159O_ROW36_P2_V4_WORKER_START direct_same_word=true words=32 quotient_rerun=false",
+    "exact_error": "PENT159O_ROW36_P2_WORKER_V4: marked coordinate drift",
+    "phase": "static reconstructed Q4, before Python/maps/BFS/census",
+    "artifact_or_receipt": false,
+    "semantic_result": false
+  },
+  "coordinate_diagnosis": {
+    "v4_fault": "v4 constructed marked elements from receipt vectors in the defining collector generators, then compared and serialized them in Pcgs(reconstructed_group), which is not contractually the same sequence",
+    "accepted_basis": "defining PcpGroupByCollectorNC exponent basis",
+    "accepted_GAP_expression": "List(Exponents(element),Int)",
+    "diagnostic_only_expression": "List(ExponentsOfPcElement(Pcgs(group),element),Int)",
+    "official_local_GAP_source": [
+      "C:/Program Files/GAP-4.16.0/runtime/opt/gap-4.16.0/pkg/polycyclic/gap/basic/pcpgrps.gi:12-31 constructs unit exponent elements, GroupWithGenerators, and SetCgs",
+      "C:/Program Files/GAP-4.16.0/runtime/opt/gap-4.16.0/lib/grppc.gi:241-271 supplies family/home/induced Pcgs methods",
+      "C:/Program Files/GAP-4.16.0/runtime/opt/gap-4.16.0/lib/pcgscomp.gi:99 onward supplies a composition-series Pcgs fallback"
+    ],
+    "exact_v4_numeric_actual_recoverable_from_failed_run": false,
+    "reason_unrecoverable": "v4 error did not print index or vectors and no artifact was uploaded; Pcgs need not be the defining sequence",
+    "v5_required_diagnostic": "before accepting defining coordinates, print mark index, exported expected, canonical-Pcgs actual, inverse expected/actual, and defining actual/inverse for every observed v4-style mismatch",
+    "local_coordinate_probe_command": ".\\gap.ps1 search\\d972_row36_pent_bridge_p2_coordinate_probe_v5.g",
+    "local_coordinate_probe_result": "runtime infrastructure stop before GAP parsing: fatal error - couldn't create signal pipe, Win32 error 5",
+    "GHA_log_will_supply_exact_numeric_datum_before_repaired_gate": true
+  },
+  "v5_repair": {
+    "universe_change": false,
+    "predicate_change": false,
+    "word_change": false,
+    "formula_change": false,
+    "row_order_change": false,
+    "defining_generator_unit_gates": 26,
+    "marked_positive_and_inverse_coordinate_gates": 12,
+    "literal_A18_relator_gates": 10,
+    "same_word_count": 32,
+    "raw_row_count": 64,
+    "quotient_canary_rerun": false,
+    "NQ_invoked": false
+  },
+  "immutable_inputs": [
+    {
+      "path": "search/d972_row36_pent_bridge_common_v1.py",
+      "bytes": 72409,
+      "sha256": "d3e27775b59baa150c255c15feb2ab5809bdc299265278772f0428d2f1de0a79"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v2.py",
+      "bytes": 7891,
+      "sha256": "46ab60bf06e1bec03725a69349914e4bd9e786c41ce0946b0387f74493a55ecc"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v3.py",
+      "bytes": 14091,
+      "sha256": "95ff60fe351aa0020aa5353d805cd8588c7d16cbfc45acdca862097d67cafcb5"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_p2_v4.py",
+      "bytes": 8723,
+      "sha256": "774952e40e3d0dee63a3c393283d278575730ea947f275c2d6000dd5264b12f2"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_p2_v5.py",
+      "bytes": 6722,
+      "sha256": "6fd800c4ad0f8f949ff5cb53ed039d3e5454d5ac00386d51aac282b068269dd5"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_producer_v5.py",
+      "bytes": 191,
+      "sha256": "a021b300d46e340954579749d52e24101c5f3c0b665c01c04d257e6401bd0cd0"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_worker_generator_v5.py",
+      "bytes": 4908,
+      "sha256": "0e11ade7b1de0a35d4adc02b26db807beeea65b15fbb176ebd9b3e0147c1ca71"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_dpap_worker_v5.g",
+      "bytes": 54532,
+      "sha256": "7c64432d5199f9d35c785db002e9a2ec595cfda0d94674cb80f07110e375b242"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_coordinate_probe_v5.g",
+      "bytes": 99,
+      "sha256": "f120093bceef79c2bbde51113de45f47f119217b79ddc8c40930eff8cf4dcd18"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_gha_v5.g",
+      "bytes": 5892,
+      "sha256": "369b5a10841624ebbe88596db7e1590aacf17ea54e42a3b159df583c8de41230"
+    },
+    {
+      "path": "search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+      "bytes": 114911,
+      "sha256": "bf58d269fa587c693dd3ab9872129fdc695fe141e37d5c2582b858227bf056d9"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763"
+    }
+  ],
+  "preregistration_gate": {
+    "written_before_any_v5_GAP_worker_or_predicate_or_Dpap_outcome": true,
+    "raw_count": 64,
+    "joint_kernel_count": 32,
+    "canonical_word_count": 32,
+    "ordered_m_lifts": [0, 18],
+    "raw_rows_byte_equal_to_v4": true,
+    "canonical_word_roster_byte_equal_to_v4": true,
+    "joint_kernel_roster_byte_equal_to_v4": true,
+    "status": "PREREGISTERED_BEFORE_ROW_PREDICATE_OUTCOME",
+    "terminal_token": "PENT159O_ROW36_P2_PREREG_V5_FROZEN"
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p2_gha_v5.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "ordered_commands_inside_launcher": [
+      "Read(\"search/d972_row36_pent_bridge_p2_dpap_worker_v5.g\")",
+      "python3 search/d972_row36_pent_bridge_p2_producer_v5.py execute --out-dir ci/out"
+    ],
+    "estimated_resources": {
+      "wall": "below 180 minutes",
+      "peak_rss": "below the workflow 12 GiB GAP heap allowance",
+      "artifact_bytes": "below 20 MiB"
+    }
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P2_V5_PIN_PASS path=search/d972_row36_pent_bridge_common_v1.py",
+    "PENT159O_ROW36_P2_V5_PIN_PASS path=search/d972_row36_pent_bridge_common_p2_v5.py",
+    "PENT159O_ROW36_P2_V5_PIN_PASS path=search/d972_row36_pent_bridge_p2_dpap_worker_v5.g",
+    "PENT159O_ROW36_P2_V5_PIN_PASS path=search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+    "PENT159O_ROW36_P2_V5_WORKER_START direct_same_word=true defining_coordinates=true words=32 quotient_rerun=false",
+    "PENT159O_ROW36_P2_WORKER_V5_V4_COORD_MISMATCH mark=",
+    "PENT159O_ROW36_P2_WORKER_V5_COORDINATE_BRIDGE_PASS defining_units=26 marks=6",
+    "PENT159O_ROW36_P2_WORKER_V5_PASS words=32 literal_relators=10",
+    "PENT159O_ROW36_P2_V5_WORKER_RESULT_PASS",
+    "PENT159O_ROW36_P2_V5_EXEC_START rows=64 direct_same_word=true defining_coordinates=true quotient_rerun=false",
+    "PENT159O_ROW36_P2_V5_PYTHON_LOG_BEGIN",
+    "PENT159O_ROW36_P2_V1_PREPARE_GATE IMPORTED_A18_10_OF_10_PIN_PASS",
+    "PENT159O_ROW36_P2_V1_PREPARE_GATE RESIDUAL_PATHS_PASS count=2016",
+    "PENT159O_ROW36_P2_V1_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V1_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V1_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED",
+    "PENT159O_ROW36_P2_V5_PYTHON_LOG_END",
+    "PENT159O_ROW36_P2_V5_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V5_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V5_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p2_dpap_results_v5_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p2_python_v5.log",
+    "ci/out/d972_row36_pent_bridge_p2_receipt_v5_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p2_manifest_v5_20260824.json"
+  ],
+  "receipt_semantic_gate": {
+    "schema": "d972-row36-pent-bridge-p2-receipt/v5",
+    "raw_count": 64,
+    "evaluated_count": 64,
+    "expected_count": 64,
+    "all_rows_reduce_to_frozen_key": true,
+    "onto_evaluated_for_every_materialized_row": true,
+    "literal_Dpap_evaluated_for_every_materialized_row_with_same_word_digest": true,
+    "coordinate_basis": "reconstructed defining collector basis",
+    "claim_cover_token": "CLAIM-COVER-PENT-CANARY-2",
+    "terminal_token": "PENT159O_ROW36_P2_PRODUCER_V5_CANDIDATE__CHECKER_REQUIRED"
+  },
+  "selective_publish_new_files_only": [
+    "search/d972_row36_pent_bridge_common_p2_v5.py",
+    "search/d972_row36_pent_bridge_p2_producer_v5.py",
+    "search/d972_row36_pent_bridge_p2_worker_generator_v5.py",
+    "search/d972_row36_pent_bridge_p2_dpap_worker_v5.g",
+    "search/d972_row36_pent_bridge_p2_coordinate_probe_v5.g",
+    "search/d972_row36_pent_bridge_p2_gha_v5.g",
+    "search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+    "search/certs/d972_row36_pent_bridge_p2_execution_manifest_v5_20260824.json"
+  ],
+  "checker_handoff_after_success": {
+    "allowlist_only": [
+      "ci/out/d972_row36_pent_bridge_p2_receipt_v5_20260824.json",
+      "ci/out/d972_row36_pent_bridge_p2_manifest_v5_20260824.json"
+    ],
+    "producer_source_log_report_worker_result_forbidden": true
+  },
+  "prime_isolation": {
+    "p3_PC_COLLECTION_CAP_25_7_is_separate": true,
+    "p3_source_or_universe_modified_by_this_bundle": false,
+    "p3_inference": false
+  },
+  "promotion_boundary": {
+    "producer_candidate_until_independent_checker": true,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_promotion": false
+  },
+  "terminal_token": "PENT159O_ROW36_P2_EXECUTION_MANIFEST_V5_FROZEN"
+}
