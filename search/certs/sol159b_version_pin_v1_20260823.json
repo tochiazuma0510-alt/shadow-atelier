@@ -69,6 +69,18 @@
       "role": "bulk/prodrung shared producer core"
     },
     {
+      "path": "search/koubou158_L3_core_v1_1.py",
+      "bytes": 24529,
+      "sha256": "ec93ed38527922de328603e01abd662743cfc03904ee21a924395fd0879d3d82",
+      "role": "current M2 v3 runtime core dependency"
+    },
+    {
+      "path": "search/koubou158_L3_core_completebfs_v1.py",
+      "bytes": 7432,
+      "sha256": "3aa5ce3beb4b8781506858ba2947ac7a17c4e70ee152dec9fd917fa451e33c13",
+      "role": "current M2 v3 complete-BFS runtime dependency"
+    },
+    {
       "path": "search/koubou158_L3_radical_v1_2.py",
       "bytes": 14488,
       "sha256": "05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17",
