@@ -1,0 +1,168 @@
+{
+  "schema": "d972-row36-pent-bridge-p2-execution-wrapper-manifest/v6",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "outer wrapper/schema-parser repair only; mathematical worker, preregistration, universe, predicates, result schema, producer receipt schema, and generated manifest schema remain frozen v5",
+  "v5_run_observation": {
+    "run_id": 32665692693,
+    "commit": "cdd5a22e",
+    "coordinate_basis_repair": "PASS",
+    "canonical_Pcgs_mismatch_rows_printed": 6,
+    "defining_positive_inverse_matches_exported": 6,
+    "coordinate_bridge_marker": "PASS",
+    "worker_word_count": 32,
+    "worker_literal_relator_count": 10,
+    "direct_result": {
+      "path": "ci/out/d972_row36_pent_bridge_p2_dpap_results_v5_20260824.json",
+      "bytes": 24601,
+      "sha256": "6a9e676642b18124a01b65b57fdafda8c53aba49aa47d33910d3eb1261aee97f"
+    },
+    "outer_stop_only": "PENT159O_ROW36_P2_V5: GAP direct same-word result schema prefix",
+    "artifact_uploaded": false,
+    "semantic_receipt_emitted": false
+  },
+  "v6_exact_repair": {
+    "removed_gate": "raw byte prefix must be exactly [[",
+    "reason": "GAP's valid list serialization may contain formatting whitespace; raw prefix has no semantic force",
+    "replacement_gate": "unchanged pinned Python v5 producer calls json.load, then requires list length 32, exact ordered signed-word equality and digest uniqueness, defect/mutant coordinate width 26, five coface rows each width 26",
+    "mathematical_or_universe_change": false,
+    "v5_worker_or_producer_change": false,
+    "output_schema_change": false,
+    "quotient_canary_rerun": false,
+    "NQ_invoked": false
+  },
+  "immutable_inputs": [
+    {
+      "path": "search/d972_row36_pent_bridge_common_v1.py",
+      "bytes": 72409,
+      "sha256": "d3e27775b59baa150c255c15feb2ab5809bdc299265278772f0428d2f1de0a79"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v2.py",
+      "bytes": 7891,
+      "sha256": "46ab60bf06e1bec03725a69349914e4bd9e786c41ce0946b0387f74493a55ecc"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_v3.py",
+      "bytes": 14091,
+      "sha256": "95ff60fe351aa0020aa5353d805cd8588c7d16cbfc45acdca862097d67cafcb5"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_p2_v4.py",
+      "bytes": 8723,
+      "sha256": "774952e40e3d0dee63a3c393283d278575730ea947f275c2d6000dd5264b12f2"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_common_p2_v5.py",
+      "bytes": 6722,
+      "sha256": "6fd800c4ad0f8f949ff5cb53ed039d3e5454d5ac00386d51aac282b068269dd5"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_producer_v5.py",
+      "bytes": 191,
+      "sha256": "a021b300d46e340954579749d52e24101c5f3c0b665c01c04d257e6401bd0cd0"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_worker_generator_v5.py",
+      "bytes": 4908,
+      "sha256": "0e11ade7b1de0a35d4adc02b26db807beeea65b15fbb176ebd9b3e0147c1ca71"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_dpap_worker_v5.g",
+      "bytes": 54532,
+      "sha256": "7c64432d5199f9d35c785db002e9a2ec595cfda0d94674cb80f07110e375b242"
+    },
+    {
+      "path": "search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+      "bytes": 114911,
+      "sha256": "bf58d269fa587c693dd3ab9872129fdc695fe141e37d5c2582b858227bf056d9"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p2_gha_v6.g",
+      "bytes": 6200,
+      "sha256": "e32b72f5ad8e10c03b905fbfa5b755048a2f0dbb069fceb3914018316e868fd2"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763"
+    }
+  ],
+  "preregistration_binding": {
+    "path": "search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+    "bytes": 114911,
+    "sha256": "bf58d269fa587c693dd3ab9872129fdc695fe141e37d5c2582b858227bf056d9",
+    "frozen_before_v5_and_v6_worker_outcomes": true,
+    "raw_count": 64,
+    "canonical_word_count": 32,
+    "ordered_m_lifts": [0, 18],
+    "status": "PREREGISTERED_BEFORE_ROW_PREDICATE_OUTCOME"
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p2_gha_v6.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P2_V6_PIN_PASS path=search/d972_row36_pent_bridge_common_v1.py",
+    "PENT159O_ROW36_P2_V6_PIN_PASS path=search/d972_row36_pent_bridge_p2_dpap_worker_v5.g",
+    "PENT159O_ROW36_P2_V6_PIN_PASS path=search/certs/d972_row36_pent_bridge_p2_prereg_v5_20260824.json",
+    "PENT159O_ROW36_P2_V6_WORKER_START worker_schema=v5 direct_same_word=true defining_coordinates=true words=32 quotient_rerun=false",
+    "PENT159O_ROW36_P2_WORKER_V5_COORDINATE_BRIDGE_PASS defining_units=26 marks=6",
+    "PENT159O_ROW36_P2_WORKER_V5_PASS words=32 literal_relators=10",
+    "PENT159O_ROW36_P2_V6_WORKER_RESULT_PRESENT",
+    "PENT159O_ROW36_P2_V6_SEMANTIC_JSON_PARSE_START parser=pinned_python_v5 rows=32 exact_word_order=true",
+    "PENT159O_ROW36_P2_V6_PYTHON_LOG_BEGIN",
+    "PENT159O_ROW36_P2_V1_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V1_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V1_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED",
+    "PENT159O_ROW36_P2_V6_PYTHON_LOG_END",
+    "PENT159O_ROW36_P2_V6_SEMANTIC_JSON_PARSE_PASS rows=32 exact_word_order=true coordinate_width=26",
+    "PENT159O_ROW36_P2_V6_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P2_V6_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P2_V6_FINAL PRODUCER_V5_CANDIDATE_CHECKER_REQUIRED"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p2_dpap_results_v5_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p2_python_v5.log",
+    "ci/out/d972_row36_pent_bridge_p2_receipt_v5_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p2_manifest_v5_20260824.json"
+  ],
+  "selective_publish_new_files_only": [
+    "search/d972_row36_pent_bridge_p2_gha_v6.g",
+    "search/certs/d972_row36_pent_bridge_p2_execution_manifest_v6_20260824.json"
+  ],
+  "checker_handoff_after_success": {
+    "allowlist_only": [
+      "ci/out/d972_row36_pent_bridge_p2_receipt_v5_20260824.json",
+      "ci/out/d972_row36_pent_bridge_p2_manifest_v5_20260824.json"
+    ],
+    "producer_source_log_worker_result_forbidden": true
+  },
+  "promotion_boundary": {
+    "producer_candidate_until_independent_checker": true,
+    "p3_inference": false,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_promotion": false
+  },
+  "terminal_token": "PENT159O_ROW36_P2_EXECUTION_WRAPPER_MANIFEST_V6_FROZEN"
+}
