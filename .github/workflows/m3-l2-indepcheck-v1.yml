@@ -26,13 +26,13 @@ permissions:
   contents: read
 
 env:
-  M3L2_SCRIPT_SHA256: "961fdffbe3c2b1a6eed6e273f3f43242cab7c535faf95a21bf1d49e1e59bd9d3"
+  M3L2_SCRIPT_SHA256: "016377fbb048bb54c4528b386b9db703e9a4c079420febdd1309c846e140a508"
   M3L2_SPEC_SHA256: "5013eafa1d138712cb815514e098db4183aaefd43be72d94ee74662c5c1fbefd"
 
 jobs:
   m3-l2-indepcheck:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 12
     steps:
       - name: Checkout source
         uses: actions/checkout@v4

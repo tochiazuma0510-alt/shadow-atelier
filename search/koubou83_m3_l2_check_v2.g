@@ -24,19 +24,25 @@ Read("search/gaplib_common.g");
 Read("search/week3-battery-common.g");
 
 t0Global := GAPLIB_WallElapsedMs();;
+Print("CKPT01 t0Global set t=", t0Global, "\n");
 
 INPUT_DATA_SHA256    := "75905c604b83058ff6406f5c115bfa3325fd4424c98125750e49c2b76bbd35ec";;
 INPUT_WBC_SHA256     := "aadf1afa5e1a171d10d0aa1f9657e823cad669b960e08da7b9e7618f2ea4f998";;
 INPUT_GAPLIB_SHA256  := "f80eeeae71c4e39f8b3d62d997d18635f5ea8fb339a6d0578e834300ea4d4911";;
 INPUT_PRELUDE_SHA256 := "2e4da671ad9d018be1bc6f2f387f0e1d597e87c2c0e807eef40aeef3b92deece";;
+Print("CKPT02 constants set t=", GAPLIB_WallElapsedMs(), "\n");
 SPEC_PATH := "scratchpad/koubou83_m3_l2_linear_spec_v1.md";;
 SPEC_RAW := StringFile(SPEC_PATH);;
 if SPEC_RAW = fail then Error("cannot read linear spec for sha256: ", SPEC_PATH); fi;
+Print("CKPT03 SPEC_RAW read (len=", Length(SPEC_RAW), ") t=", GAPLIB_WallElapsedMs(), "\n");
 SPEC_SHA256 := HexSHA256(SPEC_RAW);;
+Print("CKPT04 SPEC_SHA256 computed t=", GAPLIB_WallElapsedMs(), "\n");
 SCRIPT_PATH := "search/koubou83_m3_l2_check_v2.g";;
 SCRIPT_RAW := StringFile(SCRIPT_PATH);;
 if SCRIPT_RAW = fail then Error("cannot read checker source for runtime SHA: ", SCRIPT_PATH); fi;
+Print("CKPT05 SCRIPT_RAW read (len=", Length(SCRIPT_RAW), ") t=", GAPLIB_WallElapsedMs(), "\n");
 SCRIPT_SHA256 := HexSHA256(SCRIPT_RAW);;
+Print("CKPT06 SCRIPT_SHA256 computed t=", GAPLIB_WallElapsedMs(), "\n");
 
 ## ================= B3 = <a,b | aba=bab> setup (own lineage, reused verbatim) =================
 BF3 := FreeGroup("a", "b");;
@@ -44,6 +50,7 @@ brelD := BF3.1*BF3.2*BF3.1*BF3.2^-1*BF3.1^-1*BF3.2^-1;;
 B3 := BF3 / [brelD];;
 ga := B3.1;;  gb := B3.2;;
 a := ga;;  b := gb;;   # global bind for EvalString(word) -- DEEP15 words use bare a,b
+Print("CKPT07 B3 built t=", GAPLIB_WallElapsedMs(), "\n");
 
 W1SemanticGate := function()
   local sigma2, x, y, f1, formerRawOrderError, correctLhs, correctRhs,
@@ -71,6 +78,7 @@ end;;
 
 W1_GATE := W1SemanticGate();;
 if not W1_GATE.overall_pass then Error("W1_GATE overall_pass=false, aborting fail-closed"); fi;
+Print("CKPT08 W1_GATE pass=", W1_GATE.overall_pass, " t=", GAPLIB_WallElapsedMs(), "\n");
 
 BuildWindowFromWords := function(indexExpected, words)
   local genElts, N, idxOk, isNormal, hm, Gimg, isoQ, s1, s2;
@@ -123,13 +131,16 @@ CorrectedShadows := function(W, charmingSet)
 end;;
 
 ## ================= extract the 3 DEEP15 records (154161 x1, 154163 x2) =================
+Print("CKPT09 before DEEP15 Read t=", GAPLIB_WallElapsedMs(), "\n");
 Read("search/iso_census83_deep15_data.g");;
+Print("CKPT10 DEEP15 Read done, len=", Length(DEEP15), " t=", GAPLIB_WallElapsedMs(), "\n");
 if Length(DEEP15) <> 15 then Error("DEEP15 length != 15, got ", Length(DEEP15)); fi;
 
 Rec154161 := First(DEEP15, r -> r.id = [1152, 154161]);;
 Recs154163 := Filtered(DEEP15, r -> r.id = [1152, 154163]);;
 if Rec154161 = fail then Error("record [1152,154161] not found in DEEP15"); fi;
 if Length(Recs154163) <> 2 then Error("expected exactly 2 records for [1152,154163], got ", Length(Recs154163)); fi;
+Print("CKPT11 records extracted t=", GAPLIB_WallElapsedMs(), "\n");
 
 ## ================= mod-4 2x2 matrix / vector arithmetic (pure integers, no group theory) ======
 DetMod4 := function(M) return (M[1][1]*M[2][2] - M[1][2]*M[2][1]) mod 4; end;;
@@ -190,7 +201,9 @@ BuildGL2Z4 := function()
   return out;;
 end;;
 
+Print("CKPT12 before BuildGL2Z4 t=", GAPLIB_WallElapsedMs(), "\n");
 GL2Z4 := BuildGL2Z4();;
+Print("CKPT13 BuildGL2Z4 done, len=", Length(GL2Z4), " t=", GAPLIB_WallElapsedMs(), "\n");
 if Length(GL2Z4) <> 96 then Error("BuildGL2Z4 size mismatch, expected 96 got ", Length(GL2Z4)); fi;
 
 MatInverseMod4 := function(M)
@@ -228,14 +241,21 @@ A_CONST := [[0,3],[1,3]];;   ## [[0,-1],[1,-1]] mod 4
 Precompute := function(W, label)
   local G, P, D, q, Pab, s, v1, v2, gate1, gate2, gate3, gate4, coord,
         isoPabPc, v1Pc, v2Pc;
+  Print("  CKPT-PC-A [", label, "] entering Precompute t=", GAPLIB_WallElapsedMs(), "\n");
   G := W.PN;;
+  Print("  CKPT-PC-B [", label, "] G=W.PN, |G|=", Size(G), " t=", GAPLIB_WallElapsedMs(), "\n");
   P := DerivedSubgroup(G);;
+  Print("  CKPT-PC-C [", label, "] P=DerivedSubgroup(G), |P|=", Size(P), " t=", GAPLIB_WallElapsedMs(), "\n");
   D := DerivedSubgroup(P);;
+  Print("  CKPT-PC-D [", label, "] D=DerivedSubgroup(P), |D|=", Size(D), " t=", GAPLIB_WallElapsedMs(), "\n");
   q := NaturalHomomorphismByNormalSubgroup(P, D);;
+  Print("  CKPT-PC-E [", label, "] q built t=", GAPLIB_WallElapsedMs(), "\n");
   Pab := Image(q);;
+  Print("  CKPT-PC-F [", label, "] Pab=Image(q), |Pab|=", Size(Pab), " t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## GATE 1 (item 1): P^ab invariants = [4,4]
   gate1 := (AbelianInvariants(Pab) = [4,4]);;
+  Print("  CKPT-PC-G [", label, "] gate1=", gate1, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate1 then Error("Precompute GATE1 failed for ", label, ": invariants=", AbelianInvariants(Pab)); fi;
 
   ## canonical basis: s = paper (y x^-1) -> raw GAP x^-1*y (W-1)
@@ -243,16 +263,20 @@ Precompute := function(W, label)
   v1 := Image(q, s);;
   ## paper Ad(xbar)(v) = x v x^-1 = GAP v^(x^-1)
   v2 := Image(q, s^(W.x^-1));;
+  Print("  CKPT-PC-H [", label, "] v1,v2 built t=", GAPLIB_WallElapsedMs(), "\n");
 
   gate2 := (Size(Subgroup(Pab, [v1, v2])) = 16 and Order(v1) = 4 and Order(v2) = 4);;
+  Print("  CKPT-PC-I [", label, "] gate2=", gate2, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate2 then Error("Precompute GATE2 (basis) failed for ", label); fi;
 
   ## GATE: I + A + A^2 = 0 i.e. v1 * v2 * (A^2 v1) = identity in Pab
   gate3 := (v1 * v2 * Image(q, s^(W.x^-2)) = One(Pab));;
+  Print("  CKPT-PC-J [", label, "] gate3=", gate3, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate3 then Error("Precompute GATE3 (I+A+A^2=0) failed for ", label); fi;
 
   ## GATE: Ad(ybar) = Ad(xbar) on Pab (both give v2)
   gate4 := (Image(q, s^(W.y^-1)) = v2);;
+  Print("  CKPT-PC-K [", label, "] gate4=", gate4, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate4 then Error("Precompute GATE4 (Ad(ybar)=Ad(xbar)) failed for ", label); fi;
 
   ## perf note: Pab inherits P's large-degree (~1152) permutation representation via q, so raw
@@ -262,8 +286,10 @@ Precompute := function(W, label)
   ## happen in the cheap representation. This changes nothing mathematically (isoPabPc is a
   ## bijective homomorphism, so equality is preserved) -- pure performance fix, spec-neutral.
   isoPabPc := IsomorphismPcGroup(Pab);;
+  Print("  CKPT-PC-L [", label, "] isoPabPc built t=", GAPLIB_WallElapsedMs(), "\n");
   v1Pc := Image(isoPabPc, v1);;
   v2Pc := Image(isoPabPc, v2);;
+  Print("  CKPT-PC-M [", label, "] v1Pc,v2Pc built t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## coord(w): discrete log of Image(q,w) in the (v1,v2) basis, (Z/4)^2, 16-combo search
   coord := function(w)
@@ -333,21 +359,26 @@ RunWindow := function(W, label)
         weilPassCount, destructivePassCount, semilinearPassCount, fInPCount, thetaRow,
         kerChiRows, h0Rows, distinctMats, isNew, M, thetaTIdentification, tCandidates,
         detCheck, semiOk, weilOk, destrOk, fInP, kerChiList;
+  Print(" CKPT-RW-A [", label, "] entering RunWindow t=", GAPLIB_WallElapsedMs(), "\n");
   pc := Precompute(W, label);;
+  Print(" CKPT-RW-B [", label, "] Precompute returned t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## ---- section 2 self-test (MUST run first, fail-closed) ----
   selftestI := ComputeThetaBar(pc, 0, Identity(pc.P));;
   ok0 := MatEqMod4(selftestI.matrix, IDMOD4);;
+  Print(" CKPT-RW-C [", label, "] selftest[0,1] done ok0=", ok0, " t=", GAPLIB_WallElapsedMs(), "\n");
 
   f1_word := W.x^-1 * W.y;;   ## paper y x^-1 -> raw x^-1*y (= s itself, W-1)
   selftestA := ComputeThetaBar(pc, 0, f1_word);;
   ok1 := MatEqMod4(selftestA.matrix, A_CONST);;
+  Print(" CKPT-RW-D [", label, "] selftest[0,f1] done ok1=", ok1, " t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## f2: paper word "y^2 x^-2" (w_2 = ybar^2 xbar^-2) -> raw form per W-1 (paper AB -> GAP B*A,
   ## A=y^2,B=x^-2) = x^-2*y^2. Expected coord = Sigma_2 v1 = (I+A)(1,0) = (1,1), theta = A^2.
   f2_word := W.x^-2 * W.y^2;;
   selftestA2 := ComputeThetaBar(pc, 0, f2_word);;
   ok2 := MatEqMod4(selftestA2.matrix, MatMulMod4(A_CONST, A_CONST));;
+  Print(" CKPT-RW-E [", label, "] selftest[0,f2] done ok2=", ok2, " t=", GAPLIB_WallElapsedMs(), "\n");
 
   if not (ok0 and ok1 and ok2) then
     Error("SELF-TEST FAILED for ", label, ": [0,1]->I:", ok0, " [0,f1]->A:", ok1, " [0,f2]->A^2:", ok2,
@@ -358,13 +389,16 @@ RunWindow := function(W, label)
   x3c := pc.coord(W.x^3);;
   y3c := pc.coord(W.y^3);;
   z3c := pc.coord(W.z^3);;
+  Print(" CKPT-RW-F [", label, "] cusp coords done t=", GAPLIB_WallElapsedMs(), "\n");
   x3even := (x3c[1] mod 2 = 0) and (x3c[2] mod 2 = 0);;
   cuspOk := x3even and VecEqMod4(y3c, x3c)
             and VecEqMod4(z3c, [ (4 - 2*x3c[1]) mod 4, (4 - 2*x3c[2]) mod 4 ]);;
 
   ## ---- full 48-shadow sweep ----
   charmingSet := Filtered([0 .. W.Nord - 1], mm2 -> Gcd(2*mm2 + 1, W.Nord) = 1);;
+  Print(" CKPT-RW-G [", label, "] charmingSet computed, size=", Length(charmingSet), " t=", GAPLIB_WallElapsedMs(), "\n");
   corr := CorrectedShadows(W, charmingSet);;
+  Print(" CKPT-RW-H [", label, "] CorrectedShadows returned, size=", Length(corr), " t=", GAPLIB_WallElapsedMs(), "\n");
   if Length(corr) <> 48 then Error("RunWindow: expected 48 corrected shadows, got ", Length(corr)); fi;
 
   rows := [];;
@@ -386,7 +420,11 @@ RunWindow := function(W, label)
     Add(rows, rec(m := m, u := thetaRow.u, e := thetaRow.e, alpha := thetaRow.alpha, beta := thetaRow.beta,
                    matrix := thetaRow.matrix, det := thetaRow.det, f_in_P := fInP,
                    weil_ok := weilOk, destructive_control_ok := destrOk, semilinear_ok := semiOk));;
+    if Length(rows) mod 8 = 0 then
+      Print(" CKPT-RW-ROW [", label, "] row ", Length(rows), "/48 done t=", GAPLIB_WallElapsedMs(), "\n");
+    fi;
   od;
+  Print(" CKPT-RW-I [", label, "] shadow sweep loop done, weil=", weilPassCount, "/48 t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## ---- ker(chi_vir) (12 elements, m in {0,6}) and H0 (m=0 subset, 6 elements); theta_t id ----
   kerChiRows := Filtered(rows, r -> (2*r.m + 1) mod W.Nord = 1 mod W.Nord);;
@@ -507,11 +545,15 @@ Print("# koubou83_m3_l2_check_v2.g -- linear-evaluation independent cross-check 
 Print("############################################################\n");
 
 S154161 := BuildWindowFromWords(Rec154161.index, Rec154161.words);;
+Print("CKPT14 S154161 built t=", GAPLIB_WallElapsedMs(), "\n");
 Wwin154161 := MakeWindow(S154161.s1, S154161.s2);;
+Print("CKPT15 Wwin154161 built, |PN|=", Size(Wwin154161.PN), " t=", GAPLIB_WallElapsedMs(), "\n");
 S154163a := BuildWindowFromWords(Recs154163[1].index, Recs154163[1].words);;
 Wwin154163a := MakeWindow(S154163a.s1, S154163a.s2);;
+Print("CKPT16 Wwin154163a built t=", GAPLIB_WallElapsedMs(), "\n");
 S154163b := BuildWindowFromWords(Recs154163[2].index, Recs154163[2].words);;
 Wwin154163b := MakeWindow(S154163b.s1, S154163b.s2);;
+Print("CKPT17 Wwin154163b built t=", GAPLIB_WallElapsedMs(), "\n");
 
 if Size(Wwin154161.PN) <> 192 or Size(Wwin154163a.PN) <> 192 or Size(Wwin154163b.PN) <> 192 then
   Error("PIN: |G| != 192 in some record");
@@ -519,8 +561,10 @@ fi;
 if Wwin154161.Nord <> 12 or Wwin154163a.Nord <> 12 or Wwin154163b.Nord <> 12 then
   Error("PIN: N_ord != 12");
 fi;
+Print("CKPT18 PIN asserts passed, entering RunWindow(154161) t=", GAPLIB_WallElapsedMs(), "\n");
 
 RW_154161  := RunWindow(Wwin154161,  "1152-154161");;
+Print("CKPT19 RunWindow(154161) returned t=", GAPLIB_WallElapsedMs(), "\n");
 Print("  [1152-154161] self-test=", RW_154161.self_test.zero_to_I and RW_154161.self_test.f1_to_A
       and RW_154161.self_test.f2_to_A2, " weil=", RW_154161.weil_pass_count, "/48",
       " destructive_pass(expect0)=", RW_154161.destructive_control_pass_count,
