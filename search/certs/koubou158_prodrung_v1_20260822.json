@@ -1,0 +1,508 @@
+{
+  "all_18_dead": false,
+  "alpha_note": {
+    "L_isolated_verified": false,
+    "isolated_reduction": "2008.00066 Cor 3.5: exists isolated L# <= L; functoriality of (3.24) gives I_{L#} subset I_L; T33-L2 applied at L#; no recomputation",
+    "isolation_of_working_level": "not required"
+  },
+  "block": {
+    "size": 9,
+    "size_B": 18,
+    "start": 36
+  },
+  "branch_results": {
+    "r0_c13": {
+      "branch_id": "r0_c13",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 2,
+        "support": 596
+      }
+    },
+    "r0_c18": {
+      "branch_id": "r0_c18",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 1,
+        "support": 596
+      }
+    },
+    "r0_c8": {
+      "branch_id": "r0_c8",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r1_c17": {
+      "branch_id": "r1_c17",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 2,
+        "support": 596
+      }
+    },
+    "r1_c2": {
+      "branch_id": "r1_c2",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r1_c23": {
+      "branch_id": "r1_c23",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r2_c15": {
+      "branch_id": "r2_c15",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 1,
+        "support": 596
+      }
+    },
+    "r2_c2": {
+      "branch_id": "r2_c2",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r2_c22": {
+      "branch_id": "r2_c22",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r3_c16": {
+      "branch_id": "r3_c16",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r3_c2": {
+      "branch_id": "r3_c2",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 1,
+        "support": 596
+      }
+    },
+    "r3_c21": {
+      "branch_id": "r3_c21",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 2,
+        "support": 596
+      }
+    },
+    "r4_c1": {
+      "branch_id": "r4_c1",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r4_c16": {
+      "branch_id": "r4_c16",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r4_c22": {
+      "branch_id": "r4_c22",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 2,
+        "support": 596
+      }
+    },
+    "r5_c10": {
+      "branch_id": "r5_c10",
+      "j_star": 5,
+      "non_member": true,
+      "separator": {
+        "phi_val": 1,
+        "support": 596
+      }
+    },
+    "r5_c26": {
+      "branch_id": "r5_c26",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    },
+    "r5_c3": {
+      "branch_id": "r5_c3",
+      "j_star": null,
+      "non_member": false,
+      "separator": null
+    }
+  },
+  "canary_a_D1_nabla_bprime": {
+    "all_branches_ok": true,
+    "interpretation": "Fox-calculus augmentation identity (see module docstring) -- checked for all 18 branch targets"
+  },
+  "canary_b_D1_sigma_c": {
+    "all_ok": true,
+    "interpretation": "same augmentation identity, checked for all Sigma(c) vectors"
+  },
+  "canary_c_depth_observational": "recorded per-j in j_progression[*].depth_requirement_observational_ok and per_relator_closure_receipts -- NOT the soundness basis (see search/koubou158_L3_core_v1_2.py's repair 2: saturation + fresh-echelon-first ordering is the actual soundness argument, reused unchanged here)",
+  "canary_d_B_full_enumeration": "REQUIRED and PASSED: B (18 elements) verified closed under inversion; im(D2bar)'s B-side contribution uses ALL 18 elements as literal translates (submodule_closure_B_pi), NOT a generator-only shortcut -- B is not exponent-3 so a generator-based augmentation-ideal trick would under-count the true span (false NO risk)",
+  "condition_ii_iii_iv_note": "(ii) discharges for all branches resolved here (sound, same over-approximation caveat as the rest of the L3 lane); (i) discharges partially (the resolved subset of the 162-branch census); (iii)/(iv) remain open -- OBS* is NOT claimed.",
+  "delta_bound_note": "quoted expectation |Delta|<=8748; measured n_Delta=8748",
+  "dimension_model_verified_before_coding": {
+    "exact_match": true,
+    "formula": "dim(Lambda/a^j Lambda) = 6 * |B| * N(j)",
+    "j_2_3_4_5": [
+      756,
+      3456,
+      11448,
+      31320
+    ],
+    "quoted_expected": [
+      756,
+      3456,
+      11448,
+      31320
+    ]
+  },
+  "generated_at_utc": "2026-08-21T20:56:01.374047+00:00",
+  "grade": "candidate, single-system producer measurement; no independent second-system cross-check has been run for this prodrung result yet",
+  "input_provenance": {
+    "q3_chief_receipt": {
+      "bytes": 231570,
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+      "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+    }
+  },
+  "j5_resumable_driver_note": "j=5 (dim=31320) was computed via a SEPARATE, resumable, per-relator-checkpointed driver (search/koubou158_prodrung_j5_resume_v1.py), not the single-process j-loop in the original producer -- two single-process attempts at j<=5 were independently KILLED (background task timeout) at essentially the same point (right as j=5's closure computation began, after j=2/3/4 completed cleanly each time). The resumable driver processes the 11 relators' closures one at a time across separate short-lived invocations, checkpointing the shared echelon's pivot state to scratchpad/prodrung_j5_checkpoint.json between calls.",
+  "j_progression": [
+    {
+      "depth_requirement_observational_ok": true,
+      "dim_Lambda_over_aj": 756,
+      "j": 2,
+      "n_branches_resolved_this_level": 0,
+      "n_branches_still_undetermined_after": 18,
+      "per_relator_closure_receipts": [
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 114,
+          "total_vectors_explored": 1158
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 114,
+          "total_vectors_explored": 1158
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 72,
+          "total_vectors_explored": 738
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 24,
+          "total_vectors_explored": 258
+        },
+        {
+          "max_depth_reached": 1,
+          "new_pivots": 18,
+          "total_vectors_explored": 198
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 66,
+          "total_vectors_explored": 678
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 24,
+          "total_vectors_explored": 258
+        },
+        {
+          "max_depth_reached": 1,
+          "new_pivots": 18,
+          "total_vectors_explored": 198
+        },
+        {
+          "max_depth_reached": 1,
+          "new_pivots": 18,
+          "total_vectors_explored": 198
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 45,
+          "total_vectors_explored": 468
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 42,
+          "total_vectors_explored": 438
+        }
+      ],
+      "rank_D2bar_alone": 555,
+      "rank_V": 51,
+      "rank_combined": 606,
+      "wall_seconds": 18.023471200023778
+    },
+    {
+      "depth_requirement_observational_ok": true,
+      "dim_Lambda_over_aj": 3456,
+      "j": 3,
+      "n_branches_resolved_this_level": 0,
+      "n_branches_still_undetermined_after": 18,
+      "per_relator_closure_receipts": [
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 526,
+          "total_vectors_explored": 5182
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 526,
+          "total_vectors_explored": 5182
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 351,
+          "total_vectors_explored": 3474
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 151,
+          "total_vectors_explored": 1522
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 126,
+          "total_vectors_explored": 1278
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 326,
+          "total_vectors_explored": 3230
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 151,
+          "total_vectors_explored": 1522
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 126,
+          "total_vectors_explored": 1278
+        },
+        {
+          "max_depth_reached": 2,
+          "new_pivots": 126,
+          "total_vectors_explored": 1278
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 135,
+          "total_vectors_explored": 1341
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 128,
+          "total_vectors_explored": 1274
+        }
+      ],
+      "rank_D2bar_alone": 2672,
+      "rank_V": 121,
+      "rank_combined": 2793,
+      "wall_seconds": 58.396717499999795
+    },
+    {
+      "depth_requirement_observational_ok": true,
+      "dim_Lambda_over_aj": 11448,
+      "j": 4,
+      "n_branches_resolved_this_level": 0,
+      "n_branches_still_undetermined_after": 18,
+      "per_relator_closure_receipts": [
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1758,
+          "total_vectors_explored": 17204
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1754,
+          "total_vectors_explored": 17166
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1242,
+          "total_vectors_explored": 12168
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 635,
+          "total_vectors_explored": 6257
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 559,
+          "total_vectors_explored": 5517
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1117,
+          "total_vectors_explored": 10954
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 573,
+          "total_vectors_explored": 5660
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 489,
+          "total_vectors_explored": 4843
+        },
+        {
+          "max_depth_reached": 3,
+          "new_pivots": 457,
+          "total_vectors_explored": 4531
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 288,
+          "total_vectors_explored": 2817
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 261,
+          "total_vectors_explored": 2567
+        }
+      ],
+      "rank_D2bar_alone": 9133,
+      "rank_V": 191,
+      "rank_combined": 9324,
+      "wall_seconds": 322.5118612999795
+    },
+    {
+      "depth_requirement_observational_ok": true,
+      "dim_Lambda_over_aj": 31320,
+      "j": 5,
+      "n_branches_resolved_this_level": 8,
+      "n_branches_still_undetermined_after": 10,
+      "note": "computed via the resumable per-relator-checkpointed driver (koubou158_prodrung_j5_resume_v1.py), not the single-process j-loop in koubou158_prodrung_v1.py -- two single-process j<=5 attempts were killed by an external time limit at this exact level",
+      "per_relator_closure_receipts": [
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 4840,
+          "total_vectors_explored": 47016
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 4818,
+          "total_vectors_explored": 46798
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 3564,
+          "total_vectors_explored": 34677
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 2002,
+          "total_vectors_explored": 19560
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1804,
+          "total_vectors_explored": 17660
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 3111,
+          "total_vectors_explored": 30290
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 1697,
+          "total_vectors_explored": 16565
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1361,
+          "total_vectors_explored": 13292
+        },
+        {
+          "max_depth_reached": 4,
+          "new_pivots": 1229,
+          "total_vectors_explored": 11998
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 495,
+          "total_vectors_explored": 4806
+        },
+        {
+          "max_depth_reached": 5,
+          "new_pivots": 431,
+          "total_vectors_explored": 4207
+        }
+      ],
+      "rank_D2bar_alone": 25352,
+      "rank_V": 280,
+      "rank_combined": 25632,
+      "wall_seconds": 706.883149900008
+    }
+  ],
+  "k3_overapproximation_caveat": "same as the rest of the L3 lane: V is built from the FULL kernel K, not the true exponent-sum-mod-3-filtered legal-correction span.",
+  "n_Delta": 8748,
+  "n_branches_dead": 8,
+  "n_branches_undetermined": 10,
+  "n_schreier_generators": 8749,
+  "outside_witness_pin": {
+    "arithmetic_outside_by_index_three": true,
+    "correction_index": 1,
+    "exponent": 2,
+    "marking_m": 0,
+    "match_check_method": "list(selected_solution.typed_source_word) == FIXED_WORD (byte/element-wise list equality), machine-checked, not asserted by hand",
+    "nabla_b_roof_matches_pin": true,
+    "note": "roof_row_index=37/exponent=2 is EXACTLY the roof this lane's FIXED_WORD/target6 was built from (selected_solution.correction_word==[] confirms no additional PB4-style correction was applied beyond the roof itself) -- names which of the 6 canonical_roof_powers rows the T33-L2 'one element suffices' argument is actually resting on.",
+    "roof_key": [
+      0,
+      [
+        [
+          4,
+          0
+        ],
+        [
+          5,
+          0
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    ],
+    "roof_row_index": 37,
+    "source_receipt_sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+  },
+  "overall_reading": "8/18 branches resolved (DEAD) through j<=5; 10 remain undetermined at this rung -- next step (PSL(2,8) x Pi, not attempted here) would be needed for those, per commander's own framing",
+  "schema": "koubou158-prodrung/v1",
+  "spec_source": "commander instruction 2026-08-22, mathematician verbatim spec (koubou158-prodrung-v1): resolve the 18 L3-still-MEMBER branches via Ebar_B=Res_B(Q4)xPi4[3] (full Pi, not truncated)",
+  "wall_clock_seconds": 444.08609170001
+}

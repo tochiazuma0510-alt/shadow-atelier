@@ -1,0 +1,501 @@
+{
+  "bug_fix_inv_gen_note": "IndependentPc.inverse() (search/koubou158_L3_core_v1_2.py) had a LATENT bug: _inv_gen was built from pb4['marked_generators'] (only 6 entries) instead of pb4['inverses'] (all 10 pc-generators) -- calling pc.inverse() on a general group element with nonzero support on generators 7-10 (weight-2, the derived/commutator layer) raised IndexError. This bug was DORMANT in every prior script this session using the same IndependentPc pattern (pc.inverse() was only ever invoked on single-marked-generator unit vectors there, e.g. inside E4.eval's negative-letter branch) -- it was first TRIGGERED by this file's own NEW repair-3 zbar-identification check (pc.inverse(pc.mul(ybar,xbar)), a genuine product with weight-2 support), found and fixed while implementing that check, and independently re-discovered by the falsifier during review of the same code path. FIXED by sourcing _inv_gen from pb4['inverses'] (all 10 rows; verified pb4['inverses'][0:6] == pb4['marked_generators'][*]['inverse_coords'] exactly before switching sources) -- confirmed to have no effect on any already-published rank/membership numbers (they never exercised the buggy path), but recorded here explicitly per commander instruction 2026-08-22, not left as a code-comment-only fix.",
+  "condition_ii_discharged": true,
+  "fc37_jennings_degree": 3,
+  "generated_at_utc": "2026-08-21T19:27:44.704678+00:00",
+  "grade": "candidate, single-system producer measurement, v1.2 (3 required repairs applied, 1 of 2 recommended checks applied -- GAP JenningsSeries cross-check tracked separately, see search/certs/koubou158_L3_jennings_gap_check_v1_*.json if present). Falsifier verdict pending on this v1.2 regeneration.",
+  "input_provenance": {
+    "q3_chief_receipt": {
+      "bytes": 231570,
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+      "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+    }
+  },
+  "j_progression": [
+    {
+      "delta_is_abelian": false,
+      "delta_isomorphism_type": "nonabelian_exponent3_order27_class2",
+      "depth_observational_only_note": "depth fields below are OBSERVATIONAL RECEIPTS only, no longer the stated soundness basis (see soundness_basis field above) -- kept per the no-rename/no-delete policy and because they are still useful diagnostic information",
+      "depth_requirement_j_minus_1_observational": 1,
+      "depth_requirement_satisfied_observational": true,
+      "dim_Lambda_over_Ij": 42,
+      "dim_monomials": 7,
+      "j": 2,
+      "min_depth_reached_across_relators": 1,
+      "n_Delta": 27,
+      "n_schreier_generators": 28,
+      "non_member": false,
+      "ordering_note": "v1.2 (repair 1): im(D2bar) built in a fresh, unseeded echelon FIRST (rank_D2bar_alone above); V's static Sigma(c) vectors added to a CLONE of that echelon SECOND (rank_V_plus_D2bar_combined). This ordering is what makes the pruning-soundness argument an actual induction (see module docstring repair 1).",
+      "per_relator_closure_receipts": [
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10
+          },
+          "max_depth_reached": 1,
+          "max_depth_with_new_pivot": 0,
+          "new_pivots": 1
+        }
+      ],
+      "rank_D2bar_alone": 11,
+      "rank_V": 0,
+      "rank_V_plus_D2bar_combined": 11,
+      "saturation_confirmed": true,
+      "schreier_generators_digest": "5dbcb6cf45909e1f62eac730de2271a03dff9d7e31ebe0e96347b5b2073a2684",
+      "separator": null,
+      "soundness_basis": "SATURATION (BFS queue drains naturally, no depth cap ever imposed) + REPAIR-1 ORDERING (every im(D2bar) pivot came from a relator's own BFS closure with all 10 operators eventually applied; V is added afterward as a plain static span, never itself expanded, per spec S4) -- NOT the depth>=j-1 canary (falsifier showed that canary never fires: an artificial depth_cap=j-2 reproduces the same result).",
+      "theoretical_ceiling_note": "worst-case (fully unpruned) ceiling at depth<=j-1=1: 11 per relator * 11 relators = 121 -- actual counts are the per-relator explored_count_by_depth entries above (pruned by rank-saturation, typically far below the ceiling)",
+      "total_vectors_explored": 121,
+      "wall_seconds": 0.08941899996716529,
+      "zbar_identification_check": "zbar == (ybar*xbar)^-1 -- REQUIRED and PASSED (see require() above)"
+    },
+    {
+      "delta_is_abelian": false,
+      "delta_isomorphism_type": "nonabelian_exponent3_order27_class2",
+      "depth_observational_only_note": "depth fields below are OBSERVATIONAL RECEIPTS only, no longer the stated soundness basis (see soundness_basis field above) -- kept per the no-rename/no-delete policy and because they are still useful diagnostic information",
+      "depth_requirement_j_minus_1_observational": 2,
+      "depth_requirement_satisfied_observational": true,
+      "dim_Lambda_over_Ij": 192,
+      "dim_monomials": 32,
+      "j": 3,
+      "min_depth_reached_across_relators": 2,
+      "n_Delta": 27,
+      "n_schreier_generators": 28,
+      "non_member": false,
+      "ordering_note": "v1.2 (repair 1): im(D2bar) built in a fresh, unseeded echelon FIRST (rank_D2bar_alone above); V's static Sigma(c) vectors added to a CLONE of that echelon SECOND (rank_V_plus_D2bar_combined). This ordering is what makes the pruning-soundness argument an actual induction (see module docstring repair 1).",
+      "per_relator_closure_receipts": [
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 60
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 7
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 30
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 4
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 30
+          },
+          "max_depth_reached": 2,
+          "max_depth_with_new_pivot": 1,
+          "new_pivots": 4
+        }
+      ],
+      "rank_D2bar_alone": 71,
+      "rank_V": 2,
+      "rank_V_plus_D2bar_combined": 73,
+      "saturation_confirmed": true,
+      "schreier_generators_digest": "5dbcb6cf45909e1f62eac730de2271a03dff9d7e31ebe0e96347b5b2073a2684",
+      "separator": null,
+      "soundness_basis": "SATURATION (BFS queue drains naturally, no depth cap ever imposed) + REPAIR-1 ORDERING (every im(D2bar) pivot came from a relator's own BFS closure with all 10 operators eventually applied; V is added afterward as a plain static span, never itself expanded, per spec S4) -- NOT the depth>=j-1 canary (falsifier showed that canary never fires: an artificial depth_cap=j-2 reproduces the same result).",
+      "theoretical_ceiling_note": "worst-case (fully unpruned) ceiling at depth<=j-1=2: 111 per relator * 11 relators = 1221 -- actual counts are the per-relator explored_count_by_depth entries above (pruned by rank-saturation, typically far below the ceiling)",
+      "total_vectors_explored": 721,
+      "wall_seconds": 0.562012100010179,
+      "zbar_identification_check": "zbar == (ybar*xbar)^-1 -- REQUIRED and PASSED (see require() above)"
+    },
+    {
+      "delta_is_abelian": false,
+      "delta_isomorphism_type": "nonabelian_exponent3_order27_class2",
+      "depth_observational_only_note": "depth fields below are OBSERVATIONAL RECEIPTS only, no longer the stated soundness basis (see soundness_basis field above) -- kept per the no-rename/no-delete policy and because they are still useful diagnostic information",
+      "depth_requirement_j_minus_1_observational": 3,
+      "depth_requirement_satisfied_observational": true,
+      "dim_Lambda_over_Ij": 636,
+      "dim_monomials": 106,
+      "j": 4,
+      "min_depth_reached_across_relators": 3,
+      "n_Delta": 27,
+      "n_schreier_generators": 28,
+      "non_member": true,
+      "ordering_note": "v1.2 (repair 1): im(D2bar) built in a fresh, unseeded echelon FIRST (rank_D2bar_alone above); V's static Sigma(c) vectors added to a CLONE of that echelon SECOND (rank_V_plus_D2bar_combined). This ordering is what makes the pruning-soundness argument an actual induction (see module docstring repair 1).",
+      "per_relator_closure_receipts": [
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 100,
+            "3": 204
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 32
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 40,
+            "3": 57
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 11
+        },
+        {
+          "explored_count_by_depth": {
+            "0": 1,
+            "1": 10,
+            "2": 40,
+            "3": 57
+          },
+          "max_depth_reached": 3,
+          "max_depth_with_new_pivot": 2,
+          "new_pivots": 11
+        }
+      ],
+      "rank_D2bar_alone": 310,
+      "rank_V": 4,
+      "rank_V_plus_D2bar_combined": 314,
+      "saturation_confirmed": true,
+      "schreier_generators_digest": "5dbcb6cf45909e1f62eac730de2271a03dff9d7e31ebe0e96347b5b2073a2684",
+      "separator": {
+        "phi_nabla_b": 2,
+        "support": 19,
+        "terms": {
+          "4,(0, 0, 0, 0, 0, 0, 0, 0, 0, 1)": 2,
+          "4,(0, 0, 0, 0, 0, 2, 0, 0, 0, 0)": 2,
+          "4,(0, 0, 0, 0, 1, 0, 0, 0, 0, 0)": 1,
+          "4,(0, 0, 0, 0, 1, 0, 0, 0, 0, 1)": 1,
+          "4,(0, 0, 0, 0, 1, 1, 0, 0, 0, 0)": 2,
+          "4,(0, 0, 0, 0, 1, 2, 0, 0, 0, 0)": 2,
+          "4,(0, 0, 0, 1, 0, 0, 0, 0, 0, 1)": 1,
+          "4,(0, 0, 0, 1, 0, 1, 0, 0, 0, 0)": 2,
+          "4,(0, 0, 0, 1, 0, 2, 0, 0, 0, 0)": 2,
+          "4,(0, 0, 0, 1, 1, 0, 0, 0, 0, 0)": 1,
+          "4,(0, 0, 0, 1, 2, 0, 0, 0, 0, 0)": 2,
+          "5,(0, 0, 0, 0, 0, 0, 0, 0, 0, 1)": 2,
+          "5,(0, 0, 0, 0, 1, 0, 0, 0, 0, 1)": 1,
+          "5,(0, 0, 0, 0, 1, 2, 0, 0, 0, 0)": 1,
+          "5,(0, 0, 0, 1, 0, 0, 0, 0, 0, 1)": 1,
+          "5,(0, 0, 0, 1, 0, 2, 0, 0, 0, 0)": 1,
+          "5,(0, 0, 0, 1, 2, 0, 0, 0, 0, 0)": 2,
+          "6,(0, 0, 0, 0, 1, 2, 0, 0, 0, 0)": 2,
+          "6,(0, 0, 0, 1, 0, 2, 0, 0, 0, 0)": 1
+        }
+      },
+      "soundness_basis": "SATURATION (BFS queue drains naturally, no depth cap ever imposed) + REPAIR-1 ORDERING (every im(D2bar) pivot came from a relator's own BFS closure with all 10 operators eventually applied; V is added afterward as a plain static span, never itself expanded, per spec S4) -- NOT the depth>=j-1 canary (falsifier showed that canary never fires: an artificial depth_cap=j-2 reproduces the same result).",
+      "theoretical_ceiling_note": "worst-case (fully unpruned) ceiling at depth<=j-1=3: 1111 per relator * 11 relators = 12221 -- actual counts are the per-relator explored_count_by_depth entries above (pruned by rank-saturation, typically far below the ceiling)",
+      "total_vectors_explored": 3051,
+      "wall_seconds": 5.120252699998673,
+      "zbar_identification_check": "zbar == (ybar*xbar)^-1 -- REQUIRED and PASSED (see require() above)"
+    }
+  ],
+  "j_star": 4,
+  "k3_overapproximation_caveat": "V is built from the FULL kernel K=ker(F2->Delta), not further restricted by the exponent-sum-mod-3 pre-filter the true legal-correction definition also requires.",
+  "mathematician_claim_note": "verbatim assertion as relayed by the commander 2026-08-22: 'nabla b NOT IN Sigma(K^(31)_E4) + im D2^full'. Preconditions: quotient_direction_certified (Theorem D', independently certified elsewhere in this repo -- see search/certs/koubou158_completeness_v3_20260822.json, same premise L1/D18 already cite); conditions (i), (iii), (iv) of T-56 remain UNRESOLVED by this measurement -- co-listed on the same line/cert as the claim, not a separate easy-to-miss caveat.",
+  "mathematician_claim_verbatim": "∇b ∉ Σ(K⁽³¹⁾_E4) + im D₂^full",
+  "obs_star_claimed": false,
+  "obs_star_note": "(i)/(iii)/(iv) of T-56 remain unaddressed by this measurement -- explicitly NOT claiming OBS* even though condition (ii) discharges here",
+  "predecessor_certs": [
+    "search/certs/koubou158_L3_radical_v1_20260822.json (kept unchanged)",
+    "search/certs/koubou158_L3_radical_v1_1_20260822.json (kept unchanged)"
+  ],
+  "rank_V_quantitative_note": "rank_V=4 at j=4 -- small relative to rank_V_plus_D2bar_combined -- the mathematician's quantitative measure of 'the correction is structurally thin'.",
+  "recommended_5_rebuild_consistency": {
+    "rebuild_consistency_ok": true,
+    "rechecked_at_j": 4
+  },
+  "repair_1_prune_order": {
+    "description": "im(D2bar) built in a fresh, unseeded echelon first; V added to a clone second (was: V-seeded ordering in v1/v1_1)",
+    "matched_historical_value": true,
+    "rank_D2bar_alone_at_j4": 310,
+    "rank_combined_at_j4_required_match": 314
+  },
+  "repair_2_soundness_basis": "SATURATION (BFS queue drains naturally, no depth cap ever imposed) + REPAIR-1 ORDERING (every im(D2bar) pivot's operators are all applied via its own BFS; V is a plain static span added afterward, per spec S4) -- NOT the depth>=j-1 canary, which the falsifier showed never actually fires (depth_cap=j-2 reproduces the same result). Depth fields are kept as observational receipts only in j_progression[*].per_relator_closure_receipts.",
+  "repair_3_delta_identification": {
+    "delta_is_abelian": false,
+    "delta_isomorphism_type": "nonabelian_exponent3_order27_class2",
+    "schreier_generators_digest": "5dbcb6cf45909e1f62eac730de2271a03dff9d7e31ebe0e96347b5b2073a2684",
+    "zbar_check": "zbar == (ybar*xbar)^-1 -- REQUIRED and PASSED at every j"
+  },
+  "schema": "koubou158-L3-radical/v1.2",
+  "settled_no": true,
+  "spec_source": "koubou158_L3_radical_v1_1.json regenerated per falsifier mid-read verdict 2026-08-22 ('A側生還' + 3 required repairs before final grading) -- see search/koubou158_L3_core_v1_2.py docstring",
+  "wall_clock_seconds": 10.818771900027059,
+  "weight_structure": {
+    "verified_from_conjugate_relations": true,
+    "weights": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      2,
+      2,
+      2,
+      2
+    ]
+  }
+}

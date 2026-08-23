@@ -1,0 +1,1094 @@
+{
+  "schema": "koubou158-M2-msweep-v3-canary/v1",
+  "generated_at_utc": "2026-08-22T01:25:02.995290+00:00",
+  "status": "CANARY_ALL_FAIL_STOPPED",
+  "top_level_summary": "Both interpretations of the mathematician's 24-combination closed-form hexagon construction (search/koubou158_m2_closedform_v1.py builder, two parametrizations tested = 48 distinct trials total) FAIL the m=0 tier-(i) SHA canary against the frozen target6.base_gradient (entry_count=72, sha256=788fd8712f76a3ca254bb2179b5498fed3ca00e649ba0321ef297d2d985cc71e). The mathematician's own predicted winner (z_word=yx_inv/tau(y)=(yx)^-1, f orientation positive, order [tau_g,tau2_g,g]) was tested explicitly and also FAILS tier-(i), though it is the closest candidate found (smallest gradient difference, 14 nonzero terms vs 29-38 for other combinations) and the only ones sustaining tier-(ii) coboundary membership through j=3 (still failing at j=4,5). Per commander instruction 2026-08-22 ('24通り全滅の場合のみ停止・差し戻し'), this STOPS here -- v3's m1-sweep was NOT executed. No compute was spent on m1 in {2,3,5,6,8} in this cert.",
+  "construction_source": "search/koubou158_m2_closedform_v1.py (g:=y^m++FIXED_WORD; tau:=letter substitution x->y,y->z_word; H:=tau^2(g)++tau(g)++g variants; pushed through formulas.cofaces_3_4[0])",
+  "frozen_reference": {
+    "path": "ci/b345_157eh_lexblock_artifacts_32401947156/d972_b345_lexfirst_block_target6_v2.json",
+    "referenced_via": "search/certs/koubou158_ladder_L1_v1_20260821.json",
+    "entry_count": 72,
+    "base_gradient_sha256": "788fd8712f76a3ca254bb2179b5498fed3ca00e649ba0321ef297d2d985cc71e"
+  },
+  "mathematicians_predicted_winner_explicit_test": {
+    "prediction_verbatim": "凍結 h1 = pp[f_xy, Inv(f_xz), f_yz] = f_yz.f_xz^-1.f_xy = tau(g).tau^2(g).g order x tau(y)=(yx)^-1 x f positive orientation",
+    "tested_as": {
+      "z_word_variant": "yx_inv",
+      "f_orientation": "f_pos",
+      "perm_order": [
+        "tau_g",
+        "tau2_g",
+        "g"
+      ]
+    },
+    "result": {
+      "z_word_variant": "yx_inv",
+      "f_orientation": "f_pos",
+      "perm_order": [
+        "tau_g",
+        "tau2_g",
+        "g"
+      ],
+      "word_len": 72,
+      "value_is_identity": true,
+      "entry_count": 72,
+      "sha256": "9646e317d59225690d23121e6da0981e8a0bfab3fe7ab941da0810cd0757feed",
+      "sha_match_tier1": false,
+      "eq_frozen_word": false,
+      "diff_value_is_identity": true,
+      "diff_nonzero_terms_pi": 14,
+      "tier2_membership_by_j": {
+        "2": true,
+        "3": true,
+        "4": false,
+        "5": false
+      }
+    },
+    "verdict": "PREDICTION FAILS tier-(i) -- closest candidate overall (14-term difference, smallest of all 48 trials) but not exact"
+  },
+  "interpretation_1_table_tau_direction_axis": {
+    "note": "24 combos: z_word_variant (tau(y) in {(xy)^-1,(yx)^-1}) x direction (tau vs tau^-1 as the 'generating' automorphism, i.e. which of tau_A/tau_A^2 is called 'tau') x permutation (all 3! orderings of {tau2_g,tau_g,g}). f orientation fixed positive throughout. Tested BEFORE the mathematician's f-orientation correction arrived.",
+    "rows": [
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 62,
+        "entry_count": 60,
+        "sha256": "5173f0beebbd7669bfff55a881337fe7fb018ad10bcd00cb7cab94e177c58989",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 36,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "0eb6466ed7e21a0ad9fe312aaf3507bc6298936e416971ca1f8ba2222ce5bd6e",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "e8bfbcc6e1f9e8752f08d4b375932af193e19d1fe6329138f5ded11a0a8c5cfd",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 38,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 66,
+        "entry_count": 60,
+        "sha256": "292a70b6c708019afba4cf587260b9d79bd0b2ee1390dc3f8f8d7b846a84ef59",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 30,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 64,
+        "entry_count": 60,
+        "sha256": "de699739bd79c45d65f2b2b379906f6449bf5a534a9d6c13b347539999dccd41",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 34,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "A",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "6fb82391c7924d95a27a67f50c534c66663f1c2ecde6e9dbb80170fd9c6efce1",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "e8bfbcc6e1f9e8752f08d4b375932af193e19d1fe6329138f5ded11a0a8c5cfd",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 38,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 66,
+        "entry_count": 60,
+        "sha256": "292a70b6c708019afba4cf587260b9d79bd0b2ee1390dc3f8f8d7b846a84ef59",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 30,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 62,
+        "entry_count": 60,
+        "sha256": "5173f0beebbd7669bfff55a881337fe7fb018ad10bcd00cb7cab94e177c58989",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 36,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "0eb6466ed7e21a0ad9fe312aaf3507bc6298936e416971ca1f8ba2222ce5bd6e",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "6fb82391c7924d95a27a67f50c534c66663f1c2ecde6e9dbb80170fd9c6efce1",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "direction": "B",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 64,
+        "entry_count": 60,
+        "sha256": "de699739bd79c45d65f2b2b379906f6449bf5a534a9d6c13b347539999dccd41",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 34,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 60,
+        "entry_count": 56,
+        "sha256": "7b71f0717fddb7fd18c2cedcbd4bd7aa3300eea5082d46d8133dee680d291f9b",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 29,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "1c21dcb8c8548c6bea676790b179a9a7a964344944c8969e29491505924db5df",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 35,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "9646e317d59225690d23121e6da0981e8a0bfab3fe7ab941da0810cd0757feed",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 14,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 64,
+        "entry_count": 56,
+        "sha256": "95cea32cdb68e68a4768e9675e28c25de7f29070241336cb1222bd7569bab923",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 60,
+        "entry_count": 56,
+        "sha256": "5af7d926b5ee331ded2f89cc8fcb98d73ff1596f302dd471b471021d2852914c",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "A",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "234f31014ed9f8aee64949bd362c83238e2bb2bb9f4060c2eca5489d147a3743",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 37,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "9646e317d59225690d23121e6da0981e8a0bfab3fe7ab941da0810cd0757feed",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 14,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 64,
+        "entry_count": 56,
+        "sha256": "95cea32cdb68e68a4768e9675e28c25de7f29070241336cb1222bd7569bab923",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 60,
+        "entry_count": 56,
+        "sha256": "7b71f0717fddb7fd18c2cedcbd4bd7aa3300eea5082d46d8133dee680d291f9b",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 29,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "1c21dcb8c8548c6bea676790b179a9a7a964344944c8969e29491505924db5df",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 35,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "entry_count": 72,
+        "sha256": "234f31014ed9f8aee64949bd362c83238e2bb2bb9f4060c2eca5489d147a3743",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 37,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "direction": "B",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 60,
+        "entry_count": 56,
+        "sha256": "5af7d926b5ee331ded2f89cc8fcb98d73ff1596f302dd471b471021d2852914c",
+        "sha_match_tier1": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false
+        }
+      }
+    ]
+  },
+  "interpretation_2_table_f_orientation_axis_mathematician_specified": {
+    "note": "24 combos per mathematician's exact 2026-08-22 correction: z_word_variant (2) x f_orientation (f positive / f^-1 basepoint, 2) x permutation (all 3! orderings of {tau2_g,tau_g,g}, 6) = 24. THIS is the officially specified combinatorial space.",
+    "rows": [
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 62,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "5173f0beebbd7669bfff55a881337fe7fb018ad10bcd00cb7cab94e177c58989",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 36,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "0eb6466ed7e21a0ad9fe312aaf3507bc6298936e416971ca1f8ba2222ce5bd6e",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "e8bfbcc6e1f9e8752f08d4b375932af193e19d1fe6329138f5ded11a0a8c5cfd",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 38,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 66,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "292a70b6c708019afba4cf587260b9d79bd0b2ee1390dc3f8f8d7b846a84ef59",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 30,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 64,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "de699739bd79c45d65f2b2b379906f6449bf5a534a9d6c13b347539999dccd41",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 34,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "6fb82391c7924d95a27a67f50c534c66663f1c2ecde6e9dbb80170fd9c6efce1",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "36625b91eecb2c055b48e2a2de4f5d2006f2b0de8fcd6484fb654f51f7f627cc",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 34,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 66,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "4e4074810911c2d322a16e337e90035572de4ed59e2d19d666f3f2724c57e1a6",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 37,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 64,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "8514c923132bb227b807728090e2e0a98c104658d0b3a77810ed31821887036e",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "20c3dbfb3483158269337b41294483052dd529b804c753703043154bb5d4b037",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 34,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "ccacc0ce1cf9bcb85783647ffef0a9df70b801b4938be69f289ea5d18b6050be",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 36,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "xy_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 62,
+        "value_is_identity": true,
+        "entry_count": 60,
+        "sha256": "5fc19f26d688b97b1e4336841f277cc453532a1f1040b54657e3167eb448c4a4",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 60,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "7b71f0717fddb7fd18c2cedcbd4bd7aa3300eea5082d46d8133dee680d291f9b",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 29,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "1c21dcb8c8548c6bea676790b179a9a7a964344944c8969e29491505924db5df",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 35,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "9646e317d59225690d23121e6da0981e8a0bfab3fe7ab941da0810cd0757feed",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 14,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 64,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "95cea32cdb68e68a4768e9675e28c25de7f29070241336cb1222bd7569bab923",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 60,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "5af7d926b5ee331ded2f89cc8fcb98d73ff1596f302dd471b471021d2852914c",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_pos",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "234f31014ed9f8aee64949bd362c83238e2bb2bb9f4060c2eca5489d147a3743",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 37,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": true,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau2_g",
+          "tau_g",
+          "g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "2ca52e247b8194bc2455f1049f6b01ab72616aad1235aa64e5dd90cb1f8cdd75",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 36,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau2_g",
+          "g",
+          "tau_g"
+        ],
+        "word_len": 64,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "e1481311af21f4ad1ba306663202adadfd35a110df819cc0d7f35f658bb3fff8",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 30,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau_g",
+          "tau2_g",
+          "g"
+        ],
+        "word_len": 60,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "98d16e84516a3e73b45dabffd98600522b7bc055797c9c6038ed7bd85e73b980",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 33,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "tau_g",
+          "g",
+          "tau2_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "0745b2a68ab4816381143433a1f8224dded98259175d5883f5c5f9262c3a720f",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 35,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "g",
+          "tau2_g",
+          "tau_g"
+        ],
+        "word_len": 72,
+        "value_is_identity": true,
+        "entry_count": 72,
+        "sha256": "0d58bee86e39de99636dc0655dec2d3cf42a97d13932d21b8077d4684590ae6b",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 23,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      },
+      {
+        "z_word_variant": "yx_inv",
+        "f_orientation": "f_inv",
+        "perm_order": [
+          "g",
+          "tau_g",
+          "tau2_g"
+        ],
+        "word_len": 60,
+        "value_is_identity": true,
+        "entry_count": 56,
+        "sha256": "12256dc1b881143c5594232a87e6138c86ba1020381b34a975df26746cbab38c",
+        "sha_match_tier1": false,
+        "eq_frozen_word": false,
+        "diff_value_is_identity": true,
+        "diff_nonzero_terms_pi": 31,
+        "tier2_membership_by_j": {
+          "2": true,
+          "3": false,
+          "4": false,
+          "5": false
+        }
+      }
+    ]
+  },
+  "diagnosis": "Even the mathematically-predicted winning combination fails byte-exact gradient match, though it comes very close (14 residual nonzero pi-projected terms, vs 29+ for every other combination, and is the unique combination -- tied with its A/B-duplicate -- achieving tier-(ii) coboundary membership through j=3). This suggests the closed-form construction is CONCEPTUALLY very close to correct (same rough shape, same entry_count=72 for 12/24 combos, small residual) but still differs from the frozen target6.base_gradient by a genuine (non-coboundary-at-j=4) term -- possibly a further sign/leaf convention not captured by the tau(y)-variant x f-orientation x permutation space, or a subtlety in how 'coface slot 0' should be applied (e.g. whether A13's image should enter anywhere, whether the coface substitution should differ for tau^k(g) vs g).",
+  "next_step_recommendation": "commander instruction: switch to the raw (2.18)+sigma route (B3-level H1(m,f) with explicit sigma1,sigma2 and GAP Reidemeister-Schreier rewriting, as originally attempted in search/koubou158_m2_hexagon_gen_v1.g) for re-derivation, OR request the mathematician re-derive the closed form with the residual 14-term diagnostic in hand (raw coordinates available in scratchpad/koubou158_m2_24combo_v2_raw.pkl for the exact diff terms). Awaiting commander/mathematician direction -- NOT proceeding to m1-sweep.",
+  "affected": "search/koubou158_M2_msweep_v2_1.py and search/koubou158_L3_core_completebfs_v1.py remain unaffected/unexecuted-for-this-purpose; the completebfs core module was already independently selftested and validated (see prior report) and is ready for reuse once a correct m-generalized hexagon construction is confirmed."
+}

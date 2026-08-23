@@ -1,0 +1,132 @@
+{
+  "schema": "sol159b-version-pin/v1",
+  "status": "VERSION_PIN_READY",
+  "campaign": "Sol 159b gates phase 2",
+  "reference_commit_before_pin": "af9073f4d57651749fab305770b39c09492c9965",
+  "branch": "koubou158/m2-msweep-v5-gha",
+  "claim_boundary": {
+    "mathematical_grade": "UNKNOWN",
+    "purpose": "immutable evidence freeze only",
+    "bulk162_v1_2_orphan_lane_mathematically_accepted": false,
+    "prodrung_mathematically_accepted": false,
+    "M2_v3_mathematically_accepted": false,
+    "type_M_claimed": false,
+    "key_bijection_claimed": false,
+    "M1_prime_claimed": false,
+    "branch_cover_claimed": false,
+    "note": "Versioning these bytes does not promote or independently validate any mathematical claim."
+  },
+  "indexing": {
+    "canonical": "zero-based",
+    "bulk_per_branch_fields": [
+      "roof_index",
+      "correction_index"
+    ],
+    "branch_id_formula": "r{roof_index}_c{correction_index}",
+    "q3_correction_records": "correction_fibre.records[0] is c0 and is the empty correction",
+    "negative_control": "r1_c0 means roof slot 1 and correction_fibre.records[0]",
+    "historical_warning": "selected_solution.correction_index=1 is a historical display field and must not be used to reinterpret canonical c0 as one-based"
+  },
+  "registry_pin": {
+    "path": "ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json",
+    "schema": "d972-b345-joint-kernel-qstar-closure/v1",
+    "context_count": 31,
+    "named_use_count": 46,
+    "context_rows_sha256": "bf07578f91f5ed66e6ddddd4ef83dafa45817a29df066940bbc13bd53cdd00f6",
+    "named_use_mapping_sha256": "15cdac950ede8ce4596e5014ae1b6d0caa28523898cb42f3387f435a11b919a8",
+    "canonical_state_key": "E3 blob then 31 E4 blobs",
+    "state_rows_sha256": "19a76eed8604fb7ab69f9d60c5bd7827a4e8a51cedcea052c85a37cb5c63d7fb"
+  },
+  "files": [
+    {
+      "path": "search/certs/koubou158_L3_bulk162_v1_2_20260822.json",
+      "bytes": 45007,
+      "sha256": "6e51df539aa4cf793c7302514cf1f068e098c06ca751571890da09ba7fd13172",
+      "role": "orphan evidence receipt; freeze only"
+    },
+    {
+      "path": "search/certs/koubou158_prodrung_v1_20260822.json",
+      "bytes": 15391,
+      "sha256": "3160eec7281ecaaa38e4f869530b5fb7639620e7363c9abde5acb0990638cafe",
+      "role": "producer evidence receipt; freeze only"
+    },
+    {
+      "path": "search/certs/koubou158_M2_msweep_v3_20260822.json",
+      "bytes": 33824,
+      "sha256": "7ff02c0eb9a49ed0105ceabba2aba92c476e04efbb77af9004b805c95f58abdd",
+      "role": "CANARY_ALL_FAIL_STOPPED predecessor receipt; freeze only"
+    },
+    {
+      "path": "search/koubou158_L3_bulk162_v1_2.py",
+      "bytes": 12635,
+      "sha256": "21d83c9e48cbd3d81c585debad59cff2f974c54bed5b8a14cf064f87b3feab63",
+      "role": "bulk v1.2 producer source"
+    },
+    {
+      "path": "search/koubou158_L3_core_v1_2.py",
+      "bytes": 31192,
+      "sha256": "4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63",
+      "role": "bulk/prodrung shared producer core"
+    },
+    {
+      "path": "search/koubou158_L3_radical_v1_2.py",
+      "bytes": 14488,
+      "sha256": "05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17",
+      "role": "v1.2 rationale and companion producer"
+    },
+    {
+      "path": "search/certs/koubou158_L3_radical_v1_2_20260822.json",
+      "bytes": 20930,
+      "sha256": "56ab4592bf5b64fbe5605afe063681e8c059929cd8abbc07323988aff4a8440f",
+      "role": "v1.2 companion receipt; freeze only"
+    },
+    {
+      "path": "search/koubou158_prodrung_v1.py",
+      "bytes": 26567,
+      "sha256": "a0e1e47a76b9d6379e9f2b16334140ec0eaf1e0b4d70f4793ae4f676949015a1",
+      "role": "prodrung producer source"
+    },
+    {
+      "path": "search/koubou158_M2_msweep_v3.py",
+      "bytes": 17512,
+      "sha256": "a6ab013cb541578a55485591c5b113bfabc822a1290f4337b26e7afad14ec59b",
+      "role": "post-diagnosis v3 measurement source; distinct from predecessor receipt"
+    },
+    {
+      "path": "search/koubou158_m2_closedform_v1.py",
+      "bytes": 3956,
+      "sha256": "7c5630bc4a6103f5fb5e002783f097a567ae290f0e913dd611ffa20a2c09c0dc",
+      "role": "M2 predecessor construction source"
+    },
+    {
+      "path": "search/koubou158_m2_closedform_v2.py",
+      "bytes": 3645,
+      "sha256": "6525535ae7c50af54e6891a5e0608ee08ea50f692916dfb40ce5d75bfd463f2f",
+      "role": "literal inverse repair source"
+    },
+    {
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+      "bytes": 231570,
+      "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",
+      "role": "q3 chief receipt and branch primitive words"
+    },
+    {
+      "path": "ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json",
+      "bytes": 2166036,
+      "sha256": "1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df",
+      "role": "31-context registry and packed primitive state tables"
+    },
+    {
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_target6_dual_colgen_v2.json",
+      "bytes": 14603356,
+      "sha256": "54e795e0411af5cc5194ebad10235363e16623f06a4e11db475e638fcb783135",
+      "role": "raw target6 dual-column table"
+    },
+    {
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json.row18_core.json",
+      "bytes": 125172,
+      "sha256": "bb8dccfb1952c92ba8adc4aa05907a20d783e105011ea930d12e1bb5cbc4017f",
+      "role": "six marked PB4 action rows and row18 primitive data"
+    }
+  ]
+}
