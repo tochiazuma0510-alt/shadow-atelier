@@ -1,9 +1,11 @@
 name: m3-l2-indepcheck-v1
 
 # M3(E[4] レーン)独立照合の GHA venue(段2)。
-# ローカル(-o 2g / -o 384m 両方)で単一窓ですら 10 分 cap 超過・原因はローカル機の空きメモリ
-# 枯渇(実測 8%程度)と特定(司令塔裁定)。GAP プロセス自体の実メモリ需要は小さい(位数 1152
-# の群・16 元の P^ab)ため、GHA runner(潤沢メモリ)へ計算を移送するだけで解決する見込み。
+# 【メモリ枯渇説は正式に棄却・裁定済み(2026-08-23)】ローカルでもGHAでも10分/12分capに達した
+# 真因は、CKPT ログによる局所化(run 32617461891)で W1SemanticGate 内部と確定: そこが生の
+# 有限表示群 fp-B3(=BF3/[brelD]、無限群)の要素同士に `=`/`<>` を適用しており、GAPの語の問題
+# 解法が座標(=一般手法)で発散していた。修理: W1 gate の4等式を window 1 の置換群(既に
+# 高速と確認済み)側で評価するよう変更(数学的妥当性は司令塔裁定に記載・コード内コメント参照)。
 #
 # DISPATCH GATE: push to this branch (paths below) + workflow_dispatch.
 # workflow_dispatch alone could not be used for the FIRST run because GitHub only registers a
@@ -26,13 +28,13 @@ permissions:
   contents: read
 
 env:
-  M3L2_SCRIPT_SHA256: "016377fbb048bb54c4528b386b9db703e9a4c079420febdd1309c846e140a508"
+  M3L2_SCRIPT_SHA256: "442b7609f498a59d4465d11ff7b3a64e849f013a3c8abb8f9080075ea44d4685"
   M3L2_SPEC_SHA256: "5013eafa1d138712cb815514e098db4183aaefd43be72d94ee74662c5c1fbefd"
 
 jobs:
   m3-l2-indepcheck:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - name: Checkout source
         uses: actions/checkout@v4

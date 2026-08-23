@@ -52,10 +52,36 @@ ga := B3.1;;  gb := B3.2;;
 a := ga;;  b := gb;;   # global bind for EvalString(word) -- DEEP15 words use bare a,b
 Print("CKPT07 B3 built t=", GAPLIB_WallElapsedMs(), "\n");
 
-W1SemanticGate := function()
+## ================= W-1 semantic gate (FIXED 2026-08-23: evaluated in a window's PERMUTATION
+## group, not the raw finitely-presented B3) =================
+## Root cause of the GHA/local 10-min-cap stalls (localized via CKPT checkpoints, run
+## 32617461891): the four identities below used to be evaluated on raw elements of B3 =
+## BF3/[brelD] -- an INFINITE finitely-presented group. GAP's `=`/`<>` on fp-group elements
+## solves the word problem via a generic method with no termination guarantee for this
+## representation; it never returned within the 10-30 min caps (confirmed: CKPT07 "B3 built"
+## fired at t=1ms, CKPT08 "W1_GATE pass" never fired). Every OTHER group-theoretic operation in
+## this script (Index(B3,N), IsNormal(B3,N), NaturalHomomorphismByNormalSubgroup(B3,N) inside
+## BuildWindowFromWords) was already fine -- those use Todd-Coxeter coset enumeration against a
+## known finite-index subgroup, a different and well-optimized code path; confirmed correct by
+## full-script grep, no other raw B3-element `=`/`<>`/Order call exists.
+##
+## Mathematical justification for moving the check into a window's permutation group (commander
+## ruling 2026-08-23, ledger-recorded):
+##  1. positivePass: f1*sigma2*f1^-1 = x^-1*sigma2*x, with f1=x^-1*y, y=sigma2^2, reduces by free
+##     reduction alone to y*sigma2*y^-1 = sigma2 (power-commutativity) -- TRUE IN ANY QUOTIENT of
+##     the free group, in particular in any window's permutation image. Checking it there loses
+##     no information relative to checking it in the abstract B3.
+##  2. formerRejected, noncentralPass are INEQUALITIES. Any inequality that holds in a quotient
+##     also held in the group being quotiented (the converse can fail, but that direction is not
+##     needed): if two elements are already distinct after collapsing more relations, they were
+##     distinct before. So verifying the inequalities in a window's permutation group is at least
+##     as conclusive as verifying them in B3 -- not merely "no weaker", genuinely load-bearing.
+##  3. Fail-closed is preserved unconditionally: if either gate unexpectedly fails when evaluated
+##     in the window's permutation group, this still aborts via Error() below -- no softening.
+W1SemanticGate := function(s1, s2)
   local sigma2, x, y, f1, formerRawOrderError, correctLhs, correctRhs,
         formerLhs, positivePass, formerRejected, noncentralPass;
-  sigma2 := gb;;  x := ga^2;;  y := gb^2;;
+  sigma2 := s2;;  x := s1^2;;  y := s2^2;;
   f1 := x^-1 * y;;
   formerRawOrderError := y * x^-1;;
   correctLhs := f1 * sigma2 * f1^-1;;
@@ -70,15 +96,12 @@ W1SemanticGate := function()
   fi;
   return rec(gate_id := "W-1/noncommutative-B3/nu-1/v1",
              word_convention_id := "W-1/paper-product-to-raw-reversed/v1",
+             evaluated_in := "window-1-permutation-group (fixed 2026-08-23, was raw fp-B3)",
              positive_identity_pass := positivePass,
              former_error_rejected := formerRejected,
              noncentral_fixture_pass := noncentralPass,
              overall_pass := positivePass and formerRejected and noncentralPass);;
 end;;
-
-W1_GATE := W1SemanticGate();;
-if not W1_GATE.overall_pass then Error("W1_GATE overall_pass=false, aborting fail-closed"); fi;
-Print("CKPT08 W1_GATE pass=", W1_GATE.overall_pass, " t=", GAPLIB_WallElapsedMs(), "\n");
 
 BuildWindowFromWords := function(indexExpected, words)
   local genElts, N, idxOk, isNormal, hm, Gimg, isoQ, s1, s2;
@@ -141,6 +164,17 @@ Recs154163 := Filtered(DEEP15, r -> r.id = [1152, 154163]);;
 if Rec154161 = fail then Error("record [1152,154161] not found in DEEP15"); fi;
 if Length(Recs154163) <> 2 then Error("expected exactly 2 records for [1152,154163], got ", Length(Recs154163)); fi;
 Print("CKPT11 records extracted t=", GAPLIB_WallElapsedMs(), "\n");
+
+## ================= build window 1 EARLY so the W-1 gate can run in its (fast) permutation
+## group instead of raw fp-B3 (see W1SemanticGate comment above for the fix rationale) =========
+S154161 := BuildWindowFromWords(Rec154161.index, Rec154161.words);;
+Print("CKPT11b S154161 built t=", GAPLIB_WallElapsedMs(), "\n");
+Wwin154161 := MakeWindow(S154161.s1, S154161.s2);;
+Print("CKPT11c Wwin154161 built, |PN|=", Size(Wwin154161.PN), " t=", GAPLIB_WallElapsedMs(), "\n");
+
+W1_GATE := W1SemanticGate(S154161.s1, S154161.s2);;
+if not W1_GATE.overall_pass then Error("W1_GATE overall_pass=false, aborting fail-closed"); fi;
+Print("CKPT08 W1_GATE pass=", W1_GATE.overall_pass, " t=", GAPLIB_WallElapsedMs(), "\n");
 
 ## ================= mod-4 2x2 matrix / vector arithmetic (pure integers, no group theory) ======
 DetMod4 := function(M) return (M[1][1]*M[2][2] - M[1][2]*M[2][1]) mod 4; end;;
@@ -544,10 +578,9 @@ Print("############################################################\n");
 Print("# koubou83_m3_l2_check_v2.g -- linear-evaluation independent cross-check (spec v1)\n");
 Print("############################################################\n");
 
-S154161 := BuildWindowFromWords(Rec154161.index, Rec154161.words);;
-Print("CKPT14 S154161 built t=", GAPLIB_WallElapsedMs(), "\n");
-Wwin154161 := MakeWindow(S154161.s1, S154161.s2);;
-Print("CKPT15 Wwin154161 built, |PN|=", Size(Wwin154161.PN), " t=", GAPLIB_WallElapsedMs(), "\n");
+## S154161/Wwin154161 already built earlier (right after DEEP15 extraction) so the W-1 gate
+## could run in window 1's permutation group instead of raw fp-B3 -- not rebuilt here.
+Print("CKPT14 reusing already-built S154161/Wwin154161 t=", GAPLIB_WallElapsedMs(), "\n");
 S154163a := BuildWindowFromWords(Recs154163[1].index, Recs154163[1].words);;
 Wwin154163a := MakeWindow(S154163a.s1, S154163a.s2);;
 Print("CKPT16 Wwin154163a built t=", GAPLIB_WallElapsedMs(), "\n");
@@ -624,6 +657,7 @@ out := Concatenation(
   "\"linear_spec_authorship_separation\":\"\\u5c0e\\u51fa(\\u5b9a\\u7406PUSH\\u30fb\\u6b63\\u6e96\\u57fa\\u5e95\\u30fbA\\u306e\\u5024\\u30fb\\u81ea\\u5df1\\u691c\\u8a3c\\u4f8b\\u30fb5\\u9805\\u76ee\\u306e\\u884c\\u5217\\u8a9e\\u8a33)=\\u5de5\\u623f\\u6570\\u5b66\\u8005(scratchpad/koubou83_m3_l2_linear_spec_v1.md\\u3001c83_m3_e4_lane_v1.md \\u3092\\u8457\\u8005\\u5206\\u96e2\\u306e\\u305f\\u3081\\u672a\\u8aad\\u3067\\u72ec\\u7acb\\u5c0e\\u51fa)\\u3002\\u5b9f\\u88c5(GAP\\u30b3\\u30fc\\u30c9\\u5316\\u30fb\\u5b9f\\u884c\\u30fbcert\\u751f\\u6210)=implementer\\u3002\",",
   "\"note\":\"raw measurement only. \\u5224\\u5b9a\\u8a9e\\u306f\\u4e00\\u5207\\u66f8\\u304b\\u306a\\u3044\\u3002UNKNOWN\\u306f\\u4e00\\u7d1a\\u306e\\u7d50\\u679c\\u3002cross-checked \\u3067\\u3042\\u3063\\u3066 verified \\u3067\\u306f\\u306a\\u3044\\u3002\",",
   "\"method_note\":\"v1(GroupHomomorphismByImages\\u306e degree-1152 permutation \\u7fa4\\u4e0a\\u81ea\\u5df1\\u6e96\\u540c\\u578b\\u5199\\u69cb\\u7bc9)\\u306f\\u5358\\u4e00 window \\u3067\\u3059\\u3089 10 \\u5206 cap \\u8d85\\u904e\\u3057\\u672a\\u5b8c\\u4e86(\\u53f8\\u4ee4\\u5854\\u88c1\\u5b9a\\u3067\\u6df1\\u8ffd\\u3044\\u305b\\u305a\\u653e\\u68c4)\\u3002v2 \\u306f\\u4e8b\\u524d\\u8a08\\u7b97(\\u30671\\u56de)+shadow\\u3054\\u3068 coord(f)+2x2\\u884c\\u5217\\u6f14\\u7b97\\u306e\\u307f\\u3067\\u518d\\u69cb\\u6210\\u3002\",",
+  "\"w1_gate_fix_note\":\"2026-08-23 \\u4fee\\u7406: \\u771f\\u56e0\\u306f GroupHomomorphismByImages \\u3067\\u306f\\u306a\\u304f W1SemanticGate \\u5185\\u90e8\\u3067\\u306e\\u751f\\u306e\\u6709\\u9650\\u8868\\u793a\\u7fa4(fp-B3=BF3/[brelD]\\u3001\\u7121\\u9650\\u7fa4)\\u8981\\u7d20\\u540c\\u58eb\\u306e `=`/`<>` \\u5224\\u5b9a(\\u8a9e\\u306e\\u554f\\u984c\\u3092\\u4e00\\u822c\\u624b\\u6cd5\\u3067\\u89e3\\u304b\\u305b\\u3066\\u3044\\u305f\\u305f\\u3081\\u975e\\u7d42\\u6b62)\\u3002CKPT \\u306b\\u3088\\u308b\\u5c40\\u6240\\u5316(run 32617461891)\\u3067 CKPT07(B3\\u69cb\\u7bc9\\u5b8c\\u4e86 t=1ms)\\u3068 CKPT08(W1_GATE\\u5224\\u5b9a\\u5b8c\\u4e86)\\u306e\\u9593\\u3067\\u505c\\u6b62\\u3068\\u78ba\\u8a8d\\u3002\\u4fee\\u6b63: W1 gate \\u306e4\\u7b49\\u5f0f\\u3092 window 1 \\u306e\\u7f6e\\u63db\\u7fa4(\\u65e2\\u306b\\u9ad8\\u901f\\u3068\\u78ba\\u8a8d\\u6e08)\\u3067\\u8a55\\u4fa1\\u3059\\u308b\\u3088\\u3046\\u5909\\u66f4\\u3002\\u6570\\u5b66\\u7684\\u5983\\u5f53\\u6027(\\u53f8\\u4ee4\\u5854\\u88c1\\u5b9a): \\u7b49\\u5f0f positivePass \\u306f\\u81ea\\u7531\\u7c21\\u7d04\\u3060\\u3051\\u3067\\u6210\\u7acb\\u3059\\u308b\\u6052\\u7b49\\u5f0f\\u306a\\u306e\\u3067\\u4efb\\u610f\\u306e\\u5546\\u3067\\u771f\\u3002\\u4e0d\\u7b49\\u5f0f formerRejected/noncentralPass \\u306f\\u5546\\u3067\\u6210\\u7acb\\u3059\\u308c\\u3070\\u5143\\u306e\\u7fa4\\u3067\\u3082\\u6210\\u7acb(\\u4e0d\\u7b49\\u306f\\u5546\\u304b\\u3089\\u6301\\u3061\\u4e0a\\u304c\\u308b)\\u3002fail-closed \\u306f\\u4e0d\\u5909(window \\u5074\\u3067\\u4e88\\u671f\\u306b\\u53cd\\u3057\\u3066 fail \\u3059\\u308c\\u3070\\u5373 Error \\u3067\\u505c\\u6b62)\\u3002\",",
   "\"gap_version\":", JStr(GAPInfo.Version), ",",
   "\"provenance\":{",
     "\"input_data_file\":\"search/iso_census83_deep15_data.g\",",
@@ -638,6 +672,7 @@ out := Concatenation(
   "},",
   "\"w1_semantic_gate\":{",
     "\"gate_id\":", JStr(W1_GATE.gate_id), ",",
+    "\"evaluated_in\":", JStr(W1_GATE.evaluated_in), ",",
     "\"positive_identity_pass\":", JB(W1_GATE.positive_identity_pass), ",",
     "\"former_error_rejected\":", JB(W1_GATE.former_error_rejected), ",",
     "\"noncentral_fixture_pass\":", JB(W1_GATE.noncentral_fixture_pass), ",",
