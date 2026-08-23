@@ -1,7 +1,7 @@
 {
   "schema": "sol159b-type-m-stop/v1",
   "campaign": "sol-159b-phase-2",
-  "generated_utc": "2026-08-23T00:00:00Z",
+  "generated_utc": "2026-08-23T02:20:17Z",
   "gate_2_type_m": {
     "status": "STOP_EXACT_TYPE_OBSTRUCTION",
     "pb3_target": "M = K^(9) intersect N_S4",
