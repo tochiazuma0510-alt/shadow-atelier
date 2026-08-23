@@ -6,6 +6,9 @@ name: m3-l2-indepcheck-v1
 # 有限表示群 fp-B3(=BF3/[brelD]、無限群)の要素同士に `=`/`<>` を適用しており、GAPの語の問題
 # 解法が座標(=一般手法)で発散していた。修理: W1 gate の4等式を window 1 の置換群(既に
 # 高速と確認済み)側で評価するよう変更(数学的妥当性は司令塔裁定に記載・コード内コメント参照)。
+# 続報(errata v1.1・2026-08-23): fp-B3 根治後、自己検証3例目が fail →数学者の errata で
+# 真因判明: 仕様 v1 の ad_convention の向きが逆(W-1 は反同型 ⟹ paper Ad(g) = GAP v^g)。
+# v2 := Image(q, s^x) に修正+GATE-ORIENT 2本を必須gate化(errata E-3)。定理PUSH自体は不変。
 #
 # DISPATCH GATE: push to this branch (paths below) + workflow_dispatch.
 # workflow_dispatch alone could not be used for the FIRST run because GitHub only registers a
@@ -28,8 +31,9 @@ permissions:
   contents: read
 
 env:
-  M3L2_SCRIPT_SHA256: "442b7609f498a59d4465d11ff7b3a64e849f013a3c8abb8f9080075ea44d4685"
+  M3L2_SCRIPT_SHA256: "65f2244ece652656bbb565342a61b7f3ecc16aa5010ee5a7cbcca9b7c8a21a98"
   M3L2_SPEC_SHA256: "5013eafa1d138712cb815514e098db4183aaefd43be72d94ee74662c5c1fbefd"
+  M3L2_ERRATA_SHA256: "7b0673292a01de67ebc47407ddfe5ce30b8d2020640222b7d82bb45e2e95c2b7"
 
 jobs:
   m3-l2-indepcheck:
@@ -52,6 +56,7 @@ jobs:
           set -euo pipefail
           printf '%s  %s\n' "$M3L2_SCRIPT_SHA256" search/koubou83_m3_l2_check_v2.g | sha256sum --check --status
           printf '%s  %s\n' "$M3L2_SPEC_SHA256" scratchpad/koubou83_m3_l2_linear_spec_v1.md | sha256sum --check --status
+          printf '%s  %s\n' "$M3L2_ERRATA_SHA256" scratchpad/koubou83_m3_l2_linear_spec_v1_1_errata.md | sha256sum --check --status
 
       - name: Run M3(E[4]) independent checker (v2, linear evaluation)
         shell: bash

@@ -37,6 +37,11 @@ if SPEC_RAW = fail then Error("cannot read linear spec for sha256: ", SPEC_PATH)
 Print("CKPT03 SPEC_RAW read (len=", Length(SPEC_RAW), ") t=", GAPLIB_WallElapsedMs(), "\n");
 SPEC_SHA256 := HexSHA256(SPEC_RAW);;
 Print("CKPT04 SPEC_SHA256 computed t=", GAPLIB_WallElapsedMs(), "\n");
+ERRATA_PATH := "scratchpad/koubou83_m3_l2_linear_spec_v1_1_errata.md";;
+ERRATA_RAW := StringFile(ERRATA_PATH);;
+if ERRATA_RAW = fail then Error("cannot read errata for sha256: ", ERRATA_PATH); fi;
+ERRATA_SHA256 := HexSHA256(ERRATA_RAW);;
+Print("CKPT04b ERRATA_SHA256 computed t=", GAPLIB_WallElapsedMs(), "\n");
 SCRIPT_PATH := "search/koubou83_m3_l2_check_v2.g";;
 SCRIPT_RAW := StringFile(SCRIPT_PATH);;
 if SCRIPT_RAW = fail then Error("cannot read checker source for runtime SHA: ", SCRIPT_PATH); fi;
@@ -273,7 +278,7 @@ A_CONST := [[0,3],[1,3]];;   ## [[0,-1],[1,-1]] mod 4
 
 ## ================= §3 precompute (per window, ONE time, cheap): q, Pab, v1, v2, coord() ======
 Precompute := function(W, label)
-  local G, P, D, q, Pab, s, v1, v2, gate1, gate2, gate3, gate4, coord,
+  local G, P, D, q, Pab, s, v1, v2, gate1, gate2, gate3, gate4, gateOrient1, gateOrient2, coord,
         isoPabPc, v1Pc, v2Pc;
   Print("  CKPT-PC-A [", label, "] entering Precompute t=", GAPLIB_WallElapsedMs(), "\n");
   G := W.PN;;
@@ -295,23 +300,45 @@ Precompute := function(W, label)
   ## canonical basis: s = paper (y x^-1) -> raw GAP x^-1*y (W-1)
   s := W.x^-1 * W.y;;
   v1 := Image(q, s);;
-  ## paper Ad(xbar)(v) = x v x^-1 = GAP v^(x^-1)
-  v2 := Image(q, s^(W.x^-1));;
+  ## errata E-1/E-2 (2026-08-23): W-1 relates paper and GAP by an ANTI-isomorphism
+  ## (iota(AB)=iota(B)iota(A)), which preserves inverses, so
+  ##   iota(Ad_paper(g)(v)) = iota(g^-1) iota(v) iota(g) = iota(v)^iota(g)
+  ## i.e. paper Ad(g) <-> GAP `v^g` (NOT `v^(g^-1)` as v1 of this spec had it).
+  ## paper Ad(xbar)(v1) = x v1 x^-1  =>  GAP v1^x.
+  v2 := Image(q, s^(W.x));;
   Print("  CKPT-PC-H [", label, "] v1,v2 built t=", GAPLIB_WallElapsedMs(), "\n");
 
   gate2 := (Size(Subgroup(Pab, [v1, v2])) = 16 and Order(v1) = 4 and Order(v2) = 4);;
   Print("  CKPT-PC-I [", label, "] gate2=", gate2, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate2 then Error("Precompute GATE2 (basis) failed for ", label); fi;
 
-  ## GATE: I + A + A^2 = 0 i.e. v1 * v2 * (A^2 v1) = identity in Pab
-  gate3 := (v1 * v2 * Image(q, s^(W.x^-2)) = One(Pab));;
+  ## GATE: I + A + A^2 = 0 i.e. v1 * v2 * (A^2 v1) = identity in Pab. A^2 v1 <-> GAP v1^(x^2)
+  ## under the corrected (anti-isomorphism) convention.
+  gate3 := (v1 * v2 * Image(q, s^(W.x^2)) = One(Pab));;
   Print("  CKPT-PC-J [", label, "] gate3=", gate3, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate3 then Error("Precompute GATE3 (I+A+A^2=0) failed for ", label); fi;
 
-  ## GATE: Ad(ybar) = Ad(xbar) on Pab (both give v2)
-  gate4 := (Image(q, s^(W.y^-1)) = v2);;
+  ## GATE: Ad(ybar) = Ad(xbar) on Pab (both give v2), corrected convention: GAP v1^y.
+  gate4 := (Image(q, s^(W.y)) = v2);;
   Print("  CKPT-PC-K [", label, "] gate4=", gate4, " t=", GAPLIB_WallElapsedMs(), "\n");
   if not gate4 then Error("Precompute GATE4 (Ad(ybar)=Ad(xbar)) failed for ", label); fi;
+
+  ## GATE-ORIENT (errata E-3, mandatory fail-closed): the I+A+A^2=0 and Ad(ybar)=Ad(xbar)
+  ## gates above are symmetric under A<->A^-1 (basis-orientation-blind), so they would PASS
+  ## even under the old wrong convention -- they cannot by themselves catch an orientation bug.
+  ## These two probe nu=2 specifically, which IS orientation-sensitive (verbatim from errata):
+  ##   paper [y^2 x^-2] = v1+v2 = (1,1)         (positive)
+  ##   paper [y x^-2 y] = -v2 = (0,3)            (negative canary)
+  ## Under the wrong (v1-of-spec) convention these come out swapped -- (0,3) and (1,1)
+  ## respectively -- so this pair is guaranteed to fail if the orientation regresses.
+  gateOrient1 := (Image(q, W.x^-2 * W.y^2) = v1 * v2);;
+  gateOrient2 := (Image(q, W.y * W.x^-2 * W.y) = v2^-1);;
+  Print("  CKPT-PC-N [", label, "] gateOrient1=", gateOrient1, " gateOrient2=", gateOrient2,
+        " t=", GAPLIB_WallElapsedMs(), "\n");
+  if not (gateOrient1 and gateOrient2) then
+    Error("Precompute GATE-ORIENT failed for ", label, ": orient1=", gateOrient1,
+          " orient2=", gateOrient2, " -- basis orientation regression (errata E-3)");
+  fi;
 
   ## perf note: Pab inherits P's large-degree (~1152) permutation representation via q, so raw
   ## Pab element comparisons are pathologically slow when repeated (measured previously: this
@@ -339,6 +366,7 @@ Precompute := function(W, label)
 
   return rec(label := label, G := G, P := P, D := D, q := q, Pab := Pab, v1 := v1, v2 := v2,
              coord := coord, gate1 := gate1, gate2 := gate2, gate3 := gate3, gate4 := gate4,
+             gateOrient1 := gateOrient1, gateOrient2 := gateOrient2,
              abelian_invariants := AbelianInvariants(Pab));;
 end;;
 
@@ -408,7 +436,10 @@ RunWindow := function(W, label)
   Print(" CKPT-RW-D [", label, "] selftest[0,f1] done ok1=", ok1, " t=", GAPLIB_WallElapsedMs(), "\n");
 
   ## f2: paper word "y^2 x^-2" (w_2 = ybar^2 xbar^-2) -> raw form per W-1 (paper AB -> GAP B*A,
-  ## A=y^2,B=x^-2) = x^-2*y^2. Expected coord = Sigma_2 v1 = (I+A)(1,0) = (1,1), theta = A^2.
+  ## A=y^2,B=x^-2) = x^-2*y^2 -- errata E-4 confirms this translation was correct all along
+  ## (v1_1_errata.md: "your f2 translation was correct"; the bug was solely the v2/ad_convention
+  ## direction in Precompute, fixed above). Expected coord (1,1), expected theta = A^2 =
+  ## [[3,1],[3,0]], det -3 = 1 (mod 4).
   f2_word := W.x^-2 * W.y^2;;
   selftestA2 := ComputeThetaBar(pc, 0, f2_word);;
   ok2 := MatEqMod4(selftestA2.matrix, MatMulMod4(A_CONST, A_CONST));;
@@ -524,6 +555,8 @@ JRunWindow := function(rw)
       "\"gate2_basis_order4_independent\":", JB(rw.pc.gate2), ",",
       "\"gate3_I_plus_A_plus_A2_eq_0\":", JB(rw.pc.gate3), ",",
       "\"gate4_ad_ybar_eq_ad_xbar\":", JB(rw.pc.gate4), ",",
+      "\"gate_orient1_y2xm2_eq_v1v2\":", JB(rw.pc.gateOrient1), ",",
+      "\"gate_orient2_yxm2y_eq_v2inv\":", JB(rw.pc.gateOrient2), ",",
       "\"abelian_invariants\":", JArr(List(rw.pc.abelian_invariants, String)),
     "},",
     "\"self_test_section2\":{",
@@ -657,6 +690,7 @@ out := Concatenation(
   "\"linear_spec_authorship_separation\":\"\\u5c0e\\u51fa(\\u5b9a\\u7406PUSH\\u30fb\\u6b63\\u6e96\\u57fa\\u5e95\\u30fbA\\u306e\\u5024\\u30fb\\u81ea\\u5df1\\u691c\\u8a3c\\u4f8b\\u30fb5\\u9805\\u76ee\\u306e\\u884c\\u5217\\u8a9e\\u8a33)=\\u5de5\\u623f\\u6570\\u5b66\\u8005(scratchpad/koubou83_m3_l2_linear_spec_v1.md\\u3001c83_m3_e4_lane_v1.md \\u3092\\u8457\\u8005\\u5206\\u96e2\\u306e\\u305f\\u3081\\u672a\\u8aad\\u3067\\u72ec\\u7acb\\u5c0e\\u51fa)\\u3002\\u5b9f\\u88c5(GAP\\u30b3\\u30fc\\u30c9\\u5316\\u30fb\\u5b9f\\u884c\\u30fbcert\\u751f\\u6210)=implementer\\u3002\",",
   "\"note\":\"raw measurement only. \\u5224\\u5b9a\\u8a9e\\u306f\\u4e00\\u5207\\u66f8\\u304b\\u306a\\u3044\\u3002UNKNOWN\\u306f\\u4e00\\u7d1a\\u306e\\u7d50\\u679c\\u3002cross-checked \\u3067\\u3042\\u3063\\u3066 verified \\u3067\\u306f\\u306a\\u3044\\u3002\",",
   "\"method_note\":\"v1(GroupHomomorphismByImages\\u306e degree-1152 permutation \\u7fa4\\u4e0a\\u81ea\\u5df1\\u6e96\\u540c\\u578b\\u5199\\u69cb\\u7bc9)\\u306f\\u5358\\u4e00 window \\u3067\\u3059\\u3089 10 \\u5206 cap \\u8d85\\u904e\\u3057\\u672a\\u5b8c\\u4e86(\\u53f8\\u4ee4\\u5854\\u88c1\\u5b9a\\u3067\\u6df1\\u8ffd\\u3044\\u305b\\u305a\\u653e\\u68c4)\\u3002v2 \\u306f\\u4e8b\\u524d\\u8a08\\u7b97(\\u30671\\u56de)+shadow\\u3054\\u3068 coord(f)+2x2\\u884c\\u5217\\u6f14\\u7b97\\u306e\\u307f\\u3067\\u518d\\u69cb\\u6210\\u3002\",",
+  "\"errata_note\":\"v1 \\u4ed5\\u69d8\\u306e\\u57fa\\u5e95\\u5411\\u304d\\u8aa4\\u308a(ad_convention \\u306e\\u65b9\\u5411\\u3001v2:=Image(q,s^(x^-1)) \\u306e1\\u884c)\\u3092\\u81ea\\u5df1\\u691c\\u8a3c+Weil canary \\u304c\\u6355\\u7378\\u3057\\u3001v1.1 errata(scratchpad/koubou83_m3_l2_linear_spec_v1_1_errata.md)\\u3067\\u4fee\\u6b63\\u3002\\u5b9a\\u7406PUSH\\u81ea\\u4f53\\u306f\\u4e0d\\u5909\\u3002\",",
   "\"w1_gate_fix_note\":\"2026-08-23 \\u4fee\\u7406: \\u771f\\u56e0\\u306f GroupHomomorphismByImages \\u3067\\u306f\\u306a\\u304f W1SemanticGate \\u5185\\u90e8\\u3067\\u306e\\u751f\\u306e\\u6709\\u9650\\u8868\\u793a\\u7fa4(fp-B3=BF3/[brelD]\\u3001\\u7121\\u9650\\u7fa4)\\u8981\\u7d20\\u540c\\u58eb\\u306e `=`/`<>` \\u5224\\u5b9a(\\u8a9e\\u306e\\u554f\\u984c\\u3092\\u4e00\\u822c\\u624b\\u6cd5\\u3067\\u89e3\\u304b\\u305b\\u3066\\u3044\\u305f\\u305f\\u3081\\u975e\\u7d42\\u6b62)\\u3002CKPT \\u306b\\u3088\\u308b\\u5c40\\u6240\\u5316(run 32617461891)\\u3067 CKPT07(B3\\u69cb\\u7bc9\\u5b8c\\u4e86 t=1ms)\\u3068 CKPT08(W1_GATE\\u5224\\u5b9a\\u5b8c\\u4e86)\\u306e\\u9593\\u3067\\u505c\\u6b62\\u3068\\u78ba\\u8a8d\\u3002\\u4fee\\u6b63: W1 gate \\u306e4\\u7b49\\u5f0f\\u3092 window 1 \\u306e\\u7f6e\\u63db\\u7fa4(\\u65e2\\u306b\\u9ad8\\u901f\\u3068\\u78ba\\u8a8d\\u6e08)\\u3067\\u8a55\\u4fa1\\u3059\\u308b\\u3088\\u3046\\u5909\\u66f4\\u3002\\u6570\\u5b66\\u7684\\u5983\\u5f53\\u6027(\\u53f8\\u4ee4\\u5854\\u88c1\\u5b9a): \\u7b49\\u5f0f positivePass \\u306f\\u81ea\\u7531\\u7c21\\u7d04\\u3060\\u3051\\u3067\\u6210\\u7acb\\u3059\\u308b\\u6052\\u7b49\\u5f0f\\u306a\\u306e\\u3067\\u4efb\\u610f\\u306e\\u5546\\u3067\\u771f\\u3002\\u4e0d\\u7b49\\u5f0f formerRejected/noncentralPass \\u306f\\u5546\\u3067\\u6210\\u7acb\\u3059\\u308c\\u3070\\u5143\\u306e\\u7fa4\\u3067\\u3082\\u6210\\u7acb(\\u4e0d\\u7b49\\u306f\\u5546\\u304b\\u3089\\u6301\\u3061\\u4e0a\\u304c\\u308b)\\u3002fail-closed \\u306f\\u4e0d\\u5909(window \\u5074\\u3067\\u4e88\\u671f\\u306b\\u53cd\\u3057\\u3066 fail \\u3059\\u308c\\u3070\\u5373 Error \\u3067\\u505c\\u6b62)\\u3002\",",
   "\"gap_version\":", JStr(GAPInfo.Version), ",",
   "\"provenance\":{",
@@ -667,6 +701,8 @@ out := Concatenation(
     "\"input_prelude_sha256\":", JStr(INPUT_PRELUDE_SHA256), ",",
     "\"linear_spec_path\":", JStr(SPEC_PATH), ",",
     "\"linear_spec_sha256\":", JStr(SPEC_SHA256), ",",
+    "\"linear_spec_errata_path\":", JStr(ERRATA_PATH), ",",
+    "\"linear_spec_errata_sha256\":", JStr(ERRATA_SHA256), ",",
     "\"script_path\":", JStr(SCRIPT_PATH), ",",
     "\"script_sha256\":", JStr(SCRIPT_SHA256),
   "},",
@@ -681,7 +717,8 @@ out := Concatenation(
   "\"ad_convention\":{",
     "\"paper_ad_x(u)\":\"x*u*x^-1\",",
     "\"gap_power_convention\":\"u^x = x^-1*u*x\",",
-    "\"implementation\":\"paper Ad(xbar)(v) = x v x^-1 = GAP v^(x^-1); A is the FIXED constant [[0,-1],[1,-1]] mod 4 in the canonical basis v1:=[y x^-1], v2:=A v1 (spec Sec.1), not re-derived per window\",",
+    "\"w1_relation\":\"paper<->GAP are related by an ANTI-isomorphism (iota(AB)=iota(B)iota(A)); anti-isomorphisms preserve inverses, so paper Ad(g)(v) = g v g^-1 corresponds to GAP `v^g` (NOT `v^(g^-1)`). errata E-1/E-6 (2026-08-23), v1 of the spec had this backwards.\",",
+    "\"implementation\":\"paper Ad(xbar)(v1) = x v1 x^-1 = GAP v1^x (corrected 2026-08-23); A is the FIXED constant [[0,-1],[1,-1]] mod 4 in the canonical basis v1:=[y x^-1], v2:=A v1 (spec Sec.1), not re-derived per window\",",
     "\"A_const\":", JMat(A_CONST),
   "},",
   "\"per_window\":[", JRunWindow(RW_154161), ",", JRunWindow(RW_154163a), ",", JRunWindow(RW_154163b), "],",
