@@ -1,0 +1,171 @@
+{
+  "schema": "d972-pent-interleave-canary-p3-execution-manifest/v2",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "separate prime-local p=3 quotient/maps, complete commutator instrument, separately gated actual charming+onto subset, and complete actual-five-coface wrong-order aggregate",
+  "immutable_inputs": [
+    {
+      "path": "search/d972_pent_interleave_canary_p3_v2.g",
+      "bytes": 13489,
+      "sha256": "2287d5d53c3a5be82b8af384b83a080dc817ce8570bdf77b61afcb2fdf65fc74",
+      "role": "v2 deterministic generator and fail-closed outer producer"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p3_math_v1.g",
+      "bytes": 52396,
+      "sha256": "ecc6a10befc8b37c627a90f29588b7ff4c992f31384642aa22a0fe4d76608c49",
+      "role": "authenticated unpublished p3 mathematical base; not overwritten"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_p3_control_overlay_v2.g",
+      "bytes": 5131,
+      "sha256": "3accef86d2e20105eb767b8309d8dd1e6972f90294ecc63bb669cb3954e3c7f3",
+      "role": "complete actual-five-coface aggregate overlay"
+    },
+    {
+      "path": "search/certs/d972_pent_interleave_canary_p3_prereg_v2_20260824.json",
+      "bytes": 6888,
+      "sha256": "16434b7b7210e5381f97abc348c25e38021d8b9188d395f78c637af0e2ca1123",
+      "role": "p3 v2 preregistration"
+    },
+    {
+      "path": "search/d972_pent_interleave_canary_stage0_v4.g",
+      "bytes": 14287,
+      "sha256": "eefb7b78a1b1d69634642db85cdbf9ebffae4e871fa5c7008d20b92117374657",
+      "role": "authenticated NQ Linux portability and direct-pc F2 calibration dependency"
+    },
+    {
+      "path": ".github/workflows/gap-run.yml",
+      "bytes": 11346,
+      "sha256": "7e732a4edf49306e18067b1003b8495c858bfae79ade8855c49488bb7e4dd763",
+      "role": "existing authorized workflow; not edited"
+    }
+  ],
+  "generated_source_pin": {
+    "path": "ci/out/d972_pent_interleave_canary_p3_math_effective_v2.g",
+    "bytes": 54203,
+    "sha256": "986533bf179e9352fe54471b082994f06981282b895edf16491c7f4c7891dabe",
+    "construction": "exact-count namespace/metadata/provenance patches to authenticated p3 v1 base plus a hash-pinned Read of the v2 aggregate overlay"
+  },
+  "p2_routing_trigger": {
+    "run_id": 32652710118,
+    "commit": "4e2de61961e167d058bcf963e6add5a0eb6edfe0",
+    "receipt_bytes": 214729,
+    "receipt_sha256": "79fc3b392f6e9c514c469c92e230c60d244472a15c252ccc482666943faf387e",
+    "run_log_bytes": 7206,
+    "run_log_sha256": "40c0b9845c012da41c516a9d994e57af407bb993dfa554d9acc2fa9bb54bc0a4",
+    "producer_terminal": "PENT159N_P2_INSTRUMENT_SENSITIVE_ACTUAL_CHARMING_BLIND__P3_REQUIRED",
+    "grade": "GHA-observed producer trigger only",
+    "crosscheck_closed": false,
+    "p2_values_imported_into_p3_mathematics": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_pent_interleave_canary_p3_v2.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "180",
+    "with_pquot_packages": true,
+    "gap_heap_from_workflow": "12g",
+    "estimated_live_math_after_GAP_and_NQ_setup": "1-30 minutes; fail closed at first missing datum",
+    "estimated_peak_memory": "within existing 12 GiB GAP heap; exact usage to be measured by GHA"
+  },
+  "required_ordered_markers": [
+    "P2_PACKAGE_LOAD_PASS GAPInfo.Version=4.16.0",
+    "PENT159N_P3_V2_INPUT_PINS_PASS",
+    "PENT159N_P3_V2_EFFECTIVE_SOURCE_WRITTEN",
+    "PENT159N_NQ_SOURCE_PIN_PASS version=2.5.11",
+    "PENT159N_NQ_API_PROVENANCE_PASS version=2.5.11",
+    "PENT159N_NQ_PATH_RAW",
+    "PENT159N_NQ_PATH_CANONICAL",
+    "PENT159N_NQ_PATH_EQUIVALENCE_PASS",
+    "PENT159N_NQ_BUILD_PASS",
+    "PENT159N_NQ_LOAD_PASS version=2.5.11",
+    "PENT159N_NQ_DIRECT_CALL_RETURN api=NilpotentQuotient result_is_pcp=true",
+    "PENT159N_F2_D4P_CALIBRATION prime=2 order=128 class=3",
+    "PENT159N_NQ_DIRECT_STAGE0_PASS",
+    "PENT159N_GAP_STAGE0_V4_PASS",
+    "PENT159N_P3_V2_STAGE0_REPLAY_PASS",
+    "PENT159N_P3_V2_MARKED_API_PIN_PASS",
+    "PENT159N_P3_V2_LAW_PIN_PASS prime=3",
+    "PENT159N_P3_V2_Q2_PASS order=2187 class=3",
+    "PENT159N_P3_V2_Q3_PASS",
+    "PENT159N_P3_V2_Q4_PASS",
+    "PENT159N_P3_V2_MAPS_PASS deletions=4 cofaces=5",
+    "PENT159N_P3_V2_WRONG_ORDER_CONTROL_PASS q2_universe=2187",
+    "PENT159N_P3_V2_WRONG_ORDER_FORMULA_PIN_PASS correct_paper=A^-1*B^-1*C*E*F correct_native=F*E*C*B^-1*A^-1 mutant_paper=F*E*C*B^-1*A^-1 mutant_native=A^-1*B^-1*C*E*F",
+    "PENT159N_P3_V2_WRONG_ORDER_AGGREGATE_PASS q2_universe=2187",
+    "PENT159N_P3_V2_INSTRUMENT_PASS",
+    "PENT159N_P3_V2_A5_CENTRAL_PASS",
+    "PENT159N_P3_V2_GATED_PASS",
+    "PENT159N_P3_V2_RECEIPT_WRITTEN",
+    "PENT159N_P3_V2_FINAL_MARKER",
+    "PENT159N_P3_V2_OUTER_FINAL_PASS"
+  ],
+  "receipt_semantic_gate": {
+    "path": "ci/out/d972_pent_interleave_canary_p3_receipt_v2_20260824.json",
+    "schema": "d972-pent-interleave-canary-p3/v2",
+    "prime": 3,
+    "Q2_order": 2187,
+    "Q3_order": "measured, not preregistered",
+    "Q4_order": "measured, not preregistered",
+    "complete_Q2_universe_count": 2187,
+    "actual_distinct_and_factor_noncommuting_row_count": "integer > 0; not preregistered",
+    "factor_noncommuting_row_count": "integer > 0; not preregistered",
+    "noncommuting_factor_pair_total": "integer > 0; not preregistered",
+    "first_witness_requires_actual_coface_row": true,
+    "first_witness_requires_distinct_residuals": true,
+    "first_witness_requires_five_factor_coordinates": true,
+    "first_witness_requires_nonempty_factor_pair_list": true,
+    "external_S3_calibration_accepted_as_pass": false,
+    "instrument_and_actual_gate_are_separate": true,
+    "closed_write_and_outer_readback_hash_required": true
+  },
+  "diagnostic_and_terminal_gate": {
+    "forbidden_run_log_substrings": [
+      "Syntax error:",
+      "Syntax warning:",
+      "Unbound global variable",
+      "Error,"
+    ],
+    "workflow_success_alone_is_insufficient": true,
+    "all_ordered_markers_required": true,
+    "generated_effective_source_hash_required": true,
+    "receipt_artifact_required": true,
+    "broker_must_recompute_downloaded_effective_source_and_receipt_bytes_sha256": true,
+    "fail_closed_if_any_requirement_missing": true
+  },
+  "expected_artifact_paths": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_pent_interleave_canary_p3_math_effective_v2.g",
+    "ci/out/d972_pent_interleave_canary_p3_receipt_v2_20260824.json"
+  ],
+  "selective_publish": [
+    "search/d972_pent_interleave_canary_p3_math_v1.g",
+    "search/d972_pent_interleave_canary_p3_control_overlay_v2.g",
+    "search/d972_pent_interleave_canary_p3_v2.g",
+    "search/certs/d972_pent_interleave_canary_p3_prereg_v2_20260824.json",
+    "search/certs/d972_pent_interleave_canary_p3_manifest_v2_20260824.json"
+  ],
+  "post_run_routing": {
+    "handoff_only_receipt_and_manifest_to_independent_checker": true,
+    "p2_and_p3_reported_separately": true,
+    "no_p2_or_p3_to_all_class3_prime_inference": true,
+    "row36_M_isolation_diamond_claim_cover_remain_separate_and_deferred": true,
+    "automatic_K2_naming": false
+  },
+  "firewall_and_mutations": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "git_used_by_child": false,
+    "gha_dispatched_by_child": false,
+    "workflow_edited": false,
+    "es7ops_used": false,
+    "p2_sources_or_receipts_edited": false,
+    "p3_v1_files_edited": false,
+    "main_sol_reply_edited": false
+  }
+}

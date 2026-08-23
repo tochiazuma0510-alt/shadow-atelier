@@ -1,0 +1,154 @@
+{
+  "schema": "d972-pent-interleave-canary-p3-prereg/v2",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "FROZEN_BEFORE_P3_V2_MEASUREMENT",
+  "scope": "separate prime-local p=3 Brunnian/complete-commutator instrument and exact actual-charming+onto gate with complete actual-five-coface wrong-order aggregate",
+  "producer": {
+    "outer_path": "search/d972_pent_interleave_canary_p3_v2.g",
+    "outer_bytes": 13489,
+    "outer_sha256": "2287d5d53c3a5be82b8af384b83a080dc817ce8570bdf77b61afcb2fdf65fc74",
+    "authenticated_base_path": "search/d972_pent_interleave_canary_p3_math_v1.g",
+    "authenticated_base_bytes": 52396,
+    "authenticated_base_sha256": "ecc6a10befc8b37c627a90f29588b7ff4c992f31384642aa22a0fe4d76608c49",
+    "control_overlay_path": "search/d972_pent_interleave_canary_p3_control_overlay_v2.g",
+    "control_overlay_bytes": 5131,
+    "control_overlay_sha256": "3accef86d2e20105eb767b8309d8dd1e6972f90294ecc63bb669cb3954e3c7f3",
+    "generated_effective_path": "ci/out/d972_pent_interleave_canary_p3_math_effective_v2.g",
+    "generated_effective_bytes": 54203,
+    "generated_effective_sha256": "986533bf179e9352fe54471b082994f06981282b895edf16491c7f4c7891dabe"
+  },
+  "p2_producer_trigger_only": {
+    "run_id": 32652710118,
+    "commit": "4e2de61961e167d058bcf963e6add5a0eb6edfe0",
+    "receipt_path_in_downloaded_artifact": "ci/pent159n_p2_v10_artifacts_32652710118/d972_pent_interleave_canary_p2_receipt_v10_20260824.json",
+    "receipt_bytes": 214729,
+    "receipt_sha256": "79fc3b392f6e9c514c469c92e230c60d244472a15c252ccc482666943faf387e",
+    "run_log_bytes": 7206,
+    "run_log_sha256": "40c0b9845c012da41c516a9d994e57af407bb993dfa554d9acc2fa9bb54bc0a4",
+    "terminal": "PENT159N_P2_INSTRUMENT_SENSITIVE_ACTUAL_CHARMING_BLIND__P3_REQUIRED",
+    "instrument": {"universe": 8, "nonzero": 4},
+    "actual_gate": {"survivors": 8, "nonzero_survivors": 0},
+    "control_GHA_observation": {
+      "complete_Q2_universe": 128,
+      "residual_distinct_rows": 96,
+      "residual_commutator_nonidentity_rows": 0,
+      "factor_noncommuting_rows": 96,
+      "distinct_and_factor_noncommuting_rows": 96,
+      "noncommuting_factor_pair_total": 928
+    },
+    "crosscheck_closed": false,
+    "use_in_p3": "routing/provenance trigger only; no p2 semantic import and no cross-checked claim"
+  },
+  "prime_local_window": {
+    "prime": 3,
+    "definition": "D4_3(G)=G^9 gamma2(G)^3 gamma4(G)",
+    "nq_identical_relators_in_literal_order": ["u^9", "Comm(u,v)^3"],
+    "nilpotency_class_bound": 3,
+    "direct_marked_api": "NqCallANU_NQ -> NqInitFromTheLeftCollector -> NqPcpGroupByCollector + NqPcpElementByWord(nqrec.Images)",
+    "Q2_expected_order": 2187,
+    "Q2_expected_class": 3,
+    "marked_generator_expected_order": 9,
+    "integral_commutator_normalization_modulus": 9,
+    "Q3_order": "MEASURE",
+    "Q4_order": "MEASURE",
+    "derived_universe_size": "MEASURE",
+    "instrument_nonzero_count": "MEASURE",
+    "N_ord": "MEASURE",
+    "actual_gate_survivors": "MEASURE",
+    "actual_gate_nonzero_survivors": "MEASURE"
+  },
+  "frozen_conventions": {
+    "original_W2": "ORIGINAL_W2_REJECTED_EXPONENT2_COLLAPSE",
+    "raw_lie": "RAW_LIE_CALIBRATION_ONLY",
+    "paper_product_native_rule": "paper f1*...*fk evaluates as native GAP fk*...*f1",
+    "dpap_paper_factor_order": [
+      "phi12_3_4^-1",
+      "phi1_2_34^-1",
+      "phi234",
+      "phi1_23_4",
+      "phi123"
+    ],
+    "dpap_native_factor_order": [
+      "phi123",
+      "phi1_23_4",
+      "phi234",
+      "phi1_2_34^-1",
+      "phi12_3_4^-1"
+    ],
+    "old_section_9_1_mutant_paper_order": [
+      "phi123",
+      "phi1_23_4",
+      "phi234",
+      "phi1_2_34^-1",
+      "phi12_3_4^-1"
+    ],
+    "dpap_definition": "RHS^-1 * LHS",
+    "ordinary_deletions_required": 4,
+    "cofaces_required": 5,
+    "A5_full_twist_native_bridge_required": true,
+    "tau_native_word": "X^-1*Y^-1",
+    "rejected_tau_mutant": "(X*Y)^-1"
+  },
+  "registered_universes": {
+    "Q2_word_roster": "every one of the 2187 marked Q2 elements exactly once by canonical BFS coordinates",
+    "commutator_instrument": "every element of DerivedSubgroup(Q2) exactly once, using an integral exponent-sum-zero representative",
+    "actual_gate": "every m in 0..N_ord-1 times every one of the 2187 Q2 elements; unit, derived, both literal gentle hexagons, onto, then Dpap",
+    "coverage": "exact coordinate uniqueness, counts, full traces, histograms, and SHA-256 digests; no omissions or duplicates"
+  },
+  "wrong_order_control": {
+    "required_source": "an actual f from the complete 2187-element Q2 universe evaluated through all five literal cofaces",
+    "correct_paper_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "correct_native_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "reversed_mutant_paper_factor_order": ["F", "E", "C", "B^-1", "A^-1"],
+    "reversed_mutant_native_factor_order": ["A^-1", "B^-1", "C", "E", "F"],
+    "same_row_requirements": [
+      "literal residual differs from the old section 9.1 reversed residual",
+      "at least one of all ten pairs among the five actual coface-derived factors has nonidentity commutator"
+    ],
+    "aggregate_counts_required": [
+      "residual-distinct rows",
+      "residual-commutator-nonidentity rows",
+      "factor-noncommuting rows",
+      "rows satisfying residual distinction and factor noncommutation",
+      "total noncommuting factor pairs"
+    ],
+    "first_witness_required_fields": [
+      "f_word",
+      "f_coords",
+      "five factor labels and coordinates",
+      "all noncommuting pair labels/positions/commutator coordinates",
+      "correct and mutant residual coordinates"
+    ],
+    "all_p3_numeric_control_counts": "UNMEASURED_UNTIL_AUTHORITATIVE_RUN",
+    "fail_closed_if_no_same_row_witness": true,
+    "external_S3_canary_role": "calibration-only",
+    "external_S3_canary_accepted_as_pass": false
+  },
+  "routing": {
+    "p2_and_p3_reported_separately": true,
+    "no_p2_or_p3_to_all_class3_prime_inference": true,
+    "no_automatic_K2_naming": true,
+    "row36_M_isolation_diamond_claim_cover_deferred": true
+  },
+  "runtime_receipt": {
+    "path": "ci/out/d972_pent_interleave_canary_p3_receipt_v2_20260824.json",
+    "state": "ABSENT_UNTIL_AUTHORITATIVE_GHA_RUN"
+  },
+  "local_preflight": {
+    "gap_attempted": false,
+    "reason": "known local GAP Win32 signal-pipe startup failure; GHA Linux lane required",
+    "first_live_missing_datum": "p3 direct NQ Q2 return and order/class gate"
+  },
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_verdict_opened_or_imported": false,
+    "checker_report_opened_or_imported": false,
+    "p2_sources_or_receipts_overwritten": false,
+    "p3_v1_files_overwritten": false,
+    "producer_checker_helpers_shared": false,
+    "git_or_GHA_dispatch_by_child": false,
+    "workflow_edited": false,
+    "main_sol_reply_edited": false
+  }
+}
