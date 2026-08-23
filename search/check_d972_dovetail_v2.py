@@ -45,12 +45,12 @@ CALIBRATION_BACKEND = (
     "generated self-contained GAP; explicit permutation BQ/six-coset/Q8; "
     "q-relators one-way identity gate; no quotient-size/Todd-Coxeter"
 )
-CALIBRATION_SCHEMA = "d972-independent-calibration/v5-direct-bq"
-CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v3-direct-bq"
-CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v5.json"
+CALIBRATION_SCHEMA = "d972-independent-calibration/v6-direct-bq"
+CALIBRATION_FAILURE_SCHEMA = "d972-independent-calibration-failure/v4-direct-bq"
+CALIBRATION_FAILURE_NAME = "d972-independent-calibration-failure-v6.json"
 CALIBRATION_FAILURE_TAIL_BYTES = 32768
-CALIBRATION_SCRIPT_VARIANT = "d972-v5-direct-explicit-bq-v2"
-CALIBRATION_COMPLETE_LINE = b"D972_CAL_COMPLETE v5"
+CALIBRATION_SCRIPT_VARIANT = "d972-v6-direct-explicit-bq-v3"
+CALIBRATION_COMPLETE_LINE = b"D972_CAL_COMPLETE v6"
 ZERO_SHA = "0" * 64
 SHA_RE = re.compile(r"^[0-9a-f]{64}$")
 
@@ -190,6 +190,25 @@ def write_calibration_failure_receipt(
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise CheckStop(message)
+
+
+def gap_script_has_literal_string_newline(script: str) -> bool:
+    """Reject physical newlines inside generated GAP double-quoted strings."""
+    in_string = False
+    escaped = False
+    for character in script:
+        if not in_string:
+            if character == '"':
+                in_string = True
+        elif escaped:
+            escaped = False
+        elif character == "\\":
+            escaped = True
+        elif character == '"':
+            in_string = False
+        elif character in "\r\n":
+            return True
+    return in_string
 
 
 def is_sha(value: Any) -> bool:
@@ -438,7 +457,7 @@ def independent_calibration_gap_script(q_relators: Any, target_keys: list[str]) 
         '  Error("calibration q-relator identity gate failed in explicit BQ");\n'
         "fi;;\n"
     )
-    return f"""\
+    script = f"""\
 MakeRels := function(F,rows)
   local g,out,row,w,x; g:=GeneratorsOfGroup(F); out:=[];
   for row in rows do w:=One(F); for x in row do
@@ -561,9 +580,9 @@ off9:=6*Size(G9);; size4:=6*Size(P4);; baseDegree:=off9+size4;;
 bs1:=DirectSumPerm(qt9.s1,off9,qt4.s1,size4);;
 bs2:=DirectSumPerm(qt9.s2,off9,qt4.s2,size4);; BQ:=Group(bs1,bs2);;
 if Size(BQ)<>8817984 then Error("calibration base order drift"); fi;
-Print("D972_CAL_BQ 8817984 true\n");
+Print("D972_CAL_BQ 8817984 true\\n");
   {fixed_qblock}
-Print("D972_CAL_STAGE q_relators_pass\n");
+Print("D972_CAL_STAGE q_relators_pass\\n");
 pureK9:=Group(qt9.s1^2,qt9.s2^2);; purePSL:=Group(qt4.s1^2,qt4.s2^2);;
 pureJoint:=Group(bs1^2,bs2^2);;
 projK9:=GroupHomomorphismByImages(pureJoint,pureK9,[bs1^2,bs2^2],[qt9.s1^2,qt9.s2^2]);;
@@ -598,8 +617,8 @@ if not (cWordOK and artinM and center12M and center23M and componentRelatorsOK a
 fi;;
 Print("D972_SEMANTIC_M 2916 504 ",Size(pureJoint)," ",Size(BQ)," ",Size(Kernel(epsilon))," 6 ",
   artinM and cWordOK," ",center12M," ",center23M," ",componentRelatorsOK," ",projKOK," ",projPOK," ",
-  jointOK," ",epsilonOK," ",kernelOK," ",fullOK," ",orientationOK,"\n");
-Print("D972_CAL_STAGE semantic_m_pass\n");
+  jointOK," ",epsilonOK," ",kernelOK," ",fullOK," ",orientationOK,"\\n");
+Print("D972_CAL_STAGE semantic_m_pass\\n");
 targetKeys:={targets};;
 if Length(targetKeys)<>972 or Length(Set(targetKeys))<>972 then Error("calibration target set drift"); fi;
 rhoBase:=GroupHomomorphismByImages(BQ,BQ,[bs1,bs2],[bs1,bs2]);;
@@ -626,9 +645,13 @@ qy:=PermList([5,6,8,7,2,1,3,4]);; Q8:=Group(qx,qy);; qz:=qx^2;;
 if Size(Q8)<>8 or Order(qx)<>4 or Order(qy)<>4 or qx^2<>qy^2 then Error("calibration Q8 drift"); fi;
 RunSmall("nonsplit_q8_c0",Q8,qx,qy,One(Q8));;
 RunSmall("nonsplit_q8_c1",Q8,qx,qy,qz);;
-Print("D972_CAL_COMPLETE v5\n");
+Print("D972_CAL_COMPLETE v6\\n");
 QUIT_GAP(0);
 """
+    require(not gap_script_has_literal_string_newline(script),
+            "STATE_STOP generated calibration GAP string contains a literal newline")
+    script.encode("ascii")
+    return script
 
 
 def parse_independent_calibration(
@@ -668,7 +691,7 @@ def parse_independent_calibration(
             fibers[label] = [int(value) for value in vector.split(",")]
     require(set(summaries) == set(fibers) == set(rows) == set(labels),
             "STATE_STOP incomplete independent calibration output")
-    require(complete_markers == [["D972_CAL_COMPLETE", "v5"]],
+    require(complete_markers == [["D972_CAL_COMPLETE", "v6"]],
             "STATE_STOP independent calibration completion marker absent")
     require(bq_markers == [["D972_CAL_BQ", "8817984", "true"]],
             "STATE_STOP explicit BQ calibration marker absent")
@@ -1702,7 +1725,8 @@ def self_test() -> int:
             "Image(freeToBase,rel)" in fixed_script and
             "qrelsOK:=true;;" in fixed_script and
             "D972_CAL_BQ 8817984 true" in fixed_script and
-            "D972_CAL_COMPLETE v5" in fixed_script and
+            "D972_CAL_COMPLETE v6" in fixed_script and
+            not gap_script_has_literal_string_newline(fixed_script) and
             quotient_size_call not in fixed_script and
             quotient_map_name not in fixed_script and
             "{qrels}" not in fixed_script,

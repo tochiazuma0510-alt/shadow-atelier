@@ -1,4 +1,4 @@
-name: D972 dovetail v2.3 whole-process checkpoint
+name: D972 dovetail v2.4 whole-process checkpoint
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: d972-dovetail-v2-calibration-v5-whole-process
+  group: d972-dovetail-v2-calibration-v6-whole-process
   cancel-in-progress: false
 
 jobs:
@@ -30,8 +30,8 @@ jobs:
     timeout-minutes: 330
     env:
       RUNTIME_ROOT: .d972-runtime
-      ARTIFACT_NAME: d972-dovetail-v2-calibration-v5-state
-      ARTIFACT_ARCHIVE: d972-dovetail-v2-calibration-v5-state.tar
+      ARTIFACT_NAME: d972-dovetail-v2-calibration-v6-state
+      ARTIFACT_ARCHIVE: d972-dovetail-v2-calibration-v6-state.tar
       MANIFEST_V2: search/d972_dovetail_manifest_v2.json
       PRODUCER_V2: search/d972_dovetail_producer_v2.py
       CHECKER_V2: search/check_d972_dovetail_v2.py
@@ -45,7 +45,7 @@ jobs:
         id: predecessor
         uses: actions/github-script@v7
         env:
-          ARTIFACT_NAME: d972-dovetail-v2-calibration-v5-state
+          ARTIFACT_NAME: d972-dovetail-v2-calibration-v6-state
           REQUESTED_RESUME: ${{ env.REQUESTED_RESUME }}
         with:
           script: |
@@ -96,7 +96,7 @@ jobs:
         if: steps.predecessor.outputs.run_id != ''
         uses: actions/download-artifact@v4
         with:
-          name: d972-dovetail-v2-calibration-v5-state
+          name: d972-dovetail-v2-calibration-v6-state
           path: .d972-artifact-download
           run-id: ${{ steps.predecessor.outputs.run_id }}
           github-token: ${{ github.token }}
@@ -295,6 +295,30 @@ jobs:
           python3 -m py_compile "$PRODUCER_V2" "$CHECKER_V2"
           python3 "$PRODUCER_V2" --self-test
           python3 "$CHECKER_V2" --self-test
+          syntax_script="$RUNNER_TEMP/d972-calibration-v6-syntax.g"
+          syntax_driver="$RUNNER_TEMP/d972-calibration-v6-syntax-driver.g"
+          syntax_output="$RUNNER_TEMP/d972-calibration-v6-syntax.out"
+          python3 - "$syntax_script" "$syntax_driver" <<'PY'
+          import importlib.util, pathlib, sys
+          script_path, driver_path = map(pathlib.Path, sys.argv[1:])
+          spec = importlib.util.spec_from_file_location(
+              "d972_checker_v2_syntax", "search/check_d972_dovetail_v2.py"
+          )
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          script = module.independent_calibration_gap_script([[1, -2], [2]], ["toy"])
+          script_path.write_text(script, encoding="ascii", newline="\n")
+          driver_path.write_text(
+              'parsed:=ReadAsFunction("' + script_path.as_posix() + '");;\n'
+              'if parsed=fail then Error("generated calibration syntax rejected"); fi;;\n'
+              'Print("D972_CALIBRATION_GAP_SYNTAX_PASS v6\\n");\n'
+              'QUIT_GAP(0);\n',
+              encoding="ascii", newline="\n",
+          )
+          PY
+          gap -q --quitonbreak "$syntax_driver" > "$syntax_output"
+          test "$(tail -n 1 "$syntax_output")" = "D972_CALIBRATION_GAP_SYNTAX_PASS v6"
+          rm -f "$syntax_script" "$syntax_driver" "$syntax_output"
 
       - name: DMTCP stateful checkpoint-restart smoke test
         shell: bash
@@ -405,7 +429,7 @@ jobs:
             python3 - "$SOURCE_COMMIT" <<'PY'
           import json, pathlib, sys
           pathlib.Path('.d972-runtime/campaign-meta.json').write_text(
-              json.dumps({'campaign_id':'d972-roof-A-semidecision-v2-calibration-v5','source_commit':sys.argv[1]}, sort_keys=True) + '\n')
+              json.dumps({'campaign_id':'d972-roof-A-semidecision-v2-calibration-v6','source_commit':sys.argv[1]}, sort_keys=True) + '\n')
           PY
           fi
           status=$(python3 - <<'PY'
@@ -703,8 +727,8 @@ jobs:
         if: steps.campaign.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
-          name: d972-dovetail-v2-calibration-v5-state
-          path: d972-dovetail-v2-calibration-v5-state.tar
+          name: d972-dovetail-v2-calibration-v6-state
+          path: d972-dovetail-v2-calibration-v6-state.tar
           if-no-files-found: error
           compression-level: 0
           retention-days: 7
@@ -713,8 +737,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: d972-dovetail-v2-calibration-v5-diagnostics-${{ github.run_id }}
-          path: .d972-runtime/checker/d972-independent-calibration-failure-v5.json
+          name: d972-dovetail-v2-calibration-v6-diagnostics-${{ github.run_id }}
+          path: .d972-runtime/checker/d972-independent-calibration-failure-v6.json
           if-no-files-found: ignore
           retention-days: 7
 
