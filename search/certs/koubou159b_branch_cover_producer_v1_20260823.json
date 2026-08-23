@@ -1,0 +1,102 @@
+{
+  "schema": "koubou159b-branch-cover-producer-summary/v1",
+  "status": "STRUCTURAL_PASS_FORMULA_BLOCKED",
+  "grade": "producer-only candidate; no independent checker; no branch promotion",
+  "producer": {
+    "path": "search/koubou159b_branch_cover_producer_v1.py",
+    "bytes": 36447,
+    "sha256": "31cddf53ca679d3e95cdcb286b2f5f28f4bc55375156160b56e7c3070c525e85",
+    "full_reconstructed_receipt_canonical_sha256": "fd77037f877bc9f7e56300870e761b39abc65599c396503a3ff338aa9cd5be8b",
+    "imports_search_or_crosscheck_code": false
+  },
+  "runtime_evidence_pins": {
+    "bulk162_v1_2": {
+      "source": ["search/koubou158_L3_bulk162_v1_2.py", 12635, "21d83c9e48cbd3d81c585debad59cff2f974c54bed5b8a14cf064f87b3feab63"],
+      "core": ["search/koubou158_L3_core_v1_2.py", 31192, "4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63"],
+      "receipt": ["search/certs/koubou158_L3_bulk162_v1_2_20260822.json", 45007, "6e51df539aa4cf793c7302514cf1f068e098c06ca751571890da09ba7fd13172"]
+    },
+    "prodrung": {
+      "source": ["search/koubou158_prodrung_v1.py", 26567, "a0e1e47a76b9d6379e9f2b16334140ec0eaf1e0b4d70f4793ae4f676949015a1"],
+      "j5_resume": ["search/koubou158_prodrung_j5_resume_v1.py", 14421, "af56df3f5301437b13cf2113f75d0a2b15d0ce4b97a300f8ad4d5527c2b872c2"],
+      "receipt": ["search/certs/koubou158_prodrung_v1_20260822.json", 15391, "3160eec7281ecaaa38e4f869530b5fb7639620e7363c9abde5acb0990638cafe"]
+    },
+    "q3": {
+      "chief": ["ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json", 231570, "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"],
+      "word_artifact": ["search/certs/d972_b4_word_key_artifact_v1_20260816.json", 176474, "564a921be8114bdeb963f679c121e8d9aa90e148c65e95e393874fcba843e9f9"]
+    },
+    "context_registry": ["ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json", 2166036, "1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df"]
+  },
+  "m2_lineage_stop": {
+    "current_source": ["search/koubou158_M2_msweep_v3.py", 17512, "a6ab013cb541578a55485591c5b113bfabc822a1290f4337b26e7afad14ec59b"],
+    "current_runtime": [
+      ["search/koubou158_L3_core_v1_1.py", 24529, "ec93ed38527922de328603e01abd662743cfc03904ee21a924395fd0879d3d82"],
+      ["search/koubou158_L3_core_completebfs_v1.py", 7432, "3aa5ce3beb4b8781506858ba2947ac7a17c4e70ee152dec9fd917fa451e33c13"],
+      ["search/koubou158_m2_closedform_v2.py", 3645, "6525535ae7c50af54e6891a5e0608ee08ea50f692916dfb40ce5d75bfd463f2f"]
+    ],
+    "predecessor_canary": ["search/certs/koubou158_M2_msweep_v3_20260822.json", 33824, "7ff02c0eb9a49ed0105ceabba2aba92c476e04efbb77af9004b805c95f58abdd"],
+    "predecessor_source": ["search/koubou158_m2_closedform_v1.py", 3956, "7c5630bc4a6103f5fb5e002783f097a567ae290f0e913dd611ffa20a2c09c0dc"],
+    "current_measurement_files": [],
+    "verdict": "7ff02c... is the closedform_v1 CANARY_ALL_FAIL_STOPPED receipt, not an output of current a6ab01... v3"
+  },
+  "registry": {
+    "context_count": 31,
+    "context_rows_sha256": "bf07578f91f5ed66e6ddddd4ef83dafa45817a29df066940bbc13bd53cdd00f6",
+    "named_use_count": 46,
+    "named_use_mapping_sha256": "15cdac950ede8ce4596e5014ae1b6d0caa28523898cb42f3387f435a11b919a8"
+  },
+  "zero_based_contract": {
+    "roof_index": "r=0..5 maps to exponents [1,2,4,5,7,8] and one-based q3 rows [19,37,73,10,46,64]",
+    "correction_index": "c=0..26 indexes correction_fibre.records",
+    "historical_selected_solution_correction_index": "one-based 1 equals branch c0"
+  },
+  "structural_cover": {
+    "cartesian_universe": 162,
+    "bulk_nonmember_candidate_count": 144,
+    "bulk_member_count": 18,
+    "bulk_partition_disjoint_and_complete": true,
+    "unique_18": [
+      "r0_c8", "r0_c13", "r0_c18", "r1_c2", "r1_c17", "r1_c23",
+      "r2_c2", "r2_c15", "r2_c22", "r3_c2", "r3_c16", "r3_c21",
+      "r4_c1", "r4_c16", "r4_c22", "r5_c3", "r5_c10", "r5_c26"
+    ],
+    "j5_candidate_dead_8": [
+      "r0_c13", "r0_c18", "r1_c17", "r2_c15",
+      "r3_c2", "r3_c21", "r4_c22", "r5_c10"
+    ],
+    "undetermined_10": [
+      "r0_c8", "r1_c2", "r1_c23", "r2_c2", "r2_c22",
+      "r3_c16", "r4_c1", "r4_c16", "r5_c3", "r5_c26"
+    ],
+    "prodrung_partition_disjoint_and_complete": true,
+    "promotion_forbidden": true
+  },
+  "kappa_formula_audit": {
+    "paper_formula": "f1 * f2(x,f1^-1*y*f1)",
+    "legacy_q3_formula": "f2(x,f1*y*f1^-1) * f1",
+    "coarse_orbit_rows_one_based_both": [1,19,37,55,73,10,28,46,64,1],
+    "pi3_correction_fibres_equal_both_all_exponents": true,
+    "pi3_center_order_kappa": 3,
+    "pi3_center_not_in_correction_subgroup": true,
+    "embedded_center_pi4_pc_order_kappa": 3,
+    "embedded_center_full_e4_order": 18,
+    "paper_vs_legacy_e4_mismatch_contexts_by_outside_exponent": {
+      "1": [], "2": [], "4": [0,1,2,3], "5": [0,1,2,3], "7": [0,1,2,3], "8": []
+    },
+    "paper_vs_canonical_e4_mismatch_contexts_by_outside_exponent": {
+      "1": [], "2": [0,1,2,3,4], "4": [0,1,2,3,4], "5": [0,1,2,3,4],
+      "7": [0,1,2,3,4], "8": [0,1,2,3,4]
+    },
+    "first_missing_datum": "a fresh 162-row bulk receipt generated from literal formula (3.53), followed by a checker that imports no search-side producer helper",
+    "verdict": "BLOCKED_E4_FIBRE_MISMATCH"
+  },
+  "old_checker_separation_violation": {
+    "checker": ["crosscheck/check_koubou158_L3_bulk162_v1.py", 11487, "c97c0da5cac7b9e2300d7969c139f9ded1437d1f7492977690e57616741cd6bd"],
+    "imports": ["koubou158_sweep_v2", "koubou158_sigma_image_v1", "check_koubou158_L3_radical_v1"],
+    "old_verdict": ["crosscheck/verdicts/koubou158_L3_bulk162_crosscheck_v1_20260822.json", 32388, "eebc436b21090119be08b75126b0e3cf2dcd30ae0dc6395f3d0b0537e81880fb"]
+  },
+  "gate5": {
+    "closed": ["input inventory", "162=144+18 structural cover", "canonical 18", "8+10 partition", "registry hashes", "kappa sensitivity canaries"],
+    "blocked": ["paper-formula E4 branch correspondence", "fresh 162-row result", "producer-nonsharing checker"],
+    "status": "PARTIAL_ONLY_DO_NOT_CLOSE_GATE5"
+  }
+}

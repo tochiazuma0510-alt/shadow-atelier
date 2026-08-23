@@ -1,0 +1,59 @@
+{
+  "schema": "sol159b-type-m-stop/v1",
+  "campaign": "sol-159b-phase-2",
+  "generated_utc": "2026-08-23T00:00:00Z",
+  "gate_2_type_m": {
+    "status": "STOP_EXACT_TYPE_OBSTRUCTION",
+    "pb3_target": "M = K^(9) intersect N_S4",
+    "required_object": "N4 normal in B4, N4 <= PB4, with intersection_{j=1}^5 phi_j^(-1)(N4) = M",
+    "natural_candidate": "C_M = intersection_{i=1}^4 d_i^(-1)(M)",
+    "induced_pb3_subgroup": "M^[4] = intersection_{j=1}^5 intersection_{i=1}^4 (d_i phi_j)^(-1)(M)",
+    "exact_witness": {
+      "element": "central element c from the pinned roof-typing audit",
+      "c_in_M": true,
+      "d1_phi123_c": "x12",
+      "order_of_q_M_x12": 18,
+      "x12_in_M": false,
+      "c_in_M_4": false
+    },
+    "conclusion": "M^[4] is a strict subgroup of M; C_M does not type the canonical 972 M-roof",
+    "first_missing_datum": "N4_NORMAL_B4_WITH_INDUCED_PB3_EXACTLY_M"
+  },
+  "gate_3_key_bij": {
+    "status": "BLOCKED_BY_TYPE_M_DOMAIN_MISMATCH",
+    "proved_only": "compact B3/M cache rows are bijective with the frozen 972-key set",
+    "not_proved": "the frozen 972-key set is the full GT-heart of a correctly typed N4",
+    "natural_C_M_identification": "REFUTED_BY_c"
+  },
+  "downstream_boundary": {
+    "gate_4": "BLOCKED_BY_GATE_2",
+    "gate_5_semantic_cover": "BLOCKED_BY_GATES_2_TO_4",
+    "gate_6": "NOT_LAUNCHED",
+    "gate_7": "NOT_TRIGGERED",
+    "mathematical_status": "UNKNOWN",
+    "promotion": false
+  },
+  "source_pins": [
+    {
+      "path": "sol/luna_reply_157bj_delete_core_roof_typing.md",
+      "bytes": 14501,
+      "sha256": "ce6acc01bddd64c27b25aa682b970f3b90ff6c954808e4c2248fbe1898dd9b5b"
+    },
+    {
+      "path": "sol/sol_reply_152_pushback.md",
+      "bytes": 63054,
+      "sha256": "0c48c7723d3cf2de63391f9efe1190cf46da89b4d6abaf69e979522f7e17f0bf"
+    },
+    {
+      "path": "search/certs/d972_b4_marity_reduction_maps_v1.json",
+      "bytes": 1153,
+      "sha256": "6bab29852ec35210abe7bfc46e68c5457abc76653af3778921a71be8256dbfc2"
+    },
+    {
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+      "bytes": 231570,
+      "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",
+      "scope_note": "PB4 data are for Pi4[3], not for the roof subgroup M"
+    }
+  ]
+}

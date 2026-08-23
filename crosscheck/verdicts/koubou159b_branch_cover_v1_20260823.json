@@ -1,0 +1,263 @@
+{
+  "bulk_partition": {
+    "branch_row_fields": [
+      "branch_id",
+      "correction_index",
+      "non_member_at_L3",
+      "roof_index",
+      "separator"
+    ],
+    "l3_inconclusive": [
+      "r0_c8",
+      "r0_c13",
+      "r0_c18",
+      "r1_c2",
+      "r1_c17",
+      "r1_c23",
+      "r2_c2",
+      "r2_c15",
+      "r2_c22",
+      "r3_c2",
+      "r3_c16",
+      "r3_c21",
+      "r4_c1",
+      "r4_c16",
+      "r4_c22",
+      "r5_c3",
+      "r5_c10",
+      "r5_c26"
+    ],
+    "l3_inconclusive_count": 18,
+    "partition_exact": true,
+    "reported_nonmember_count": 144,
+    "universe_count": 162
+  },
+  "checked_date": "2026-08-23",
+  "checker": {
+    "bytes": 46205,
+    "path": "crosscheck/check_koubou159b_branch_cover_v1.py",
+    "producer_modules_imported": [],
+    "sha256": "b74d25a17873e0a69e4adb1116901b1a61984ec14fa2f170fff59e8823d8a49f",
+    "standard_library_only": true
+  },
+  "claim_boundary": {
+    "mathematical_status": "UNKNOWN",
+    "not_supported": [
+      "independent rank/solve verification of the 144 or the reported eight",
+      "promotion of the reported eight to final dead branches",
+      "the nonzero-roof kappa formula as used by the bulk/prodrung producers",
+      "a mapping from the 162 branch universe to all 648 outside roof elements",
+      "TYPE-M, KEY-BIJ, M1-prime, lift existence/nonexistence, fake/witness type"
+    ],
+    "supported": [
+      "the version-pin manifest and every listed file match bytes/SHA256",
+      "the 31-context/46-name registry and packed state table replay",
+      "the unique zero-based branch universe has 162 entries",
+      "the receipts report the exact partition 162=144+18",
+      "the prodrung receipt domain is exactly those 18 and reports 18=8+10",
+      "the 10 are a subset of the 18; 28 is only a duplicated stage-record count",
+      "r1_c0 independently replays the literal h1 value and Fox support-72 canary"
+    ]
+  },
+  "cross_provenance": {
+    "same_q3_bound": true,
+    "same_q3_bytes_sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+  },
+  "grade": "cross-checked accounting; mathematical branch outcomes UNKNOWN",
+  "independent_literal_canaries": {
+    "base_r1_c0": {
+      "branch_id": "r1_c0",
+      "candidate_word_length": 20,
+      "candidate_word_sha256": "b79f105ec2963ae55b69480f8ed8ab13083d01cb936da32edb4798698c22055d",
+      "h1_word_length": 72,
+      "h1_word_sha256": "165554c0a84719870543b544fa8ba64a531cee0b22da0d51cc35b7f6895e25cd",
+      "independent_rows_sha256": "0cb9f2a4c2a76c6042091b4a484d1d74e8170810cd30f3049410be41e713b7b8",
+      "pi4_identity": true,
+      "q4_identity": true,
+      "raw_input_binding_sha256": "1007bbd6d0125a5bb7689a28ae6752cd67c32739a454abcdb5a10b50d75af34d",
+      "support": 72
+    },
+    "branch_binding_count": 162,
+    "branch_binding_rows_sha256": "da5ebcd2754f8c9155aafb46ade8ec3811b931fac82163591a9c26c80a177f12",
+    "correction_pb3_coords_sha256": "d1635b3a465b4171a4bcb2f601d6a6cf3802dc096aa830bf1abb1286660ca3fd",
+    "correction_q0_identity_count": 27,
+    "e4_h1_identity_count": 18,
+    "literal_reconstruction": {
+      "candidate_formula": "free_reduce(roof_word || correction_word)",
+      "fox_convention": "positive uses prefix before multiplication; negative uses inverse prefix after multiplication; coefficients modulo 3",
+      "product_order": "h1=C*B^-1*A",
+      "roots": {
+        "x0": [
+          4
+        ],
+        "y0": [
+          6
+        ],
+        "z0": [
+          -4,
+          -6
+        ]
+      }
+    },
+    "pc_model_calibration": {
+      "PB3": {
+        "conjugate_rows": 6,
+        "inverse_rows": 4,
+        "original_relators": 2
+      },
+      "PB4": {
+        "conjugate_rows": 45,
+        "inverse_rows": 10,
+        "original_relators": 11
+      }
+    },
+    "pi4_h1_identity_count": 54,
+    "q4_h1_identity_count": 18,
+    "semantic_binding": {
+      "all_162_literal_canaries_reconstructed": true,
+      "base_r1_c0_cross_blob_canary": "PASS",
+      "bulk_per_branch_target_digest_present": false,
+      "nonzero_kappa_formula_independently_certified": false,
+      "prodrung_per_branch_target_digest_present": false,
+      "reason": "bulk/prodrung publish only branch indices and outcome/separator summaries; they publish neither candidate/h1 words nor per-branch raw-gradient digests.  Therefore the independently reconstructed 162 target canaries cannot be matched to the targets actually rank/solved by those producers."
+    }
+  },
+  "inputs": [
+    {
+      "bytes": 6259,
+      "path": "search/certs/sol159b_version_pin_v1_20260823.json",
+      "sha256": "d9a92f265ae21fabc79a944670dae136e5e9c06260e0b9d2c11f6acfde62ca36"
+    },
+    {
+      "bytes": 231570,
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json",
+      "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"
+    },
+    {
+      "bytes": 45007,
+      "path": "search/certs/koubou158_L3_bulk162_v1_2_20260822.json",
+      "sha256": "6e51df539aa4cf793c7302514cf1f068e098c06ca751571890da09ba7fd13172"
+    },
+    {
+      "bytes": 15391,
+      "path": "search/certs/koubou158_prodrung_v1_20260822.json",
+      "sha256": "3160eec7281ecaaa38e4f869530b5fb7639620e7363c9abde5acb0990638cafe"
+    },
+    {
+      "bytes": 2166036,
+      "path": "ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json",
+      "sha256": "1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df"
+    },
+    {
+      "bytes": 14603356,
+      "path": "ci/b345_157en_artifacts_32458556448/d972_b345_target6_dual_colgen_v2.json",
+      "sha256": "54e795e0411af5cc5194ebad10235363e16623f06a4e11db475e638fcb783135"
+    }
+  ],
+  "mutation_tests": {
+    "executed": true,
+    "rejected": [
+      "one_based_manifest",
+      "duplicate_q3_coordinate",
+      "duplicate_branch",
+      "one_based_roof_drift",
+      "missing_prodrung_branch",
+      "eight_ten_partition_drift",
+      "invalid_context_reference"
+    ]
+  },
+  "nonzero_kappa_audit": {
+    "bulk_branch_row_fields": [
+      "branch_id",
+      "correction_index",
+      "non_member_at_L3",
+      "roof_index",
+      "separator"
+    ],
+    "first_missing_datum": "a versioned typed 648-row table binding each outside source-roof element/key to its kappa_M image, zero-based branch_id, and source-target digest",
+    "independently_certified": false,
+    "prodrung_branch_row_fields": [
+      "branch_id",
+      "j_star",
+      "non_member",
+      "separator"
+    ],
+    "receipt_level_additional_gap": "bulk/prodrung branch rows contain no candidate-word, h1-word, or raw-gradient digest, so the independently reconstructed 162 literal targets cannot be matched to producer rank/solve inputs",
+    "requested_formula": "kappa_M([(m,f)])=(m mod M_ord, f mod M_F2)",
+    "status": "STOP_UNKNOWN_MISSING_TYPED_BINDING"
+  },
+  "prodrung_partition": {
+    "branch_row_fields": [
+      "branch_id",
+      "j_star",
+      "non_member",
+      "separator"
+    ],
+    "distinct_branch_count": 18,
+    "domain_count": 18,
+    "partition_exact": true,
+    "reported_j5_dead": [
+      "r0_c13",
+      "r0_c18",
+      "r1_c17",
+      "r2_c15",
+      "r3_c2",
+      "r3_c21",
+      "r4_c22",
+      "r5_c10"
+    ],
+    "reported_j5_dead_count": 8,
+    "stage_record_count_L3_plus_j5_undecided": 28,
+    "twenty_eight_is_not_a_branch_count": true,
+    "undecided": [
+      "r0_c8",
+      "r1_c2",
+      "r1_c23",
+      "r2_c2",
+      "r2_c22",
+      "r3_c16",
+      "r4_c1",
+      "r4_c16",
+      "r5_c3",
+      "r5_c26"
+    ],
+    "undecided_count": 10
+  },
+  "q3_axes": {
+    "correction_count": 27,
+    "historical_shift_index_is_one_based_and_separate": true,
+    "roof_count": 6,
+    "roof_exponents": [
+      1,
+      2,
+      4,
+      5,
+      7,
+      8
+    ],
+    "zero_based_branch_axes": true
+  },
+  "registry": {
+    "context_count": 31,
+    "context_rows_sha256": "bf07578f91f5ed66e6ddddd4ef83dafa45817a29df066940bbc13bd53cdd00f6",
+    "named_use_count": 46,
+    "named_use_mapping_sha256": "15cdac950ede8ce4596e5014ae1b6d0caa28523898cb42f3387f435a11b919a8",
+    "packed_bytes_sha256": "cc819cf3e054a9597566c6bb5753710810e8fc09ba6226916bfb61d22e3ac63c",
+    "state_count": 243,
+    "state_rows_sha256": "19a76eed8604fb7ab69f9d60c5bd7827a4e8a51cedcea052c85a37cb5c63d7fb"
+  },
+  "schema": "koubou159b-branch-cover-crosscheck/v1",
+  "status": "ACCOUNTING_PASS_KAPPA_UNKNOWN",
+  "terminal_token": "KOUBOU159B_BRANCH_ACCOUNTING_PASS_KAPPA_UNKNOWN",
+  "version_pin": {
+    "file_count": 18,
+    "files_digest": "c348075e698cf0fd105a83801ca8d946a34a6a89f2948f2f13d2333561e7fa8a",
+    "load_bearing_prodrung_resume_source_pinned": true,
+    "m2_v3_runtime_dependencies_pinned": [
+      "search/koubou158_L3_core_v1_1.py",
+      "search/koubou158_L3_core_completebfs_v1.py"
+    ],
+    "manifest_expansion_reason": "pin the two current M2 v3 runtime dependencies in addition to the previously pinned prodrung j5 resume source",
+    "manifest_sha256": "d9a92f265ae21fabc79a944670dae136e5e9c06260e0b9d2c11f6acfde62ca36"
+  }
+}
