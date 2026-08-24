@@ -1,0 +1,185 @@
+{
+  "schema": "d972-row36-pent-bridge-p3-outcome-execution-manifest/v13",
+  "date": "2026-08-24",
+  "author_role": "Luna producer",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "warning-only repair of the completed p=3 v12 fixed-row36 outcome run; prebind the existing top-level loop word before the unchanged five-context lambda, preserve all 17,496 words and 34,992 rows, require byte-identical Q4 result output and the same deterministic receipt aggregate, and emit no mode, K2, p2, or all-prime inference",
+  "failed_closed_v12_observation": {
+    "run_id": 32672099635,
+    "commit": "baf123dd8a425c4bf90b09a7c7aad155c289d234",
+    "artifact_id": 9502335479,
+    "computational_completion": true,
+    "checker_handoff_or_promotion": false,
+    "forbidden_diagnostic": "Syntax warning: Unbound global variable in search/d972_row36_pent_bridge_p3_q4_outcome_worker_v11.g:138",
+    "offending_expression": "c->P159OR36P3W11Eval(P159OR36P3W11word,c)",
+    "Q4_result": {
+      "path": "ci/out/d972_row36_pent_bridge_p3_q4_results_v11_20260824.json",
+      "bytes": 14729301,
+      "sha256": "ce7951c374c1dad4fe36e240dd6289e1e5f410c3111ceb892891b1521eac1480"
+    },
+    "receipt": {
+      "artifact_path": "ci/row36_p3_outcome_artifacts_32672099635/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+      "bytes": 101121155,
+      "sha256": "ece9fdcf7980d1fb9a570850feb93e38265079ce873d38ea707e05c2a2282405",
+      "aggregate_sha256": "8e9f3242463e83de53f65e636faec236abcd5431011a08f8969e0d3b095522b9",
+      "aggregate_field_match_count": 1
+    },
+    "runtime_manifest": {
+      "path": "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json",
+      "bytes": 7783,
+      "sha256": "1897cad5402d2e34aa1b78b2681bd86c89787419b488fc640be354a8d6d7217e"
+    }
+  },
+  "repair_contract": {
+    "worker_change": "insert exactly `P159OR36P3W11word:=fail;;` immediately after the unchanged empty result-list initialization and before the unchanged 1..17496 loop; the loop overwrites it before every lambda invocation",
+    "lambda_expression_changed": false,
+    "context_order_changed": false,
+    "word_roster_changed": false,
+    "universe_or_predicate_changed": false,
+    "receipt_algorithm_changed": false,
+    "frozen_Q4_result_bytes_sha_required": true,
+    "frozen_receipt_aggregate_required": true,
+    "full_receipt_sha_not_required": "runtime_ms is intentionally nonsemantic and may change",
+    "zero_forbidden_run_diagnostics_required_before_handoff": true
+  },
+  "source_pins": [
+    {
+      "path": "search/d972_row36_pent_bridge_p3_q4_outcome_worker_v13.g",
+      "bytes": 4836,
+      "sha256": "628ce68fecb6c7d08d4706a6482c9d8db0c2cc44bb1415e23a6f21ce5fb48d33"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v13.g",
+      "bytes": 9083,
+      "sha256": "d9dfd3a762da508243d3269829bf33a75d61bfc15e87e9286a0b0bf15a5c1997"
+    }
+  ],
+  "frozen_base_pins": [
+    {
+      "path": "search/d972_row36_pent_bridge_p3_q4_outcome_worker_v11.g",
+      "bytes": 3258958,
+      "sha256": "3838da922ddd7117e2d134a5c773a6ed606b2e656f8ce6c70ee82e6f7b9e691c"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v11.g",
+      "bytes": 14846,
+      "sha256": "03709a4dcb6e7c39765307c000a9fe62382615c25b3001d1d12465836f711139"
+    },
+    {
+      "path": "search/d972_row36_pent_bridge_p3_outcome_gha_v12.g",
+      "bytes": 5590,
+      "sha256": "d42b704180d4726aef5fc2d677b226576c361dd1aeef2db8d0effabd2da8d326"
+    },
+    {
+      "path": "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v12_20260824.json",
+      "bytes": 7347,
+      "sha256": "a029d00ca86d7626afbe7e04195e6d4e3a07f2673250bdf73f1dd69bfc5cbc8e"
+    }
+  ],
+  "generated_source_pins": [
+    {
+      "path": "ci/out/d972_row36_pent_bridge_p3_q4_outcome_worker_effective_v13.g",
+      "bytes": 3258984,
+      "sha256": "8a7d1cd0d12ef68d87601aa083893209712bf4b99b9bcf4cbc3cbb81fc472a32"
+    },
+    {
+      "path": "ci/out/d972_row36_pent_bridge_p3_outcome_driver_worker_v13.g",
+      "bytes": 14939,
+      "sha256": "df5f385cccde2cb4393de1d215dbc6572768171f4c1f789b633227bc9bf01bf1",
+      "additional_gate": "requires receipt token aggregate_sha256=8e9f3242463e83de53f65e636faec236abcd5431011a08f8969e0d3b095522b9"
+    },
+    {
+      "path": "ci/out/d972_row36_pent_bridge_p3_outcome_launcher_effective_v13.g",
+      "bytes": 5600,
+      "sha256": "0e0f4e27dcf068027eabf2fbd081298138b66a847258cc0a76e855ca04d4536d"
+    },
+    {
+      "path": "ci/out/d972_row36_pent_bridge_p3_outcome_effective_v12.g",
+      "bytes": 14881,
+      "sha256": "48c0d021556f2245790835b01f727b34f48d12be8650bfaf900992771a07c3b8"
+    }
+  ],
+  "pre_freeze_audit": {
+    "worker_patch_cardinality": "PASS: old adjacency 1, prebinding 0 before, old adjacency 0 and prebinding 1 after; unchanged lambda 1",
+    "worker_prebinding_order": "PASS: prebinding precedes lambda parse and every lambda call remains inside the loop after word assignment",
+    "generated_worker_pin": "PASS 3258984/8a7d1cd0d12ef68d87601aa083893209712bf4b99b9bcf4cbc3cbb81fc472a32",
+    "derived_v11_driver_pin": "PASS 14939/df5f385cccde2cb4393de1d215dbc6572768171f4c1f789b633227bc9bf01bf1",
+    "derived_v12_launcher_pin": "PASS 5600/0e0f4e27dcf068027eabf2fbd081298138b66a847258cc0a76e855ca04d4536d",
+    "final_effective_outcome_driver_pin": "PASS 14881/48c0d021556f2245790835b01f727b34f48d12be8650bfaf900992771a07c3b8",
+    "local_GAP_parse_attempt": "BLOCKED before source parse by known Win32 runtime signal-pipe error 5; authoritative execution is GHA Linux",
+    "predicate_or_outcome_rerun_locally": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_row36_pent_bridge_p3_outcome_gha_v13.g",
+    "preamble": "",
+    "out_dir": "ci/out",
+    "timeout_min": "300",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "packages": "GAP 4.16.0 core only; no NQ, ANUPQ, SmallGrp, AutPGrp, or json package build/load",
+    "expected_runtime_from_v12": "approximately 53 minutes total; Q4 worker approximately 50 minutes and Python outcome approximately 90 seconds"
+  },
+  "required_ordered_markers": [
+    "PENT159O_ROW36_P3_V13_START warning_only=true failed_warning_run=32672099635 math_change=false universe_change=false",
+    "PENT159O_ROW36_P3_V13_GENERATED_PIN path=ci/out/d972_row36_pent_bridge_p3_outcome_driver_worker_v13.g bytes=14939 sha256=df5f385cccde2cb4393de1d215dbc6572768171f4c1f789b633227bc9bf01bf1",
+    "PENT159O_ROW36_P3_V13_GENERATED_PIN path=ci/out/d972_row36_pent_bridge_p3_outcome_launcher_effective_v13.g bytes=5600 sha256=0e0f4e27dcf068027eabf2fbd081298138b66a847258cc0a76e855ca04d4536d",
+    "PENT159O_ROW36_P3_V13_REPAIR_PASS warning_only=true",
+    "PENT159O_ROW36_P3_V13_DELEGATE_START",
+    "PENT159O_ROW36_P3_WORKER_V13_START repair=prebind_loop_word math_change=false universe_change=false",
+    "PENT159O_ROW36_P3_WORKER_V13_EFFECTIVE_PIN path=ci/out/d972_row36_pent_bridge_p3_q4_outcome_worker_effective_v13.g bytes=3258984 sha256=8a7d1cd0d12ef68d87601aa083893209712bf4b99b9bcf4cbc3cbb81fc472a32",
+    "PENT159O_ROW36_P3_WORKER_V13_WARNING_REPAIR_PASS prebound_before_lambda=true lambda_and_order_unchanged=true",
+    "PENT159O_ROW36_P3_WORKER_V11_PASS words=17496 literal_relators=10 direct_same_word=true",
+    "PENT159O_ROW36_P3_WORKER_V13_RESULT_SEMANTIC_DIGEST_PASS words=17496 bytes=14729301 sha256=ce7951c374c1dad4fe36e240dd6289e1e5f410c3111ceb892891b1521eac1480",
+    "PENT159O_ROW36_P3_V11_RECEIPT_WRITTEN",
+    "PENT159O_ROW36_P3_V11_MANIFEST_WRITTEN",
+    "PENT159O_ROW36_P3_V11_FINAL PRODUCER_CANDIDATE_CHECKER_REQUIRED raw=evaluated=expected=34992 no_mode_no_K2=true"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP",
+    "PIN_MISSING",
+    "PC_COLLECTION_CAP"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_row36_pent_bridge_p3_q4_outcome_worker_effective_v13.g",
+    "ci/out/d972_row36_pent_bridge_p3_outcome_driver_worker_v13.g",
+    "ci/out/d972_row36_pent_bridge_p3_outcome_launcher_effective_v13.g",
+    "ci/out/d972_row36_pent_bridge_p3_outcome_effective_v12.g",
+    "ci/out/d972_row36_pent_bridge_p3_q4_results_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json"
+  ],
+  "checker_handoff_after_success_and_zero_diagnostic_audit": [
+    "ci/out/d972_row36_pent_bridge_p3_receipt_v11_20260824.json",
+    "ci/out/d972_row36_pent_bridge_p3_manifest_v11_20260824.json",
+    "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v13_20260824.json"
+  ],
+  "selective_publish_files": [
+    "search/d972_row36_pent_bridge_p3_q4_outcome_worker_v13.g",
+    "search/d972_row36_pent_bridge_p3_outcome_gha_v13.g",
+    "search/certs/d972_row36_pent_bridge_p3_outcome_execution_manifest_v13_20260824.json"
+  ],
+  "firewall": {
+    "checker_source_opened_or_imported": false,
+    "checker_report_or_artifact_opened": false,
+    "independent_checker_required_after_candidate_run": true
+  },
+  "promotion_boundary": {
+    "p3_prime_local_only": true,
+    "p2_inference": false,
+    "mode_token": null,
+    "K2_name": null,
+    "all_prime_inference": false
+  },
+  "terminal_token": "PENT159O_ROW36_P3_OUTCOME_EXECUTION_MANIFEST_V13_FROZEN"
+}
