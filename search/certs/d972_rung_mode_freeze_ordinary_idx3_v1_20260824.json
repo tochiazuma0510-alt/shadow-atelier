@@ -1,0 +1,55 @@
+{
+  "schema": "d972-rung-mode-freeze/v1",
+  "date": "2026-08-24",
+  "authority": "Sol parent broker",
+  "mode": "ORDINARY_FAIR_SHELL_FIRST",
+  "corrected_canary_gate": "CROSS_CHECKED_CLOSED",
+  "four_freeze_gates": "CLOSED",
+  "special_pent_selected": false,
+  "ordinary_node_id": "16437e56512d99ab2c7ca8328293863fe6b7792504ebd592fa21da9d7952bc37",
+  "ordinary_prereg_sha256": "1273f6050afaaba01f8dc137042ae191cecd91dea44a1618f665c2e3048e4656",
+  "adjudication": {
+    "reason": "The corrected p=2 and p=3 class-3 instruments are sensitive, but both separately materialized fixed-row36 actual-charming fibres are cross-checked blind.  No special pent finite prefix is selected, so the fair ordinary shell order controls.",
+    "freeze_gate_1_corrected_pb4_detects_brunnian_degree3": "CLOSED",
+    "freeze_gate_2_joint_quotient_and_exact_index": "CLOSED",
+    "freeze_gate_3_isolation_and_diamond": "CLOSED",
+    "freeze_gate_4_instrument_and_full_row36_fibres": "CLOSED",
+    "p2_quotient_checker": {
+      "path": "crosscheck/verdicts/d972_pent_interleave_canary_crosscheck_p2_v6_20260824.json",
+      "bytes": 16438,
+      "sha256": "ef159dbc01d2e0e8ddc536707270b10207cd2654a08ee9a4dd60dd6201a5455a"
+    },
+    "p3_quotient_checker": {
+      "path": "crosscheck/verdicts/d972_pent_interleave_canary_crosscheck_p3_v2_20260824.json",
+      "bytes": 22901,
+      "sha256": "73d4cb3f242d74f796021af922e1771c68f9256bcddedcbe2a277539f79c2781"
+    },
+    "p2_fixed_row36_checker": {
+      "path": "crosscheck/verdicts/d972_row36_bridge_crosscheck_p2_derivation_v4_20260824.json",
+      "bytes": 47365,
+      "sha256": "5d79230c88dded6532fecb1b37e544b1e1c5b654303630ed5398c063a416db69",
+      "terminal": "PENT159O_ROW36_P2_CROSSCHECK_PASS__CLAIM_COVER_CLOSED",
+      "raw_rows": 64,
+      "survivors": 4,
+      "survivor_literal_Dpap_nonidentity": 0
+    },
+    "p3_fixed_row36_checker": {
+      "path": "crosscheck/verdicts/d972_row36_bridge_crosscheck_p3_outcome_v3_20260824.json",
+      "bytes": 18684,
+      "sha256": "1edd6e6c35dc75d390ec8b9395efe837c07cf80c2aecfc98ab460da881e35797",
+      "terminal": "PENT159O_ROW36_P3_CROSSCHECK_PASS__CLAIM_COVER_CLOSED__SCOPED",
+      "raw_rows": 34992,
+      "survivors": 6,
+      "survivor_literal_Dpap_nonidentity": 0
+    }
+  },
+  "promotion_boundary": {
+    "special_pent_prefix": false,
+    "ordinary_outcome_not_yet_known": true,
+    "rung_name": null,
+    "all_prime_inference": false,
+    "fake_or_genuine_token": null,
+    "arithmetic_or_648_token": null,
+    "verified": false
+  }
+}
