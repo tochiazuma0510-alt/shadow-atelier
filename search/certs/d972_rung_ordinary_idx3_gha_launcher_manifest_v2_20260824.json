@@ -1,0 +1,175 @@
+{
+  "schema": "d972-rung-ordinary-idx3-gha-launcher-manifest/v2",
+  "date": "2026-08-24",
+  "author_role": "Luna producer launcher repair",
+  "status": "DISPATCH_READY_NOT_RUN",
+  "scope": "ordinary idx-3 producer-v2 launcher-only artifact-copy repair; preserve the frozen producer, preregistration, parent mode token, 48-row universe, predicate order, source output paths, and candidate semantics exactly",
+  "failed_closed_v1_run": {
+    "run_id": 32681824334,
+    "all_dependency_and_mode_token_pins_passed": true,
+    "producer_executed_rows": 48,
+    "producer_observation": "FIXED_ROW36_HAS_LIFT",
+    "observation_status": "UNCONSUMED_PRODUCER_CANDIDATE",
+    "receipt": {
+      "path": "search/certs/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+      "bytes": 62680,
+      "sha256": "48512270d265753944ff9b86d19fa5e84095ffffd8ae78beba969088c31053e9"
+    },
+    "execution_manifest": {
+      "path": "search/certs/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json",
+      "bytes": 1702,
+      "sha256": "950f91d3e22f26970f31161503843b15e9543c0fd16371933e3543dd11ee0dab"
+    },
+    "exact_launcher_stop": "PENT159O_ORDINARY_IDX3_GHA_V1: artifact copy mismatch",
+    "artifact_upload": false,
+    "checker_handoff": false,
+    "rung_or_K2_promotion": false
+  },
+  "diagnosis": {
+    "frozen_source_location": "search/d972_rung_ordinary_idx3_gha_v1.g copy block after receipt and execution-manifest semantic gates",
+    "cause": "PrintTo(filename,long_one_line_JSON) used GAP's formatted file stream and line-wrapped the JSON before the SHA comparison",
+    "producer_output_corruption": false,
+    "producer_or_predicate_failure": false,
+    "repair": "open each ci/out copy with OutputTextFile(path,false), disable print formatting, write the already authenticated source string, close, read back, and require identical length, identical string bytes, and identical SHA-256",
+    "full_python_log_before_copy_error": true
+  },
+  "launcher": {
+    "path": "search/d972_rung_ordinary_idx3_gha_v2.g",
+    "bytes": 9591,
+    "sha256": "06f98892e64b066a18783c47e4d6e37e0e94500e2cd5e88349bc10210698daed",
+    "ascii_only": true,
+    "patch_cardinality": {
+      "v1_copy_block_before": 1,
+      "v2_copy_block_before": 0,
+      "v1_copy_block_after": 0,
+      "v2_copy_block_after": 1,
+      "v1_final_block_before": 1,
+      "v2_final_block_after": 1
+    }
+  },
+  "authenticated_bases": [
+    {
+      "path": "search/d972_rung_ordinary_idx3_gha_v1.g",
+      "bytes": 10789,
+      "sha256": "8b78f5cef60b7f98671a7fa2bf5d2668d35d8d486187dc2494f712fa89d29a48"
+    },
+    {
+      "path": "search/certs/d972_rung_ordinary_idx3_gha_launcher_manifest_v1_20260824.json",
+      "bytes": 14235,
+      "sha256": "d26c123891be46bf3624cbd945db3ec51138620905c94663fc73e5e3ef440f52"
+    }
+  ],
+  "generated_effective_launcher": {
+    "path": "ci/out/d972_rung_ordinary_idx3_gha_effective_v2.g",
+    "bytes": 12393,
+    "sha256": "6c5ccc976a6f789d5e8ccbd471d4205289030cf46d637009222151d48837ec31",
+    "must_be_absent_before_generation": true,
+    "exact_readback_required": true,
+    "delegated_dependency_authentication": "the exact pinned v1 dependency closure runs before the unchanged producer command"
+  },
+  "mode_token": {
+    "path": "search/certs/d972_rung_mode_freeze_ordinary_idx3_v1_20260824.json",
+    "bytes": 2531,
+    "sha256": "9102917bc105ba6dc586d4ba6b43ce9703d1d1d7a47d795860239f970b5c0672",
+    "preamble_must_equal_frozen_sha": true,
+    "semantic_validation_by_unchanged_producer_before_predicate": true
+  },
+  "frozen_execution_contract": {
+    "producer": "search/d972_rung_ordinary_idx3_producer_v2.py | 54993 | b8dd453f7647dacc87356b13cb5428674a21bfabe6aa5af3850ac89129eb7211",
+    "preregistration": "search/certs/d972_rung_ordinary_idx3_prereg_v2_20260824.json | 46928 | 1273f6050afaaba01f8dc137042ae191cecd91dea44a1618f665c2e3048e4656",
+    "launch_manifest": "search/certs/d972_rung_ordinary_idx3_launch_manifest_v2_20260824.json | 6175 | 196220e7fd064967ff4b8f4b622ffec5d494d3099e73bc4b26efe8eaf88fd07b",
+    "raw_rows": 48,
+    "producer_command_changed": false,
+    "predicate_or_universe_changed": false,
+    "source_receipt_path": "search/certs/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+    "source_execution_manifest_path": "search/certs/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json",
+    "python_log_path": "ci/out/d972_rung_ordinary_idx3_python_execute_v2_20260824.log",
+    "artifact_receipt_copy": "ci/out/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+    "artifact_execution_manifest_copy": "ci/out/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json",
+    "deterministic_source_output_pins_required_before_copy": true,
+    "full_log_emitted_before_all post-execution and copy errors": true,
+    "preexisting_output_policy": "fresh clean checkout only; fail closed if any source output, artifact copy, effective launcher, or Python log already exists"
+  },
+  "pre_freeze_audit": {
+    "v1_copy_block_localization": "PASS exact count 1",
+    "generated_effective_bytes_sha": "PASS 12393/6c5ccc976a6f789d5e8ccbd471d4205289030cf46d637009222151d48837ec31",
+    "v1_launcher_and_manifest_local_pins": "PASS",
+    "mode_token_local_pin": "PASS 2531/9102917bc105ba6dc586d4ba6b43ce9703d1d1d7a47d795860239f970b5c0672",
+    "prior_candidate_output_pins_embedded": "PASS receipt 62680/48512270d265753944ff9b86d19fa5e84095ffffd8ae78beba969088c31053e9 and manifest 1702/950f91d3e22f26970f31161503843b15e9543c0fd16371933e3543dd11ee0dab",
+    "local_outcome_run": false,
+    "ordinary_checker_source_or_baseline_opened": false
+  },
+  "dispatch": {
+    "workflow": ".github/workflows/gap-run.yml",
+    "script": "search/d972_rung_ordinary_idx3_gha_v2.g",
+    "preamble": "D972_ORDINARY_IDX3_MODE_TOKEN_SHA256:=\"9102917bc105ba6dc586d4ba6b43ce9703d1d1d7a47d795860239f970b5c0672\";;",
+    "out_dir": "ci/out",
+    "timeout_min": "60",
+    "with_pquot_packages": false,
+    "gap_heap_from_workflow": "12g",
+    "packages": "GAP 4.16.0 core and Python 3 standard library only; no optional GAP packages",
+    "workflow_edit_required": false
+  },
+  "required_ordered_markers": [
+    "PENT159O_ORDINARY_IDX3_GHA_V2_START repair=artifact_copy_only failed_run=32681824334 outcome_not_consumed=true",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_MODE_TOKEN_PIN_PASS path=search/certs/d972_rung_mode_freeze_ordinary_idx3_v1_20260824.json bytes=2531 sha256=9102917bc105ba6dc586d4ba6b43ce9703d1d1d7a47d795860239f970b5c0672",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_PIN_PASS path=search/d972_rung_ordinary_idx3_gha_v1.g",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_PIN_PASS path=search/certs/d972_rung_ordinary_idx3_gha_launcher_manifest_v1_20260824.json",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_EFFECTIVE_PIN path=ci/out/d972_rung_ordinary_idx3_gha_effective_v2.g bytes=12393 sha256=6c5ccc976a6f789d5e8ccbd471d4205289030cf46d637009222151d48837ec31",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_PATCH_PASS copy_gate_only=true",
+    "PENT159O_ORDINARY_IDX3_GHA_V1_EXECUTE_START producer=v2 raw_rows=48 mode_authority=parent output_version=v2",
+    "PENT159O_ORDINARY_IDX3_GHA_V1_PYTHON_LOG_BEGIN",
+    "PENT159O_ORDINARY_IDX3_GHA_V1_PYTHON_LOG_END",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_SOURCE_OUTPUT_PINS_PASS receipt=62680/48512270d265753944ff9b86d19fa5e84095ffffd8ae78beba969088c31053e9 manifest=1702/950f91d3e22f26970f31161503843b15e9543c0fd16371933e3543dd11ee0dab",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_ARTIFACT_COPY_PASS label=receipt path=ci/out/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json bytes=62680 sha256=48512270d265753944ff9b86d19fa5e84095ffffd8ae78beba969088c31053e9",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_ARTIFACT_COPY_PASS label=execution_manifest path=ci/out/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json bytes=1702 sha256=950f91d3e22f26970f31161503843b15e9543c0fd16371933e3543dd11ee0dab",
+    "PENT159O_ORDINARY_IDX3_GHA_V1_RECEIPT_PRESENT",
+    "PENT159O_ORDINARY_IDX3_GHA_V1_EXECUTION_MANIFEST_PRESENT",
+    "PENT159O_ORDINARY_IDX3_GHA_V2_FINAL PRODUCER_V2_CANDIDATE_CHECKER_REQUIRED__RUNG_NAME_UNSET copy_exact=true"
+  ],
+  "forbidden_run_log_substrings": [
+    "Syntax error:",
+    "Syntax warning:",
+    "Unbound global variable",
+    "Error,",
+    "Traceback",
+    "SyntaxError",
+    "MemoryError",
+    "Killed",
+    "STATE_STOP",
+    "MODE_TOKEN_REQUIRED",
+    "PIN_MISMATCH",
+    "PREREG_INPUT_PIN_DRIFT",
+    "IMMUTABLE_VERSIONED_OUTPUT_MISMATCH",
+    "No such file or directory"
+  ],
+  "expected_artifacts": [
+    "ci/out/driver.g",
+    "ci/out/run.log",
+    "ci/out/d972_rung_ordinary_idx3_gha_effective_v2.g",
+    "ci/out/d972_rung_ordinary_idx3_python_execute_v2_20260824.log",
+    "ci/out/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+    "ci/out/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json"
+  ],
+  "checker_handoff_after_success_and_zero_diagnostic_audit": [
+    "ci/out/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+    "ci/out/d972_rung_ordinary_idx3_execution_manifest_v2_20260824.json"
+  ],
+  "selective_publish_files": [
+    "search/d972_rung_ordinary_idx3_gha_v2.g",
+    "search/certs/d972_rung_ordinary_idx3_gha_launcher_manifest_v2_20260824.json"
+  ],
+  "firewall": {
+    "ordinary_checker_source_or_baseline_opened": false,
+    "checker_handoff_before_success": false,
+    "independent_checker_required": true
+  },
+  "promotion_boundary": {
+    "producer_observation_is_candidate_only": true,
+    "rung_name": null,
+    "K2_name": null,
+    "cross_checked": false,
+    "verified": false
+  },
+  "terminal_token": "PENT159O_ORDINARY_IDX3_GHA_LAUNCHER_MANIFEST_V2_FROZEN"
+}
