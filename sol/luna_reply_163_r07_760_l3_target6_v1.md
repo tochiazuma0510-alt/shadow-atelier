@@ -105,6 +105,16 @@ One initial sandboxed GAP launch failed before reading the script because the
 Windows runtime could not create its signal pipe.  The authorized rerun above
 completed in 15.8 seconds.  No production loop ran in either attempt.
 
+The subsequent GHA selftest run `32879297297` was also invocation-only and
+does not alter any mathematical grade.  Its workflow environment rendered
+the former string preamble as
+`D972_R07_760_L3_TARGET6_V1_PYTHON:=python3;;`; transport stripped the quotes,
+so GAP stopped with `Variable: python3 must have a value` before `Read` of the
+driver.  It emitted no producer/checker receipt and no mathematical terminal.
+The repaired driver uses the quote-free boolean below.  Its bounded local
+serial selftest passed again in 6.6 seconds with the same preflight receipt and
+eleven destructive gates.  Full mode was not run.
+
 ## 4. Preflight receipt typing
 
 The preflight artifact has schema `d972-r07-760-l3-target6/v1`, mode
@@ -125,7 +135,7 @@ Use a fresh wrapper with exactly one mode.  Selftest input:
 
 ```gap
 D972_R07_760_L3_TARGET6_V1_SELFTEST:=true;;
-D972_R07_760_L3_TARGET6_V1_PYTHON:="python3";;
+D972_R07_760_L3_TARGET6_V1_USE_PYTHON3:=true;;
 Read("search/d972_r07_760_l3_target6_gha_driver_v1.g");;
 QUIT_GAP(0);;
 ```
@@ -134,10 +144,17 @@ Full input:
 
 ```gap
 D972_R07_760_L3_TARGET6_V1_RUN:=true;;
-D972_R07_760_L3_TARGET6_V1_PYTHON:="python3";;
+D972_R07_760_L3_TARGET6_V1_USE_PYTHON3:=true;;
 Read("search/d972_r07_760_l3_target6_gha_driver_v1.g");;
 QUIT_GAP(0);;
 ```
+
+`USE_PYTHON3=true` selects the internal literal string `"python3"`; no quoted
+string crosses the workflow binding boundary.  The omitted boolean defaults
+to local `"python"` for bounded Windows selftests, but full mode rejects its
+absence or `false`.  The obsolete
+`D972_R07_760_L3_TARGET6_V1_PYTHON` string binding is rejected whenever it is
+bound, so old and new bindings cannot silently conflict.
 
 Recommended invocation is the existing GAP 4.16 GHA command with `-o 12g`.
 The full driver gives the producer 10,200 seconds and producer+checker a
@@ -173,7 +190,7 @@ performed.
 ```text
 35202  a73b78d1a9ed6faae3230bef07c24194733dee77334e8e5006c38b8d00b46ac0  search/d972_r07_760_l3_target6_v1.py
 40489  e8cc6b5acaeaee88147a5ebcb3490a2a51aeaa45f73adf839df732df6ac986b1  crosscheck/check_d972_r07_760_l3_target6_v1.py
-12907  603e31f19f45d60b6a7cf99d9ce22276765b08a878514fb68df00514affc472a  search/d972_r07_760_l3_target6_gha_driver_v1.g
+13171  c69249c63d31599b3bb3b7d91a2b6f950e83bbde2561ba405f9f4d8f7f1b9477  search/d972_r07_760_l3_target6_gha_driver_v1.g
 663404 0711173b953e164c20ae2ce249d8bce1220b892899d9e14308601d731678d6ba  search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json
 ```
 

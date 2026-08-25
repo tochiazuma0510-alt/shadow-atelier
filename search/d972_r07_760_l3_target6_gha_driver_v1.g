@@ -141,15 +141,20 @@ if D972L3Self=D972L3Run then
   Error("R07 g760 L3 driver: select exactly one mode");
 fi;
 
-D972L3Python := "python";;
 if IsBound(D972_R07_760_L3_TARGET6_V1_PYTHON) then
-  D972L3Python:=D972_R07_760_L3_TARGET6_V1_PYTHON;;
+  Error("R07 g760 L3 driver: obsolete string Python binding forbidden");
 fi;
-if not D972L3Python in ["python","python3"] then
-  Error("R07 g760 L3 driver: Python binding");
+D972L3UsePython3 := false;;
+if IsBound(D972_R07_760_L3_TARGET6_V1_USE_PYTHON3) then
+  if not D972_R07_760_L3_TARGET6_V1_USE_PYTHON3 in [true,false] then
+    Error("R07 g760 L3 driver: USE_PYTHON3 must be boolean");
+  fi;
+  D972L3UsePython3:=D972_R07_760_L3_TARGET6_V1_USE_PYTHON3;;
 fi;
-if D972L3Run and D972L3Python<>"python3" then
-  Error("R07 g760 L3 driver: GHA full requires python3");
+D972L3Python := "python";;
+if D972L3UsePython3 then D972L3Python:="python3";; fi;
+if D972L3Run and not D972L3UsePython3 then
+  Error("R07 g760 L3 driver: full requires USE_PYTHON3=true");
 fi;
 
 if D972L3Self then
