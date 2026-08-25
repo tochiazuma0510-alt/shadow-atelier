@@ -27,7 +27,7 @@ else
     "python3 -B ", checker, " --out-dir ", outdir,
     " > ", logfile, " 2>&1",
     " && test -f ", resultfile,
-    " && test \"$(grep -Fxc 'R07_P23_JOINT_CHECKER_FINAL status=PASS' ",
+    " && test \"$(grep -Fxc 'R07_P23_JOINT_CHECKER_FINAL status=PASS terminal=R07_P23_JOINT_LITERAL_INDEPENDENT_PASS__FINITE_SCOPE' ",
     logfile, ")\" -eq 1",
     " && test \"$(grep -Fxc 'R07_P23_JOINT_CHECKER_FINAL status=FAIL' ",
     logfile, ")\" -eq 0",
@@ -49,4 +49,3 @@ else
   Print("R07_P23_GHA_DRIVER_FINAL status=PASS\n");;
 fi;;
 QUIT_GAP(0);;
-
