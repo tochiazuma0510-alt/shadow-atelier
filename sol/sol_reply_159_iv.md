@@ -6192,6 +6192,13 @@ GHA driver の四ファイルを commit
 として branch `sol/r07-explicit-lift-20260825` に publish した。workflow file は
 変更していない。
 
+続いて本節までの数学束（v76, v88--v89, v92--v95, v3 task と本返信）を
+
+    72d1ba03
+
+として同じ作業 branch に publish した。これは GHA が読む input pin の固定 commit
+でもある。
+
 - selftest run `32870445791`: success。terminal
   `R07_RELFRAT3_ACTUAL_CLASS_V1_GHA_DRIVER_PASS mode=selftest`。
 - full 4096 independent replay run `32870813120`: `success`。terminal は
@@ -6224,9 +6231,12 @@ EXACT R07 p2/p3 616 FINITE ANCHOR:             CROSS_CHECKED
 616 CURRENT E4 SOURCE ONTO / EXPLICIT INVERSE: CROSS_CHECKED
 OLD20 -> 616 AFFINE DATA TRANSPORT:            REFUTED
 OLD20/616 FULL-4096 TYPE SEPARATION:           CROSS_CHECKED
-760 RAW COMMUTATOR REBASE:                     EXPLICIT CANDIDATE
-760 INDEPENDENT ALL-SETTLED REPLAY:             IN PROGRESS
-760 NEXT-CHIEF ACTUAL A18 MATRIX/RHS:           IN PROGRESS
+760 RAW COMMUTATOR REBASE:                     EXPLICIT / SETTLED CROSS_CHECKED
+760 INDEPENDENT ALL-SETTLED REPLAY:             CROSS_CHECKED
+760 FRESH B0/B1/109 LEFT-FOX RHS:               IMPLEMENTATION STOP / NO MATH NEGATIVE
+760 FIRST TARGET6 FULL-LEGAL L3 GATE:           IMPLEMENTATION IN PROGRESS
+REL-DIHEDRAL -> LITERAL A18 NATURAL SHEAR:      PAPER_PROOF
+760 NEXT-CHIEF ACTUAL A18 MATRIX/RHS:           NOT YET COMPUTED
 760 NORMALIZED BRUNNIAN CLASS:                 NOT YET COMPUTED
 CHARMING PRESERVATION UNDER [F,F] CORRECTIONS: PAPER_PROOF
 ONTO ON COFINAL 3-PRIMARY REFINEMENTS:         PAPER_PROOF
@@ -6241,3 +6251,135 @@ IHARA WITNESS:                                 NOT DECLARED
 Brunnian class を correction に落とした後、その消滅機構を v82 の HT1--HT5 と
 して全 active abelian chief 段へ一様化することである。証人宣言にはさらに
 nonabelian accepted-set の全段非空性が必要である。
+
+## 41. 760 fresh-RHS v3 の固定と GHA 裁定
+
+新しい760語を基底に settled replay、B0/B1、109本の target6 行を全て作り直す
+producer・独立 checker・driver・preflight receipt を
+
+    f3698fffd3b73370f753c4b0d9eb1e86751b1159
+
+として branch `sol/r07-explicit-lift-20260825` に publish した。固定ファイルは
+
+    search/d972_r07_616_to_760_commutator_affine_rhs_v3.py
+    search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py
+    search/d972_r07_616_to_760_commutator_affine_rhs_gha_driver_v3.g
+    search/certs/d972_r07_616_to_760_commutator_affine_rhs_preflight_v3_20260826.json
+
+である。preflight receipt は
+
+    sha256 55752b6c1a748fb0b25a86d6fc1a0381a82b203112568b0b1963c5665cef0408
+
+で、独立 checker は七つの破壊変異を拒否した。親が単独で行った短いローカル
+selftest は
+
+    R07_760_COMMUTATOR_AFFINE_RHS_V3_GHA_DRIVER_PASS
+    mode=selftest preflight_checker=1 mutations=7
+
+で PASS した。重いローカル計算は行っていない。続く GHA selftest
+run `32875252515` は同じ head `f3698fff...` で `success`、同じ終端を再現した。
+従って $g_{760}$ の再構成、指数和、全 settled constituent での
+$x^{108}y^{-36}=1$、current E4 relation/onto、left/right canary は
+cross-checked に昇格する。Lean verified ではない。
+
+full RHS run `32875451735` は同じ head で `failure` したが、数学的
+NONMEMBER ではない。正確な停止点は
+
+```text
+_d972_157ed_old_producer.Reject:
+unexpected geometric blocker pivot
+```
+
+である。旧 `build_fresh_prefix` は historical old20 target6 の最初の欠損 pivot が
+全 geometric checkpoint で欠損のまま残ることを assert していた。$g_{760}$ では
+その pivot が後続 BFS 列で基底 pivot になったため、旧仮定が fail-closed した。
+これは「target6 全体が解けた」ことまでは意味しない。古い第一 blocker が吸収された
+時点で target を再 reduction し、ゼロなら正の ledger を返し、非ゼロなら新しい
+blocker に更新すべきである。
+
+従ってこの run から固定する結論は次である。
+
+```text
+OLD20 STATIC BLOCKER/B0/B1 FOR g760: INVALID
+AT LEAST THE OLD FIRST BLOCKER IS ABSORBED: OBSERVED IN FAIL-CLOSED RUN
+g760 FULL TARGET6 MEMBERSHIP: UNKNOWN
+g760 FRESH 109-RHS RECEIPT: NOT PRODUCED
+MATHEMATICAL OBSTRUCTION: NOT CLAIMED
+```
+
+## 42. relative dihedral から literal A.18 への exact shear
+
+新稿
+
+    sol/proof_r07_relative_dihedral_to_literal_a18_shear_v96.md
+
+と次節の機械仕様を commit
+
+    59b300f7
+
+として同じ作業 branch に publish した。
+
+新稿では、v47 の群恒等式を一般の abelian diagram-chief edge に持ち上げた。theta の二つの
+substitution defect を $h_1,h_2$、rho residual を $r$、literal A.18 residual を
+$c$、coarse conjugator の作用を $A$ とすると、exact に
+
+\[
+\boxed{c=r-h_1-Ah_2.}
+\tag{42.1}
+\]
+
+従って residual/Jacobian stack は整数 unitriangular shear
+
+\[
+T_A=
+\begin{pmatrix}
+1&0&0\\
+0&1&0\\
+-1&-A&1
+\end{pmatrix},
+\qquad
+D_{A18}^{\rm stack}=T_A D_\rho^{\rm stack}
+\tag{42.2}
+\]
+
+で結ばれる。$T_A^{-1}$ は最後の行を $(1,A,1)$ にした行列であり、標数3でも
+分母はない。さらに refinement map は $A$ と可換するので、この shear は全細分で
+自然である。theta/rho 側の自然 contraction $S_\rho$ が得られれば
+
+\[
+S_{A18}=S_\rho T_A^{-1}
+\tag{42.3}
+\]
+
+が literal A.18 の自然 contraction になる。
+
+これは相対 dihedral 一般化が明示リフトへ効く場所を確定したものである。pentagon
+変換そのものは全段で整合する閉形式になった。残る難所は actual residual-bearing
+class 上で theta/rho contraction と admissible word section を作ることである。
+また (42.2) は同じ word から作る theta/rho と五 coface A.18 の比較であって、
+left-Fox presentation target6 を A.18 と同一視するものではない。
+
+## 43. g760 の complete legal-correction fatal gate
+
+旧 blocker の静的仮定を直すだけでなく、より強く、C-13 の complete legal-correction
+over-approximation と full $D_2$ を新しい $g_{760}$ に直接リターゲットする仕様を
+
+    sol/luna_task_163_r07_760_l3_target6_v1.md
+
+に固定した。標的は
+
+\[
+b_6(g_{760})=g_{760}(Y_0,Z_0)
+g_{760}(X_0,Z_0)^{-1}g_{760}(X_0,Y_0)
+\tag{43.1}
+\]
+
+の fresh Fox gradient である。historical rank、blocker、B0/B1、108-family は一切
+継承しない。producer は orbit-closure、独立 checker は
+$11\times59049=649539$ 本の translated PB4 columns を直接悉皆する別方式とした。
+full は GHA の一ジョブだけで走らせ、ローカルは bounded serial selftest のみとする。
+
+この gate が NONMEMBER なら、この一本の $g_{760}$ prefix は最初の hexagon 座標で
+死亡する。MEMBER なら単に死亡を免れたにすぎず、次に (42.2) の二経路
+（五 literal coface からの直接構成と theta/rho shear）で actual A.18 matrix/RHS を
+作る。いずれの出目も全 base・全972・fake・井原反例を単独では宣言しない。
