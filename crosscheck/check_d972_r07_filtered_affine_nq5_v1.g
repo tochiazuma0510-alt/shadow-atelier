@@ -12,6 +12,7 @@
 #   with_pquot_packages: false
 #   out_dir: ci/out
 # Expected fail-closed markers, each exactly once on success:
+#   R07_NQ_BOOTSTRAP_PASS
 #   R07_NQ5_CROSSCHECK_SOURCE_PASS
 #   R07_NQ5_CROSSCHECK_RAW_GATE_PASS
 #   R07_NQ5_CROSSCHECK_BASIS_PASS
@@ -27,7 +28,161 @@
 # witness, fake certificate, or a degree-six K(0,5) pentagon result.
 
 if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 required"); fi;
-if LoadPackage("nq")<>true then Error("NQ package unavailable"); fi;
+
+# GAP's official 4.16.0 full archive contains NQ 2.5.11 sources, but its
+# platform executable is not built on a fresh ubuntu-latest runner.  Resolve
+# exactly one PackageInfo entry and exactly one native GAP root.  If and only
+# if the executable is absent, build those pinned sources in place.  Every
+# dynamic path below comes from authenticated GAP metadata and is single-quote
+# escaped before entering the otherwise fixed shell command.
+R07NqVersion := "2.5.11";
+R07NqPackageInfoSha :=
+  "e5e3370aa823163909a5130f1d803f43051e606305915718bcf7a363e5af5264";
+R07NqConfigureSha :=
+  "4c09599a55cbdf0eb22998280e197f64ebb2e6ca5ca884b80e3e8d55c1ca0bd0";
+R07NqMakefileInSha :=
+  "84def846c51b5fe54b79b1ca312ac5629c383ccadbe43349da4d40efa9c5d003";
+
+R07NqShellQuote := function(s)
+  if not IsString(s) or Position(s,'\n')<>fail or Position(s,'\r')<>fail then
+    Error("R07_NQ: unsafe shell path");
+  fi;
+  return Concatenation("'",ReplacedString(s,"'","'\"'\"'"),"'");
+end;
+
+R07NqRequireFileSha := function(path,expected,label)
+  local body,actual;
+  body:=StringFile(path);
+  if body=fail then Error("R07_NQ: missing ",label," at ",path); fi;
+  actual:=HexSHA256(body);
+  if actual<>expected then
+    Error("R07_NQ: ",label," SHA256 drift: ",actual);
+  fi;
+end;
+
+R07NqInfos:=PackageInfo("nq");;
+if Length(R07NqInfos)<>1 then
+  Error("R07_NQ: expected exactly one NQ PackageInfo entry");
+fi;
+R07NqInfo:=R07NqInfos[1];;
+if not IsBound(R07NqInfo.Version) or R07NqInfo.Version<>R07NqVersion then
+  Error("R07_NQ: NQ version drift");
+fi;
+if not IsBound(R07NqInfo.InstallationPath) then
+  Error("R07_NQ: NQ InstallationPath missing");
+fi;
+R07NqPath:=R07NqInfo.InstallationPath;;
+if not IsString(R07NqPath) or Length(R07NqPath)<2 or
+   R07NqPath[Length(R07NqPath)]<>'/' then
+  Error("R07_NQ: malformed NQ InstallationPath");
+fi;
+if not IsBound(GAPInfo.RootPaths) or not IsList(GAPInfo.RootPaths) then
+  Error("R07_NQ: GAPInfo.RootPaths unavailable");
+fi;
+
+R07NqRootCandidates:=[];;
+for R07NqRootCandidate in GAPInfo.RootPaths do
+  if IsString(R07NqRootCandidate) and Length(R07NqRootCandidate)>0 then
+    if R07NqRootCandidate[Length(R07NqRootCandidate)]<>'/' then
+      R07NqRootCandidate:=Concatenation(R07NqRootCandidate,"/");
+    fi;
+    R07NqParentCandidate:=Concatenation(R07NqRootCandidate,"pkg/");;
+    if Length(R07NqPath)>Length(R07NqParentCandidate) and
+       PositionSublist(R07NqPath,R07NqParentCandidate)=1 then
+      R07NqTailCandidate:=R07NqPath{
+        [Length(R07NqParentCandidate)+1..Length(R07NqPath)]};;
+      if Length(R07NqTailCandidate)>=2 and
+         R07NqTailCandidate[Length(R07NqTailCandidate)]='/' and
+         Position(R07NqTailCandidate{
+           [1..Length(R07NqTailCandidate)-1]},'/')=fail and
+         Position(R07NqRootCandidates,R07NqRootCandidate)=fail then
+        Add(R07NqRootCandidates,R07NqRootCandidate);
+      fi;
+    fi;
+  fi;
+od;
+if Length(R07NqRootCandidates)<>1 then
+  Error("R07_NQ: PackageInfo does not select exactly one native GAP root");
+fi;
+R07NqGapRoot:=R07NqRootCandidates[1];;
+R07NqPackageParent:=Concatenation(R07NqGapRoot,"pkg/");;
+R07NqDirectoryName:=R07NqPath{
+  [Length(R07NqPackageParent)+1..Length(R07NqPath)-1]};;
+if R07NqPath<>Concatenation(R07NqPackageParent,R07NqDirectoryName,"/") then
+  Error("R07_NQ: package-parent equality gate failed");
+fi;
+
+# gap-run.yml exports GAPROOT.  Authenticate it against the unique native root
+# when present; local prebuilt installations need not define the variable.
+R07NqEnvGapRoot:=fail;;
+if IsBoundGlobal("GetEnv") then
+  R07NqEnvGapRoot:=GetEnv("GAPROOT");
+fi;
+if R07NqEnvGapRoot<>fail and R07NqEnvGapRoot<>"" then
+  if R07NqEnvGapRoot[Length(R07NqEnvGapRoot)]<>'/' then
+    R07NqEnvGapRoot:=Concatenation(R07NqEnvGapRoot,"/");
+  fi;
+  if R07NqEnvGapRoot<>R07NqGapRoot then
+    Error("R07_NQ: GAPROOT disagrees with PackageInfo/native root");
+  fi;
+fi;
+
+R07NqRequireFileSha(Concatenation(R07NqPath,"PackageInfo.g"),
+  R07NqPackageInfoSha,"NQ PackageInfo.g");
+R07NqRequireFileSha(Concatenation(R07NqPath,"configure"),
+  R07NqConfigureSha,"NQ configure");
+R07NqRequireFileSha(Concatenation(R07NqPath,"Makefile.in"),
+  R07NqMakefileInSha,"NQ Makefile.in");
+
+R07NqExecutable:=Filename(DirectoriesPackagePrograms("nq"),"nq");;
+R07NqBuilt:=false;;
+if R07NqExecutable=fail then
+  if PositionSublist(LowercaseString(GAPInfo.Architecture),"linux")=fail then
+    Error("R07_NQ: missing executable outside the Linux bootstrap target");
+  fi;
+  R07NqOutRoot:=Filename(DirectoryCurrent(),"ci/out");;
+  R07NqConfigureLog:=Concatenation(R07NqOutRoot,
+    "/r07_nq_configure_v1.log");;
+  R07NqMakeLog:=Concatenation(R07NqOutRoot,"/r07_nq_make_v1.log");;
+  R07NqBuildSentinel:=Concatenation(R07NqOutRoot,
+    "/r07_nq_bootstrap_v1.ok");;
+  R07NqBuildCommand:=Concatenation(
+    "set -eu; test -d ",R07NqShellQuote(R07NqOutRoot),"; ",
+    "rm -f ",R07NqShellQuote(R07NqConfigureLog)," ",
+      R07NqShellQuote(R07NqMakeLog)," ",
+      R07NqShellQuote(R07NqBuildSentinel),"; ",
+    "cd ",R07NqShellQuote(R07NqPath),"; test -x ./configure; ",
+    "./configure --with-gaproot=",R07NqShellQuote(R07NqGapRoot),
+      " > ",R07NqShellQuote(R07NqConfigureLog)," 2>&1; ",
+    "make -j2 > ",R07NqShellQuote(R07NqMakeLog)," 2>&1; ",
+    "printf 'R07_NQ_BUILD_SHELL_PASS\\n' > ",
+      R07NqShellQuote(R07NqBuildSentinel));;
+  Exec(R07NqBuildCommand);
+  if StringFile(R07NqBuildSentinel)<>"R07_NQ_BUILD_SHELL_PASS\n" then
+    Error("R07_NQ: configure/make failed before exact sentinel");
+  fi;
+  R07NqBuilt:=true;;
+  R07NqExecutable:=Filename(DirectoriesPackagePrograms("nq"),"nq");;
+fi;
+if R07NqExecutable=fail then
+  Error("R07_NQ: NQ executable unavailable after bootstrap");
+fi;
+if LoadPackage("nq")<>true then
+  Error("R07_NQ: pinned NQ failed to load after bootstrap");
+fi;
+R07NqLoadedInfos:=PackageInfo("nq");;
+if Length(R07NqLoadedInfos)<>1 or
+   R07NqLoadedInfos[1].Version<>R07NqVersion then
+  Error("R07_NQ: loaded NQ version pin failed");
+fi;
+Print("R07_NQ_BOOTSTRAP_PASS gap_version=",GAPInfo.Version,
+  " nq_version=",R07NqVersion," built=",R07NqBuilt,
+  " gap_root=",R07NqGapRoot," package_path=",R07NqPath,
+  " executable=",R07NqExecutable,"\n");
+if IsBound(R07_NQ_BOOTSTRAP_ONLY) and R07_NQ_BOOTSTRAP_ONLY=true then
+  Print("R07_NQ_BOOTSTRAP_ONLY_FINAL_MARKER status=PASS\n");
+  QUIT_GAP(0);
+fi;
 SizeScreen([4096,0]);;
 tailSigned:=[1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,-2,1,1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,-2,1,2,1,-2,-1,2,1,-2,1,2,-1,-2,-1,2,1,-2,1,2,1,-2,-1,2,-1,-2,1,2,-1,-2,-1,2,1,-2,1,2,1,-2,-1,2,1,-2,1,2,-1,-2,-1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,1,2,-1,-2,-1,2,1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,-1,-1,2,1,1,2,-1,-2,1,2,1,-2,1,2,-1,-2,-1,2,1,-2,-1,2,-1,-2,1,2,1,-2,-1,2,-1,-2,-1,2,1,-2,-1,-2,1,1,2,-1,-2,1,2,1,-2,-1,-1,2,1,1,2,-1,-2,-1,2,1,-2,-1,2,1,2,-1,-2,1,2,1,-2,-1,-1,-2,1,1,2,-1,-2,-1,2,1,-2,-1,-2,-1,2,1,2,-1,-2,1,2,1,-2,-1,-1,2,1,1,2,-1,-2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,2,1,-2,-1,-1,-2,1,1,2,-1,-2,-1,2,1,-2,-1,2,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,1,2,1,2,-1,2,1,-2,-1,-2,1,2,-1,-2,1,-2,-1,-1,-2,1,1,2,-1,2,1,-2,-1,2,1,2,-1,-2,1,-2,-1,-2,-1,2,1,2,-1,2,1,-2,-1,-2,-2,1,2,1,2,-1,-2,1,-2,1,2,-1,2,1,-2,-1,-2,-1,2,1,2,-1,-2,1,-2,1,2,-1,2,1,-2,-1,-2,1,2,1,2,-1,-2,1,-2,-1,2,-1,2,1,-2,-1,-2,-1,2,1,2,-1,-2,1,-2,-1,-1];;
 if Length(tailSigned)<>796 then Error("embedded gamma6 tail length drift"); fi;
