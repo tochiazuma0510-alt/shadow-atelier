@@ -51,6 +51,33 @@ PIN_SPECS = {
         "fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29"),
 }
 
+HISTORICAL_C13_AUDIT_ONLY = {
+    "search/koubou158_L3_radical_v1_2.py": {
+        "bytes": 14488,
+        "sha256": "05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17",
+    },
+    "search/koubou158_L3_core_v1_2.py": {
+        "bytes": 31192,
+        "sha256": "4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63",
+    },
+    "crosscheck/check_koubou158_L3_radical_v1.py": {
+        "bytes": 28198,
+        "sha256": "451aa614d2c83f43291fa80abf09abe425004288717ed6278b5690b511724529",
+    },
+    "search/certs/koubou158_L3_radical_v1_1_20260822.json": {
+        "bytes": 17418,
+        "sha256": "4a80c0b4c063eaab31ce32aad69eb9f21c220278dc748e31439aef9af38a2ca2",
+    },
+    "search/certs/koubou158_L3_radical_v1_2_20260822.json": {
+        "bytes": 20930,
+        "sha256": "56ab4592bf5b64fbe5605afe063681e8c059929cd8abbc07323988aff4a8440f",
+    },
+    "crosscheck/verdicts/koubou158_L3_radical_crosscheck_v1_20260822.json": {
+        "bytes": 7654,
+        "sha256": "c87e12ba96ea95607e99701e1e92786ac93ba08c91ad424dbea1f252304b1b78",
+    },
+}
+
 W2 = (
     1, 1, 1, 1, -2, -2, -2, -2, -1, 2, -1, -1, -2, -2, 1, 1,
     2, 1, 1, -2, 1, 1, 2, 1, 1, 2, 1, 1, -2, 1, 1, -2, 1, 1,
@@ -435,6 +462,16 @@ def build_static_independent() -> tuple[dict[str, Any], dict[str, Any]]:
     public = {
         "implementation_parent_commit":
             "f3698fffd3b73370f753c4b0d9eb1e86751b1159",
+        "runtime_packaging": {
+            "self_contained_producer_core": True,
+            "imports_HEAD_absent_koubou158_runtime_files": False,
+            "runtime_pins_are_prospective_HEAD_files_only": True,
+        },
+        "historical_C13_audit_only": {
+            path: {**row, "runtime_pin": False,
+                   "present_in_packaging_HEAD": False}
+            for path, row in HISTORICAL_C13_AUDIT_ONLY.items()
+        },
         "base": {
             "base_kind": "r07_760_commutator",
             "construction": "w2*(w3^-1*w2)^8*y^36*x^-108",

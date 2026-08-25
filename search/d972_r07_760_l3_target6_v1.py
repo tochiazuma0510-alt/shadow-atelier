@@ -11,12 +11,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
-import importlib.util
 import itertools
 import json
 import sys
 import time
-from collections import defaultdict
+from collections import defaultdict, deque
 from pathlib import Path
 from typing import Any, Iterable, Sequence
 
@@ -38,11 +37,17 @@ PREFLIGHT_STATE = "R07_760_L3_TARGET6_PREFLIGHT_READY"
 
 Q3_PATH = Path(
     "ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json")
-CORE_PATH = Path("search/koubou158_L3_core_v1_2.py")
 J_ORDER = tuple(range(2, 13))
 MAX_DIMENSION = 180000
 MAX_RSS_MIB = 5600
 TRANSLATED_D2_COUNT = 11 * (3 ** 10)
+N_GEN = 10
+WEIGHTS = (1, 1, 1, 1, 1, 1, 2, 2, 2, 2)
+BINOM3 = {
+    (0, 0): 1, (1, 0): 1, (1, 1): 1,
+    (2, 0): 1, (2, 1): 2, (2, 2): 1,
+}
+DELTA_CAP = 40
 
 PARENT_SHA = "3680e8bcbac37747467175454b082485b2ae296f1fb05244435d8f44979d4e90"
 BASE_SHA = "518f09820b8d7baee6b58ebf366cebf7b02a9a945cd1350cf8c701a4e6bc2b4d"
@@ -52,7 +57,7 @@ PIN_SPECS: dict[str, tuple[Path, int, str]] = {
     "task_163": (Path("sol/luna_task_163_r07_760_l3_target6_v1.md"),
         9066, "9fcdf2f25b724e9dbc225f417b0036e126e7b5e37a0778dab5e0299ee2f74e12"),
     "claims": (Path("provenance/CLAIMS.md"),
-        68363, "37325e7e7d734f7619785eb1832a051a4e35bb7409e0adaad413443a13038c00"),
+        66635, "174ddbb50d1579c9373482552759ed2ec822846f1dd83c8d73b13c652ae77f64"),
     "dialogue": (Path("docs/\u5bfe\u8a71\u5e33.md"),
         234377, "a5eadcc04468b593e0a1c7896409a59b55c6442ca489df6a91aac60d6e128a06"),
     "proof_v92": (Path("sol/proof_r07_joint_derived_commutator_rebase_v92.md"),
@@ -67,23 +72,35 @@ PIN_SPECS: dict[str, tuple[Path, int, str]] = {
         Path("search/certs/d972_r07_616_to_760_commutator_affine_rhs_"
              "preflight_v3_20260826.json"),
         184890, "55752b6c1a748fb0b25a86d6fc1a0381a82b203112568b0b1963c5665cef0408"),
-    "c13_producer": (Path("search/koubou158_L3_radical_v1_2.py"),
-        14488, "05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17"),
-    "c13_core": (CORE_PATH,
-        31192, "4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63"),
-    "c13_checker": (Path("crosscheck/check_koubou158_L3_radical_v1.py"),
-        28198, "451aa614d2c83f43291fa80abf09abe425004288717ed6278b5690b511724529"),
-    "c13_receipt_v11": (
-        Path("search/certs/koubou158_L3_radical_v1_1_20260822.json"),
-        17418, "4a80c0b4c063eaab31ce32aad69eb9f21c220278dc748e31439aef9af38a2ca2"),
-    "c13_receipt_v12": (
-        Path("search/certs/koubou158_L3_radical_v1_2_20260822.json"),
-        20930, "56ab4592bf5b64fbe5605afe063681e8c059929cd8abbc07323988aff4a8440f"),
-    "c13_checker_receipt": (
-        Path("crosscheck/verdicts/koubou158_L3_radical_crosscheck_v1_20260822.json"),
-        7654, "c87e12ba96ea95607e99701e1e92786ac93ba08c91ad424dbea1f252304b1b78"),
     "q3": (Q3_PATH,
         231570, "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"),
+}
+
+HISTORICAL_C13_AUDIT_ONLY = {
+    "search/koubou158_L3_radical_v1_2.py": {
+        "bytes": 14488,
+        "sha256": "05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17",
+    },
+    "search/koubou158_L3_core_v1_2.py": {
+        "bytes": 31192,
+        "sha256": "4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63",
+    },
+    "crosscheck/check_koubou158_L3_radical_v1.py": {
+        "bytes": 28198,
+        "sha256": "451aa614d2c83f43291fa80abf09abe425004288717ed6278b5690b511724529",
+    },
+    "search/certs/koubou158_L3_radical_v1_1_20260822.json": {
+        "bytes": 17418,
+        "sha256": "4a80c0b4c063eaab31ce32aad69eb9f21c220278dc748e31439aef9af38a2ca2",
+    },
+    "search/certs/koubou158_L3_radical_v1_2_20260822.json": {
+        "bytes": 20930,
+        "sha256": "56ab4592bf5b64fbe5605afe063681e8c059929cd8abbc07323988aff4a8440f",
+    },
+    "crosscheck/verdicts/koubou158_L3_radical_crosscheck_v1_20260822.json": {
+        "bytes": 7654,
+        "sha256": "c87e12ba96ea95607e99701e1e92786ac93ba08c91ad424dbea1f252304b1b78",
+    },
 }
 
 W2 = (
@@ -175,18 +192,508 @@ def pin_inputs() -> dict[str, Any]:
     return rows
 
 
+def perm_mul(a: bytes, b: bytes) -> bytes:
+    return bytes(b[a[i]] for i in range(len(a)))
+
+
+def perm_inv(a: bytes) -> bytes:
+    out = [0] * len(a)
+    for i, image in enumerate(a):
+        out[image] = i
+    return bytes(out)
+
+
+def perm_one(n: int) -> bytes:
+    return bytes(range(n))
+
+
+class IndependentPc:
+    """Minimal vendored C-13 PC arithmetic; no runtime source import."""
+
+    def __init__(self, pb4: dict[str, Any]) -> None:
+        self.n = int(pb4["generator_count"])
+        require(self.n == N_GEN, "unexpected pc generator count")
+        require(all(int(o) == 3 for o in pb4["relative_orders"]),
+                "pc relative orders")
+        require(all(all(int(c) == 0 for c in row)
+                    for row in pb4["power_relations"]),
+                "pc exponent three")
+        self.power = [tuple(int(x) for x in row)
+                      for row in pb4["power_relations"]]
+        self.conj = {
+            (int(row["i"]), int(row["j"])):
+                tuple(int(x) for x in row["coords"])
+            for row in pb4["conjugate_relations"]
+        }
+        inverses = [tuple(int(x) for x in row)
+                    for row in pb4["inverses"]]
+        require(len(inverses) == N_GEN and len(set(inverses)) == N_GEN,
+                "complete distinct PC inverse roster")
+        marked = pb4["marked_generators"]
+        require(all(inverses[i] == tuple(
+                    int(x) for x in marked[i]["inverse_coords"])
+                    for i in range(len(marked))),
+                "marked inverse rows agree")
+        self._inv_gen = inverses
+        one = self.one()
+        for i in range(N_GEN):
+            unit = bytes(1 if k == i else 0 for k in range(N_GEN))
+            inverse = self.collect(self.coords_word(inverses[i]))
+            require(self.mul(unit, inverse) == one and
+                    self.mul(inverse, unit) == one,
+                    f"PC inverse law unit {i + 1}")
+
+    def one(self) -> bytes:
+        return bytes(self.n)
+
+    def coords_word(self, coords: Sequence[int]) -> list[int]:
+        out = []
+        for idx, exponent in enumerate(coords, start=1):
+            out.extend([idx] * int(exponent))
+        return out
+
+    def collect(self, word: Sequence[int]) -> bytes:
+        tokens: list[int] = []
+        for value in word:
+            x = int(value)
+            if x > 0:
+                tokens.append(x)
+            else:
+                tokens.extend(self.coords_word(self._inv_gen[-x - 1]))
+        changed = True
+        while changed:
+            changed = False
+            for pos in range(len(tokens) - 1):
+                a, b = tokens[pos], tokens[pos + 1]
+                if a > b:
+                    tokens[pos:pos + 2] = (
+                        [b] + self.coords_word(self.conj[(a, b)]))
+                    changed = True
+                    break
+            if changed:
+                continue
+            pos = 0
+            while pos < len(tokens):
+                end = pos
+                while end < len(tokens) and tokens[end] == tokens[pos]:
+                    end += 1
+                if end - pos >= 3:
+                    tokens[pos:pos + 3] = self.coords_word(
+                        self.power[tokens[pos] - 1])
+                    changed = True
+                    break
+                pos = end
+        row = [0] * self.n
+        for x in tokens:
+            row[x - 1] += 1
+        require(all(0 <= value < 3 for value in row),
+                "pc collected exponent range")
+        return bytes(row)
+
+    def mul(self, a: bytes, b: bytes) -> bytes:
+        return self.collect(
+            self.coords_word(a) + self.coords_word(b))
+
+    def inverse(self, a: bytes) -> bytes:
+        word: list[int] = []
+        for idx in range(self.n, 0, -1):
+            for _ in range(a[idx - 1]):
+                word.extend(self.coords_word(self._inv_gen[idx - 1]))
+        return self.collect(word)
+
+
+class E4:
+    def __init__(self, q3_data: dict[str, Any]) -> None:
+        pb4 = q3_data["groups"]["PB4"]
+        q4model = q3_data["coarse_models"]["Q4"]
+        self.degree = int(q4model["degree"])
+        self.pc = IndependentPc(pb4)
+        self.marks_perm = [
+            bytes(int(x) - 1 for x in row)
+            for row in q4model["marked_permutations"]]
+        self.marks_pc = [
+            bytes(int(x) for x in row["coords"])
+            for row in pb4["marked_generators"]]
+        self.identity = (perm_one(self.degree), self.pc.one())
+
+    def mul(self, a: Any, b: Any) -> Any:
+        return perm_mul(a[0], b[0]), self.pc.mul(a[1], b[1])
+
+    def inverse(self, a: Any) -> Any:
+        return perm_inv(a[0]), self.pc.inverse(a[1])
+
+    def gen(self, i: int) -> Any:
+        return self.marks_perm[i - 1], self.marks_pc[i - 1]
+
+    def eval(self, word: Sequence[int]) -> Any:
+        value = self.identity
+        for letter in word:
+            i = abs(int(letter))
+            factor = self.gen(i) if letter > 0 else self.inverse(self.gen(i))
+            value = self.mul(value, factor)
+        return value
+
+
+def fox_gradient(e4: E4, word: Sequence[int]) -> dict[Any, int]:
+    acc: dict[Any, int] = defaultdict(int)
+    prefix = e4.identity
+    for letter in word:
+        i = abs(int(letter))
+        if letter > 0:
+            acc[(i, prefix)] += 1
+            prefix = e4.mul(prefix, e4.gen(i))
+        else:
+            prefix = e4.mul(prefix, e4.inverse(e4.gen(i)))
+            acc[(i, prefix)] -= 1
+    return {key: value % 3 for key, value in acc.items() if value % 3}
+
+
+def translate_vec(e4: E4, row: dict[Any, int], g: Any) -> dict[Any, int]:
+    out: dict[Any, int] = defaultdict(int)
+    for (component, value), coefficient in row.items():
+        key = (component, e4.mul(g, value))
+        out[key] = (out[key] + int(coefficient)) % 3
+    return {key: value for key, value in out.items() if value}
+
+
+def project_to_pi(row: dict[Any, int]) -> dict[Any, int]:
+    out: dict[Any, int] = defaultdict(int)
+    for (component, value), coefficient in row.items():
+        key = (component, value[1])
+        out[key] = (out[key] + int(coefficient)) % 3
+    return {key: value for key, value in out.items() if value}
+
+
+def pb_pairs(rank: int) -> list[list[int]]:
+    return [[i, j] for i in range(1, rank)
+            for j in range(i + 1, rank + 1)]
+
+
+def pair_index(rank: int, pair: list[int]) -> int:
+    return pb_pairs(rank).index(pair) + 1
+
+
+def artin_step(rank: int, letter: int) -> list[list[int]]:
+    i = abs(letter)
+    images = [[j] for j in range(1, rank + 1)]
+    if letter > 0:
+        images[i - 1], images[i] = [i, i + 1, -i], [i]
+    else:
+        images[i - 1], images[i] = [i + 1], [-(i + 1), i, i + 1]
+    return images
+
+
+def word_substitute_letters(
+        word: Sequence[int], images: Sequence[Sequence[int]]) -> list[int]:
+    out: list[int] = []
+    for letter in word:
+        image = images[letter - 1] if letter > 0 else inv_word(
+            images[-letter - 1])
+        out = reduce_word(out + list(image))
+    return out
+
+
+def artin_images(rank: int, braid: Sequence[int]) -> list[list[int]]:
+    images = [[j] for j in range(1, rank + 1)]
+    for letter in braid:
+        step = artin_step(rank, letter)
+        images = [word_substitute_letters(word, step) for word in images]
+    return images
+
+
+def aij_braid(i: int, j: int) -> list[int]:
+    return (list(range(j - 1, i, -1)) + [i, i] +
+            [-k for k in range(i + 1, j)])
+
+
+def pure_relations(rank: int) -> list[list[int]]:
+    if rank == 2:
+        return []
+    old_pairs = pb_pairs(rank - 1)
+    old_map = [[pair_index(rank, pair)] for pair in old_pairs]
+    relators = [word_substitute_letters(word, old_map)
+                for word in pure_relations(rank - 1)]
+    kernel = [[pair_index(rank, [k, rank])] for k in range(1, rank)]
+    for i, j in old_pairs:
+        g = pair_index(rank, [i, j])
+        action = artin_images(rank - 1, aij_braid(i, j))
+        for k in range(1, rank):
+            h = pair_index(rank, [k, rank])
+            tail = word_substitute_letters(action[k - 1], kernel)
+            relators.append(reduce_word([-g, h, g] + inv_word(tail)))
+    return relators
+
+
+class F3BitSpace:
+    def __init__(self, n: int) -> None:
+        self.n = n
+        self.mask = (1 << n) - 1
+
+    def vec(self, data: dict[int, int]) -> tuple[int, int]:
+        plane1 = plane2 = 0
+        for coordinate, coefficient in data.items():
+            coefficient %= 3
+            if coefficient == 1:
+                plane1 |= 1 << coordinate
+            elif coefficient == 2:
+                plane2 |= 1 << coordinate
+        return plane1, plane2
+
+    def add(self, v: tuple[int, int], w: tuple[int, int]) \
+            -> tuple[int, int]:
+        v1, v2 = v
+        w1, w2 = w
+        zero_v = self.mask & ~(v1 | v2)
+        zero_w = self.mask & ~(w1 | w2)
+        return ((v1 & zero_w) | (zero_v & w1) | (v2 & w2),
+                (v2 & zero_w) | (zero_v & w2) | (v1 & w1))
+
+    def neg(self, v: tuple[int, int]) -> tuple[int, int]:
+        return v[1], v[0]
+
+    def sub(self, v: tuple[int, int], w: tuple[int, int]) \
+            -> tuple[int, int]:
+        return self.add(v, self.neg(w))
+
+    def scale(self, v: tuple[int, int], coefficient: int) \
+            -> tuple[int, int]:
+        coefficient %= 3
+        return (0, 0) if coefficient == 0 else (
+            v if coefficient == 1 else self.neg(v))
+
+    def leading(self, v: tuple[int, int]) -> int:
+        union = v[0] | v[1]
+        return -1 if union == 0 else (union & -union).bit_length() - 1
+
+    def coeff_at(self, v: tuple[int, int], position: int) -> int:
+        if (v[0] >> position) & 1:
+            return 1
+        return 2 if (v[1] >> position) & 1 else 0
+
+    def dot(self, v: tuple[int, int], w: tuple[int, int]) -> int:
+        v1, v2 = v
+        w1, w2 = w
+        ones = (v1 & w1) | (v2 & w2)
+        twos = (v1 & w2) | (v2 & w1)
+        return (bin(ones).count("1") + 2 * bin(twos).count("1")) % 3
+
+
+class F3BitEchelon:
+    def __init__(self, sp: F3BitSpace,
+                 pivots: dict[int, tuple[int, int]] | None = None) -> None:
+        self.sp = sp
+        self.pivots = dict(pivots) if pivots else {}
+
+    def clone(self) -> "F3BitEchelon":
+        return F3BitEchelon(self.sp, self.pivots)
+
+    def reduce(self, vector: tuple[int, int]) \
+            -> tuple[tuple[int, int], int]:
+        while True:
+            pivot = self.sp.leading(vector)
+            if pivot < 0:
+                return vector, -1
+            basis = self.pivots.get(pivot)
+            if basis is None:
+                return vector, pivot
+            coefficient = self.sp.coeff_at(vector, pivot)
+            vector = self.sp.sub(vector, self.sp.scale(basis, coefficient))
+
+    def add(self, vector: tuple[int, int]) -> bool:
+        vector, pivot = self.reduce(vector)
+        if pivot < 0:
+            return False
+        if self.sp.coeff_at(vector, pivot) == 2:
+            vector = self.sp.neg(vector)
+        self.pivots[pivot] = vector
+        return True
+
+    def rank(self) -> int:
+        return len(self.pivots)
+
+    def rref(self) -> None:
+        for pivot in sorted(self.pivots, reverse=True):
+            vector = self.pivots[pivot]
+            for later in sorted(x for x in self.pivots if x > pivot):
+                coefficient = self.sp.coeff_at(vector, later)
+                if coefficient:
+                    vector = self.sp.sub(
+                        vector, self.sp.scale(
+                            self.pivots[later], coefficient))
+            self.pivots[pivot] = vector
+
+    def extract_separator(self, target: tuple[int, int]) \
+            -> tuple[int, int] | None:
+        self.rref()
+        _, free = self.reduce(target)
+        if free < 0:
+            return None
+        coefficients = {free: 1}
+        for pivot, vector in self.pivots.items():
+            coefficient = self.sp.coeff_at(vector, free)
+            if coefficient:
+                coefficients[pivot] = (-coefficient) % 3
+        return self.sp.vec(coefficients)
+
+
+def enum_delta_pc(g1: tuple[Any, ...], g2: tuple[Any, ...],
+                  pc: IndependentPc, cap: int) -> tuple[dict[Any, Any], Any]:
+    identity = (pc.one(), pc.one(), pc.one())
+    transversal = {identity: []}
+    tree_edge: dict[Any, Any] = {}
+    queue = deque([identity])
+    generators = {1: g1, 2: g2}
+    while queue:
+        current = queue.popleft()
+        word = transversal[current]
+        for letter in (1, 2):
+            generator = generators[letter]
+            following = tuple(
+                pc.mul(current[i], generator[i]) for i in range(3))
+            if following not in transversal:
+                require(len(transversal) < cap,
+                        f"Delta enumeration cap {cap}")
+                transversal[following] = word + [letter]
+                tree_edge[following] = (current, letter)
+                queue.append(following)
+    return transversal, tree_edge
+
+
+def schreier_generators_pc(
+        transversal: dict[Any, list[int]], tree_edge: dict[Any, Any],
+        g1: tuple[Any, ...], g2: tuple[Any, ...],
+        pc: IndependentPc) -> list[list[int]]:
+    generators = {1: g1, 2: g2}
+    out = []
+    for delta, delta_word in transversal.items():
+        for letter in (1, 2):
+            generator = generators[letter]
+            following = tuple(
+                pc.mul(delta[i], generator[i]) for i in range(3))
+            if tree_edge.get(following) == (delta, letter):
+                continue
+            following_word = transversal[following]
+            out.append(reduce_word(
+                delta_word + [letter] + inv_word(following_word)))
+    return out
+
+
+def enumerate_monomials(j: int) -> list[tuple[int, ...]]:
+    out: list[tuple[int, ...]] = []
+
+    def recurse(position: int, partial: list[int], weight: int) -> None:
+        if weight >= j:
+            return
+        if position == N_GEN:
+            out.append(tuple(partial))
+            return
+        for exponent in (0, 1, 2):
+            new_weight = weight + exponent * WEIGHTS[position]
+            if new_weight >= j and exponent > 0:
+                continue
+            partial.append(exponent)
+            recurse(position + 1, partial, new_weight)
+            partial.pop()
+
+    recurse(0, [], 0)
+    return out
+
+
+def project_pcvec_terms(pcvec: bytes, j: int) -> Iterable[tuple[Any, int]]:
+    exponents = list(pcvec)
+
+    def recurse(position: int, partial: list[int], weight: int,
+                coefficient: int) -> Iterable[tuple[Any, int]]:
+        if weight >= j:
+            return
+        if position == N_GEN:
+            yield tuple(partial), coefficient
+            return
+        for exponent in range(exponents[position] + 1):
+            new_weight = weight + exponent * WEIGHTS[position]
+            if new_weight >= j:
+                continue
+            new_coefficient = (
+                coefficient * BINOM3[(exponents[position], exponent)]) % 3
+            partial.append(exponent)
+            yield from recurse(
+                position + 1, partial, new_weight, new_coefficient)
+            partial.pop()
+
+    yield from recurse(0, [], 0, 1)
+
+
+def project_vec_to_Ij(row: dict[Any, int], j: int) -> dict[Any, int]:
+    out: dict[Any, int] = defaultdict(int)
+    for (component, pcvec), coefficient in row.items():
+        for monomial, scalar in project_pcvec_terms(pcvec, j):
+            key = (component, monomial)
+            out[key] = (out[key] + coefficient * scalar) % 3
+    return {key: value for key, value in out.items() if value}
+
+
+def gen_pcvec(i: int) -> bytes:
+    return bytes(1 if k == i - 1 else 0 for k in range(N_GEN))
+
+
+def apply_xi_minus_1(row: dict[Any, int], i: int,
+                     pc: IndependentPc) -> dict[Any, int]:
+    generator = gen_pcvec(i)
+    out: dict[Any, int] = defaultdict(int)
+    for (component, pcvec), coefficient in row.items():
+        key = (component, pc.mul(generator, pcvec))
+        out[key] = (out[key] + coefficient) % 3
+    for key, coefficient in row.items():
+        out[key] = (out[key] - coefficient) % 3
+    return {key: value for key, value in out.items() if value}
+
+
+def submodule_closure_with_depth(
+        raw: dict[Any, int], j: int, idx: dict[Any, int], sp: F3BitSpace,
+        pc: IndependentPc, echelon: F3BitEchelon) -> dict[str, Any]:
+    added = 0
+    max_depth_with_pivot = 0
+    explored: dict[int, int] = defaultdict(int)
+    projected = project_vec_to_Ij(raw, j)
+    vector = sp.vec({idx[key]: value for key, value in projected.items()
+                     if key in idx})
+    queue = deque()
+    explored[0] += 1
+    if echelon.add(vector):
+        added += 1
+        queue.append((raw, 0))
+    seen = set()
+    while queue:
+        current, depth = queue.popleft()
+        max_depth_with_pivot = max(max_depth_with_pivot, depth)
+        for i in range(1, N_GEN + 1):
+            following = apply_xi_minus_1(current, i, pc)
+            if not following:
+                continue
+            explored[depth + 1] += 1
+            projected = project_vec_to_Ij(following, j)
+            vector = sp.vec({idx[key]: value
+                             for key, value in projected.items()
+                             if key in idx})
+            if echelon.add(vector):
+                added += 1
+                fingerprint = tuple(sorted(following.items()))
+                if fingerprint not in seen:
+                    seen.add(fingerprint)
+                    queue.append((following, depth + 1))
+                    max_depth_with_pivot = max(
+                        max_depth_with_pivot, depth + 1)
+    return {
+        "new_pivots": added,
+        "max_depth_reached": max(explored) if explored else 0,
+        "max_depth_with_new_pivot": max_depth_with_pivot,
+        "explored_count_by_depth": dict(sorted(explored.items())),
+    }
+
+
 def load_core() -> Any:
-    path = ROOT / CORE_PATH
-    spec = importlib.util.spec_from_file_location("_r07_760_l3_c13_core", path)
-    require(spec is not None and spec.loader is not None, "core module spec")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[spec.name] = module
-    try:
-        spec.loader.exec_module(module)
-    except BaseException:
-        sys.modules.pop(spec.name, None)
-        raise
-    return module
+    """Expose the vendored core through the old call-site interface."""
+    return sys.modules[__name__]
 
 
 def reduce_word(word: Iterable[int]) -> list[int]:
@@ -428,6 +935,16 @@ def build_static() -> tuple[dict[str, Any], dict[str, Any]]:
     static = {
         "implementation_parent_commit":
             "f3698fffd3b73370f753c4b0d9eb1e86751b1159",
+        "runtime_packaging": {
+            "self_contained_producer_core": True,
+            "imports_HEAD_absent_koubou158_runtime_files": False,
+            "runtime_pins_are_prospective_HEAD_files_only": True,
+        },
+        "historical_C13_audit_only": {
+            path: {**row, "runtime_pin": False,
+                   "present_in_packaging_HEAD": False}
+            for path, row in HISTORICAL_C13_AUDIT_ONLY.items()
+        },
         "pins": pins,
         "base": {
             "base_kind": "r07_760_commutator",

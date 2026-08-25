@@ -9,9 +9,10 @@ Status: **bounded preflight cross-checked; full mathematical run UNKNOWN and GHA
 The five authorized implementation artifacts were prepared without importing
 the rejected v3 B0/B1/109-RHS lane.  The new producer rebuilds the g760 target,
 prefix transport and all 28 C-13 legal-overapproximation rows from the frozen
-base-independent E4/C-13 core.  The new checker uses a separate expression
-path and only the older frozen seedspan arithmetic; it imports neither the new
-producer nor either koubou158 L3 producer/core.
+base-independent E4/C-13 formulas vendored minimally inside the authorized
+producer.  The producer has no runtime import of a koubou158 L3 file.  The new
+checker uses a separate expression path and only the tracked frozen seedspan
+arithmetic; it imports neither the new producer nor a koubou158 L3 core.
 
 The bounded producer/checker replay passed.  The heavy rank/nonmembership
 ladder and the 649,539-column direct checker were deliberately **not** run
@@ -84,21 +85,21 @@ Bounded commands and final markers were:
 python -u -B search/d972_r07_760_l3_target6_v1.py --self-test
 R07_760_L3_TARGET6_V1_PRODUCER_SELFTEST_PASS toy_member=1 toy_nonmember=1 separator=1
 
-python -u -B search/d972_r07_760_l3_target6_v1.py --preflight --output search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json
-R07_760_L3_TARGET6_V1_PRODUCER_PASS preflight_state=R07_760_L3_TARGET6_PREFLIGHT_READY sha256=0711173b953e164c20ae2ce249d8bce1220b892899d9e14308601d731678d6ba bytes=663404
+python -u -B search/d972_r07_760_l3_target6_v1.py --preflight --output ci/out/d972_r07_760_l3_target6_preflight_prospective.json
+R07_760_L3_TARGET6_V1_PRODUCER_PASS preflight_state=R07_760_L3_TARGET6_PREFLIGHT_READY sha256=4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab bytes=663780
 
 python -u -B crosscheck/check_d972_r07_760_l3_target6_v1.py --self-test
 R07_760_L3_TARGET6_V1_CHECKER_SELFTEST_PASS toy_member=1 toy_nonmember=1 separator_mutations=3
 
-python -u -B crosscheck/check_d972_r07_760_l3_target6_v1.py --receipt search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json --mutations
-R07_760_L3_TARGET6_V1_CHECKER_PASS preflight_state=R07_760_L3_TARGET6_PREFLIGHT_READY mutations=11 full_replay=false receipt_sha256=0711173b953e164c20ae2ce249d8bce1220b892899d9e14308601d731678d6ba
+python -u -B crosscheck/check_d972_r07_760_l3_target6_v1.py --receipt ci/out/d972_r07_760_l3_target6_preflight_prospective.json --mutations
+R07_760_L3_TARGET6_V1_CHECKER_PASS preflight_state=R07_760_L3_TARGET6_PREFLIGHT_READY mutations=11 full_replay=false receipt_sha256=4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab
 ```
 
 The ASCII GAP driver also passed its short serial selftest:
 
 ```text
 .\gap.ps1 search\d972_r07_760_l3_target6_gha_driver_v1.g -ExtraArgs @('-c','D972_R07_760_L3_TARGET6_V1_SELFTEST:=true;;')
-R07_760_L3_TARGET6_V1_GHA_DRIVER_PASS mode=selftest preflight_mutations=11 receipt_sha256=0711173b953e164c20ae2ce249d8bce1220b892899d9e14308601d731678d6ba bytes=663404
+R07_760_L3_TARGET6_V1_GHA_DRIVER_PASS mode=selftest preflight_mutations=11 receipt_sha256=4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab bytes=663780
 ```
 
 One initial sandboxed GAP launch failed before reading the script because the
@@ -115,6 +116,16 @@ The repaired driver uses the quote-free boolean below.  Its bounded local
 serial selftest passed again in 6.6 seconds with the same preflight receipt and
 eleven destructive gates.  Full mode was not run.
 
+GHA selftest run `32879752404` passed the repaired quote gate but stopped at
+the next input-packaging gate.  Its clean checkout had committed
+`provenance/CLAIMS.md` at 66,635 bytes / SHA-256
+`174ddbb50d1579c9373482552759ed2ec822846f1dd83c8d73b13c652ae77f64`,
+whereas the driver had pinned the user's dirty local value 68,363 bytes /
+`37325e7e7d734f7619785eb1832a051a4e35bb7409e0adaad413443a13038c00`.
+It stopped before producer `Read`, emitted no receipt and no mathematical
+terminal.  Runs `32879297297` and `32879752404` are therefore both
+invocation/input-packaging failures only, not mathematical runs.
+
 ## 4. Preflight receipt typing
 
 The preflight artifact has schema `d972-r07-760-l3-target6/v1`, mode
@@ -129,7 +140,73 @@ and literal five-coface A.18.  In particular the preflight is not an A.18
 occurrence, normalized Brunnian class, compatible cofinal lift, Ihara witness,
 or all-bases obstruction.
 
-## 5. Exact GHA dispatch inputs
+## 5. Clean prospective-HEAD packaging audit
+
+The clean audit base was commit
+`eaf7d5ed528143837ddfe68942d0dce4ac4a4611`, extracted with `git archive`
+under `%TEMP%`.  Only the four prospective runtime artifacts were overlaid;
+the generated prospective certificate was independently replayed and then
+mechanically copied to its one authorized repository path after exact
+SHA/byte authentication.  The user's dirty `provenance/CLAIMS.md`, dialogue
+ledger and every unrelated local/untracked file were neither modified nor
+used as runtime content.
+
+Every prospective runtime path was present (`14/14`, missing `0`):
+
+```text
+PRESENT  search/d972_r07_760_l3_target6_v1.py                                      53284   7048e73a02e76df5d49fd359c52d5be70ae99d70aa95ebe74b28c4a18f130fde
+PRESENT  crosscheck/check_d972_r07_760_l3_target6_v1.py                            42005   355b01a67447cd371f6a1e2ebbaed73e1408181717d9ce857aecb8723bfe98ea
+PRESENT  search/d972_r07_760_l3_target6_gha_driver_v1.g                            12380   1c0d374dfd61306a7f9f4777a65469e454cc77d5b0f0d5c7272123e293f9e73a
+PRESENT  search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json          663780   4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab
+PRESENT  sol/luna_task_163_r07_760_l3_target6_v1.md                                 9066   9fcdf2f25b724e9dbc225f417b0036e126e7b5e37a0778dab5e0299ee2f74e12
+PRESENT  provenance/CLAIMS.md                                                      66635   174ddbb50d1579c9373482552759ed2ec822846f1dd83c8d73b13c652ae77f64
+PRESENT  docs/対話帳.md                                                            234377   a5eadcc04468b593e0a1c7896409a59b55c6442ca489df6a91aac60d6e128a06
+PRESENT  sol/proof_r07_joint_derived_commutator_rebase_v92.md                       5969   cc56e2187fac08ffa70fe3753e200627e776b5fa591738dee5da908e4d217387
+PRESENT  sol/audit_r07_uniform_explicit_lift_checkpoint_v95.md                      5324   12877306446bcfe8b57b01751c929bdee78d15300c4f90a8311764ff2d7eeeae
+PRESENT  sol/luna_task_162_r07_760_commutator_affine_rhs_v3.md                      4053   8ca38afc6f30e8e6074f191a17541f508f29ba1da58d3b286ba4fcf33406ae21
+PRESENT  sol/luna_reply_162_r07_760_commutator_affine_rhs_v3.md                     8833   70ebb7bf433fafd77dc828efe5f71b9dd6dc982e7682a4c6397695b6a2e6bcf5
+PRESENT  search/certs/d972_r07_616_to_760_commutator_affine_rhs_preflight_v3_20260826.json  184890  55752b6c1a748fb0b25a86d6fc1a0381a82b203112568b0b1963c5665cef0408
+PRESENT  ci/b345_157en_artifacts_32458556448/d972_b345_q3_chief_v1.json            231570   3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72
+PRESENT  search/d972_b345_seedspan_triple4_v1.py                                  535219   fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29
+```
+
+On Windows, `git archive` decoded the UTF-8 dialogue filename to a mojibake
+display name.  The clean test copied that exact 234,377-byte HEAD blob to the
+correct Unicode filename inside `%TEMP%`; no dirty workspace dialogue content
+was copied.  Linux/GHA checkouts retain the tracked UTF-8 pathname directly.
+
+These six historical C-13 files are absent from this branch HEAD.  They are
+recorded in the producer/checker receipt as `runtime_pin=false` and
+`present_in_packaging_HEAD=false`; neither code path opens them:
+
+```text
+search/koubou158_L3_radical_v1_2.py                                     14488  05e96bb3e7d0e9b949cb8d9ec0d216f97a698777df82d56449bcc20f89933f17
+search/koubou158_L3_core_v1_2.py                                        31192  4366ebd1759fbd11a795b251101776836ef4ec2a28b7b947b93727208e199c63
+crosscheck/check_koubou158_L3_radical_v1.py                              28198  451aa614d2c83f43291fa80abf09abe425004288717ed6278b5690b511724529
+search/certs/koubou158_L3_radical_v1_1_20260822.json                     17418  4a80c0b4c063eaab31ce32aad69eb9f21c220278dc748e31439aef9af38a2ca2
+search/certs/koubou158_L3_radical_v1_2_20260822.json                     20930  56ab4592bf5b64fbe5605afe063681e8c059929cd8abbc07323988aff4a8440f
+crosscheck/verdicts/koubou158_L3_radical_crosscheck_v1_20260822.json      7654  c87e12ba96ea95607e99701e1e92786ac93ba08c91ad424dbea1f252304b1b78
+```
+
+The vendored producer core was additionally compared, outside the runtime
+path, with the local historical v1.2 core on deterministic calibration data:
+
+```text
+VENDORED_C13_CALIBRATION_PASS pc_products=16 inverses=4 fox=6 projections=16 j=2..5
+```
+
+This is development-audit parity, not a runtime dependency.  The stronger
+bounded check is the clean producer receipt agreeing with the structurally
+independent seedspan checker on the entire static target/Sigma/PB4 envelope.
+
+The first clean driver attempt exposed only a local Cygwin-old-Python
+compatibility issue: `int.bit_count` was unavailable.  The vendored F3 dot
+product now uses the historical-compatible `bin(x).count("1")`; after that
+repair the complete clean serial driver selftest passed in 6.6 seconds.  All
+producer, checker and driver invocations were awaited one at a time.  No
+parallel or concurrently active Python subprocess was used.
+
+## 6. Exact GHA dispatch inputs
 
 Use a fresh wrapper with exactly one mode.  Selftest input:
 
@@ -185,13 +262,13 @@ and deletes only its five explicit `ci/out/d972_r07_760_l3_target6_v1*`
 outputs.  No workflow was changed, and no git operation or GHA dispatch was
 performed.
 
-## 6. New file ledger
+## 7. New file ledger
 
 ```text
-35202  a73b78d1a9ed6faae3230bef07c24194733dee77334e8e5006c38b8d00b46ac0  search/d972_r07_760_l3_target6_v1.py
-40489  e8cc6b5acaeaee88147a5ebcb3490a2a51aeaa45f73adf839df732df6ac986b1  crosscheck/check_d972_r07_760_l3_target6_v1.py
-13171  c69249c63d31599b3bb3b7d91a2b6f950e83bbde2561ba405f9f4d8f7f1b9477  search/d972_r07_760_l3_target6_gha_driver_v1.g
-663404 0711173b953e164c20ae2ce249d8bce1220b892899d9e14308601d731678d6ba  search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json
+53284  7048e73a02e76df5d49fd359c52d5be70ae99d70aa95ebe74b28c4a18f130fde  search/d972_r07_760_l3_target6_v1.py
+42005  355b01a67447cd371f6a1e2ebbaed73e1408181717d9ce857aecb8723bfe98ea  crosscheck/check_d972_r07_760_l3_target6_v1.py
+12380  1c0d374dfd61306a7f9f4777a65469e454cc77d5b0f0d5c7272123e293f9e73a  search/d972_r07_760_l3_target6_gha_driver_v1.g
+663780 4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab  search/certs/d972_r07_760_l3_target6_preflight_v1_20260826.json
 ```
 
 The driver is ASCII-only.  The fixed task pin used by all three code paths is
@@ -200,11 +277,13 @@ The driver is ASCII-only.  The fixed task pin used by all three code paths is
 The v97 contamination audit consulted here is 5700 bytes / SHA-256
 `ea1f16a72b4f71efde628e9d1d17d43cdb39856f8b01cb676a18c2b059f116e6`.
 
-## 7. Grade and unresolved result
+## 8. Grade and unresolved result
 
 ```text
 BOUNDED g760 STATIC/PREFLIGHT: CROSS-CHECKED
 DESTRUCTIVE MUTATIONS:        11/11 PASS
+CLEAN RUNTIME PATHS:           14/14 PRESENT
+VENDORED/HISTORICAL CALIBRATION: PASS (DEVELOPMENT AUDIT)
 FULL PRODUCER:                 NOT RUN / UNKNOWN
 FULL DIRECT CHECKER:           NOT RUN / UNKNOWN
 MATHEMATICAL TERMINAL:         UNKNOWN PENDING GHA
