@@ -3389,3 +3389,9 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - **裁定1206〜1423 転記収蔵(2026-08-22)P4 実行 — 裁定束の durable 化(出典 = sol/sol_reply_audit_972_koubou83.md の来歴指摘)**: Sol 監査が「LEDGER 転記は 1274 で停止・1275〜1423 は可変 TEMP のみで durable な正本でない」と指摘(監査時の TEMP = SHA 04bef1bc8fccd8111fefa6f033baec64490d2482c6a22792f23a97e711edb63e・280,568 bytes・歴史値)。同日、全文を **provenance/rulings_1206_1428_snapshot_20260822.md**(SHA 5f49cbe8a2c954abe525d6223b294ed8e638802007a31c68e480b803d5356966・283840 bytes)へ転写し immutable 正本とした。個別裁定の LEDGER 逐条転記は従前どおり区切りで実施(本 snapshot が先行の正本)。
 
 - **裁定1424〜1428 後発束(2026-08-22)T-REF 決着・survival R-b・PRECHECK・Sol 監査検収(監査対象 1206〜1423 束とは別項・P4 の区分指示に従う)**: 内容 = 1424(T-REF verdict: full (3.3)(3.4) で census 側支持 — **格は candidate・独立 general-f checker 待ち**(監査 F6/P5 で「確定」表現を撤回))・1425(数学者の survival 作り直し仕様 R-b・PB₃ 水準・PRECHECK-FREE 最優先)・1426(PRECHECK 全 4 代表 FALSE・旧 SURVIVES = VACUOUS_IF_TESTED_AT_N へ格下げ)・1427(監査便の配達検証・返信先二重指定の検出)・1428(**Sol 全面監査の検収**: 局所 4 定理維持・972 屋根閉鎖は (iv) 未了で差し止め・P1〜P5 同日適用 — 出典 = sol/sol_reply_audit_972_koubou83.md)。本文は上記 snapshot 内。
+
+## 2026-08-26 文献取得(DYN-L1・裁定 1706)
+- papers/nekrashevych-img-survey-lms387.pdf — sha256 先頭 16 = 5d606152275904a9(1,023,889 B・出所 people.tamu.edu/~nekrash/Preprints/img.pdf・LMS LNS 387 書籍章の著者版)
+- papers/nekrashevych-0802.2554-free-subgroups-rooted-trees.pdf — 397eac9bfe398c2d(210,151 B・arXiv:0802.2554)
+- papers/bkn-0802.2837-amenability-automata-groups.pdf — 02d5ac4adfacc164(267,300 B・arXiv:0802.2837・Duke 154 (2010))
+- 用途: [DYN-CEIL] 鎖(IMG contracting+no-free-subgroups ⟹ ker(F₂→IMG(T))≠1)。Nek05 書籍(Thm 5.5.3 原典)は未入手 — 二次二重確認の格。
