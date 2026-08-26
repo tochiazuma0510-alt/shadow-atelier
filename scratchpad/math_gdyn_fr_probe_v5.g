@@ -1,0 +1,13 @@
+LogTo();
+LoadPackage("fr");;
+M := MealyMachine([[2,1],[2,2]], [(1,2),()]);;
+a := FRElement(M, 1);;
+Print("FRElement(M,1) ok : ", a <> fail, "  Activity(a,3) = ", Activity(a,3), "\n");
+Print("IsContracting(M) = ", IsContracting(M), "\n");
+Print("NucleusOfFRMachine(M) = ", NucleusOfFRMachine(M), "\n");
+G := Group(a);;
+Print("IsContracting(G) = ", IsContracting(G), "\n");
+Print("NucleusOfFRSemigroup(G) = ", NucleusOfFRSemigroup(G), "\n");
+Print("IsOne(a^4) = ", IsOne(a^4), "  IsOne(a*a^-1) = ", IsOne(a*a^-1), "\n");
+Print("DONE\n");
+QUIT;

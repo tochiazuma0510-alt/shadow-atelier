@@ -1,0 +1,21 @@
+LogTo();
+LoadPackage("fr");;
+M := MealyMachine([[2,1],[2,2]], [(1,2),()]);;
+a := FRElement(M,1);;  G := Group(a);;
+try_ := function(name, f, arg)
+  local r;
+  r := CALL_WITH_CATCH(f, [arg]);
+  if r[1] = true then Print("  ", name, " => ", r[2], "\n");
+  else Print("  ", name, " => ERROR (no method / failed)\n"); fi;
+end;;
+Print("--- FR feature availability on a Mealy machine / group ---\n");
+try_("IsContracting(M)",        IsContracting,          M);
+try_("NucleusOfFRMachine(M)",   NucleusOfFRMachine,     M);
+try_("IsContracting(G)",        IsContracting,          G);
+try_("NucleusOfFRSemigroup(G)", NucleusOfFRSemigroup,   G);
+try_("IsLevelTransitive(G)",    IsLevelTransitive,      G);
+try_("IsOne(a^4)",              IsOne,                  a^4);
+try_("IsOne(a*a^-1)",           IsOne,                  a*a^-1);
+try_("LimitStates(a)",          LimitStates,            a);
+Print("DONE\n");
+QUIT;
