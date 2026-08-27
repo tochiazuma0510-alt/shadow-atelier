@@ -31,9 +31,9 @@ the receipt and checked independently.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35044 | `06ce93e20f908dcf261b1a6bf38715563cd4ed8e61fad8361de11864daaa1088` |
+| `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35045 | `29d0207043eacd25784960c2268e1ce7cdca711d0d84fdb5b409d830becef3f4` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32537 | `1ffa7b6b5f3a184b2956a36984d0cc8c58574ab43f80695bec918cef918ef566` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6573 | `3b1ac8da56b28e99ca332f61209d4b2cea38ae4a2664a33c4b4362000a885f6d` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6573 | `cf83683c57c3fd85a2f44f644c3a5be21082a604da9c36840b09ba930b02b42f` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `de58b9ae79fbf9e12e70f9370e370345809367540682284699ed28f63fc175cd` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
@@ -129,7 +129,20 @@ No local execution was performed. The parent Sol controls audit and any GHA
 SELFTEST/PRODUCTION run. The implementation is bounded to the first-rung
 boundary-preimage selector and makes no cofinal, fake, or Ihara claim.
 
+Dispatch record: GHA run `33071521623` encountered a producer SELFTEST
+`SyntaxError` caused by a missing outer return-dictionary brace. This is a
+syntax-only candidate failure; it produced no mathematical result and is not
+evidence for either boundary-preimage decision. The missing brace is repaired
+in the producer.
+
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 RAW-TO-NORMALIZED SHORTCUT:                 NOT DECLARED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:     NOT DECLARED
+
+## 8. Parent GHA dispatch record
+
+The parent Sol committed and pushed this bundle as
+`288076fd7cc1d1246a721c3ecb30ac90bb499ed3`, then dispatched the audited
+SELFTEST as GHA run `33071521623`.  Its outcome was pending when this dispatch
+record was appended; no candidate result is asserted here.

@@ -608,7 +608,7 @@ def toy_echelon_selftest() -> dict[str, Any]:
                     "noncommutative": {"sigma": list(sigma), "tau": list(tau),
                         "sigma_tau": list(toy_perm_mul(sigma, tau)), "tau_sigma": list(toy_perm_mul(tau, sigma)),
                         "left_translation": True, "block_tagging": True,
-                        "coefficient_two_inverse": True, "resource_stop": stopped}}
+                        "coefficient_two_inverse": True, "resource_stop": stopped}}}
 
 
 def write_json(path: Path, value: dict[str, Any]) -> None:
