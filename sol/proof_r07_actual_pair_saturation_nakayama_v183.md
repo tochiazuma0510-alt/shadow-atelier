@@ -246,6 +246,51 @@ The right-hand coinvariant space requires only the action matrices of a
 registered generating set of \(K\), not an enumeration of all elements of
 \(K\).
 
+### Lemma 4.3 (FULL FOX COKERNEL COMMUTES WITH THE EDGE)
+
+Let \(R\) be the fixed universal diagonal coefficient ring, let
+\(\widetilde D_2:\widetilde C_2\to\widetilde C_1\) be the universal
+seven-context Fox map of v175, and define
+
+\[
+ Z'=\operatorname{coker}
+   (\Lambda'\otimes_R\widetilde D_2),
+ \qquad
+ Z=\operatorname{coker}
+   (\Lambda\otimes_R\widetilde D_2).
+\tag{4.9}
+\]
+
+Then the ambient base-change hypothesis (1.3) holds:
+
+\[
+ \boxed{Z'/IZ'\cong Z.}
+\tag{4.10}
+\]
+
+#### Proof
+
+Tensor product is right exact. Therefore
+
+\[
+ \Lambda\otimes_{\Lambda'}Z'
+ \cong
+ \operatorname{coker}(\Lambda\otimes_R\widetilde D_2)
+ =Z.
+\tag{4.11}
+\]
+
+The left side is \(Z'/IZ'\). \(\square\)
+
+The use of the full cokernel is load-bearing. A kernel such as
+\(\ker D_1\), or the homology quotient
+\(\ker D_1/\operatorname{im}D_2\), need not commute with coefficient base
+change because tensor product is not left exact. Thus an R07 certificate
+must form \(M'\) inside the complete block-tagged
+\(\widetilde C_1/\operatorname{im}\widetilde D_2\) first. The separately
+checked equations \(D_1d'=D_1e'=0\) do not authorize replacing that ambient
+module by a prematurely base-changed cycle space.
+
 ## 5. All-rung form and the pointed Neumann multiplier
 
 Let
@@ -346,6 +391,7 @@ presentation, or establish (4.1) at every cofinal edge.
     SURJECTIVE CHOSEN-COEFFICIENT LIFT:               PAPER_PROOF
     PAIR-COINVARIANT DIMENSION IFF SATURATION:        PAPER_PROOF
     RELATIVE-FREE QUOTIENT SUFFICES FOR SATURATION:   PAPER_PROOF
+    FULL UNIVERSAL FOX COKERNEL BASE CHANGE:           PAPER_PROOF
     ALL-RUNG PAIR-SATURATED NEUMANN SELECTOR:         PAPER_PROOF
     R07 FIRST SUCCESSOR PAIR MODULE / SATURATION:     NOT COMPUTED
     R07 UNIVERSAL ALL-RUNG PAIR SATURATION:           NOT PROVED
