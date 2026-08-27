@@ -216,3 +216,36 @@ dispatch status:  in_progress
 
 The full census has not been dispatched.  It remains gated on this selftest
 returning the exact producer/checker/driver PASS markers.
+
+## 9. Parent GHA execution update
+
+The bounded selftest completed successfully:
+
+```text
+selftest run id:  33031593759
+commit SHA:       eec4db7cbac28e6727d56e0e4bf49356a02e7cc6
+conclusion:       success
+driver terminal:  R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_GHA_DRIVER_PASS
+mode:             selftest
+```
+
+This executes only the bounded producer fixture, the checker production
+validator chain, its 20 registered destructive controls, and the driver
+gates.  It does not execute the target6 census.
+
+After that success, the parent dispatched the serial full census:
+
+```text
+full run id:      33031673980
+workflow:         gap-run.yml
+branch:           sol/r07-explicit-lift-20260825
+commit SHA:       1892452db0a35096e5b037ed5aafb869d2306ed0
+script:           search/d972_r07_target6_context_image_census_gha_driver_v1.g
+preamble:         D972_R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_RUN:=true;; D972_R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_USE_PYTHON3:=true;;
+optional packages: false
+dispatch status:  in_progress
+```
+
+No order, projection, target6 solution, lift, fake, or Ihara claim is made
+while that run is in progress.  A resource terminal will remain a bounded
+UNKNOWN rather than being promoted to an order statement.
