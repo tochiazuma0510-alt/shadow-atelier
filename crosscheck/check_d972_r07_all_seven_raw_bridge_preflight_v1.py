@@ -892,8 +892,11 @@ def build_roster(joint: Joint):
         target = joint.ids[joint.key(joint.eval(relator))]
         rows.append({"layer": "q0_relator", "ordinal": ordinal,
                      "word": list(reduce_word(relator + inverse(joint.section_word(target))))})
-    if len(rows) != CAP or any(not row["word"] for row in rows):
-        fail(UNKNOWN_RAW, "roster count/nonempty")
+    # The expanded roster is lossless: a free-reduced relation may be the
+    # empty word.  Nonempty is required only for the selected correction and
+    # the actual Fox-canary samples below.
+    if len(rows) != CAP:
+        fail(UNKNOWN_RAW, "roster count")
     # Materialization is not accepted on section provenance alone: replay the
     # complete signed word roster in the local joint quotient.
     if any(joint.eval(row["word"]) != joint.identity for row in rows):
@@ -945,7 +948,7 @@ def slot_specs(e3: Quotient, e4: Quotient):
 
 
 def canaries(e3: Quotient, e4: Quotient, rows, mutation: str | None = None):
-    specs, selected = slot_specs(e3, e4), [row for layer, count in (("gamma_edge", 4), ("xy_action", 3), ("q0_relator", 3)) for row in [x for x in rows if x["layer"] == layer][:count]]
+    specs, selected = slot_specs(e3, e4), [row for layer, count in (("gamma_edge", 4), ("xy_action", 3), ("q0_relator", 3)) for row in [x for x in rows if x["layer"] == layer and x.get("word")][:count]]
     if len(selected) != 10:
         fail(UNKNOWN_FOX, "canary layer selection")
     conjugators = [(1,), (-1,), (2,), (-2,), (1, 2), (-2, -1), (1, 1, 2, -1), (2, 1, -2, -1), (1, -2, 1)]
@@ -1048,12 +1051,17 @@ def reconstruct(cert: dict[str, Any], mutation: str | None = None):
     records, joint = load_records(q3, joint_receipt), None
     joint = Joint(e3, e4, contexts, records); rows = build_roster(joint); g = construct_g760()
     if mutation == "actual_roster_letter":
-        target = min(rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
-        if not target["word"]:
+        target = next((row for row in sorted(
+            rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
+                       if row.get("word")), None)
+        if target is None:
             fail(UNKNOWN_RAW, "roster mutation empty")
         target["word"][0] = -int(target["word"][0])
     ordered = sorted(rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
-    correction = tuple(ordered[0]["word"])
+    correction_row = next((row for row in ordered if row.get("word")), None)
+    if correction_row is None:
+        fail(UNKNOWN_RAW, "registered canary empty roster")
+    correction = tuple(correction_row["word"])
     if joint.eval(correction) != joint.identity:
         fail(UNKNOWN_RAW, "registered canary joint identity")
     # The canonical correction is always retained.  The mutation changes the
@@ -1134,7 +1142,7 @@ def reconstruct(cert: dict[str, Any], mutation: str | None = None):
     if mutation == "dropped_block_tag":
         block_tags[0] = 0
     stacked = sorted([[tag, component, blob, coefficient] for tag, row in zip(block_tags, (h1_direct, h2_direct, p_direct)) for component, blob, coefficient in serial_row(row)], key=lambda row: (row[0], row[1], bytes.fromhex(row[2])))
-    return {"q3": q3, "e3": e3, "e4": e4, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, ordered[0]), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {"H1": {"row": serial_row(h1_base_target), "sha256": digest_obj(serial_row(h1_base_target))}, "H2": {"row": serial_row(h2_base_target), "sha256": digest_obj(serial_row(h2_base_target))}, "P": {"row": serial_row(p_base_target), "sha256": digest_obj(serial_row(p_base_target))}}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
+    return {"q3": q3, "e3": e3, "e4": e4, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, correction_row), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {"H1": {"row": serial_row(h1_base_target), "sha256": digest_obj(serial_row(h1_base_target))}, "H2": {"row": serial_row(h2_base_target), "sha256": digest_obj(serial_row(h2_base_target))}, "P": {"row": serial_row(p_base_target), "sha256": digest_obj(serial_row(p_base_target))}}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
 
 
 def compare_ready(cert, obj):
@@ -1144,7 +1152,10 @@ def compare_ready(cert, obj):
             cert.get("g760", {}).get("sha256") != digest_obj(list(obj["g760"]))):
         fail(UNKNOWN_RAW, "g760 serialization")
     ordered = sorted(obj["roster"], key=lambda row: (row["layer"], row["ordinal"], row["word"])); correction = cert.get("correction", {})
-    if (correction.get("layer"), correction.get("ordinal"), tuple(correction.get("word", []))) != (ordered[0]["layer"], ordered[0]["ordinal"], obj["correction"]): fail(UNKNOWN_RAW, "correction roster witness")
+    correction_row = next((row for row in ordered if row.get("word")), None)
+    if correction_row is None:
+        fail(UNKNOWN_RAW, "correction roster witness empty")
+    if (correction.get("layer"), correction.get("ordinal"), tuple(correction.get("word", []))) != (correction_row["layer"], correction_row["ordinal"], obj["correction"]): fail(UNKNOWN_RAW, "correction roster witness")
     if correction.get("length") != len(obj["correction"]) or correction.get("sha256") != digest_obj(list(obj["correction"])) or correction.get("final") is not False: fail(UNKNOWN_RAW, "correction digest/role")
     if correction.get("provenance") != obj["correction_provenance"]:
         fail(UNKNOWN_RAW, "correction provenance")
@@ -1156,11 +1167,13 @@ def compare_ready(cert, obj):
             relation.get("roster_sha256") != roster_digest(obj["roster"]) or
             relation.get("lossless_words") is not True):
         fail(UNKNOWN_RAW, "roster contract")
+    if cert.get("roster_contract", {}).get("nonempty_scope") != "deterministic correction witness and Fox canary samples only":
+        fail(UNKNOWN_RAW, "roster nonempty scope")
     registered = cert.get("registered_canary", {})
     if (registered.get("status") != "PASS" or
             registered.get("direct_joint_identity") is not True or
-            registered.get("layer") != ordered[0]["layer"] or
-            registered.get("ordinal") != ordered[0]["ordinal"] or
+            registered.get("layer") != correction_row["layer"] or
+            registered.get("ordinal") != correction_row["ordinal"] or
             registered.get("word") != list(obj["correction"]) or
             registered.get("provenance") != obj["correction_provenance"]):
         fail(UNKNOWN_RAW, "registered canary")
@@ -1295,7 +1308,10 @@ def validate_static(cert):
                      for name, (rel, expected_bytes, expected_sha) in PINS.items()}
     if cert.get("pins") != expected_pins:
         fail("UNKNOWN_RESOURCE", "pins")
-    if cert.get("roster_contract", {}).get("total") != CAP or cert.get("roster_contract", {}).get("layers") != {"gamma_edge":6318,"q0_relator":19,"xy_action":104}: fail(UNKNOWN_RAW, "roster contract")
+    if (cert.get("roster_contract", {}).get("total") != CAP or
+            cert.get("roster_contract", {}).get("layers") != {"gamma_edge":6318,"q0_relator":19,"xy_action":104} or
+            cert.get("roster_contract", {}).get("nonempty_scope") != "deterministic correction witness and Fox canary samples only"):
+        fail(UNKNOWN_RAW, "roster contract")
     if cert.get("all_seven_contract", {}).get("occurrences", {}).get("total") != 11: fail(UNKNOWN_RAW, "occurrence contract")
     if cert.get("fox_contract", {}).get("actual_pairs_minimum") != 110: fail(UNKNOWN_FOX, "Fox contract")
     if cert.get("mutation_contract") != MUTATION_NAMES: fail(UNKNOWN_FOX, "mutation contract")

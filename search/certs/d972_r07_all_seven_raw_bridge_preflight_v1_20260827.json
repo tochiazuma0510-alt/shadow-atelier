@@ -70,6 +70,7 @@
     "action_tokens": {"+1": [["letter", "li", -1], ["record", "ri", 1], ["letter", "li", 1], ["section", "target", -1]], "-1": [["letter", "li", 1], ["record", "ri", 1], ["letter", "li", -1], ["section", "target", -1]]},
     "layers": {"gamma_edge": 6318, "q0_relator": 19, "xy_action": 104},
     "nonempty_required": true,
+    "nonempty_scope": "deterministic correction witness and Fox canary samples only",
     "total": 6441,
     "word_key": "free-reduced signed integer tuple"
   },

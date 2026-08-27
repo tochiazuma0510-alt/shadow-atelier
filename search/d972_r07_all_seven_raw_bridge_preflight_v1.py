@@ -143,6 +143,7 @@ def literal_roster_contract():
         "action_ordinal": "ri*4 + li*2 + (1 if orient=+1 else 2)",
         "word_key": "free-reduced signed integer tuple",
         "nonempty_required": True,
+        "nonempty_scope": "deterministic correction witness and Fox canary samples only",
     }
 
 
@@ -209,6 +210,13 @@ def semantic_mutations(base_state, validate):
              "derived_u_order", "derived_z_order", "one_actual_roster_letter",
              "actual_product_additivity_term", "terminal_marker"]
     jobs = []
+    def first_nonempty_row(rows):
+        ordered = sorted(rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
+        for row in ordered:
+            if row.get("word"):
+                return row
+        raise ValueError("no nonempty roster witness")
+
     def run(name, mutate):
         caught = False
         try:
@@ -239,7 +247,7 @@ def semantic_mutations(base_state, validate):
     run("fine_insertion_index_4_3_swap", lambda d: d["insertion"].__setitem__(2, 3))
     run("derived_u_order", lambda d: d.__setitem__("u_word", list(reversed(d["u_word"]))))
     run("derived_z_order", lambda d: d.__setitem__("z_word", list(reversed(d["z_word"]))))
-    run("one_actual_roster_letter", lambda d: d["roster"][0]["word"].__setitem__(0, -int(d["roster"][0]["word"][0])))
+    run("one_actual_roster_letter", lambda d: first_nonempty_row(d["roster"])["word"].__setitem__(0, -int(first_nonempty_row(d["roster"])["word"][0])))
     run("actual_product_additivity_term", lambda d: d["fox"].append({"direct": [], "predicted": [[0, "00", 1]]}))
     run("terminal_marker", lambda d: d.__setitem__("terminal", "UNKNOWN_RESOURCE:runtime"))
     if not jobs or not all(row["caught"] for row in jobs):
@@ -468,7 +476,8 @@ def all_seven_fox_sample(old, e3, e4, roster):
     selected = []
     for layer, count in (("gamma_edge", 4), ("xy_action", 3),
                          ("q0_relator", 3)):
-        selected.extend([row for row in roster if row["layer"] == layer][:count])
+        selected.extend([row for row in roster
+                         if row["layer"] == layer and row.get("word")][:count])
     if len(selected) != 10:
         raise Unknown("UNKNOWN_INPUT:FOX_CANARY:layer_selection")
     conjugators = [(1,), (-1,), (2,), (-2,), (1, 2), (-2, -1),
@@ -619,14 +628,18 @@ def run_preflight():
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:g760")
     joint = load_source("search/d972_b345_joint_kernel_qstar_closure_v1.py", "p175_joint")
     group, roster = v172.build_roster(joint, old, e3, e4, contexts, words)
-    if len(roster) != CAP or any(not r.get("word") for r in roster):
+    # Empty reduced words are valid members of the lossless expanded roster;
+    # only the selected correction witness must be word-bearing.
+    if len(roster) != CAP:
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:roster")
     if any(group.eval(r["word"]) != group.identity for r in roster):
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:roster_evaluation")
     # Deterministic word-bearing canary.  Identity is checked directly in the
     # full joint group before it is allowed into the formula path.
-    canary = sorted(roster, key=lambda r: (r["layer"], r["ordinal"], r["word"]))[0]
-    if not canary["word"] or group.eval(canary["word"]) != group.identity:
+    canary = next((row for row in sorted(
+        roster, key=lambda r: (r["layer"], r["ordinal"], r["word"]))
+                   if row.get("word")), None)
+    if canary is None or group.eval(canary["word"]) != group.identity:
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:joint_canary")
     c = tuple(canary["word"])
     f1 = free_reduce(tuple(g) + c)
@@ -791,7 +804,7 @@ def run_preflight():
         retained = state.get("roster", [])
         if (digest_obj([[row["layer"], row["ordinal"], row["word"]]
                        for row in retained]) != expected_roster or
-                len(retained) != CAP or any(not row.get("word") for row in retained) or
+                len(retained) != CAP or
                 any(group.eval(row["word"]) != group.identity for row in retained)):
             raise ValueError("complete roster replay")
         if ([digest_obj(repr(sorted(row.items(), key=repr))) for row in state.get("pb4", [])]

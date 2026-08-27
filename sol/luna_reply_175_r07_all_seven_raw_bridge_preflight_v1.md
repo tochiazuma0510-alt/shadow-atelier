@@ -5,7 +5,10 @@ Role: bounded mechanical/static implementation repair (175b).
 
 ## Result
 
-All five authorized task-175 files now contain the bounded production path.
+All five authorized task-175 files now contain the bounded production path and
+the roster guard repair.  The latest parent production artifact (run
+`33034678957`) completed the driver successfully but stopped at the typed
+terminal `UNKNOWN_INPUT:RAW_FORMULA`; this is not mathematical evidence.
 The producer has `--run-preflight --output`; the checker has
 `--check --receipt --output` and a cheap fixture path.  No Python, GAP, Node,
 Git, or GHA process was run in this turn.  The checked-in receipt therefore
@@ -23,10 +26,10 @@ fake claims, and Ihara witnesses remain outside this preflight.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_all_seven_raw_bridge_preflight_v1.py` | 54700 | `8be7d3723fb7757740c66867795cc4cdac290ed0847c6a3f4146264f62f7347c` |
-| `crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py` | 77027 | `0651bc9953cc33bc1107fa5aa906c9d927f9df6adafb375047b8546c27102266` |
-| `search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g` | 14855 | `3d2a17c1823b22813f622f73c01d110c0e85711c602e569f819b1e753958b82c` |
-| `search/certs/d972_r07_all_seven_raw_bridge_preflight_v1_20260827.json` | 6784 | `5720181307533545aa03ce31a797f0846ac2ed61f63d112902e7b80fd7bd9d5e` |
+| `search/d972_r07_all_seven_raw_bridge_preflight_v1.py` | 55259 | `7fbc431217bf5992c90821930e927baa12f4a187f8f3c53c0859b5ed4843fee7` |
+| `crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py` | 77970 | `4b52450c547834725fd61b874976ba1a60435bde60cc868a2ee7913a3c0ad9d8` |
+| `search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g` | 14855 | `9ef865faaed354d4e41b95571a8272a57fa623eeb53fc6036de0e9506130f47d` |
+| `search/certs/d972_r07_all_seven_raw_bridge_preflight_v1_20260827.json` | 6870 | `0d9a9588cd4f58531923dc208819f32d552006eea8e323a198382901d132c69f` |
 
 The reply file is intentionally the last edited report; its byte count and
 hash are to be taken from the parent static audit after this write.
@@ -44,9 +47,11 @@ Static import scan: local standard-library imports only; zero `importlib`,
 of the producer, v172, g760, joint-kernel, PB4, or triple-cube modules in the
 checker.  The predecessor paths occur only as authenticated data pins.
 
-The checker reconstructs all 26 nonempty correction records and all 6,441
-word-bearing rows (`6318 + 104 + 19`) and directly evaluates every retained
-joint word.  It retains five source pairs, five pentagon pairs, all 46 named
+The checker reconstructs all 26 nonempty correction records and losslessly
+retains all 6,441 signed rows (`6318 + 104 + 19`), including rows whose free
+reduction is the empty word, and directly evaluates every retained joint word.
+It selects the first deterministic nonempty row only for the typed correction
+witness and Fox samples.  It retains five source pairs, five pentagon pairs, all 46 named
 uses and 31 exact E4 rows, all retraction marks and PC preimages, two PB3 and
 eleven PB4 raw columns, three raw base targets, three direct changes, three
 prefix changes, the tagged stacked target, and the corrected word
@@ -80,6 +85,24 @@ actual_product_additivity_term, terminal_marker
 Each non-envelope mutation changes a load-bearing formula, map, word, rank,
 blob, or execution branch and is sent through reconstruction and validation;
 no receipt-field-only mutation is used for these controls.
+
+## Production roster diagnosis and repair
+
+Run `33034678957` wrote producer log `D175_PRODUCER_DONE` followed by
+`UNKNOWN_INPUT:RAW_FORMULA`, and its minimal receipt reason was
+`UNKNOWN_INPUT:RAW_FORMULA:roster`.  Static source comparison isolates the
+guard: pinned v172 `build_roster` enforces the 6,441 count but does not require
+each expanded row to be nonempty, whereas task175's wrapper added
+`any(not r.get("word") for r in roster)` and stopped there.  The pinned q3
+format also has a leading empty placeholder record, while the 26 word records
+are deliberately selected by the existing nonempty-record manifest.  The
+expanded roster must remain lossless, so an empty reduced row is retained.
+
+The producer and independent checker now use count plus full joint evaluation
+for all 6,441 rows, choose the first deterministic nonempty row for the
+correction witness, choose nonempty rows for all 110 Fox samples, and target
+that same witness in the actual-roster-letter mutation.  The receipt contract
+records this explicitly as `nonempty_scope`; READY gates remain fail-closed.
 
 ## Pins and GHA contract
 
@@ -138,7 +161,7 @@ R07_ALL_SEVEN_RAW_BRIDGE_PREFLIGHT_V1_STATIC_READY
 
 ## Parent GHA execution
 
-The parent committed and pushed the exact static bundle at
+The parent committed and pushed the pre-repair static bundle at
 `dacb0f687aafb280b5cfc7540066a33ddb4fe157`.
 
 The first SELFTEST dispatch, run `33034469339`, failed before reading the
@@ -176,8 +199,10 @@ workflow:     gap-run.yml
 out_dir:      ci/out
 timeout_min:  180
 packages:     false
-status:       in_progress
+status:       completed_success_with_typed_unknown
 ```
 
-No READY, correction, lift, fake, or Ihara claim is made while that run is
-in progress.
+The artifact's driver pass was terminal-agreeing
+`UNKNOWN_INPUT:RAW_FORMULA` and the producer/checker logs were preserved.  No
+READY, correction, lift, fake, or Ihara claim is made; a post-repair GHA run is
+required before any READY terminal can be considered.
