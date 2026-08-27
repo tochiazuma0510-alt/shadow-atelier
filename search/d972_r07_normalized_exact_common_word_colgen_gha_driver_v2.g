@@ -18,13 +18,14 @@ D186ProducerLog:="ci/out/d972_r07_normalized_exact_common_word_colgen_v2.produce
 D186CheckerLog:="ci/out/d972_r07_normalized_exact_common_word_colgen_v2.checker.log";;
 D186Shell:="ci/out/d972_r07_normalized_exact_common_word_colgen_v2.sh";;
 D186OK:="ci/out/d972_r07_normalized_exact_common_word_colgen_v2.ok";;
+D186Sentinel:="R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_SENTINEL";;
 D186Common:="R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_COMMON_WORD";;
 D186UnknownInput:="UNKNOWN_INPUT";;
 D186ProducerBytes:=0;; D186ProducerSHA:="";;
 D186CheckerBytes:=0;; D186CheckerSHA:="";;
 D186FixtureBytes:=0;; D186FixtureSHA:="";;
 D186Current:=[
- [D186Producer,63041,"ed3261c8b6f3b167393319c52ce72cfd22d78c42796e89913aef8495689ac529"],
+ [D186Producer,63053,"ec73db0a474b3b52d69e19862e8185ae22423b2406f3922b5669d9a4e85fafab"],
  [D186Checker,54978,"59e175054b27e4beab8308579d5c4d72e72df512d627077ddcfbd72e544ed0f5"],
  [D186Fixture,234,"34dd389d9a3aff50486e57137f8dafea7b14825baec13e3288ed595046940963"]
 ];;
@@ -62,30 +63,46 @@ D186Stream:=OutputTextFile(D186Shell,false);;
 if D186Stream=fail then Error("task186 driver: shell open"); fi;
 PrintTo(D186Stream,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 if D186Mode="SELFTEST" then
-  PrintTo(D186Stream,"python3 -u -B ",D186Producer," --selftest --receipt ",D186Receipt," 2>&1 | tee ",D186ProducerLog,"\n");
-  PrintTo(D186Stream,"test ${PIPESTATUS[0]} -eq 0\n");
-  PrintTo(D186Stream,"grep -Fxc 'R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_SELFTEST_PASS' ",D186ProducerLog," >/dev/null\n");
-  PrintTo(D186Stream,"python3 -u -B ",D186Checker," ",D186Receipt," --selftest 2>&1 | tee ",D186CheckerLog,"\n");
-  PrintTo(D186Stream,"test ${PIPESTATUS[0]} -eq 0\n");
-  PrintTo(D186Stream,"grep -Fxc 'R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_CHECKER_PASS' ",D186CheckerLog," >/dev/null\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=PRODUCER_START\n");
+  PrintTo(D186Stream,"if python3 -u -B ",D186Producer," --selftest --receipt ",D186Receipt," > ",D186ProducerLog," 2>&1; then producer_status=0; else producer_status=$?; fi\n");
+  PrintTo(D186Stream,"cat ",D186ProducerLog,"\n");
+  PrintTo(D186Stream,"test \"$producer_status\" -eq 0\n");
+  PrintTo(D186Stream,"grep -Fxc 'R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_SELFTEST_PASS' ",D186ProducerLog," | grep -qx 1\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=PRODUCER_PASS\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=CHECKER_START\n");
+  PrintTo(D186Stream,"if python3 -u -B ",D186Checker," ",D186Receipt," --selftest > ",D186CheckerLog," 2>&1; then checker_status=0; else checker_status=$?; fi\n");
+  PrintTo(D186Stream,"cat ",D186CheckerLog,"\n");
+  PrintTo(D186Stream,"test \"$checker_status\" -eq 0\n");
+  PrintTo(D186Stream,"grep -Fxc 'R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_CHECKER_PASS' ",D186CheckerLog," | grep -qx 1\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=CHECKER_PASS\n");
 else
-  PrintTo(D186Stream,"python3 -u -B ",D186Producer," --mode PRODUCTION --output ",D186Receipt,
+  PrintTo(D186Stream,"echo TASK186_STAGE=PRODUCER_START\n");
+  PrintTo(D186Stream,"if python3 -u -B ",D186Producer," --mode PRODUCTION --output ",D186Receipt,
     " --seconds 19800 --boundary-pairs 8000000 --fibre-scans 80000000 --candidate-words 2000000",
     " --retained-columns 250000 --checkpoint-bytes 4000000000 --rss-bytes 5700000000",
-    " --oracle-rounds 1 2>&1 | tee ",D186ProducerLog,"\n");
-  PrintTo(D186Stream,"test ${PIPESTATUS[0]} -eq 0\n");
+    " --oracle-rounds 1 > ",D186ProducerLog," 2>&1; then producer_status=0; else producer_status=$?; fi\n");
+  PrintTo(D186Stream,"cat ",D186ProducerLog,"\n");
+  PrintTo(D186Stream,"test \"$producer_status\" -eq 0\n");
   PrintTo(D186Stream,"grep -Ec '^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_PRODUCER_TERMINAL (R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_COMMON_WORD|UNKNOWN_RESOURCE:(phase=(task175_reconstruction|fine_deletion|Q0_discovery|A_L_membership_scan|L_subgroup_closure|typed_singleton_equality|Q0_positive_shortlex_section):cap=(wall_seconds|rss_bytes)|phase=coarse_inverse_build:cap=(fibre_scans|wall_seconds|rss_bytes)|phase=positive_boundary_correlation:cap=(boundary_pairs|wall_seconds|rss_bytes)|phase=rank_increase:cap=(retained_columns|wall_seconds|rss_bytes)|phase=positive_correction_candidate:cap=(candidate_words|wall_seconds|rss_bytes)|phase=(weighted_eleven_occurrence_formula|weighted_support_fibre):cap=(wall_seconds|rss_bytes)|phase=weighted_global_prefix:cap=(global_roster|wall_seconds|rss_bytes)|phase=checkpoint_serialization:cap=checkpoint_bytes|phase=positive_global_fallback:cap=global_roster|phase=positive_correction_dovetail:cap=oracle_rounds):value=[0-9.]+:limit=[0-9.]+|UNKNOWN_INPUT:(module_not_uniquely_pinned|module_missing|module_pin|module_loader|missing|pin|task175:not_READY|resume:input_identity|resume:target|resume:normalized_semantics)(:[^[:cntrl:]]*)?)$' ",D186ProducerLog," | grep -qx 1\n");
-  PrintTo(D186Stream,"python3 -u -B ",D186Checker," ",D186Receipt," 2>&1 | tee ",D186CheckerLog,"\n");
-  PrintTo(D186Stream,"test ${PIPESTATUS[0]} -eq 0\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=PRODUCER_PASS\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=CHECKER_START\n");
+  PrintTo(D186Stream,"if python3 -u -B ",D186Checker," ",D186Receipt," > ",D186CheckerLog," 2>&1; then checker_status=0; else checker_status=$?; fi\n");
+  PrintTo(D186Stream,"cat ",D186CheckerLog,"\n");
+  PrintTo(D186Stream,"test \"$checker_status\" -eq 0\n");
   PrintTo(D186Stream,"grep -Ec '^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_CHECKER_PASS terminal=(R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_COMMON_WORD|UNKNOWN_RESOURCE:(phase=(task175_reconstruction|fine_deletion|Q0_discovery|A_L_membership_scan|L_subgroup_closure|typed_singleton_equality|Q0_positive_shortlex_section):cap=(wall_seconds|rss_bytes)|phase=coarse_inverse_build:cap=(fibre_scans|wall_seconds|rss_bytes)|phase=positive_boundary_correlation:cap=(boundary_pairs|wall_seconds|rss_bytes)|phase=rank_increase:cap=(retained_columns|wall_seconds|rss_bytes)|phase=positive_correction_candidate:cap=(candidate_words|wall_seconds|rss_bytes)|phase=(weighted_eleven_occurrence_formula|weighted_support_fibre):cap=(wall_seconds|rss_bytes)|phase=weighted_global_prefix:cap=(global_roster|wall_seconds|rss_bytes)|phase=checkpoint_serialization:cap=checkpoint_bytes|phase=positive_global_fallback:cap=global_roster|phase=positive_correction_dovetail:cap=oracle_rounds):value=[0-9.]+:limit=[0-9.]+|UNKNOWN_INPUT:(module_not_uniquely_pinned|module_missing|module_pin|module_loader|missing|pin|task175:not_READY|resume:input_identity|resume:target|resume:normalized_semantics)(:[^[:cntrl:]]*)?)$' ",D186CheckerLog," | grep -qx 1\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=CHECKER_PASS\n");
   PrintTo(D186Stream,"producer_terminal=$(grep -E '^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_PRODUCER_TERMINAL ' ",D186ProducerLog," | sed -E 's/^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_PRODUCER_TERMINAL //'); test $(printf '%s\\n' \"$producer_terminal\" | wc -l) -eq 1\n");
   PrintTo(D186Stream,"checker_terminal=$(grep -E '^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_CHECKER_PASS terminal=' ",D186CheckerLog," | sed -E 's/^R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_CHECKER_PASS terminal=//'); test $(printf '%s\\n' \"$checker_terminal\" | wc -l) -eq 1\n");
   PrintTo(D186Stream,"test \"$producer_terminal\" = \"$checker_terminal\"\n");
+  PrintTo(D186Stream,"echo TASK186_STAGE=TERMINAL_EQUAL\n");
 fi;
-PrintTo(D186Stream,"touch ",D186OK,"\n");
+PrintTo(D186Stream,"printf '%s' '",D186Sentinel,"' > ",D186OK,"\n");
 CloseStream(D186Stream);;
 Exec(Concatenation("bash ",D186Shell));;
-if not IsExistingFile(D186OK) then Error("task186 driver: matching terminals did not produce sentinel"); fi;
+D186SentinelRead:=D186Read(D186OK);;
+if D186SentinelRead<>D186Sentinel then
+  Error("task186 driver: sentinel payload mismatch");
+fi;
 if D186Mode="SELFTEST" then
   Print("R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_GHA_DRIVER_PASS mode=SELFTEST terminal=R07_NORMALIZED_EXACT_COMMON_WORD_COLGEN_V2_SELFTEST_PASS\n");
 else

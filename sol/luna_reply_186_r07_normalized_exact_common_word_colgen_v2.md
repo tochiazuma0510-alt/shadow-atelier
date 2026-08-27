@@ -76,6 +76,14 @@ tracing also covers the PositiveSearch `basis/columns/target/monitor/progress/`
 replay.  Run `33071950021` is recorded as runtime-contract-only: it produced
 no mathematical result.
 
+GHA run `33073200176` is likewise runtime-contract-only: its checkpoint
+provenance path exposed a list/tuple concatenation mismatch in the inverse
+word replay.  The repair uses an explicit list conversion without changing
+word order.  A static audit found the same mixed-type risk at the toy
+conjugation line and the checkpoint provenance line; both now use the common
+list sequence, while all other inverse-word uses are variadic operands or
+word multiplications.  No mathematical result was produced.
+
 The current task179 v1 inputs were authenticated before use:
 
 | live v1 file | bytes | SHA-256 |
@@ -136,15 +144,24 @@ UNKNOWN_INPUT production terminals. UNKNOWN_RESOURCE is restricted to the
 checker-registered phase/cap pairs, including the five task176 phases and
 `checkpoint_serialization:checkpoint_bytes` only. `.ok` is
 created only after the matching producer/checker markers in the generated
-serial shell.
+serial shell.  The final wrapper repair writes a fixed nonempty sentinel
+payload and reads it fresh with `D186Read`/`StringFile` after `Exec`; it checks
+the exact payload before emitting the driver PASS marker, without a post-run
+`IsExistingFile` test.
+
+The wrapper's subsequent hardening removes `tee`/`PIPESTATUS` from both modes:
+producer and checker run with direct `> logfile 2>&1`, logs are then `cat`'d,
+statuses and exact markers are checked at explicit stage boundaries, and the
+nonempty sentinel is written only after all fail-closed checks under
+`set -euo pipefail`.
 
 The five authorized v2 files are:
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_normalized_exact_common_word_colgen_v2.py` | 63041 | `ed3261c8b6f3b167393319c52ce72cfd22d78c42796e89913aef8495689ac529` |
+| `search/d972_r07_normalized_exact_common_word_colgen_v2.py` | 63053 | `ec73db0a474b3b52d69e19862e8185ae22423b2406f3922b5669d9a4e85fafab` |
 | `crosscheck/check_d972_r07_normalized_exact_common_word_colgen_v2.py` | 54978 | `59e175054b27e4beab8308579d5c4d72e72df512d627077ddcfbd72e544ed0f5` |
-| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 8498 | `63b622213df6618e9ee4dca3d33343eb3d20d5836983d75129310c0576db29d3` |
+| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 9585 | `da1f67f737cefba8d27d8f1bc72a5c2697199c1761cb21826f5573e69f24f232` |
 | `search/certs/d972_r07_normalized_exact_common_word_colgen_selftest_v2_20260827.json` | 234 | `34dd389d9a3aff50486e57137f8dafea7b14825baec13e3288ed595046940963` |
 | `sol/luna_reply_186_r07_normalized_exact_common_word_colgen_v2.md` | pending final write | pending final write |
 

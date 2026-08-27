@@ -254,7 +254,7 @@ def toy_selftest(v1=None):
         require(state["sign"] == 1 and normalized_exponent(chosen) == (1, 0),
                 "signed exponent/normalized membership check")
         require(state["roster_ordinal"] == 3, "authenticated roster ordinal check")
-        conjugate = reduce_word(delta + chosen + inverse_word(delta))
+        conjugate = reduce_word(delta + chosen + list(inverse_word(delta)))
         require(state["conjugator_exponent"] == 0 and exponent(conjugate) == signed and
                 normalized_exponent(conjugate) == (1, 0),
                 "conjugation exponent invariant")
@@ -722,7 +722,7 @@ def rank_zero_resume_checkpoint(v1, value):
                             for letter in provenance[field]),
                         "resume correction signed-letter provenance")
             require(reduce_word(provenance["delta_word"] + provenance["relator_word"] +
-                                inverse_word(provenance["delta_word"])) ==
+                                list(inverse_word(provenance["delta_word"]))) ==
                     tuple(provenance["conjugate_word"]),
                     "resume conjugate source replay")
             require(isinstance(provenance.get("delta_coordinate_blobs_hex"), list) and

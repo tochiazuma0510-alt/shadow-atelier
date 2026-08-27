@@ -33,7 +33,7 @@ the receipt and checked independently.
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `18040f4f73fe963632bbd2200e730818a7354c5963143a5871e73b2d1284dbfe` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32825 | `e94d19311d0afe23fde869045f959490528d18e0f3537209e57b7cbefb452b18` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6671 | `d650644404bcda3b268c07e11d7a798c37507dd19807cbc2f81beebf03b38d1a` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 7547 | `8b81c8f0c15d72492022b610b398602a25d8446ee6854dcb0cd7a56973ba7741` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
@@ -158,6 +158,13 @@ but failed the wrapper postcheck on the sentinel. The duplicated post-run
 existence probe is removed; the postcheck now performs a direct `StringFile`
 read and rejects fail, empty, or mismatched sentinel content. This run has no
 production mathematical result.
+
+Dispatch record: GHA run `33073632603` emitted producer/checker PASS markers,
+but the wrapper failed before sentinel completion. The driver is simplified to
+direct `python > logfile 2>&1; cat logfile` execution with `set -e`, explicit
+producer/checker/process/marker stage markers, exact marker gates, and a
+nonempty sentinel write after all gates. This run is a wrapper failure only
+and has no mathematical result.
 
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
