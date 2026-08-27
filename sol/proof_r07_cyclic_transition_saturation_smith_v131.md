@@ -130,6 +130,113 @@ quotient of (2.2) by \((t^m)\) is \(k[t]/(t^m)=R_{a-1}\).
 Equation (2.3) is load-bearing.  The transition ideal in v129 is generally
 not the augmentation ideal \((t)\).
 
+The quotient \(R_{a-1}=R_a/(t^m)\) has the two-periodic free resolution
+
+\[
+ \cdots\xrightarrow{t^m}R_a
+ \xrightarrow{t^{q-m}}R_a
+ \xrightarrow{t^m}R_a
+ \longrightarrow R_{a-1}\longrightarrow0.
+\tag{2.4}
+\]
+
+Exactness follows from
+
+\[
+ \ker(t^m:R_a\to R_a)=t^{q-m}R_a,
+ \qquad
+ \ker(t^{q-m}:R_a\to R_a)=t^mR_a.
+\tag{2.5}
+\]
+
+### Theorem 2.1 (CYCLIC TRANSITION TOR FORMULA)
+
+For every finite \(R_a\)-module \(Q\),
+
+\[
+ \boxed{
+ \operatorname{Tor}_1^{R_a}(R_{a-1},Q)
+ =\frac{\ker(t^m:Q\to Q)}{t^{q-m}Q}.}
+\tag{2.6}
+\]
+
+If the ambient module \(Z\) in (1.3) is projective over \(R_a\), then the
+actual v129 saturation kernel has the same closed form:
+
+\[
+ \boxed{
+ \frac{M\cap t^mZ}{t^mM}
+ \cong
+ \frac{\ker(t^m:Q\to Q)}{t^{q-m}Q},
+ \qquad Q=Z/M.}
+\tag{2.7}
+\]
+
+Under (2.7), the connecting map is explicit.  Given
+\(\bar v\in\ker(t^m:Q\to Q)\), choose a lift \(v\in Z\).  Then
+
+\[
+ \boxed{\partial[\bar v]=[t^m v]\in(M\cap t^mZ)/t^mM.}
+\tag{2.8}
+\]
+
+#### Proof
+
+Tensoring (2.4) with \(Q\) gives (2.6).  If \(Z\) is projective, Theorem
+1.1 identifies the saturation kernel with the complete Tor group, proving
+(2.7).  The ordinary connecting-map construction in the tensor long exact
+sequence is exactly (2.8).  Changing the lift by an element of \(M\) changes
+\(t^m v\) by \(t^mM\), while changing \(\bar v\) by
+\(t^{q-m}\bar w\) changes it by \(t^q w=0\). \(\square\)
+
+Every finite \(R_a\)-module is a direct sum of uniserial blocks
+
+\[
+ J_\ell=k[t]/(t^\ell),\qquad1\leq\ell\leq q.
+\tag{2.9}
+\]
+
+### Corollary 2.2 (ALL NONREGULAR QUOTIENT BLOCKS ARE POTENTIAL)
+
+The contribution of \(J_\ell\) to (2.6) has dimension
+
+\[
+ \boxed{
+ \tau_m(\ell)=
+ \min(m,\ell)-\max(\ell-q+m,0).}
+\tag{2.10}
+\]
+
+Equivalently, since \(m\leq q-m\),
+
+\[
+ \tau_m(\ell)=
+ \begin{cases}
+  \ell,&1\leq\ell\leq m,\\
+  m,&m<\ell\leq q-m,\\
+  q-\ell,&q-m<\ell\leq q.
+ \end{cases}
+\tag{2.11}
+\]
+
+Thus \(\tau_m(\ell)>0\) for every \(\ell<q\), while
+\(\tau_m(q)=0\).  The cyclic transition is automatically saturated for a
+projective ambient module exactly when the quotient \(Q\) contains only
+regular blocks \(J_q\), equivalently when \(Q\) is free.
+
+#### Proof
+
+On \(J_\ell\), the kernel of \(t^m\) has dimension \(\min(m,\ell)\), and
+the image of \(t^{q-m}\) has dimension
+\(\max(\ell-q+m,0)\).  The latter lies in the former because \(t^q=0\).
+This proves (2.10), and the three ranges give (2.11). \(\square\)
+
+This is the direct Jordan classification for v129.  Unlike the v130
+relative subgroup-cohomology calculation, it does not leave only two
+near-regular bad lengths when \(p=3\): every nonregular quotient block can
+carry a transition saturation class.  The one named error may still map to
+zero in those blocks.
+
 ## 3. Smith form of a submodule of a free chain-ring module
 
 Let
@@ -458,6 +565,7 @@ cyclic edge.  Nonabelian accepted-set nonemptiness remains separate.
 ```text
 SATURATION AS TOR BOUNDARY:                  PAPER_PROOF
 CYCLIC GROUP-RING TRANSITION IDEAL:          PAPER_PROOF
+CYCLIC PERIODIC TOR / JORDAN FORMULA:         PAPER_PROOF
 FREE-AMBIENT SMITH CLASSIFICATION:           PAPER_PROOF
 ACTUAL-CLASS VALUATION / (d,rho) SELECTOR:   PAPER_PROOF
 UNIFORM CYCLIC-EDGE FINITE ALGORITHM:        PAPER_PROOF
