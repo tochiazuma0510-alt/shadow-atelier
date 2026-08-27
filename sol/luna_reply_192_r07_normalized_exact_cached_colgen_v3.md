@@ -248,6 +248,11 @@ producer exited nonzero; the prior shell's `set -e` stopped before `cat` and
 upload, so no producer, checker, mathematical, or cross-checked result was
 obtained.  This is a diagnostic-wrapper failure, now repaired above.
 
+Parent Sol dispatched the diagnostic-wrapper repair as GHA SELFTEST run
+`33101963207` at immutable head
+`33ecc99319cd42b1c30c8eb1046363cf4ea0b709`.  Its result is pending and is
+not yet a cross-checked result.
+
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO
