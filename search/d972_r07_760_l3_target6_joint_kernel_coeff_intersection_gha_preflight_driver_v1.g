@@ -42,9 +42,9 @@ D972JKPB1Pins := [
   ["sol/luna_task_169b_r07_joint_kernel_gha_bootstrap.md",
    "c11712949a7f750ef5992309f1ea13ab5805d16dd223e08468690922c7d0f33c",7330],
   [D972JKPB1Producer,
-   "fc6e9a8b52a1122ef9757e3be32206d080ce053a620a93132eca65eb675137c1",110769],
+   "8110f6d651fcd7a45df304807a4fa99d642773d405619e3b76a5e587d7200182",110979],
   [D972JKPB1Checker,
-   "957f49363f78343cc931831013a04ab1ac6b038cbd50497b8d917396d57480ee",87966],
+   "6a3dc114680b9be4554241c9c0de420201521b715f8350e27c03d9d59f4253b3",89970],
   ["sol/luna_task_169_r07_joint_kernel_coeff_intersection_v1.md",
    "6223245e9e3ec7476b5b0c55631d7bcea254c7890c5220f2b5866b9f31b22fa7",10445],
   ["sol/proof_r07_joint_kernel_coefficient_intersection_v107.md",
@@ -463,7 +463,9 @@ else
      D972JKPB1Count(D972JKPB1CheckerRaw,"mutations=23")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"cache_fixture_words=1365")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,
-       "cache_fixture_mutations=4")<>1 or
+        "cache_fixture_mutations=4")<>1 or
+     D972JKPB1Count(D972JKPB1CheckerRaw,
+        "empty_affine_inconsistent=true")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"canaries=31")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"domain_seconds=5400")<>1 then
     Error("task169b bootstrap: exact process markers");

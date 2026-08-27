@@ -100,8 +100,8 @@ TERMINALS = {
 }
 
 # Frozen task-169b exact-transition producer.
-PRODUCER_BYTES = 110769
-PRODUCER_SHA = "fc6e9a8b52a1122ef9757e3be32206d080ce053a620a93132eca65eb675137c1"
+PRODUCER_BYTES = 110979
+PRODUCER_SHA = "8110f6d651fcd7a45df304807a4fa99d642773d405619e3b76a5e587d7200182"
 COEFF_BYTES = 57792
 COEFF_SHA = "7db4e174dec13e2f69f4011b09abcc52320699261b164b5eedb18a53fa64b962"
 JOINT_BYTES = 67945
@@ -1409,6 +1409,47 @@ def independent_intersection(task: dict[str, Any],
     return result
 
 
+def independent_empty_affine_regression() -> dict[str, Any]:
+    """A second-coordinate target outside the span of two first-coordinate columns."""
+    first_coordinate = {
+        "dimension": 2, "coefficient_one_plane_hex": "1",
+        "coefficient_two_plane_hex": "0"}
+    zero = {
+        "dimension": 2, "coefficient_one_plane_hex": "0",
+        "coefficient_two_plane_hex": "0"}
+    task = {
+        "j": 2, "dimension": 2,
+        "ordered_reduced_quotient_legal_rows":
+            [copy.deepcopy(first_coordinate),
+             copy.deepcopy(first_coordinate)] +
+            [copy.deepcopy(zero) for _ in range(26)],
+        "reduced_quotient_target": {
+            "dimension": 2, "coefficient_one_plane_hex": "2",
+            "coefficient_two_plane_hex": "0"},
+    }
+    U = [[0, 1] + [0] * 26, [1, 0] + [0] * 26]
+    domain = {"historical_exponent_gate": {"word_bearing_basis": [
+        {"coefficient_row": row} for row in U]}}
+    result = independent_intersection(task, domain)
+    expected_column = public_bitplane((1, 0), 2)
+    require(result["consistent"] is False and
+            result["ordered_reduced_quotient_LjU_columns"] ==
+                [expected_column, expected_column] and
+            result["coefficient_system_equation_count"] == 2 and
+            result["coefficient_system_rref_rows"] ==
+                [[1, 1, 0], [0, 0, 1]] and
+            result["canonical_z_particular_free_zero"] is None,
+            "checker genuinely inconsistent second-coordinate affine fixture")
+    return {
+        "production_independent_intersection_path_used": True,
+        "LjU_span": "first coordinate only",
+        "target": "second coordinate",
+        "consistent": False,
+        "equation_count": 2,
+        "contradiction_row": [0, 0, 1],
+    }
+
+
 def evaluate_task168(certificate: dict[str, Any],
                      coefficients: Sequence[int]) -> bool:
     dimension = certificate["dimension"]
@@ -1752,6 +1793,7 @@ def check_receipt(path: Path, checkpoint_dir: Path,
             "target receipt source and complete input pin manifest")
     validate_envelope(receipt, domain_seconds)
     cache_fixture = exact_transition_cache_fixture()
+    empty_affine_regression = independent_empty_affine_regression()
     receipt_mutations = mutation_tests(receipt, domain_seconds)
     ctx = context()
     domain_result = None
@@ -1782,6 +1824,7 @@ def check_receipt(path: Path, checkpoint_dir: Path,
         "domain_crosscheck": domain_result,
         "completed_j_crosscheck": full_result,
         "exact_transition_cache_fixture": cache_fixture,
+        "independent_empty_affine_regression": empty_affine_regression,
         "mutation_tests_rejected": receipt_mutations,
         "helper_shared_with_task169_producer": False,
         "imports_task169_producer": False,
@@ -1891,6 +1934,7 @@ def self_test(domain_seconds: float) -> None:
           f"mutations={result['mutation_tests_rejected']} "
           f"cache_fixture_words={result['exact_transition_cache_fixture']['word_count']} "
           f"cache_fixture_mutations={result['exact_transition_cache_fixture']['mutation_tests_rejected']} "
+          "empty_affine_inconsistent=true "
           f"canaries={LEGACY_CANARY_COUNT} "
           f"domain_seconds={domain_seconds:g} "
           "full_j9_recomputed=false", flush=True)
@@ -1927,6 +1971,7 @@ def main() -> int:
           f"mutations={result['mutation_tests_rejected']} "
           f"cache_fixture_words={result['exact_transition_cache_fixture']['word_count']} "
           f"cache_fixture_mutations={result['exact_transition_cache_fixture']['mutation_tests_rejected']} "
+          "empty_affine_inconsistent=true "
           f"canaries={LEGACY_CANARY_COUNT} "
           f"domain_seconds={domain_seconds:g} "
           f"bytes={len(raw)}", flush=True)

@@ -1863,10 +1863,13 @@ def bounded_tests() -> dict[str, Any]:
                 [0, 1] + [0] * 26 and
             nonempty["canonical_word_basis_coefficients_z_for_lex_a"] ==
                 [1, 0], "lex a distinct coordinate order")
+    # The two L_j U columns span only the first coordinate.  Hex "2" in the
+    # one-plane is the second coordinate; (0,1) would instead mean twice the
+    # first coordinate and would still lie in that span.
     empty_task = copy.deepcopy(task)
     empty_task["reduced_quotient_target"] = {
-        "coefficient_one_plane_hex": "0",
-        "coefficient_two_plane_hex": "1"}
+        "coefficient_one_plane_hex": "2",
+        "coefficient_two_plane_hex": "0"}
     empty = affine_joint_intersection(empty_task, domain)
     require(not empty["consistent"], "empty affine intersection")
     previous = copy.deepcopy(nonempty)

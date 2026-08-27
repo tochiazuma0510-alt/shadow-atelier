@@ -2,7 +2,7 @@
 
 Date: 2026-08-27  
 Role: Luna / implementation and bounded serial mechanical audit  
-Outcome: **historical STOP preserved; static GHA bootstrap ready; no mathematical receipt promoted**
+Outcome: **run 33027004847 fixture STOP repaired statically; redispatch pending; no mathematical receipt promoted**
 
 ## 1. Exact stop
 
@@ -139,12 +139,12 @@ The frozen, **unexecuted static-final** sources are:
 
 ```text
 search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
-110769 bytes
-SHA-256 fc6e9a8b52a1122ef9757e3be32206d080ce053a620a93132eca65eb675137c1
+110979 bytes
+SHA-256 8110f6d651fcd7a45df304807a4fa99d642773d405619e3b76a5e587d7200182
 
 crosscheck/check_d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
-87966 bytes
-SHA-256 957f49363f78343cc931831013a04ab1ac6b038cbd50497b8d917396d57480ee
+89970 bytes
+SHA-256 6a3dc114680b9be4554241c9c0de420201521b715f8350e27c03d9d59f4253b3
 ```
 
 The checker pins the first identity exactly.  Neither source contains
@@ -163,8 +163,8 @@ The new ASCII driver is:
 
 ```text
 search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_gha_preflight_driver_v1.g
-26889 bytes
-SHA-256 40397ca851cf60f00c03320684f9defdeea051db35d2431764ac61a6dd8b1af4
+26979 bytes
+SHA-256 9cf0650494c535b465ade101eeb8b5ab130c1683b08a05cacc5777b00b6cc10c
 ```
 
 It has 22 exact pins: the controlling task, frozen producer/checker, task
@@ -303,3 +303,63 @@ dispatch status:  in_progress
 
 No rank, coefficient intersection, lift, fake, or Ihara claim follows from
 the dispatch itself.
+
+## Repair addendum: run 33027004847 bounded-fixture stop
+
+Run `33027004847` did not reach a task169 mathematical terminal.  It stopped
+inside producer `bounded_tests` at the assertion labelled
+`empty affine intersection`, before `build_preflight` assembled or wrote a
+preflight receipt.  There is therefore no preflight artifact from that run
+and no NONEMPTY/EMPTY evidence to inherit.
+
+The stop was a selftest-fixture encoding error, not an affine-solver defect.
+The fixture's two `L_j U` columns both equal the first-coordinate vector
+`e_0`.  Its old alleged outside target used
+
+```text
+coefficient_one_plane_hex = 0
+coefficient_two_plane_hex = 1
+```
+
+which denotes `2 e_0`, still in `span(e_0)`; the exact equation
+`z_0 + z_1 = 2` is consistent.  The producer fixture now uses
+
+```text
+coefficient_one_plane_hex = 2
+coefficient_two_plane_hex = 0
+```
+
+Hex bit `2` is the second coordinate, so this target is `e_1`, genuinely
+outside the first-coordinate image.  The resulting production RREF contains
+the contradiction row `[0,0,1]`.  The source comment records the distinction
+between a support bit and coefficient value.
+
+The helper-nonshared checker now constructs the same genuinely inconsistent
+example independently and sends it through its production
+`independent_intersection` -> `equations_from_bitplanes` -> `rref_affine`
+path.  It requires the two public image columns to be `e_0`, exactly two
+equations, exact RREF rows `[[1,1,0],[0,0,1]]`, no particular solution, and
+`consistent=false`.  Every normal checker receipt construction executes this
+regression before it can print its PASS marker.  The checker log adds
+`empty_affine_inconsistent=true`, and the bootstrap driver requires that
+marker exactly once.
+
+The repaired, mutually pinned static identities are:
+
+```text
+110979  8110f6d651fcd7a45df304807a4fa99d642773d405619e3b76a5e587d7200182  search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
+ 89970  6a3dc114680b9be4554241c9c0de420201521b715f8350e27c03d9d59f4253b3  crosscheck/check_d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
+ 26979  9cf0650494c535b465ade101eeb8b5ab130c1683b08a05cacc5777b00b6cc10c  search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_gha_preflight_driver_v1.g
+```
+
+Static scans found one checker regression definition, one production call,
+the repaired producer pin in the checker, both repaired source pins in the
+bootstrap driver, all 22 bootstrap pins matching their current files, an
+ASCII-only driver, no old empty-target pattern, and no
+`PLACEHOLDER`, `TODO`, or `TBD` token in the three runtime files.
+
+No Python, GAP, Node, git, or GHA command was run for this repair.  The
+regression and bootstrap remain unexecuted.  `redispatch=false` and
+`GHA dispatched=false` for this addendum.
+
+R07_760_JOINT_COEFF_GHA_BOOTSTRAP_FIXTURE_REPAIRED_UNEXECUTED
