@@ -222,5 +222,6 @@ else
     Error("task176 driver: verdict boundary");
   fi;
 fi;
+SetPrintFormattingStatus(OutputTextUser(),false);;
 Print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=",
       D176Mode," terminal=",D176Terminal,"\n");

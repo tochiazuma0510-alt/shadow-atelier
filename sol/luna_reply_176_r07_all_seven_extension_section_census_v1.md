@@ -4,13 +4,16 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-The five-file bundle requested by task176 has received a narrow driver repair.
-Static disposition is **GO for a rerun of the bounded GHA SELFTEST**, followed
-by PRODUCTION only if that rerun returns the exact driver sentinel.  GHA run
-`33036568540` reached the unchanged producer's exact selftest PASS, but the
-pre-repair generated shell then failed before the checker started.  It is not
-a complete SELFTEST PASS.  During this repair no local Python, Node, GAP, git,
-or GHA command was run.
+The five-file bundle requested by task176 has received a second narrow driver
+formatting repair.  GHA run `33036920357` reached the unchanged producer PASS
+and checker
+`mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54`; this
+is a **semantic SELFTEST PASS**.  Its child shell and workflow succeeded.
+However, GAP wrapped the final console sentinel between `termin` and `al`, so
+the task's exact unwrapped external-sentinel contract remains pending.  Static
+disposition is **GO for one bounded GHA SELFTEST rerun**, followed by
+PRODUCTION only after that rerun exposes the exact one-line driver sentinel.
+During this repair no local Python, Node, GAP, git, or GHA command was run.
 
 There is no currently identified `UNKNOWN_INPUT` obstruction.  The frozen
 task157ee shelf contains enough data to reconstruct both required objects:
@@ -33,7 +36,7 @@ subsequent external SELFTEST attempt recorded above.
 bytes  SHA-256                                                           path
 44757  9fb3839eaf856f6e4d8cc77a2ee358417c6c624564925179d9a62c9e141e2743  search/d972_r07_all_seven_extension_section_census_v1.py
 61609  b3b5c305d9e181ef39a192127b815a24b6cb9b86a4a5dccbdb49f793a470d21c  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-12839  1ec5e879e95a88c0be8efc74cbd58149bc643274c3ca4245f5ba09664ec39743  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+12890  da9d7b8625f1b5c22daebabf3561e2fd0eb9cfa8409dbbc04e29797f33cdb102  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -164,7 +167,7 @@ only this final success sentinel:
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS
 ```
 
-### GHA run 33036568540 failure and repair
+### GHA formatting failures and repairs
 
 The failure was a lossless-output bug, not a producer, checker, or mathematical
 failure.  The pre-repair driver wrote the child Bash script through pathname
@@ -184,6 +187,15 @@ literal exact-line `grep -Fxc` rather than anchored regular expressions.  A
 post-close readback rejects any literal `backslash + newline` continuation
 before `Exec`.  Mathematical inputs, the semantic validator, serial order,
 timeouts, terminal set, and success sentinel are unchanged.
+
+That repair was confirmed by GHA SELFTEST run `33036920357`: producer,
+checker, all fifteen destructive mutations, child-shell sentinel, and workflow
+all passed.  The remaining defect was the independent GAP user-console
+formatter.  It wrapped the final `Print` as `termin` followed by GAP's visible
+continuation and then `al=SELFTEST`.  The workflow did not fail, but the output
+was not the contractually required exact one-line sentinel.  The narrow second
+repair disables formatting on `OutputTextUser()` immediately before the final
+`Print`; it does not touch the now-passing child shell or any semantic code.
 
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
@@ -221,7 +233,8 @@ Repair-specific source evidence is fixed at these lines:
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
   lines 101--109 bind the corrected internal fixture digest, lines 152--186
   perform lossless unformatted shell emission, and lines 187--190 reject a
-  formatting continuation before execution; and
+  formatting continuation before execution; driver lines 225--227 disable
+  user-console formatting and then emit the final sentinel; and
 - fixture lines 41, 44, and 46 bind its typed reason, canonical self-digest,
   and exact terminal.
 
@@ -240,16 +253,16 @@ found:
 - neither task169 nor task175 is imported or named; and
 - the GAP driver does not assign or interpret an `Exec` return value.
 
-Run `33036568540` establishes the unchanged producer's selftest PASS and the
-pre-repair driver's ability to parse and enter its generated shell.  Because
-repair execution was forbidden, the repaired GAP driver parse, checker
-syntax/import, fifteen mutation rejections, exact Q0 completion, COMPLETE
-orders, runtime, RSS, and artifact size remain **UNKNOWN pending the rerun**.
-Static inspection found no remaining deterministic source/pin/schema/contract
-STOP, but the repaired bundle must still pass the bounded GHA SELFTEST before
-PRODUCTION.
+Run `33036568540` records the first child-shell formatting failure.  Run
+`33036920357` establishes producer selftest PASS, checker syntax/import PASS,
+all fifteen mutation rejections, and the repaired child shell.  Thus the
+bounded semantic selftest is complete.  Because this second repair was not run
+locally, exact unwrapped external sentinel emission remains **UNKNOWN pending
+one rerun**.  The production-only exact Q0 completion, COMPLETE orders,
+runtime, RSS, and artifact size also remain UNKNOWN.  Static inspection found
+no remaining deterministic source/pin/schema/contract STOP.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_STATIC_GO_REPAIR_UNEXECUTED
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_STATIC_GO_CONSOLE_REPAIR_UNEXECUTED
