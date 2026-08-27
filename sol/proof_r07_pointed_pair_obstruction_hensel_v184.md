@@ -245,6 +245,54 @@ not \(e_1\) is a complete finite obstruction to a coefficient reducing to
 zero.  It is stronger and more targeted than merely observing failure of
 the universal pair-saturation equality.
 
+### Lemma 3.1 (EXPLICIT FIRST-FRATTINI INVERSE LENGTH)
+
+If the first relative kernel is
+
+\[
+ K=\langle s_1,\ldots,s_t\rangle\cong(C_3)^t,
+\tag{3.8}
+\]
+
+then
+
+\[
+ \boxed{J_K^{,2t+1}=0.}
+\tag{3.9}
+\]
+
+Consequently every \(\beta\in I_0\) occurring in (3.4) has the certified
+inverse
+
+\[
+ \boxed{
+ (1-\beta)^{-1}=\sum_{r=0}^{2t}\beta^r.}
+\tag{3.10}
+\]
+
+#### Proof
+
+Put \(T_i=s_i-1\).  Since the generators commute and have order three,
+characteristic three gives
+
+\[
+ \mathbf F_3[K]
+ \cong
+ \mathbf F_3[T_1,\ldots,T_t]/(T_1^3,\ldots,T_t^3).
+\tag{3.11}
+\]
+
+The augmentation ideal is \((T_1,\ldots,T_t)\).  A nonzero monomial has
+exponent at most two in each variable, hence total degree at most \(2t\).
+This proves (3.9).  Normality of \(K\) gives
+\(I_0^r=\Lambda_1J_K^r\), so \(I_0^{2t+1}=0\) as well.  The finite
+geometric-series identity proves (3.10). \(\square\)
+
+This bound removes a search parameter from the first-edge certificate: the
+producer and checker can replay exactly \(2t+1\) ordered powers.  Later
+non-elementary relative kernels require their authenticated nilpotence
+bound or a refined chief-step decomposition.
+
 ## 4. Compatible tower selector
 
 Let
@@ -348,6 +396,7 @@ a right inverse on the whole return-even module.
 POINTED OBSTRUCTION CLASS / LIFT INDEPENDENCE:    PAPER_PROOF
 POINTED HENSEL EQUIVALENCE AND FINITE FORMULA:    PAPER_PROOF
 ROOF-ZERO I*M FAST GATE:                         PAPER_PROOF
+FIRST-FRATTINI INVERSE LENGTH 2t+1:              PAPER_PROOF
 POINTED ALL-RUNG COMPATIBLE SELECTOR:             PAPER_PROOF
 R07 FIRST SUCCESSOR POINTED CLASS:                NOT COMPUTED
 R07 NATURAL ALL-RUNG POINTED ANCESTRY (5.1):      NOT PROVED
