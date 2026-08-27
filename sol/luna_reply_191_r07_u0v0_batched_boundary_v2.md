@@ -217,3 +217,25 @@ BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
 TASK187 LIVE RUN MODIFIED:                     NO
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
+
+## 7. Parent Sol authenticated SELFTEST
+
+Parent Sol's final quoted-preamble GHA SELFTEST is run `33108956198` at
+immutable head `810a0f376675cf2eecb5b82ee1ae6c70d1a21160`.  It completed successfully
+from `2026-08-27T19:32:51Z` to `2026-08-27T19:33:54Z`.  The producer emitted
+`R07_U0V0_BOUNDARY_PREIMAGE_BATCH_V2_PRODUCER_SELFTEST_PASS`, the independent
+checker emitted `R07_U0V0_BOUNDARY_PREIMAGE_BATCH_V2_CHECKER_PASS` with the
+registered SELFTEST terminal, and the GAP driver emitted its matching
+mode-specific PASS terminal.
+
+The downloaded receipt
+`d972_r07_u0v0_boundary_preimage_batch_v2.json` has 47,145 bytes and SHA-256
+`b3346bdaa9ee766359855969978a4cf67e50c9af280bbe9158757c8c95d3159c`.
+The uploaded `gap-run-out` artifact has ID `9661693116`, size 10,154,751 bytes,
+and ZIP digest
+`sha256:e6a588d6e889e0c62ccb32a27942cbddfe1fb06274595fbc563adb9508b38702`.
+
+Thus the bounded SELFTEST implementation is **cross-checked**: the producer
+and independent checker agree and all registered mutation controls are
+rejected.  This does not decide the production boundary membership, does not
+construct a compatible cofinal lift, and is not a Lean verification.
