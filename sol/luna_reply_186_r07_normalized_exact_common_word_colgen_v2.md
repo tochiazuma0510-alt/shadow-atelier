@@ -84,6 +84,11 @@ conjugation line and the checkpoint provenance line; both now use the common
 list sequence, while all other inverse-word uses are variadic operands or
 word multiplications.  No mathematical result was produced.
 
+GHA run `33074324594` is recorded as syntax-only/runtime-contract-only: the
+checker exposed two missing Python continuations before the same checkpoint
+replay literal.  Both occurrences were repaired and the run produced no
+mathematical result.
+
 The current task179 v1 inputs were authenticated before use:
 
 | live v1 file | bytes | SHA-256 |
@@ -160,8 +165,8 @@ The five authorized v2 files are:
 | file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_colgen_v2.py` | 63053 | `ec73db0a474b3b52d69e19862e8185ae22423b2406f3922b5669d9a4e85fafab` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_colgen_v2.py` | 54978 | `59e175054b27e4beab8308579d5c4d72e72df512d627077ddcfbd72e544ed0f5` |
-| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 9585 | `da1f67f737cefba8d27d8f1bc72a5c2697199c1761cb21826f5573e69f24f232` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_colgen_v2.py` | 54982 | `8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488` |
+| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 9585 | `9c48e251843642b7de329cb4b980311d215956094dd931c4facd46ad1bccefb7` |
 | `search/certs/d972_r07_normalized_exact_common_word_colgen_selftest_v2_20260827.json` | 234 | `34dd389d9a3aff50486e57137f8dafea7b14825baec13e3288ed595046940963` |
 | `sol/luna_reply_186_r07_normalized_exact_common_word_colgen_v2.md` | pending final write | pending final write |
 

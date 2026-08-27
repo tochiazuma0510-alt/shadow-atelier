@@ -33,7 +33,7 @@ the receipt and checked independently.
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `18040f4f73fe963632bbd2200e730818a7354c5963143a5871e73b2d1284dbfe` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32825 | `e94d19311d0afe23fde869045f959490528d18e0f3537209e57b7cbefb452b18` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 7547 | `8b81c8f0c15d72492022b610b398602a25d8446ee6854dcb0cd7a56973ba7741` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 7864 | `ae35804c3df6c36ffd0e27251d526a2dae7fa4bd824f69dac872a52c1ab31104` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
@@ -165,6 +165,12 @@ direct `python > logfile 2>&1; cat logfile` execution with `set -e`, explicit
 producer/checker/process/marker stage markers, exact marker gates, and a
 nonempty sentinel write after all gates. This run is a wrapper failure only
 and has no mathematical result.
+
+Dispatch record: GHA run `33074324149` showed the checker PASS line and
+checker-process stage, but the fragile SELFTEST `grep -Fxc` marker gate failed.
+This is a wrapper-only failure with no mathematical result; the SELFTEST gate
+now prints matching marker lines diagnostically, extracts exactly one anchored
+terminal, and compares it to the authenticated SELFTEST terminal string.
 
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA

@@ -58,7 +58,9 @@ if D187Mode="SELFTEST" then
   PrintTo(D187Stream,"python3 -u -B ",D187Checker," ",D187Receipt," --selftest > ",D187CheckerLog," 2>&1\n");
   PrintTo(D187Stream,"cat ",D187CheckerLog,"\n");
   PrintTo(D187Stream,"printf 'R07_U0V0_BOUNDARY_PREIMAGE_V1_STAGE=checker_process\\n'\n");
-  PrintTo(D187Stream,"grep -Fxc 'R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=R07_U0V0_BOUNDARY_PREIMAGE_V1_SELFTEST_PASS' ",D187CheckerLog," | grep -qx 1\n");
+  PrintTo(D187Stream,"grep -n -E '^R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=' ",D187CheckerLog," || true\n");
+  PrintTo(D187Stream,"checker_terminal=$(grep -E '^R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=' ",D187CheckerLog," | sed -E 's/^R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=//'); test $(printf '%s\\n' \"$checker_terminal\" | wc -l) -eq 1\n");
+  PrintTo(D187Stream,"test \"$checker_terminal\" = \"R07_U0V0_BOUNDARY_PREIMAGE_V1_SELFTEST_PASS\"\n");
   PrintTo(D187Stream,"printf 'R07_U0V0_BOUNDARY_PREIMAGE_V1_STAGE=checker_marker\\n'\n");
 else
   PrintTo(D187Stream,"python3 -u -B ",D187Producer," --mode PRODUCTION --output ",D187Receipt,

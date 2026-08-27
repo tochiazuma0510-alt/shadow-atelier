@@ -613,7 +613,7 @@ def check_production(receipt, helper=None):
                             "coarse_inverse_index", "resume_rebuild"] or \
                         rebuild.get("column_provenance_authenticated") is not True or \
                         rebuild.get("stored_columns_replayed_from_zero") is not True or \
-                        rebuild.get("rank_zero_replay_source") !=
+                        rebuild.get("rank_zero_replay_source") != \
                         "authenticated columns/provenance":
                     raise RuntimeError("resume checkpoint retained stale state")
         ncols = receipt.get("normalized_columns")
@@ -809,7 +809,7 @@ def check_production(receipt, helper=None):
                             "coarse_inverse_index", "resume_rebuild"] or \
                         rebuild.get("column_provenance_authenticated") is not True or \
                         rebuild.get("stored_columns_replayed_from_zero") is not True or \
-                        rebuild.get("rank_zero_replay_source") !=
+                        rebuild.get("rank_zero_replay_source") != \
                         "authenticated columns/provenance":
                     raise RuntimeError("resource resume checkpoint retained stale state")
         else:
