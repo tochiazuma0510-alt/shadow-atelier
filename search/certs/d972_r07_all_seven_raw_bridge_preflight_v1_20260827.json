@@ -1,0 +1,80 @@
+{
+  "all_seven_contract": {
+    "base": {
+      "constructor": "construct_base() independent g760",
+      "exponent_sums": [0, 0],
+      "length": 760,
+      "signed_word_sha256": "518f09820b8d7baee6b58ebf366cebf7b02a9a945cd1350cf8c701a4e6bc2b4d"
+    },
+    "blocks": {
+      "H1/E3": {"components": 3, "tag": 1},
+      "H2/E3": {"components": 3, "tag": 2},
+      "P/E4": {"components": 6, "tag": 3}
+    },
+    "correction": {"final_correction": false, "role": "typed formula/canary witness only", "source": "first deterministic nonempty row of complete roster"},
+    "factor_intermediates": 4,
+    "occurrences": {"H1": 3, "H2": 3, "P": 5, "pentagon_order": ["b1", "b2", "b3", "b5^-1", "b4^-1"], "total": 11},
+    "raw_replay": ["direct R(f1)R(g760)^-1", "literal prefix transport", "factor replay"]
+  },
+  "boundaries": {
+    "affine_membership": false,
+    "column_generation": false,
+    "cofinal": false,
+    "fake": false,
+    "final_correction": false,
+    "ihara_witness": false,
+    "lift": false,
+    "orbit_image": false
+  },
+  "caps": {"fox_pairs_minimum": 110, "full_orbit": false, "roster_rows": 6441, "single_process": true, "stacked_solve": false},
+  "context_contract": {
+    "blob_rule": "exact left/right E3 blobs after d_E; names are not evidence",
+    "bridge_ids": {"(u,x)": 24, "(u,y)": 25, "(x,y)": 21, "(x,z)": 22, "(y,z)": 23},
+    "derived": {"u": "inverse(paper_product(y,x))", "z": "inverse(paper_product(x,y))"},
+    "maps": {"deletion_pb4_to_pb3": [1, 2, 0, 3, 0, 0], "insertion_pb4_indices": [1, 2, 4], "required_identity": "d_E(i_E(mark)) == mark for all three marks"},
+    "pentagon_context_ids": [1, 21, 22, 23, 24, 25, 26, 27, 28],
+    "source_pairs": [["x", "y"], ["x", "z"], ["y", "z"], ["u", "x"], ["u", "y"]]
+  },
+  "fox_contract": {
+    "actual_pairs_minimum": 110,
+    "layers": ["gamma_edge", "xy_action", "q0_relator"],
+    "negative_convention_tests": ["right correction", "base sign", "u/z", "inverse prefix", "negative factor order"],
+    "raw_D2_columns": {"PB3": 2, "PB4": 11},
+    "required": ["value=1", "D1=0", "direct conjugate equals full-context left translation"],
+    "slot_minimum": 10,
+    "special": ["H2", "b4^-1", "b5^-1", "same-context/different-conjugator x2", "actual-product additivity"]
+  },
+  "mutation_contract": ["correction_left_right", "corrected_base_sign", "H2_u_z", "inverse_fox_prefix", "negative_pentagon_factor_4", "negative_pentagon_factor_5", "negative_pentagon_order", "coface_slot_1_3_swap", "E3_E4_rank_swap", "E3_E4_blob_swap", "context_name_only_dedup", "dropped_block_tag", "fourth_third_deletion_swap", "fine_insertion_index_4_3_swap", "derived_u_order", "derived_z_order", "one_actual_roster_letter", "actual_product_additivity_term", "terminal_marker"],
+  "pins": {
+    "task175b": {"bytes": 5136, "path": "sol/luna_task_175b_r07_all_seven_raw_bridge_implementation_repair.md", "sha256": "a41f2446fd1c9f0bd60a7189db682784f4e69e24e8958f7c4505cd1eb9741836"},
+    "task175": {"bytes": 8584, "path": "sol/luna_task_175_r07_all_seven_raw_bridge_preflight_v1.md", "sha256": "5d0d8e006c6a752e5a525b188c9d95ba0c858aa69147432e639fe3e735ffefee"},
+    "inventory173": {"bytes": 24283, "path": "sol/luna_reply_173_r07_all_seven_raw_bridge_inventory_v1.md", "sha256": "189a642fc8654f163b0b7964b75043ea393cac31a0b56b84ae0fddf2f73c3695"},
+    "pb3_v121": {"bytes": 5762, "path": "sol/proof_pb3_two_relator_presentation_equality_v121.md", "sha256": "efd51ee51d496543e359704349877523a9d5d4aea686aee97e33c00dd6b84bd5"},
+    "bridge_v122": {"bytes": 7939, "path": "sol/proof_r07_e3_context_kernel_retraction_bridge_v122.md", "sha256": "daadae2bed6a91ded8d3f1abec4d2fb6d379b80706f6387fa12abfd8f29e1348"},
+    "checkpoint_v123": {"bytes": 5017, "path": "sol/audit_r07_all_seven_bridge_checkpoint_v123.md", "sha256": "272aabc882599031c4da0472f8f2340043b32571e8e05ecaa58fc5ad1c6a31ac"},
+    "pb4_v108": {"bytes": 6742, "path": "sol/proof_pb4_eleven_relator_presentation_equality_v108.md", "sha256": "4a228f2b055fae7657ac5ca5b2e242eb05afcb04f6fb75ae79e9e776b3bca42f"},
+    "v172_producer": {"bytes": 21918, "path": "search/d972_r07_full_e4_joint_orbit_preflight_v7.py", "sha256": "92701bb1ed84de9b9aa0fb8a986197f76b86e1f42af83ee18319700be0647eed"},
+    "v172_checker": {"bytes": 12423, "path": "crosscheck/check_d972_r07_full_e4_orbit_preflight_v7.py", "sha256": "e3917ec05b95b8996e3a5cec1cc2bfde51c3ed8c6972175fd9be9e1178205c23"},
+    "v172_cert": {"bytes": 45246709, "path": "search/certs/d972_r07_full_e4_orbit_preflight_v7_20260827.json", "sha256": "86c6f3a72a3f852a1be7c5323bf72c7ad987377fd5483b6e32528fe263e290ff"},
+    "q3_receipt": {"bytes": 231570, "path": "ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.json", "sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"},
+    "157ee_receipt": {"bytes": 2166036, "path": "ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json", "sha256": "1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df"},
+    "g760_source": {"bytes": 33409, "path": "search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py", "sha256": "f8c7fc7f5b5bbfffa0cf147a59313981c5a4b2c6c00504a9f773029097fdde5f"},
+    "joint_source": {"bytes": 67945, "path": "search/d972_b345_joint_kernel_qstar_closure_v1.py", "sha256": "06ba6cf361957db3e339d48d14b3d4fbc689de9642e3f96273fbe8f3160e76dc"},
+    "pb4_source": {"bytes": 444497, "path": "search/d972_b345_target6_dual_colgen_v2.py", "sha256": "b361dc5e7b025bb7efe3507b145e5480c6c67dfecc2e712134a8d521585e73c7"},
+    "old_source": {"bytes": 126942, "path": "search/d972_b345_triple_cube_raw_lambda_census_v1.py", "sha256": "d4a290984ae8a93b6959f06d20c1de037b2814707778fba03c59ac87b2f736db"}
+  },
+  "reason": "task175 forbids local Python/GAP/Node/Git/GHA; parent/GHA must execute serially",
+  "registered_canary": {"direct_joint_identity": "PENDING", "row": "deterministic first nonempty roster row", "same_word": "PENDING", "status": "NOT_EXECUTED"},
+  "roster_contract": {
+    "action_ordinal": "ri*4 + li*2 + (1 if orient=+1 else 2)",
+    "action_tokens": {"+1": [["letter", "li", -1], ["record", "ri", 1], ["letter", "li", 1], ["section", "target", -1]], "-1": [["letter", "li", 1], ["record", "ri", 1], ["letter", "li", -1], ["section", "target", -1]]},
+    "layers": {"gamma_edge": 6318, "q0_relator": 19, "xy_action": 104},
+    "nonempty_required": true,
+    "total": 6441,
+    "word_key": "free-reduced signed integer tuple"
+  },
+  "schema": "d972-r07-all-seven-raw-bridge-preflight/v1",
+  "status": "UNKNOWN_RESOURCE",
+  "terminal": "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD",
+  "unknowns": ["E3_CONTEXT_KERNEL_BRIDGE replay not executed", "PB3/PB4 raw Fox replay not executed", "all 6441 roster and 110+ Fox transcripts not executed", "no positive terminal claimed"]
+}
