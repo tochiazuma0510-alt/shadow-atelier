@@ -386,3 +386,29 @@ Current status is `STATIC GO / repaired SELFTEST and production pending`.
 The final cascade also binds the task175 PB3 repair committed at
 `9ec72d68f3ba99fbfe2d2bebfd5d78e0dcf2deea`; task175 files themselves were
 not edited by task179.
+
+## Repaired import-control SELFTEST PASS and production relaunch
+
+The final repaired bundle passed GHA SELFTEST run `33059348708` at head
+`95601cd88071a2422f5123cc21fac12f391c1ae0`.  The artifact contains the
+exact producer, independent-checker, and driver PASS markers, with all 15
+semantic and all 8 weighted mutations rejected.  The producer receipt and
+independent verdict additionally bind
+
+```text
+same_name_same_path_reused=true
+same_name_cross_path_rejected=true
+second_authenticated_input_call=false
+module_import_double_cross=true
+```
+
+Thus the exact collision class from run `33051754958` is now exercised on
+both routes and rejected at the committed source identities.  This promotes
+the repaired bundle to `SELFTEST PASS`.
+
+Parent launched the fresh production search as run `33059993513` at head
+`3d5bd79e9c4647e1166d5f5c8cd73d4d21889525`.  The task179 machine files at
+that head are byte-identical to the SELFTEST bundle; the intervening commit
+adds only the Sol paper theorem v155.  Production is pending.  No
+`COMMON_WORD`, cofinal lift, fake, or Ihara witness is claimed by the
+dispatch.
