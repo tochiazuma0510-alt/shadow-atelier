@@ -68,8 +68,10 @@ else
   PrintTo(D187Stream,"checker_terminal=$(grep -E '^R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=' ",D187CheckerLog," | sed -E 's/^R07_U0V0_BOUNDARY_PREIMAGE_V1_CHECKER_PASS terminal=//'); test $(printf '%s\\n' \"$checker_terminal\" | wc -l) -eq 1\n");
   PrintTo(D187Stream,"test \"$producer_terminal\" = \"$checker_terminal\"\n");
 fi;
-PrintTo(D187Stream,"touch ",D187OK,"\n"); CloseStream(D187Stream);;
+PrintTo(D187Stream,"printf 'R07_U0V0_BOUNDARY_PREIMAGE_V1_OK\\n' > ",D187OK,"\n"); CloseStream(D187Stream);;
 Exec(Concatenation("bash ",D187Shell));
 if not IsExistingFile(D187OK) then Error("task187 driver: missing completion sentinel"); fi;
+D187Sentinel:=D187Read(D187OK);;
+if D187Sentinel<>"R07_U0V0_BOUNDARY_PREIMAGE_V1_OK\n" then Error("task187 driver: invalid completion sentinel"); fi;
 if D187Mode="SELFTEST" then Print("R07_U0V0_BOUNDARY_PREIMAGE_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=R07_U0V0_BOUNDARY_PREIMAGE_V1_SELFTEST_PASS\n");
 else Print("R07_U0V0_BOUNDARY_PREIMAGE_V1_GHA_DRIVER_PASS mode=PRODUCTION terminal=AUTHENTICATED_CHECKER_TERMINAL\n"); fi;

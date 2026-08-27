@@ -33,7 +33,7 @@ the receipt and checked independently.
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `18040f4f73fe963632bbd2200e730818a7354c5963143a5871e73b2d1284dbfe` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32825 | `e94d19311d0afe23fde869045f959490528d18e0f3537209e57b7cbefb452b18` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6573 | `34ed83db28003082fe7a403e62a1666268d3532077c95615fb5b61bdca24a7fb` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6764 | `75f43cf260bedab81a0f79c4a9189fa86e1d5b9422b1b8c0414efcdfbb223f31` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
@@ -146,6 +146,12 @@ checker rejected the independent toy certificate. This is a checker-certificate
 contract failure only, with no mathematical result; the checker now reports
 the exact mismatching toy receipt or fixture field while retaining strict
 independent equality.
+
+Dispatch record: GHA run `33072786153` passed the producer and independent
+checker SELFTESTs, but the wrapper reported a missing completion sentinel.
+This is a wrapper-sentinel failure only (no production mathematical result);
+the driver now writes a fixed nonempty ASCII sentinel and verifies its exact
+contents before reporting completion.
 
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
