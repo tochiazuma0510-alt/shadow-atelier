@@ -296,6 +296,15 @@ result.  The checker now independently binds logical counters and exact
 counter schemas, allows only the documented physical cache-counter variance,
 and preserves the safe chunk end/rank-zero suffix-only checks.
 
+Parent Sol reran the repaired SELFTEST as GHA run `33105373110` at immutable
+head `46b10b6fb70eff7f16dd2a894956848eec3e174b`.  Producer, helper-nonshared
+checker, and driver all passed.  The 125,192-byte SELFTEST receipt has SHA-256
+`72c1c14a29bac061e208eabc7afcb4a95d640e446750d139104470090db8af53`;
+the uploaded artifact ZIP digest reported by GHA is
+`630698d47982e25583cf60ab3e7fabe572abad7902771f735075b1935b22db75`.
+This cross-checks the bounded cached schedule and its 18/18 outer mutation
+controls; it is not a production correction word or a cofinal result.
+
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO
