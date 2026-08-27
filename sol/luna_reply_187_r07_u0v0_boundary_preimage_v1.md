@@ -191,10 +191,25 @@ GHA SELFTEST run `33075481646`, commit
 independent checker, all driver gates, final sentinel, and artifact upload
 passed. This authenticates the bounded SELFTEST only. Production run
 `33075593185` was then dispatched from the same commit with the registered
-19,800-second and resource caps; it is in progress and has no result yet.
+19,800-second and resource caps.
 
-U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
-V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
+Production run `33075593185` completed successfully at the workflow level.
+Its authenticated mathematical terminal is
+`UNKNOWN_RESOURCE:complete_boundary_correlation:boundary_pairs:8000001>8000000`.
+The independent checker accepted that exact terminal.  At the stop the run
+had retained 28,762 rank-raising columns, used 17,925.4576 seconds and
+2,709,995,520 RSS bytes, and had not reached a decision for either target.
+The 2,279-byte receipt has SHA-256
+`4377e0de2a880dc51d08160d8493212a94b54077a49b0439286b1dcaca68ae34`;
+the uploaded artifact was reported with ZIP digest
+`2add34da5b8c580b0761f1a527f33a288268829f128c79ce2fd3ec6d15b58283`.
+This is a cross-checked resource terminal, not a nonmembership result.
+The v1 run wrote no resumable checkpoint; task191 v2 is the registered
+batched/checkpointed successor rather than a claim that this finite prefix is
+complete.
+
+U0 BOUNDARY PREIMAGE:                       UNKNOWN_RESOURCE (8,000,001 PAIRS)
+V0 BOUNDARY PREIMAGE:                       UNKNOWN_RESOURCE (NO DECISION)
 RAW-TO-NORMALIZED SHORTCUT:                 NOT DECLARED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:     NOT DECLARED
 
