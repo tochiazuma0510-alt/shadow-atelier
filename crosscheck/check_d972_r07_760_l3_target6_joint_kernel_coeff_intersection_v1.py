@@ -100,8 +100,8 @@ TERMINALS = {
 }
 
 # Frozen task-169b exact-transition producer.
-PRODUCER_BYTES = 110979
-PRODUCER_SHA = "8110f6d651fcd7a45df304807a4fa99d642773d405619e3b76a5e587d7200182"
+PRODUCER_BYTES = 111249
+PRODUCER_SHA = "f7d80db6197224b2096d8034e2bccc7f3f62956cc0454727156652131cfaf0c7"
 COEFF_BYTES = 57792
 COEFF_SHA = "7db4e174dec13e2f69f4011b09abcc52320699261b164b5eedb18a53fa64b962"
 JOINT_BYTES = 67945
@@ -1882,9 +1882,13 @@ def mutation_tests(receipt: dict[str, Any],
               "ordered_schreier_words", 0, 0], -1)
     mutation(["registered_joint_domain", "historical_exponent_gate",
               "two_exponent_rows_on_28_schreier_words", 0, 0], 1)
-    mutation(["registered_joint_domain", "RS_abelianization",
-              "word_bearing_first_independent_input_rows", 0,
-              "coefficient_row", 0], 2)
+    coefficient_path = ["registered_joint_domain", "RS_abelianization",
+                        "word_bearing_first_independent_input_rows", 0,
+                        "coefficient_row", 0]
+    coefficient_original = receipt["registered_joint_domain"][
+        "RS_abelianization"]["word_bearing_first_independent_input_rows"][0][
+            "coefficient_row"][0]
+    mutation(coefficient_path, (coefficient_original + 1) % 3)
     mutation(["registered_joint_domain", "RS_abelianization",
               "word_bearing_first_independent_input_rows", 0,
               "source_relation_binding", "157ee_layer"], "q0_relations")

@@ -392,3 +392,34 @@ dispatch status:  in_progress
 This is a fresh execution record.  It does not inherit any mathematical
 result from failed run `33027004847`, and no rank, coefficient intersection,
 lift, fake, or Ihara claim is made while it is running.
+
+## Narrow mutation repair (2026-08-27)
+
+The failed production run `33032405808` exposed one non-rejecting mutation:
+the first RS coefficient mutation assigned the fixed value `2`, which can
+equal the already-pinned F3 coefficient.  The producer now reads that
+coefficient from the authenticated preflight row and assigns
+`(coefficient_original + 1) % 3`.  It therefore changes the load-bearing
+coefficient while retaining the existing `mutate(...)` -> `resign(...)` ->
+`validate_output(...)` semantic path.  No roster, schema, terminal, or
+mathematical scope was changed.  The independent checker mirrors the same
+dynamic coefficient mutation in its 23-way rejection table, while retaining
+its existing `resign(...)` -> `validate_envelope(...)` path.
+
+The producer pin in the checker and both producer/checker pins in the
+task169b bootstrap driver were resealed after this source change:
+
+```text
+111249  f7d80db6197224b2096d8034e2bccc7f3f62956cc0454727156652131cfaf0c7  search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
+ 90234  eb75667b7ebe514bba567aa72f4e558e6d23c9e64e5760865a2d7b0bf7db04fd  crosscheck/check_d972_r07_760_l3_target6_joint_kernel_coeff_intersection_v1.py
+ 26979  4f6a09da1002c3f7d757b7f95a55620ced598d0b488f5045f11a5ca26e2dbd32  search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_gha_preflight_driver_v1.g
+```
+
+Static audit: the producer has exactly one dynamic first-coefficient
+mutation expression `(coefficient_original + 1) % 3`; the checker producer
+bytes/SHA pin equals the producer above; the driver producer and checker pins
+equal the two runtime files above; and no other task169 bundle file was
+edited.  No Python, Node, GAP, git, or GHA command was run.  This repair is
+unexecuted and requires parent-controlled GHA redispatch.
+
+R07_760_JOINT_COEFF_INTERSECTION_V1_COEFFICIENT_MUTATION_REPAIRED_UNEXECUTED

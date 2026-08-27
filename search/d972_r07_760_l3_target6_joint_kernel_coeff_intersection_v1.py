@@ -2283,9 +2283,13 @@ def mutation_tests(preflight: dict[str, Any]) -> int:
             "ordered_schreier_words", 0, 0], -1)
     mutate(["registered_joint_domain", "historical_exponent_gate",
             "two_exponent_rows_on_28_schreier_words", 0, 0], 1)
-    mutate(["registered_joint_domain", "RS_abelianization",
-            "word_bearing_first_independent_input_rows", 0,
-            "coefficient_row", 0], 2)
+    coefficient_path = ["registered_joint_domain", "RS_abelianization",
+                        "word_bearing_first_independent_input_rows", 0,
+                        "coefficient_row", 0]
+    coefficient_original = preflight["registered_joint_domain"][
+        "RS_abelianization"]["word_bearing_first_independent_input_rows"][0][
+            "coefficient_row"][0]
+    mutate(coefficient_path, (coefficient_original + 1) % 3)
     mutate(["registered_joint_domain", "RS_abelianization",
             "word_bearing_first_independent_input_rows", 0,
             "source_relation_binding", "157ee_layer"], "q0_relations")
