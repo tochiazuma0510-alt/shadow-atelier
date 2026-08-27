@@ -80,9 +80,9 @@ parent's pin refresh/bootstrap.
 
 Current identities:
 
-* producer: 37982 bytes, SHA256 `7470762f9eeb62eb84f09c00fb3c0225622c0bce1632e075b4b84e15291a860a`
-* checker: 32037 bytes, SHA256 `89d2a024188cd373e20802f079a946b9c1687ef47bd2a4e985c626568521d639`
-* fixture-generation driver: 9799 bytes, SHA256 `4795d7b2122c12ddb4064d44343e9ee323728a1c8866b415f25d69fcf5c675f2`
+* producer: 37956 bytes, SHA256 `7ec85fe5b359a371e7c7c6b701426c5521d2a9651f560cba0193fa9c34aa2530`
+* checker: 32550 bytes, SHA256 `44808efec9d60a23868d5ed1fadcab8018153c2f3623688f93df54feb4e09bcc`
+* fixture-generation driver: 9799 bytes, SHA256 `473d6051ff2933ecf0ce22ec47a33782da86720f6a4527b2d0534482c28f7c23`
 * fixture: 327 bytes, SHA256 `3bf40c5b6e3635b474674af8cb9a7e477e80481727f01574f4a50cff0c0acb49`
 * task186 checker: 54982 bytes, SHA256 `8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488`
 
@@ -105,6 +105,14 @@ code failure only; no fixture or mathematical result was produced. The
 FIXTURE_GEN producer and all normal SELFTEST/PRODUCTION producer/checker calls
 now use `if ! ...; then cat log; exit 1; fi`; Parent Sol refreshed the driver
 identity above before redispatch.
+
+Fixture bootstrap run `33105005403` at head `a5492bae` failed in producer
+SELFTEST at the crossed-inverse gate. This was a producer SELFTEST code
+failure only; no fixture or mathematical result was produced. The producer
+now preserves the three-byte typed-key prefix (`R`, block, component) and
+acts only on the group blob; the checker independently exercises the same
+prefix-preserving multiply/inverse and rejects wrong-prefix/action mutations.
+Parent Sol refreshed both source pins and the resulting driver identity above.
 
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA

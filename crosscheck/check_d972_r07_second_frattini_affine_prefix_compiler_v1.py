@@ -50,6 +50,14 @@ class E:
 def pm(a,b):return tuple(a[b[i]-1] for i in range(3))
 def tk(comp,g):return b"R\x01"+bytes((comp,))+bytes(g)
 def tl(g,src):return {k:v for k,v in ((tk(c,pm(g,h)),v) for c,h,v in src)}
+def toy_mul(left,right):
+    abase,achain=left; bbase,bchain=right
+    moved={k[:3]+bytes(pm(abase,tuple(k[3:]))):v for k,v in bchain.items()}
+    return pm(abase,bbase),add(achain,moved)
+def toy_inv(value):
+    base,chain=value; ib=tuple(base.index(i)+1 for i in (1,2,3))
+    moved={k[:3]+bytes(pm(ib,tuple(k[3:]))):(-v)%3 for k,v in chain.items()}
+    return ib,moved
 def independent_toy():
     I=(1,2,3);s=(2,1,3);t=(1,3,2); require(pm(s,t)!=pm(t,s),"noncommutative toy product")
     gens={1:s,2:t}
@@ -63,7 +71,8 @@ def independent_toy():
     relators=(fox((1,1)),fox((2,2))); family=[]
     for g in itertools.permutations((1,2,3)):
         for src in relators: family.append({tk(c,pm(g,tuple(k[3:]))):v for k,v in src.items() for c in [k[2]]})
-    chain={tk(1,I):1}; moved={tk(1,s):1}; require(pm(s,s)==I and add(chain,moved),"toy inverse/crossed action")
+    chain={tk(1,I):1,tk(2,I):2}; value=(s,chain); product=toy_mul(value,toy_inv(value)); require(pm(s,s)==I and product==(I,{}),"toy crossed inverse/action")
+    require(toy_mul((s,{}),(t,{}))[0]!=toy_mul((t,{}),(s,{}))[0],"toy crossed noncommutativity")
     inside=family[0]; outside={}; base=I
     for x in (1,2,1,2,1,2):
         key=tk(x,base); outside[key]=(outside.get(key,0)+1)%3; base=pm(base,gens[x])

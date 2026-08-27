@@ -103,10 +103,10 @@ class Affine:
         return tuple(o)
     def mul(self, other):
         # The action is left translation on typed C1 keys.
-        moved={bytes((k[0],k[1]))+bytes(self.pm(self.base,tuple(k[2:]))):v for k,v in other.chain.items()}
+        moved={k[:3]+bytes(self.pm(self.base,tuple(k[3:]))):v for k,v in other.chain.items()}
         return Affine(self.pm(self.base,other.base),add(self.chain,moved))
     def inverse(self):
-        b=self.pi(self.base); moved={bytes((k[0],k[1]))+bytes(self.pm(b,tuple(k[2:]))):(-v)%3 for k,v in self.chain.items()}
+        b=self.pi(self.base); moved={k[:3]+bytes(self.pm(b,tuple(k[3:]))):(-v)%3 for k,v in self.chain.items()}
         return Affine(b,moved)
     def public(self): return {"base":list(self.base),"chain":pub(self.chain)}
 
