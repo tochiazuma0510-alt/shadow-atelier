@@ -1,6 +1,6 @@
 # Luna reply 192 - R07 normalized exact cached column generation v3
 
-Date: 2026-08-28  
+Date: 2026-08-28
 Role: bounded mechanical implementation and static audit only.  No Python,
 Node, GAP, Git, GHA, or network was run locally.
 
