@@ -363,3 +363,32 @@ regression and bootstrap remain unexecuted.  `redispatch=false` and
 `GHA dispatched=false` for this addendum.
 
 R07_760_JOINT_COEFF_GHA_BOOTSTRAP_FIXTURE_REPAIRED_UNEXECUTED
+
+## Parent redispatch record after fixture repair
+
+The repaired bootstrap driver passed its cheap GHA-only static selftest:
+
+```text
+selftest run id:  33032085370
+commit SHA:       1fc4fb195a5b1a398fd49e30190a1986ce8b1a54
+conclusion:       success
+terminal:         R07_760_JOINT_COEFF_GHA_PREFLIGHT_BOOTSTRAP_V1_DRIVER_STATIC_SELFTEST_PASS
+```
+
+After that gate, the parent dispatched the repaired serial preflight lane:
+
+```text
+GHA run id:       33032405808
+workflow:         gap-run.yml
+branch:           sol/r07-explicit-lift-20260825
+commit SHA:       2d605c5dcc85f3e26d7fad27e4a6dc2e1ef46d40
+script:           search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_gha_preflight_driver_v1.g
+mode:             D972_R07_JOINT_COEFF_GHA_PREFLIGHT_BOOTSTRAP_V1_RUN=true
+domain seconds:   5400 per producer/checker domain build
+job timeout:      360 minutes
+dispatch status:  in_progress
+```
+
+This is a fresh execution record.  It does not inherit any mathematical
+result from failed run `33027004847`, and no rank, coefficient intersection,
+lift, fake, or Ihara claim is made while it is running.
