@@ -187,7 +187,7 @@ def fox_contract():
         "slot_minimum": 10,
         "layers": ["gamma_edge", "xy_action", "q0_relator"],
         "special": ["H2", "b4^-1", "b5^-1", "same-context/different-conjugator x2",
-                     "actual-product additivity"],
+                     "actual-product additivity", "base-target/canary separation"],
         "negative_convention_tests": ["right correction", "base sign", "u/z", "inverse prefix",
                                        "negative factor order"],
     }
@@ -205,10 +205,11 @@ def semantic_mutations(base_state, validate):
              "inverse_fox_prefix", "negative_pentagon_factor_4",
              "negative_pentagon_factor_5", "negative_pentagon_order",
              "coface_slot_1_3_swap", "E3_E4_rank_swap", "E3_E4_blob_swap",
-             "context_name_only_dedup", "dropped_block_tag",
-             "fourth_third_deletion_swap", "fine_insertion_index_4_3_swap",
-             "derived_u_order", "derived_z_order", "one_actual_roster_letter",
-             "actual_product_additivity_term", "terminal_marker"]
+              "context_name_only_dedup", "dropped_block_tag",
+              "fourth_third_deletion_swap", "fine_insertion_index_4_3_swap",
+              "derived_u_order", "derived_z_order", "one_actual_roster_letter",
+              "actual_product_additivity_term", "raw_base_target_stacked_confusion",
+              "terminal_marker"]
     jobs = []
     def first_nonempty_row(rows):
         ordered = sorted(rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
@@ -249,6 +250,11 @@ def semantic_mutations(base_state, validate):
     run("derived_z_order", lambda d: d.__setitem__("z_word", list(reversed(d["z_word"]))))
     run("one_actual_roster_letter", lambda d: first_nonempty_row(d["roster"])["word"].__setitem__(0, -int(first_nonempty_row(d["roster"])["word"][0])))
     run("actual_product_additivity_term", lambda d: d["fox"].append({"direct": [], "predicted": [[0, "00", 1]]}))
+    run("raw_base_target_stacked_confusion", lambda d: (
+        d.__setitem__("base_target_source", "stacked_canary_change"),
+        d.__setitem__("base_targets", {
+            name: copy.deepcopy(record["direct"])
+            for name, record in d["raw_changes"].items()})))
     run("terminal_marker", lambda d: d.__setitem__("terminal", "UNKNOWN_RESOURCE:runtime"))
     if not jobs or not all(row["caught"] for row in jobs):
         raise Unknown("UNKNOWN_INPUT:FOX_CANARY:mutation")
@@ -401,7 +407,7 @@ def prefix_formula(old, group_obj, base_factors, corrected_factors, embed):
     for key, coefficient in base_gradient.items():
         result[key] = (result.get(key, 0) - int(coefficient)) % 3
         if not result[key]: del result[key]
-    return result, base_value, corrected_value
+    return result, base_value, corrected_value, base_gradient
 
 
 def roster_provenance(group, row):
@@ -709,18 +715,19 @@ def run_preflight():
             ans[key] %= 3
             if not ans[key]:
                 del ans[key]
-        return ans
-    e3_h1 = change(e3, h1, h1c); e3_h2 = change(e3, h2, h2c)
-    e4_p = change(e4, pword, pword1)
+        return ans, base_grad
+    e3_h1, h1_base_target = change(e3, h1, h1c)
+    e3_h2, h2_base_target = change(e3, h2, h2c)
+    e4_p, p_base_target = change(e4, pword, pword1)
     fxy, fxz, fyz = [old.f2_substitute(g, a, b) for a, b in ((x, y), (x, z), (y, z))]
     fxy1, fxz1, fyz1 = [old.f2_substitute(f1, a, b) for a, b in ((x, y), (x, z), (y, z))]
     fux, fuy = old.f2_substitute(g, u, x), old.f2_substitute(g, u, y)
     fux1, fuy1 = old.f2_substitute(f1, u, x), old.f2_substitute(f1, u, y)
-    h1_prefix, h1_base_value, h1_corrected_value = prefix_formula(old, e3, [fxy, inverse(fxz), fyz], [fxy1, inverse(fxz1), fyz1], lift3)
-    h2_prefix, h2_base_value, h2_corrected_value = prefix_formula(old, e3, [inverse(fux), inverse(fxy), fuy], [inverse(fux1), inverse(fxy1), fuy1], lift3)
+    h1_prefix, h1_base_value, h1_corrected_value, h1_base_prefix = prefix_formula(old, e3, [fxy, inverse(fxz), fyz], [fxy1, inverse(fxz1), fyz1], lift3)
+    h2_prefix, h2_base_value, h2_corrected_value, h2_base_prefix = prefix_formula(old, e3, [inverse(fux), inverse(fxy), fuy], [inverse(fux1), inverse(fxy1), fuy1], lift3)
     p_base_display = [factor_base_words[1], factor_base_words[3], factor_base_words[0], inverse(factor_base_words[2]), inverse(factor_base_words[4])]
     p_corr_display = [factor_words[1], factor_words[3], factor_words[0], inverse(factor_words[2]), inverse(factor_words[4])]
-    p_prefix, p_base_value, p_corrected_value = prefix_formula(old, e4, p_base_display, p_corr_display, lambda w: w)
+    p_prefix, p_base_value, p_corrected_value, p_base_prefix = prefix_formula(old, e4, p_base_display, p_corr_display, lambda w: w)
     if (h1_base_value != e3.eval(h1) or h1_corrected_value != e3.eval(h1c) or
         h2_base_value != e3.eval(h2) or h2_corrected_value != e3.eval(h2c) or
         p_base_value != e4.eval(pword) or p_corrected_value != direct_p):
@@ -735,9 +742,16 @@ def run_preflight():
                 out.append([int(component), old._element_blob(value).hex(), int(coefficient) % 3])
         return sorted(out, key=lambda x: (x[0], bytes.fromhex(x[1])))
     prefix_rows = {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}
+    base_target_rows = {"H1": h1_base_target, "H2": h2_base_target,
+                        "P": p_base_target}
+    base_prefix_rows = {"H1": h1_base_prefix, "H2": h2_base_prefix,
+                        "P": p_base_prefix}
     for name in raw_rows:
-        if serial_row(e3 if name != "P" else e4, raw_rows[name]) != serial_row(e3 if name != "P" else e4, prefix_rows[name]):
+        group_obj = e3 if name != "P" else e4
+        if serial_row(group_obj, raw_rows[name]) != serial_row(group_obj, prefix_rows[name]):
             raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:direct_prefix:" + name)
+        if serial_row(group_obj, base_target_rows[name]) != serial_row(group_obj, base_prefix_rows[name]):
+            raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:base_direct_prefix:" + name)
     # PB3/PB4 column replay is deliberately explicit and checks both value
     # and D1.  PB3 exactness is pinned to v121, PB4 to v108.
     pb4mod = load_source("search/d972_b345_target6_dual_colgen_v2.py", "p175_pb4")
@@ -757,6 +771,9 @@ def run_preflight():
                 for i in range(1, 12))):
         raise Unknown("UNKNOWN_INPUT:FOX_CANARY")
     mutation_raw = {name: {"direct": serial_row(e3 if name != "P" else e4, raw_rows[name]), "prefix": serial_row(e3 if name != "P" else e4, prefix_rows[name])} for name in raw_rows}
+    mutation_base_targets = {
+        name: serial_row(e3 if name != "P" else e4, base_target_rows[name])
+        for name in base_target_rows}
     mutation_pentagon = {"factor_blobs": [old._element_blob(x).hex() for x in factor_values],
                          "ordered_intermediate_blobs": ordered_products,
                          "ordered_factor_indices": [1, 3, 0, 2, 4],
@@ -777,6 +794,8 @@ def run_preflight():
         "deletion": [[1], [2], [], [3], [], []],
         "insertion": [[1], [2], [4]],
         "raw_changes": copy.deepcopy(mutation_raw),
+        "base_target_source": "g760_raw_fox",
+        "base_targets": copy.deepcopy(mutation_base_targets),
         "pentagon": copy.deepcopy(mutation_pentagon),
         "terminal": TERMINAL_READY,
     }
@@ -784,6 +803,10 @@ def run_preflight():
                                   for row in roster])
     expected_pb4 = [digest_obj(repr(sorted(row.items(), key=repr))) for row in pb4]
     expected_raw = copy.deepcopy(mutation_raw)
+    expected_base_targets = copy.deepcopy(mutation_base_targets)
+    expected_base_prefix = {
+        name: serial_row(e3 if name != "P" else e4, base_prefix_rows[name])
+        for name in base_prefix_rows}
     expected_pentagon = copy.deepcopy(mutation_pentagon)
     expected_source_pairs = copy.deepcopy(source_pairs)
     def validate_mutation_state(state):
@@ -824,6 +847,12 @@ def run_preflight():
             raise ValueError("coface map replay")
         if state.get("raw_changes") != expected_raw:
             raise ValueError("raw Fox replay")
+        source = state.get("base_target_source")
+        selected_base_targets = state.get("base_targets")
+        if (source != "g760_raw_fox" or
+                selected_base_targets != expected_base_targets or
+                selected_base_targets != expected_base_prefix):
+            raise ValueError("base target/canary separation")
         pent = state.get("pentagon", {})
         if pent != expected_pentagon:
             raise ValueError("pentagon formula replay")
@@ -895,7 +924,7 @@ def run_preflight():
             "factor_words_corrected": [list(word) for word in factor_words],
         },
         "raw_changes": {k: {"direct": {"row": serial_row(e3 if k != "P" else e4, v), "sha256": digest_obj(serial_row(e3 if k != "P" else e4, v))}, "prefix": {"row": serial_row(e3 if k != "P" else e4, q), "sha256": digest_obj(serial_row(e3 if k != "P" else e4, q))}} for k, (v, q) in {"H1": (e3_h1, h1_prefix), "H2": (e3_h2, h2_prefix), "P": (e4_p, p_prefix)}.items()},
-        "raw_base_targets": {k: {"row": serial_row(e3 if k != "P" else e4, v), "sha256": digest_obj(serial_row(e3 if k != "P" else e4, v))} for k, v in {"H1": h1_base_target, "H2": h2_base_target, "P": p_base_target}.items()},
+        "raw_base_targets": {k: {"row": serial_row(e3 if k != "P" else e4, v), "sha256": digest_obj(serial_row(e3 if k != "P" else e4, v))} for k, v in base_target_rows.items()},
         "raw_values": {"H1": {"base": element_blob(h1_base_value).hex(), "corrected": element_blob(h1_corrected_value).hex()}, "H2": {"base": element_blob(h2_base_value).hex(), "corrected": element_blob(h2_corrected_value).hex()}, "P": {"base": element_blob(p_base_value).hex(), "corrected": element_blob(p_corrected_value).hex()}},
         "pb3": {"count": 2, "d1_zero": True, "all_value_identity": True, "exact_by": "v121",
                 "rows": [serial_row(e3, row) for row in pb3_rows],
@@ -938,7 +967,8 @@ def static_receipt(pin_manifest=None):
                                "context_name_only_dedup", "dropped_block_tag",
                                "fourth_third_deletion_swap", "fine_insertion_index_4_3_swap",
                                "derived_u_order", "derived_z_order", "one_actual_roster_letter",
-                               "actual_product_additivity_term", "terminal_marker"],
+                               "actual_product_additivity_term", "raw_base_target_stacked_confusion",
+                               "terminal_marker"],
         "boundaries": {"orbit_image": False, "column_generation": False, "affine_membership": False,
                        "final_correction": False, "lift": False, "cofinal": False,
                        "fake": False, "ihara_witness": False},

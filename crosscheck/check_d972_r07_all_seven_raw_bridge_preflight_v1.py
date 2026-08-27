@@ -33,8 +33,11 @@ MUTATION_NAMES = [
     "context_name_only_dedup", "dropped_block_tag",
     "fourth_third_deletion_swap", "fine_insertion_index_4_3_swap",
     "derived_u_order", "derived_z_order", "one_actual_roster_letter",
-    "actual_product_additivity_term", "terminal_marker",
+    "actual_product_additivity_term", "raw_base_target_stacked_confusion",
+    "terminal_marker",
 ]
+LEGACY_FIXTURE_MUTATION_NAMES = [
+    name for name in MUTATION_NAMES if name != "raw_base_target_stacked_confusion"]
 
 # Authentication pins are data pins.  No source loader exists in this file.
 PINS = {
@@ -1118,6 +1121,13 @@ def reconstruct(cert: dict[str, Any], mutation: str | None = None):
     fxy, fxz, fyz = f2_substitute(g, x, y), f2_substitute(g, x, z), f2_substitute(g, y, z); fxy1, fxz1, fyz1 = f2_substitute(f1, x, y), f2_substitute(f1, x, z), f2_substitute(f1, y, z); fux, fuy = f2_substitute(g, h2_u, x), f2_substitute(g, h2_u, y); fux1, fuy1 = f2_substitute(f1, h2_u, x), f2_substitute(f1, h2_u, y)
     h1_prefix, h1_prefix_bv, h1_prefix_cv = prefix_difference(e3, [fxy, inverse(fxz), fyz], [fxy1, inverse(fxz1), fyz1], embed_pb3, mutation == "inverse_fox_prefix"); h2_prefix, h2_prefix_bv, h2_prefix_cv = prefix_difference(e3, [inverse(fux), inverse(fxy), fuy], [inverse(fux1), inverse(fxy1), fuy1], embed_pb3)
     p_prefix, p_prefix_bv, p_prefix_cv = prefix_difference(e4, [factor_words_base[1], factor_words_base[3], factor_words_base[0], inverse(factor_words_base[2]), inverse(factor_words_base[4])], [factor_words_corr[1], factor_words_corr[3], factor_words_corr[0], inverse(factor_words_corr[2]), inverse(factor_words_corr[4])])
+    h1_base_prefix, h1_base_prefix_value = product_gradient(
+        e3, [fxy, inverse(fxz), fyz], embed_pb3)
+    h2_base_prefix, h2_base_prefix_value = product_gradient(
+        e3, [inverse(fux), inverse(fxy), fuy], embed_pb3)
+    p_base_prefix, p_base_prefix_value = product_gradient(
+        e4, [factor_words_base[1], factor_words_base[3], factor_words_base[0],
+             inverse(factor_words_base[2]), inverse(factor_words_base[4])])
     if mutation == "inverse_fox_prefix":
         canonical_prefix, _, _ = prefix_difference(e3, [fxy, inverse(fxz), fyz], [fxy1, inverse(fxz1), fyz1], embed_pb3)
         if h1_prefix == canonical_prefix:
@@ -1130,19 +1140,35 @@ def reconstruct(cert: dict[str, Any], mutation: str | None = None):
             fail(UNKNOWN_FOX, "H2 u/z mutation cancelled")
     if (h1_prefix_bv != e3.eval(h1_base) or h1_prefix_cv != e3.eval(h1_corr) or
             h2_prefix_bv != e3.eval(h2_base) or h2_prefix_cv != e3.eval(h2_corr) or
-            p_prefix_bv != e4.eval(pentagon_word(g)) or p_prefix_cv != e4.eval(pentagon_word(f1))):
+            p_prefix_bv != e4.eval(pentagon_word(g)) or p_prefix_cv != e4.eval(pentagon_word(f1)) or
+            h1_base_prefix_value != e3.eval(h1_base) or
+            h2_base_prefix_value != e3.eval(h2_base) or
+            p_base_prefix_value != e4.eval(pentagon_word(g))):
         fail(UNKNOWN_RAW, "prefix quotient value")
     for label, direct, prefix in (("H1", h1_direct, h1_prefix),
                                   ("H2", h2_direct, h2_prefix),
                                   ("P", p_direct, p_prefix)):
         if serial_row(direct) != serial_row(prefix):
             fail(UNKNOWN_RAW, "direct/prefix formula " + label)
+    canonical_base_targets = {"H1": h1_base_target, "H2": h2_base_target,
+                              "P": p_base_target}
+    base_prefix_targets = {"H1": h1_base_prefix, "H2": h2_base_prefix,
+                           "P": p_base_prefix}
+    if mutation == "raw_base_target_stacked_confusion":
+        confused = {"H1": h1_direct, "H2": h2_direct, "P": p_direct}
+        if all(serial_row(confused[label]) == serial_row(canonical_base_targets[label])
+               for label in canonical_base_targets):
+            fail(UNKNOWN_RAW, "base-target/canary mutation cancelled")
+        canonical_base_targets = confused
+    for label in ("H1", "H2", "P"):
+        if serial_row(canonical_base_targets[label]) != serial_row(base_prefix_targets[label]):
+            fail(UNKNOWN_RAW, "base target direct/prefix " + label)
     pb3_rows, pb4_rows, pb3_digests, pb4_digests = build_d2(e3, e4); fox_replay = canaries(e3, e4, rows, mutation)
     block_tags = [1, 2, 3]
     if mutation == "dropped_block_tag":
         block_tags[0] = 0
     stacked = sorted([[tag, component, blob, coefficient] for tag, row in zip(block_tags, (h1_direct, h2_direct, p_direct)) for component, blob, coefficient in serial_row(row)], key=lambda row: (row[0], row[1], bytes.fromhex(row[2])))
-    return {"q3": q3, "e3": e3, "e4": e4, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, correction_row), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {"H1": {"row": serial_row(h1_base_target), "sha256": digest_obj(serial_row(h1_base_target))}, "H2": {"row": serial_row(h2_base_target), "sha256": digest_obj(serial_row(h2_base_target))}, "P": {"row": serial_row(p_base_target), "sha256": digest_obj(serial_row(p_base_target))}}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
+    return {"q3": q3, "e3": e3, "e4": e4, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, correction_row), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {label: {"row": serial_row(canonical_base_targets[label]), "sha256": digest_obj(serial_row(canonical_base_targets[label]))} for label in ("H1", "H2", "P")}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
 
 
 def compare_ready(cert, obj):
@@ -1288,6 +1314,7 @@ def mutation_suite(cert, canonical):
                     "derived_z_order": "derived_z_order",
                     "one_actual_roster_letter": "actual_roster_letter",
                     "actual_product_additivity_term": "actual_product_additivity_term",
+                    "raw_base_target_stacked_confusion": "raw_base_target_stacked_confusion",
                 }.get(name)
                 if variant is None:
                     fail(UNKNOWN_FOX, "unmapped semantic mutation " + name)
@@ -1314,7 +1341,11 @@ def validate_static(cert):
         fail(UNKNOWN_RAW, "roster contract")
     if cert.get("all_seven_contract", {}).get("occurrences", {}).get("total") != 11: fail(UNKNOWN_RAW, "occurrence contract")
     if cert.get("fox_contract", {}).get("actual_pairs_minimum") != 110: fail(UNKNOWN_FOX, "Fox contract")
-    if cert.get("mutation_contract") != MUTATION_NAMES: fail(UNKNOWN_FOX, "mutation contract")
+    mutation_contract = cert.get("mutation_contract")
+    if (mutation_contract != MUTATION_NAMES and not
+            (terminal == "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD" and
+             mutation_contract == LEGACY_FIXTURE_MUTATION_NAMES)):
+        fail(UNKNOWN_FOX, "mutation contract")
     if any(value is not False for value in cert.get("boundaries", {}).values()): fail(UNKNOWN_RAW, "boundary")
     if terminal == "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD" and cert.get("status") != "UNKNOWN_RESOURCE": fail("UNKNOWN_RESOURCE", "fixture status")
     return {"terminal": terminal, "pins": len(PINS), "independent_reconstruction": "NOT_EXECUTED_BY_LOCAL_GUARD"}
