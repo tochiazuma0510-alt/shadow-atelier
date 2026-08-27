@@ -249,3 +249,58 @@ dispatch status:  in_progress
 No order, projection, target6 solution, lift, fake, or Ihara claim is made
 while that run is in progress.  A resource terminal will remain a bounded
 UNKNOWN rather than being promoted to an order statement.
+
+## 10. Full-run terminal and exact bounded result
+
+Full run `33031673980` completed successfully at the workflow/driver level
+and returned the typed resource terminal
+
+```text
+R07_TARGET6_CONTEXT_IMAGE_CENSUS_UNKNOWN_RESOURCE
+grade = CROSS_CHECKED_BOUNDED_PREFIX_UNKNOWN
+resource reason = state_cap
+```
+
+The producer stopped before inserting the next novel state at the registered
+2,000,000-state cap.  The helper-nonshared checker independently replayed the
+exact bounded prefix, including the next attempted novel state and the
+cursor-bound pending-frontier digest.  The authenticated bounded fields are:
+
+```text
+seen_state_count       2,000,000
+cursor.state_id        1,171,439
+cursor.generator_index 1
+next_positive_letter   2
+frontier_count         828,561
+pending_task_count     1,657,121
+producer elapsed       101 seconds
+checker elapsed        88 seconds
+```
+
+The exact executed artifacts are:
+
+```text
+83048714  329b583175cf3e35fdc52f424f9f1d0efbb9adde6cf35247b8d93a3c1d4c5668  d972_r07_target6_context_image_census_v1.json
+     845  3332ff2ce5ab036e4216490deb7c89530198a3c0a61bbcee33fd9cfc003b2275  d972_r07_target6_context_image_census_crosscheck_v1.json
+     314  03052ed637e71b305aca31dc6931779c1f998a2817fb07aa5c34f38b513d9127  d972_r07_target6_context_image_census_timing_v1.txt
+```
+
+Because the checker also confirms that the cap-triggering attempted state is
+not among the two million retained literal keys, this receipt gives the
+cross-checked lower bound
+
+```text
+|Delta_E| >= 2,000,001
+6441*|Delta_E| >= 12,882,006,441
+```
+
+It gives no exact order and no coordinate/pair projection census.  In
+particular, direct `6441*|Delta_E|` streaming is now ruled out as the next
+reasonable route for this pinned context.  The extension-section / support-
+fibre reduction of v120/v125 is the appropriate successor; merely increasing
+the BFS cap is not promoted.
+
+No target6 solution, all-seven solution, correction, cofinal lift, fake, or
+Ihara witness follows from this bounded-prefix result.
+
+R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_CROSS_CHECKED_BOUNDED_PREFIX_UNKNOWN
