@@ -152,6 +152,20 @@ and aliases its already independent sorted encoder under the production
 name. This is a checker code failure with no mathematical result; no receipt
 gate is weakened.
 
+GHA SELFTEST run `33108592657` at immutable head
+`910b0f928a69e8ade8aac1c5a249524474854500` then completed successfully.
+The producer SELFTEST, independent checker terminal, and driver terminal each
+occur exactly once. The downloaded receipt is 1,520 bytes, SHA256
+`7aa53aaac6739f0071b1949903916e9c2e4219701be4059b4ba616337bcc6deb`;
+the checker log is 128 bytes, SHA256
+`4c7397d4bd5cf1015128afc5dc40a7d348cec567332ce70a53a7ce2ff5b9696e`.
+GitHub artifact id `9661542768` has ZIP digest
+`a5e3abf2100038c779131334235c2812954107c8ac73b2427d7d5cd0a51c6dcc`.
+This promotes only the bounded task193 SELFTEST to cross-checked status. It
+does not construct the actual second-rung residual, because production still
+requires an independently accepted positive task186/task192 exact-word
+receipt.
+
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA
 SECOND-RUNG MEMBERSHIP / CORRECTION:           NOT ATTEMPTED
