@@ -28,7 +28,7 @@ self-referential.
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 91,677 | `6a3d248d8cedb6f662770fb60b7a5e7732f9cd89ecb87382908934d00f675b79` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 8,855 | `d04ce3de1d4a4df704b6711a51c11520d290b56ce7d06e22835270a576d04223` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `3c2a346a95de80a295782455b32e9853f5dd0bfda356614783e25417d2b16803` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
@@ -133,9 +133,12 @@ all literal row checks remain complete and unsampled.
 No GHA run or production decision is claimed by Luna.  Parent Sol owns audit,
 execution, and brokerage.
 
-Parent Sol dispatched the bounded batched SELFTEST as GHA run `33103769264`
-at immutable head `bc81fb2c7104c778b834f4cf700604fdc877cc2d`.
-It was queued at 2026-08-27T18:30:04Z; no result is claimed while pending.
+Parent audit run `33103769264` at immutable head
+`bc81fb2c7104c778b834f4cf700604fdc877cc2d` exposed a hidden
+producer/checker code failure: `set -e` stopped the generated shell before
+its diagnostic `cat`, leaving only a missing sentinel.  No math result or
+exact failing stage was obtained.  Both driver modes now expose the failed
+log before exiting.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
