@@ -34,7 +34,7 @@ EXPECTED_Q0 = 1_469_664
 EXPECTED_GAMMA = 243
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "65feb6a88b95deb990f6bd435775d2af447b838b72cd4bb31b0a56e260cc3524"
+PRODUCER_SHA256 = "6a6c7c46f958d419da53c0fd207208a51db4a0ac7ea0ea50f3078feb6667c5f8"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -104,6 +104,24 @@ class Reject(RuntimeError):
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise Reject(message)
+
+
+def canonical_packed_permutation(value: Any, degree: int, label: str) -> bytes:
+    require(type(value) is bytes, f"{label} packed-bytes type")
+    require(len(value) == degree and set(value) == set(range(degree)),
+            f"{label} packed permutation")
+    return value
+
+
+def packed_permutation_selftest() -> int:
+    identity = bytes(range(4))
+    require(canonical_packed_permutation(identity, 4, "selftest identity") == identity,
+            "packed permutation positive selftest")
+    try:
+        canonical_packed_permutation(tuple(range(4)), 4, "selftest tuple identity")
+    except Reject:
+        return 2
+    raise Reject("tuple permutation representation accepted")
 
 
 def canonical(value: Any) -> bytes:
@@ -484,11 +502,14 @@ def verify_complete(receipt: dict[str, Any]) -> dict[str, Any]:
             qpub["lossless_image_section_primitive"] ==
             "for every Q0 state q, parent/letter decodes s(q) and its ten literal values; pair with any A-table Gamma index",
             "lossless section decoder")
-    q0_marked = [old.perm_from_row(row, 36)
+    q0_marked = [canonical_packed_permutation(old.perm_from_row(row, 36), 36,
+                                              "Q0 marked generator")
                  for row in q3["coarse_models"]["Q0"]["marked_permutations"]]
     q0_relators = qpub["complete_presentation_relators"]
+    q0_identity = canonical_packed_permutation(old.perm_one(36), 36, "Q0 identity")
     require(len(q0_relators) == 19 and
-            all(old.eval_perm_word(word, q0_marked) == tuple(range(36))
+            all(canonical_packed_permutation(old.eval_perm_word(word, q0_marked), 36,
+                                             "Q0 relator value") == q0_identity
                 for word in q0_relators) and
             sha_obj(q0_relators) == qpub["complete_presentation_relators_sha256"] ==
             joint_receipt["q0_presentation"]["complete_relators_sha256"] and
@@ -1195,6 +1216,8 @@ def run(args: argparse.Namespace) -> int:
         result = validate_receipt_chain(fixture)
         require(result["terminal"] == UNKNOWN_RESOURCE and
                 fixture["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture")
+        perm_type_checks = packed_permutation_selftest()
+        require(perm_type_checks == 2, "packed permutation selftest count")
         reject_checks = reject_terminal_selftest()
         require(reject_checks == 3, "Reject terminal selftest count")
         attempted, rejected = mutation_suite()
@@ -1202,6 +1225,7 @@ def run(args: argparse.Namespace) -> int:
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS "
               f"mutation_attempted={attempted} mutation_rejected={rejected} "
               f"reject_envelope_checks={reject_checks} "
+              f"perm_type_checks={perm_type_checks} "
               "linked_nonabelian_order=54", flush=True)
         return 0
     require(args.receipt and args.verdict, "production arguments")

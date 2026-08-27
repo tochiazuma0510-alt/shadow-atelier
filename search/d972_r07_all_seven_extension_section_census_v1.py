@@ -110,6 +110,24 @@ def require(condition: bool, message: str) -> None:
         raise Reject(message)
 
 
+def canonical_packed_permutation(value: Any, degree: int, label: str) -> bytes:
+    require(type(value) is bytes, f"{label} packed-bytes type")
+    require(len(value) == degree and set(value) == set(range(degree)),
+            f"{label} packed permutation")
+    return value
+
+
+def packed_permutation_selftest() -> int:
+    identity = bytes(range(4))
+    require(canonical_packed_permutation(identity, 4, "selftest identity") == identity,
+            "packed permutation positive selftest")
+    try:
+        canonical_packed_permutation(tuple(range(4)), 4, "selftest tuple identity")
+    except Reject:
+        return 2
+    raise Reject("tuple permutation representation accepted")
+
+
 def canonical(value: Any) -> bytes:
     return json.dumps(value, sort_keys=True, separators=(",", ":"),
                       ensure_ascii=True).encode("ascii")
@@ -607,11 +625,14 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
             gamma.public()["state_rows_sha256"] == joint_receipt["gamma"]["state_rows_sha256"],
             "Gamma reconstruction")
     fine, fine_public = build_fine_deletion(e3, e4, budget)
-    q0_marked = [old.perm_from_row(row, 36)
+    q0_marked = [canonical_packed_permutation(old.perm_from_row(row, 36), 36,
+                                              "Q0 marked generator")
                  for row in q3["coarse_models"]["Q0"]["marked_permutations"]]
     q0_relators = jointmod.complete_relators(old)
+    q0_identity = canonical_packed_permutation(old.perm_one(36), 36, "Q0 identity")
     require(len(q0_relators) == 19 and
-            all(old.eval_perm_word(word, q0_marked) == tuple(range(36))
+            all(canonical_packed_permutation(old.eval_perm_word(word, q0_marked), 36,
+                                             "Q0 relator value") == q0_identity
                 for word in q0_relators) and
             sha_obj(q0_relators) == joint_receipt["q0_presentation"]["complete_relators_sha256"],
             "complete Q0 presentation replay")
@@ -890,7 +911,10 @@ def run(args: argparse.Namespace) -> int:
         validate_envelope(receipt)
         require(receipt["terminal"] == UNKNOWN_RESOURCE and
                 receipt["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture semantics")
-        print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS", flush=True)
+        perm_type_checks = packed_permutation_selftest()
+        require(perm_type_checks == 2, "packed permutation selftest count")
+        print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS "
+              f"perm_type_checks={perm_type_checks}", flush=True)
         return 0
     require(args.run_census and args.output, "production arguments")
     receipt = base_receipt()

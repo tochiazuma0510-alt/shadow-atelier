@@ -4,32 +4,43 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-Disposition is **SELFTEST COMPLETE / PRODUCTION RUNNING**.  GHA SELFTEST run
-`33038004295` at head
-`abac045ac8ee38e853c8970c9c2c628ebb64b9fa` completed successfully.  In its
-`run.log`, each of the three contractual lines occurs exactly once:
+Disposition is **PRODUCTION TYPED UNKNOWN_INPUT / FIRST GATE REPAIRED /
+RE-SELFTEST PENDING**.  GHA PRODUCTION run `33038109917` at head
+`abac045ac8ee38e853c8970c9c2c628ebb64b9fa` terminated normally with typed
+`UNKNOWN_INPUT`.  Its three exact terminal lines agree:
 
 ```text
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 linked_nonabelian_order=54
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_TERMINAL R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_PASS terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=PRODUCTION terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT
 ```
 
-The driver line is one physical line with no GAP continuation or newline
-fold.  This supersedes the former UNKNOWN status of both coordinated repairs:
-the external child-shell `printf` sentinel and the typed Reject-envelope
-selftest have now passed their bounded GHA contract.  The downloaded artifact
-is at
-`%TEMP%\task176_selftest_33038004295_debf6d67540a4ba5b7e24a2c1080c728`.
+The receipt has SHA-256
+`c969abc8a4f38545c40c06491f8a5889ff7b8d4e8825374a4a79a437c4ed3eb7`
+and exact reason `CENSUS_REJECT:complete Q0 presentation replay`; the verdict
+SHA-256 is
+`b78364618b5f9c743bd28160f91678329c7a651bfbb003d19d75cac380eb051a`.
+Producer/checker times were 26/0 seconds.  The artifact is at
+`%TEMP%\task176_prod_33038109917_a407c4d787784db48a86617fb26b9f20`.
+No order or COMPLETE result was emitted.
 
-PRODUCTION run `33038109917` was dispatched from the same head with a
-360-minute workflow timeout and is queued at the time of this report.  It has
-not yet returned any mathematical terminal, receipt, order, or runtime.  No
-local Python, Node, GAP, git, GHA dispatch, or production command was run while
-making this report update.
+The first failed gate is diagnosed exactly.  Frozen task176 arithmetic defines
+`Perm = bytes`; `old.perm_from_row` converts the 1-based receipt row to 0-based
+packed `bytes`, while both `old.perm_one(36)` and `old.eval_perm_word` return
+that same type.  The failed gate instead compared the evaluated bytes with
+`tuple(range(36))`, so equality was false solely because `bytes != tuple`.
+The task157ee helper `p_eval` is a separate 1-based tuple model and is not used
+for this gate.  The repair substitutes the canonical `old.perm_one(36)` and
+adds an explicit packed-permutation validator to the producer and independent
+checker real paths.  Their SELFTESTs accept canonical bytes and reject the
+equal-entry tuple through that same validator (`perm_type_checks=2`).
 
-There is no currently identified `UNKNOWN_INPUT` obstruction.  The frozen
-task157ee shelf contains enough data to reconstruct both required objects:
+The prior SELFTEST run `33038004295` remains the successful audit of the
+preceding bundle, but the new type guard and marker require one bounded
+re-SELFTEST before another PRODUCTION dispatch.  No local Python, Node, GAP,
+git, GHA dispatch, or production command was run while diagnosing and making
+this repair.  The frozen task157ee shelf otherwise contains enough data to
+reconstruct both required objects:
 
 - the 1,469,664-state Q0 discovery roster and a deterministic positive
   `x,y` first-seen section, encoded losslessly by one shared parent/letter
@@ -47,9 +58,9 @@ subsequent external SELFTEST and PRODUCTION runs recorded above.
 
 ```text
 bytes  SHA-256                                                           path
-45282  65feb6a88b95deb990f6bd435775d2af447b838b72cd4bb31b0a56e260cc3524  search/d972_r07_all_seven_extension_section_census_v1.py
-63086  f140fadcedba523fcd718cdb6951c75919d59db1988bfc3d64ca199c87464d06  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-15296  6a3ad93d4806af470d4e0a51b7a8cf07bfb188020446378a24390ab2612b2122  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+46433  6a6c7c46f958d419da53c0fd207208a51db4a0ac7ea0ea50f3078feb6667c5f8  search/d972_r07_all_seven_extension_section_census_v1.py
+64237  bd143dedc86e5d012ab51762a2522ed6894b9ab4d7dfbe91695de1dca22c4779  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+15372  b3b53ff3ff33a167e2018c8318ab35759334d4d9f3276b0f7a3383eb5e01cfc2  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -113,6 +124,27 @@ Q0 roster, 7,348,320-byte parent/letter data, and eleven L bitsets, the
 unboxed fixed-width payload is about 1.386 GiB.  Python dictionaries, pc
 caches, subgroup closures, compression, and the temporary equality index
 raise the conservative producer/checker peak estimate to 4.5--5.8 GiB.
+
+### First production gate repair: packed Q0 identity
+
+Run `33038109917` stopped before Q0 enumeration at the 19-relator replay.
+The relator words and their digest were not contradicted.  The comparison used
+two unequal Python container types for the same entries: the frozen evaluator
+returned 0-based packed `bytes`, while the literal identity was a tuple.  The
+repair now:
+
+1. requires both marked Q0 generators returned by `old.perm_from_row` to be
+   canonical packed permutations;
+2. obtains the identity from `old.perm_one(36)`;
+3. requires every `old.eval_perm_word` result to have the same packed type and
+   degree before comparing it with that identity; and
+4. mirrors these checks independently in the checker.
+
+`canonical_packed_permutation` uses exact `type(value) is bytes`, degree, and
+bijectivity gates.  The producer and checker each call this real-path helper in
+a two-case SELFTEST: canonical bytes must pass and `tuple(range(4))` must raise
+`Reject`.  This is a representation correction only; no relator, generator,
+group law, order, digest, or mathematical acceptance criterion changed.
 
 ### Production exception boundary
 
@@ -187,8 +219,9 @@ prefix.  Its selftest now constructs and reseals one componentwise typed
 no-order grade separately, then reseals two reason mutations: a generic
 `ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
 rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
-The exact checker marker therefore adds `reject_envelope_checks=3` while the
-original destructive mutation count remains 15/15.
+The current exact checker marker carries both `reject_envelope_checks=3` and
+`perm_type_checks=2`, while the original destructive mutation count remains
+15/15.  The producer marker independently carries `perm_type_checks=2`.
 
 ## 5. Driver and exact terminals
 
@@ -214,7 +247,8 @@ For `UNKNOWN_INPUT`, the driver additionally requires exactly one registered
 reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
 empty prefixed reason, and requires producer/checker/verdict terminal
 agreement.  Its SELFTEST exact-line gate now includes
-`reject_envelope_checks=3`.
+`reject_envelope_checks=3` and both producer/checker
+`perm_type_checks=2` markers.
 
 ### GHA formatting failures and repairs
 
@@ -266,11 +300,13 @@ child script before its first execution, so it covers the new emitter branch
 as well.  The final emitter is invoked only after the semantic audits, so an
 earlier failure cannot print a false PASS.
 
-Run `33038004295` confirms this final design: producer PASS, the expanded
-checker PASS, and the exact unwrapped driver PASS each occur once.  In
+Run `33038004295` confirmed the pre-identity-fix design: producer PASS, the
+expanded Reject-envelope checker PASS, and the exact unwrapped driver PASS
+each occurred once.  In
 particular, `reject_envelope_checks=3` confirms acceptance of the well-typed
 Reject receipt and rejection of both malformed reason mutations through the
-independent checker path.  The bounded SELFTEST gate is therefore complete.
+independent checker path.  The newly added packed-permutation checks remain
+pending one re-SELFTEST.
 
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
@@ -280,7 +316,7 @@ that estimate, are authoritative.  An exceeded producer budget is a typed
 `UNKNOWN_RESOURCE`, never an order.  A missing required serialization is a
 typed `UNKNOWN_INPUT`.
 
-Active production workflow record:
+Completed production workflow record:
 
 ```text
 run_id:       33038109917
@@ -289,24 +325,32 @@ script:       search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
 out_dir:      ci/out
 timeout_min:  360
 with_pquot_packages: false
-state:        queued at report time
+state:        completed typed UNKNOWN_INPUT
+reason:       CENSUS_REJECT:complete Q0 presentation replay
 ```
 
-The exact SELFTEST sentinel gate was satisfied before this PRODUCTION dispatch.
-No production terminal may be inferred from the queued state.
+Required bounded re-SELFTEST preamble for the repaired bundle:
 
-## 6. Audit, completed SELFTEST, and remaining production gates
+```gap
+D972_R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_MODE:=List([83,69,76,70,84,69,83,84],CharInt);;
+```
+
+Use the same driver, `out_dir=ci/out`, `timeout_min=60`, and
+`with_pquot_packages=false`.  Do not redispatch PRODUCTION until the new
+producer/checker markers and the exact one-line driver sentinel all pass.
+
+## 6. Audit, typed production stop, and pending re-SELFTEST
 
 Repair-specific source evidence is fixed at these lines:
 
-- producer lines 29--31 register the two nonempty typed input prefixes, lines
-  190--224 validate the envelope, lines 884--914 implement the narrow
-  production exception conversion, and lines 930--936 retain the outer hard
-  STOP for `Reject` outside that block and programming exception classes;
-- checker lines 30--37 independently register the prefixes and pin the new
-  producer, lines 169--200 validate the envelope componentwise, lines
-  1113--1135 exercise the typed Reject terminal and two reason mutations, and
-  lines 1138--1182 retain the fifteen production-shaped semantic mutations;
+- producer lines 113--128 define and selftest the packed-permutation contract,
+  lines 628--638 apply it to the real Q0 relator replay, lines 906--918 expose
+  the new bounded SELFTEST marker, lines 919--938 preserve the narrow typed
+  production conversion, and lines 954--960 retain programming hard STOPs;
+- checker lines 30--37 pin the new producer, lines 109--124 independently
+  define/selftest the packed-permutation contract, lines 505--518 apply it to
+  the real receipt validator, lines 1134--1156 retain the typed Reject-envelope
+  tests, and lines 1212--1230 expose all current SELFTEST markers;
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
   lines 112--149 enforce terminal envelopes including the nonempty typed
   `UNKNOWN_INPUT` reason, lines 158--207 perform lossless unformatted shell
@@ -320,6 +364,9 @@ Repair-specific source evidence is fixed at these lines:
 Only PowerShell read/hash/schema scans were used during this repair.  They
 found:
 
+- the downloaded run `33038109917` receipt matches the recorded
+  `c969abc8...` SHA-256, typed reason, 26/0-second timing, and all three
+  agreeing external terminals;
 - all fourteen producer and checker predecessor pins match current exact
   bytes/SHA-256;
 - all seventeen driver pins (three runtime files plus fourteen predecessors)
@@ -330,6 +377,8 @@ found:
 - producer, checker, driver, and fixture contain zero non-ASCII bytes and no
   unresolved substitution marker;
 - the revised driver contains zero literal `backslash + newline` pairs;
+- the repaired relator gates contain no tuple identity and use only the
+  canonical packed identity returned by frozen `old.perm_one(36)`;
 - the producer's receipt-producing `try` catches `Reject` but not generic
   `TypeError`, `ValueError`, or `KeyError`; those remain in the hard-STOP outer
   guard, while only the explicitly named JSON parser exception is typed input;
@@ -343,14 +392,18 @@ all fifteen mutation rejections, and the repaired child shell.  Run
 `OutputTextUser()` does not suppress the GHA console wrap.  Finally, run
 `33038004295` on head `abac045ac8ee38e853c8970c9c2c628ebb64b9fa`
 establishes the expanded checker's 15/15 mutations, all three Reject-envelope
-checks, and the exact one-line external driver sentinel.  The former SELFTEST
-UNKNOWN is superseded: **SELFTEST COMPLETE**.
+checks, and the exact one-line external driver sentinel for that preceding
+bundle.  Production run `33038109917` then returns the typed first-gate
+`UNKNOWN_INPUT` documented above; producer/checker/driver terminal agreement
+and receipt/verdict hashes are complete.  Its failure is not an order or a
+nonexistence result.
 
-Production run `33038109917` is **PRODUCTION RUNNING** (queued at this report's
-snapshot).  Its exact Q0 completion, terminal, orders, receipt/verdict hashes,
-runtime, RSS, and artifact size remain UNKNOWN until that run terminates.
+The canonical packed-identity repair and `perm_type_checks=2` markers are
+currently **RE-SELFTEST PENDING**.  Q0 completion, orders, runtime beyond the
+first repaired gate, and a COMPLETE receipt remain UNKNOWN until a repaired
+bundle passes SELFTEST and is dispatched again.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_SELFTEST_COMPLETE_PRODUCTION_RUNNING
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_FIRST_GATE_REPAIRED_RESELFTEST_PENDING
