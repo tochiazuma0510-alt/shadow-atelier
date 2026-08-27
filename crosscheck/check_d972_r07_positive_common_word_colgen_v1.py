@@ -33,7 +33,7 @@ FIXTURE_SHA256 = "46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c
 
 PINS: dict[str, tuple[str, int, str]] = {
     "producer": ("search/d972_r07_positive_common_word_colgen_v1.py", 119396,
-                 "4dcae739a8d1181341ae90a7375e7ca7c465d404582e53a24b6fc84ab7a3f5f4"),
+                 "448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512"),
     "task179": ("sol/luna_task_179_r07_positive_common_word_colgen_v1.md", 13105,
                 "f97870ec0243b2c399928bcef4f89134f1cd41f15869cc88e3ba7d9dc6956a73"),
     "proof142": ("sol/proof_r07_actual_singleton_coarse_inverse_selector_v142.md", 4942,
@@ -58,12 +58,12 @@ PINS: dict[str, tuple[str, int, str]] = {
                  "b82c81e0a053658fdb48cbb4d3054a094a57a81b2fd5d0153bcd0735ef4852b3"),
     "proof135": ("sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md", 4539,
                  "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67"),
-    "task175_producer": ("search/d972_r07_all_seven_raw_bridge_preflight_v1.py", 60303,
-                         "e70cdededfe11dffbcf1b6e52e44c12fa03f98d4d1b859bece3f48528ea9d425"),
+    "task175_producer": ("search/d972_r07_all_seven_raw_bridge_preflight_v1.py", 60306,
+                         "1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa"),
     "task175_checker": ("crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py", 85848,
                         "c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc"),
     "task175_driver": ("search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g", 21580,
-                       "df7b860b865c6f165e23b42cbe06bfa06f0d9172dc552e3a8dc0872409783da0"),
+                       "dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765"),
     "task176_producer": ("search/d972_r07_all_seven_extension_section_census_v1.py", 66109,
                          "878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b"),
     "task176_checker": ("crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py", 84980,
@@ -1108,6 +1108,10 @@ def validate_selftest(fixture: dict[str, Any], cert: dict[str, Any]) -> None:
     require(cursor.get("tested") == 3 and cursor.get("cursor") == 3 and
             cursor.get("advanced_past_untested_rejected") is True,
             "SELFTEST independent cursor")
+    impossible = weighted.get("W_plus_1_impossible", {})
+    require(impossible.get("typed_unknown") is False and
+            impossible.get("hard_invariant_failure") is True,
+            "SELFTEST independent W+1 invariant failure")
     require(cert.get("target_source") == "toy_raw_base_targets_not_canary",
             "SELFTEST target/canary separation")
     generators = [tuple(x) for x in fixture["generators"]]
@@ -1228,14 +1232,14 @@ def independent_weighted_mutations(fixture: dict[str, Any], cert: dict[str, Any]
             "typed_unknown", True),
     ]
     rejected = 0
-    for action in actions:
+    for ordinal, action in enumerate(actions, 1):
         candidate = copy.deepcopy(cert); action(candidate); candidate = seal(candidate)
         try:
             validate_selftest(fixture, candidate)
         except Exception:
             rejected += 1
         else:
-            raise RuntimeError("checker weighted mutation accepted")
+            raise RuntimeError(f"checker weighted mutation accepted:{ordinal}")
     require(rejected == 8, "checker eight weighted mutations")
     return rejected
 

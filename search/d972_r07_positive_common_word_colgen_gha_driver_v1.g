@@ -28,9 +28,9 @@ D179ResumeInput:="ci/in/d972_r07_positive_common_word_colgen_checkpoint_v1.json"
 D179ResumeArg:="";;
 
 D179ProducerBytes:=119396;;
-D179ProducerSHA:="4dcae739a8d1181341ae90a7375e7ca7c465d404582e53a24b6fc84ab7a3f5f4";;
-D179CheckerBytes:=69752;;
-D179CheckerSHA:="c2f50def1e1ea348bc2919aff91cba1fa748978a55b1895c9b58a69f673b314f";;
+D179ProducerSHA:="448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512";;
+D179CheckerBytes:=70020;;
+D179CheckerSHA:="473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d";;
 D179FixtureBytes:=407;;
 D179FixtureSHA:="46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78";;
 
@@ -50,9 +50,9 @@ D179Pins:=[
   ["sol/proof_r07_e3_context_kernel_retraction_bridge_v122.md",7939,"daadae2bed6a91ded8d3f1abec4d2fb6d379b80706f6387fa12abfd8f29e1348"],
   ["sol/proof_r07_all_seven_extension_section_orbit_reduction_v125.md",8545,"b82c81e0a053658fdb48cbb4d3054a094a57a81b2fd5d0153bcd0735ef4852b3"],
   ["sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md",4539,"75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67"],
-  ["search/d972_r07_all_seven_raw_bridge_preflight_v1.py",60303,"e70cdededfe11dffbcf1b6e52e44c12fa03f98d4d1b859bece3f48528ea9d425"],
+  ["search/d972_r07_all_seven_raw_bridge_preflight_v1.py",60306,"1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa"],
   ["crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py",85848,"c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc"],
-  ["search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g",21580,"df7b860b865c6f165e23b42cbe06bfa06f0d9172dc552e3a8dc0872409783da0"],
+  ["search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g",21580,"dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765"],
   ["search/d972_r07_all_seven_extension_section_census_v1.py",66109,"878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b"],
   ["crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py",84980,"4e6b97aa315fdccb4250de21e99dd78302477b90fd420215de6c6bea7d1fa695"],
   ["search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g",15929,"1c6dc7f10d9b27092c2441a274ff74726d8899599ac10c2b8cc47cb59da02995"],

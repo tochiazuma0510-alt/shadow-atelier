@@ -99,3 +99,41 @@ coordinate-specific: a completed row is bound to the last support target and
 its kernel cursor is either zero for an empty fibre or the exact registered
 order for a completely enumerated nonempty fibre. Static verdict is
 `STATIC GO / execution pending`.
+
+## Follow-up checker audit
+
+Parent's GHA SELFTEST run `33050709958` at head `8fcce352` exposed one
+checker-only failure: weighted mutation #8, which sets
+`weighted_support.W_plus_1_impossible.typed_unknown=True`, was accepted because
+the checker did not validate that field. The checker now requires
+`typed_unknown=False` and `hard_invariant_failure=True`; mutation diagnostics
+include the accepted ordinal. Producer semantics and mutation counts remain
+15 ordinary plus 8 weighted mutations.
+
+Current post-repair identities (driver checker pin synchronized):
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 119,396 | `4dcae739a8d1181341ae90a7375e7ca7c465d404582e53a24b6fc84ab7a3f5f4` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 70,020 | `9cd543debaa7893c807cd7eec8af6fa200241c61d13bc42b5418a7826a839974` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,974 | `cfa8c36b6139e501cad34e5a6515e749fdf6f59febc2c56e3d298ba0420a63ec` |
+| `search/certs/d972_r07_positive_common_word_colgen_selftest_v1_20260827.json` | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
+
+No local Python/Node/GAP/git/GHA execution was performed in this repair.
+
+## Final superseding cascade before rerun
+
+After the independent-checker mutation repair, task175 run `33047989700`
+exposed a separate producer-only bare `add_scaled` name. Task175 now uses the
+authenticated `old.add_scaled` API. Cascading the repaired task175 producer
+and driver through task179 yields the next-run identities:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 119,396 | `448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 70,020 | `473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,974 | `eee30a3f482704799dee75e0b0663ceb53b27f3e420d2413cca7bb08262f37fa` |
+| fixture | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
+
+Static status is `STATIC GO / GHA re-SELFTEST pending`; neither prior failed
+run has mathematical negative content.

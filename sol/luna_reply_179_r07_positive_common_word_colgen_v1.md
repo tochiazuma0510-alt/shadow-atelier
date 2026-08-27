@@ -222,3 +222,50 @@ Final task179 source identities after that ordered cascade are:
 Static verdict after parent audit is `STATIC GO / execution pending`.
 Neither Python nor GAP has been run locally. GHA SELFTEST and production
 receipts remain the next evidence gates.
+
+## Follow-up checker audit (parent GHA)
+
+Parent GHA SELFTEST run `33050709958` at head `8fcce352` failed only in the
+checker: independent weighted mutation #8 set
+`weighted_support.W_plus_1_impossible.typed_unknown=True`, but the checker
+omitted that field from `validate_selftest` and accepted the mutation. The
+checker now requires `typed_unknown=False` and
+`hard_invariant_failure=True`; accepted-mutation diagnostics include the
+ordinal. The producer/checker/driver marker counts remain 15 ordinary plus 8
+weighted mutations.
+
+Post-repair identities:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 119,396 | `4dcae739a8d1181341ae90a7375e7ca7c465d404582e53a24b6fc84ab7a3f5f4` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 70,020 | `9cd543debaa7893c807cd7eec8af6fa200241c61d13bc42b5418a7826a839974` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,974 | `cfa8c36b6139e501cad34e5a6515e749fdf6f59febc2c56e3d298ba0420a63ec` |
+| `search/certs/d972_r07_positive_common_word_colgen_selftest_v1_20260827.json` | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
+
+No local Python/Node/GAP/git/GHA execution was performed for this repair.
+
+## Final predecessor repair cascade before rerun
+
+Task175 production run `33047989700` subsequently exposed and rejected a
+producer-only bare-name error after `roster_replayed`: `add_scaled` was not
+defined. The repaired call is the authenticated predecessor API
+`old.add_scaled`; task175 producer/driver are now respectively
+`60306 / 1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa`
+and
+`21580 / dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765`.
+The task175 checker is unchanged.
+
+After cascading those pins through task179 producer, the repaired independent
+checker, and the driver in that order, the identities for the next GHA rerun
+are:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 119,396 | `448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 70,020 | `473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,974 | `eee30a3f482704799dee75e0b0663ceb53b27f3e420d2413cca7bb08262f37fa` |
+| fixture | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
+
+Both failed runs are implementation evidence only. Static status is
+`STATIC GO / GHA re-SELFTEST pending`.

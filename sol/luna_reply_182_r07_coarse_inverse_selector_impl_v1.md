@@ -67,3 +67,14 @@ cascade, the final task179 source identities are:
 - fixture: `407 / 46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78`.
 
 This addendum freezes identities only; GHA execution is recorded separately.
+
+## Final superseding identity note
+
+The task175 symbol repair and the checker mutation-gate repair caused one
+later full cascade. The next-run identities superseding every earlier table
+in this reply are producer
+`119396 / 448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512`,
+checker
+`70020 / 473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d`,
+and driver
+`12974 / eee30a3f482704799dee75e0b0663ceb53b27f3e420d2413cca7bb08262f37fa`.
