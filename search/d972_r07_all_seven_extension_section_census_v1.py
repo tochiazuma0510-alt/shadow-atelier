@@ -117,6 +117,17 @@ def canonical_packed_permutation(value: Any, degree: int, label: str) -> bytes:
     return value
 
 
+def canonical_packed_extension_element(value: Any, degree: int, pc_width: int,
+                                       label: str) -> tuple[bytes, bytes]:
+    require(type(value) is tuple and len(value) == 2, f"{label} EKey tuple")
+    permutation = canonical_packed_permutation(value[0], degree,
+                                               f"{label} permutation")
+    pc_value = value[1]
+    require(type(pc_value) is bytes and len(pc_value) == pc_width,
+            f"{label} packed PC component")
+    return permutation, pc_value
+
+
 def packed_permutation_selftest() -> int:
     identity = bytes(range(4))
     require(canonical_packed_permutation(identity, 4, "selftest identity") == identity,
@@ -312,28 +323,77 @@ def build_fine_deletion(e3: Any, e4: Any, budget: Budget) -> tuple[dict[bytes, b
     }
 
 
-def coarse_delete(permutation: Sequence[int]) -> tuple[int, ...]:
-    require(len(permutation) == 144, "Q4 degree")
-    row = tuple(int(x) for x in permutation[108:144])
+def coarse_delete(permutation: Any) -> bytes:
+    source = canonical_packed_permutation(permutation, 144,
+                                          "coarse deletion source")
+    row = source[108:144]
     require(all(108 <= x < 144 for x in row), "fourth block invariance")
-    return tuple(x - 108 for x in row)
+    return canonical_packed_permutation(bytes(x - 108 for x in row), 36,
+                                        "coarse deletion image")
+
+
+def deleter_representation_selftest() -> int:
+    coarse_identity = coarse_delete(bytes(range(144)))
+    require(coarse_identity == bytes(range(36)), "coarse deletion bytes selftest")
+    pc_identity = bytes([0, 0])
+    element = (coarse_identity, pc_identity)
+    require(canonical_packed_extension_element(element, 36, 2,
+                                               "selftest E3 element") == element,
+            "E3 element positive selftest")
+    checks = 2
+    try:
+        coarse_delete(tuple(range(144)))
+    except Reject:
+        checks += 1
+    else:
+        raise Reject("tuple coarse permutation accepted")
+    mutations = [
+        (tuple(range(36)), pc_identity),
+        (coarse_identity, tuple(pc_identity)),
+        [coarse_identity, pc_identity],
+    ]
+    for mutation in mutations:
+        try:
+            canonical_packed_extension_element(mutation, 36, 2,
+                                               "selftest mutated E3 element")
+        except Reject:
+            checks += 1
+        else:
+            raise Reject("mutated E3 representation accepted")
+    return checks
 
 
 def make_deleter(old: Any, e3: Any, e4: Any, fine: dict[bytes, bytes],
-                 q0_marked: Sequence[tuple[int, ...]]) -> tuple[Any, dict[str, Any]]:
-    expected = [q0_marked[0], e3.generators[1][0], tuple(range(36)),
-                q0_marked[1], tuple(range(36)), tuple(range(36))]
+                 q0_marked: Sequence[bytes]) -> tuple[Any, dict[str, Any]]:
+    e3_pc_width = len(e3.identity[1])
+    e4_pc_width = len(e4.identity[1])
+    identity = canonical_packed_permutation(old.perm_one(36), 36,
+                                            "coarse deletion identity")
+    expected = [
+        canonical_packed_permutation(q0_marked[0], 36, "coarse target x"),
+        canonical_packed_permutation(e3.generators[1][0], 36, "coarse target u"),
+        identity,
+        canonical_packed_permutation(q0_marked[1], 36, "coarse target y"),
+        identity,
+        identity,
+    ]
     actual = [coarse_delete(g[0]) for g in e4.generators]
     require(actual == expected, "coarse marked fourth-strand deletion")
 
     def delete(value: Any) -> Any:
-        pc_key = bytes(value[1])
+        source = canonical_packed_extension_element(value, 144, e4_pc_width,
+                                                    "E4 deletion source")
+        pc_key = source[1]
         require(pc_key in fine, "fine deletion domain")
-        return coarse_delete(value[0]), tuple(fine[pc_key])
+        result = (coarse_delete(source[0]), fine[pc_key])
+        return canonical_packed_extension_element(result, 36, e3_pc_width,
+                                                  "E3 deletion image")
 
-    for source, target in zip(e4.generators,
-                              [e3.generators[0], e3.generators[1], e3.identity,
-                               e3.generators[2], e3.identity, e3.identity]):
+    targets = [canonical_packed_extension_element(target, 36, e3_pc_width,
+                                                  "marked E3 deletion target")
+               for target in [e3.generators[0], e3.generators[1], e3.identity,
+                              e3.generators[2], e3.identity, e3.identity]]
+    for source, target in zip(e4.generators, targets):
         require(delete(source) == target, "matched marked deletion")
     return delete, {
         "coarse_method": "literal_fourth_36_block_restriction",
@@ -913,8 +973,11 @@ def run(args: argparse.Namespace) -> int:
                 receipt["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture semantics")
         perm_type_checks = packed_permutation_selftest()
         require(perm_type_checks == 2, "packed permutation selftest count")
+        deleter_type_checks = deleter_representation_selftest()
+        require(deleter_type_checks == 6, "deleter representation selftest count")
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS "
-              f"perm_type_checks={perm_type_checks}", flush=True)
+              f"perm_type_checks={perm_type_checks} "
+              f"deleter_type_checks={deleter_type_checks}", flush=True)
         return 0
     require(args.run_census and args.output, "production arguments")
     receipt = base_receipt()

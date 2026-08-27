@@ -4,8 +4,8 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-Disposition is **PRODUCTION TYPED UNKNOWN_INPUT / FIRST GATE REPAIRED /
-RE-SELFTEST PENDING**.  GHA PRODUCTION run `33038109917` at head
+Disposition is **INTERMEDIATE SELFTEST SUCCESS / DELETER REPRESENTATION
+BOUNDARY REPAIRED / RE-SELFTEST PENDING**.  GHA PRODUCTION run `33038109917` at head
 `abac045ac8ee38e853c8970c9c2c628ebb64b9fa` terminated normally with typed
 `UNKNOWN_INPUT`.  Its three exact terminal lines agree:
 
@@ -35,12 +35,31 @@ adds an explicit packed-permutation validator to the producer and independent
 checker real paths.  Their SELFTESTs accept canonical bytes and reject the
 equal-entry tuple through that same validator (`perm_type_checks=2`).
 
-The prior SELFTEST run `33038004295` remains the successful audit of the
-preceding bundle, but the new type guard and marker require one bounded
-re-SELFTEST before another PRODUCTION dispatch.  No local Python, Node, GAP,
-git, GHA dispatch, or production command was run while diagnosing and making
-this repair.  The frozen task157ee shelf otherwise contains enough data to
-reconstruct both required objects:
+Before production redispatch, static audit found the same representation class
+at the next `make_deleter` boundary.  `q0_marked[*]` and E3 permutation
+components are packed bytes, but `coarse_delete` returned a tuple; consequently
+coarse slots 1, 2, and 4 compared tuple results with byte targets.  The
+producer's full deletion result also returned its PC component as a tuple,
+whereas frozen `EKey = tuple[Perm, Pc]` has both `Perm = bytes` and
+`Pc = bytes`.  The checker independently had the same coarse tuple issue.
+
+The repair makes `coarse_delete` require a canonical 144-byte permutation and
+return a canonical 36-byte permutation.  All six coarse expected values use
+packed bytes, including `old.perm_one(36)`.  Full E4 inputs, E3 outputs, and E3
+targets pass a `tuple[bytes, bytes]` validator with exact PC width.  The new
+`deleter_type_checks=6` SELFTEST covers the coarse and whole-EKey positive
+paths plus four semantic type mutations: tuple coarse input, tuple permutation
+component, tuple PC component, and list outer container.  Only the
+representation boundary changed; deletion images and later mathematics did
+not.
+
+SELFTEST run `33038764764` at head `56fbbc7b` succeeded at `04:14:40Z`, but it
+contains only the earlier Q0-relator canonical-bytes repair.  It is recorded as
+a **superseded intermediate SELFTEST**, not authorization for PRODUCTION.  The
+current deleter boundary and new marker require another bounded SELFTEST.  No
+local Python, Node, GAP, git, GHA dispatch, or production command was run while
+making this repair.  The frozen task157ee shelf otherwise contains enough data
+to reconstruct both required objects:
 
 - the 1,469,664-state Q0 discovery roster and a deterministic positive
   `x,y` first-seen section, encoded losslessly by one shared parent/letter
@@ -58,9 +77,9 @@ subsequent external SELFTEST and PRODUCTION runs recorded above.
 
 ```text
 bytes  SHA-256                                                           path
-46433  6a6c7c46f958d419da53c0fd207208a51db4a0ac7ea0ea50f3078feb6667c5f8  search/d972_r07_all_seven_extension_section_census_v1.py
-64237  bd143dedc86e5d012ab51762a2522ed6894b9ab4d7dfbe91695de1dca22c4779  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-15372  b3b53ff3ff33a167e2018c8318ab35759334d4d9f3276b0f7a3383eb5e01cfc2  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+49238  52ef71eb2cd9f1a7dd3fe23fabeb53b0316e71825bcc3ada478e90308332506f  search/d972_r07_all_seven_extension_section_census_v1.py
+66752  d60ade51eccfad4b59a24e9be9e28871be56cec0e4a6e0af63c3b5505beb9760  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+15460  13e1736ccc3cc0580f55d7bca070e3968bc2162ff4ce5d60a018ee88df5abe34  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -146,6 +165,31 @@ a two-case SELFTEST: canonical bytes must pass and `tuple(range(4))` must raise
 `Reject`.  This is a representation correction only; no relator, generator,
 group law, order, digest, or mathematical acceptance criterion changed.
 
+### Complete `make_deleter` representation boundary
+
+The function-local inventory before repair was:
+
+```text
+boundary                         old representation                 canonical representation
+q0_marked[0], q0_marked[1]       bytes                              bytes
+e3.generators[*][0]              bytes                              bytes
+coarse_delete(...)               tuple[int,...]                     bytes
+coarse identity slots            tuple(range(36))                   old.perm_one(36): bytes
+fine[pc_key]                     bytes                              bytes
+producer delete PC result        tuple(fine[pc_key])                bytes
+E3/E4 full element               tuple[bytes,bytes]                 tuple[bytes,bytes]
+```
+
+Thus the old coarse list comparison necessarily mixed types in slots 1, 2,
+and 4, and the producer's later full-element comparison also mixed the PC
+component.  After repair, `coarse_delete` rejects non-bytes input and returns
+bytes, all six expected/actual coarse entries are bytes, and every full source,
+image, and target is checked as an outer tuple with packed bytes components.
+The checker's independently written `reconstruct_deletion` enforces the same
+boundary.  All `tuple(range(36))` occurrences remaining near these functions
+are deliberate negative SELFTEST mutations; production deletion paths contain
+zero tuple/bytes representation mixtures.
+
 ### Production exception boundary
 
 The receipt-producing `try` now has four deliberately disjoint outcomes:
@@ -219,9 +263,10 @@ prefix.  Its selftest now constructs and reseals one componentwise typed
 no-order grade separately, then reseals two reason mutations: a generic
 `ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
 rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
-The current exact checker marker carries both `reject_envelope_checks=3` and
-`perm_type_checks=2`, while the original destructive mutation count remains
-15/15.  The producer marker independently carries `perm_type_checks=2`.
+The current exact checker marker carries `reject_envelope_checks=3`,
+`perm_type_checks=2`, and `deleter_type_checks=6`, while the original
+destructive mutation count remains 15/15.  The producer marker independently
+carries both representation counts.
 
 ## 5. Driver and exact terminals
 
@@ -248,7 +293,7 @@ reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
 empty prefixed reason, and requires producer/checker/verdict terminal
 agreement.  Its SELFTEST exact-line gate now includes
 `reject_envelope_checks=3` and both producer/checker
-`perm_type_checks=2` markers.
+`perm_type_checks=2` and `deleter_type_checks=6` markers.
 
 ### GHA formatting failures and repairs
 
@@ -305,8 +350,10 @@ expanded Reject-envelope checker PASS, and the exact unwrapped driver PASS
 each occurred once.  In
 particular, `reject_envelope_checks=3` confirms acceptance of the well-typed
 Reject receipt and rejection of both malformed reason mutations through the
-independent checker path.  The newly added packed-permutation checks remain
-pending one re-SELFTEST.
+independent checker path.  Run `33038764764` later confirmed the packed-Q0
+identity checks, but predates `deleter_type_checks=6` and is therefore only an
+intermediate success.  The complete deleter boundary remains pending one
+re-SELFTEST.
 
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
@@ -337,20 +384,27 @@ D972_R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_MODE:=List([83,69,76,70,84,69,83,
 
 Use the same driver, `out_dir=ci/out`, `timeout_min=60`, and
 `with_pquot_packages=false`.  Do not redispatch PRODUCTION until the new
-producer/checker markers and the exact one-line driver sentinel all pass.
+producer/checker markers and the exact one-line driver sentinel all pass:
+
+```text
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
+```
 
 ## 6. Audit, typed production stop, and pending re-SELFTEST
 
 Repair-specific source evidence is fixed at these lines:
 
-- producer lines 113--128 define and selftest the packed-permutation contract,
-  lines 628--638 apply it to the real Q0 relator replay, lines 906--918 expose
-  the new bounded SELFTEST marker, lines 919--938 preserve the narrow typed
-  production conversion, and lines 954--960 retain programming hard STOPs;
-- checker lines 30--37 pin the new producer, lines 109--124 independently
-  define/selftest the packed-permutation contract, lines 505--518 apply it to
-  the real receipt validator, lines 1134--1156 retain the typed Reject-envelope
-  tests, and lines 1212--1230 expose all current SELFTEST markers;
+- producer lines 113--139 define packed permutation/EKey contracts, lines
+  326--401 canonicalize and selftest every `make_deleter` boundary, lines
+  688--698 retain the repaired Q0 relator replay, lines 968--982 expose all
+  current bounded SELFTEST markers, lines 983--1001 preserve the narrow typed
+  production conversion, and lines 1017--1023 retain programming hard STOPs;
+- checker lines 30--37 pin the new producer, lines 109--135 independently
+  define packed permutation/EKey contracts, lines 252--333 canonicalize and
+  selftest `reconstruct_deletion`, lines 557--570 retain the real Q0 receipt
+  validator, and lines 1265--1285 expose all current SELFTEST markers;
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
   lines 112--149 enforce terminal envelopes including the nonempty typed
   `UNKNOWN_INPUT` reason, lines 158--207 perform lossless unformatted shell
@@ -379,6 +433,9 @@ found:
 - the revised driver contains zero literal `backslash + newline` pairs;
 - the repaired relator gates contain no tuple identity and use only the
   canonical packed identity returned by frozen `old.perm_one(36)`;
+- the producer/checker deletion production paths contain zero
+  `tuple(range(36))`, tuple permutation outputs, or tuple PC outputs; all such
+  remaining nearby tuple literals occur only in negative SELFTEST mutations;
 - the producer's receipt-producing `try` catches `Reject` but not generic
   `TypeError`, `ValueError`, or `KeyError`; those remain in the hard-STOP outer
   guard, while only the explicitly named JSON parser exception is typed input;
@@ -396,14 +453,17 @@ checks, and the exact one-line external driver sentinel for that preceding
 bundle.  Production run `33038109917` then returns the typed first-gate
 `UNKNOWN_INPUT` documented above; producer/checker/driver terminal agreement
 and receipt/verdict hashes are complete.  Its failure is not an order or a
-nonexistence result.
+nonexistence result.  Intermediate SELFTEST run `33038764764` at head
+`56fbbc7b` subsequently passes the Q0-relator identity repair at `04:14:40Z`,
+but predates the complete deleter boundary repair and is superseded for
+production promotion.
 
-The canonical packed-identity repair and `perm_type_checks=2` markers are
+The canonical deleter/EKey repair and `deleter_type_checks=6` markers are
 currently **RE-SELFTEST PENDING**.  Q0 completion, orders, runtime beyond the
-first repaired gate, and a COMPLETE receipt remain UNKNOWN until a repaired
+representation gates, and a COMPLETE receipt remain UNKNOWN until the current
 bundle passes SELFTEST and is dispatched again.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_FIRST_GATE_REPAIRED_RESELFTEST_PENDING
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_DELETER_BOUNDARY_REPAIRED_RESELFTEST_PENDING

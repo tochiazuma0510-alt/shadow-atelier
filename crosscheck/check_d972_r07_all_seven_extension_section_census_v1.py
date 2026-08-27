@@ -34,7 +34,7 @@ EXPECTED_Q0 = 1_469_664
 EXPECTED_GAMMA = 243
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "6a6c7c46f958d419da53c0fd207208a51db4a0ac7ea0ea50f3078feb6667c5f8"
+PRODUCER_SHA256 = "52ef71eb2cd9f1a7dd3fe23fabeb53b0316e71825bcc3ada478e90308332506f"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -111,6 +111,17 @@ def canonical_packed_permutation(value: Any, degree: int, label: str) -> bytes:
     require(len(value) == degree and set(value) == set(range(degree)),
             f"{label} packed permutation")
     return value
+
+
+def canonical_packed_extension_element(value: Any, degree: int, pc_width: int,
+                                       label: str) -> tuple[bytes, bytes]:
+    require(type(value) is tuple and len(value) == 2, f"{label} EKey tuple")
+    permutation = canonical_packed_permutation(value[0], degree,
+                                               f"{label} permutation")
+    pc_value = value[1]
+    require(type(pc_value) is bytes and len(pc_value) == pc_width,
+            f"{label} packed PC component")
+    return permutation, pc_value
 
 
 def packed_permutation_selftest() -> int:
@@ -238,15 +249,50 @@ def make_translation(permutation: Sequence[int]) -> bytes:
     return bytes(table)
 
 
-def coarse_delete(permutation: Sequence[int]) -> tuple[int, ...]:
-    require(len(permutation) == 144, "coarse deletion degree")
-    suffix = tuple(int(x) for x in permutation[108:144])
+def coarse_delete(permutation: Any) -> bytes:
+    source = canonical_packed_permutation(permutation, 144,
+                                          "coarse deletion source")
+    suffix = source[108:144]
     require(all(108 <= x < 144 for x in suffix), "coarse invariant block")
-    return tuple(x - 108 for x in suffix)
+    return canonical_packed_permutation(bytes(x - 108 for x in suffix), 36,
+                                        "coarse deletion image")
+
+
+def deleter_representation_selftest() -> int:
+    coarse_identity = coarse_delete(bytes(range(144)))
+    require(coarse_identity == bytes(range(36)), "coarse deletion bytes selftest")
+    pc_identity = bytes([0, 0])
+    element = (coarse_identity, pc_identity)
+    require(canonical_packed_extension_element(element, 36, 2,
+                                               "selftest E3 element") == element,
+            "E3 element positive selftest")
+    checks = 2
+    try:
+        coarse_delete(tuple(range(144)))
+    except Reject:
+        checks += 1
+    else:
+        raise Reject("tuple coarse permutation accepted")
+    mutations = [
+        (tuple(range(36)), pc_identity),
+        (coarse_identity, tuple(pc_identity)),
+        [coarse_identity, pc_identity],
+    ]
+    for mutation in mutations:
+        try:
+            canonical_packed_extension_element(mutation, 36, 2,
+                                               "selftest mutated E3 element")
+        except Reject:
+            checks += 1
+        else:
+            raise Reject("mutated E3 representation accepted")
+    return checks
 
 
 def reconstruct_deletion(e3: Any, e4: Any) -> tuple[Any, dict[str, Any]]:
     pc3, pc4 = e3.pc, e4.pc
+    e3_pc_width = len(e3.identity[1])
+    e4_pc_width = len(e4.identity[1])
     targets = [e3.generators[0][1], e3.generators[1][1], pc3.one(),
                e3.generators[2][1], pc3.one(), pc3.one()]
     states = [pc4.one()]; images = [pc3.one()]; ids = {bytes(pc4.one()): 0}
@@ -262,11 +308,17 @@ def reconstruct_deletion(e3: Any, e4: Any) -> tuple[Any, dict[str, Any]]:
     table = {bytes(x): bytes(y) for x, y in zip(states, images)}
 
     def delete(element: Any) -> Any:
-        require(bytes(element[1]) in table, "fine deletion lookup")
-        return coarse_delete(element[0]), table[bytes(element[1])]
+        source = canonical_packed_extension_element(element, 144, e4_pc_width,
+                                                    "E4 deletion source")
+        require(source[1] in table, "fine deletion lookup")
+        result = (coarse_delete(source[0]), table[source[1]])
+        return canonical_packed_extension_element(result, 36, e3_pc_width,
+                                                  "E3 deletion image")
 
-    targets_e = [e3.generators[0], e3.generators[1], e3.identity,
-                 e3.generators[2], e3.identity, e3.identity]
+    targets_e = [canonical_packed_extension_element(target, 36, e3_pc_width,
+                                                    "marked E3 deletion target")
+                 for target in [e3.generators[0], e3.generators[1], e3.identity,
+                                e3.generators[2], e3.identity, e3.identity]]
     require([delete(x) for x in e4.generators] == targets_e, "marked deletion")
     actual_coarse = [coarse_delete(x[0]) for x in e4.generators]
     public = {
@@ -1218,6 +1270,8 @@ def run(args: argparse.Namespace) -> int:
                 fixture["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture")
         perm_type_checks = packed_permutation_selftest()
         require(perm_type_checks == 2, "packed permutation selftest count")
+        deleter_type_checks = deleter_representation_selftest()
+        require(deleter_type_checks == 6, "deleter representation selftest count")
         reject_checks = reject_terminal_selftest()
         require(reject_checks == 3, "Reject terminal selftest count")
         attempted, rejected = mutation_suite()
@@ -1226,6 +1280,7 @@ def run(args: argparse.Namespace) -> int:
               f"mutation_attempted={attempted} mutation_rejected={rejected} "
               f"reject_envelope_checks={reject_checks} "
               f"perm_type_checks={perm_type_checks} "
+              f"deleter_type_checks={deleter_type_checks} "
               "linked_nonabelian_order=54", flush=True)
         return 0
     require(args.receipt and args.verdict, "production arguments")
