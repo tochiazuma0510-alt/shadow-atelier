@@ -23,10 +23,10 @@ D176Hashes:="ci/out/d972_r07_all_seven_extension_section_census_hashes_v1.txt";;
 D176Shell:="ci/out/d972_r07_all_seven_extension_section_census_command_v1.sh";;
 D176OK:="ci/out/d972_r07_all_seven_extension_section_census_v1.ok";;
 
-D176ProducerSHA:="304929fdd83e313864b8126457bcec4f59c8e597f2e2fdf8428793ada0c6ea99";;
-D176ProducerBytes:=60643;;
-D176CheckerSHA:="b31af78d66b9d15926c2bc0223e7ae38c4c20dc018d8d4e3d915ddd4506cf538";;
-D176CheckerBytes:=80637;;
+D176ProducerSHA:="5cf5617bebc932833dd34105bd85b2536e8c332137dce0f6ea176ebd82e09bd3";;
+D176ProducerBytes:=63872;;
+D176CheckerSHA:="892b9b2e086acf2dc9cb69e01b8c5ebb579050ae1622dd2ed4b66c83887a69a8";;
+D176CheckerBytes:=82983;;
 D176FixtureSHA:="b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471";;
 D176FixtureBytes:=4350;;
 
@@ -181,12 +181,12 @@ if D176Mode="SELFTEST" then
   PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 900s python3 -u -B ",D176Producer,
     " --selftest --fixture ",D176Fixture," 2>&1 | tee ",D176ProducerLog,"\n");;
   PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\n");;
-  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10' ",
+  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10' ",
     D176ProducerLog,")\" -eq 1\np1=$(date +%s)\n");;
   PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 1200s python3 -u -B ",D176Checker,
     " --selftest --fixture ",D176Fixture," 2>&1 | tee ",D176CheckerLog,"\n");;
   PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\n");;
-  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54' ",
+  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54' ",
     D176CheckerLog,")\" -eq 1\np2=$(date +%s)\n");;
   PrintTo(D176ShellStream,"printf 'mode=SELFTEST producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
 else
@@ -218,8 +218,8 @@ D176CheckerRaw:=D176Read(D176CheckerLog,"checker log");;
 D176CleanLog(D176ProducerRaw,"producer");;
 D176CleanLog(D176CheckerRaw,"checker");;
 if D176Mode="SELFTEST" then
-  if D176Count(D176ProducerRaw,"R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10")<>1 or
-     D176Count(D176CheckerRaw,"mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54")<>1 then
+  if D176Count(D176ProducerRaw,"R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10")<>1 or
+     D176Count(D176CheckerRaw,"mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54")<>1 then
     Error("task176 driver: selftest markers");
   fi;
   D176Terminal:="SELFTEST";;

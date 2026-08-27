@@ -352,9 +352,9 @@ no-order grade separately, then reseals two reason mutations: a generic
 `ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
 rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
 The current exact checker marker carries `reject_envelope_checks=3`,
-`perm_type_checks=2`, `deleter_type_checks=6`, and
+`perm_type_checks=2`, `joint_blob_type_checks=8`, `deleter_type_checks=6`, and
 `deletion_convention_checks=10`, while the original destructive mutation count
-remains 15/15.  The producer marker independently carries all three bounded
+remains 15/15.  The producer marker independently carries all four bounded
 check counts.  On COMPLETE input the checker also reconstructs each six-row
 deletion diagnostic field, all ten raw bucket-statistic fields, and all ten
 Gamma coarse-image records rather than trusting producer summaries.
@@ -385,7 +385,7 @@ reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
 empty prefixed reason, and requires producer/checker/verdict terminal
 agreement.  Its SELFTEST exact-line gate now includes
 `reject_envelope_checks=3` and both producer/checker
-`perm_type_checks=2`, `deleter_type_checks=6`, and
+`perm_type_checks=2`, `joint_blob_type_checks=8`, `deleter_type_checks=6`, and
 `deletion_convention_checks=10` markers.
 
 ### GHA formatting failures and repairs
@@ -471,7 +471,7 @@ state:        completed typed UNKNOWN_INPUT
 reason:       CENSUS_REJECT:complete Q0 presentation replay
 ```
 
-Latest completed production workflow record:
+Previous completed production workflow record:
 
 ```text
 run_id:       33039406462
@@ -487,6 +487,23 @@ verdict_sha:  6be410d2c82e1e449001c211d5588c4e730ee37a43c92fb60248a75c8cc4eb7a
 timing:       producer 25 seconds / checker 0 seconds
 ```
 
+Latest completed production workflow record:
+
+```text
+run_id:       33041705078
+head_prefix:  a84a3947
+script:       search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+out_dir:      ci/out
+timeout_min:  360
+with_pquot_packages: false
+state:        completed hard STOP after 33 seconds
+stderr:       R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_STOP can only concatenate tuple (not "bytes") to tuple
+receipt:      none
+artifact:     none
+checker:      not run
+driver_pass:  absent
+```
+
 Required bounded re-SELFTEST preamble for the repaired bundle:
 
 ```gap
@@ -498,8 +515,8 @@ Use the same driver, `out_dir=ci/out`, `timeout_min=60`, and
 producer/checker markers and the exact one-line driver sentinel all pass:
 
 ```text
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
 ```
 
@@ -591,6 +608,13 @@ production promotion.  Production run `33039406462` passes those earlier
 representation gates and returns the separately typed coarse-layout stop with
 matching producer/checker/driver terminals and the exact hashes above.
 
+Production run `33041705078` at head prefix `a84a3947` then crossed the
+authenticated driver gates but stopped after 33 seconds with the exact
+tuple-plus-bytes `TypeError` recorded above.  Because this is a programming
+exception, no receipt was written, the checker did not run, no artifact was
+uploaded, and no driver PASS appeared.  It is neither typed UNKNOWN evidence
+nor a mathematical result.
+
 The later SELFTEST attempt `33041044008` was canceled when the independent
 audit found that v135 governed the repaired selector but was cited only in this
 reply, not authenticated by the runtime bundle.  It supplies no terminal or
@@ -600,11 +624,75 @@ has yet run against the final identities in Section 2.
 
 The noncontiguous factor projection, six-row diagnostic,
 `deletion_convention_checks=10`, raw bucket summaries, and all-243 Gamma
-coarse-image replay are currently **RE-SELFTEST PENDING**.  Q0 completion,
+coarse-image replay, together with the new `joint_blob_type_checks=8`, are
+currently **RE-SELFTEST PENDING**.  Q0 completion,
 orders, runtime beyond the deletion gate, and a COMPLETE receipt remain UNKNOWN
 until the current bundle passes SELFTEST and is dispatched again.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_NONCONTIGUOUS_DELETION_REPAIRED_V135_PROVENANCE_PINNED_RESELFTEST_PENDING
+## 7. Run 33041705078 tuple/bytes hard-STOP repair
+
+The failing expression is uniquely identified in the authenticated frozen
+arithmetic source at
+`search/d972_b345_seedspan_triple4_v1.py:2797`:
+
+```python
+return value[0] + value[1]
+```
+
+The pre-repair task176 `blob(old, value)` delegated directly to that expression.
+For a live product value `(tuple permutation, bytes PC)`, Python evaluates
+`tuple + bytes` before task176's outer `bytes(...)` can canonicalize anything,
+which yields exactly the run's error text.  The pinned task157ee `JointGroup`
+also delegates its key serializer to the same frozen helper, so repairing only
+the local call would have left a second route to the identical stop.
+
+The producer now owns one narrow serializer boundary.  It accepts exactly a
+two-component tuple whose permutation is either canonical packed bytes or the
+documented zero-based integer tuple returned by product arithmetic, requires a
+packed-bytes PC component, fixes the only live dimensions to `(36,4)` and
+`(144,10)`, checks permutation bijectivity, and returns
+`bytes(permutation) + pc_bytes`.  Every local blob path, including reconstructed
+section products, uses it.  A tiny `PackedJointGroup` subclass overrides only
+the imported class's serializer, so its construction, transition table,
+group law, section words, v135 deletion, Gamma replay, and bucket mathematics
+remain unchanged while the frozen broken concatenation is no longer called.
+
+The checker implements the same accepted mathematical representations through
+separate code and never calls the producer helper.  Each SELFTEST exercises the
+formerly failing exact `(tuple(range(36)), bytes(4))` case with a deliberately
+poisoned legacy helper, the original packed-bytes case, and six independent
+malformations: outer list, permutation list, tuple PC, wrong degree, wrong PC
+width, and non-bijection.  The exact producer/checker/driver gates therefore
+bind `joint_blob_type_checks=8`.
+
+This compatibility adapter does not convert programming failures to a typed
+receipt.  Its malformed representation gates raise only `TypeError` or
+`ValueError`; the production receipt-producing `try` still does not catch
+either class.  They reach the existing outer STOP and exit nonzero without a
+receipt, exactly as run `33041705078` did.  Only the pre-existing semantic
+`Reject`, resource stop, and named authenticated-input exceptions retain their
+typed envelopes.
+
+Static final runtime identities before this reply's own final hash are:
+
+```text
+search/d972_r07_all_seven_extension_section_census_v1.py
+  bytes 63872
+  sha256 5cf5617bebc932833dd34105bd85b2536e8c332137dce0f6ea176ebd82e09bd3
+crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+  bytes 82983
+  sha256 892b9b2e086acf2dc9cb69e01b8c5ebb579050ae1622dd2ed4b66c83887a69a8
+search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+  bytes 15817
+  sha256 9d854d02b1c8c1fdcdda5855f16a85b1d8f51998c6a9a4a660c0313138a9839f
+```
+
+No local Python, GAP, Node, GHA, or git command was run.  Production was not
+redispatched.  The required next action is the bounded SELFTEST preamble in
+Section 5, followed by PRODUCTION only after both new exact markers and the
+one-line external driver sentinel pass.
+
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_TUPLE_BYTES_SERIALIZER_REPAIRED_RESELFTEST_PENDING

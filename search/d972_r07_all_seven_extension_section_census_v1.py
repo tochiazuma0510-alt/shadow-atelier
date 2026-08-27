@@ -280,8 +280,71 @@ class Budget:
         return time.monotonic() - self.started
 
 
+def packed_joint_blob(value: Any, label: str) -> bytes:
+    """Pack the two live matched-quotient representations without old helpers.
+
+    Frozen arithmetic returns marked permutations as bytes, while some product
+    paths return the same zero-based permutation as a tuple.  The PC component
+    is always packed bytes.  Convert only that documented boundary and keep all
+    malformed internal representations as programming errors (hard STOP).
+    """
+    if type(value) is not tuple or len(value) != 2:
+        raise TypeError(f"{label} must be a two-component tuple")
+    permutation, pc_value = value
+    if type(permutation) not in (bytes, tuple):
+        raise TypeError(f"{label} permutation must be bytes or tuple")
+    if type(permutation) is tuple and not all(type(x) is int for x in permutation):
+        raise TypeError(f"{label} tuple permutation entries must be integers")
+    if type(pc_value) is not bytes:
+        raise TypeError(f"{label} PC component must be bytes")
+    degree = len(permutation)
+    expected_pc_width = {36: 4, 144: 10}.get(degree)
+    if expected_pc_width is None or len(pc_value) != expected_pc_width:
+        raise ValueError(f"{label} unsupported degree/PC width")
+    packed_permutation = bytes(permutation)
+    if (len(packed_permutation) != degree or
+            set(packed_permutation) != set(range(degree))):
+        raise ValueError(f"{label} permutation is not bijective")
+    return packed_permutation + pc_value
+
+
 def blob(old: Any, value: Any) -> bytes:
-    return bytes(old._element_blob(value))
+    del old
+    return packed_joint_blob(value, "task176 joint element")
+
+
+def joint_blob_representation_selftest() -> int:
+    class PoisonedOldHelper:
+        @staticmethod
+        def _element_blob(value: Any) -> bytes:
+            del value
+            raise AssertionError("legacy element serializer was called")
+
+    pc_identity = bytes(4)
+    expected = bytes(range(36)) + pc_identity
+    tuple_permutation = (tuple(range(36)), pc_identity)
+    bytes_permutation = (bytes(range(36)), pc_identity)
+    require(blob(PoisonedOldHelper(), tuple_permutation) == expected,
+            "tuple-permutation/bytes-PC serializer boundary")
+    require(blob(PoisonedOldHelper(), bytes_permutation) == expected,
+            "bytes-permutation/bytes-PC serializer boundary")
+    checks = 2
+    mutations = [
+        [tuple(range(36)), pc_identity],
+        (list(range(36)), pc_identity),
+        (tuple(range(36)), tuple(pc_identity)),
+        (tuple(range(35)), pc_identity),
+        (tuple(range(36)), bytes(3)),
+        (tuple([0, 0] + list(range(2, 36))), pc_identity),
+    ]
+    for mutation in mutations:
+        try:
+            packed_joint_blob(mutation, "selftest mutated joint element")
+        except (TypeError, ValueError):
+            checks += 1
+        else:
+            raise Reject("mutated joint serializer representation accepted")
+    return checks
 
 
 def split_blob(raw: bytes, degree: int) -> tuple[tuple[int, ...], tuple[int, ...]]:
@@ -729,7 +792,7 @@ def inverse_blob(raw: bytes, index: int, e3: Any, e4: Any) -> bytes:
 
 
 def blob_raw(value: Any) -> bytes:
-    return bytes(value[0]) + bytes(value[1])
+    return packed_joint_blob(value, "task176 reconstructed joint element")
 
 
 def family_inverse_key(key: Sequence[bytes], indices: Sequence[int],
@@ -914,7 +977,11 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
     words = [list(row["word"]) for row in q3["correction_fibre"]["records"] if row["word"]]
     require(len(words) == 26 and sha_obj(words) == joint_receipt["record_manifest"]["words_sha256"],
             "26 correction words")
-    gamma = jointmod.JointGroup(old, e3, e4, contexts, words)
+    class PackedJointGroup(jointmod.JointGroup):
+        def blob(self, value: Any) -> bytes:
+            return packed_joint_blob(value, "task157ee Gamma joint element")
+
+    gamma = PackedJointGroup(old, e3, e4, contexts, words)
     require(len(gamma.states) == EXPECTED_GAMMA and
             gamma.public()["state_rows_sha256"] == joint_receipt["gamma"]["state_rows_sha256"],
             "Gamma reconstruction")
@@ -1214,6 +1281,9 @@ def run(args: argparse.Namespace) -> int:
                 receipt["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture semantics")
         perm_type_checks = packed_permutation_selftest()
         require(perm_type_checks == 2, "packed permutation selftest count")
+        joint_blob_type_checks = joint_blob_representation_selftest()
+        require(joint_blob_type_checks == 8,
+                "joint blob representation selftest count")
         deleter_type_checks = deleter_representation_selftest()
         require(deleter_type_checks == 6, "deleter representation selftest count")
         deletion_convention_checks = deletion_convention_selftest()
@@ -1221,6 +1291,7 @@ def run(args: argparse.Namespace) -> int:
                 "deletion convention selftest count")
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS "
               f"perm_type_checks={perm_type_checks} "
+              f"joint_blob_type_checks={joint_blob_type_checks} "
               f"deleter_type_checks={deleter_type_checks} "
               f"deletion_convention_checks={deletion_convention_checks}", flush=True)
         return 0

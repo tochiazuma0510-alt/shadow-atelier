@@ -35,7 +35,7 @@ EXPECTED_GAMMA = 243
 EXPECTED_GAMMA_COARSE_ORDERS = (1, 1, 1, 1, 1, 81, 81, 81, 9, 9)
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "304929fdd83e313864b8126457bcec4f59c8e597f2e2fdf8428793ada0c6ea99"
+PRODUCER_SHA256 = "5cf5617bebc932833dd34105bd85b2536e8c332137dce0f6ea176ebd82e09bd3"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -240,8 +240,64 @@ def validate_envelope(receipt: dict[str, Any]) -> None:
                 "input envelope")
 
 
+def independent_joint_blob(value: Any, label: str) -> bytes:
+    if type(value) is not tuple or len(value) != 2:
+        raise TypeError(f"{label} outer representation")
+    permutation = value[0]
+    pc_component = value[1]
+    if type(permutation) is bytes:
+        packed = permutation
+    elif type(permutation) is tuple:
+        if not all(type(entry) is int for entry in permutation):
+            raise TypeError(f"{label} permutation entry representation")
+        packed = bytes(permutation)
+    else:
+        raise TypeError(f"{label} permutation representation")
+    if type(pc_component) is not bytes:
+        raise TypeError(f"{label} PC representation")
+    dimensions = (len(packed), len(pc_component))
+    if dimensions not in {(36, 4), (144, 10)}:
+        raise ValueError(f"{label} extension dimensions")
+    if set(packed) != set(range(len(packed))):
+        raise ValueError(f"{label} non-permutation")
+    return packed + pc_component
+
+
 def blob(old: Any, value: Any) -> bytes:
-    return bytes(old._element_blob(value))
+    del old
+    return independent_joint_blob(value, "checker joint element")
+
+
+def joint_blob_representation_selftest() -> int:
+    class FailingLegacySerializer:
+        @staticmethod
+        def _element_blob(value: Any) -> bytes:
+            del value
+            raise AssertionError("checker consulted frozen serializer")
+
+    pc = bytes(4)
+    target = bytes(range(36)) + pc
+    require(blob(FailingLegacySerializer(), (tuple(range(36)), pc)) == target,
+            "checker tuple plus bytes boundary")
+    require(blob(FailingLegacySerializer(), (bytes(range(36)), pc)) == target,
+            "checker packed plus bytes boundary")
+    checks = 2
+    malformed = (
+        [tuple(range(36)), pc],
+        (list(range(36)), pc),
+        (tuple(range(36)), tuple(pc)),
+        (tuple(range(35)), pc),
+        (tuple(range(36)), bytes(3)),
+        (tuple([0, 0] + list(range(2, 36))), pc),
+    )
+    for candidate in malformed:
+        try:
+            independent_joint_blob(candidate, "checker selftest mutation")
+        except (TypeError, ValueError):
+            checks += 1
+        else:
+            raise Reject("checker accepted malformed joint serialization")
+    return checks
 
 
 def value(raw: bytes, index: int) -> Any:
@@ -1546,6 +1602,9 @@ def run(args: argparse.Namespace) -> int:
                 fixture["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture")
         perm_type_checks = packed_permutation_selftest()
         require(perm_type_checks == 2, "packed permutation selftest count")
+        joint_blob_type_checks = joint_blob_representation_selftest()
+        require(joint_blob_type_checks == 8,
+                "joint blob representation selftest count")
         deleter_type_checks = deleter_representation_selftest()
         require(deleter_type_checks == 6, "deleter representation selftest count")
         deletion_convention_checks = deletion_convention_selftest()
@@ -1559,6 +1618,7 @@ def run(args: argparse.Namespace) -> int:
               f"mutation_attempted={attempted} mutation_rejected={rejected} "
               f"reject_envelope_checks={reject_checks} "
               f"perm_type_checks={perm_type_checks} "
+              f"joint_blob_type_checks={joint_blob_type_checks} "
               f"deleter_type_checks={deleter_type_checks} "
               f"deletion_convention_checks={deletion_convention_checks} "
               "linked_nonabelian_order=54", flush=True)
