@@ -1074,6 +1074,12 @@ def toy_batch(args: argparse.Namespace | None = None) -> dict[str, Any]:
                   "oracle_cap": oracle_cap_evidence, "checkpoint_byte_cap": checkpoint_cap_evidence,
                   "resume_contract": resume_contract}
         _toy_validate_bundle(bundle)
+        # Replay validators attach private byte-keyed ``row_dict`` fields to
+        # their working records.  Mutation candidates must begin from the
+        # actual public JSON checkpoint, otherwise sealing a checkpoint
+        # mutation would fail in the serializer before the checker sees it.
+        bundle["interrupted_checkpoint"] = json.loads(interrupt_checkpoint.read_text(encoding="ascii"))
+        bundle["resource_unknown"]["checkpoint"] = json.loads(resource_checkpoint.read_text(encoding="ascii"))
         first_batch = [x for x in full["batch_records"] if int(x["batch_id"]) == 1]
         continuous_transcript = [str(x["classification"]) for x in first_batch]; resumed_transcript = [str(x["classification"]) for x in resumed["batch_records"] if int(x["batch_id"]) == 1]
         independent = sum(x == "retained" for x in continuous_transcript); dependent = sum(x == "dependent" for x in continuous_transcript)

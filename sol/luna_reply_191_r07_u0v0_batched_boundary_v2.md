@@ -26,9 +26,9 @@ self-referential.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,528 | `9e5a742e08c5c711dfb20bca9b3fa4f0d079c9b6fa588fbcd3f7d3a259ef9dc9` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 93,042 | `dc258cae05b909df07458e80aa41ae0d7d7dbea44c43bd291980de9e10856830` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `db5d7b97c39359ca6f3811e30d4558aabd71f036b049e24b57625bce6b4c4d78` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `3f6efd3ae64ea1f7187e4d650227994a46700c2530dcc93a16c5afff51de95b4` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
@@ -36,7 +36,8 @@ The producer/checker retain exact authenticated task187 and task179 source
 pins.  The driver pins the current producer/checker/fixture identities and all
 predecessor/arithmetic identities.
 The toy-pair and toy-ABI pair repairs previously changed the producer to
-92,520 bytes.  The dependency-iteration repair changes it to 92,528 bytes;
+92,520 bytes, and the dependency-iteration repair changed it to 92,528
+bytes.  The public-checkpoint reload repair changes it to 93,042 bytes;
 parent Sol refreshed its SHA and the corresponding driver producer pin.
 
 ## 3. Producer and checkpoint repair map
@@ -190,6 +191,17 @@ returns `dict[int,int]` in both the authenticated task187 implementation and
 the toy implementation, while the reconstruction loop requires key/value
 pairs.  Only that loop was changed to `dependency.items()`; no dependency
 coefficients, production Echelon behavior, or checker semantics were changed.
+
+Parent Sol dispatched GHA SELFTEST run `33107894570` at immutable head
+`ee344abc5960aaabb6ac9d120192aa0063de929b`.  Producer execution reached the
+toy mutation controls and failed while resealing `interrupted_checkpoint`:
+the replay validator had attached private byte-keyed `row_dict` fields to the
+public checkpoint records, so JSON canonicalization raised a non-mathematical
+serialization `TypeError`.  The toy bundle now reloads both mutation
+checkpoints from their public JSON artifacts after validation, before any
+mutation is sealed.  Production checkpoint serialization and replay semantics
+are unchanged.  This run is recorded as a producer SELFTEST code failure
+with no mathematical or cross-checked result.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
