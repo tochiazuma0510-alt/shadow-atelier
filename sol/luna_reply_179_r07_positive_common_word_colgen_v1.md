@@ -387,6 +387,23 @@ The final cascade also binds the task175 PB3 repair committed at
 `9ec72d68f3ba99fbfe2d2bebfd5d78e0dcf2deea`; task175 files themselves were
 not edited by task179.
 
+## Parent production audit 2026-08-28
+
+Run `33059993513`, head
+`3d5bd79e9c4647e1166d5f5c8cd73d4d21889525`, completed its producer with the
+typed terminal
+
+```text
+UNKNOWN_RESOURCE:phase=positive_boundary_correlation:cap=wall_seconds:value=19212.567360263998:limit=19200.0
+```
+
+The job then exhausted its outer window before the independent-checker
+sentinel and uploaded no artifact.  This is neither `COMMON_WORD` nor a
+nonmembership certificate: it says only that the exact complete-boundary
+correlation was still running at the registered wall cap.  The task192 cached
+successor is the versioned continuation of this schedule.  No lift, fake, or
+Ihara claim is promoted from this run.
+
 ## Repaired import-control SELFTEST PASS and production relaunch
 
 The final repaired bundle passed GHA SELFTEST run `33059348708` at head

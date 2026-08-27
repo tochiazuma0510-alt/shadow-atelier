@@ -309,3 +309,25 @@ false, including orbit image, column generation, affine membership, final
 correction, lift, cofinal, fake, and Ihara witness.
 
 R07_ALL_SEVEN_RAW_BRIDGE_PREFLIGHT_V1_STATIC_READY
+
+## Parent production audit 2026-08-28
+
+Production run `33071125385`, head
+`95af26f6f73bae0cda08dedd5a3da48a2120abfb`, reached the current producer's
+positive terminal
+
+```text
+R07_ALL_SEVEN_RAW_BRIDGE_PREFLIGHT_READY
+```
+
+after the literal roster, Fox, mutation, and receipt-assembly stages.  The
+independent checker did not finish within the registered child-stage window:
+
+```text
+T175_STAGE_FAILURE stage=CHECKER exit=MISSING_OR_TIMEOUT
+```
+
+The workflow consequently uploaded no artifact.  The producer terminal is a
+useful finite candidate but is not cross-checked and is not promoted to a
+mathematical READY receipt.  This run makes no common-word, lift, fake, or
+Ihara claim.
