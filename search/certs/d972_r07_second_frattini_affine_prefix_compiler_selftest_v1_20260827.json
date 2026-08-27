@@ -1,0 +1,1 @@
+{"expected":{"complete":true,"dual":[["520103010203",1]],"family_size":12,"inside":[["520101010203",1],["520102020103",1]],"mutations_rejected":18,"outside":[["520103010203",1]],"transitions":[[1,"520101010203",[[1,1]]],[2,"520102010302",[[1,2],[2,1]]]]},"schema":"d972-r07-second-frattini-affine-prefix-compiler-selftest/v1"}
