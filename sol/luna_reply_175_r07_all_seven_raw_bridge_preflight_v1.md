@@ -135,3 +135,49 @@ They are fail-closed typed inputs/resources, not nonexistence or mathematical
 negative results.  All promotion boundaries remain false.
 
 R07_ALL_SEVEN_RAW_BRIDGE_PREFLIGHT_V1_STATIC_READY
+
+## Parent GHA execution
+
+The parent committed and pushed the exact static bundle at
+`dacb0f687aafb280b5cfc7540066a33ddb4fe157`.
+
+The first SELFTEST dispatch, run `33034469339`, failed before reading the
+task driver because the workflow input lost the quotes around the GAP string
+`SELFTEST`; GAP therefore treated it as an unbound variable.  No producer,
+checker, or mathematical replay ran in that attempt.  The code was unchanged.
+
+The quote-free equivalent binding by `List([...],CharInt)` was then used.
+SELFTEST run `33034589606`, at the same commit, completed successfully.  Its
+uploaded artifact records:
+
+```text
+D175_DRIVER_PASS
+mode=SELFTEST
+terminal=FIXTURE_PASS
+
+D175_PRODUCER_DONE
+UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD
+
+D175_STATIC_CHECK_PASS
+terminal=FIXTURE_PASS
+```
+
+The bounded fixture result additionally records `pins_authenticated=16`,
+`fox_d1=true`, `mutation_path=semantic_local_toy`, and
+`serialized_components=3`.  This is a driver/checker selftest only.
+
+After that success, the parent dispatched the serial production preflight:
+
+```text
+run id:       33034678957
+commit SHA:   dacb0f687aafb280b5cfc7540066a33ddb4fe157
+mode:         PRODUCTION
+workflow:     gap-run.yml
+out_dir:      ci/out
+timeout_min:  180
+packages:     false
+status:       in_progress
+```
+
+No READY, correction, lift, fake, or Ihara claim is made while that run is
+in progress.
