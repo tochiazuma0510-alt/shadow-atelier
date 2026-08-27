@@ -44,15 +44,15 @@ else
 fi;
 PrintTo(D193S,"producer_terminal=$(sed -n 's/^R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_PRODUCER_TERMINAL //p' ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.producer.log); checker_terminal=$(sed -n 's/^R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_CHECKER_PASS terminal=//p' ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.checker.log); test \"$producer_terminal\" = \"$checker_terminal\"\nprintf 'R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_OK\\n' > ",D193OK,"\ntest \"$(cat ",D193OK,")\" = 'R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_OK'\n"); CloseStream(D193S);;
 if D193Mode="FIXTURE_GEN" then
-  Exec(Concatenation("bash ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.sh"));
+  Exec("bash ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.sh");
 elif D193Mode="SELFTEST" then
   D193S2:=OutputTextFile("ci/out/d972_second_frattini_override.sh",false);;
   SetPrintFormattingStatus(D193S2,false);;
   PrintTo(D193S2,"#!/usr/bin/env bash\nset -euo pipefail\n");
   PrintTo(D193S2,"python3 -u -B ",D193Producer," --selftest --output ",D193Receipt," > ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.producer.log 2>&1\ncat ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.producer.log\ngrep -Fxc 'R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_PRODUCER_SELFTEST_PASS' ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.producer.log >/dev/null\npython3 -u -B ",D193Checker," ",D193Receipt," --selftest > ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.checker.log 2>&1\ncat ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.checker.log\ngrep -Fxc 'R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_CHECKER_PASS terminal=R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_SELFTEST_PASS' ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.checker.log >/dev/null\nprintf 'R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_OK\\n' > ",D193OK,"\ntest -s ",D193OK,"\n"); CloseStream(D193S2);;
-  Exec(Concatenation("bash ci/out/d972_second_frattini_override.sh"));
+  Exec("bash ci/out/d972_second_frattini_override.sh");
 else
-  Exec(Concatenation("bash ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.sh"));
+  Exec("bash ci/out/d972_r07_second_frattini_affine_prefix_compiler_v1.sh");
 fi;
 if not IsExistingFile(D193OK) then Error("task193 missing completion"); fi;
 if D193Mode="FIXTURE_GEN" then Print("R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_FIXTURE_GEN_DRIVER_PASS\n"); else Print("R07_SECOND_FRATTINI_AFFINE_PREFIX_COMPILER_V1_DRIVER_PASS\n"); fi;
