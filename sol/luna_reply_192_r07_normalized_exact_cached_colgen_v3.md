@@ -229,6 +229,11 @@ syntax/runtime-contract failure with no producer, checker, mathematical, or
 cross-checked result.  The corrected exact preamble is recorded above; no
 local execution or identity/hash refresh was performed by Luna.
 
+Parent Sol dispatched the corrected GHA SELFTEST as run `33101227112` at
+immutable head `a1644ca9b1479b4fc0d6a6e397b9684607f2d5f3`, with the quoted
+`SELFTEST` preamble above.  Its result is pending and is not yet a
+cross-checked result.
+
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO
