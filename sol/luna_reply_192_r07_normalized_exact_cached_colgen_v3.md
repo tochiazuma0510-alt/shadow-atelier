@@ -220,15 +220,15 @@ self-reference:
 | authorized file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134864 | `6f91d7f98abee317c43c986a4a00c015ab348907390080098729bda9bc711090` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `647041cb484ac863a7ea6eedfe3301d63c32102d3c6d56edb8813295c5ec0f81` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 135136 | `954700cff2154767d6d4108aa18239dde7bad34abf4eaf0d0e31332a6a4abc0e` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `573ead3328c8d84c9cb1202c416ba5e7ca5b0bf6bb496c98e24f1b401224de89` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The fixture-binding, dependent-row, and independent-toy-Fox repairs change
-the producer/checker byte counts to 164649/134864.  Parent Sol refreshed the
-checker SHA and the driver's internal checker pin after the static repair.
-The driver remains 11424 bytes.
+The fixture-binding, dependent-row, independent-toy-Fox, and counter-contract
+repairs change the producer/checker byte counts to 164649/135136.  Parent Sol
+refreshed the checker SHA and the driver's internal checker pin after the
+static repair.  The driver remains 11424 bytes.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -285,6 +285,16 @@ rank-zero resume paths all referenced the nonexistent name.  This is a checker
 SELFTEST code failure with no mathematical or cross-checked result.  All such
 paths now explicitly call the independently loaded checker routine, and the
 driver/checker pin update is recorded above.
+
+Parent Sol dispatched run `33104834631` at immutable head `731917fb`.  The
+producer SELFTEST passed, but the checker rejected the resume transcript at
+the safe chunk/counter carry-forward gate: producer physical cache counters
+may legitimately differ from the independently reconstructed checker cache
+counters, while logical attempts and monotonicity remain bound.  This was a
+checker SELFTEST contract failure with no mathematical or cross-checked
+result.  The checker now independently binds logical counters and exact
+counter schemas, allows only the documented physical cache-counter variance,
+and preserves the safe chunk end/rank-zero suffix-only checks.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO

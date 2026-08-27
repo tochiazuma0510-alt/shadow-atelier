@@ -1044,20 +1044,24 @@ def validate_cached_schedule_selftest(receipt, helper):
                       "c_exact_direct_replay", "terminal"):
             require(item.get(field) == expected_resume[field],
                     "cached chunk resume transcript:" + field)
-        require(item.get("resource_counters", {}).get("logical_attempts") ==
+        prior = item.get("prior_resource_counters", {})
+        current = item.get("resource_counters", {})
+        require(isinstance(prior, dict) and isinstance(current, dict) and
+                set(prior) == {"logical_attempts", "cache_hits", "cache_misses"} and
+                set(current) == {"logical_attempts", "cache_hits", "cache_misses"} and
+                current.get("logical_attempts") ==
                 expected_resume["resource_counters"]["logical_attempts"] and
-                all(type(item.get("resource_counters", {}).get(field)) is int
-                    and item["resource_counters"][field] >= 0
+                prior.get("logical_attempts") ==
+                expected_resume["resource_counters"]["logical_attempts"] and
+                all(type(current.get(field)) is int and current[field] >= 0 and
+                    type(prior.get(field)) is int and prior[field] >= 0
                     for field in ("cache_hits", "cache_misses")),
                 "cached chunk resume counters")
         require(item.get("safe_chunk_end") == position and
                 item.get("safe_chunk_end") > 0 and
                 item.get("resource_counters_monotone") is True and
-                item.get("prior_resource_counters") ==
-                expected_resume["resource_counters"] and
-                all(item["resource_counters"].get(name, 0) >=
-                    item["prior_resource_counters"].get(name, 0)
-                    for name in item["resource_counters"]),
+                all(current.get(name, 0) >= prior.get(name, 0)
+                    for name in current),
                 "cached safe chunk/counter carry-forward")
     controls = cached.get("mutation_controls", {})
     require(controls.get("attempted") == len(CACHE_MUTATIONS) and
