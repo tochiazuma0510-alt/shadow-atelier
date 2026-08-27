@@ -588,7 +588,9 @@ def toy_echelon_selftest() -> dict[str, Any]:
         try: valid(candidate)
         except RuntimeError: rejected += 1
     probe = Budget(argparse.Namespace(seconds=999, boundary_pairs=0,
-                    retained_columns=0, rss_bytes=10**18))
+                    fibre_scans=10**9, candidate_words=10**9,
+                    retained_columns=0, checkpoint_bytes=10**12,
+                    rss_bytes=10**18, oracle_rounds=10**6))
     stopped = False
     try: probe.bump("boundary_pairs", 1, "toy_resource_stop")
     except ResourceStop: stopped = True
