@@ -160,17 +160,17 @@ encountered in the words below.
 
 Construct the two PB3 words from
 `old.hexagon_words(f^(1))` followed by `old.embed_f2_pb3`.  Construct the PB4
-word independently from the five frozen context pairs.  If their substituted
-factors are (b_1,\ldots,b_5), its printed order is
+word independently from the five frozen context pairs.  If
+`c[0],...,c[4]` denotes the substituted factors in the stored `pcontexts`
+order, the exact constructor is
 
-\[
- b_2b_4b_1b_3^{-1}b_5^{-1}
- \tag{4.1}
-\]
+```text
+paper_product(c[1], c[3], c[0], inverse(c[2]), inverse(c[4]))
+```
 
-in the repository's `paper_product` convention; equivalently this is the
-existing task179 order `factors[1], factors[3], factors[0],
-inverse(factors[2]), inverse(factors[4])`.  Compare all three ordinary
+which task175 describes in its printed factor names as
+`b1*b2*b3*b5^-1*b4^-1`.  The two naming orders must not be identified by
+their subscripts.  Compare all three ordinary
 (G_r)-values and all ordinary Fox rows with the task186 independent direct
 replay before using them.
 
