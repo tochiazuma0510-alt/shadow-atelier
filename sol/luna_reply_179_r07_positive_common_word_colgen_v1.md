@@ -292,3 +292,29 @@ above. The authoritative next-run quartet is therefore:
 - checker: `70020 / 473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d`;
 - driver: `12872 / fbab67e85de604f157f8bd93f53d64e7265121508aa948c1e01341e78d1b5a11`;
 - fixture: `407 / 46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78`.
+
+## Parent GHA SELFTEST PASS and production launch
+
+The repaired bundle passed GHA SELFTEST run `33051614930` at head
+`731a950b5f1aa91b3817f9bb70ec8c3de50c3beb`. The exact three external
+markers are:
+
+```text
+R07_POSITIVE_COMMON_WORD_COLGEN_V1_PRODUCER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 coarse_inverse_checks=4 weighted_mutation_attempted=8 weighted_mutation_rejected=8
+R07_POSITIVE_COMMON_WORD_COLGEN_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 coarse_inverse_checks=4 weighted_mutation_attempted=8 weighted_mutation_rejected=8
+R07_POSITIVE_COMMON_WORD_COLGEN_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
+```
+
+Downloaded artifact identities include:
+
+- receipt: `7511 / b237427153c71b23fb56d36828f3eeaf7f09139b3df68d16a1c2262afadb2cc8`;
+- helper-nonshared verdict: `367 / 815c223c956eecb202015e10fd6dffeed1e786cd13e39ef4b2a1d5697e685973`;
+- producer log: `184 / 06a69378c5af25cc6ac002103c89acdd2e702c796ca4266b4b09678024b0fa4f`;
+- checker log: `183 / afe29d0e609d4a7b5e3b09d401d8f9cacb1c5bd715d342f3ffb1034c67ec9894`;
+- run log: `450 / 72cc2645d742b87a22fedc7b0d49e4d9709365975cb7c51c053652992879fc9e`.
+
+This promotes the finite bundle to `SELFTEST PASS`. Parent launched the
+actual production search as run `33051754958` at the same head, concurrently
+with task175 production run `33051614970`. Both production outcomes remain
+pending; no finite common word, cofinal lift, fake, or Ihara witness is yet
+declared.

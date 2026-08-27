@@ -159,3 +159,15 @@ above. The authoritative next-run quartet is:
 - checker: `70020 / 473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d`;
 - driver: `12872 / fbab67e85de604f157f8bd93f53d64e7265121508aa948c1e01341e78d1b5a11`;
 - fixture: `407 / 46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78`.
+
+## Parent GHA SELFTEST PASS
+
+GHA run `33051614930` at head
+`731a950b5f1aa91b3817f9bb70ec8c3de50c3beb` passed producer, independent
+checker, and driver with the exact `15+8` mutation markers. Receipt and
+verdict are respectively
+`7511 / b237427153c71b23fb56d36828f3eeaf7f09139b3df68d16a1c2262afadb2cc8`
+and
+`367 / 815c223c956eecb202015e10fd6dffeed1e786cd13e39ef4b2a1d5697e685973`.
+Production run `33051754958` was then launched at the same head. Execution
+status is now `SELFTEST PASS / production pending`.
