@@ -197,8 +197,7 @@ else
   fi;
 fi;
 
-# Print the external sentinel with formatting disabled.  This prevents GAP's
-# console formatter from inserting a backslash-newline into the exact marker.
-SetPrintFormattingStatus(OutputTextUser,false);;
-Print("R07_POSITIVE_COMMON_WORD_COLGEN_V1_GHA_DRIVER_PASS mode=",D179Mode,
-      " terminal=",D179Terminal,"\n");
+# Print the external sentinel through GAP's supported user stream API.
+WriteLine(OutputTextUser(),Concatenation(
+  "R07_POSITIVE_COMMON_WORD_COLGEN_V1_GHA_DRIVER_PASS mode=",D179Mode,
+  " terminal=",D179Terminal));;

@@ -121,6 +121,18 @@ Current post-repair identities (driver checker pin synchronized):
 
 No local Python/Node/GAP/git/GHA execution was performed in this repair.
 
+## Driver-only GHA repair
+
+Re-SELFTEST run `33051307164` at head `c0593608` reached producer PASS and
+checker PASS with exact 15 ordinary plus 8 weighted markers. The driver then
+failed because `SetPrintFormattingStatus(OutputTextUser,false)` is not a GAP
+4.16 method. The final sentinel now uses the supported
+`WriteLine(OutputTextUser(),Concatenation(...))` form.
+
+Updated driver identity: 12,872 bytes,
+`fbab67e85de604f157f8bd93f53d64e7265121508aa948c1e01341e78d1b5a11`.
+Producer/checker identities are unchanged by this driver-only repair.
+
 ## Final superseding cascade before rerun
 
 After the independent-checker mutation repair, task175 run `33047989700`
@@ -137,3 +149,13 @@ and driver through task179 yields the next-run identities:
 
 Static status is `STATIC GO / GHA re-SELFTEST pending`; neither prior failed
 run has mathematical negative content.
+
+## Ultimate identities for the next GHA rerun
+
+The driver-only GAP stream repair supersedes the driver row immediately
+above. The authoritative next-run quartet is:
+
+- producer: `119396 / 448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512`;
+- checker: `70020 / 473bad89f9656dd67f4313398b5bdbb253a3495e1e20855d90781b4875309f2d`;
+- driver: `12872 / fbab67e85de604f157f8bd93f53d64e7265121508aa948c1e01341e78d1b5a11`;
+- fixture: `407 / 46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78`.

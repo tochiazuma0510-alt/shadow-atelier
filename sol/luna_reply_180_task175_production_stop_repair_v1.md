@@ -339,6 +339,37 @@ all_seven_fox_sample pinned old APIs found:                  8/8
 checker reconstruct calls inside mutation dependency suite: 0
 checker canonical reconstruct(cert) calls in validate_ready: 1
 driver PIPESTATUS captures:                                  6
+
+## 8. Parent GHA re-SELFTEST receipt
+
+Parent committed the symbol repair and ran GHA SELFTEST as run
+`33051307076` at head
+`c05936086bb67751279807e32b01128def0a7364`. The workflow completed
+successfully and emitted the exact final marker:
+
+```text
+D175_DRIVER_PASS
+mode=SELFTEST
+terminal=FIXTURE_PASS
+```
+
+Both injected fail-closure probes were also observed exactly:
+
+```text
+T175_STAGE_FAILURE stage=PRODUCER exit=17
+T175_STAGE_FAILURE stage=CHECKER exit=23
+```
+
+Downloaded `gap-run-out` identities include:
+
+- selftest receipt: `8696 / 46a644588c6fdaadb079a954db9766e2e1d797ebca2ccd13020ca91174a5c336`;
+- producer log: `58 / 2c591f0a6757f6f7880f02a751990730442307c9bf2f06c2f8eadd7693f69ea3`;
+- checker log: `200 / 00a314da72c44b6abadb619a1fc6bb1be1817d02e1db488670cfdb5092d89df0`;
+- driver PASS sidecar: `53 / 668cd02a70318001f9c0079940b759820585ecccd92f8af17aae80b7f5301e54`;
+- run log: `402 / 83cb4e09ebdd5a6fe1cce0805b88ceddd1cfe8b795b8c6bb1cfe787bcc1cbadb`.
+
+This promotes the repaired bundle to `SELFTEST PASS`; production READY is
+still pending a fresh full run. No local Python, Node, or GAP was used.
 driver outer timeout 9000s declarations:                     2
 driver non-ASCII bytes:                                      0
 driver NUL bytes:                                            0
