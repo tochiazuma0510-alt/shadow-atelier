@@ -73,10 +73,10 @@ PINS: dict[str, tuple[str, int, str]] = {
                  "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67"),
     "task175_producer": ("search/d972_r07_all_seven_raw_bridge_preflight_v1.py", 60306,
                          "1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa"),
-    "task175_checker": ("crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py", 85848,
-                        "c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc"),
-    "task175_driver": ("search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g", 21580,
-                       "dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765"),
+    "task175_checker": ("crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py", 88503,
+                        "0b45c3daa1db6cad63d434170c65d0dbfa928efc51543b881dc0aa2e3a0f1fce"),
+    "task175_driver": ("search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g", 22052,
+                       "919e7a9efe7385444c480203dc51525873e770236777dd61e2f6fc1ef22de494"),
     "task176_producer": ("search/d972_r07_all_seven_extension_section_census_v1.py", 66109,
                          "878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b"),
     "task176_checker": ("crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py", 84980,
@@ -141,14 +141,89 @@ def require(condition: bool, message: str) -> None:
         raise RuntimeError(message)
 
 
+def pinned_source_identity(rel: str) -> tuple[Path, int, str]:
+    identities = {(size, digest) for candidate, size, digest in PINS.values()
+                  if candidate == rel}
+    if len(identities) != 1:
+        raise InputStop("module_not_uniquely_pinned:" + rel)
+    size, digest = next(iter(identities)); path = ROOT / rel
+    if not path.is_file():
+        raise InputStop("module_missing:" + rel)
+    raw = path.read_bytes()
+    if len(raw) != size or sha_bytes(raw) != digest:
+        raise InputStop("module_pin:" + rel)
+    return path.resolve(), size, digest
+
+
+def authenticated_bound_module(name: str, rel: str) -> Any:
+    """Reuse only an already-bound module from the exact pinned source."""
+    expected_path, _, _ = pinned_source_identity(rel)
+    module = sys.modules.get(name)
+    if module is None:
+        raise RuntimeError("authenticated module slot empty:" + name)
+    source = getattr(module, "__file__", None)
+    if not isinstance(source, str) or Path(source).resolve() != expected_path:
+        raise RuntimeError("authenticated module name collision:" + name)
+    return module
+
+
 def load_module(rel: str, name: str) -> Any:
-    path = ROOT / rel
+    path, _, _ = pinned_source_identity(rel)
+    if name in sys.modules:
+        return authenticated_bound_module(name, rel)
     spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
         raise InputStop("module_loader:" + rel)
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except BaseException:
+        if sys.modules.get(name) is module:
+            del sys.modules[name]
+        raise
     return module
+
+
+def module_import_control_public() -> dict[str, Any]:
+    double_rel, double_size, double_sha = PINS["g760_source"]
+    cross_rel, cross_size, cross_sha = PINS["old_arithmetic"]
+    seed_rel, seed_size, seed_sha = PINS["seedspan_arithmetic"]
+    return {
+        "same_name_same_path_reused": True,
+        "same_name_cross_path_rejected": True,
+        "double_source": {"path": double_rel, "bytes": double_size,
+                          "sha256": double_sha},
+        "cross_source": {"path": cross_rel, "bytes": cross_size,
+                         "sha256": cross_sha},
+        "production_predecessor_slot": "_d972_157ed_old_producer",
+        "production_source": {"path": seed_rel, "bytes": seed_size,
+                              "sha256": seed_sha},
+        "second_authenticated_input_call": False,
+    }
+
+
+def module_import_selftest() -> dict[str, Any]:
+    """Bounded real-loader control for the run-33051754958 failure mode."""
+    name = "_d179_bounded_double_cross_import"
+    require(name not in sys.modules, "bounded import-control slot prebound")
+    first: Any = None
+    try:
+        first = load_module(PINS["g760_source"][0], name)
+        require(load_module(PINS["g760_source"][0], name) is first,
+                "same-path double import did not reuse")
+        rejected = False
+        try:
+            load_module(PINS["old_arithmetic"][0], name)
+        except RuntimeError as exc:
+            require(str(exc) == "authenticated module name collision:" + name,
+                    "cross-import rejection type")
+            rejected = True
+        require(rejected, "same-name cross import accepted")
+    finally:
+        if first is not None and sys.modules.get(name) is first:
+            del sys.modules[name]
+    return module_import_control_public()
 
 
 def authenticate_inputs() -> dict[str, dict[str, Any]]:
@@ -384,6 +459,12 @@ def build_runtime(monitor: Monitor) -> dict[str, Any]:
     bridge = p175.run_preflight()
     if bridge.get("terminal") != p175.TERMINAL_READY:
         raise InputStop("task175:not_READY")
+    # task175's authenticated predecessor loader deliberately leaves this
+    # exact module registered.  Reuse it; a second authenticated_input() call
+    # would ask the predecessor to bind the same fixed name again and caused
+    # the deterministic run-33051754958 collision before column generation.
+    old175 = authenticated_bound_module(
+        "_d972_157ed_old_producer", PINS["seedspan_arithmetic"][0])
 
     p176 = load_module(PINS["task176_producer"][0], "d179_task176")
     module_api(p176, {
@@ -408,6 +489,30 @@ def build_runtime(monitor: Monitor) -> dict[str, Any]:
     contexts, aliases, context_public = old.cheap_context_registry(e4)
     require(len(contexts) == 31 and len(aliases) >= 46, "ten context registry")
     words = [list(row["word"]) for row in q3["correction_fibre"]["records"] if row.get("word")]
+
+    # Resolve every potentially colliding predecessor import before the
+    # expensive Gamma/Q0 section enumeration.  The q3 and arithmetic are the
+    # already-authenticated objects; no second predecessor authenticated_input
+    # call is made.  Exact serialized roster equality with task175 remains the
+    # final semantic gate.
+    require(tuple(p176.PINS["e4_arithmetic"]) == PINS["seedspan_arithmetic"] and
+            tuple(p176.PINS["task157ee_producer"]) == PINS["joint_source"],
+            "task176/task179 arithmetic source binding")
+    v172 = p175.load_source(PINS["v172_source"][0], "d179_v172")
+    require(Path(v172.Q3).resolve() == q3_path.resolve() and
+            v172.Q3_SHA == PINS["q3_receipt"][2] and
+            Path(v172.PREV).resolve() == (ROOT / PINS["old_arithmetic"][0]).resolve() and
+            v172.PREV_SHA == PINS["old_arithmetic"][2],
+            "v172 authenticated q3/predecessor binding")
+    e3_175, e4_175, _ = old175.reconstruct_quotients(q3)
+    contexts175, _, _ = old175.cheap_context_registry(e4_175)
+    group, roster = v172.build_roster(jointmod, old175, e3_175, e4_175,
+                                      contexts175, words)
+    require(len(roster) == 6441 and all(group.eval(row["word"]) == group.identity
+                                        for row in roster), "complete relation roster")
+    require([[r["layer"], r["ordinal"], r["word"]] for r in roster] ==
+            [[r["layer"], r["ordinal"], r["word"]] for r in bridge["roster"]],
+            "task175 roster equality")
 
     class PackedJointGroup(jointmod.JointGroup):
         def blob(self, value: Any) -> bytes:
@@ -463,22 +568,6 @@ def build_runtime(monitor: Monitor) -> dict[str, Any]:
                          "Gamma_S0_order": len(gamma_kernel),
                          "L_order": L_counts[name], "L_proof": proof}
 
-    # Rebuild the complete 6,441 roster/group from the same authenticated
-    # arithmetic; the 110 rows in task175 remain canaries only.
-    v172 = p175.load_source(PINS["v172_source"][0], "d179_v172")
-    prev = v172.load(v172.PREV, "d179_v172_prev")
-    prev.Q3_ARTIFACT = v172.Q3; prev.Q3_ARTIFACT_SHA = v172.Q3_SHA
-    q_for_roster, old175 = prev.authenticated_input(v172.Q3)
-    e3_175, e4_175, _ = old175.reconstruct_quotients(q_for_roster)
-    contexts175, _, _ = old175.cheap_context_registry(e4_175)
-    joint175 = p175.load_source(PINS["joint_source"][0], "d179_joint175")
-    group, roster = v172.build_roster(joint175, old175, e3_175, e4_175,
-                                      contexts175, words)
-    require(len(roster) == 6441 and all(group.eval(row["word"]) == group.identity
-                                        for row in roster), "complete relation roster")
-    require([[r["layer"], r["ordinal"], r["word"]] for r in roster] ==
-            [[r["layer"], r["ordinal"], r["word"]] for r in bridge["roster"]],
-            "task175 roster equality")
     return {"p175": p175, "p176": p176, "bridge": bridge, "old": old,
             "e3": e3, "e4": e4, "contexts": contexts,
             "context_public": context_public, "delete": delete,
@@ -487,7 +576,8 @@ def build_runtime(monitor: Monitor) -> dict[str, Any]:
             "parents": parents, "letters": letters, "stores": stores,
             "coordinate_marks": coordinate_marks, "emitted": emitted,
             "roster": roster, "joint_group": group,
-            "deletion_public": deletion_public}
+            "deletion_public": deletion_public,
+            "module_import_control": module_import_control_public()}
 
 
 def unpack_element(runtime: dict[str, Any], raw: bytes, block: int) -> Any:
@@ -1130,6 +1220,7 @@ class PositiveSearch:
         }
         self.input_components = {
             "pins": pins, "target": public_sparse(self.target),
+            "authenticated_module_import": runtime["module_import_control"],
             "roster": runtime["bridge"]["relation_roster"]["roster_sha256"],
             "Gamma": runtime["gamma"].public()["state_rows_sha256"],
             "Q0": sha_chunks(runtime["qstates"]),
@@ -1926,6 +2017,8 @@ def validate_toy_certificate(fixture: dict[str, Any], cert: dict[str, Any]) -> N
     validate_seal(cert)
     require(cert.get("terminal") == COMMON and cert.get("separator") is False and
             cert.get("negative_claim") is False, "toy positive envelope")
+    require(cert.get("module_import_control") == module_import_control_public(),
+            "SELFTEST authenticated double/cross import control")
     require(cert.get("target_source") == "toy_raw_base_targets_not_canary",
             "toy target/canary separation")
     coarse = cert.get("coarse_inverse", {})
@@ -2141,6 +2234,9 @@ def selftest_receipt() -> dict[str, Any]:
             "immutable selftest fixture")
     fixture = json.loads(raw.decode("ascii"))
     cert = build_toy_certificate(fixture)
+    cert = dict(cert); cert.pop("self_digest", None)
+    cert["module_import_control"] = module_import_selftest()
+    cert = seal(cert)
     validate_toy_certificate(fixture, cert)
     rejected = toy_mutation_suite(fixture, cert)
     answer = dict(cert)

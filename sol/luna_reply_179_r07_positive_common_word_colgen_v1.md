@@ -5,7 +5,8 @@ Role: Luna mechanical implementation / static audit only
 
 ## 1. Verdict
 
-**STATIC GO, execution UNKNOWN/BLOCKED at predecessor pin finalization.**
+**STATIC GO after the run-33051754958 import-collision repair; GHA
+re-SELFTEST is pending.**
 
 The five-file task179 bundle is implemented.  The production route is not an
 unconditional seal or stub: after exact-pin authentication it calls the live
@@ -13,9 +14,10 @@ task175 reconstruction, rebuilds the complete 6,441 relation roster, rebuilds
 the task176 `Gamma=243` / `Q0=1,469,664` linked section and singleton
 `A_S,L_S,Gamma_S^0` data, and then enters the positive column-generation loop.
 
-I did **not** run Python, Node, GAP, git, GHA, or the full production search,
-as commissioned.  Therefore SELFTEST, Python syntax, GAP syntax, and runtime
-terminals are `UNKNOWN` pending the parent's clean GHA audit.
+I did **not** run Python, Node, GAP, git, GHA, or the full production search
+locally.  The earlier bundle passed GHA SELFTEST run `33051614930`; this new
+import repair still requires the parent's clean GHA re-SELFTEST before the
+production run is restarted.
 
 ## 2. Created files and pre-cascade identities
 
@@ -207,16 +209,16 @@ are:
 
 | bundle | producer | checker | driver |
 |---|---|---|---|
-| task175 | `60303 / e70cdededfe11dffbcf1b6e52e44c12fa03f98d4d1b859bece3f48528ea9d425` | `85848 / c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc` | `21580 / df7b860b865c6f165e23b42cbe06bfa06f0d9172dc552e3a8dc0872409783da0` |
+| task175 | `60306 / 1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa` | `88503 / 0b45c3daa1db6cad63d434170c65d0dbfa928efc51543b881dc0aa2e3a0f1fce` | `22052 / 919e7a9efe7385444c480203dc51525873e770236777dd61e2f6fc1ef22de494` |
 | task176 | `66109 / 878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b` | `84980 / 4e6b97aa315fdccb4250de21e99dd78302477b90fd420215de6c6bea7d1fa695` | `15929 / 1c6dc7f10d9b27092c2441a274ff74726d8899599ac10c2b8cc47cb59da02995` |
 
 Final task179 source identities after that ordered cascade are:
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_positive_common_word_colgen_v1.py` | 119,396 | `4dcae739a8d1181341ae90a7375e7ca7c465d404582e53a24b6fc84ab7a3f5f4` |
-| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 69,752 | `c2f50def1e1ea348bc2919aff91cba1fa748978a55b1895c9b58a69f673b314f` |
-| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,974 | `418ab65951b3fc284bc52b36043685146fd8f9faacdf31e381c365c863edffbd` |
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 123,870 | `47116826e1b94750fa5eaa0c577586aeaec23a476c5f004fc0d5ea83892845c7` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 73,780 | `de1d821c26cfc24c8069258ed1f19567358c86705dbc99103fff05a98d164c1d` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,872 | `48f95b79cfea29d54f539f25c649465599aac081d647e7ab87d851a2695aa97b` |
 | `search/certs/d972_r07_positive_common_word_colgen_selftest_v1_20260827.json` | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
 
 Static verdict after parent audit is `STATIC GO / execution pending`.
@@ -318,3 +320,69 @@ actual production search as run `33051754958` at the same head, concurrently
 with task175 production run `33051614970`. Both production outcomes remain
 pending; no finite common word, cofinal lift, fake, or Ihara witness is yet
 declared.
+
+## Production run 33051754958 import-collision repair
+
+This section supersedes the final sentence immediately above. Production run
+`33051754958`, head
+`731a950b5f1aa91b3817f9bb70ec8c3de50c3beb`, failed after approximately 82
+minutes and before `PositiveSearch`/column generation. The exact first error
+was:
+
+```text
+AffineInput: authenticated module name already bound: _d972_157ed_old_producer
+```
+
+The deterministic call chain was old producer `build_runtime` line 471 ->
+`prev.authenticated_input(v172.Q3)` -> predecessor
+`load_pinned_module(..., "_d972_157ed_old_producer")`. Task175's earlier
+`run_preflight()` had already authenticated and registered that exact module;
+the second call rejected its own fixed name. This is an import lifecycle bug,
+not a failed mathematical gate.
+
+The repair is deliberately narrow.
+
+1. Producer lines 144--226 now authenticate a module's path, byte count, and
+   SHA before loading. Repeating the same `(name,path,pin)` reuses the exact
+   bound object; the same name with a different pinned path is a hard
+   collision.
+2. At producer lines 466--467, the task175-bound
+   `_d972_157ed_old_producer` is reused only after its on-disk source is
+   checked against the exact task179 seedspan pin. The second
+   `authenticated_input` call is gone.
+3. Producer lines 495--515 bind v172's Q3 and predecessor constants to the
+   task179 pins, reconstruct the literal 6,441-row roster with the reused
+   arithmetic, and require exact serialized equality with task175. These
+   collision/roster gates now run before Gamma/Q0 enumeration, so this failure
+   class cannot consume the later expensive section preamble again.
+4. The production input/checkpoint records the authenticated reuse policy.
+   Checker lines 878 and 955 require that exact record for checkpoint and
+   COMMON_WORD validation.
+5. Producer and helper-nonshared checker each execute a bounded real loader
+   control in SELFTEST: same-name/same-path is imported twice and must return
+   the same module; same-name/different-pinned-path must be rejected. The
+   checker independently executes its control and binds it to the producer
+   receipt. No producer helper is imported by the checker.
+
+Run `33051754958` stopped before `PositiveSearch` was constructed, hence it
+created no authenticated task179 column checkpoint that can safely skip the
+preamble. The existing resume contract starts from a post-preamble column
+state and does not serialize live Gamma/Q0 Python objects. Therefore no
+fabricated cache was added: the next job must reconstruct the preamble once.
+The repaired ordering merely moves all collision-prone import/roster gates
+ahead of the expensive Gamma/Q0 enumeration.
+
+Final repaired machine identities are:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `search/d972_r07_positive_common_word_colgen_v1.py` | 123,870 | `47116826e1b94750fa5eaa0c577586aeaec23a476c5f004fc0d5ea83892845c7` |
+| `crosscheck/check_d972_r07_positive_common_word_colgen_v1.py` | 73,780 | `de1d821c26cfc24c8069258ed1f19567358c86705dbc99103fff05a98d164c1d` |
+| `search/d972_r07_positive_common_word_colgen_gha_driver_v1.g` | 12,872 | `48f95b79cfea29d54f539f25c649465599aac081d647e7ab87d851a2695aa97b` |
+| fixture | 407 | `46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78` |
+
+No local Python/Node/GAP/git/GHA execution was performed for this repair.
+Current status is `STATIC GO / repaired SELFTEST and production pending`.
+The final cascade also binds the task175 PB3 repair committed at
+`9ec72d68f3ba99fbfe2d2bebfd5d78e0dcf2deea`; task175 files themselves were
+not edited by task179.

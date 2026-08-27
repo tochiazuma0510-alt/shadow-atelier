@@ -32,8 +32,8 @@ FIXTURE_SHA256 = "46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c
 
 
 PINS: dict[str, tuple[str, int, str]] = {
-    "producer": ("search/d972_r07_positive_common_word_colgen_v1.py", 119396,
-                 "448123e3ccba4324f4d19a09eeb6a2ba217d611ef5053d4cfa27e61ac69a2512"),
+    "producer": ("search/d972_r07_positive_common_word_colgen_v1.py", 123870,
+                 "47116826e1b94750fa5eaa0c577586aeaec23a476c5f004fc0d5ea83892845c7"),
     "task179": ("sol/luna_task_179_r07_positive_common_word_colgen_v1.md", 13105,
                 "f97870ec0243b2c399928bcef4f89134f1cd41f15869cc88e3ba7d9dc6956a73"),
     "proof142": ("sol/proof_r07_actual_singleton_coarse_inverse_selector_v142.md", 4942,
@@ -60,10 +60,10 @@ PINS: dict[str, tuple[str, int, str]] = {
                  "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67"),
     "task175_producer": ("search/d972_r07_all_seven_raw_bridge_preflight_v1.py", 60306,
                          "1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa"),
-    "task175_checker": ("crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py", 85848,
-                        "c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc"),
-    "task175_driver": ("search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g", 21580,
-                       "dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765"),
+    "task175_checker": ("crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py", 88503,
+                        "0b45c3daa1db6cad63d434170c65d0dbfa928efc51543b881dc0aa2e3a0f1fce"),
+    "task175_driver": ("search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g", 22052,
+                       "919e7a9efe7385444c480203dc51525873e770236777dd61e2f6fc1ef22de494"),
     "task176_producer": ("search/d972_r07_all_seven_extension_section_census_v1.py", 66109,
                          "878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b"),
     "task176_checker": ("crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py", 84980,
@@ -111,6 +111,28 @@ def require(condition: bool, message: str) -> None:
         raise RuntimeError(message)
 
 
+def pinned_source_identity(rel: str) -> tuple[Path, int, str]:
+    identities = {(size, digest) for candidate, size, digest in PINS.values()
+                  if candidate == rel}
+    require(len(identities) == 1, "module not uniquely pinned:" + rel)
+    size, digest = next(iter(identities)); path = ROOT / rel
+    require(path.is_file(), "module missing:" + rel)
+    raw = path.read_bytes()
+    require(len(raw) == size and sha_bytes(raw) == digest,
+            "module pin:" + rel)
+    return path.resolve(), size, digest
+
+
+def authenticated_bound_module(name: str, rel: str) -> Any:
+    expected_path, _, _ = pinned_source_identity(rel)
+    module = sys.modules.get(name)
+    require(module is not None, "authenticated module slot empty:" + name)
+    source = getattr(module, "__file__", None)
+    require(isinstance(source, str) and Path(source).resolve() == expected_path,
+            "authenticated module name collision:" + name)
+    return module
+
+
 def authenticate() -> dict[str, Any]:
     out = {}
     for name, (rel, size, digest) in PINS.items():
@@ -126,10 +148,60 @@ def authenticate() -> dict[str, Any]:
 
 
 def load_module(rel: str, name: str) -> Any:
-    spec = importlib.util.spec_from_file_location(name, ROOT / rel)
+    path, _, _ = pinned_source_identity(rel)
+    if name in sys.modules:
+        return authenticated_bound_module(name, rel)
+    spec = importlib.util.spec_from_file_location(name, path)
     require(spec is not None and spec.loader is not None, "module loader")
-    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module)
+    module = importlib.util.module_from_spec(spec); sys.modules[name] = module
+    try:
+        spec.loader.exec_module(module)
+    except BaseException:
+        if sys.modules.get(name) is module:
+            del sys.modules[name]
+        raise
     return module
+
+
+def module_import_control_public() -> dict[str, Any]:
+    double_rel, double_size, double_sha = PINS["g760_source"]
+    cross_rel, cross_size, cross_sha = PINS["old_arithmetic"]
+    seed_rel, seed_size, seed_sha = PINS["seedspan_arithmetic"]
+    return {
+        "same_name_same_path_reused": True,
+        "same_name_cross_path_rejected": True,
+        "double_source": {"path": double_rel, "bytes": double_size,
+                          "sha256": double_sha},
+        "cross_source": {"path": cross_rel, "bytes": cross_size,
+                         "sha256": cross_sha},
+        "production_predecessor_slot": "_d972_157ed_old_producer",
+        "production_source": {"path": seed_rel, "bytes": seed_size,
+                              "sha256": seed_sha},
+        "second_authenticated_input_call": False,
+    }
+
+
+def module_import_selftest() -> dict[str, Any]:
+    """Independent bounded real-loader double/cross-import control."""
+    name = "_d179_checker_bounded_double_cross_import"
+    require(name not in sys.modules, "checker import-control slot prebound")
+    first: Any = None
+    try:
+        first = load_module(PINS["g760_source"][0], name)
+        require(load_module(PINS["g760_source"][0], name) is first,
+                "checker same-path double import did not reuse")
+        rejected = False
+        try:
+            load_module(PINS["old_arithmetic"][0], name)
+        except RuntimeError as exc:
+            require(str(exc) == "authenticated module name collision:" + name,
+                    "checker cross-import rejection type")
+            rejected = True
+        require(rejected, "checker same-name cross import accepted")
+    finally:
+        if first is not None and sys.modules.get(name) is first:
+            del sys.modules[name]
+    return module_import_control_public()
 
 
 def seal(value: dict[str, Any]) -> dict[str, Any]:
@@ -802,6 +874,9 @@ def validate_checkpoint(runtime: dict[str, Any], target: Sparse,
             parse_sparse(checkpoint.get("target", [])) == target and
             checkpoint.get("target_sha256") == sha_obj(checkpoint["target"]),
             "checkpoint input/target")
+    require(checkpoint.get("input_components", {}).get(
+                "authenticated_module_import") == module_import_control_public(),
+            "checkpoint authenticated module reuse")
     index_meta = checkpoint.get("coarse_inverse_index", {})
     require(index_meta.get("state_count") == 1_469_664 and
             index_meta.get("table_length") == (1 << 22) and
@@ -876,6 +951,9 @@ def validate_common(runtime: dict[str, Any], receipt: dict[str, Any],
             receipt.get("target_source") ==
             "negative task175 raw_base_targets H1/H2/P; never stacked_target",
             "exact target/canary separation")
+    require(receipt.get("input_components", {}).get(
+                "authenticated_module_import") == module_import_control_public(),
+            "COMMON authenticated module reuse")
     index_meta = receipt.get("input_components", {}).get("coarse_inverse_index", {})
     require(index_meta.get("state_count") == 1_469_664 and
             index_meta.get("coordinate_count") == 10 and
@@ -1077,6 +1155,8 @@ def validate_selftest(fixture: dict[str, Any], cert: dict[str, Any]) -> None:
             cert.get("terminal") == COMMON and cert.get("separator") is False and
             cert.get("negative_claim") is False and cert.get("fixture_sha256") == FIXTURE_SHA256,
             "SELFTEST envelope")
+    require(cert.get("module_import_control") == module_import_control_public(),
+            "SELFTEST producer double/cross import control")
     require(cert.get("coarse_inverse") == independent_coarse_inverse_selftest(),
             "SELFTEST independent coarse inverse")
     weighted = cert.get("weighted_support", {})
@@ -1267,6 +1347,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     receipt = json.loads(receipt_path.read_text(encoding="ascii")); validate_seal(receipt)
     if args.mode == "SELFTEST":
         fixture = json.loads(FIXTURE.read_text(encoding="ascii"))
+        require(module_import_selftest() == receipt.get("module_import_control"),
+                "independent double/cross import control")
         validate_selftest(fixture, receipt)
         rejected = independent_selftest_mutations(fixture, receipt)
         weighted_rejected = independent_weighted_mutations(fixture, receipt)
@@ -1280,6 +1362,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             "mutation_attempted": 15, "mutation_rejected": rejected,
             "weighted_mutation_attempted": 8,
             "weighted_mutation_rejected": weighted_rejected,
+            "module_import_double_cross": True,
             "helper_nonshared": True})
         marker = ("R07_POSITIVE_COMMON_WORD_COLGEN_V1_CHECKER_SELFTEST_PASS "
                   "mutation_attempted=15 mutation_rejected=15 "
