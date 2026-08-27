@@ -1,0 +1,192 @@
+{
+  "schema": "d972-r07-cubic-coset-moment-oracle-selftest/v2",
+  "status": "SELFTEST",
+  "terminal": "FIXTURE_PASS",
+  "model": {
+    "coordinate_count": 2,
+    "gamma_coarse_order": 3,
+    "linked_graph_order": 3,
+    "noncommutative": {
+      "linked_extension": true,
+      "order": 6,
+      "different_products": true
+    },
+    "delta_states": [
+      {"id": "d00", "gamma": 0, "q0": 0, "word": [], "value": "0:0", "coordinates": ["0:0", "0:0"]},
+      {"id": "d10", "gamma": 1, "q0": 0, "word": [2], "value": "1:0", "coordinates": ["1:0", "2:0"]},
+      {"id": "d20", "gamma": 2, "q0": 0, "word": [2, 2], "value": "2:0", "coordinates": ["2:0", "1:0"]},
+      {"id": "d01", "gamma": 0, "q0": 1, "word": [1], "value": "0:1", "coordinates": ["0:1", "0:1"]},
+      {"id": "d11", "gamma": 1, "q0": 1, "word": [2, 1], "value": "1:1", "coordinates": ["1:1", "2:1"]},
+      {"id": "d21", "gamma": 2, "q0": 1, "word": [2, 2, 1], "value": "2:1", "coordinates": ["2:1", "1:1"]}
+    ],
+    "coarse_groups": {
+      "0": ["0:0", "1:0", "2:0"],
+      "1": ["0:0", "1:0", "2:0"]
+    },
+    "queries": [
+      {
+        "indices": [0],
+        "key": "0",
+        "A": [["0:0"], ["1:0"], ["2:0"]],
+        "L_order": 1,
+        "D_order": 6,
+        "kernel_order": 1,
+        "n_values": [
+          {"a": ["0:0"], "count": 1}, {"a": ["0:1"], "count": 1},
+          {"a": ["1:0"], "count": 1}, {"a": ["1:1"], "count": 1},
+          {"a": ["2:0"], "count": 1}, {"a": ["2:1"], "count": 1}
+        ]
+      },
+      {
+        "indices": [1],
+        "key": "1",
+        "A": [["0:0"], ["1:0"], ["2:0"]],
+        "L_order": 1,
+        "D_order": 6,
+        "kernel_order": 1,
+        "n_values": [
+          {"a": ["0:0"], "count": 1}, {"a": ["0:1"], "count": 1},
+          {"a": ["1:0"], "count": 1}, {"a": ["1:1"], "count": 1},
+          {"a": ["2:0"], "count": 1}, {"a": ["2:1"], "count": 1}
+        ]
+      },
+      {
+        "indices": [0, 1],
+        "key": "0,1",
+        "A": [["0:0", "0:0"], ["1:0", "2:0"], ["2:0", "1:0"]],
+        "L_order": 1,
+        "D_order": 6,
+        "kernel_order": 1,
+        "n_values": [
+          {"a": ["0:0", "0:0"], "count": 1},
+          {"a": ["0:1", "0:1"], "count": 1},
+          {"a": ["1:0", "2:0"], "count": 1},
+          {"a": ["1:1", "2:1"], "count": 1},
+          {"a": ["2:0", "1:0"], "count": 1},
+          {"a": ["2:1", "1:1"], "count": 1}
+        ]
+      }
+    ],
+    "anchor": {
+      "coordinate": 0,
+      "target": "1:1",
+      "section_q": 1,
+      "section_value": "0:1",
+      "bucket_mode": "THICK_CI_COSET",
+      "residual_side": "TARGET_TIMES_SECTION_INVERSE",
+      "thick_bucket": [1],
+      "literal_bucket": [],
+      "coset_key": ["0:1", "1:1", "2:1"],
+      "selected_q": 1,
+      "residual": "1:0",
+      "literal_misses": true
+    },
+    "active_witness": {
+      "delta_id": "d11",
+      "gamma_state": 1,
+      "gamma_state_coord0": 1,
+      "gamma_state_coord1": 1,
+      "section_q": 1,
+      "target": ["1:1", "2:1"],
+      "residual": ["1:0", "2:0"],
+      "source_word": [2, 1],
+      "fiber_order": 1,
+      "membership": true
+    },
+    "dual_support": {
+      "H1": {"points": [
+        {"g": "0:0", "coefficient": 1},
+        {"g": "1:0", "coefficient": 1}
+      ]},
+      "H2": {"points": [
+        {"g": "0:0", "coefficient": 1},
+        {"g": "1:0", "coefficient": 1},
+        {"g": "2:0", "coefficient": 1}
+      ]},
+      "P": {"points": [
+        {"g": "0:0", "coefficient": 1},
+        {"g": "1:0", "coefficient": 1},
+        {"g": "2:0", "coefficient": 1},
+        {"g": "0:1", "coefficient": 1}
+      ]}
+    },
+    "eisenstein_constants": {
+      "law": "(A,B)(C,D)=(AC-BD,AD+BC-BD)",
+      "omega_minus_one": {
+        "0": [0, 0],
+        "1": [-1, 1],
+        "2": [-2, -1]
+      }
+    },
+    "resource_policy": "SUPPORT_PARAMETRIC_TOY_ONLY",
+    "resource_policy_production": "DYNAMIC_REGISTERED_CEILING",
+    "production_cap": "DYNAMIC_REGISTERED_CEILING",
+    "withdrawn_v136_claims": [
+      "UNCONDITIONAL_PER_ROW_CAP_1536",
+      "UNCONDITIONAL_ALL_ROW_CAP_9893376",
+      "UNCONDITIONAL_SIGNED64_SAFETY"
+    ],
+    "weighted_rows": [
+      {
+        "id": "active",
+        "kappa": 1,
+        "raw_occurrences": [
+          {"coordinate": 0, "target": "1:1", "weight": 1, "block": "H1"},
+          {"coordinate": 0, "target": "1:1", "weight": 2, "block": "H1"},
+          {"coordinate": 0, "target": "0:1", "weight": 1, "block": "H1"},
+          {"coordinate": 1, "target": "2:1", "weight": 1, "block": "H2"}
+        ],
+        "merged": [
+          {"coordinate": 0, "target": "0:1", "coefficient": 1},
+          {"coordinate": 1, "target": "2:1", "coefficient": 1}
+        ],
+        "resource": {
+          "support_weighted_M": 9,
+          "fox_occurrence_count": 4,
+          "merged_sizes": [1, 1],
+          "actual_term_count": 4,
+          "balanced_cap_from_M": 512,
+          "balanced_cap_toy_arity": 30,
+          "diagnostic_norm_bound": 432,
+          "diagnostic_signed64_fit": true,
+          "support_multiplicities": {"H1": 2, "H2": 3, "P": 4}
+        },
+        "partial_terms": [
+          {"subset": [], "targets": [], "count": 6, "factor": [0, 1], "term": [0, 6]},
+          {"subset": [0], "targets": ["0:1"], "count": 1, "factor": [-1, -2], "term": [-1, -2]},
+          {"subset": [1], "targets": ["2:1"], "count": 1, "factor": [-1, -2], "term": [-1, -2]},
+          {"subset": [0, 1], "targets": ["0:1", "2:1"], "count": 0, "factor": [3, 3], "term": [0, 0]}
+        ],
+        "moment": [-2, 2],
+        "distribution": [0, 4, 2],
+        "recovered_n": [0, 4, 2]
+      },
+      {
+        "id": "zero",
+        "kappa": 0,
+        "raw_occurrences": [
+          {"coordinate": 0, "target": "1:1", "weight": 1, "block": "P"},
+          {"coordinate": 0, "target": "1:1", "weight": 2, "block": "P"}
+        ],
+        "merged": [],
+        "resource": {
+          "support_weighted_M": 8,
+          "fox_occurrence_count": 2,
+          "merged_sizes": [0, 0],
+          "actual_term_count": 1,
+          "balanced_cap_from_M": 256,
+          "balanced_cap_toy_arity": 25,
+          "diagnostic_norm_bound": 108,
+          "diagnostic_signed64_fit": true,
+          "support_multiplicities": {"H1": 2, "H2": 3, "P": 4}
+        },
+        "partial_terms": [
+          {"subset": [], "targets": [], "count": 6, "factor": [1, 0], "term": [6, 0]}
+        ],
+        "moment": [6, 0],
+        "distribution": [6, 0, 0],
+        "recovered_n": [6, 0, 0]
+      }
+    ]
+  }
+}
