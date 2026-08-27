@@ -2926,7 +2926,15 @@ def cached_schedule_selftest(v1):
                   "c_exact", "c_exact_direct_replay"):
         require(reference[field] == cached[field],
                 "cached/uncached schedule mismatch:" + field)
-    _fixture, candidates = _cached_toy_fixture(v1)
+    fixture, candidates = _cached_toy_fixture(v1)
+    # Bind the returned fixture to the actual arithmetic that produced the
+    # candidate transcript.  This catches a stale/dead local rename as well
+    # as a receipt-only fixture label.
+    fixture_row, fixture_occurrences = v1.toy_occurrence_column(
+        fixture, candidates[0]["delta"], candidates[0]["word"])
+    require(fixture_row == candidates[0]["row"] and
+            fixture_occurrences == candidates[0]["occurrences"],
+            "cached toy fixture arithmetic binding")
     resume_checks = []
     for stop in range(1, 5):
         check = _cached_toy_rank_zero_resume(v1, candidates, stop, cached)

@@ -86,6 +86,9 @@ independent Fox templates/gradients, typed row/blob decoding, complete
 boundary descriptors, bounded coordinate/q0/Gamma/candidate values, and
 literal direct replay.  The cached receipt contract now also carries the
 exact v156/v157 proof-pin map, which the checker compares byte-for-byte.
+The cached schedule selftest now binds its returned S3 fixture to a fresh
+`toy_occurrence_column` replay, and the checker independently reconstructs and
+compares that fixture metadata before accepting the schedule transcript.
 
 ## 4. Checkpoint and resume contract
 
@@ -216,14 +219,15 @@ self-reference:
 
 | authorized file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164161 | `8bd9c1bf4b352c65f9e6b5a1c648c451efae45108a06c298a22ace2268396838` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134437 | `0a35fafc91b7c979370eb538f77c81aa2df7b7148f757a82150531076bde3785` |
+| `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134659 | `90a7bc6647da680449cd2cc7c56a747f6ba02fd3d8fd5adb1644f65550ceccf6` |
 | `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `60160ed3f77844eaa09fe269caa765f92709407e5bcd73dda2db7e7306c7bc26` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The current identity includes both the mode-preamble and fail-closed
-diagnostic-wrapper repairs.
+The fixture-binding repair changes the producer/checker byte counts to
+164649/134659; Parent Sol refreshed the two SHA rows above before dispatch.
+The current driver identity remains 11424 bytes.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -250,8 +254,11 @@ obtained.  This is a diagnostic-wrapper failure, now repaired above.
 
 Parent Sol dispatched the diagnostic-wrapper repair as GHA SELFTEST run
 `33101963207` at immutable head
-`33ecc99319cd42b1c30c8eb1046363cf4ea0b709`.  Its result is pending and is
-not yet a cross-checked result.
+`33ecc99319cd42b1c30c8eb1046363cf4ea0b709`.  It reached the producer
+SELFTEST but failed in `cached_schedule_selftest` because of the stale
+undefined local name `fixture` (the function had bound `_fixture`).  It is a
+producer code SELFTEST failure with no checker, mathematical, or cross-checked
+result; the fixture binding and independent checker gate above repair it.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO

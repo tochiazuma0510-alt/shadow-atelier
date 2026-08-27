@@ -855,6 +855,8 @@ def _checker_cached_toy_schedule(helper):
                 "row": [[key.hex(), value] for key, value in
                         sorted(exact_direct.items())],
                 "literal": True, "fixture_group": "S3"},
+            "fixture": {"noncommutative": True,
+                        "generators": fixture["generators"]},
             "terminal": "CACHED_TOY_COMPLETE",
             "resource_counters": {"logical_attempts": 4,
                                   "cache_hits": 0, "cache_misses": 0}}
@@ -954,6 +956,8 @@ def validate_cached_schedule_selftest(receipt, helper):
     require(isinstance(reference, dict) and isinstance(accelerated, dict),
             "cached schedule transcript shape")
     expected = _checker_cached_toy_schedule(helper)
+    require(cached.get("fixture") == expected["fixture"],
+            "independent cached toy fixture binding")
     for field in ("attempted_candidates", "weighted_formulas", "active_columns",
                   "rank_pivot_ancestry", "rank", "pivot_order", "target",
                   "solution", "correction_word", "direct_all_seven_replay",
