@@ -61,6 +61,7 @@ for D186Row in Concatenation(D186Proofs,D186Live,D186Current) do D186Pin(D186Row
 D186Reject([D186Receipt,D186Verdict,D186ProducerLog,D186CheckerLog,D186Shell,D186OK]);;
 D186Stream:=OutputTextFile(D186Shell,false);;
 if D186Stream=fail then Error("task186 driver: shell open"); fi;
+SetPrintFormattingStatus(D186Stream,false);;
 PrintTo(D186Stream,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 if D186Mode="SELFTEST" then
   PrintTo(D186Stream,"echo TASK186_STAGE=PRODUCER_START\n");

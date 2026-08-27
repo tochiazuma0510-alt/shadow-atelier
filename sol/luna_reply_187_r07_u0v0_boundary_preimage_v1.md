@@ -33,7 +33,7 @@ the receipt and checked independently.
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `18040f4f73fe963632bbd2200e730818a7354c5963143a5871e73b2d1284dbfe` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32825 | `e94d19311d0afe23fde869045f959490528d18e0f3537209e57b7cbefb452b18` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 7676 | `ebbdad763a9940e7f06f61da636ef92e732c982fd901b7a0573004d756dfcf29` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 7721 | `16d354d387db53cfadd22a7442f9a7aa77580c8410664f9dd5b1a618fef026b8` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
@@ -178,6 +178,13 @@ returned zero and printed the expected PASS line. The SELFTEST postcheck now
 uses shell `read -r`, exact full-line equality, and an exact one-line count,
 with no regular-expression parser. This run used commit
 `5dd8c668ea4d11d5f4e0fb67a6bf5559e0d705a7` and has no mathematical result.
+
+Dispatch record: GHA run `33075126873` showed that even the shell-builtin
+postcheck was split before completion. The common cause is now identified:
+the GAP output stream retained print formatting, so long generated shell
+lines were folded with continuation backslashes. The driver now calls
+`SetPrintFormattingStatus(D187Stream,false)` before writing any shell text.
+This was a wrapper-only failure and produced no mathematical result.
 
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA

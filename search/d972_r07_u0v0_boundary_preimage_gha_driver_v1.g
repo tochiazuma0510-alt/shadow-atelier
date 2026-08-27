@@ -48,6 +48,7 @@ for D187Row in D187Current do D187Pin(D187Row); od;;
 D187Reject([D187Receipt,D187ProducerLog,D187CheckerLog,D187Shell,D187OK]);
 D187Stream:=OutputTextFile(D187Shell,false);;
 if D187Stream=fail then Error("task187 driver: shell open"); fi;
+SetPrintFormattingStatus(D187Stream,false);;
 PrintTo(D187Stream,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 if D187Mode="SELFTEST" then
   PrintTo(D187Stream,"python3 -u -B ",D187Producer," --selftest --receipt ",D187Receipt," > ",D187ProducerLog," 2>&1\n");
