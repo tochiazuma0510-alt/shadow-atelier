@@ -4,25 +4,29 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-The task176 bundle now contains two coordinated unexecuted repairs.  GHA
-SELFTEST run `33037201796` at head `499e4c0a` reached the old exact producer
-PASS and checker PASS with
-`mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54`, but
-GAP again split the final console line as `termin\` plus newline plus
-`al=SELFTEST`.  The first repair removes that final GAP `Print` and delegates
-only the already-audited sentinel to a closed Bash `printf` branch.
+Disposition is **SELFTEST COMPLETE / PRODUCTION RUNNING**.  GHA SELFTEST run
+`33038004295` at head
+`abac045ac8ee38e853c8970c9c2c628ebb64b9fa` completed successfully.  In its
+`run.log`, each of the three contractual lines occurs exactly once:
 
-The subsequent task177 static audit found a separate production contract
-blocker: a producer `Reject` raised inside `build_result` escaped `run()`, so
-the process stopped without the required receipt.  The second repair converts
-exactly that exception class to a typed `UNKNOWN_INPUT` receipt with nonempty
-`CENSUS_REJECT:<exception text>` reason.  Generic programming `TypeError`,
-`ValueError`, and `KeyError` are not caught by the production receipt block and
-remain hard `PRODUCER_STOP`s.  Producer, independent checker, and GAP driver
-all enforce the typed reason boundary.  Static disposition is **GO for one
-bounded GHA SELFTEST rerun**, followed by PRODUCTION only after that rerun
-exposes the exact one-line driver sentinel and the new Reject-envelope checks
-pass.  No local Python, Node, GAP, git, GHA, or production command was run.
+```text
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
+```
+
+The driver line is one physical line with no GAP continuation or newline
+fold.  This supersedes the former UNKNOWN status of both coordinated repairs:
+the external child-shell `printf` sentinel and the typed Reject-envelope
+selftest have now passed their bounded GHA contract.  The downloaded artifact
+is at
+`%TEMP%\task176_selftest_33038004295_debf6d67540a4ba5b7e24a2c1080c728`.
+
+PRODUCTION run `33038109917` was dispatched from the same head with a
+360-minute workflow timeout and is queued at the time of this report.  It has
+not yet returned any mathematical terminal, receipt, order, or runtime.  No
+local Python, Node, GAP, git, GHA dispatch, or production command was run while
+making this report update.
 
 There is no currently identified `UNKNOWN_INPUT` obstruction.  The frozen
 task157ee shelf contains enough data to reconstruct both required objects:
@@ -37,7 +41,7 @@ task157ee shelf contains enough data to reconstruct both required objects:
 The checked-in receipt remains the mandated immutable
 `UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD` fixture.  No order is present in it.
 Its `GHA_dispatched=false` field describes that immutable fixture, not the
-subsequent external SELFTEST attempt recorded above.
+subsequent external SELFTEST and PRODUCTION runs recorded above.
 
 ## 2. Final runtime files
 
@@ -262,6 +266,12 @@ child script before its first execution, so it covers the new emitter branch
 as well.  The final emitter is invoked only after the semantic audits, so an
 earlier failure cannot print a false PASS.
 
+Run `33038004295` confirms this final design: producer PASS, the expanded
+checker PASS, and the exact unwrapped driver PASS each occur once.  In
+particular, `reject_envelope_checks=3` confirms acceptance of the well-typed
+Reject receipt and rejection of both malformed reason mutations through the
+independent checker path.  The bounded SELFTEST gate is therefore complete.
+
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
 upload/workflow margin inside a six-hour GHA job.  Expected runtime is roughly
@@ -270,19 +280,22 @@ that estimate, are authoritative.  An exceeded producer budget is a typed
 `UNKNOWN_RESOURCE`, never an order.  A missing required serialization is a
 typed `UNKNOWN_INPUT`.
 
-Recommended generic workflow inputs, not dispatched here:
+Active production workflow record:
 
 ```text
+run_id:       33038109917
+head_sha:     abac045ac8ee38e853c8970c9c2c628ebb64b9fa
 script:       search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
 out_dir:      ci/out
 timeout_min:  360
 with_pquot_packages: false
+state:        queued at report time
 ```
 
-Run SELFTEST first with the first preamble above.  Dispatch PRODUCTION with the
-second preamble only after the exact selftest sentinel appears.
+The exact SELFTEST sentinel gate was satisfied before this PRODUCTION dispatch.
+No production terminal may be inferred from the queued state.
 
-## 6. Static audit and remaining UNKNOWN gates
+## 6. Audit, completed SELFTEST, and remaining production gates
 
 Repair-specific source evidence is fixed at these lines:
 
@@ -325,17 +338,19 @@ found:
 
 Run `33036568540` records the first child-shell formatting failure.  Run
 `33036920357` establishes producer selftest PASS, checker syntax/import PASS,
-all fifteen mutation rejections, and the repaired child shell.  Thus the
-bounded semantic selftest is complete.  Run `33037201796` repeats those exact
-semantic passes and proves only that `OutputTextUser()` does not suppress the
-GHA console wrap.  Because both the external-`printf` repair and the typed
-Reject-envelope repair were intentionally not run locally, their new SELFTEST
-contract remains **UNKNOWN pending one rerun**.  The production-only exact Q0
-completion, COMPLETE orders, runtime, RSS, and artifact size also remain
-UNKNOWN.  Static inspection found no remaining deterministic
-source/pin/schema/contract STOP.
+all fifteen mutation rejections, and the repaired child shell.  Run
+`33037201796` repeats those semantic passes and proves that
+`OutputTextUser()` does not suppress the GHA console wrap.  Finally, run
+`33038004295` on head `abac045ac8ee38e853c8970c9c2c628ebb64b9fa`
+establishes the expanded checker's 15/15 mutations, all three Reject-envelope
+checks, and the exact one-line external driver sentinel.  The former SELFTEST
+UNKNOWN is superseded: **SELFTEST COMPLETE**.
+
+Production run `33038109917` is **PRODUCTION RUNNING** (queued at this report's
+snapshot).  Its exact Q0 completion, terminal, orders, receipt/verdict hashes,
+runtime, RSS, and artifact size remain UNKNOWN until that run terminates.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_STATIC_GO_TYPED_REJECT_AND_EXTERNAL_PRINTF_REPAIRS_UNEXECUTED
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_SELFTEST_COMPLETE_PRODUCTION_RUNNING
