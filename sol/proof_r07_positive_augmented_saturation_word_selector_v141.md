@@ -84,12 +84,26 @@ and
 \tag{2.3}
 \]
 
+It is not necessary to materialize an \(\mathbf F_3\)-spanning roster in
+advance.  If \(a_1,\ldots,a_s\) are only word-bearing
+\(\Lambda\)-generators and \(\nu_1,\ldots,\nu_u\) is an
+\(\mathbf F_3\)-basis of \(\Lambda\), replace the first family by
+
+\[
+ \{\,\mu_i\nu_\ell a_j:\ i,\ell,j\,\}.
+\tag{2.4}
+\]
+
+Because \(J\Lambda=J\), this family spans \(JA\).  It may be enumerated
+lazily in a fair product schedule while retaining the translating word for
+every \(\nu_\ell a_j\).
+
 Consequently the augmented map
 
 \[
  \Psi:JA\oplus J\longrightarrow Z,
  \qquad \Psi(d,\rho)=Bd+\rho z
-\tag{2.4}
+\tag{2.5}
 \]
 
 has the finite typed column family
@@ -99,23 +113,23 @@ has the finite typed column family
  \{B(\mu_i a_j)\}_{i,j}
  \ \sqcup\
  \{\mu_i z\}_i.
-\tag{2.5}
+\tag{2.6}
 \]
 
-The disjoint tag in (2.5) is load-bearing.  A column in the first family
+The disjoint tag in (2.6) is load-bearing.  A column in the first family
 contributes to the correction coefficient \(d_{\rm sat}\); a column in the
 second contributes to the scalar \(\rho\).  Equal vectors from the two
 families may not be deduplicated without retaining both typed preimages.
 
 For a context-changing edge with
 \(K_A=\ker(A'\to A)\) not known to equal \(JA'\), replace the first roster
-in (2.5) by any complete word-bearing finite spanning roster of \(K_A\).
+in (2.6) by any complete word-bearing finite spanning roster of \(K_A\).
 The proof below is unchanged and decides membership in
 \(B'(K_A)+Jz'\), the denominator of v129 (4.9).
 
 ## 3. Positive-only augmented selector
 
-Starting with any authenticated independent prefix of (2.5), maintain an
+Starting with any authenticated independent prefix of (2.6), maintain an
 exact echelon basis \(W_k\) and the remainder of \(e\).  If
 \(e\notin W_k\), choose an exact dual row \(\lambda_k\) satisfying
 
@@ -144,7 +158,7 @@ Assume
 \tag{3.3}
 \]
 
-If the probes enumerate the finite family (2.5) fairly, the procedure above
+If the probes enumerate the finite family (2.6) fairly, the procedure above
 terminates after finitely many rank increases and returns explicit
 word-bearing \(d_{\rm sat}\in JA\) and explicit \(\rho\in J\) satisfying
 (1.3).
@@ -152,7 +166,7 @@ word-bearing \(d_{\rm sat}\in JA\) and explicit \(\rho\in J\) satisfying
 #### Proof
 
 Suppose \(e\notin W_k\) and take \(\lambda_k\) as in (3.1).  If
-\(\lambda_k\) vanished on every column of (2.5), it would vanish on
+\(\lambda_k\) vanished on every column of (2.6), it would vanish on
 \(B(JA)+Jz\), contradicting (3.3) and \(\lambda_k(e)\ne0\).  Hence some
 typed column is positive.  Fairness reaches it, and (3.1)--(3.2) imply a
 strict rank increase.  The ambient \(\mathbf F_3\)-space \(Z\) is finite
@@ -266,7 +280,7 @@ accepted-set witnesses.
 1. Accept a task179 common word only after its independent all-seven replay.
 2. Lift its word-bearing coefficient \(a_0\) into the fixed full Jennings
    context and compute the named error \(e\).
-3. Enumerate the two typed families in (2.5) lazily and run Theorem 3.1.
+3. Enumerate the two typed families in (2.6) lazily and run Theorem 3.1.
 4. On success, materialize (4.3) and replay the literal word, not merely its
    module vector.
 5. Use the same positive augmented engine at later abelian refinement
