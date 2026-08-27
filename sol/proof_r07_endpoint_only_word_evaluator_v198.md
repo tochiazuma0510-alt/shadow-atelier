@@ -204,7 +204,64 @@ Substitute \(N=A(h_j-1)\) into (2.2)'s linear change term and use
 The rightmost order in (4.2) is load-bearing.  Neither \(\xi_o\) nor
 \(P_o\) may be commuted through a source-word value.
 
-## 5. Exact production schedule
+## 5. Exact PB bucket keys from the faithful Artin action
+
+Let \(t_1,\ldots,t_n\) freely generate \(F_n\).  Use the registered Artin
+action
+
+\[
+\begin{aligned}
+ \sigma_i(t_i)&=t_it_{i+1}t_i^{-1},&
+ \sigma_i(t_{i+1})&=t_i,&
+ \sigma_i(t_j)&=t_j\quad(j\ne i,i+1).
+\end{aligned}
+\tag{5.1}
+\]
+
+Every pure generator \(A_{ij}\) has its fixed standard braid word.  Expand a
+PB3 or PB4 word into the \(\sigma_i^{\pm1}\), apply (5.1) in the frozen
+composition convention, and freely reduce each image.  Define its full
+Artin signature by
+
+\[
+ \operatorname{ArtNF}_n(w)=
+ \bigl(w(t_1),\ldots,w(t_n)\bigr).
+\tag{5.2}
+\]
+
+### Lemma 5.1 (ARTIN SIGNATURE IS AN EXACT PB KEY)
+
+For \(u,v\in PB_n\), with \(n=3\) or \(4\),
+
+\[
+ \boxed{
+ u=v
+ \quad\Longleftrightarrow\quad
+ \operatorname{ArtNF}_n(u)=\operatorname{ArtNF}_n(v).}
+\tag{5.3}
+\]
+
+#### Proof
+
+The Artin representation \(B_n\to\operatorname{Aut}(F_n)\) is faithful.
+Its restriction to the subgroup \(PB_n\) is therefore faithful.  Two
+automorphisms of the free group are equal exactly when their freely reduced
+images agree on the displayed free basis. \(\square\)
+
+Thus the complete tuple (5.2), not merely its hash, is a canonical exact
+bucket key for (2.2) and (4.2).  This avoids both a finite-quotient false
+equality and reliance on an opaque KBMAG result.  The existing
+PB4 Artin-presentation producer/checker supplies a bounded implementation
+canary for the six pure generators and eleven presentation relators; it is
+an implementation asset, not a substitute for replaying the actual endpoint
+words.
+
+The producer may cache a tuple and seal it by a digest, but the certificate
+retains the tuple itself.  An independent checker should preferably use a
+Garside normal form, or a separately written Artin evaluator with an
+independently converted composition convention.
+
+## 6. Exact production schedule
 
 For a compiled \(M_0\), use this order.
 
@@ -228,7 +285,7 @@ The endpoint evaluator is an exact gate, not a quotient screen.  A
 nonidentity PB word must not be declared zero because its image vanishes in
 the roof or first successor.
 
-## 6. Certificate and destructive controls
+## 7. Certificate and destructive controls
 
 Retain:
 
@@ -236,7 +293,8 @@ Retain:
 2. every sign, prefix, block, component, inverse slot, and printed-order
    position;
 3. unreduced and normalized PB words for every term of (2.2);
-4. every coefficient collection and zero deletion;
+4. every full Artin signature (5.2), coefficient collection, and zero
+   deletion;
 5. on repair, the complete \((A,h_j)\) ancestry and the columns (4.2); and
 6. a separate full-\(C_1\) replay for the final positive candidate before
    v197 extracts \(q\).
@@ -254,6 +312,7 @@ endpoint word, coefficient, normalization result, or collected bucket.
 THREE ENDPOINTS FROM WORD VALUES WITHOUT FOX EXPANSION: PAPER_PROOF
 FOUR-BUCKET OCCURRENCE-PAIR FORMULA:                 PAPER_PROOF
 ONE-SIDED REPAIR COLUMNS ENDPOINT-ONLY:               PAPER_PROOF
+FAITHFUL ARTIN TUPLE AS EXACT PB BUCKET KEY:           PAPER_PROOF
 FULL-C1 REPLAY FOR FINAL POSITIVE CANDIDATE:           STILL REQUIRED
 ACTUAL M0 / THREE ENDPOINTS / REPAIR:                 NOT COMPUTED
 ACTUAL q_H1 / q_H2 / q_P:                            NOT COMPILED
