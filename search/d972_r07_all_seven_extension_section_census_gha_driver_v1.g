@@ -149,37 +149,45 @@ fi;
 D176RejectOwned([D176Receipt,D176Verdict,D176ProducerLog,D176CheckerLog,
                  D176Timing,D176Hashes,D176Shell,D176OK]);;
 
-PrintTo(D176Shell,"#!/usr/bin/env bash\nset -euo pipefail\n");;
-AppendTo(D176Shell,"command -v python3 >/dev/null\ncommand -v timeout >/dev/null\nmkdir -p ci/out\n");;
+D176ShellStream:=OutputTextFile(D176Shell,false);;
+if D176ShellStream=fail then Error("task176 driver: shell output open"); fi;
+SetPrintFormattingStatus(D176ShellStream,false);;
+PrintTo(D176ShellStream,"#!/usr/bin/env bash\nset -euo pipefail\n");;
+PrintTo(D176ShellStream,"command -v python3 >/dev/null\ncommand -v timeout >/dev/null\nmkdir -p ci/out\n");;
 if D176Mode="SELFTEST" then
-  AppendTo(D176Shell,"p0=$(date +%s)\n");;
-  AppendTo(D176Shell,"timeout --signal=TERM --kill-after=60s 900s python3 -u -B ",D176Producer,
+  PrintTo(D176ShellStream,"p0=$(date +%s)\n");;
+  PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 900s python3 -u -B ",D176Producer,
     " --selftest --fixture ",D176Fixture," 2>&1 | tee ",D176ProducerLog,"\n");;
-  AppendTo(D176Shell,"test ${PIPESTATUS[0]} -eq 0\n");;
-  AppendTo(D176Shell,"test \"$(grep -c '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS$' ",
+  PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS' ",
     D176ProducerLog,")\" -eq 1\np1=$(date +%s)\n");;
-  AppendTo(D176Shell,"timeout --signal=TERM --kill-after=60s 1200s python3 -u -B ",D176Checker,
+  PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 1200s python3 -u -B ",D176Checker,
     " --selftest --fixture ",D176Fixture," 2>&1 | tee ",D176CheckerLog,"\n");;
-  AppendTo(D176Shell,"test ${PIPESTATUS[0]} -eq 0\n");;
-  AppendTo(D176Shell,"test \"$(grep -c '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54$' ",
+  PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54' ",
     D176CheckerLog,")\" -eq 1\np2=$(date +%s)\n");;
-  AppendTo(D176Shell,"printf 'mode=SELFTEST producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
+  PrintTo(D176ShellStream,"printf 'mode=SELFTEST producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
 else
-  AppendTo(D176Shell,"p0=$(date +%s)\n");;
-  AppendTo(D176Shell,"timeout --signal=TERM --kill-after=60s 9600s python3 -u -B ",D176Producer,
+  PrintTo(D176ShellStream,"p0=$(date +%s)\n");;
+  PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 9600s python3 -u -B ",D176Producer,
     " --run-census --soft-seconds 9000 --output ",D176Receipt,
     " 2>&1 | tee ",D176ProducerLog,"\n");;
-  AppendTo(D176Shell,"test ${PIPESTATUS[0]} -eq 0\np1=$(date +%s)\n");;
-  AppendTo(D176Shell,"test \"$(grep -Ec '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_TERMINAL (R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT)$' ",D176ProducerLog,")\" -eq 1\n");;
-  AppendTo(D176Shell,"timeout --signal=TERM --kill-after=60s 9600s python3 -u -B ",D176Checker,
+  PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\np1=$(date +%s)\n");;
+  PrintTo(D176ShellStream,"test \"$(grep -Ec '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_TERMINAL (R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT)$' ",D176ProducerLog,")\" -eq 1\n");;
+  PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 9600s python3 -u -B ",D176Checker,
     " --receipt ",D176Receipt," --verdict ",D176Verdict,
     " 2>&1 | tee ",D176CheckerLog,"\n");;
-  AppendTo(D176Shell,"test ${PIPESTATUS[0]} -eq 0\np2=$(date +%s)\n");;
-  AppendTo(D176Shell,"test \"$(grep -Ec '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_PASS terminal=(R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT)$' ",D176CheckerLog,")\" -eq 1\n");;
-  AppendTo(D176Shell,"sha256sum ",D176Receipt," ",D176Verdict," > ",D176Hashes,"\n");;
-  AppendTo(D176Shell,"printf 'mode=PRODUCTION producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
+  PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\np2=$(date +%s)\n");;
+  PrintTo(D176ShellStream,"test \"$(grep -Ec '^R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_PASS terminal=(R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE|R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT)$' ",D176CheckerLog,")\" -eq 1\n");;
+  PrintTo(D176ShellStream,"sha256sum ",D176Receipt," ",D176Verdict," > ",D176Hashes,"\n");;
+  PrintTo(D176ShellStream,"printf 'mode=PRODUCTION producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
 fi;
-AppendTo(D176Shell,"touch ",D176OK,"\n");;
+PrintTo(D176ShellStream,"touch ",D176OK,"\n");;
+CloseStream(D176ShellStream);;
+D176ShellRaw:=D176Read(D176Shell,"generated shell");;
+if D176Count(D176ShellRaw,"\\\n")<>0 then
+  Error("task176 driver: generated shell contains GAP formatting continuation");
+fi;
 Exec(Concatenation("bash ",D176Shell));;
 if not IsExistingFile(D176OK) then Error("task176 driver: shell sentinel missing"); fi;
 
