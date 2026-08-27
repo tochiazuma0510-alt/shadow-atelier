@@ -43,10 +43,10 @@ recomputes literal words/base blobs/ordinary and marked-map transcripts, and
 derives every Fox/D1 row from signed transitions. SELFTEST serializes and
 independently enumerates a noncommuting successor Fox defect in addition to
 distinct equal representatives, same-base dual separation, fixture equality,
-and load-bearing mutation rejection. The existing pinned fixture still contains
-the pre-presentation synthetic toy payload; because execution is prohibited,
-its replacement payload/hash has not been generated, so final selftest GO is
-not claimed here.
+and load-bearing mutation rejection. Parent Sol generated the replacement
+fixture through the fail-closed GHA bootstrap, inspected its canonical payload,
+and pinned its exact byte/hash identity below. The ordinary producer/checker
+SELFTEST remains a separate required gate and is not claimed by bootstrap.
 
 ## 6. Driver and delivery
 
@@ -66,7 +66,8 @@ separate fail-closed log, and writes the distinct
 after a nonempty canonical candidate exists. It does not run the checker or
 claim SELFTEST acceptance; parent must run this bootstrap, inspect the
 candidate, replace/pin the fixture, and then refresh the producer/checker/
-driver identities. Bootstrap and final fixture identities remain pending.
+driver identities. Parent Sol has now completed those bootstrap-only steps;
+the final ordinary SELFTEST remains pending.
 
 The latest repair makes the selftest boundary transcript include every
 rank-raising row in the 12-row family, uses integer ancestry IDs consistently,
@@ -81,13 +82,13 @@ parent's pin refresh/bootstrap.
 Current identities:
 
 * producer: 37956 bytes, SHA256 `7ec85fe5b359a371e7c7c6b701426c5521d2a9651f560cba0193fa9c34aa2530`
-* checker: 32550 bytes, SHA256 `44808efec9d60a23868d5ed1fadcab8018153c2f3623688f93df54feb4e09bcc`
-* fixture-generation driver: 9799 bytes, SHA256 `473d6051ff2933ecf0ce22ec47a33782da86720f6a4527b2d0534482c28f7c23`
-* fixture: 327 bytes, SHA256 `3bf40c5b6e3635b474674af8cb9a7e477e80481727f01574f4a50cff0c0acb49`
+* checker: 32550 bytes, SHA256 `043341c723ebbff9b258154f33b92459cfd04a64f1f9e91409acbd5808980456`
+* fixture-generation/SELFTEST driver: 9799 bytes, SHA256 `9215946e5d418a5cbdf16b48eebf04b32a1f0737482816e59f499bbe60b832a1`
+* fixture: 545 bytes, SHA256 `81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244`
 * task186 checker: 54982 bytes, SHA256 `8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488`
 
-The first three identities above are refreshed for the fixture-generation
-dispatch.  The fixture and therefore the final SELFTEST pins remain pending.
+All source and fixture identities above are refreshed for the ordinary
+SELFTEST dispatch.
 
 Parent Sol dispatched the bounded fixture-generation bootstrap as GHA run
 `33103538697` at immutable head
@@ -113,6 +114,17 @@ now preserves the three-byte typed-key prefix (`R`, block, component) and
 acts only on the group blob; the checker independently exercises the same
 prefix-preserving multiply/inverse and rejects wrong-prefix/action mutations.
 Parent Sol refreshed both source pins and the resulting driver identity above.
+
+Parent Sol then dispatched fixture bootstrap run `33106272677` at immutable
+head `47555350bc98b811f59c42427ff9407d153242c0`; producer SELFTEST and the
+fixture-generation driver both passed. The downloaded candidate is 545 bytes,
+SHA256 `81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244`,
+and the bootstrap receipt is 1,520 bytes, SHA256
+`7aa53aaac6739f0071b1949903916e9c2e4219701be4059b4ba616337bcc6deb`.
+GitHub artifact id `9660644202` has ZIP digest
+`d8d68ccd956196a8bd3bde6b10ec4d2c8afd86c1e83e510bbfb91d84f0c97b37`.
+This establishes only the authenticated fixture bootstrap, not the ordinary
+independent-checker SELFTEST or any production membership result.
 
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA

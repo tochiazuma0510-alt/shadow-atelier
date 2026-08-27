@@ -355,7 +355,7 @@ def main(argv=None):
         require(r.get("schema")==SELFTEST_SCHEMA and r.get("status")=="PASS" and r.get("terminal")==COMMON+"_SELFTEST_PASS","selftest envelope")
         toy=r.get("toy",{});require(toy==independent_toy(),"independent toy certificate")
         require(r.get("successor")==independent_successor(),"independent successor Fox defect")
-        fraw=FIXTURE.read_bytes(); require(len(fraw)==327 and hashlib.sha256(fraw).hexdigest()=="3bf40c5b6e3635b474674af8cb9a7e477e80481727f01574f4a50cff0c0acb49","fixture identity")
+        fraw=FIXTURE.read_bytes(); require(len(fraw)==545 and hashlib.sha256(fraw).hexdigest()=="81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244","fixture identity")
         fixture=json.loads(fraw.decode("ascii")); require(fixture.get("schema")==SELFTEST_SCHEMA and fixture.get("expected")==toy,"fixture semantic equality")
         require(r.get("mutation_controls",{}).get("attempted")==18 and r["mutation_controls"].get("rejected")==18,"mutation controls")
     else:
