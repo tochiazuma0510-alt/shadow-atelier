@@ -612,7 +612,7 @@ def solve(args: argparse.Namespace, v1_override: Any = None, runtime_override: A
                     "active_dual": public(v1, dual), "active_dual_sha256": digest(public(v1, dual)),
                     "dual_pairing": pair(v1, dual, row), "dependency_chain": [[int(k), int(v)] for k, v in sorted(dependency.items())],
                     "provenance": provenance, "row_dict": row}
-                check = {}; [v1.add_scaled(check, columns[k - 1]["row_dict"], c) for k, c in dependency]; require(check == row, "dependent reconstruction")
+                check = {}; [v1.add_scaled(check, columns[k - 1]["row_dict"], c) for k, c in dependency.items()]; require(check == row, "dependent reconstruction")
                 stats["dependent_total"] += 1
             batch_records.append(rec)
             decisions = reconsider()

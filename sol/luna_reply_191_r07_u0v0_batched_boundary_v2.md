@@ -26,17 +26,18 @@ self-referential.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,520 | `21e8b76cc0299240383f19926ee62bd11ae78f52cbfd981d906955ed300b9fd4` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,528 | `9e5a742e08c5c711dfb20bca9b3fa4f0d079c9b6fa588fbcd3f7d3a259ef9dc9` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `0fbd864165adf14e4d5fd9477f057d01d190210326595ab8c3897600b321d5c3` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `db5d7b97c39359ca6f3811e30d4558aabd71f036b049e24b57625bce6b4c4d78` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
 The producer/checker retain exact authenticated task187 and task179 source
 pins.  The driver pins the current producer/checker/fixture identities and all
 predecessor/arithmetic identities.
-The toy-pair and toy-ABI pair repairs change the producer to 92,520 bytes;
-parent Sol refreshed its SHA and the corresponding driver producer pin above.
+The toy-pair and toy-ABI pair repairs previously changed the producer to
+92,520 bytes.  The dependency-iteration repair changes it to 92,528 bytes;
+parent Sol refreshed its SHA and the corresponding driver producer pin.
 
 ## 3. Producer and checkpoint repair map
 
@@ -167,6 +168,28 @@ cross-checked result.  `_ToyV1.pair` is now explicitly bound to `_toy_pair`,
 and the toy ABI also provides the generic `build_runtime` entry point.  The
 generic solve, replay, and checkpoint ABI calls were statically audited against
 the toy class, with production wrapper semantics unchanged.
+
+Parent Sol dispatched GHA SELFTEST run `33106809203` at immutable head
+`31c365fad6dcc8acf565d17cf8359f9fd0177262`.  The driver preamble stripped
+the required quotes from `MODE:=SELFTEST`, so this was a dispatch/driver
+quoting failure before any mathematical path; no mathematical or
+cross-checked result exists.
+
+Parent Sol dispatched properly quoted GHA SELFTEST run `33107405883` at
+immutable head `1a1b0fe572cdec8cb44f00a1dc2f3470b5da106e`.  Producer execution
+then failed at the dependent-row reconstruction because generic `solve`
+iterated the production `Echelon.reduce` coefficient dictionary directly
+(`for k,c in dependency`), attempting to unpack integer keys.  The production
+ABI returns a coefficient mapping, so the scheduler now iterates
+`dependency.items()`; this preserves production and toy semantics.  This is
+recorded as a producer SELFTEST code failure with no mathematical or
+cross-checked result.
+
+The exact correction is at the dependent-column replay site: `Echelon.reduce`
+returns `dict[int,int]` in both the authenticated task187 implementation and
+the toy implementation, while the reconstruction loop requires key/value
+pairs.  Only that loop was changed to `dependency.items()`; no dependency
+coefficients, production Echelon behavior, or checker semantics were changed.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
