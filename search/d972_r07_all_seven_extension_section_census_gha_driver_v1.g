@@ -23,10 +23,10 @@ D176Hashes:="ci/out/d972_r07_all_seven_extension_section_census_hashes_v1.txt";;
 D176Shell:="ci/out/d972_r07_all_seven_extension_section_census_command_v1.sh";;
 D176OK:="ci/out/d972_r07_all_seven_extension_section_census_v1.ok";;
 
-D176ProducerSHA:="9fb3839eaf856f6e4d8cc77a2ee358417c6c624564925179d9a62c9e141e2743";;
-D176ProducerBytes:=44757;;
-D176CheckerSHA:="b3b5c305d9e181ef39a192127b815a24b6cb9b86a4a5dccbdb49f793a470d21c";;
-D176CheckerBytes:=61609;;
+D176ProducerSHA:="65feb6a88b95deb990f6bd435775d2af447b838b72cd4bb31b0a56e260cc3524";;
+D176ProducerBytes:=45282;;
+D176CheckerSHA:="f140fadcedba523fcd718cdb6951c75919d59db1988bfc3d64ca199c87464d06";;
+D176CheckerBytes:=63086;;
 D176FixtureSHA:="b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471";;
 D176FixtureBytes:=4350;;
 
@@ -110,7 +110,7 @@ D176FixtureAudit:=function(raw)
 end;;
 
 D176ReceiptAudit:=function(raw,terminal)
-  local token;
+  local token,inputReasonCount;
   if D176Count(raw,"\"schema\":\"d972-r07-all-seven-extension-section-census/v1\"")<>1 or
      D176Count(raw,Concatenation("\"terminal\":\"",terminal,"\""))<>1 or
      D176Count(raw,"\"self_digest_sha256\":\"")<>1 or
@@ -137,8 +137,14 @@ D176ReceiptAudit:=function(raw,terminal)
     if D176Count(raw,"\"status\":\"UNKNOWN_RESOURCE\"")<>1 or
        D176Count(raw,"\"result\":null")<>1 then Error("task176 driver: resource gate"); fi;
   else
+    inputReasonCount:=D176Count(raw,"\"reason\":\"AUTHENTICATED_INPUT:")+
+                      D176Count(raw,"\"reason\":\"CENSUS_REJECT:");;
     if D176Count(raw,"\"status\":\"UNKNOWN_INPUT\"")<>1 or
-       D176Count(raw,"\"result\":null")<>1 then Error("task176 driver: input gate"); fi;
+       D176Count(raw,"\"result\":null")<>1 or inputReasonCount<>1 or
+       D176Count(raw,"\"reason\":\"AUTHENTICATED_INPUT:\"")<>0 or
+       D176Count(raw,"\"reason\":\"CENSUS_REJECT:\"")<>0 then
+      Error("task176 driver: input gate");
+    fi;
   fi;
 end;;
 
@@ -153,6 +159,21 @@ D176ShellStream:=OutputTextFile(D176Shell,false);;
 if D176ShellStream=fail then Error("task176 driver: shell output open"); fi;
 SetPrintFormattingStatus(D176ShellStream,false);;
 PrintTo(D176ShellStream,"#!/usr/bin/env bash\nset -euo pipefail\n");;
+PrintTo(D176ShellStream,"if [ \"${1:-}\" = '--emit-driver-pass' ]; then\n");;
+PrintTo(D176ShellStream,"  test \"$#\" -eq 2\n");;
+PrintTo(D176ShellStream,"  case \"$2\" in\n");;
+PrintTo(D176ShellStream,"    SELFTEST) d176_mode='SELFTEST'; d176_terminal='SELFTEST'; d176_expected='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST' ;;\n");;
+PrintTo(D176ShellStream,"    PASS) d176_mode='PRODUCTION'; d176_terminal='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS'; d176_expected='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=PRODUCTION terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS' ;;\n");;
+PrintTo(D176ShellStream,"    UNKNOWN_RESOURCE) d176_mode='PRODUCTION'; d176_terminal='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE'; d176_expected='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=PRODUCTION terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE' ;;\n");;
+PrintTo(D176ShellStream,"    UNKNOWN_INPUT) d176_mode='PRODUCTION'; d176_terminal='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT'; d176_expected='R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=PRODUCTION terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT' ;;\n");;
+PrintTo(D176ShellStream,"    *) exit 64 ;;\n");;
+PrintTo(D176ShellStream,"  esac\n");;
+PrintTo(D176ShellStream,"  d176_line=\"R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=${d176_mode} terminal=${d176_terminal}\"\n");;
+PrintTo(D176ShellStream,"  test \"$d176_line\" = \"$d176_expected\"\n");;
+PrintTo(D176ShellStream,"  case \"$d176_line\" in *$'\\n'*|*$'\\r'*) exit 65 ;; esac\n");;
+PrintTo(D176ShellStream,"  printf '%s\\n' \"$d176_line\"\n");;
+PrintTo(D176ShellStream,"  exit 0\n");;
+PrintTo(D176ShellStream,"fi\n");;
 PrintTo(D176ShellStream,"command -v python3 >/dev/null\ncommand -v timeout >/dev/null\nmkdir -p ci/out\n");;
 if D176Mode="SELFTEST" then
   PrintTo(D176ShellStream,"p0=$(date +%s)\n");;
@@ -164,7 +185,7 @@ if D176Mode="SELFTEST" then
   PrintTo(D176ShellStream,"timeout --signal=TERM --kill-after=60s 1200s python3 -u -B ",D176Checker,
     " --selftest --fixture ",D176Fixture," 2>&1 | tee ",D176CheckerLog,"\n");;
   PrintTo(D176ShellStream,"test ${PIPESTATUS[0]} -eq 0\n");;
-  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54' ",
+  PrintTo(D176ShellStream,"test \"$(grep -Fxc 'R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 linked_nonabelian_order=54' ",
     D176CheckerLog,")\" -eq 1\np2=$(date +%s)\n");;
   PrintTo(D176ShellStream,"printf 'mode=SELFTEST producer_seconds=%s checker_seconds=%s\\n' \"$((p1-p0))\" \"$((p2-p1))\" > ",D176Timing,"\n");;
 else
@@ -197,7 +218,7 @@ D176CleanLog(D176ProducerRaw,"producer");;
 D176CleanLog(D176CheckerRaw,"checker");;
 if D176Mode="SELFTEST" then
   if D176Count(D176ProducerRaw,"R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS")<>1 or
-     D176Count(D176CheckerRaw,"mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54")<>1 then
+     D176Count(D176CheckerRaw,"mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 linked_nonabelian_order=54")<>1 then
     Error("task176 driver: selftest markers");
   fi;
   D176Terminal:="SELFTEST";;
@@ -222,6 +243,15 @@ else
     Error("task176 driver: verdict boundary");
   fi;
 fi;
-SetPrintFormattingStatus(OutputTextUser(),false);;
-Print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=",
-      D176Mode," terminal=",D176Terminal,"\n");
+if D176Mode="SELFTEST" then
+  D176EmitCode:="SELFTEST";;
+elif D176Terminal=D176Terminals[1] then
+  D176EmitCode:="PASS";;
+elif D176Terminal=D176Terminals[2] then
+  D176EmitCode:="UNKNOWN_RESOURCE";;
+elif D176Terminal=D176Terminals[3] then
+  D176EmitCode:="UNKNOWN_INPUT";;
+else
+  Error("task176 driver: no external sentinel code");
+fi;
+Exec(Concatenation("bash ",D176Shell," --emit-driver-pass ",D176EmitCode));;

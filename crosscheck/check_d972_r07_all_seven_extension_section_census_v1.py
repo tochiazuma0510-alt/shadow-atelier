@@ -27,11 +27,14 @@ SCHEMA = "d972-r07-all-seven-extension-section-census/v1"
 PASS = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS"
 UNKNOWN_RESOURCE = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE"
 UNKNOWN_INPUT = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT"
+AUTHENTICATED_INPUT_PREFIX = "AUTHENTICATED_INPUT:"
+CENSUS_REJECT_PREFIX = "CENSUS_REJECT:"
+UNKNOWN_INPUT_PREFIXES = (AUTHENTICATED_INPUT_PREFIX, CENSUS_REJECT_PREFIX)
 EXPECTED_Q0 = 1_469_664
 EXPECTED_GAMMA = 243
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "9fb3839eaf856f6e4d8cc77a2ee358417c6c624564925179d9a62c9e141e2743"
+PRODUCER_SHA256 = "65feb6a88b95deb990f6bd435775d2af447b838b72cd4bb31b0a56e260cc3524"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -189,8 +192,11 @@ def validate_envelope(receipt: dict[str, Any]) -> None:
                 receipt.get("result") is None and isinstance(receipt.get("reason"), str),
                 "resource envelope")
     else:
+        reason = receipt.get("reason")
         require(receipt.get("status") == "UNKNOWN_INPUT" and
-                receipt.get("result") is None and isinstance(receipt.get("reason"), str),
+                receipt.get("result") is None and isinstance(reason, str) and
+                any(reason.startswith(prefix) and len(reason) > len(prefix)
+                    for prefix in UNKNOWN_INPUT_PREFIXES),
                 "input envelope")
 
 
@@ -1104,6 +1110,31 @@ def validate_receipt_chain(receipt: dict[str, Any], allow_selftest: bool = False
     return {"terminal": PASS, "grade": "CROSS_CHECKED", **verify_complete(receipt)}
 
 
+def reject_terminal_selftest() -> int:
+    receipt = toy_fixture()
+    receipt.pop("selftest_mode")
+    receipt.update({"status": "UNKNOWN_INPUT", "terminal": UNKNOWN_INPUT,
+                    "reason": f"{CENSUS_REJECT_PREFIX}SELFTEST_INVARIANT",
+                    "result": None})
+    reseal(receipt)
+    audit = validate_receipt_chain(copy.deepcopy(receipt))
+    require(audit.get("terminal") == UNKNOWN_INPUT and
+            audit.get("grade") == "UNKNOWN_ACCEPTED_NO_ORDER" and
+            len(audit) == 2, "typed Reject terminal acceptance")
+    checks = 1
+    for bad_reason in ("ValueError:SELFTEST_PROGRAMMING_ERROR", CENSUS_REJECT_PREFIX):
+        mutation = copy.deepcopy(receipt)
+        mutation["reason"] = bad_reason
+        reseal(mutation)
+        try:
+            validate_receipt_chain(mutation)
+        except Reject:
+            checks += 1
+        else:
+            raise Reject(f"bad Reject reason accepted: {bad_reason}")
+    return checks
+
+
 def mutation_suite() -> tuple[int, int]:
     baseline = toy_fixture(); validate_receipt_chain(copy.deepcopy(baseline), True)
     mutations = []
@@ -1164,10 +1195,13 @@ def run(args: argparse.Namespace) -> int:
         result = validate_receipt_chain(fixture)
         require(result["terminal"] == UNKNOWN_RESOURCE and
                 fixture["reason"] == "LOCAL_EXECUTION_GUARD", "immutable fixture")
+        reject_checks = reject_terminal_selftest()
+        require(reject_checks == 3, "Reject terminal selftest count")
         attempted, rejected = mutation_suite()
         require(attempted == rejected == 15, "mutation count")
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS "
               f"mutation_attempted={attempted} mutation_rejected={rejected} "
+              f"reject_envelope_checks={reject_checks} "
               "linked_nonabelian_order=54", flush=True)
         return 0
     require(args.receipt and args.verdict, "production arguments")

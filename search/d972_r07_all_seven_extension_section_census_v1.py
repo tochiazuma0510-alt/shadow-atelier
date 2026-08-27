@@ -26,6 +26,9 @@ SCHEMA = "d972-r07-all-seven-extension-section-census/v1"
 PASS = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS"
 UNKNOWN_RESOURCE = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_RESOURCE"
 UNKNOWN_INPUT = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT"
+AUTHENTICATED_INPUT_PREFIX = "AUTHENTICATED_INPUT:"
+CENSUS_REJECT_PREFIX = "CENSUS_REJECT:"
+UNKNOWN_INPUT_PREFIXES = (AUTHENTICATED_INPUT_PREFIX, CENSUS_REJECT_PREFIX)
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
 FIXTURE_SHA256 = "b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471"
@@ -206,9 +209,12 @@ def validate_envelope(receipt: dict[str, Any]) -> None:
                 receipt.get("result") is None and
                 isinstance(receipt.get("reason"), str), "resource envelope")
     else:
+        reason = receipt.get("reason")
         require(receipt.get("status") == "UNKNOWN_INPUT" and
                 receipt.get("result") is None and
-                isinstance(receipt.get("reason"), str), "input envelope")
+                isinstance(reason, str) and
+                any(reason.startswith(prefix) and len(reason) > len(prefix)
+                    for prefix in UNKNOWN_INPUT_PREFIXES), "input envelope")
     boundaries = receipt.get("boundaries", {})
     require(boundaries == {
         "all_seven_solution": False, "correction_word": False,
@@ -892,12 +898,15 @@ def run(args: argparse.Namespace) -> int:
         result = build_result(Path(args.q3), Path(args.joint), args.soft_seconds)
         receipt.update({"status": "COMPLETE", "terminal": PASS,
                         "reason": None, "result": result})
+    except Reject as exc:
+        receipt.update({"status": "UNKNOWN_INPUT", "terminal": UNKNOWN_INPUT,
+                        "reason": f"{CENSUS_REJECT_PREFIX}{exc}", "result": None})
     except ResourceStop as exc:
         receipt.update({"status": "UNKNOWN_RESOURCE", "terminal": UNKNOWN_RESOURCE,
                         "reason": str(exc), "result": None})
     except (InputStop, FileNotFoundError, json.JSONDecodeError) as exc:
         receipt.update({"status": "UNKNOWN_INPUT", "terminal": UNKNOWN_INPUT,
-                        "reason": f"AUTHENTICATED_INPUT:{exc}", "result": None})
+                        "reason": f"{AUTHENTICATED_INPUT_PREFIX}{exc}", "result": None})
     write_receipt(Path(args.output), receipt)
     validate_envelope(json.loads(Path(args.output).read_text(encoding="utf-8")))
     print(f"R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_TERMINAL {receipt['terminal']}",

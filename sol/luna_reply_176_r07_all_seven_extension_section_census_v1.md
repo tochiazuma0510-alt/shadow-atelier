@@ -4,16 +4,25 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-The five-file bundle requested by task176 has received a second narrow driver
-formatting repair.  GHA run `33036920357` reached the unchanged producer PASS
-and checker
-`mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54`; this
-is a **semantic SELFTEST PASS**.  Its child shell and workflow succeeded.
-However, GAP wrapped the final console sentinel between `termin` and `al`, so
-the task's exact unwrapped external-sentinel contract remains pending.  Static
-disposition is **GO for one bounded GHA SELFTEST rerun**, followed by
-PRODUCTION only after that rerun exposes the exact one-line driver sentinel.
-During this repair no local Python, Node, GAP, git, or GHA command was run.
+The task176 bundle now contains two coordinated unexecuted repairs.  GHA
+SELFTEST run `33037201796` at head `499e4c0a` reached the old exact producer
+PASS and checker PASS with
+`mutation_attempted=15 mutation_rejected=15 linked_nonabelian_order=54`, but
+GAP again split the final console line as `termin\` plus newline plus
+`al=SELFTEST`.  The first repair removes that final GAP `Print` and delegates
+only the already-audited sentinel to a closed Bash `printf` branch.
+
+The subsequent task177 static audit found a separate production contract
+blocker: a producer `Reject` raised inside `build_result` escaped `run()`, so
+the process stopped without the required receipt.  The second repair converts
+exactly that exception class to a typed `UNKNOWN_INPUT` receipt with nonempty
+`CENSUS_REJECT:<exception text>` reason.  Generic programming `TypeError`,
+`ValueError`, and `KeyError` are not caught by the production receipt block and
+remain hard `PRODUCER_STOP`s.  Producer, independent checker, and GAP driver
+all enforce the typed reason boundary.  Static disposition is **GO for one
+bounded GHA SELFTEST rerun**, followed by PRODUCTION only after that rerun
+exposes the exact one-line driver sentinel and the new Reject-envelope checks
+pass.  No local Python, Node, GAP, git, GHA, or production command was run.
 
 There is no currently identified `UNKNOWN_INPUT` obstruction.  The frozen
 task157ee shelf contains enough data to reconstruct both required objects:
@@ -34,9 +43,9 @@ subsequent external SELFTEST attempt recorded above.
 
 ```text
 bytes  SHA-256                                                           path
-44757  9fb3839eaf856f6e4d8cc77a2ee358417c6c624564925179d9a62c9e141e2743  search/d972_r07_all_seven_extension_section_census_v1.py
-61609  b3b5c305d9e181ef39a192127b815a24b6cb9b86a4a5dccbdb49f793a470d21c  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-12890  da9d7b8625f1b5c22daebabf3561e2fd0eb9cfa8409dbbc04e29797f33cdb102  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+45282  65feb6a88b95deb990f6bd435775d2af447b838b72cd4bb31b0a56e260cc3524  search/d972_r07_all_seven_extension_section_census_v1.py
+63086  f140fadcedba523fcd718cdb6951c75919d59db1988bfc3d64ca199c87464d06  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+15296  6a3ad93d4806af470d4e0a51b7a8cf07bfb188020446378a24390ab2612b2122  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -101,6 +110,26 @@ unboxed fixed-width payload is about 1.386 GiB.  Python dictionaries, pc
 caches, subgroup closures, compression, and the temporary equality index
 raise the conservative producer/checker peak estimate to 4.5--5.8 GiB.
 
+### Production exception boundary
+
+The receipt-producing `try` now has four deliberately disjoint outcomes:
+
+- normal completion emits `COMPLETE`;
+- `ResourceStop` emits `UNKNOWN_RESOURCE`;
+- authenticated input absence/parse failures (`InputStop`,
+  `FileNotFoundError`, and the specifically named `json.JSONDecodeError`)
+  emit `UNKNOWN_INPUT` with nonempty `AUTHENTICATED_INPUT:` reason; and
+- the producer's explicit semantic assertion class `Reject` emits
+  `UNKNOWN_INPUT` with nonempty `CENSUS_REJECT:` reason.
+
+No catch-all was added.  In particular, generic `TypeError`, `ValueError`,
+and `KeyError` leave `run()` and are caught only by the outer command-line
+guard, which prints `PRODUCER_STOP` and exits nonzero without manufacturing a
+receipt.  Receipt serialization and post-write envelope validation also stay
+outside the conversion block, so an implementation or serialization failure
+there cannot be mislabeled as input.  `json.JSONDecodeError` remains the one
+explicit `ValueError` subclass treated as authenticated-input syntax failure.
+
 ## 4. Independent checker and destructive controls
 
 The checker imports neither the producer nor producer helpers.  It loads only
@@ -147,6 +176,16 @@ not the mutation oracle.  Fourteen data mutations are rejected by envelope or
 the component-by-component semantic reconstruction; the terminal mutation is
 rejected by the same dispatcher's typed terminal/envelope gate.
 
+The checker independently accepts an `UNKNOWN_INPUT` reason only when it has
+one of the two registered prefixes and at least one character after the
+prefix.  Its selftest now constructs and reseals one componentwise typed
+`CENSUS_REJECT:SELFTEST_INVARIANT` receipt, requires the returned terminal and
+no-order grade separately, then reseals two reason mutations: a generic
+`ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
+rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
+The exact checker marker therefore adds `reject_envelope_checks=3` while the
+original destructive mutation count remains 15/15.
+
 ## 5. Driver and exact terminals
 
 The ASCII-only driver accepts exactly one of these externally bound modes:
@@ -161,11 +200,17 @@ checker, fixture, and fourteen predecessors before creating output.  It
 rejects every pre-existing driver-owned artifact, runs one producer and then
 one checker strictly serially under Bash `set -euo pipefail`, gates exact-one
 markers and terminal agreement, writes artifact hashes and timings, and emits
-only this final success sentinel:
+only a final success sentinel of this exact form (SELFTEST shown):
 
 ```text
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
 ```
+
+For `UNKNOWN_INPUT`, the driver additionally requires exactly one registered
+reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
+empty prefixed reason, and requires producer/checker/verdict terminal
+agreement.  Its SELFTEST exact-line gate now includes
+`reject_envelope_checks=3`.
 
 ### GHA formatting failures and repairs
 
@@ -195,7 +240,27 @@ formatter.  It wrapped the final `Print` as `termin` followed by GAP's visible
 continuation and then `al=SELFTEST`.  The workflow did not fail, but the output
 was not the contractually required exact one-line sentinel.  The narrow second
 repair disables formatting on `OutputTextUser()` immediately before the final
-`Print`; it does not touch the now-passing child shell or any semantic code.
+`Print`; it did not touch the now-passing child shell or any semantic code.
+
+GHA SELFTEST run `33037201796` at head `499e4c0a` proved that the second
+repair was ineffective: producer and checker again passed exactly, including
+all fifteen mutation rejections, but GAP still wrapped the same final line.
+The third repair therefore removes GAP from sentinel rendering.  The existing
+generated Bash script now has an `--emit-driver-pass` branch.  Only after all
+GAP-side producer/checker/log/receipt/verdict audits have succeeded, GAP maps
+the closed terminal set to one of four inert codes and invokes that branch.
+The branch requires exactly two arguments, accepts only those four codes,
+independently composes the mode/terminal line and compares it with a frozen
+full expected literal, rejects embedded CR or LF, then emits it with Bash's
+builtin `printf '%s\n'`.  Unknown arguments exit before output.  No computed
+or receipt-controlled text is interpolated into a shell command.
+
+This output is inherited directly from the external child rather than routed
+through GAP's console printer.  The pre-existing post-generation readback
+still rejects any literal `backslash + newline` anywhere in the complete
+child script before its first execution, so it covers the new emitter branch
+as well.  The final emitter is invoked only after the semantic audits, so an
+earlier failure cannot print a false PASS.
 
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
@@ -221,20 +286,21 @@ second preamble only after the exact selftest sentinel appears.
 
 Repair-specific source evidence is fixed at these lines:
 
-- producer lines 30--31 and 881--886 bind and semantically check the corrected
-  immutable fixture;
-- checker lines 34 and 37--38 bind producer and fixture identities, lines
-  379--391 supply the order-formula gate shared with production, lines
-  711--937 define/build the bounded nonabelian extension, and lines 953--1092
-  independently reconstruct every advertised component;
-- checker lines 1095--1104 dispatch the selftest through the authenticated
-  receipt chain, while lines 1107--1151 build, reseal, and submit all fifteen
-  mutations to that same entry point;
+- producer lines 29--31 register the two nonempty typed input prefixes, lines
+  190--224 validate the envelope, lines 884--914 implement the narrow
+  production exception conversion, and lines 930--936 retain the outer hard
+  STOP for `Reject` outside that block and programming exception classes;
+- checker lines 30--37 independently register the prefixes and pin the new
+  producer, lines 169--200 validate the envelope componentwise, lines
+  1113--1135 exercise the typed Reject terminal and two reason mutations, and
+  lines 1138--1182 retain the fifteen production-shaped semantic mutations;
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
-  lines 101--109 bind the corrected internal fixture digest, lines 152--186
-  perform lossless unformatted shell emission, and lines 187--190 reject a
-  formatting continuation before execution; driver lines 225--227 disable
-  user-console formatting and then emit the final sentinel; and
+  lines 112--149 enforce terminal envelopes including the nonempty typed
+  `UNKNOWN_INPUT` reason, lines 158--207 perform lossless unformatted shell
+  emission, lines 162--176 define the closed exact-sentinel branch, and lines
+  208--211 reject a formatting continuation before execution; driver lines
+  246--257 map the audited terminal to a closed code and invoke the external
+  emitter; and
 - fixture lines 41, 44, and 46 bind its typed reason, canonical self-digest,
   and exact terminal.
 
@@ -250,19 +316,26 @@ found:
   producer, checker, driver, and immutable receipt;
 - producer, checker, driver, and fixture contain zero non-ASCII bytes and no
   unresolved substitution marker;
+- the revised driver contains zero literal `backslash + newline` pairs;
+- the producer's receipt-producing `try` catches `Reject` but not generic
+  `TypeError`, `ValueError`, or `KeyError`; those remain in the hard-STOP outer
+  guard, while only the explicitly named JSON parser exception is typed input;
 - neither task169 nor task175 is imported or named; and
 - the GAP driver does not assign or interpret an `Exec` return value.
 
 Run `33036568540` records the first child-shell formatting failure.  Run
 `33036920357` establishes producer selftest PASS, checker syntax/import PASS,
 all fifteen mutation rejections, and the repaired child shell.  Thus the
-bounded semantic selftest is complete.  Because this second repair was not run
-locally, exact unwrapped external sentinel emission remains **UNKNOWN pending
-one rerun**.  The production-only exact Q0 completion, COMPLETE orders,
-runtime, RSS, and artifact size also remain UNKNOWN.  Static inspection found
-no remaining deterministic source/pin/schema/contract STOP.
+bounded semantic selftest is complete.  Run `33037201796` repeats those exact
+semantic passes and proves only that `OutputTextUser()` does not suppress the
+GHA console wrap.  Because both the external-`printf` repair and the typed
+Reject-envelope repair were intentionally not run locally, their new SELFTEST
+contract remains **UNKNOWN pending one rerun**.  The production-only exact Q0
+completion, COMPLETE orders, runtime, RSS, and artifact size also remain
+UNKNOWN.  Static inspection found no remaining deterministic
+source/pin/schema/contract STOP.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_STATIC_GO_CONSOLE_REPAIR_UNEXECUTED
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_STATIC_GO_TYPED_REJECT_AND_EXTERNAL_PRINTF_REPAIRS_UNEXECUTED
