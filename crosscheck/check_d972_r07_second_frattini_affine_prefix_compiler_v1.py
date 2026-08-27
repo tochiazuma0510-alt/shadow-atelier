@@ -25,6 +25,17 @@ def add(a,b,s=1):
     return o
 def pair(f,r): return sum(v*r.get(k,0) for k,v in f.items())%3
 def pub(r): return [[k.hex(),v] for k,v in sorted(r.items()) if v%3]
+def public_sparse(r): return pub(r)
+def parse_sparse(raw):
+    require(type(raw) is list,"sparse row list")
+    out={}; previous=None
+    for item in raw:
+        require(type(item) is list and len(item)==2 and type(item[0]) is str and type(item[1]) is int,"sparse row entry")
+        try: key=bytes.fromhex(item[0])
+        except ValueError as exc: raise RuntimeError("sparse row hex") from exc
+        require(item[0]==key.hex() and item[1] in (1,2) and (previous is None or previous<key),"canonical sparse row")
+        out[key]=item[1]; previous=key
+    return out
 def public_chain(r): return [[int(k),v] for k,v in sorted(r.items()) if v%3]
 class E:
     def __init__(self): self.p=[];self.r={};self.a={}
