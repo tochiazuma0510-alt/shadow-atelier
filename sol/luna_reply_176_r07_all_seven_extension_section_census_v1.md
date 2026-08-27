@@ -797,3 +797,64 @@ redispatched.  Re-run the Section 5 bounded SELFTEST and require both expanded
 exact markers plus the one-line driver sentinel before another PRODUCTION run.
 
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PC_SPLIT_BYTES_REPAIRED_COMPLETE_STATIC_INVENTORY_RESELFTEST_PENDING
+
+## Parent execution addendum (2026-08-27)
+
+The repaired exact tree was committed and pushed at
+`0533e42019c9f67f6cec3d1566152db17b903836`.  The runtime source identities
+were exactly the three identities printed above; the pre-addendum reply had
+`bytes=44207` and
+`sha256=0b58c6a611abcae41c3857b51c6da73c1975a1073bdad727095dff15ef9e60d1`.
+
+Bounded SELFTEST GitHub Actions run `33044000760` completed successfully at
+that head.  Its exact positive sentinels were:
+
+```text
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 section_split_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 section_split_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
+```
+
+The subsequent PRODUCTION GitHub Actions run `33044121344` also completed
+successfully at the same full head.  Producer and independent checker both
+terminated with
+`R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS`; the driver emitted
+`R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_GHA_DRIVER_PASS mode=PRODUCTION terminal=R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS`.
+
+The downloaded production artifact was audited outside the repository.  Its
+principal identities and verdict fields are:
+
+```text
+d972_r07_all_seven_extension_section_census_v1_20260827.json
+  bytes 13649089
+  sha256 715441d8ecb1b4bb39a51cf3df15f04d6179ee6adeafa5b925485dbbe91f7f41
+  receipt_self_digest f8f0ce249ff547d3e1235bd4b9760daa2b34f23771bf7da47b48dbd5cbbfae1d
+
+d972_r07_all_seven_extension_section_census_crosscheck_v1_20260827.json
+  bytes 757
+  sha256 e6a45a34353ce1fb54c99b4f9cbc8b106f34bfc751dd50044f2a79da72cad5e5
+  verdict_self_digest e9d42ea064e7caaa9a333f7e2a8aec42f709bf1565e9fc9a8950ef92e18ce473
+
+Gamma_order=243
+Q0_order=1469664
+full_D_order=357128352
+family_count=11
+direct_word_replay=true
+grade=CROSS_CHECKED
+```
+
+For log-level reproducibility, `run.log` had SHA-256
+`ef3206...` in the downloaded artifact, the checker log had `bytes=108` and
+SHA-256 prefix `08736d...`, and the producer log had `bytes=104` and SHA-256
+prefix `5c5512...`.  These three prefixes are descriptive only; the full receipt,
+verdict, source, head, and run identities above are the binding execution
+record.
+
+This closes the task176 linked all-seven section/kernel census prerequisite at
+the repository's `CROSS_CHECKED` grade.  It does **not** by itself exhibit a
+positive common correction word, a compatible cofinal lift, a fake, or an
+Ihara witness.  The production payload remains in the GHA artifact/temp audit
+location as required; the checked-in `UNKNOWN` fixture is not promoted or
+replaced.
+
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCTION_CROSSCHECKED
