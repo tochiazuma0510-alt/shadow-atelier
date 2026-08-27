@@ -1,0 +1,1 @@
+{"schema":"d972-r07-finite-relative-anchor-preflight/v1","status":"UNKNOWN_RESOURCE","terminal":"UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD","reason":"checked-in preflight fixture; execute only in serial GHA","mutation_controls":19,"production_comparison":"UNKNOWN_INPUT:ARITHMETIC_NO_S_COSET_NOT_AUTHENTICATED"}

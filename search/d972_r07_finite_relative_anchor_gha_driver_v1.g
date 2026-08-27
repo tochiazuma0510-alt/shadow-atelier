@@ -1,0 +1,51 @@
+# ASCII-only serial driver for task185.
+if not IsBound(D972_R07_FINITE_RELATIVE_ANCHOR_V1_MODE) then Error("task185 driver: MODE required"); fi;
+D185Mode:=D972_R07_FINITE_RELATIVE_ANCHOR_V1_MODE;;
+if D185Mode<>"SELFTEST" and D185Mode<>"PRODUCTION" then Error("task185 driver: bad MODE"); fi;
+D185Producer:="search/d972_r07_finite_relative_anchor_v1.py";;
+D185Checker:="crosscheck/check_d972_r07_finite_relative_anchor_v1.py";;
+D185Fixture:="search/certs/d972_r07_finite_relative_anchor_preflight_v1_20260827.json";;
+D185Receipt:="ci/out/d972_r07_finite_relative_anchor_v1.json";;
+D185Verdict:="ci/out/d972_r07_finite_relative_anchor_verdict_v1.json";;
+D185ProducerLog:="ci/out/d972_r07_finite_relative_anchor_producer_v1.log";;
+D185CheckerLog:="ci/out/d972_r07_finite_relative_anchor_checker_v1.log";;
+D185Shell:="ci/out/d972_r07_finite_relative_anchor_command_v1.sh";;
+D185ProducerBytes:=21137;; D185ProducerSHA:="72e97af20f7cfd7a8da6c9b21a91846df7d906784408d8812d17a94e26715a2c";;
+D185CheckerBytes:=16317;; D185CheckerSHA:="fddd630e8cd12d721fa65efd646614335eaa59aab10d3e7ff28a74b4aaa77a97";;
+D185FixtureBytes:=309;; D185FixtureSHA:="ef57eca45acb43aa72a5e6e75424812e9b8956833f99ac3d6a83d297a8952829";;
+D185Read:=function(path,label) local raw; raw:=StringFile(path); if raw=fail then Error("task185 driver: missing ",label); fi; return raw; end;;
+D185Pin:=function(path,size,digest) local raw; raw:=D185Read(path,"pin"); if size>0 and (Length(raw)<>size or HexSHA256(raw)<>digest) then Error("task185 driver: pin drift ",path); fi; end;;
+D185Pin(D185Fixture,D185FixtureBytes,D185FixtureSHA);;
+D185Pin("sol/proof_r07_task176_joint_formation_residual_v149.md",9093,"cd0af7ea5b1c9354f1296485a2fe6261f9915be03f1e250812edda078b2f6337");;
+D185Pin("sol/proof_r07_finite_relative_arithmetic_anchor_v150.md",9107,"9690bb344df580610e9efc1508a124b3871bc17b4e1d4d588eac1ec857f5c218");;
+D185Pin("sol/proof_r07_first_frattini_schreier_coinvariant_selector_v152.md",9687,"714f96263bdd2a971b223986a97157647992cb7129eb0cfffd405ea05a995448");;
+D185Pin("sol/proof_r07_all_rung_formation_frattini_residual_formula_v153.md",11107,"d5b4e8ed6af14094f309e0fc2dda73cc8e4ff2de1690a518a1c753f0a8829762");;
+D185Pin("sol/proof_r07_task176_full_direct_product_quotient_v154.md",6976,"bdb9ae86dcd490788854c9c1b95a3c6709ee3a0feebfeb91528ae876003333e8");;
+D185Pin("sol/luna_reply_176_r07_all_seven_extension_section_census_v1.md",47164,"aa173122310e33910d546bd3e02a98a6bf16aea9d3aad066b7d49976098ebb0c");;
+D185Pin(D185Producer,D185ProducerBytes,D185ProducerSHA);;
+D185Pin(D185Checker,D185CheckerBytes,D185CheckerSHA);;
+for D185Path in [D185Receipt,D185Verdict,D185ProducerLog,D185CheckerLog,D185Shell] do
+  if IsExistingFile(D185Path) then Error("task185 driver: stale output ",D185Path); fi;
+od;
+D185Stream:=OutputTextFile(D185Shell,false);; if D185Stream=fail then Error("task185 driver: shell open"); fi;
+PrintTo(D185Stream,"#!/usr/bin/env bash\nset -euo pipefail\nulimit -v 6291456\n");;
+if D185Mode="SELFTEST" then
+  PrintTo(D185Stream,"timeout --foreground 900 python3 -u -B ",D185Producer," --mode SELFTEST --output ",D185Receipt," 2>&1 | tee ",D185ProducerLog,"\n");;
+  PrintTo(D185Stream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D185Stream,"grep -Fxc 'R07_FINITE_RELATIVE_ANCHOR_V1_SELFTEST_PASS mutations=19' ",D185ProducerLog,"\n");;
+  PrintTo(D185Stream,"timeout --foreground 900 python3 -u -B ",D185Checker," --mode SELFTEST --receipt ",D185Receipt," --verdict ",D185Verdict," 2>&1 | tee ",D185CheckerLog,"\n");;
+  PrintTo(D185Stream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D185Stream,"grep -Fxc 'R07_FINITE_RELATIVE_ANCHOR_V1_CHECKER_SELFTEST_PASS mutations=19' ",D185CheckerLog,"\n");;
+else
+  PrintTo(D185Stream,"timeout --foreground 1800 python3 -u -B ",D185Producer," --mode PRODUCTION --output ",D185Receipt," 2>&1 | tee ",D185ProducerLog,"\n");;
+  PrintTo(D185Stream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D185Stream,"grep -Fxc 'R07_FINITE_RELATIVE_ANCHOR_V1_PRODUCER_PASS terminal=UNKNOWN_INPUT' ",D185ProducerLog,"\n");;
+  PrintTo(D185Stream,"timeout --foreground 1800 python3 -u -B ",D185Checker," --mode PRODUCTION --receipt ",D185Receipt," --verdict ",D185Verdict," 2>&1 | tee ",D185CheckerLog,"\n");;
+  PrintTo(D185Stream,"test ${PIPESTATUS[0]} -eq 0\n");;
+  PrintTo(D185Stream,"grep -Fxc 'R07_FINITE_RELATIVE_ANCHOR_V1_CHECKER_PASS terminal=UNKNOWN_INPUT' ",D185CheckerLog,"\n");;
+fi;
+CloseStream(D185Stream);;
+D185ShellRaw:=D185Read(D185Shell,"generated shell");; if PositionSublist(D185ShellRaw,"\\\n")<>fail then Error("task185 driver: wrapped shell"); fi;
+Exec(Concatenation("bash ",D185Shell));;
+if not IsExistingFile(D185Receipt) or not IsExistingFile(D185Verdict) then Error("task185 driver: missing verdict"); fi;
+WriteLine(OutputTextUser(),Concatenation("R07_FINITE_RELATIVE_ANCHOR_V1_GHA_DRIVER_PASS mode=",D185Mode));;
