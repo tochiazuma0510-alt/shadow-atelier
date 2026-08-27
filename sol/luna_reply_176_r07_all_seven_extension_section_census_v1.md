@@ -352,7 +352,8 @@ no-order grade separately, then reseals two reason mutations: a generic
 `ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
 rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
 The current exact checker marker carries `reject_envelope_checks=3`,
-`perm_type_checks=2`, `joint_blob_type_checks=8`, `deleter_type_checks=6`, and
+`perm_type_checks=2`, `joint_blob_type_checks=8`,
+`section_split_type_checks=8`, `deleter_type_checks=6`, and
 `deletion_convention_checks=10`, while the original destructive mutation count
 remains 15/15.  The producer marker independently carries all four bounded
 check counts.  On COMPLETE input the checker also reconstructs each six-row
@@ -385,7 +386,8 @@ reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
 empty prefixed reason, and requires producer/checker/verdict terminal
 agreement.  Its SELFTEST exact-line gate now includes
 `reject_envelope_checks=3` and both producer/checker
-`perm_type_checks=2`, `joint_blob_type_checks=8`, `deleter_type_checks=6`, and
+`perm_type_checks=2`, `joint_blob_type_checks=8`,
+`section_split_type_checks=8`, `deleter_type_checks=6`, and
 `deletion_convention_checks=10` markers.
 
 ### GHA formatting failures and repairs
@@ -515,8 +517,8 @@ Use the same driver, `out_dir=ci/out`, `timeout_min=60`, and
 producer/checker markers and the exact one-line driver sentinel all pass:
 
 ```text
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 joint_blob_type_checks=8 section_split_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 joint_blob_type_checks=8 section_split_type_checks=8 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
 ```
 
@@ -624,7 +626,8 @@ has yet run against the final identities in Section 2.
 
 The noncontiguous factor projection, six-row diagnostic,
 `deletion_convention_checks=10`, raw bucket summaries, and all-243 Gamma
-coarse-image replay, together with the new `joint_blob_type_checks=8`, are
+coarse-image replay, together with `joint_blob_type_checks=8` and
+`section_split_type_checks=8`, are
 currently **RE-SELFTEST PENDING**.  Q0 completion,
 orders, runtime beyond the deletion gate, and a COMPLETE receipt remain UNKNOWN
 until the current bundle passes SELFTEST and is dispatched again.
@@ -695,4 +698,102 @@ redispatched.  The required next action is the bounded SELFTEST preamble in
 Section 5, followed by PRODUCTION only after both new exact markers and the
 one-line external driver sentinel pass.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_TUPLE_BYTES_SERIALIZER_REPAIRED_RESELFTEST_PENDING
+## 8. Run 33043237638 complete tuple/bytes call-path repair
+
+The first serializer repair was necessary but not sufficient.  Authenticated
+production run `33043237638` at head prefix `1c2c80cb` stopped after about 40
+seconds with the identical line
+
+```text
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_STOP can only concatenate tuple (not "bytes") to tuple
+```
+
+There was again no receipt, checker run, artifact, or driver PASS.  The repeated
+text came from a different reachable expression in the same frozen arithmetic
+source: `search/d972_b345_seedspan_triple4_v1.py:790`, inside
+`PcCollector.mul`:
+
+```python
+key = a + b
+```
+
+The pre-repair task176 `split_blob` returned both slices as tuples.  At the
+first Q0-section extension product, producer line 806 calls
+`pc.mul(left_pc, right[1])`; `left_pc` was that tuple while the authenticated
+marked right PC component was bytes.  Frozen line 790 therefore evaluated
+exactly `tuple + bytes`.  This occurs before the repaired output serializer,
+which explains why the first repair could not cover it.
+
+The complete static `build_result` representation inventory is:
+
+1. `reconstruct_quotients`, `cheap_context_registry`, Gamma word evaluation,
+   and fine-deletion Cayley replay use PC values created by frozen `PcCollector`
+   or authenticated marked rows; both operands of every reachable line-790
+   call are bytes.  The legacy `_element_blob` calls internal to the registry
+   receive `(bytes,bytes)` and are safe.
+2. Imported task157ee `JointGroup.__init__`, `key`, `invariants`, and `public`
+   dispatch `self.blob` virtually, hence task176's `PackedJointGroup` override
+   covers all of them.  Its `ScalarEngine.blob` and direct `_element_blob` call
+   in the task157ee top-level production routine are unreachable: task176
+   neither instantiates `ScalarEngine` nor calls that routine.  It imports only
+   `JointGroup` and `complete_relators`.
+3. Frozen `ElementPool.pack` has another `value[0] + value[1]`, but no
+   `ElementPool` is constructed anywhere in task176 `build_result`; it is
+   unreachable.
+4. Projected Gamma/A-family operations use canonical `(bytes,bytes)` EKeys.
+   The task176 joint serializer and checker-independent serializer validate
+   their exact degrees, PC widths, and permutation bijectivity.
+5. The Q0-section loop was the sole mixed line-790 route: section storage is
+   bytes, but old `split_blob` converted the left PC slice to tuple while the
+   right marked component stayed bytes.  This is the newly repaired boundary.
+6. Post-section `value_from_blob`, `multiply_blob`, and `inverse_blob` share
+   that split boundary.  They now feed only `(bytes,bytes)` into frozen E3/E4
+   `MatchedQuotient.mul`/`inverse`, so both `perm_mul` and `PcCollector.mul`
+   receive canonical packed values.
+7. The remaining task176 `+` expressions are statically typed as list/list,
+   integer/integer, string/string, or bytes/bytes.  In particular the section
+   output `perm_raw + pc_raw`, deletion block joins, receipt newline, and both
+   canonical serializers are bytes/bytes.
+
+Producer `split_blob` now accepts only an exact bytes blob, supports only the
+live `(degree,total width)` pairs `(36,40)` and `(144,154)`, and returns two
+bytes slices.  It deliberately does not rebuild a permutation set inside this
+multi-million-call hot loop: canonicality follows from the already checked
+section-store construction and remains checked at serializer boundaries.  The
+checker independently changed its section-value decoder to the same canonical
+representation with separate coordinate/width gates; its existing independent
+joint serializer still checks permutation bijectivity at the output boundary.
+
+Both bounded SELFTESTs now reach the formerly failing cache-key expression,
+not merely the later serializer.  For E3 and E4 they split a real-width packed
+element, require both outputs to be bytes, and pass the PC slice plus a bytes
+right operand through a probe whose first operation is literally
+`left + right`.  Four malformed outer type/unsupported-degree/E3-width/E4-width
+cases are
+then rejected.  The producer/checker/driver exact lines bind
+`section_split_type_checks=8` in addition to `joint_blob_type_checks=8`.
+
+Malformed internal split values raise `TypeError` or `ValueError`.  The
+receipt-producing production `try` still catches neither, so programming bugs
+remain nonzero hard STOPs without receipts; no new path is mislabeled
+`UNKNOWN_INPUT`.
+
+Current runtime identities before this reply's own final hash are:
+
+```text
+search/d972_r07_all_seven_extension_section_census_v1.py
+  bytes 66109
+  sha256 878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b
+crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+  bytes 84980
+  sha256 4e6b97aa315fdccb4250de21e99dd78302477b90fd420215de6c6bea7d1fa695
+search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+  bytes 15929
+  sha256 1c6dc7f10d9b27092c2441a274ff74726d8899599ac10c2b8cc47cb59da02995
+```
+
+No local Python, GAP, Node, GHA, or git command was run, and production was not
+redispatched.  Re-run the Section 5 bounded SELFTEST and require both expanded
+exact markers plus the one-line driver sentinel before another PRODUCTION run.
+
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PC_SPLIT_BYTES_REPAIRED_COMPLETE_STATIC_INVENTORY_RESELFTEST_PENDING

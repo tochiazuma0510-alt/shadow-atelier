@@ -35,7 +35,7 @@ EXPECTED_GAMMA = 243
 EXPECTED_GAMMA_COARSE_ORDERS = (1, 1, 1, 1, 1, 81, 81, 81, 9, 9)
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "5cf5617bebc932833dd34105bd85b2536e8c332137dce0f6ea176ebd82e09bd3"
+PRODUCER_SHA256 = "878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -301,8 +301,54 @@ def joint_blob_representation_selftest() -> int:
 
 
 def value(raw: bytes, index: int) -> Any:
+    if type(raw) is not bytes:
+        raise TypeError("checker section value must be bytes")
+    if type(index) is not int or not 0 <= index < 10:
+        raise ValueError("checker section coordinate index")
     degree = 36 if index < 5 else 144
-    return tuple(raw[:degree]), bytes(raw[degree:])
+    if len(raw) != WIDTHS[index]:
+        raise ValueError("checker section value width")
+    permutation = raw[:degree]
+    return permutation, raw[degree:]
+
+
+def section_value_representation_selftest() -> int:
+    class IndependentPcKeyProbe:
+        def __init__(self) -> None:
+            self.observed = b""
+
+        def product(self, first: bytes, second: bytes) -> bytes:
+            self.observed = first + second
+            return bytes(len(first))
+
+    checks = 0
+    for index, degree, pc_width in ((0, 36, 4), (5, 144, 10)):
+        packed = bytes(range(degree)) + bytes(pc_width)
+        permutation, pc_component = value(packed, index)
+        require(type(permutation) is bytes and type(pc_component) is bytes and
+                permutation + pc_component == packed,
+                "checker section value canonical split")
+        checks += 1
+        probe = IndependentPcKeyProbe()
+        probe.product(pc_component, bytes(pc_width))
+        require(type(probe.observed) is bytes and
+                len(probe.observed) == 2 * pc_width,
+                "checker frozen PC key expression")
+        checks += 1
+    malformed = (
+        (bytearray(bytes(range(36)) + bytes(4)), 0),
+        (bytes(range(36)) + bytes(3), 0),
+        (bytes(range(144)) + bytes(9), 5),
+        (bytes(range(36)) + bytes(4), 10),
+    )
+    for packed, index in malformed:
+        try:
+            value(packed, index)
+        except (TypeError, ValueError):
+            checks += 1
+        else:
+            raise Reject("checker accepted malformed section value")
+    return checks
 
 
 def bit_get(bits: bytes, index: int) -> bool:
@@ -1605,6 +1651,9 @@ def run(args: argparse.Namespace) -> int:
         joint_blob_type_checks = joint_blob_representation_selftest()
         require(joint_blob_type_checks == 8,
                 "joint blob representation selftest count")
+        section_split_type_checks = section_value_representation_selftest()
+        require(section_split_type_checks == 8,
+                "section split representation selftest count")
         deleter_type_checks = deleter_representation_selftest()
         require(deleter_type_checks == 6, "deleter representation selftest count")
         deletion_convention_checks = deletion_convention_selftest()
@@ -1619,6 +1668,7 @@ def run(args: argparse.Namespace) -> int:
               f"reject_envelope_checks={reject_checks} "
               f"perm_type_checks={perm_type_checks} "
               f"joint_blob_type_checks={joint_blob_type_checks} "
+              f"section_split_type_checks={section_split_type_checks} "
               f"deleter_type_checks={deleter_type_checks} "
               f"deletion_convention_checks={deletion_convention_checks} "
               "linked_nonabelian_order=54", flush=True)

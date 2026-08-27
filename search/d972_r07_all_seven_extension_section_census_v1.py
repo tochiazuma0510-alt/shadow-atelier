@@ -347,8 +347,61 @@ def joint_blob_representation_selftest() -> int:
     return checks
 
 
-def split_blob(raw: bytes, degree: int) -> tuple[tuple[int, ...], tuple[int, ...]]:
-    return tuple(raw[:degree]), tuple(raw[degree:])
+def split_blob(raw: bytes, degree: int) -> tuple[bytes, bytes]:
+    """Recover the canonical packed EKey expected by frozen group arithmetic."""
+    if type(raw) is not bytes:
+        raise TypeError("section element blob must be bytes")
+    if degree == 36:
+        expected_width = 40
+    elif degree == 144:
+        expected_width = 154
+    else:
+        raise ValueError("section element blob degree")
+    if len(raw) != expected_width:
+        raise ValueError("section element blob degree/width")
+    permutation = raw[:degree]
+    pc_component = raw[degree:]
+    return permutation, pc_component
+
+
+def split_blob_representation_selftest() -> int:
+    class PcCacheKeyProbe:
+        def __init__(self) -> None:
+            self.key = b""
+
+        def mul(self, left: bytes, right: bytes) -> bytes:
+            # This is the exact representation-sensitive expression used by
+            # frozen PcCollector.mul before it performs any collection.
+            self.key = left + right
+            return bytes(len(left))
+
+    checks = 0
+    for degree, pc_width in ((36, 4), (144, 10)):
+        raw = bytes(range(degree)) + bytes(pc_width)
+        permutation, pc_component = split_blob(raw, degree)
+        require(type(permutation) is bytes and type(pc_component) is bytes and
+                permutation + pc_component == raw,
+                "section split canonical bytes selftest")
+        checks += 1
+        probe = PcCacheKeyProbe()
+        probe.mul(pc_component, bytes(pc_width))
+        require(type(probe.key) is bytes and len(probe.key) == 2 * pc_width,
+                "PcCollector cache-key concatenation selftest")
+        checks += 1
+    mutations = (
+        (bytearray(bytes(range(36)) + bytes(4)), 36),
+        (bytes(range(36)) + bytes(4), 35),
+        (bytes(range(36)) + bytes(3), 36),
+        (bytes(range(144)) + bytes(9), 144),
+    )
+    for raw, degree in mutations:
+        try:
+            split_blob(raw, degree)
+        except (TypeError, ValueError):
+            checks += 1
+        else:
+            raise Reject("mutated section split representation accepted")
+    return checks
 
 
 def bit_get(bits: bytes | bytearray, index: int) -> bool:
@@ -1284,6 +1337,9 @@ def run(args: argparse.Namespace) -> int:
         joint_blob_type_checks = joint_blob_representation_selftest()
         require(joint_blob_type_checks == 8,
                 "joint blob representation selftest count")
+        section_split_type_checks = split_blob_representation_selftest()
+        require(section_split_type_checks == 8,
+                "section split representation selftest count")
         deleter_type_checks = deleter_representation_selftest()
         require(deleter_type_checks == 6, "deleter representation selftest count")
         deletion_convention_checks = deletion_convention_selftest()
@@ -1292,6 +1348,7 @@ def run(args: argparse.Namespace) -> int:
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS "
               f"perm_type_checks={perm_type_checks} "
               f"joint_blob_type_checks={joint_blob_type_checks} "
+              f"section_split_type_checks={section_split_type_checks} "
               f"deleter_type_checks={deleter_type_checks} "
               f"deletion_convention_checks={deletion_convention_checks}", flush=True)
         return 0
