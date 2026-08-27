@@ -191,3 +191,28 @@ complete fibres enable but do not execute v118 correlation
 no target6 solution / cofinal lift / fake / Ihara witness declared
 
 R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_STATIC_REPAIRED_UNEXECUTED
+
+## 8. Parent static audit and GHA selftest dispatch
+
+The parent Sol session and an independent read-only Luna re-audit both
+accepted the repaired static bundle.  The parent separately recomputed all
+five deliverable identities and all 25 literal predecessor pins; no drift was
+found.  This is still only a static acceptance, not a selftest or census
+result.
+
+The parent committed and pushed the exact five task-174 files, then dispatched
+only the bounded selftest lane:
+
+```text
+GHA run id:       33031593759
+workflow:         gap-run.yml
+branch:           sol/r07-explicit-lift-20260825
+commit SHA:       eec4db7cbac28e6727d56e0e4bf49356a02e7cc6
+script:           search/d972_r07_target6_context_image_census_gha_driver_v1.g
+preamble:         D972_R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_SELFTEST:=true;; D972_R07_TARGET6_CONTEXT_IMAGE_CENSUS_V1_USE_PYTHON3:=true;;
+optional packages: false
+dispatch status:  in_progress
+```
+
+The full census has not been dispatched.  It remains gated on this selftest
+returning the exact producer/checker/driver PASS markers.
