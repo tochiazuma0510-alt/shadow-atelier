@@ -76,6 +76,22 @@ SCHEDULE_CONTRACT = (
     "boundary_pairs", "fibre_scans", "candidate_words", "retained_columns",
     "checkpoint_bytes", "rss_bytes", "oracle_rounds", "global_roster",
 )
+CACHE_BYTE_CAPS = {
+    "fox_template_and_base": 96 * 1024 * 1024,
+    "gamma_section_candidate_values": 64 * 1024 * 1024,
+    "pb3_pb4_boundary_descriptors": 64 * 1024 * 1024,
+}
+CACHE_TOTAL_BYTES = 224 * 1024 * 1024
+CACHE_RECORD_NAMES = tuple(CACHE_BYTE_CAPS)
+CACHE_STATS_FIELDS = frozenset((
+    "bounded", "hits", "misses", "evictions", "bytes",
+    "regenerated_literals", "max_single_cache_bytes", "caches",
+    "candidate_basis_epochs", "boundary_descriptors"))
+CACHE_RECORD_FIELDS = frozenset((
+    "name", "hits", "misses", "evictions", "bytes", "max_bytes",
+    "regenerated_literals"))
+if sum(CACHE_BYTE_CAPS.values()) != CACHE_TOTAL_BYTES:
+    raise RuntimeError("cache cap contract sum")
 DELTA_ORDER = 357_128_352
 KERNEL_ORDERS = (9, 9, 9, 9, 9, 1, 1, 1, 3, 3)
 RESUME_DISCARDED_STATE_FIELDS = (
@@ -1353,6 +1369,22 @@ def attach_v2_positive(v1, search, receipt):
     return v1.seal(receipt)
 
 
+def _finalize_checkpoint_reference(receipt, checkpoint_path):
+    """Keep checkpoints only for resumable terminals, never for COMMON."""
+    if receipt.get("terminal") == COMMON:
+        if checkpoint_path.is_file():
+            checkpoint_path.unlink()
+        receipt.pop("checkpoint", None)
+        require(not checkpoint_path.exists() and "checkpoint" not in receipt,
+                "COMMON receipt retained checkpoint state")
+        return
+    if checkpoint_path.is_file():
+        checkpoint_raw = checkpoint_path.read_bytes()
+        receipt["checkpoint"] = {"path": checkpoint_path.name,
+                                 "bytes": len(checkpoint_raw),
+                                 "sha256": sha256_bytes(checkpoint_raw)}
+
+
 def validate_monitor_snapshot(snapshot):
     """Validate the sealed monitor history without treating it as math state."""
     require(isinstance(snapshot, dict) and
@@ -1481,12 +1513,24 @@ def rank_zero_resume_checkpoint(v1, value):
     # laundering an otherwise well-shaped chunk into resumed state.
     stored_current = value.get("current_dual")
     stored_current_digest = value.get("current_dual_sha256")
-    if stored_current is None:
-        stored_current_matches_progress = stored_current_digest is None
+    if not remainder:
+        require(stored_current is None and stored_current_digest is None,
+                "resume stale zero-remainder dual")
+        stored_current_matches_progress = True
+    elif stored_current is None:
+        # A nonzero remainder may omit the old dual, but its digest must not
+        # be a stale non-null claim; the exact dual above is adopted below.
+        require(stored_current_digest is None,
+                "resume missing current dual has stale digest")
+        stored_current_matches_progress = True
     else:
         require(isinstance(stored_current, list) and
                 stored_current_digest == v1.sha_obj(stored_current),
                 "resume stored current dual digest")
+        stored_current_value = v1.parse_sparse(stored_current)
+        require(stored_current_value == dual and
+                stored_current_digest == fresh_dual_digest,
+                "resume stored current dual identity")
         stored_current_matches_progress = (
             stored_current_digest == stored_correction.get("dual_sha256"))
     safe_progress = bool(safe_chunk and correction_matches and
@@ -1582,6 +1626,51 @@ def rank_zero_resume_checkpoint(v1, value):
     return v1.seal(answer)
 
 
+def validate_cache_residency(stats, label):
+    """Require the exact physical cache stores before accepting a resume."""
+    require(isinstance(stats, dict) and set(stats) == CACHE_STATS_FIELDS and
+            stats.get("bounded") is True and
+            type(stats.get("bytes")) is int and stats["bytes"] >= 0 and
+            type(stats.get("max_single_cache_bytes")) is int and
+            stats["max_single_cache_bytes"] == max(CACHE_BYTE_CAPS.values()),
+            label + " cache statistics")
+    require(isinstance(stats.get("candidate_basis_epochs"), list) and
+            all(type(epoch) is int and epoch >= 0
+                for epoch in stats["candidate_basis_epochs"]) and
+            isinstance(stats.get("boundary_descriptors"), dict) and
+            set(stats["boundary_descriptors"]) == {
+                "count", "sha256", "sorted", "support_times_occurrence"} and
+            type(stats["boundary_descriptors"]["count"]) is int and
+            stats["boundary_descriptors"]["count"] > 0 and
+            type(stats["boundary_descriptors"]["sha256"]) is str and
+            len(stats["boundary_descriptors"]["sha256"]) == 64 and
+            all(ch in "0123456789abcdef"
+                for ch in stats["boundary_descriptors"]["sha256"]) and
+            stats["boundary_descriptors"]["sorted"] is True and
+            stats["boundary_descriptors"]["support_times_occurrence"] is True,
+            label + " cache descriptor contract")
+    caches = stats.get("caches")
+    require(isinstance(caches, list) and
+            [item.get("name") for item in caches] == list(CACHE_RECORD_NAMES) and
+            all(isinstance(item, dict) for item in caches),
+            label + " cache record names")
+    expected_fields = {"name", "hits", "misses", "evictions", "bytes",
+                       "max_bytes", "regenerated_literals"}
+    total = 0
+    for item in caches:
+        require(set(item) == expected_fields == CACHE_RECORD_FIELDS and
+                item["max_bytes"] == CACHE_BYTE_CAPS[item["name"]] and
+                type(item["max_bytes"]) is int and
+                all(type(item[field]) is int and item[field] >= 0
+                    for field in ("hits", "misses", "evictions", "bytes",
+                                  "regenerated_literals")) and
+                item["bytes"] <= item["max_bytes"],
+                label + " cache record contract")
+        total += item["bytes"]
+    require(stats["bytes"] == total and stats["bytes"] <= CACHE_TOTAL_BYTES,
+            label + " cache aggregate cap")
+
+
 def validate_cached_checkpoint(value):
     """Validate only the v3 envelope before the rank-zero firewall consumes it."""
     require(isinstance(value, dict) and value.get("schema") == SCHEMA,
@@ -1656,15 +1745,10 @@ def validate_cached_checkpoint(value):
                 for field in ("hits", "misses", "evictions", "bytes",
                               "regenerated_literals")),
             "resume v3 cache statistics")
-    caches = stats.get("caches")
-    if caches is not None:
-        require(isinstance(caches, list) and len(caches) == 3 and
-                [item.get("name") for item in caches] == [
-                    "fox_template_and_base", "gamma_section_candidate_values",
-                    "pb3_pb4_boundary_descriptors"] and
-                all(isinstance(item, dict) and item.get("max_bytes", 0) > 0
-                    for item in caches),
-                "resume v3 per-cache statistics")
+    validate_cache_residency(stats, "resume v3")
+    require(type(value.get("rank")) is int and
+            stats["candidate_basis_epochs"] == [value.get("rank")],
+            "resume v3 cache epoch/rank binding")
     progress = value.get("progress")
     require(isinstance(progress, dict) and
             isinstance(progress.get("correction"), dict),
@@ -1722,6 +1806,147 @@ def resume_over_cap_preflight(v1, args, resume_raw, raw_output):
                               preflight_monitor, checkpoint_target)
 
 
+def _rank_cache_owners(search):
+    """Return both intended owners, failing before any basis mutation."""
+    fibres = getattr(search, "fibres", None)
+    values = getattr(fibres, "_v3_values", None)
+    selector = getattr(fibres, "cache", None)
+    require(fibres is not None and type(values) is CandidateValueCache and
+            type(selector) is dict and
+            callable(getattr(values, "invalidate_basis", None)) and
+            callable(getattr(selector, "clear", None)),
+            "PositiveSearch rank-cache ownership")
+    return values, selector
+
+
+def _invalidate_rank_dependent_caches(search):
+    """Invalidate exactly the two caches owned by PositiveSearch.fibres."""
+    values, selector = _rank_cache_owners(search)
+    # Validate both owners before mutating either store: a malformed object
+    # must fail as a programming error without a half-applied epoch change.
+    values.invalidate_basis()
+    selector.clear()
+
+
+def _rank_change_cache_hook(search, before_rank):
+    """Run the shared owner transition only for an actual rank increase."""
+    after_rank = len(search.basis.order)
+    if after_rank != int(before_rank):
+        require(after_rank == int(before_rank) + 1,
+                "PositiveSearch unexpected rank transition")
+        values, _ = _rank_cache_owners(search)
+        _invalidate_rank_dependent_caches(search)
+        require(values.basis_epoch == after_rank,
+                "PositiveSearch cache epoch/rank binding")
+
+
+RANK_OWNER_SELFTEST_EVENTS = (
+    "basis.add", "basis.add_success", "invalidation_hook", "dual_update",
+    "checkpoint", "basis.add", "basis.add_dependent", "basis.add",
+    "basis.add_success", "invalidation_hook", "dual_update", "checkpoint")
+RANK_OWNER_ORDER_MUTATIONS = ("hook_after_dual", "checkpoint_before_hook")
+
+
+def _record_rank_event(search, event):
+    """Record only the production-shaped SELFTEST event transcript."""
+    events = getattr(search, "_v3_rank_events", None)
+    if events is not None:
+        require(type(events) is list, "PositiveSearch rank event log")
+        events.append(event)
+
+
+def _make_rank_aware_load(v1, original_load):
+    """Factory for the production rank-zero loader instrumentation."""
+    def load_checkpoint(search, path):
+        base_basis = search.basis
+
+        class InstrumentedBasis:
+            def __init__(self, basis):
+                self._basis = basis
+
+            def add(self, source, column_id):
+                before = len(self._basis.order)
+                _rank_cache_owners(search)
+                result = self._basis.add(source, column_id)
+                if result[0]:
+                    _rank_change_cache_hook(search, before)
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self._basis, name)
+
+        search.basis = InstrumentedBasis(base_basis)
+        try:
+            return original_load(search, path)
+        finally:
+            search.basis = base_basis
+
+    return load_checkpoint
+
+
+def _make_rank_aware_add(v1, original_add):
+    """Factory for the production add path and its pre-checkpoint hook."""
+    def add_column(search, row, provenance, dual=None):
+        search._v3_force_checkpoint = True
+        base_basis = search.basis
+        rank_events = getattr(search, "_v3_rank_events", None)
+        checkpoint_method = None
+        if rank_events is not None:
+            require(type(rank_events) is list,
+                    "PositiveSearch rank event log")
+            checkpoint_method = search.write_checkpoint
+
+            def event_checkpoint(*checkpoint_values, **checkpoint_kwargs):
+                _record_rank_event(search, "dual_update")
+                checkpoint = checkpoint_method(*checkpoint_values,
+                                               **checkpoint_kwargs)
+                _record_rank_event(search, "checkpoint")
+                return checkpoint
+
+            search.write_checkpoint = event_checkpoint
+
+        class InstrumentedBasis:
+            def __init__(self, basis):
+                self._basis = basis
+
+            def add(self, source, column_id):
+                before = len(self._basis.order)
+                _rank_cache_owners(search)
+                _record_rank_event(search, "basis.add")
+                result = self._basis.add(source, column_id)
+                if result[0]:
+                    _record_rank_event(search, "basis.add_success")
+                    # This is immediately after the real basis mutation and
+                    # before the authenticated add method updates its dual or
+                    # writes a checkpoint.
+                    _rank_change_cache_hook(search, before)
+                    _record_rank_event(search, "invalidation_hook")
+                    require(search.fibres._v3_values.basis_epoch ==
+                            len(self._basis.order),
+                            "PositiveSearch add checkpoint epoch/rank")
+                else:
+                    _record_rank_event(search, "basis.add_dependent")
+                return result
+
+            def __getattr__(self, name):
+                return getattr(self._basis, name)
+
+        search.basis = InstrumentedBasis(base_basis)
+        try:
+            return original_add(search, row, provenance, dual)
+        except v1.ResourceStop:
+            search._v3_resource_pending = True
+            raise
+        finally:
+            search.basis = base_basis
+            if checkpoint_method is not None:
+                search.write_checkpoint = checkpoint_method
+            if not search._v3_resource_pending:
+                search._v3_force_checkpoint = False
+
+    return add_column
+
+
 def run_full_v1_successor(args):
     v1 = load_live_v1()
     patch_v1_normalized_semantics(v1)
@@ -1734,6 +1959,7 @@ def run_full_v1_successor(args):
     original_translated = v1.translated_boundary
     original_boundary = v1.boundary_oracle
     original_init = v1.PositiveSearch.__init__
+    original_load = v1.PositiveSearch.load_checkpoint
     original_add = v1.PositiveSearch.add_column
     original_write = v1.PositiveSearch.write_checkpoint
     original_body = v1.PositiveSearch._checkpoint_body
@@ -2086,6 +2312,9 @@ def run_full_v1_successor(args):
                 "canonical_ordering": list(CACHE_ORDERING),
                 "repeated_suffix": self._v3_checkpoint_repeated_suffix}
         try:
+            cache_values, _ = _rank_cache_owners(self)
+            require(cache_values.basis_epoch == len(self.basis.order),
+                    "PositiveSearch checkpoint epoch/rank")
             checkpoint = original_write(self, *values, **kwargs)
         finally:
             if saved is not None:
@@ -2106,22 +2335,6 @@ def run_full_v1_successor(args):
         if pending:
             self._v3_resource_pending = False
         return checkpoint
-
-    def add(self, row, provenance, dual=None):
-        self._v3_force_checkpoint = True
-        before_rank = len(self.basis.order)
-        try:
-            answer = original_add(self, row, provenance, dual)
-            return answer
-        except v1.ResourceStop:
-            self._v3_resource_pending = True
-            raise
-        finally:
-            if len(self.basis.order) != before_rank:
-                self.fibres._v3_values.invalidate_basis()
-                self.cache.clear()
-            if not self._v3_resource_pending:
-                self._v3_force_checkpoint = False
 
     def materialize(self, *values, **kwargs):
         try:
@@ -2158,7 +2371,10 @@ def run_full_v1_successor(args):
             if not self._v3_resource_pending:
                 self._v3_force_checkpoint = False
 
+    load_checkpoint = _make_rank_aware_load(v1, original_load)
+    add = _make_rank_aware_add(v1, original_add)
     v1.PositiveSearch.__init__ = init
+    v1.PositiveSearch.load_checkpoint = load_checkpoint
     v1.PositiveSearch.add_column = add
     v1.PositiveSearch.validate_chunk_state = validate_chunk_state
     v1.PositiveSearch._checkpoint_body = body
@@ -2177,11 +2393,13 @@ def run_full_v1_successor(args):
         resume_path = None
         resume_rebuild_metadata = {}
         resume_monitor_history = None
+        resume_cache_stats = None
         preflight_receipt = None
         if args.resume:
             resume_raw = json.loads(args.resume.read_text(encoding="utf-8"))
             validate_cached_checkpoint(resume_raw)
             v1.validate_seal(resume_raw)
+            resume_cache_stats = copy.deepcopy(resume_raw["v3_cache_stats"])
             resume_path = Path(temp) / "resume-v1.json"
             resume_raw = rank_zero_resume_checkpoint(v1, resume_raw)
             resume_rebuild_metadata = copy.deepcopy(
@@ -2243,6 +2461,17 @@ def run_full_v1_successor(args):
                 "dual_sha256": checkpoint_value.get("current_dual_sha256"),
                 "dual_progress_sha256": checkpoint_value.get("progress", {}).get(
                     "correction", {}).get("dual_sha256")}
+            if "v3_cache_stats" not in checkpoint_value:
+                require(resume_cache_stats is not None and
+                        type(checkpoint_value.get("rank")) is int,
+                        "resume v3 cache statistics were discarded")
+                # Rank-zero conversion deliberately discards cache objects;
+                # retain their authenticated counters/limits as evidence but
+                # bind the physical-cache epoch to the rebuilt rank.
+                checkpoint_value["v3_cache_stats"] = copy.deepcopy(
+                    resume_cache_stats)
+                checkpoint_value["v3_cache_stats"]["candidate_basis_epochs"] = [
+                    checkpoint_value["rank"]]
             checkpoint_value.setdefault("v3_chunk", {
                 "chunk_start": 0, "chunk_end": 0, "attempts_done": 0,
                 "max_attempts": CACHE_CHUNK_LIMIT, "chunk_complete": True,
@@ -2315,11 +2544,7 @@ def run_full_v1_successor(args):
     receipt["v3_cache_stats"] = ({"status": "not_started"} if active_search is None
                                   else cache_public(active_search))
     checkpoint_path = args.output.with_suffix(args.output.suffix + ".checkpoint.json")
-    if checkpoint_path.is_file():
-        checkpoint_raw = checkpoint_path.read_bytes()
-        receipt["checkpoint"] = {"path": checkpoint_path.name,
-                                 "bytes": len(checkpoint_raw),
-                                 "sha256": sha256_bytes(checkpoint_raw)}
+    _finalize_checkpoint_reference(receipt, checkpoint_path)
     receipt.pop("self_digest", None)
     return v1.seal(receipt)
 
@@ -2330,6 +2555,10 @@ def production_path_selftest(v1):
     require(normalized == (1, 0), "production SELFTEST normalized hook")
     row = {v1.exponent_key(1): normalized[0]}
     target = dict(row)
+    # Keep a nonzero residual coordinate so the real v1 add path computes a
+    # fresh dual before it serializes each checkpoint.  The two active calls
+    # below also pass non-null duals, exercising the pre-add pairing gate.
+    target[b"T"] = 1
 
     class IdentityQuotient:
         """Typed joint-element identity used by the live v1 model methods."""
@@ -2458,21 +2687,232 @@ def production_path_selftest(v1):
     class ToyMonitor:
         def __init__(self):
             self.counters = {"retained_columns": 0}
+            self.limits = {"wall_seconds": 10.0, "boundary_pairs": 256,
+                           "fibre_scans": 256, "candidate_words": 256,
+                           "retained_columns": 256, "checkpoint_bytes": 1 << 20,
+                           "rss_bytes": 1 << 20, "oracle_rounds": 256,
+                           "global_roster": DELTA_ORDER}
         def bump(self, name, amount=1, phase=None):
             self.counters[name] = self.counters.get(name, 0) + amount
+        def public(self):
+            counters = {name: int(self.counters.get(name, 0))
+                        for name in MONITOR_COUNTER_FIELDS}
+            return {"phase": "production_selftest", "elapsed_seconds": 0.0,
+                    "rss_bytes": 0, "limits": dict(self.limits),
+                    "counters": counters, "single_process": True}
 
-    # Invoke the live PositiveSearch.add_column on a one-column normalized
-    # space, then recover its coefficient and ancestry from the real Echelon.
+    # Invoke the live PositiveSearch.add_column through the exact v3 wrapper
+    # hook.  The probe deliberately supplies both owners below fibres, plus
+    # dual-independent Fox/boundary sentinels which must survive a rank change.
+    owner_runtime = {"projected": [()] * 243}
+    candidate_values = CandidateValueCache(owner_runtime, v1)
+    candidate_values.bind_input("production-selftest")
+    selector_cache = {("selector", 0): {"literal_replayed": True}}
+
+    class FibreOwnerProbe:
+        def __init__(self, values, selector):
+            self._v3_values = values
+            self.cache = selector
+        def index_public(self):
+            return {"selftest": True}
+
     added = object.__new__(v1.PositiveSearch)
     added.basis = v1.Echelon(); added.columns = []; added.target = target
-    added.monitor = ToyMonitor(); added.progress = {"correction": {"dual_sha256": None}}
-    added.write_checkpoint = lambda *args, **kwargs: {"toy": True}
-    v1.PositiveSearch.add_column(added, row,
-                                {"family": "correction", "conjugate_word": [1] * 18})
-    remainder, coefficients = added.basis.reduce(target)
-    require(not remainder and coefficients == {1: 1} and
-            added.basis.ancestry[added.basis.order[0]] == {1: 1},
-            "production SELFTEST coefficient/ancestry")
+    added.monitor = ToyMonitor(); added.progress = {
+        "boundary": {"dual_sha256": None, "complete": True,
+                     "pair_attempts": 0, "restart_pair_cursor": 0},
+        "correction": {"dual_sha256": None, "canonical_row_cursor": 0,
+                       "live_fibre_count": 0, "kernel_prefix": 0,
+                       "global_cursors": {}, "live_fibres": [],
+                       "weighted_rows": {}}}
+    added.fibres = FibreOwnerProbe(candidate_values, selector_cache)
+    added._v3_force_checkpoint = False
+    added._v3_resource_pending = False
+    added._v3_rank_events = []
+    added.rt = {"roster": []}; added.pins = {}; added.input_components = {}
+    added.input_hash = v1.sha_obj({}); added.kernel_orders = []
+    # Use the real Fox cache type and a typed boundary-cache probe so the
+    # production checkpoint serializer can publish its physical stores; a
+    # plain identity dictionary would bypass the same cache_public ABI.
+    fox_sentinel = FoxTemplateCache(model, v1)
+
+    class BoundaryCacheSentinel:
+        def __init__(self):
+            self.stats = CacheStats("pb3_pb4_boundary_descriptors",
+                                    64 * 1024 * 1024)
+
+        def public_contract(self):
+            return {"count": 1, "sha256": v1.sha_obj([]),
+                    "sorted": True, "support_times_occurrence": True}
+
+    boundary_sentinel = BoundaryCacheSentinel()
+    added.model = model; added.model._v3_fox_cache = fox_sentinel
+    added.rt = {"_v3_boundary_cache": boundary_sentinel}
+    added.rt["roster"] = []
+    live_add_column = v1.PositiveSearch.add_column
+    production_add = _make_rank_aware_add(v1, live_add_column)
+    v1.PositiveSearch.add_column = production_add
+    checkpoint_temp = tempfile.TemporaryDirectory(prefix="d972-r07-rank-hook-")
+    added.checkpoint_path = Path(checkpoint_temp.name) / "checkpoint.json"
+    try:
+        first_key = candidate_values._key("gamma", 0)
+        candidate_values.cache.put(first_key, {"literal_replayed": True})
+        epoch_before = candidate_values.basis_epoch
+        v1.PositiveSearch.add_column(
+            added, row, {"family": "correction", "conjugate_word": [1] * 18},
+            dual={v1.exponent_key(1): 1})
+        remainder, coefficients = added.basis.reduce(target)
+        require(remainder == {b"T": 1} and coefficients == {1: 1} and
+                added.basis.ancestry[added.basis.order[0]] == {1: 1},
+                "production SELFTEST coefficient/ancestry")
+        require(candidate_values.basis_epoch == epoch_before + 1 and
+                first_key not in candidate_values.cache.store and
+                candidate_values.cache.used == 0 and selector_cache == {} and
+                added.model._v3_fox_cache is fox_sentinel and
+                added.rt["_v3_boundary_cache"] is boundary_sentinel,
+                "production SELFTEST first rank cache-owner transition")
+        first_epoch_delta = candidate_values.basis_epoch - epoch_before
+        first_checkpoint = json.loads(
+            added.checkpoint_path.read_text(encoding="utf-8"))
+        require(first_checkpoint.get("rank") == len(added.basis.order) ==
+                candidate_values.basis_epoch and
+                len(first_checkpoint.get("columns", [])) == 1 and
+                first_checkpoint.get("current_dual") == [[b"T".hex(), 1]] and
+                first_checkpoint["columns"][0].get("active_dual") ==
+                [[v1.exponent_key(1).hex(), 1]] and
+                first_checkpoint["columns"][0].get("dual_pairing") == 1 and
+                isinstance(first_checkpoint.get("current_dual_sha256"), str) and
+                first_checkpoint.get("current_dual_sha256") ==
+                first_checkpoint.get("progress", {}).get("correction", {}).get(
+                    "dual_sha256"),
+                "production SELFTEST first checkpoint rank/epoch order")
+        expected_dual_digest = v1.sha_obj([[b"T".hex(), 1]])
+        require(first_checkpoint.get("current_dual_sha256") == expected_dual_digest,
+                "production SELFTEST first non-null dual")
+
+        # A dependent/failed insertion leaves both rank-dependent owners
+        # untouched.  Refill the stores so this is observable, not metadata.
+        control_key = candidate_values._key("gamma", 1)
+        candidate_values.cache.put(control_key, {"literal_replayed": True})
+        selector_cache[("selector", 1)] = {"literal_replayed": True}
+        control_epoch = candidate_values.basis_epoch
+        try:
+            v1.PositiveSearch.add_column(
+                added, row, {"family": "correction", "conjugate_word": [1] * 18},
+                dual={v1.exponent_key(1): 1})
+        except RuntimeError:
+            dependent_rejected = True
+        else:
+            dependent_rejected = False
+        require(dependent_rejected and candidate_values.basis_epoch == control_epoch and
+                control_key in candidate_values.cache.store and
+                selector_cache == {("selector", 1): {"literal_replayed": True}},
+                "production SELFTEST dependent rank control")
+
+        second_row = {v1.exponent_key(2): 1}
+        second_key = candidate_values._key("gamma", 2)
+        candidate_values.cache.put(second_key, {"literal_replayed": True})
+        selector_cache[("selector", 2)] = {"literal_replayed": True}
+        second_epoch_before = candidate_values.basis_epoch
+        v1.PositiveSearch.add_column(
+            added, second_row,
+            {"family": "correction", "conjugate_word": [2] * 18},
+            dual={v1.exponent_key(2): 1})
+        require(candidate_values.basis_epoch == second_epoch_before + 1 and
+                second_key not in candidate_values.cache.store and
+                candidate_values.cache.used == 0 and selector_cache == {} and
+                added.model._v3_fox_cache is fox_sentinel and
+                added.rt["_v3_boundary_cache"] is boundary_sentinel,
+                "production SELFTEST second rank cache-owner transition")
+        second_epoch_delta = candidate_values.basis_epoch - second_epoch_before
+        second_checkpoint = json.loads(
+            added.checkpoint_path.read_text(encoding="utf-8"))
+        require(second_checkpoint.get("rank") == len(added.basis.order) ==
+                candidate_values.basis_epoch and
+                len(second_checkpoint.get("columns", [])) == 2 and
+                second_checkpoint.get("current_dual") == [[b"T".hex(), 1]] and
+                second_checkpoint["columns"][1].get("active_dual") ==
+                [[v1.exponent_key(2).hex(), 1]] and
+                second_checkpoint["columns"][1].get("dual_pairing") == 1 and
+                second_checkpoint.get("current_dual_sha256") ==
+                expected_dual_digest and
+                second_checkpoint.get("current_dual_sha256") ==
+                second_checkpoint.get("progress", {}).get("correction", {}).get(
+                    "dual_sha256"),
+                "production SELFTEST second checkpoint rank/epoch order")
+        checkpoint_rank_epoch = [[int(first_checkpoint["rank"]),
+                                  epoch_before + first_epoch_delta],
+                                 [int(second_checkpoint["rank"]),
+                                  second_epoch_before + second_epoch_delta]]
+        require(checkpoint_rank_epoch == [[1, 1], [2, 2]],
+                "production SELFTEST checkpoint rank/epoch transcript")
+        checkpoint_dual_progress = [first_checkpoint.get("progress", {}).get(
+            "correction", {}).get("dual_sha256"),
+            second_checkpoint.get("progress", {}).get(
+                "correction", {}).get("dual_sha256")]
+        require(checkpoint_dual_progress == [expected_dual_digest,
+                                             expected_dual_digest],
+                "production SELFTEST dual/checkpoint ordering")
+        expected_events = list(RANK_OWNER_SELFTEST_EVENTS)
+        ordered_events = list(added._v3_rank_events)
+        require(ordered_events == expected_events,
+                "production SELFTEST rank mutation event order")
+        ordering_mutations_rejected = []
+        for mutation in RANK_OWNER_ORDER_MUTATIONS:
+            mutated = list(ordered_events)
+            if mutation == "hook_after_dual":
+                index = mutated.index("invalidation_hook")
+                require(mutated[index + 1] == "dual_update",
+                        "production SELFTEST hook-order control setup")
+                mutated[index], mutated[index + 1] = (mutated[index + 1],
+                                                       mutated[index])
+            else:
+                index = mutated.index("invalidation_hook")
+                checkpoint_index = mutated.index("checkpoint")
+                mutated[index], mutated[checkpoint_index] = (
+                    mutated[checkpoint_index], mutated[index])
+            try:
+                require(mutated == expected_events,
+                        "production SELFTEST accepted rank event mutation")
+            except RuntimeError:
+                ordering_mutations_rejected.append(mutation)
+        require(ordering_mutations_rejected == list(RANK_OWNER_ORDER_MUTATIONS),
+                "production SELFTEST rank event mutation controls")
+    finally:
+        v1.PositiveSearch.add_column = live_add_column
+        checkpoint_temp.cleanup()
+
+    # A historical implementation that put the cache on PositiveSearch must
+    # fail the shared owner check without mutating that stale dictionary.
+    class BrokenBasis:
+        order = [b"historical-pivot"]
+
+    broken = object.__new__(v1.PositiveSearch)
+    broken.basis = BrokenBasis(); broken.cache = {"legacy": True}
+    try:
+        _rank_change_cache_hook(broken, 0)
+    except RuntimeError:
+        historical_owner_rejected = True
+    else:
+        historical_owner_rejected = False
+    require(historical_owner_rejected and broken.cache == {"legacy": True},
+            "production SELFTEST historical PositiveSearch.cache owner")
+
+    class FakeValues:
+        def invalidate_basis(self):
+            return None
+
+    fake = object.__new__(v1.PositiveSearch)
+    fake.basis = BrokenBasis()
+    fake.fibres = FibreOwnerProbe(FakeValues(), {})
+    try:
+        _rank_cache_owners(fake)
+    except RuntimeError:
+        fake_owner_rejected = True
+    else:
+        fake_owner_rejected = False
+    require(fake_owner_rejected and fake.fibres.cache == {},
+            "production SELFTEST fake cache owner")
 
     # Convert a sealed rank-one v2-shaped checkpoint through the same rank-zero
     # resume firewall used by production.  The incoming pivot/reduced-target/
@@ -2488,6 +2928,16 @@ def production_path_selftest(v1):
               "sparse_row_sha256": v1.sha_obj(v1.public_sparse(row)),
               "pivot_hex": "OLD", "rank_before": 99, "rank_after": 100,
               "pivot_ancestry": [[99, 2]]}
+    second_provenance = copy.deepcopy(provenance)
+    second_provenance["relator_word"] = [2] * 18
+    second_provenance["conjugate_word"] = [2] * 18
+    second_row = {v1.exponent_key(2): 1}
+    second_record = {"column_id": 2, "family": "correction",
+                     "provenance": second_provenance,
+                     "sparse_row": v1.public_sparse(second_row),
+                     "sparse_row_sha256": v1.sha_obj(v1.public_sparse(second_row)),
+                     "pivot_hex": "OLD2", "rank_before": 100, "rank_after": 101,
+                     "pivot_ancestry": [[100, 2]]}
     selftest_monitor = {
         "phase": "selftest_checkpoint", "elapsed_seconds": 0.0,
         "rss_bytes": 0, "single_process": True,
@@ -2497,6 +2947,8 @@ def production_path_selftest(v1):
                     "rss_bytes": 1024 * 1024, "oracle_rounds": 256,
                     "global_roster": DELTA_ORDER},
         "counters": {name: 0 for name in MONITOR_COUNTER_FIELDS}}
+    resume_dual_public = [[b"T".hex(), 1]]
+    resume_dual_digest = v1.sha_obj(resume_dual_public)
     incoming = v1.seal({"schema": SCHEMA,
         "normalized_semantics": CACHE_SEMANTICS,
         "normalized_semantics_digest": NORMALIZED_SEMANTICS_DIGEST,
@@ -2518,12 +2970,25 @@ def production_path_selftest(v1):
             "candidate_basis_epoch_invalidation": True},
         "v3_cache_stats": {"bounded": True, "hits": 0, "misses": 0,
                             "evictions": 0, "bytes": 0,
-                            "regenerated_literals": 0},
+                            "regenerated_literals": 0,
+                            "max_single_cache_bytes": CACHE_BYTE_CAPS[
+                                "fox_template_and_base"],
+                            "caches": [
+                                {"name": name, "hits": 0, "misses": 0,
+                                 "evictions": 0, "bytes": 0,
+                                 "max_bytes": CACHE_BYTE_CAPS[name],
+                                 "regenerated_literals": 0}
+                                for name in CACHE_RECORD_NAMES],
+                            "candidate_basis_epochs": [100],
+                            "boundary_descriptors": {
+                                "count": 1, "sha256": v1.sha_obj([]),
+                                "sorted": True,
+                                "support_times_occurrence": True}},
         "v3_epoch": {"input_sha256": v1.sha_obj({}),
                       "target_sha256": v1.sha_obj(v1.public_sparse(target)),
                       "normalized_semantics_digest": NORMALIZED_SEMANTICS_DIGEST,
-                      "dual_sha256": None,
-                      "dual_progress_sha256": None},
+                      "dual_sha256": resume_dual_digest,
+                      "dual_progress_sha256": resume_dual_digest},
         "v3_chunk": {"chunk_start": 0, "chunk_end": 4,
                       "attempts_done": 4, "max_attempts": CACHE_CHUNK_LIMIT,
                       "chunk_complete": True,
@@ -2533,15 +2998,40 @@ def production_path_selftest(v1):
         "input_components": {}, "input_sha256": v1.sha_obj({}),
         "target": v1.public_sparse(target),
         "target_sha256": v1.sha_obj(v1.public_sparse(target)),
-        "columns": [record], "rank": 100, "pivot_order": ["OLD"],
-        "reduced_target": [["OLD", 1]], "current_dual": None,
-        "current_dual_sha256": None, "target_solution_if_zero": [],
-        "progress": {"boundary": {"dual_sha256": None, "complete": True,
-                                    "pair_attempts": 0, "restart_pair_cursor": 0},
-                     "correction": {"dual_sha256": None,
-                                    "canonical_row_cursor": 0,
-                                    "weighted_rows": {}}},
+         "columns": [record, second_record], "rank": 100, "pivot_order": ["OLD"],
+        "reduced_target": [["OLD", 1]],
+        "current_dual": resume_dual_public,
+        "current_dual_sha256": resume_dual_digest, "target_solution_if_zero": [],
+        "progress": {"boundary": {"dual_sha256": resume_dual_digest, "complete": True,
+                                     "pair_attempts": 0, "restart_pair_cursor": 0},
+                      "correction": {"dual_sha256": resume_dual_digest,
+                                     "canonical_row_cursor": 0,
+                                     "weighted_rows": {}}},
         "coarse_inverse_index": {"stale": True}, "monitor": selftest_monitor})
+    validate_cached_checkpoint(incoming)
+    resume_cache_schema_mutations = []
+    for mutation in ("missing_cache_record", "extra_cache_record",
+                     "wrong_cache_cap"):
+        mutated = copy.deepcopy(incoming)
+        cache_stats = mutated["v3_cache_stats"]
+        if mutation == "missing_cache_record":
+            cache_stats["caches"] = cache_stats["caches"][:-1]
+        elif mutation == "extra_cache_record":
+            cache_stats["caches"].append({
+                "name": "unregistered_cache", "hits": 0, "misses": 0,
+                "evictions": 0, "bytes": 0, "max_bytes": 1,
+                "regenerated_literals": 0})
+        else:
+            cache_stats["caches"][0]["max_bytes"] += 1
+        mutated.pop("self_digest", None)
+        mutated = v1.seal(mutated)
+        try:
+            rank_zero_resume_checkpoint(v1, mutated)
+        except RuntimeError:
+            resume_cache_schema_mutations.append(mutation)
+    require(resume_cache_schema_mutations == [
+        "missing_cache_record", "extra_cache_record", "wrong_cache_cap"],
+        "production SELFTEST cache schema mutation controls")
     converted = rank_zero_resume_checkpoint(v1, incoming)
     require(converted["resume_rebuild"]["rank_zero_replayed"] is True and
             converted["resume_rebuild"]["stored_pivots_discarded"] is True and
@@ -2550,15 +3040,18 @@ def production_path_selftest(v1):
             converted["resume_rebuild"]["stored_oracle_progress_discarded"] is False and
             converted["resume_rebuild"]["safe_progress_preserved"] is True and
             converted["resume_rebuild"]["safe_boundary_preserved"] is True and
-            converted["resume_rebuild"]["safe_chunk_end_recovered"] == 4 and
+             converted["resume_rebuild"]["safe_chunk_end_recovered"] == 4 and
             converted["v3_chunk"]["chunk_end"] == 4 and
             converted["v3_chunk"]["repeated_suffix"] is None and
             converted["resume_monitor_history"]["safe_chunk_end"] == 4 and
             converted["progress"]["correction"]["canonical_row_cursor"] == 0 and
-            converted["progress"]["correction"]["weighted_rows"] == {} and
-            converted["columns"][0]["rank_before"] == 0 and
-            converted["columns"][0]["rank_after"] == 1,
-            "production SELFTEST rank-zero conversion")
+             converted["progress"]["correction"]["weighted_rows"] == {} and
+             len(converted["columns"]) == 2 and
+             converted["columns"][0]["rank_before"] == 0 and
+             converted["columns"][0]["rank_after"] == 1 and
+             converted["columns"][1]["rank_before"] == 1 and
+             converted["columns"][1]["rank_after"] == 2,
+             "production SELFTEST rank-zero conversion")
 
     # Feed the converted checkpoint to the actual v1 loader on a fresh,
     # empty basis.  The loader now verifies the converter's fresh transition;
@@ -2571,18 +3064,48 @@ def production_path_selftest(v1):
     # record is replayed through AllSevenModel.direct_column, rather than
     # accepting its serialized sparse row as a substitute for provenance.
     replay.rt = {"roster": []}; replay.model = model
+    replay_values = CandidateValueCache(owner_runtime, v1)
+    replay_values.bind_input("resume-selftest")
+    replay_selector = {("resume", 0): {"literal_replayed": True}}
+    replay.fibres = FibreOwnerProbe(replay_values, replay_selector)
+    replay_values.cache.put(replay_values._key("gamma", 0),
+                            {"literal_replayed": True})
     checkpoint = converted
     with tempfile.TemporaryDirectory(prefix="d972-r07-v2-rank0-") as temp:
         path = Path(temp) / "checkpoint.json"
         path.write_bytes(v1.canonical(checkpoint) + b"\n")
-        v1.PositiveSearch.load_checkpoint(replay, path)
+        live_load_checkpoint = v1.PositiveSearch.load_checkpoint
+        v1.PositiveSearch.load_checkpoint = _make_rank_aware_load(
+            v1, live_load_checkpoint)
+        try:
+            v1.PositiveSearch.load_checkpoint(replay, path)
+        finally:
+            v1.PositiveSearch.load_checkpoint = live_load_checkpoint
     remainder, recovered = replay.basis.reduce(target)
-    require(not remainder and recovered == {1: 1} and len(replay.basis.order) == 1,
+    require(remainder == {b"T": 1} and recovered == {1: 1} and
+            len(replay.basis.order) == 2 and replay_values.basis_epoch == 2 and
+            not replay_values.cache.store and not replay_selector,
             "production SELFTEST rank-zero checkpoint replay")
+    resume_rank_replay = {
+        "retained_columns": len(replay.columns),
+        "rank_zero_loader": True,
+        "epoch_delta": replay_values.basis_epoch,
+        "candidate_cache_cleared": not replay_values.cache.store,
+        "selector_cache_cleared": not replay_selector,
+        "checkpoint_not_written_during_replay": True,
+        "old_pivots_not_reused": True}
     # Drive the actual pre-v1 over-cap firewall: the converted safe checkpoint
     # is sealed to the expected path and the typed UNKNOWN_RESOURCE retains a
     # resumable checkpoint even though PositiveSearch is never assigned.
-    overcap_doc = copy.deepcopy(converted)
+    # Keep this pre-v1 firewall probe v3-shaped so the exported UNKNOWN
+    # checkpoint itself carries the same physical cache schema as a normal
+    # resume input (the rank-zero v1 projection is exercised above).
+    overcap_doc = copy.deepcopy(incoming)
+    overcap_doc["resume_monitor_history"] = {
+        "snapshot": copy.deepcopy(overcap_doc["monitor"]),
+        "safe_chunk_end": 4, "prior_repeated_suffix": None,
+        "counter_fields": list(MONITOR_COUNTER_FIELDS),
+        "limits_bound": True}
     overcap_snapshot = overcap_doc["resume_monitor_history"]["snapshot"]
     overcap_snapshot["limits"]["candidate_words"] = 1
     overcap_snapshot["counters"]["candidate_words"] = 2
@@ -2606,22 +3129,67 @@ def production_path_selftest(v1):
                 "production SELFTEST over-cap checkpoint path")
         overcap_value = json.loads(overcap_checkpoint.read_text(encoding="utf-8"))
         require(overcap_value["monitor"]["counters"]["candidate_words"] == 2 and
-                overcap_value["resume_monitor_history"]["safe_chunk_end"] == 4,
+                overcap_value["resume_monitor_history"]["safe_chunk_end"] == 4 and
+                set(overcap_value.get("v3_cache_stats", {})) == CACHE_STATS_FIELDS,
                 "production SELFTEST over-cap checkpoint payload")
+        validate_cache_residency(overcap_value["v3_cache_stats"],
+                                 "production SELFTEST over-cap checkpoint")
+        require(overcap_value["v3_cache_stats"]["candidate_basis_epochs"] ==
+                [overcap_value["rank"]],
+                "production SELFTEST over-cap cache epoch/rank")
         overcap_trace = {"typed_resource_terminal": overcap_receipt["terminal"],
                          "checkpoint_written_before_search_assignment": True,
                          "safe_chunk_end": overcap_value["resume_monitor_history"][
                              "safe_chunk_end"],
                          "carried_candidate_words": overcap_value["monitor"][
                              "counters"]["candidate_words"]}
+    # A successful COMMON terminal must not carry either a current or stale
+    # checkpoint sidecar.  Exercise the same finalizer with a deliberately
+    # pre-existing sidecar and a decoy receipt reference.
+    with tempfile.TemporaryDirectory(prefix="d972-r07-common-sidecar-") as temp:
+        common_checkpoint = Path(temp) / "receipt.json.checkpoint.json"
+        common_checkpoint.write_bytes(b"stale-checkpoint")
+        common_probe = {"terminal": COMMON,
+                        "checkpoint": {"path": common_checkpoint.name,
+                                       "bytes": 16,
+                                       "sha256": "stale"}}
+        _finalize_checkpoint_reference(common_probe, common_checkpoint)
+        require("checkpoint" not in common_probe and
+                not common_checkpoint.exists(),
+                "production SELFTEST COMMON checkpoint sidecar control")
     return {"occurrence_direct_hook": True, "actual_allseven_occurrence": True,
             "actual_allseven_direct": True, "normalized_E1": 1,
             "raw_E1": 0, "positive_add_column": True,
-             "coefficient_recovery": [[1, 1]], "basis_ancestry": [[1, 1]],
-             "rank_zero_checkpoint_rebuild": True,
-             "rank_zero_conversion": True,
-             "stored_pivots_discarded": True,
-             "over_cap_resume_preflight": overcap_trace}
+            "coefficient_recovery": [[1, 1]], "basis_ancestry": [[1, 1]],
+            "rank_cache_owner": {
+                "helper": "_rank_change_cache_hook",
+                "candidate_owner_type": type(candidate_values).__name__,
+                "selector_owner_type": type(selector_cache).__name__,
+                "first_rank_increase": True,
+                "first_epoch_delta": first_epoch_delta,
+                "first_candidate_cache_cleared": True,
+                "first_selector_cache_cleared": True,
+                "fox_cache_retained": True,
+                "boundary_cache_retained": True,
+                "dependent_no_invalidation": True,
+                "second_rank_increase": True,
+                "second_epoch_delta": second_epoch_delta,
+                "checkpoint_rank_epoch": checkpoint_rank_epoch,
+                 "checkpoint_dual_progress": checkpoint_dual_progress,
+                 "ordered_mutation_events": ordered_events,
+                 "ordering_mutations_rejected": ordering_mutations_rejected,
+                 "dual_nonnull": True,
+                 "resume_rank_replay": resume_rank_replay,
+                "historical_positive_search_cache_rejected": historical_owner_rejected,
+                "fake_owner_rejected": fake_owner_rejected},
+            "rank_zero_checkpoint_rebuild": True,
+            "rank_zero_conversion": True,
+            "stored_pivots_discarded": True,
+            "over_cap_resume_preflight": overcap_trace,
+            "resume_cache_schema_mutations_rejected":
+                resume_cache_schema_mutations,
+            "common_checkpoint_omitted": True,
+            "common_stale_sidecar_rejected": True}
 
 
 CACHE_MUTATIONS = (

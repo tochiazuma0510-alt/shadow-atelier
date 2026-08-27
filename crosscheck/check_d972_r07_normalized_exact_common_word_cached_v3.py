@@ -36,6 +36,21 @@ CACHE_SEMANTICS = "nu=(exp/18) mod 3"
 CACHE_CHUNK_LIMIT = 256
 CACHE_ORDERING = ["roster_index", "target_coordinate", "target_blob",
                   "kernel_index", "global_cursor", "column_id"]
+CACHE_BYTE_CAPS = {
+    "fox_template_and_base": 96 * 1024 * 1024,
+    "gamma_section_candidate_values": 64 * 1024 * 1024,
+    "pb3_pb4_boundary_descriptors": 64 * 1024 * 1024,
+}
+CACHE_TOTAL_BYTES = 224 * 1024 * 1024
+CACHE_STATS_FIELDS = frozenset((
+    "bounded", "hits", "misses", "evictions", "bytes",
+    "regenerated_literals", "max_single_cache_bytes", "caches",
+    "candidate_basis_epochs", "boundary_descriptors"))
+CACHE_RECORD_FIELDS = frozenset((
+    "name", "hits", "misses", "evictions", "bytes", "max_bytes",
+    "regenerated_literals"))
+if sum(CACHE_BYTE_CAPS.values()) != CACHE_TOTAL_BYTES:
+    raise RuntimeError("cache cap contract sum")
 DELTA_ORDER = 357_128_352
 Q0_STATE_COUNT = 1_469_664
 KERNEL_ORDERS = [9, 9, 9, 9, 9, 1, 1, 1, 3, 3]
@@ -1303,6 +1318,289 @@ def validate_roster_exponent_lattice(runtime):
         raise RuntimeError("reverse inclusion 18Z2 generators")
 
 
+def validate_rank_cache_owner_trace(trace):
+    """Independently replay the PositiveSearch rank/cache ownership hook."""
+    dual_public = [["54", 1]]
+    dual_digest = digest(canonical(dual_public))
+    expected_events = [
+        "basis.add", "basis.add_success", "invalidation_hook", "dual_update",
+        "checkpoint", "basis.add", "basis.add_dependent", "basis.add",
+        "basis.add_success", "invalidation_hook", "dual_update", "checkpoint"]
+    expected_order_mutations = ["hook_after_dual", "checkpoint_before_hook"]
+    expected_keys = {
+        "helper", "candidate_owner_type", "selector_owner_type",
+        "first_rank_increase", "first_epoch_delta",
+        "first_candidate_cache_cleared", "first_selector_cache_cleared",
+        "fox_cache_retained", "boundary_cache_retained",
+        "dependent_no_invalidation", "second_rank_increase",
+        "second_epoch_delta", "checkpoint_rank_epoch", "checkpoint_dual_progress",
+        "ordered_mutation_events", "ordering_mutations_rejected", "dual_nonnull",
+        "resume_rank_replay",
+        "historical_positive_search_cache_rejected", "fake_owner_rejected"}
+    require(isinstance(trace, dict) and set(trace) == expected_keys and
+            trace.get("helper") == "_rank_change_cache_hook" and
+            trace.get("candidate_owner_type") == "CandidateValueCache" and
+            trace.get("selector_owner_type") == "dict" and
+            trace.get("first_rank_increase") is True and
+            trace.get("first_epoch_delta") == 1 and
+            trace.get("first_candidate_cache_cleared") is True and
+            trace.get("first_selector_cache_cleared") is True and
+            trace.get("fox_cache_retained") is True and
+            trace.get("boundary_cache_retained") is True and
+            trace.get("dependent_no_invalidation") is True and
+            trace.get("second_rank_increase") is True and
+            trace.get("second_epoch_delta") == 1 and
+            trace.get("checkpoint_rank_epoch") == [[1, 1], [2, 2]] and
+            trace.get("checkpoint_dual_progress") == [dual_digest, dual_digest] and
+            trace.get("ordered_mutation_events") == expected_events and
+            trace.get("ordering_mutations_rejected") == expected_order_mutations and
+            trace.get("dual_nonnull") is True and
+            trace.get("historical_positive_search_cache_rejected") is True,
+            "rank/cache owner trace shape")
+    expected_resume = {
+        "retained_columns": 2, "rank_zero_loader": True, "epoch_delta": 2,
+        "candidate_cache_cleared": True, "selector_cache_cleared": True,
+        "checkpoint_not_written_during_replay": True,
+        "old_pivots_not_reused": True}
+    require(trace.get("resume_rank_replay") == expected_resume and
+            trace.get("fake_owner_rejected") is True,
+            "rank/cache resume and fake-owner trace shape")
+
+    class IndependentCandidateValues:
+        def __init__(self):
+            self.basis_epoch = 0
+            self.cache = {"candidate": {"literal_replayed": True}}
+
+        def invalidate_basis(self):
+            self.basis_epoch += 1
+            self.cache.clear()
+
+    class IndependentFibres:
+        def __init__(self, values, selector):
+            self._v3_values = values
+            self.cache = selector
+
+    class IndependentBasis:
+        def __init__(self):
+            self.order = []
+            self.rows = {}
+            self.ancestry = {}
+
+        @staticmethod
+        def _combine(target, source, scalar):
+            for key, value in source.items():
+                value0 = (target.get(key, 0) + scalar * value) % 3
+                if value0:
+                    target[key] = value0
+                elif key in target:
+                    target.pop(key)
+
+        def add(self, source, column_id):
+            row = {key: int(value) % 3 for key, value in source.items()
+                   if int(value) % 3}
+            coefficients = {column_id: 1}
+            for pivot in self.order:
+                value = row.get(pivot, 0)
+                if value:
+                    self._combine(row, self.rows[pivot], -value)
+                    self._combine(coefficients, self.ancestry[pivot], -value)
+            if not row:
+                return False, None, coefficients
+            pivot = min(row)
+            inverse = 1 if row[pivot] == 1 else 2
+            self.rows[pivot] = {key: inverse * value % 3
+                                for key, value in row.items() if
+                                inverse * value % 3}
+            self.ancestry[pivot] = {key: inverse * value % 3
+                                    for key, value in coefficients.items()
+                                    if inverse * value % 3}
+            self.order.append(pivot)
+            return True, pivot, self.ancestry[pivot]
+
+    class IndependentSearch:
+        def __init__(self, values, selector, fox, boundary):
+            self.basis = IndependentBasis()
+            self.fibres = IndependentFibres(values, selector)
+            self.fox = fox
+            self.boundary = boundary
+            self.columns = []
+            self.checkpoints = []
+            self.progress = {"correction": {"dual_sha256": None}}
+            self.events = []
+
+        def add_column(self, source, column_id, active_dual):
+            self.events.append("basis.add")
+            before = len(self.basis.order)
+            added, pivot, ancestry = self.basis.add(source, column_id)
+            if not added:
+                self.events.append("basis.add_dependent")
+                raise RuntimeError("checker dependent rank/cache control")
+            require(pivot is not None and len(self.basis.order) == before + 1 and
+                    ancestry, "checker independent basis mutation")
+            require(isinstance(active_dual, dict) and
+                    any(int(value) % 3 and key in source and
+                        int(source[key]) % 3 for key, value in active_dual.items()),
+                    "checker non-null active dual pairing")
+            self.events.append("basis.add_success")
+            independent_hook(self, before)
+            self.columns.append({"column_id": column_id, "pivot": pivot})
+            self.events.append("dual_update")
+            self.progress["correction"]["dual_sha256"] = dual_digest
+            independent_checkpoint(self)
+
+        def replay_column(self, source, column_id):
+            """Rank-zero resume replay: mutate the same independent basis."""
+            self.events.append("basis.add")
+            before = len(self.basis.order)
+            added, pivot, ancestry = self.basis.add(source, column_id)
+            require(added and pivot is not None and ancestry and
+                    len(self.basis.order) == before + 1,
+                    "checker rank-zero replay basis mutation")
+            self.events.append("basis.add_success")
+            independent_hook(self, before)
+            self.columns.append({"column_id": column_id, "pivot": pivot})
+
+    def independent_hook(search, before_rank):
+        after_rank = len(search.basis.order)
+        if after_rank != int(before_rank):
+            require(after_rank == int(before_rank) + 1,
+                    "checker unexpected rank transition")
+            fibres = getattr(search, "fibres", None)
+            values = getattr(fibres, "_v3_values", None)
+            selector = getattr(fibres, "cache", None)
+            require(fibres is not None and
+                    type(values) is IndependentCandidateValues and
+                    type(selector) is dict and
+                    callable(getattr(values, "invalidate_basis", None)) and
+                    callable(getattr(selector, "clear", None)),
+                     "checker rank/cache owner binding")
+            values.invalidate_basis()
+            selector.clear()
+            search.events.append("invalidation_hook")
+
+    def independent_checkpoint(search):
+        values, _ = (search.fibres._v3_values, search.fibres.cache)
+        require(values.basis_epoch == len(search.basis.order) and
+                len(search.columns) == len(search.basis.order) and
+                search.progress["correction"].get("dual_sha256") == dual_digest,
+                "checker checkpoint epoch/rank order")
+        search.checkpoints.append([len(search.basis.order), values.basis_epoch])
+        search.events.append("checkpoint")
+
+    values = IndependentCandidateValues()
+    selector = {"selector": {"literal_replayed": True}}
+    fox = {"fox": "retained"}; boundary = {"boundary": "retained"}
+    search = IndependentSearch(values, selector, fox, boundary)
+    first_epoch = values.basis_epoch
+    search.add_column({b"first": 1}, 1, {b"first": 1})
+    require(values.basis_epoch == first_epoch + 1 and not values.cache and
+            not selector and search.fox is fox and search.boundary is boundary,
+            "checker first rank/cache owner replay")
+
+    values.cache["candidate"] = {"literal_replayed": True}
+    selector["selector"] = {"literal_replayed": True}
+    control_epoch = values.basis_epoch
+    event_count = len(search.events)
+    try:
+        search.add_column({b"first": 1}, 2, {b"first": 1})
+    except RuntimeError:
+        pass
+    else:
+        raise RuntimeError("checker accepted dependent rank/cache control")
+    require(values.basis_epoch == control_epoch and
+            len(search.events) == event_count + 2 and
+            search.events[event_count:] == ["basis.add", "basis.add_dependent"] and
+            "candidate" in values.cache and "selector" in selector,
+            "checker dependent rank/cache control")
+
+    second_epoch = values.basis_epoch
+    search.add_column({b"second": 1}, 2, {b"second": 1})
+    require(values.basis_epoch == second_epoch + 1 and not values.cache and
+            not selector and search.fox is fox and search.boundary is boundary,
+            "checker second rank/cache owner replay")
+    require(search.checkpoints == [[1, 1], [2, 2]],
+            "checker checkpoint rank/epoch transcript")
+    require(search.events == expected_events,
+            "checker basis/hook/dual/checkpoint ordering")
+    require([search.progress["correction"].get("dual_sha256")]
+            * len(search.checkpoints) == [dual_digest, dual_digest],
+            "checker dual/checkpoint ordering")
+    # These are load-bearing destructive controls: moving either the owner
+    # invalidation or the checkpoint marker makes the event validator reject
+    # the transcript, even though all final cache values could otherwise look
+    # plausible.
+    def validate_event_order(events):
+        require(events == expected_events,
+                "checker accepted rank/cache event ordering")
+
+    validate_event_order(search.events)
+    rejected_order_mutations = []
+    for mutation in expected_order_mutations:
+        mutated = list(search.events)
+        if mutation == "hook_after_dual":
+            index = mutated.index("invalidation_hook")
+            require(mutated[index + 1] == "dual_update",
+                    "checker hook-order control setup")
+            mutated[index], mutated[index + 1] = (mutated[index + 1],
+                                                   mutated[index])
+        else:
+            index = mutated.index("invalidation_hook")
+            checkpoint_index = mutated.index("checkpoint")
+            mutated[index], mutated[checkpoint_index] = (
+                mutated[checkpoint_index], mutated[index])
+        try:
+            validate_event_order(mutated)
+        except RuntimeError:
+            rejected_order_mutations.append(mutation)
+    require(rejected_order_mutations == expected_order_mutations,
+            "checker rank/cache ordering mutation controls")
+
+    resume_values = IndependentCandidateValues()
+    resume_selector = {"resume": {"literal_replayed": True}}
+    resume = IndependentSearch(resume_values, resume_selector, fox, boundary)
+    resume.replay_column({b"replayed-first": 1}, 1)
+    resume.replay_column({b"replayed-second": 1}, 2)
+    require(len(resume.columns) == 2 and resume_values.basis_epoch == 2 and
+            not resume_values.cache and not resume_selector,
+            "checker rank-zero resume owner replay")
+
+    class HistoricalSearch:
+        class Basis:
+            order = [b"historical"]
+
+        def __init__(self):
+            self.basis = self.Basis()
+            self.cache = {"legacy": True}
+
+    historical = HistoricalSearch()
+    try:
+        independent_hook(historical, 0)
+    except RuntimeError:
+        pass
+    else:
+        raise RuntimeError("checker accepted historical PositiveSearch.cache owner")
+    require(historical.cache == {"legacy": True},
+            "checker historical cache mutation changed stale owner")
+
+    class FakeValues:
+        def invalidate_basis(self):
+            return None
+
+    fake_selector = {"fake": {"literal_replayed": True}}
+    fake = IndependentSearch(FakeValues(), fake_selector, fox, boundary)
+    added, fake_pivot, _ = fake.basis.add({b"fake": 1}, 1)
+    require(added and fake_pivot == b"fake",
+            "checker fake owner basis mutation setup")
+    try:
+        independent_hook(fake, 0)
+    except RuntimeError:
+        pass
+    else:
+        raise RuntimeError("checker accepted callable fake cache owner")
+    require(fake_selector == {"fake": {"literal_replayed": True}},
+            "checker fake cache mutation changed stale owner")
+
+
 def check_toy(receipt):
     if receipt.get("schema") != SELFTEST_SCHEMA or receipt.get("status") != "PASS":
         raise RuntimeError("bad selftest schema/status")
@@ -1496,10 +1794,16 @@ def check_toy(receipt):
              production_trace.get("positive_add_column") is not True or \
              production_trace.get("rank_zero_checkpoint_rebuild") is not True or \
              production_trace.get("rank_zero_conversion") is not True or \
-            production_trace.get("stored_pivots_discarded") is not True or \
-            production_trace.get("coefficient_recovery") != [[1, 1]] or \
-            production_trace.get("basis_ancestry") != [[1, 1]]:
+             production_trace.get("stored_pivots_discarded") is not True or \
+             production_trace.get("coefficient_recovery") != [[1, 1]] or \
+            production_trace.get("basis_ancestry") != [[1, 1]] or \
+            production_trace.get("resume_cache_schema_mutations_rejected") != [
+                "missing_cache_record", "extra_cache_record", "wrong_cache_cap"] or \
+             production_trace.get("common_checkpoint_omitted") is not True or \
+             production_trace.get("common_stale_sidecar_rejected") is not True:
         raise RuntimeError("load-bearing production SELFTEST trace absent")
+    validate_cache_schema_mutation_trace(production_trace)
+    validate_rank_cache_owner_trace(production_trace.get("rank_cache_owner"))
     overcap = production_trace.get("over_cap_resume_preflight", {})
     expected_overcap_terminal = (
         "UNKNOWN_RESOURCE:phase=resume_rebuild:cap=candidate_words:"
@@ -1553,6 +1857,90 @@ def check_toy(receipt):
         if rc != 0:
             raise RuntimeError("independent full task179 SELFTEST rejected")
     return "R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_CHECKER_PASS"
+
+
+def validate_cache_residency(stats, label):
+    """Bind each physical cache to its own cap and to the total envelope."""
+    require(isinstance(stats, dict) and set(stats) == CACHE_STATS_FIELDS and
+            stats.get("bounded") is True and
+            all(type(stats.get(field)) is int and stats[field] >= 0
+                for field in ("hits", "misses", "evictions", "bytes",
+                              "regenerated_literals")),
+            label + " cache statistics")
+    require(isinstance(stats.get("candidate_basis_epochs"), list) and
+            all(type(epoch) is int and epoch >= 0
+                for epoch in stats["candidate_basis_epochs"]) and
+            isinstance(stats.get("boundary_descriptors"), dict) and
+            set(stats["boundary_descriptors"]) == {
+                "count", "sha256", "sorted", "support_times_occurrence"} and
+            type(stats["boundary_descriptors"]["count"]) is int and
+            stats["boundary_descriptors"]["count"] > 0 and
+            type(stats["boundary_descriptors"]["sha256"]) is str and
+            len(stats["boundary_descriptors"]["sha256"]) == 64 and
+            all(ch in "0123456789abcdef"
+                for ch in stats["boundary_descriptors"]["sha256"]) and
+            stats["boundary_descriptors"]["sorted"] is True and
+            stats["boundary_descriptors"]["support_times_occurrence"] is True,
+            label + " cache descriptor contract")
+    caches = stats.get("caches")
+    require(isinstance(caches, list) and len(caches) == len(CACHE_BYTE_CAPS) and
+            all(isinstance(item, dict) for item in caches) and
+            [item.get("name") for item in caches] == list(CACHE_BYTE_CAPS),
+            label + " cache names")
+    total = 0
+    for item in caches:
+        require(isinstance(item, dict) and set(item) == CACHE_RECORD_FIELDS and
+                item.get("max_bytes") == CACHE_BYTE_CAPS[item["name"]] and
+                all(type(item.get(field)) is int and item[field] >= 0
+                    for field in ("hits", "misses", "evictions", "bytes",
+                                  "regenerated_literals")) and
+                item["bytes"] <= CACHE_BYTE_CAPS[item["name"]],
+                label + " individual cache cap")
+        total += item["bytes"]
+    require(type(stats.get("max_single_cache_bytes")) is int and
+            stats["max_single_cache_bytes"] == max(CACHE_BYTE_CAPS.values()) and
+            type(stats.get("bytes")) is int and stats["bytes"] == total and
+            stats["bytes"] <= CACHE_TOTAL_BYTES,
+            label + " total cache cap")
+
+
+def validate_cache_schema_mutation_trace(trace):
+    """Independently execute the three physical-cache rejection controls."""
+    expected = ["missing_cache_record", "extra_cache_record",
+                "wrong_cache_cap"]
+    require(trace.get("resume_cache_schema_mutations_rejected") == expected,
+            "producer cache-schema mutation transcript")
+    baseline = {
+        "bounded": True, "hits": 0, "misses": 0, "evictions": 0,
+        "bytes": 0, "regenerated_literals": 0,
+        "max_single_cache_bytes": max(CACHE_BYTE_CAPS.values()),
+        "caches": [{"name": name, "hits": 0, "misses": 0,
+                    "evictions": 0, "bytes": 0,
+                    "max_bytes": limit, "regenerated_literals": 0}
+                   for name, limit in CACHE_BYTE_CAPS.items()],
+        "candidate_basis_epochs": [0],
+        "boundary_descriptors": {"count": 1, "sha256": "0" * 64,
+                                  "sorted": True,
+                                  "support_times_occurrence": True}}
+    rejected = []
+    for mutation in expected:
+        mutated = copy.deepcopy(baseline)
+        if mutation == "missing_cache_record":
+            mutated["caches"] = mutated["caches"][:-1]
+        elif mutation == "extra_cache_record":
+            mutated["caches"].append({
+                "name": "unregistered_cache", "hits": 0, "misses": 0,
+                "evictions": 0, "bytes": 0, "max_bytes": 1,
+                "regenerated_literals": 0})
+        else:
+            mutated["caches"][0]["max_bytes"] += 1
+        try:
+            validate_cache_residency(mutated,
+                                     "checker cache-schema mutation")
+        except RuntimeError:
+            rejected.append(mutation)
+    require(rejected == expected,
+            "checker cache-schema mutation controls")
 
 
 def validate_v3_checkpoint_contract(checkpoint):
@@ -1691,15 +2079,13 @@ def validate_v3_checkpoint_contract(checkpoint):
             all(type(x) is int and x >= 0 for x in
                 stats.get("candidate_basis_epochs", [])),
             "v3 checkpoint candidate basis epochs")
-    caches = stats.get("caches")
-    if caches is not None:
-        require(isinstance(caches, list) and len(caches) == 3 and
-                [item.get("name") for item in caches] == [
-                    "fox_template_and_base", "gamma_section_candidate_values",
-                    "pb3_pb4_boundary_descriptors"] and
-                all(isinstance(item, dict) and item.get("max_bytes", 0) > 0
-                    for item in caches),
-                "v3 checkpoint per-cache statistics")
+    # A sealed production v3 checkpoint always carries the three physical
+    # stores.  Treating a missing list as an old/portable checkpoint would
+    # make the byte envelope unauthenticated, so validate it unconditionally.
+    validate_cache_residency(stats, "v3 checkpoint")
+    require(type(checkpoint.get("rank")) is int and
+            stats["candidate_basis_epochs"] == [checkpoint.get("rank")],
+            "v3 checkpoint cache epoch/rank binding")
 
 
 def validate_v3_receipt_cache_contract(receipt):
@@ -1729,19 +2115,14 @@ def validate_v3_receipt_cache_contract(receipt):
                     for field in ("hits", "misses", "evictions", "bytes",
                                   "regenerated_literals")),
                 "v3 receipt cache statistics")
-        require(int(stats.get("bytes", 0)) <= 96 * 1024 * 1024,
-                "v3 aggregate Fox residency cap")
         caches = stats.get("caches")
-        require(isinstance(caches, list) and len(caches) == 3 and
-                [item.get("name") for item in caches] == [
-                    "fox_template_and_base", "gamma_section_candidate_values",
-                    "pb3_pb4_boundary_descriptors"] and
-                all(isinstance(item, dict) and item.get("max_bytes", 0) > 0
-                    and all(type(item.get(field)) is int and item[field] >= 0
-                            for field in ("hits", "misses", "evictions",
-                                          "bytes", "regenerated_literals"))
+        validate_cache_residency(stats, "v3 receipt")
+        require(all(isinstance(item, dict) and
+                    all(type(item.get(field)) is int and item[field] >= 0
+                        for field in ("hits", "misses", "evictions",
+                                      "bytes", "regenerated_literals"))
                     for item in caches),
-                 "v3 per-cache statistics")
+                "v3 per-cache statistics")
         require(stats.get("candidate_basis_epochs") is not None and
                 all(type(x) is int and x >= 0 for x in
                     stats.get("candidate_basis_epochs", [])),
@@ -1766,51 +2147,13 @@ def check_production(receipt, helper=None):
     if terminal == COMMON:
         if receipt.get("status") != "COMMON_WORD":
             raise RuntimeError("common terminal/status mismatch")
-        checkpoint_ref = receipt.get("checkpoint")
-        if checkpoint_ref is not None:
-            cp_path = ROOT / "ci" / "out" / str(checkpoint_ref.get("path", ""))
-            if not cp_path.is_file():
-                raise RuntimeError("common v2 checkpoint missing")
-            cp_raw = cp_path.read_bytes()
-            if len(cp_raw) != checkpoint_ref.get("bytes") or digest(cp_raw) != checkpoint_ref.get("sha256"):
-                raise RuntimeError("common v2 checkpoint identity")
-            cp = json.loads(cp_raw.decode("utf-8")); validate_outer_seal(cp)
-            validate_v3_checkpoint_contract(cp)
-            if cp.get("schema") != SCHEMA or cp.get("normalized_semantics_digest") != NORMALIZED_SEMANTICS_DIGEST or \
-                    cp.get("normalized_semantics_callsites") != list(NORMALIZED_SEMANTICS_CALLSITES):
-                raise RuntimeError("common v2 checkpoint semantic binding")
-            if receipt.get("v2_schedule", {}).get("resume_replayed_from_rank_zero"):
-                rebuild = cp.get("resume_rebuild", {})
-                if rebuild.get("rank_zero_replayed") is not True or \
-                        rebuild.get("stored_pivots_discarded") is not True or \
-                        rebuild.get("stored_reduced_target_discarded") is not True or \
-                        rebuild.get("stored_current_dual_discarded") is not True or \
-                        type(rebuild.get("stored_oracle_progress_discarded")) is not bool or \
-                        type(rebuild.get("safe_progress_preserved")) is not bool or \
-                        type(rebuild.get("safe_boundary_preserved")) is not bool or \
-                        type(rebuild.get("safe_chunk_replayed_without_suffix")) is not bool or \
-                        rebuild.get("monitor_limits_bound") is not True or \
-                        rebuild.get("monitor_counters_carried_forward") is not True or \
-                        type(rebuild.get("prior_monitor_elapsed_seconds")) not in (int, float) or \
-                        type(rebuild.get("safe_chunk_end_recovered")) is not int or \
-                        rebuild.get("safe_chunk_end_recovered") < 0 or \
-                        (rebuild.get("safe_progress_preserved") and
-                         rebuild.get("stored_oracle_progress_discarded")) or \
-                        (rebuild.get("safe_chunk_replayed_without_suffix") !=
-                         rebuild.get("safe_progress_preserved")) or \
-                        (rebuild.get("safe_boundary_preserved") and
-                         not rebuild.get("safe_progress_preserved")) or \
-                        rebuild.get("stored_state_fields_discarded") != [
-                            "pivot_order", "pivot_rows_sha256", "reduced_target",
-                            "current_dual", "current_dual_sha256",
-                            "target_solution_if_zero", "monitor",
-                            "coarse_inverse_index", "resume_rebuild", "v3_epoch"] or \
-                        rebuild.get("column_provenance_authenticated") is not True or \
-                        rebuild.get("stored_columns_replayed_from_zero") is not True or \
-                        rebuild.get("rank_zero_replay_source") != \
-                        "authenticated columns/provenance" or \
-                        rebuild.get("v3_cache_and_chunk_state_discarded") is not True:
-                    raise RuntimeError("resume checkpoint retained stale state")
+        # task197's accepted positive contract is receipt-only: the positive
+        # terminal has no resumable checkpoint reference or sidecar state.
+        if "checkpoint" in receipt:
+            raise RuntimeError("COMMON receipt must omit checkpoint")
+        production_trace = receipt.get("production_path_selftest")
+        if production_trace is not None:
+            validate_cache_schema_mutation_trace(production_trace)
         ncols = receipt.get("normalized_columns")
         if not isinstance(ncols, list) or not ncols:
             raise RuntimeError("normalized columns absent")
@@ -2184,6 +2527,62 @@ def full_independent_production(receipt, receipt_path):
                 "boundary_descriptors")
             if declared_descriptors != boundary_cache.public_contract():
                 raise RuntimeError("checker boundary descriptor contract mismatch")
+        if raw.get("terminal") == checker.COMMON and "checkpoint" not in raw:
+            # task197 deliberately forbids checkpoint state in the accepted
+            # outer COMMON receipt.  The pinned v1 helper nevertheless has a
+            # lossless validate_common contract whose input is a full
+            # checkpoint object.  Rebuild that object from the independently
+            # replayed receipt columns only inside this temporary raw copy;
+            # never attach it to the outer receipt or create a sidecar.
+            target = checker.independent_target(helper_runtime)
+            rebuilt_basis, rebuilt_rows = checker.replay_columns(
+                helper_runtime, target, receipt.get("columns", []))
+            remainder, solution = rebuilt_basis.reduce(target)
+            if remainder:
+                raise RuntimeError("temporary COMMON checkpoint is not zero")
+            temporary_progress = {
+                "boundary": {"dual_sha256": None, "complete": True,
+                             "pair_attempts": 0, "restart_pair_cursor": 0},
+                "correction": {"dual_sha256": None,
+                                "canonical_row_cursor": 0,
+                                "kernel_prefix": 0,
+                                "global_cursors": {}, "live_fibres": [],
+                                "live_fibre_count": 0, "weighted_rows": {}}}
+            temporary_checkpoint = {
+                "schema": checker.CHECKPOINT_SCHEMA,
+                "pins_sha256": checker.sha_obj(expected_pins),
+                "input_sha256": receipt.get("input_sha256"),
+                "input_components": copy.deepcopy(
+                    receipt.get("input_components", {})),
+                "target": copy.deepcopy(receipt.get("target", [])),
+                "target_sha256": receipt.get("target_sha256"),
+                "coarse_inverse_index": copy.deepcopy(
+                    receipt.get("input_components", {}).get(
+                        "coarse_inverse_index", {})),
+                "weighted_support_hitting": copy.deepcopy(
+                    receipt.get("weighted_support_hitting")),
+                "rank": len(rebuilt_basis.pivots),
+                "reduced_target": checker.public_sparse(remainder),
+                "current_dual": None, "current_dual_sha256": None,
+                "target_solution_if_zero": [
+                    [key, value] for key, value in sorted(solution.items())],
+                "columns": copy.deepcopy(receipt.get("columns", [])),
+                "progress": temporary_progress,
+                "pivot_order": [key.hex() for key in rebuilt_basis.pivots],
+                "pivot_rows_sha256": checker.sha_obj([
+                    checker.public_sparse(rebuilt_basis.rows[key])
+                    for key in rebuilt_basis.pivots]),
+                "monitor": copy.deepcopy(receipt.get("monitor", {})),
+                "negative_claim": False, "separator": False,
+            }
+            raw["checkpoint"] = checker.seal(temporary_checkpoint)
+            # Keep the temporary object itself consistent with the serialized
+            # helper input; this file is deleted with the TemporaryDirectory.
+            raw.pop("self_digest", None)
+            raw = checker.seal(raw)
+            raw_path.write_text(
+                json.dumps(raw, sort_keys=True, separators=(",", ":")) + "\n",
+                encoding="utf-8")
         if raw.get("terminal") == checker.COMMON:
             validate_roster_exponent_lattice(helper_runtime)
             selected_rwords = {}

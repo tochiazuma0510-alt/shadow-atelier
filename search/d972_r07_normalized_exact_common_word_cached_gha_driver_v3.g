@@ -30,6 +30,7 @@ D192Producer:="search/d972_r07_normalized_exact_common_word_cached_v3.py";;
 D192Checker:="crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py";;
 D192Fixture:="search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json";;
 D192Receipt:="ci/out/d972_r07_normalized_exact_common_word_cached_v3.json";;
+D192Checkpoint:=Concatenation(D192Receipt,".checkpoint.json");;
 D192Verdict:="ci/out/d972_r07_normalized_exact_common_word_cached_v3.verdict";;
 D192ProducerLog:="ci/out/d972_r07_normalized_exact_common_word_cached_v3.producer.log";;
 D192CheckerLog:="ci/out/d972_r07_normalized_exact_common_word_cached_v3.checker.log";;
@@ -41,8 +42,8 @@ D192Selftest:="R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_SELFTEST_PASS";;
 D192ProducerTerminal:="R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_PRODUCER_TERMINAL";;
 D192CheckerPass:="R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_CHECKER_PASS";;
 D192Current:=[
- [D192Producer,164649,"d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199"],
- [D192Checker,135136,"954700cff2154767d6d4108aa18239dde7bad34abf4eaf0d0e31332a6a4abc0e"],
+ [D192Producer,193704,"f27b4971351832b8730fb8cce4e782e893a958dfb850203cc735c7bc3aa31f37"],
+  [D192Checker,154009,"dfc8cbbd96a1da45f15e01607ed343b66a78a7201f4a80952fba33aaeb361e10"],
  [D192Fixture,276,"c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12"]
 ];;
 D192Proofs:=[
@@ -85,9 +86,10 @@ D192Reject:=function(paths)
   for p in paths do if IsExistingFile(p) then Error("task192 driver: stale output ",p); fi; od;
 end;;
 for D192Row in Concatenation(D192Proofs,D192History,D192Live,D192Current) do D192Pin(D192Row);; od;
-D192Reject([D192Receipt,D192Verdict,D192ProducerLog,D192CheckerLog,D192Shell,D192OK]);;
+D192Reject([D192Receipt,D192Checkpoint,D192Verdict,D192ProducerLog,D192CheckerLog,D192Shell,D192OK]);;
 D192Stream:=OutputTextFile(D192Shell,false);;
 if D192Stream=fail then Error("task192 driver: shell open"); fi;
+SetPrintFormattingStatus(D192Stream,false);
 PrintTo(D192Stream,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 if D192Mode="SELFTEST" then
   PrintTo(D192Stream,"echo TASK192_STAGE=PRODUCER_START\n");

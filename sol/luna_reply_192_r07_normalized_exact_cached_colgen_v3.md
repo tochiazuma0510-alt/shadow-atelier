@@ -120,6 +120,13 @@ successor path.  It calls the authenticated AllSeven occurrence/direct
 methods on an 18-fold word and observes E1=1 versus the raw-vacuous E tail,
 then exercises a real PositiveSearch add-column, coefficient/ancestry
 recovery, rank-zero checkpoint conversion, and the v1 checkpoint loader.
+The resume input carries the exact three physical cache records and rejects
+sealed missing-record, extra-record, and wrong-cap mutations before replay.
+The production-shaped owner trace records the actual basis-add success,
+invalidation, dual-update, and checkpoint order, with a non-null dual; the
+independent checker reconstructs that transcript and rejects reordered
+controls.  A positive COMMON finalizer deletes a stale sidecar and omits the
+checkpoint reference, with a load-bearing SELFTEST control for that rule.
 The bounded noncommutative cached and uncached schedules have identical
 candidate/formula/ACTIVE/rank/solution/correction/direct/terminal transcripts;
 the literal `c_exact` word and its direct replay;
@@ -131,10 +138,12 @@ path and an authenticated ResourceStop record.  Production UNKNOWN_RESOURCE
 receipts preserve the actual v1 monitor snapshot byte-for-byte and the
 checker binds its registered limits, counters, and terminal value to that
 snapshot.  Shared Fox counters no longer control per-store residency: the
-template store is capped at 88 MiB, the base-gradient store at 8 MiB, and an
-independent split-limit probe binds their aggregate to 96 MiB.
+template store is capped at 88 MiB, the base-gradient store at 8 MiB, the
+candidate store at 64 MiB, the boundary-descriptor store at 64 MiB, and the
+three physical records bind their aggregate to 224 MiB.
 
-All 18 ordinary and 19 cache destructive controls are routed through actual
+All 18 ordinary and 19 cache destructive controls, plus the three physical
+cache-schema and two owner-order controls, are routed through actual
 occurrence/echelon/direct-word or checkpoint replay validators.  They cover
 cache key/type/slot/Fox/prefix/boundary/support/section/blob corruption,
 literal regeneration, chunk/cursor corruption, stale dual/raw semantics,
@@ -150,30 +159,24 @@ kernel/ordering gates before accepting a production receipt.
 
 ## 6. Serial driver and final identities
 
-Static repair map for this turn: producer lines 305--345 enforce independent
-per-store shared-stat cache caps; lines 820--910 add the candidate
-basis epoch, q0 parent/letter path, and path-bearing candidate provenance;
-producer lines 1588--1745 preserve full global/kernel provenance and literal
-coordinate multiplication while keeping selector-only fields on canonical
-records; producer lines 1868--1895 invalidate/clear that
-cache after each retained-rank change; producer lines 2410--2450 bind the
-literal c-exact schedule transcript; producer lines 1958--1967 preserve the
-live UNKNOWN_RESOURCE monitor snapshot; producer lines 1349--1525 rebuild
-the v1 echelon/dual from rank zero, retain only a dual-matching sealed
-complete chunk, discard repeated suffix metadata, and pass retained weighted
-state through actual v1 loader validation; the receipt separately records
-whether the boundary prefix was retained.  Resume carries a typed authenticated
-monitor history, restores the nonzero safe chunk end, carries cumulative
-counters (with checkpoint size treated as a gauge), and restarts wall time;
-CLI limits must match exactly; the checker binds monitor limits/counters,
-monotone chunk coordinates, and the safe-end history independently.  The
-prior repeated suffix is retained only as typed history and is never
-restored as semantic progress.  Checker lines 330--360 replay
-typed kernel coordinate products; lines 650--735 independently replay Gamma
-and q0 state paths even on hits; lines 900--955 independently replay c-exact,
-epoch, and legacy-dispatch controls; and lines 1500--1575 bind the current
-dual digest, monitor carry-forward, and correction cursor equality with the
-sealed chunk end, so no resumed cursor can advance beyond the safe chunk.
+Static repair map for this turn: producer lines 1629--1670 require the
+exact physical three-cache record schema, descriptor/epoch envelope, and
+96/64/64 MiB plus 224 MiB limits before rank-zero resume; lines 1809--1949
+validate the actual `fibres._v3_values`/`fibres.cache` owners and instrument
+the real v1 basis-add path before dual/checkpoint updates; and lines
+2552--3192 exercise the authenticated AllSeven occurrence/direct path, the
+real v1 add/checkpoint serializer, dependent-row control, two-column
+rank-zero resume replay, and sealed missing/extra/wrong-cache-record
+mutations, plus positive COMMON sidecar removal.  Checker lines 1321--1600 independently replay the same
+basis -> hook -> dual -> checkpoint ordering, owner types, dependent
+control, and rank-zero replay; lines 1861--2087 enforce the exact three
+physical records, descriptor/epoch envelope, per-store caps, and 224 MiB
+aggregate, including independent mutation rejection; lines 2150--2153
+reject a COMMON receipt checkpoint; and lines 2486--2551 provide the
+ephemeral lossless v1 checkpoint used only by helper replay (through line
+2584).  The
+existing normalized v2 replay, literal exactification, chunk/resume, and
+checker gates remain unchanged.
 The fixture is unchanged; the driver terminal grammar was extended for the
 typed `resume_rebuild` stop.  The four interruption positions now
 assert nonzero safe chunk ends, suffix-only replay after the sealed prefix,
@@ -198,7 +201,9 @@ The bound mode is also required to be a GAP string before any shell is
 constructed.  A bare `:=SELFTEST;;` token is rejected by GAP before the
 driver can be read, so it is not an accepted launcher spelling.  The driver
 pins the predecessor/proof/live manifests, rejects stale
-outputs, runs producer then checker serially with direct log redirection, and
+outputs including
+`ci/out/d972_r07_normalized_exact_common_word_cached_v3.json.checkpoint.json`,
+runs producer then checker serially with direct log redirection, and
 requires exactly one marker at each stage.  Every redirected producer and
 checker invocation is wrapped in a fail-closed `if ! ...; then cat log; exit
 1; fi`, so a nonzero process always exposes its diagnostic log while no later
@@ -213,22 +218,24 @@ caps.  No timing or cache speedup is claimed or measured here; only the
 expected benefit of avoiding repeated immutable Fox/group/descriptor work is
 reported.
 
-Parent Sol refreshed the final runtime identities after static audit.  The
+Luna recomputed the runtime identities after the task199 static repairs.  The
 reply hash is intentionally excluded from its own body to avoid a
 self-reference:
 
 | authorized file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 135136 | `954700cff2154767d6d4108aa18239dde7bad34abf4eaf0d0e31332a6a4abc0e` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `573ead3328c8d84c9cb1202c416ba5e7ca5b0bf6bb496c98e24f1b401224de89` |
+| `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 193704 | `f27b4971351832b8730fb8cce4e782e893a958dfb850203cc735c7bc3aa31f37` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 154009 | `dfc8cbbd96a1da45f15e01607ed343b66a78a7201f4a80952fba33aaeb361e10` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11548 | `faef6dcaf4b49f6fff322341b95a4ad3be23732ad2bc68a7625407d84ec1cb37` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The fixture-binding, dependent-row, independent-toy-Fox, and counter-contract
-repairs change the producer/checker byte counts to 164649/135136.  Parent Sol
-refreshed the checker SHA and the driver's internal checker pin after the
-static repair.  The driver remains 11424 bytes.
+The fixture-binding, dependent-row, independent-toy-Fox, counter-contract,
+cache-owner, independent-basis, exact-cache-schema, per-store-cap, and
+production-sidecar repairs yield the final producer/checker identities above.
+The driver's internal producer/checker pins are refreshed to these exact
+identities; it has no self-SHA pin and rejects the exact receipt
+`.checkpoint.json` sidecar as stale output before launch.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -309,3 +316,64 @@ CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
+
+## 7. Task199 cache-owner repair
+
+The authenticated production run `33106084328` at head
+`f38bd00d689a4fdb1f83d9ef89da16896a3d5631` stopped before a receipt when the
+production `PositiveSearch` rank hook attempted the nonexistent
+`PositiveSearch.cache`.  The repair uses one shared `_rank_change_cache_hook`:
+it validates both owners below `self.fibres` before mutating either, increments
+and clears the actual `CandidateValueCache` basis epoch, and clears the
+predecessor selector dict exactly once per retained rank increase.  Dependent
+insertions leave both stores untouched; Fox and boundary sentinels are not
+cleared.  The production add factory temporarily instruments the real
+`basis.add`, calls the hook immediately after an `added` result and before
+dual/checkpoint work, and the checkpoint path directly asserts candidate epoch
+equals basis rank.  The production-shaped SELFTEST uses the authenticated v1
+add and serializer for two rank increases plus a dependent control, and reads
+the two sealed checkpoints to bind rank/epoch/dual order; it does not use a
+local checkpoint lambda/sink.  The production resume factory instruments every
+rank-raising `basis.add` during rank-zero replay before v3 state is restored,
+with two retained columns, so resumed columns cannot bypass the same
+transition.
+
+The independent checker now performs real sparse-basis insertion and rank-zero
+replay, records the ordered basis -> hook -> column -> dual -> checkpoint
+events, and requires the exact CandidateValueCache/dict owner-type contract.
+Historical
+`PositiveSearch.cache` and callable fake-owner mutations are rejected before
+either intended store can be changed.  It also requires all three physical
+cache records with an exact keyset, their individual 96/64/64 MiB limits,
+exact resident-byte values, descriptor/epoch fields, and the 224 MiB
+aggregate bound.  The production-shaped resume input is checked through the
+same validator and its sealed missing-record, extra-record, and wrong-cap
+mutations are rejected.  The independent checker binds the same event
+transcript and rejects both owner-order mutations, and independently executes
+the missing/extra/wrong-cap three-record controls through its own cache
+validator.  A COMMON terminal now passes through
+`_finalize_checkpoint_reference`, which deletes any stale sidecar and omits
+`checkpoint`; the checker rejects a positive receipt that contains that
+field, while its helper replay uses only an ephemeral, independently rebuilt
+v1 checkpoint to satisfy the pinned v1 `validate_common` input contract.  The
+driver rejects the exact receipt sidecar path as stale before launch and
+disables GAP output wrapping before emitting its long shell commands.  The
+producer resume firewall now compares any stored nonzero dual with a fresh
+`basis.exact_dual(target)` and rejects stale zero-remainder duals.  No other
+owner mismatch was found in the producer/checker cache paths.
+
+The independent checker dependent-row control is now transcript-correct: the
+failed insertion records exactly the `basis.add` and `basis.add_dependent`
+suffix, while rank, epoch, and both cache stores remain unchanged.  The
+checker pin in the serial driver is refreshed to this repair.
+
+Conservative rerun estimate: parent-side GHA should budget the configured
+19,800-second production envelope (about 5.5 hours), followed by the serial
+helper checker; Luna makes no local runtime estimate or success claim.
+
+RUN 33106084328:                         IMPLEMENTATION STOP / NO RECEIPT
+POSITIVESEARCH CACHE OWNER:              REPAIRED STATICALLY
+PRODUCTION RANK-CHANGE HOOK SELFTEST:     NOT EXECUTED BY LUNA
+CACHED NORMALIZED FIRST-EDGE WORD:        NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
+TASK199_TASK192_CACHE_OWNER_PRODUCTION_REPAIR_COMMISSIONED
