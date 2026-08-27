@@ -5,7 +5,8 @@ Role: Luna bounded implementation/static audit
 
 ## 1. Disposition
 
-Disposition is **STATIC REPAIR COMPLETE / SELFTEST AND PRODUCTION NOT RUN**.
+Disposition is **LATEST PRODUCTION IMPLEMENTATION STOP DIAGNOSED / STATIC
+SYMBOL REPAIR COMPLETE / RE-SELFTEST AND PRODUCTION NOT RUN**.
 Run `33042556905` remains a hard producer implementation/resource stop.  It
 is neither a task175 `READY` receipt nor a mathematical `UNKNOWN`.
 
@@ -37,6 +38,17 @@ field is 180 minutes.  Thus a diagnostic rerun is still required to distinguish
 an implementation traceback from an OS/runner resource exit.  The repaired
 driver makes that distinction public.
 
+That diagnostic rerun is now run `33047989700`, head
+`95e8868197fa9a591caf56274839947a07b5acb2`.  It reached the flushed
+`roster_replayed` boundary and then stopped hard in
+`all_seven_fox_sample` at producer line 611.  The exact cause was the bare,
+undefined name `add_scaled`; Python exposed a `NameError`, the producer exposed
+it as `TASK175_IMPLEMENTATION_STOP`, and the driver emitted exactly
+`T175_STAGE_FAILURE stage=PRODUCER exit=1`.  The checker was not started and
+no driver PASS or positive receipt was emitted.  Thus the observability and
+hard-stop repairs worked exactly as intended.  This run is implementation
+failure evidence only, not a mathematical negative result.
+
 No Python, Node, GAP, git, GHA, workflow dispatch, or production command was
 run during this commission.
 
@@ -44,9 +56,9 @@ run during this commission.
 
 ```text
 bytes  SHA-256                                                           path
-60303  e70cdededfe11dffbcf1b6e52e44c12fa03f98d4d1b859bece3f48528ea9d425  search/d972_r07_all_seven_raw_bridge_preflight_v1.py
+60306  1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa  search/d972_r07_all_seven_raw_bridge_preflight_v1.py
 85848  c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc  crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py
-21580  df7b860b865c6f165e23b42cbe06bfa06f0d9172dc552e3a8dc0872409783da0  search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g
+21580  dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765  search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g
  6870  0d9a9588cd4f58531923dc208819f32d552006eea8e323a198382901d132c69f  search/certs/d972_r07_all_seven_raw_bridge_preflight_v1_20260827.json (unchanged)
 ```
 
@@ -79,6 +91,50 @@ stop.  The 6,441-row and 110-pair passes have no time-triggered exception.
 Generic `TypeError`, `ValueError`, `KeyError`, `MemoryError`, and other
 programming/resource exceptions still escape receipt construction as hard
 nonzero implementation STOPs.
+
+### Run 33047989700 symbol repair and free-name audit
+
+The failed call was copied in the shape of v172's module-local wrapper,
+`add_scaled(old,d,src,scale)`, but task175 neither imports nor defines that
+wrapper.  The actual authenticated arithmetic object is the pinned seedspan
+module `old`.  It exports the exact API
+`add_scaled(target,source,scalar)`, whose operation is the required sparse
+mod-3 update.  The independent checker separately implements the same
+three-argument operation.
+
+The one-line meaning-preserving repair is therefore:
+
+```text
+old.add_scaled(predicted_add,
+               old.translate_vector(gb, va, quotient), 1)
+```
+
+It still computes `ga + translate(gb,va)` for the actual product Fox
+additivity check.  No word, quotient value, coefficient, transcript field,
+mutation, terminal, or mathematical acceptance gate changed.
+
+Every callable name reachable inside `all_seven_fox_sample` was then
+inventoried.  The eight calls through `old` are exactly:
+
+```text
+inv_word, pp_words, reduce_word, f2_substitute, embed_f2_pb3,
+fox_gradient_without_sections, translate_vector, add_scaled
+```
+
+Each has one definition in the exact pinned predecessor source.  The only
+producer-global custom calls are `paper_product`, `element_blob`,
+`digest_obj`, and the `Unknown` stop class, each defined before the function.
+The remaining calls are its three nested helpers or Python builtins.  Static
+search now finds no bare `add_scaled` call in task175 and no other unresolved
+custom callable in this function.  This is a static name/API audit, not a
+claim that Python was executed locally.
+
+The checker needs no code change: it already defines and uses its own local
+three-argument `add_scaled`, and its helper-independent contract deliberately
+does not import or execute the producer.  Its bytes/SHA therefore remain
+unchanged.  The pin cascade is exact at the actual boundary: the driver now
+pins the new producer identity and the unchanged checker identity, and static
+comparison of both driver pins with the files is exact PASS.
 
 ### Representation boundary
 
@@ -264,6 +320,11 @@ Only after both fail-closure probes pass does SELFTEST write
 `D175_DRIVER_PASS`.  The injected stage-failure lines in a successful SELFTEST
 GHA log are intentional evidence from these two isolated probes.
 
+The one-line Fox symbol repair changes no SELFTEST marker, terminal, failure
+probe, or driver contract.  SELFTEST does not execute the production-only
+110-pair path, but a fresh SELFTEST is still required because the driver now
+pins a new producer identity.  Expected marker text is unchanged.
+
 ## 7. Static checks performed
 
 Only read/hash/ASCII/static text checks were used.  They found:
@@ -273,6 +334,8 @@ producer deepcopy(base_state) occurrences:                  0
 producer old._element_blob occurrences:                     0
 producer canonical full mutation-baseline calls:            1
 producer streamed json.dump(receipt, stream) calls:          1
+producer bare add_scaled calls:                              0
+all_seven_fox_sample pinned old APIs found:                  8/8
 checker reconstruct calls inside mutation dependency suite: 0
 checker canonical reconstruct(cert) calls in validate_ready: 1
 driver PIPESTATUS captures:                                  6

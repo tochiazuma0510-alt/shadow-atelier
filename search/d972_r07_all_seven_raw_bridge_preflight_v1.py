@@ -608,8 +608,8 @@ def all_seven_fox_sample(old, e3, e4, roster):
     gb, vb = old.fox_gradient_without_sections(b, quotient)
     gab, vab = old.fox_gradient_without_sections(tuple(a) + tuple(b), quotient)
     predicted_add = dict(ga)
-    add_scaled(old, predicted_add,
-               old.translate_vector(gb, va, quotient), 1)
+    old.add_scaled(predicted_add,
+                   old.translate_vector(gb, va, quotient), 1)
     if (va != quotient.identity or vb != quotient.identity or
             vab != quotient.identity or gab != predicted_add):
         raise Unknown("UNKNOWN_INPUT:FOX_CANARY:product_additivity")
