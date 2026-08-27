@@ -209,8 +209,9 @@ self-reference:
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
-and immutable head SHA are pending parent dispatch and will be appended by
-the parent without changing any runtime identity.
+`33100220787` was dispatched by parent Sol at immutable head
+`036c18a4cc2938efd77cbf680a24a421f9ad4d12`.  Its result is pending; the
+dispatch does not constitute a mathematical or cross-checked result.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
