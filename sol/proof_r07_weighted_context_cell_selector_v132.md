@@ -271,6 +271,41 @@ This is a terminating exact algorithm, not a promise of a small runtime.
 If a finite-group intersection or transversal step exceeds its registered
 resource bound, the only sound terminal is `UNKNOWN_RESOURCE`.
 
+For the concrete R07 extension (3.1), there is also a simpler word-bearing
+fallback which needs no general coset-intersection package.  Scan the frozen
+\(Q_0\) section order.  For the equality coordinates \(S\) of the chosen
+cell, compute
+
+\[
+ a_q=t_S\Phi_S(s(q))^{-1}.
+\tag{4.2}
+\]
+
+If \(a_q\notin A_S\), skip \(q\).  Otherwise the stored Gamma table returns
+all \(\gamma\) with \(\Phi_S(\gamma)=a_q\); this set is one coset of
+\(\Gamma_S^0\) and has at most 243 elements.  Test only those Gamma states
+against the star inequalities.  The first passing pair gives the literal
+source word
+
+\[
+ u_\delta=u_\gamma u_{s(q)}
+\tag{4.3}
+\]
+
+in the frozen task157ee convention.  Because every element of \(G\) has a
+Gamma-section expression, a positive cell must be found by the complete
+scan.  The absolute fallback cap is
+
+\[
+ |\Gamma||Q_0|=243\cdot1{,}469{,}664=357{,}128{,}352
+\tag{4.4}
+\]
+
+source pairs, but no \(\Delta\) element set is stored or deduplicated, and
+the equality lookup normally removes most pairs.  This fallback is intended
+only after (2.7) has already selected one positive ACTIVE cell; it is not a
+replacement for exact cell counts on the negative branch.
+
 ## 5. Terminating all-seven column generation
 
 Apply Sections 1--4 to the v110 stacked module
