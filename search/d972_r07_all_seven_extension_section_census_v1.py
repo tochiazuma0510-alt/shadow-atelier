@@ -36,6 +36,7 @@ DEFAULT_Q3 = ROOT / "ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.j
 DEFAULT_JOINT = ROOT / "ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json"
 EXPECTED_Q0 = 1_469_664
 EXPECTED_GAMMA = 243
+EXPECTED_GAMMA_COARSE_ORDERS = (1, 1, 1, 1, 1, 81, 81, 81, 9, 9)
 COORDINATE_WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
 COORDINATES = [
@@ -326,10 +327,56 @@ def build_fine_deletion(e3: Any, e4: Any, budget: Budget) -> tuple[dict[bytes, b
 def coarse_delete(permutation: Any) -> bytes:
     source = canonical_packed_permutation(permutation, 144,
                                           "coarse deletion source")
-    row = source[108:144]
-    require(all(108 <= x < 144 for x in row), "fourth block invariance")
-    return canonical_packed_permutation(bytes(x - 108 for x in row), 36,
+    # Frozen Q4 layout: P^4 occupies 0:36 in four 9-point blocks, followed
+    # by G9^4 in four 27-point blocks.  Deleting strand four therefore takes
+    # the fourth block of each factor, not one contiguous 36-point suffix.
+    p4 = source[27:36]
+    g94 = source[117:144]
+    require(all(27 <= x < 36 for x in p4), "fourth P block invariance")
+    require(all(117 <= x < 144 for x in g94), "fourth G9 block invariance")
+    row = bytes(x - 27 for x in p4) + bytes(x - 108 for x in g94)
+    return canonical_packed_permutation(row, 36,
                                         "coarse deletion image")
+
+
+def coarse_marked_diagnostic(actual: Sequence[bytes],
+                             expected: Sequence[bytes]) -> dict[str, Any]:
+    require(len(actual) == len(expected) == 6, "coarse marked diagnostic width")
+    labels = ("X", "Z=(YX)^-1", "1", "Y", "1", "1")
+    generators = ("A12", "A13", "A14", "A23", "A24", "A34")
+    rows = []
+    for index, (left, right) in enumerate(zip(actual, expected)):
+        left = canonical_packed_permutation(left, 36, "coarse diagnostic actual")
+        right = canonical_packed_permutation(right, 36, "coarse diagnostic expected")
+        first = next((i for i, pair in enumerate(zip(left, right))
+                      if pair[0] != pair[1]), None)
+        rows.append({
+            "marked_index_1_based": index + 1,
+            "pb4_generator": generators[index],
+            "target_label": labels[index],
+            "actual_hex": left.hex(),
+            "expected_hex": right.hex(),
+            "actual_sha256": sha_bytes(left),
+            "expected_sha256": sha_bytes(right),
+            "first_difference_index_0_based": first,
+            "literal_equal": first is None,
+            "conjugation_required": False if first is None else None,
+        })
+    return {
+        "schema": "Q4-fourth-factor-to-Q0-marked-diagnostic/v1",
+        "source_degree": 144,
+        "target_degree": 36,
+        "source_layout": "P^4_then_G9^4",
+        "source_half_open_slices_0_based": [[27, 36], [117, 144]],
+        "target_layout": "P_then_G9",
+        "target_half_open_slices_0_based": [[0, 9], [9, 36]],
+        "rebasing_subtractions": [27, 108],
+        "strand_deleted_1_based": 4,
+        "orientation": "literal_frozen_rows_no_strand_permutation",
+        "rows": rows,
+        "all_literal_equal": all(row["literal_equal"] for row in rows),
+        "conjugation_used": False,
+    }
 
 
 def deleter_representation_selftest() -> int:
@@ -363,6 +410,134 @@ def deleter_representation_selftest() -> int:
     return checks
 
 
+def deletion_convention_selftest() -> int:
+    identity144 = bytes(range(144))
+    identity36 = bytes(range(36))
+    require(coarse_delete(identity144) == identity36,
+            "split-factor coarse deletion identity")
+    checks = 1
+    for left, right, label in ((26, 27, "P"), (116, 117, "G9")):
+        mutation = bytearray(identity144)
+        mutation[left], mutation[right] = mutation[right], mutation[left]
+        try:
+            coarse_delete(bytes(mutation))
+        except Reject:
+            checks += 1
+        else:
+            raise Reject(f"cross-block {label} deletion mutation accepted")
+    baseline = coarse_marked_diagnostic([identity36] * 6, [identity36] * 6)
+    require(baseline["all_literal_equal"] is True and
+            all(row["first_difference_index_0_based"] is None and
+                row["actual_hex"] == row["expected_hex"] and
+                row["actual_sha256"] == row["expected_sha256"] and
+                row["conjugation_required"] is False
+                for row in baseline["rows"]),
+            "positive deletion diagnostic")
+    checks += 1
+    orientation = bytearray(identity144)
+    orientation[27], orientation[28] = orientation[28], orientation[27]
+    bad_actual = [coarse_delete(bytes(orientation))] + [identity36] * 5
+    diagnostic = coarse_marked_diagnostic(bad_actual, [identity36] * 6)
+    require(diagnostic["rows"][0]["first_difference_index_0_based"] == 0 and
+            diagnostic["rows"][0]["actual_sha256"] !=
+            diagnostic["rows"][0]["expected_sha256"] and
+            diagnostic["all_literal_equal"] is False,
+            "orientation mutation diagnostic")
+    checks += 1
+    try:
+        require(diagnostic["all_literal_equal"],
+                "coarse marked fourth-strand deletion")
+    except Reject:
+        checks += 1
+    else:
+        raise Reject("orientation deletion mutation accepted")
+    correct_p4 = bad_actual[0]
+    contiguous_suffix = canonical_packed_permutation(
+        bytes(x - 108 for x in orientation[108:144]), 36,
+        "selftest contiguous suffix selector")
+    wrong_p_block = canonical_packed_permutation(
+        bytes(x - 18 for x in orientation[18:27]) +
+        bytes(x - 108 for x in orientation[117:144]), 36,
+        "selftest wrong P selector")
+    g_orientation = bytearray(identity144)
+    g_orientation[117], g_orientation[118] = g_orientation[118], g_orientation[117]
+    correct_g4 = coarse_delete(bytes(g_orientation))
+    wrong_g_block = canonical_packed_permutation(
+        bytes(x - 27 for x in g_orientation[27:36]) +
+        bytes(x - 81 for x in g_orientation[90:117]), 36,
+        "selftest wrong G9 selector")
+    for mutation, target, label in (
+            (contiguous_suffix, correct_p4, "contiguous suffix"),
+            (wrong_p_block, correct_p4, "wrong P block"),
+            (wrong_g_block, correct_g4, "wrong G9 block")):
+        selector_diagnostic = coarse_marked_diagnostic(
+            [mutation] + [identity36] * 5,
+            [target] + [identity36] * 5)
+        try:
+            require(selector_diagnostic["all_literal_equal"],
+                    f"selftest {label} selector")
+        except Reject:
+            checks += 1
+        else:
+            raise Reject(f"{label} deletion selector accepted")
+    offset_mutation = (bytes(x - 27 for x in g_orientation[27:36]) +
+                       bytes(x - 117 for x in g_orientation[117:144]))
+    try:
+        canonical_packed_permutation(offset_mutation, 36,
+                                     "selftest wrong G9 target offset")
+    except Reject:
+        checks += 1
+    else:
+        raise Reject("wrong G9 output offset accepted")
+    return checks
+
+
+def coarse_bucket_statistics(target: int, degree: int,
+                             buckets: dict[bytes, int | list[int]]) -> dict[str, Any]:
+    require(0 <= target < 10 and degree in (36, 144) and buckets,
+            "coarse bucket statistic domain")
+    histogram: dict[int, int] = {}
+    total = 0
+    digest = hashlib.sha256()
+    minimum: int | None = None
+    maximum = 0
+    # Dict insertion order is the first-seen Q0-state order established by the
+    # immediately preceding qid scan.  Stream the binding to avoid copying or
+    # sorting the potentially large coarse-key roster.
+    for coarse, candidate in buckets.items():
+        require(type(coarse) is bytes and len(coarse) == degree,
+                "coarse bucket key width")
+        size = 1 if isinstance(candidate, int) else len(candidate)
+        require(size > 0, "nonempty coarse bucket")
+        total += size
+        minimum = size if minimum is None else min(minimum, size)
+        maximum = max(maximum, size)
+        histogram[size] = histogram.get(size, 0) + 1
+        digest.update(struct.pack("<H", len(coarse)))
+        digest.update(coarse)
+        digest.update(struct.pack("<I", size))
+    rows = [{"bucket_size": size, "coarse_key_count": histogram[size]}
+            for size in sorted(histogram)]
+    require(total == EXPECTED_Q0 and
+            sum(row["bucket_size"] * row["coarse_key_count"] for row in rows) == total,
+            "coarse bucket Q0 partition")
+    return {
+        "label": f"S{target}",
+        "type": COORDINATES[target]["type"],
+        "coarse_key_width_bytes": degree,
+        "q0_state_count": EXPECTED_Q0,
+        "distinct_coarse_keys": len(buckets),
+        "bucket_size_min": minimum,
+        "bucket_size_max": maximum,
+        "multiplicity_histogram": rows,
+        "multiplicity_histogram_sha256": sha_obj(rows),
+        "first_seen_key_multiplicity_sha256": digest.hexdigest(),
+        "digest_encoding": "repeat(u16le_key_width,key_bytes,u32le_bucket_size)",
+        "key_order": "first_seen_Q0_state_id",
+        "bucket_equivalence": "literal_coarse_key_equality_not_C_i_left_coset",
+    }
+
+
 def make_deleter(old: Any, e3: Any, e4: Any, fine: dict[bytes, bytes],
                  q0_marked: Sequence[bytes]) -> tuple[Any, dict[str, Any]]:
     e3_pc_width = len(e3.identity[1])
@@ -371,14 +546,16 @@ def make_deleter(old: Any, e3: Any, e4: Any, fine: dict[bytes, bytes],
                                             "coarse deletion identity")
     expected = [
         canonical_packed_permutation(q0_marked[0], 36, "coarse target x"),
-        canonical_packed_permutation(e3.generators[1][0], 36, "coarse target u"),
+        canonical_packed_permutation(e3.generators[1][0], 36, "coarse target z"),
         identity,
         canonical_packed_permutation(q0_marked[1], 36, "coarse target y"),
         identity,
         identity,
     ]
     actual = [coarse_delete(g[0]) for g in e4.generators]
-    require(actual == expected, "coarse marked fourth-strand deletion")
+    coarse_diagnostic = coarse_marked_diagnostic(actual, expected)
+    require(coarse_diagnostic["all_literal_equal"],
+            "coarse marked fourth-strand deletion")
 
     def delete(value: Any) -> Any:
         source = canonical_packed_extension_element(value, 144, e4_pc_width,
@@ -396,8 +573,9 @@ def make_deleter(old: Any, e3: Any, e4: Any, fine: dict[bytes, bytes],
     for source, target in zip(e4.generators, targets):
         require(delete(source) == target, "matched marked deletion")
     return delete, {
-        "coarse_method": "literal_fourth_36_block_restriction",
+        "coarse_method": "literal_fourth_P_and_G9_block_restriction",
         "coarse_marked_images_sha256": sha_obj([list(x) for x in actual]),
+        "coarse_marked_diagnostic": coarse_diagnostic,
         "fine": None,
         "left_inverse_endpoint_marked_indices": [1, 2, 4],
         "v122_pinned_not_reproved": True,
@@ -586,6 +764,47 @@ def qinv(old: Any, value: bytes) -> bytes:
     return bytes(old.perm_inv(tuple(value)))
 
 
+def gamma_coarse_image_statistics(old: Any,
+                                  projected: Sequence[Sequence[Any]]) -> list[dict[str, Any]]:
+    require(len(projected) == EXPECTED_GAMMA and
+            all(len(row) == 10 for row in projected), "Gamma coarse statistic shape")
+    result = []
+    for coordinate in range(10):
+        degree = 36 if coordinate < 5 else 144
+        sequence = []
+        for state in projected:
+            raw = blob(old, state[coordinate])
+            require(len(raw) == COORDINATE_WIDTHS[coordinate],
+                    "Gamma coordinate blob width")
+            sequence.append(canonical_packed_permutation(
+                raw[:degree], degree, "Gamma coarse state"))
+        image = set(sequence)
+        identity = bytes(range(degree))
+        expected_order = EXPECTED_GAMMA_COARSE_ORDERS[coordinate]
+        require(len(image) == expected_order and identity in image,
+                f"S{coordinate} Gamma coarse image order")
+        require(all(qinv(old, value) in image for value in image),
+                f"S{coordinate} Gamma coarse inverses")
+        require(all(qmul(old, left, right) in image
+                    for left in image for right in image),
+                f"S{coordinate} Gamma coarse closure")
+        require(EXPECTED_GAMMA % len(image) == 0,
+                f"S{coordinate} Gamma coarse kernel divisibility")
+        result.append({
+            "label": f"S{coordinate}",
+            "type": COORDINATES[coordinate]["type"],
+            "coarse_degree": degree,
+            "source_state_count": EXPECTED_GAMMA,
+            "image_order": len(image),
+            "kernel_order": EXPECTED_GAMMA // len(image),
+            "state_sequence_sha256": sha_bytes(b"".join(sequence)),
+            "canonical_image_roster_sha256": sha_bytes(b"".join(sorted(image))),
+            "group_checks": {"identity": True, "inverses": True, "closure": True},
+            "all_243_literal_states_replayed": True,
+        })
+    return result
+
+
 def prove_L(old: Any, name: str, membership: bytes | bytearray, count: int,
             qstates: Sequence[bytes], qids: dict[bytes, int],
             q0_marked: Sequence[tuple[int, ...]], budget: Budget) -> tuple[list[int], dict[str, Any]]:
@@ -703,6 +922,7 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
             "ten projected widths")
     require(all(projected[sid][0] == gamma.states[sid][0] for sid in range(EXPECTED_GAMMA)),
             "C21 deletion equals registered E3 source")
+    gamma_coarse_images = gamma_coarse_image_statistics(old, projected)
     coordinate_marks = []
     for item in COORDINATES:
         pair = contexts[item["context_id"] - 1]
@@ -827,6 +1047,7 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
         image_generators.append([projected[gamma.ids[gamma.key(g)]][i]
                                  for g in gamma.generators] + list(coordinate_marks[i]))
     equality = []
+    coarse_bucket_stats = []
     for target in range(10):
         ambient = "E3" if target < 5 else "E4"
         degree = 36 if target < 5 else 144
@@ -843,6 +1064,7 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
                 coarse_to_q[coarse] = [prior, qid]
             else:
                 prior.append(qid)
+        coarse_bucket_stats.append(coarse_bucket_statistics(target, degree, coarse_to_q))
         for source in range(10):
             if (source < 5) != (target < 5):
                 equality.append({"left": f"S{source}", "right": f"S{target}",
@@ -931,6 +1153,8 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
                        for i in range(10)],
             "directed_generator_containment": equality,
             "equality_matrix": equality_matrix,
+            "raw_section_coarse_key_bucket_statistics": coarse_bucket_stats,
+            "Gamma_coarse_images": gamma_coarse_images,
             "coordinate_0_7_equal": False,
             "coordinate_0_7_reason": "different typed ambient E3 versus E4",
         },
@@ -975,9 +1199,13 @@ def run(args: argparse.Namespace) -> int:
         require(perm_type_checks == 2, "packed permutation selftest count")
         deleter_type_checks = deleter_representation_selftest()
         require(deleter_type_checks == 6, "deleter representation selftest count")
+        deletion_convention_checks = deletion_convention_selftest()
+        require(deletion_convention_checks == 10,
+                "deletion convention selftest count")
         print("R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS "
               f"perm_type_checks={perm_type_checks} "
-              f"deleter_type_checks={deleter_type_checks}", flush=True)
+              f"deleter_type_checks={deleter_type_checks} "
+              f"deletion_convention_checks={deletion_convention_checks}", flush=True)
         return 0
     require(args.run_census and args.output, "production arguments")
     receipt = base_receipt()

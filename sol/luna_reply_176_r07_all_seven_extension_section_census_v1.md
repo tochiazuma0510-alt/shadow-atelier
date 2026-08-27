@@ -4,10 +4,10 @@ Date: 2026-08-27
 
 ## 1. Disposition
 
-Disposition is **INTERMEDIATE SELFTEST SUCCESS / DELETER REPRESENTATION
-BOUNDARY REPAIRED / RE-SELFTEST PENDING**.  GHA PRODUCTION run `33038109917` at head
-`abac045ac8ee38e853c8970c9c2c628ebb64b9fa` terminated normally with typed
-`UNKNOWN_INPUT`.  Its three exact terminal lines agree:
+Disposition is **SECOND PRODUCTION TYPED UNKNOWN / NONCONTIGUOUS DELETION
+LAYOUT REPAIRED / RE-SELFTEST PENDING**.  GHA PRODUCTION run `33039406462` at
+head prefix `8c75f840` terminated normally with typed `UNKNOWN_INPUT`.  Its
+three exact terminal lines agree:
 
 ```text
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_TERMINAL R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_UNKNOWN_INPUT
@@ -16,47 +16,55 @@ R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=PRODUCTION termin
 ```
 
 The receipt has SHA-256
-`c969abc8a4f38545c40c06491f8a5889ff7b8d4e8825374a4a79a437c4ed3eb7`
-and exact reason `CENSUS_REJECT:complete Q0 presentation replay`; the verdict
-SHA-256 is
-`b78364618b5f9c743bd28160f91678329c7a651bfbb003d19d75cac380eb051a`.
-Producer/checker times were 26/0 seconds.  The artifact is at
-`%TEMP%\task176_prod_33038109917_a407c4d787784db48a86617fb26b9f20`.
-No order or COMPLETE result was emitted.
+`3e519e36fd8e2096eea784b38cf1ee25b678a0a8a55e0c76b22316c5d9ebce79`
+and exact reason `CENSUS_REJECT:coarse marked fourth-strand deletion`; the
+verdict SHA-256 is
+`6be410d2c82e1e449001c211d5588c4e730ee37a43c92fb60248a75c8cc4eb7a`.
+Producer/checker times were 25/0 seconds.  The downloaded artifact is at
+`%TEMP%\task176_prod_33039406462\gap-run-out`.  No order or COMPLETE result
+was emitted.
 
-The first failed gate is diagnosed exactly.  Frozen task176 arithmetic defines
-`Perm = bytes`; `old.perm_from_row` converts the 1-based receipt row to 0-based
-packed `bytes`, while both `old.perm_one(36)` and `old.eval_perm_word` return
-that same type.  The failed gate instead compared the evaluated bytes with
-`tuple(range(36))`, so equality was false solely because `bytes != tuple`.
-The task157ee helper `p_eval` is a separate 1-based tuple model and is not used
-for this gate.  The repair substitutes the canonical `old.perm_one(36)` and
-adds an explicit packed-permutation validator to the producer and independent
-checker real paths.  Their SELFTESTs accept canonical bytes and reject the
-equal-entry tuple through that same validator (`perm_type_checks=2`).
+The stop is now diagnosed exactly.  Frozen Q4 does not consist of four
+contiguous 36-point Q0 blocks.  Its point layout is
+`P1,P2,P3,P4` on `[0,36)` in four 9-point blocks, followed by
+`G9_1,G9_2,G9_3,G9_4` on `[36,144)` in four 27-point blocks.  V122 Section 2
+and the predecessor checker therefore require the fourth-strand projection
 
-Before production redispatch, static audit found the same representation class
-at the next `make_deleter` boundary.  `q0_marked[*]` and E3 permutation
-components are packed bytes, but `coarse_delete` returned a tuple; consequently
-coarse slots 1, 2, and 4 compared tuple results with byte targets.  The
-producer's full deletion result also returned its PC component as a tuple,
-whereas frozen `EKey = tuple[Perm, Pc]` has both `Perm = bytes` and
-`Pc = bytes`.  The checker independently had the same coarse tuple issue.
+```text
+Q0[0:9]  = Q4[27:36]  - 27
+Q0[9:36] = Q4[117:144] - 108
+```
 
-The repair makes `coarse_delete` require a canonical 144-byte permutation and
-return a canonical 36-byte permutation.  All six coarse expected values use
-packed bytes, including `old.perm_one(36)`.  Full E4 inputs, E3 outputs, and E3
-targets pass a `tuple[bytes, bytes]` validator with exact PC width.  The new
-`deleter_type_checks=6` SELFTEST covers the coarse and whole-EKey positive
-paths plus four semantic type mutations: tuple coarse input, tuple permutation
-component, tuple PC component, and list outer container.  Only the
-representation boundary changed; deletion images and later mathematics did
-not.
+The failed implementation instead used `Q4[108:144]-108`, mixing the last
+nine points of `G9_3` with all of `G9_4` and omitting `P4`.  This is the
+implementation erratum isolated in paper note v135; it does not change v122's
+abstract deletion theorem.  Static replay of the authenticated q3 rows shows
+that the corrected noncontiguous projection sends the six PB4 marked rows
+literally, with no inversion, strand permutation, or conjugation, to
+`(X,Z,1,Y,1,1)`, `Z=(YX)^-1`.
+
+The producer and independently written checker now each implement that exact
+two-slice projection, require invariance of both source blocks, and retain a
+typed, lossless six-row diagnostic: actual and expected 36-byte hex, both
+SHA-256 values, zero-based first differing index, literal-equality flag, and
+whether conjugation is required.  The current rows all have null first
+difference and `conjugation_required=false`; acceptance still derives the
+expected rows from the proved E3 marked images rather than copying actual into
+expected.  `deletion_convention_checks=10` rejects cross-factor invariance,
+contiguous-suffix, wrong-P-block, wrong-G9-block, output-offset, orientation,
+and independently resealed diagnostic-field mutations.
+
+The earlier representation repairs remain in force.  `coarse_delete` requires
+a canonical 144-byte permutation and returns canonical 36-byte packed bytes;
+full E4 inputs, E3 outputs, and E3 targets pass a
+`tuple[bytes,bytes]` validator with exact PC width.  `deleter_type_checks=6`
+covers the two positive paths and four semantic type mutations.  Generic
+programming exceptions remain hard STOPs and are not converted to typed input.
 
 SELFTEST run `33038764764` at head `56fbbc7b` succeeded at `04:14:40Z`, but it
 contains only the earlier Q0-relator canonical-bytes repair.  It is recorded as
 a **superseded intermediate SELFTEST**, not authorization for PRODUCTION.  The
-current deleter boundary and new marker require another bounded SELFTEST.  No
+  current noncontiguous deleter and new marker require another bounded SELFTEST.  No
 local Python, Node, GAP, git, GHA dispatch, or production command was run while
 making this repair.  The frozen task157ee shelf otherwise contains enough data
 to reconstruct both required objects:
@@ -77,9 +85,9 @@ subsequent external SELFTEST and PRODUCTION runs recorded above.
 
 ```text
 bytes  SHA-256                                                           path
-49238  52ef71eb2cd9f1a7dd3fe23fabeb53b0316e71825bcc3ada478e90308332506f  search/d972_r07_all_seven_extension_section_census_v1.py
-66752  d60ade51eccfad4b59a24e9be9e28871be56cec0e4a6e0af63c3b5505beb9760  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-15460  13e1736ccc3cc0580f55d7bca070e3968bc2162ff4ce5d60a018ee88df5abe34  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+60006  9fa449a61e95d3b8be1f5ceebcb93011ad44a1ac2ed656d6299f41529e07329f  search/d972_r07_all_seven_extension_section_census_v1.py
+80121  64dacbd7cad2addaca09fb53e47a8d02164c15f4af53eed7c91bd02e8584d23c  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+15580  1ad33602c1cc259a7396d9eace21d5e63541a817bd2f2bf742773ed2ab9e2577  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -104,7 +112,8 @@ The production path performs the following fail-closed reconstruction:
 1. Reconstruct E3 and E4 from the pinned q3 receipt and replay the 31-row
    registry.
 2. Reconstruct the fourth-strand deletion.  The coarse map is the literal
-   fourth 36-point block restriction.  The fine map is rebuilt on all 59,049
+   noncontiguous fourth `P` and fourth `G9` block restriction
+   `[27,36)+[117,144) -> [0,9)+[9,36)`.  The fine map is rebuilt on all 59,049
    Pi4 pc states from the six marked images, with path-consistency and marked
    left-inverse gates.
 3. Reconstruct the 243-state task157ee Gamma Cayley graph from the 26 literal
@@ -135,7 +144,15 @@ The production path performs the following fail-closed reconstruction:
 10. Compute typed singleton order and equality-pattern tables.  The literal
     subgroup-containment test supports nonfaithful coarse singleton maps by
     retaining all Q0 candidates over a coarse value; it does not assume a
-    unique coarse preimage.
+    unique coarse preimage.  While each existing `coarse_to_q` table is live,
+    retain its exact raw-key distinct count, min/max multiplicity, complete
+    multiplicity histogram and two streaming digests without serializing the
+    full map.
+11. Replay the coarse part of all 243 Gamma states in every coordinate.  The
+    acceptance vector for `|C_i|=|coarse(Phi_i(Gamma))|` is
+    `(1,1,1,1,1,81,81,81,9,9)`; each row retains the image and kernel orders,
+    state-sequence and canonical-roster digests, and independent
+    identity/inverse/closure checks.
 
 The raw persistent section payload is exactly
 `1,469,664 * 970 = 1,425,574,080` bytes.  Together with the 52,907,904-byte
@@ -189,6 +206,67 @@ The checker's independently written `reconstruct_deletion` enforces the same
 boundary.  All `tuple(range(36))` occurrences remaining near these functions
 are deliberate negative SELFTEST mutations; production deletion paths contain
 zero tuple/bytes representation mixtures.
+
+### Noncontiguous factor layout and six marked rows
+
+The independently traced frozen layout is:
+
+```text
+factor     source half-open interval       target half-open interval   rebase
+P4         [27,36)                         [0,9)                        -27
+G9_4       [117,144)                       [9,36)                       -108
+```
+
+The old contiguous selector and corrected literal factor selector have these
+static 36-byte SHA-256 diagnostics on the six authenticated q3 marked rows:
+
+```text
+PB4 row  target       old [108,144) SHA-256                                      old first diff  corrected/expected SHA-256                               corrected first diff
+A12      X            e99e7d70065da9dc2d444d51f023146d761c4db9f7c18535794f4f480b20ecdd  0               647c45371928ff0fde51bac8e728a4d66015ab465ae7141c076c81cbfed17e3e  null
+A13      Z=(YX)^-1    e09e2526271724f6b64d9d02ab574c6b8b1e4c5d40b9ffa5bcd6f05ed09197d5  0               dd117176a000c267ad2e262cfbcfa092706ac441fa73022819df2f26bbb8648f  null
+A14      1            e5ed95ec4ad8905efb32ad84d748bf6926cab3ac3e3e854c892ffede4caba0bf  0               5d7e2d9b1dcbc85e7c890036a2cf2f9fe7b66554f2df08cec6aa9c0a25c99c21  null
+A23      Y            8447ec1e2801bae1657abe33e80416b6260d30dfbf9a22276fd13d738172ad61  0               46bbd2639dc02af5be2b98702b940fd86d80770855de5780e214e7bfda83b8a9  null
+A24      1            052dd5e1f266f6a54fee7412577bde3cab0b2790a8123a47756d3350860e2c37  0               5d7e2d9b1dcbc85e7c890036a2cf2f9fe7b66554f2df08cec6aa9c0a25c99c21  null
+A34      1            5d7e2d9b1dcbc85e7c890036a2cf2f9fe7b66554f2df08cec6aa9c0a25c99c21  null            5d7e2d9b1dcbc85e7c890036a2cf2f9fe7b66554f2df08cec6aa9c0a25c99c21  null
+```
+
+Thus five old rows fail immediately at byte 0 and only the final identity row
+matches accidentally.  The corrected rows are byte-for-byte equal to their
+proved targets, so no conjugacy search is needed or used.  The receipt keeps
+both full 72-hex-character rows, not only these displayed digests; the checker
+reconstructs every scalar and every row field componentwise before its existing
+whole deletion-receipt equality gate.
+
+### Gamma coarse images and bucket boundary
+
+The previous statement that Gamma was coarse-trivial in every selected
+coordinate was false.  The repaired producer now replays all 243 literal Gamma
+states and gates the candidate coarse-image orders
+
+```text
+(|C_0|,...,|C_9|) = (1,1,1,1,1,81,81,81,9,9).
+```
+
+The checker independently rebuilds the same 243-state group and verifies the
+ten orders, kernel divisibility, identity, all inverses, all products, the
+state-major coarse-image digest, and the sorted image-roster digest.  These
+numbers remain pending GHA replay; they are an acceptance contract, not a
+completed production result in this reply.
+
+The newly retained `raw_section_coarse_key_bucket_statistics` are explicitly
+typed as literal coarse-key equality, not `C_i`-coset equivalence.  They include
+per coordinate the distinct raw coarse-key count, bucket min/max, full
+multiplicity histogram and histogram digest, plus a streaming digest over
+`(key width,key bytes,bucket size)` in first-seen Q0 order.  This adds one
+streaming pass over each already-live dictionary and no full-map artifact.
+
+For a uniform partial-target membership oracle the correct thick bucket is the
+left coset `C_i*b_i(q)`, with necessary test
+`c_i(t_i)*b_i(q)^-1 in C_i`.  Computing all ten nontrivial-coset histograms
+would add a new coset-canonicalization pass beyond the current repair, so it is
+deferred rather than hidden inside the production-gate fix.  A future oracle
+must also intersect full residuals using one common Gamma state; choosing a
+different Gamma state independently in each coordinate is forbidden.
 
 ### Production exception boundary
 
@@ -264,9 +342,12 @@ no-order grade separately, then reseals two reason mutations: a generic
 `ValueError:...` label and an empty `CENSUS_REJECT:` prefix.  Both must be
 rejected through `validate_receipt_chain`; no whole-dictionary oracle is used.
 The current exact checker marker carries `reject_envelope_checks=3`,
-`perm_type_checks=2`, and `deleter_type_checks=6`, while the original
-destructive mutation count remains 15/15.  The producer marker independently
-carries both representation counts.
+`perm_type_checks=2`, `deleter_type_checks=6`, and
+`deletion_convention_checks=10`, while the original destructive mutation count
+remains 15/15.  The producer marker independently carries all three bounded
+check counts.  On COMPLETE input the checker also reconstructs each six-row
+deletion diagnostic field, all ten raw bucket-statistic fields, and all ten
+Gamma coarse-image records rather than trusting producer summaries.
 
 ## 5. Driver and exact terminals
 
@@ -293,7 +374,8 @@ reason prefix (`AUTHENTICATED_INPUT:` or `CENSUS_REJECT:`), rejects either
 empty prefixed reason, and requires producer/checker/verdict terminal
 agreement.  Its SELFTEST exact-line gate now includes
 `reject_envelope_checks=3` and both producer/checker
-`perm_type_checks=2` and `deleter_type_checks=6` markers.
+`perm_type_checks=2`, `deleter_type_checks=6`, and
+`deletion_convention_checks=10` markers.
 
 ### GHA formatting failures and repairs
 
@@ -352,8 +434,10 @@ particular, `reject_envelope_checks=3` confirms acceptance of the well-typed
 Reject receipt and rejection of both malformed reason mutations through the
 independent checker path.  Run `33038764764` later confirmed the packed-Q0
 identity checks, but predates `deleter_type_checks=6` and is therefore only an
-intermediate success.  The complete deleter boundary remains pending one
-re-SELFTEST.
+intermediate success.  Run `33039406462` subsequently passed those
+representation gates and exposed the distinct noncontiguous-layout defect.
+The current factor-layout formula and `deletion_convention_checks=10` remain
+pending one re-SELFTEST.
 
 Production uses a 9,000-second soft producer deadline and 9,600-second outer
 timeouts for producer and checker separately.  This leaves 2,400 seconds of
@@ -363,7 +447,7 @@ that estimate, are authoritative.  An exceeded producer budget is a typed
 `UNKNOWN_RESOURCE`, never an order.  A missing required serialization is a
 typed `UNKNOWN_INPUT`.
 
-Completed production workflow record:
+First completed production workflow record:
 
 ```text
 run_id:       33038109917
@@ -374,6 +458,22 @@ timeout_min:  360
 with_pquot_packages: false
 state:        completed typed UNKNOWN_INPUT
 reason:       CENSUS_REJECT:complete Q0 presentation replay
+```
+
+Latest completed production workflow record:
+
+```text
+run_id:       33039406462
+head_prefix:  8c75f840
+script:       search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+out_dir:      ci/out
+timeout_min:  360
+with_pquot_packages: false
+state:        completed typed UNKNOWN_INPUT
+reason:       CENSUS_REJECT:coarse marked fourth-strand deletion
+receipt_sha:  3e519e36fd8e2096eea784b38cf1ee25b678a0a8a55e0c76b22316c5d9ebce79
+verdict_sha:  6be410d2c82e1e449001c211d5588c4e730ee37a43c92fb60248a75c8cc4eb7a
+timing:       producer 25 seconds / checker 0 seconds
 ```
 
 Required bounded re-SELFTEST preamble for the repaired bundle:
@@ -387,8 +487,8 @@ Use the same driver, `out_dir=ci/out`, `timeout_min=60`, and
 producer/checker markers and the exact one-line driver sentinel all pass:
 
 ```text
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 linked_nonabelian_order=54
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_PRODUCER_SELFTEST_PASS perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_CHECKER_SELFTEST_PASS mutation_attempted=15 mutation_rejected=15 reject_envelope_checks=3 perm_type_checks=2 deleter_type_checks=6 deletion_convention_checks=10 linked_nonabelian_order=54
 R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=SELFTEST
 ```
 
@@ -396,15 +496,18 @@ R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal
 
 Repair-specific source evidence is fixed at these lines:
 
-- producer lines 113--139 define packed permutation/EKey contracts, lines
-  326--401 canonicalize and selftest every `make_deleter` boundary, lines
-  688--698 retain the repaired Q0 relator replay, lines 968--982 expose all
-  current bounded SELFTEST markers, lines 983--1001 preserve the narrow typed
-  production conversion, and lines 1017--1023 retain programming hard STOPs;
-- checker lines 30--37 pin the new producer, lines 109--135 independently
-  define packed permutation/EKey contracts, lines 252--333 canonicalize and
-  selftest `reconstruct_deletion`, lines 557--570 retain the real Q0 receipt
-  validator, and lines 1265--1285 expose all current SELFTEST markers;
+- producer lines 114--139 define packed permutation/EKey contracts; lines
+  327--493 implement, diagnose, and mutation-test the noncontiguous deletion;
+  lines 495--538 stream raw coarse-key bucket statistics; lines 767--810 replay
+  all ten Gamma coarse images; lines 912--921 retain the repaired Q0 relator
+  replay; and lines 1189--1251 preserve bounded SELFTEST, narrow typed receipt
+  conversion, and programming hard STOPs;
+- checker line 38 pins the new producer; lines 110--135 independently define
+  packed permutation/EKey contracts; lines 253--526 independently implement,
+  validate field-by-field, and mutation-test deletion; lines 344--386 and
+  598--637 rebuild raw bucket and Gamma coarse-image statistics; lines
+  704--1029 perform the COMPLETE semantic replay; and lines 1529 onward expose
+  bounded SELFTEST and production verdict paths;
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
   lines 112--149 enforce terminal envelopes including the nonempty typed
   `UNKNOWN_INPUT` reason, lines 158--207 perform lossless unformatted shell
@@ -418,9 +521,12 @@ Repair-specific source evidence is fixed at these lines:
 Only PowerShell read/hash/schema scans were used during this repair.  They
 found:
 
-- the downloaded run `33038109917` receipt matches the recorded
-  `c969abc8...` SHA-256, typed reason, 26/0-second timing, and all three
-  agreeing external terminals;
+- the downloaded run `33039406462` receipt and verdict match the full
+  `3e519e36...` / `6be410d2...` SHA-256 values above, exact typed reason,
+  25/0-second timing, and all three agreeing external terminals;
+- the earlier run `33038109917` artifact still matches its recorded
+  `c969abc8...` receipt, Q0-relator reason, 26/0-second timing, and agreeing
+  terminals;
 - all fourteen producer and checker predecessor pins match current exact
   bytes/SHA-256;
 - all seventeen driver pins (three runtime files plus fourteen predecessors)
@@ -436,6 +542,15 @@ found:
 - the producer/checker deletion production paths contain zero
   `tuple(range(36))`, tuple permutation outputs, or tuple PC outputs; all such
   remaining nearby tuple literals occur only in negative SELFTEST mutations;
+- the only remaining `[108:144]` deletion selector is an explicit rejected
+  contiguous-suffix SELFTEST; production uses exactly `[27:36]` and
+  `[117:144]` with rebases 27 and 108;
+- static replay of all six authenticated q3 marked rows gives literal
+  corrected equality, five old-selector first differences at byte 0, one
+  accidental identity equality, and no required conjugation;
+- raw-key bucket statistics are explicitly distinguished from the deferred
+  `C_i` thick-coset statistics, and the Gamma coarse-order vector is bound as a
+  pending all-243-state replay rather than reported as a completed result;
 - the producer's receipt-producing `try` catches `Reject` but not generic
   `TypeError`, `ValueError`, or `KeyError`; those remain in the hard-STOP outer
   guard, while only the explicitly named JSON parser exception is typed input;
@@ -456,14 +571,17 @@ and receipt/verdict hashes are complete.  Its failure is not an order or a
 nonexistence result.  Intermediate SELFTEST run `33038764764` at head
 `56fbbc7b` subsequently passes the Q0-relator identity repair at `04:14:40Z`,
 but predates the complete deleter boundary repair and is superseded for
-production promotion.
+production promotion.  Production run `33039406462` passes those earlier
+representation gates and returns the separately typed coarse-layout stop with
+matching producer/checker/driver terminals and the exact hashes above.
 
-The canonical deleter/EKey repair and `deleter_type_checks=6` markers are
-currently **RE-SELFTEST PENDING**.  Q0 completion, orders, runtime beyond the
-representation gates, and a COMPLETE receipt remain UNKNOWN until the current
-bundle passes SELFTEST and is dispatched again.
+The noncontiguous factor projection, six-row diagnostic,
+`deletion_convention_checks=10`, raw bucket summaries, and all-243 Gamma
+coarse-image replay are currently **RE-SELFTEST PENDING**.  Q0 completion,
+orders, runtime beyond the deletion gate, and a COMPLETE receipt remain UNKNOWN
+until the current bundle passes SELFTEST and is dispatched again.
 
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_DELETER_BOUNDARY_REPAIRED_RESELFTEST_PENDING
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_NONCONTIGUOUS_DELETION_REPAIRED_RESELFTEST_PENDING
