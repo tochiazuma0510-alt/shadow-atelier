@@ -89,6 +89,12 @@ checker exposed two missing Python continuations before the same checkpoint
 replay literal.  Both occurrences were repaired and the run produced no
 mathematical result.
 
+GHA SELFTEST run `33074806414`, commit
+`5dd8c668ea4d11d5f4e0fb67a6bf5559e0d705a7`, completed successfully: the
+producer, independent checker, driver terminal, and artifact upload all
+passed. This authenticates the bounded SELFTEST only; it is not a production
+mathematical result.
+
 The current task179 v1 inputs were authenticated before use:
 
 | live v1 file | bytes | SHA-256 |
