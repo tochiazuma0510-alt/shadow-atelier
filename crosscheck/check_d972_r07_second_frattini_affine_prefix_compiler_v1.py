@@ -80,7 +80,7 @@ def independent_toy():
     for n,row in enumerate(family,1):
         rem,_=full.reduce(row)
         if rem:
-            p,a=full.add(row,n);tr.append([n,p.hex(),sorted(a.items())])
+            p,a=full.add(row,n);tr.append([n,p.hex(),[[int(k),int(v)] for k,v in sorted(a.items())]])
     d=full.dual(outside)
     alternate={k:(inside.get(k,0)+family[1].get(k,0))%3 for k in set(inside)|set(family[1])}; alternate={k:v for k,v in alternate.items() if v}
     require(alternate!=inside and not full.reduce({k:(alternate.get(k,0)-inside.get(k,0))%3 for k in set(alternate)|set(inside) if (alternate.get(k,0)-inside.get(k,0))%3})[0],"toy distinct equality")

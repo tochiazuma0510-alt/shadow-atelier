@@ -82,8 +82,8 @@ parent's pin refresh/bootstrap.
 Current identities:
 
 * producer: 37956 bytes, SHA256 `7ec85fe5b359a371e7c7c6b701426c5521d2a9651f560cba0193fa9c34aa2530`
-* checker: 32550 bytes, SHA256 `043341c723ebbff9b258154f33b92459cfd04a64f1f9e91409acbd5808980456`
-* fixture-generation/SELFTEST driver: 9799 bytes, SHA256 `9215946e5d418a5cbdf16b48eebf04b32a1f0737482816e59f499bbe60b832a1`
+* checker: 32579 bytes, SHA256 `0ba5c6dfb24e1adbc5c6a0e54f9bed040783f05d83596129d9f9917c0f90f905`
+* fixture-generation/SELFTEST driver: 9799 bytes, SHA256 `1c97a5ac76882d8c78a793906cac64ec8fa94ed535203a6fbaaf494c05258eaa`
 * fixture: 545 bytes, SHA256 `81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244`
 * task186 checker: 54982 bytes, SHA256 `8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488`
 
@@ -125,6 +125,21 @@ GitHub artifact id `9660644202` has ZIP digest
 `d8d68ccd956196a8bd3bde6b10ec4d2c8afd86c1e83e510bbfb91d84f0c97b37`.
 This establishes only the authenticated fixture bootstrap, not the ordinary
 independent-checker SELFTEST or any production membership result.
+
+Run `33107002915` was a dispatch-wrapper failure: the SELFTEST preamble lost
+the quotes around `D193Mode:=SELFTEST`; no producer/checker or mathematical
+result was obtained. Run `33107434871` at immutable head
+`1a1b0fe572cdec8cb44f00a1dc2f3470b5da106e` reached producer SELFTEST PASS,
+then the independent checker stopped at its strict `toy==independent_toy()`
+gate (line 356). No new fixture or mathematical result is claimed. Static
+comparison of the committed 545-byte fixture with both canonical 12-row
+family constructions shows matching family size, six rank-raise transitions,
+inside/outside rows, dual, and mutation count. Parent Sol then identified the
+strict mismatch: JSON decoding turns each ancestry pair into a list, while
+`independent_toy()` retained `sorted(dict.items())` tuples in memory. The
+checker now emits explicit integer list pairs for the same independently
+reconstructed ancestry. No equality or mutation gate is weakened; source
+identity pins below are refreshed before redispatch.
 
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA

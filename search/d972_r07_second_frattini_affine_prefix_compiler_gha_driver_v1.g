@@ -16,7 +16,7 @@ if not IsBound(D193Resume) then D193Resume:=""; fi;
 D193ResumePath:="ci/in/d972_r07_second_frattini_affine_prefix_compiler_v1.checkpoint.json";;
 D193ResumeArg:="";;
 if D193Resume<>"" then if D193Resume<>D193ResumePath then Error("task193 unsafe resume path"); fi; D193ResumeArg:=Concatenation("--resume '",D193ResumePath,"'"); fi;
-D193Pins:=[[D193Producer,37956,"7ec85fe5b359a371e7c7c6b701426c5521d2a9651f560cba0193fa9c34aa2530"],[D193Checker,32550,"043341c723ebbff9b258154f33b92459cfd04a64f1f9e91409acbd5808980456"],[D193Fixture,545,"81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244"],[D193Task186Checker,54982,"8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488"]];;
+D193Pins:=[[D193Producer,37956,"7ec85fe5b359a371e7c7c6b701426c5521d2a9651f560cba0193fa9c34aa2530"],[D193Checker,32579,"0ba5c6dfb24e1adbc5c6a0e54f9bed040783f05d83596129d9f9917c0f90f905"],[D193Fixture,545,"81bba2b13ecdb29b755a9d9b4e422955896ba66168a794d8c5b6a859fb328244"],[D193Task186Checker,54982,"8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488"]];;
 D193Read:=function(path) local x; x:=StringFile(path); if x=fail or Length(x)=0 then Error("task193 missing artifact ",path); fi; return x; end;;
 D193Pin:=function(row) local x; x:=D193Read(row[1]); if Length(x)<>row[2] or HexSHA256(x)<>row[3] then Error("task193 pin drift ",row[1]); fi; end;;
 D193CheckPins:=function() local row; for row in D193Pins do if D193Mode="FIXTURE_GEN" and row[1]=D193Fixture then continue; fi; D193Pin(row); od; end;;
