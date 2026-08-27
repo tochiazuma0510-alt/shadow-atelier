@@ -423,3 +423,62 @@ edited.  No Python, Node, GAP, git, or GHA command was run.  This repair is
 unexecuted and requires parent-controlled GHA redispatch.
 
 R07_760_JOINT_COEFF_INTERSECTION_V1_COEFFICIENT_MUTATION_REPAIRED_UNEXECUTED
+
+## Parent artifact audit: repaired bootstrap run 33046437210
+
+The parent committed the dynamic-mutation repair, ran the GHA-only static
+selftest, and then dispatched the repaired serial bootstrap.  The latter has
+now completed:
+
+```text
+run id:           33046437210
+commit SHA:       76c059c94bac4131f7f9778cc90f839610e722a1
+conclusion:       success (workflow level)
+started:          2026-08-27T06:35:46Z
+completed:        2026-08-27T10:27:26Z
+artifact id:      9642554408
+artifact digest:  sha256:403167b7aa199ef76676328235f5c712c8499f4ddb53caab5c150aa52e0824a0
+```
+
+The artifact was downloaded outside the repository and audited.  Both
+producer passes emitted byte-identical preflight receipts:
+
+```text
+bytes:             10802823
+SHA-256:           6c5249c3a7a3ef6524b6cd2eb4f846862e07fd9d44227b8d6b2c7831c88d8088
+preflight state:   R07_760_JOINT_COEFF_INTERSECTION_V1_PREFLIGHT_READY
+domain seconds:    5400
+relation count:    6441
+RS row count:      173907
+rank B_joint:      26
+rank B_legal_value:26
+H1(Q;F3) dimension:2
+```
+
+The helper-nonshared checker passed on that exact receipt.  Its verdict is
+8,725 bytes with SHA-256
+`cb3ab4fd0313efa52ed6aceb7f549653c0a22cbc7164a1c22974cf196831dec9`.
+It independently reconstructed all 6,441 relation words and all 173,907 RS
+rows, reproduced the exact-transition cache with 31 legacy canaries, and
+rejected 23 receipt mutations, five Gamma-schema mutations, and four cache
+fixture mutations.  It reports
+
+```text
+grade:                         CROSS_CHECKED (preflight scope only)
+exponent_intersection_strict:  false
+full_j9_recomputed:            false
+full_E4_positive_class:        false
+literal_A18_replayed:          false
+true_PB4_D2_equality_used:      false
+target terminal token:         null
+```
+
+Thus the bootstrap has closed the reproducible registered-domain builder and
+checker gate.  It has **not** executed the task169 full affine intersection:
+the receipt has `terminal=None` and `full=false`.  In particular, no j=9
+coefficient family, actual correction word, literal A.18 solution, lift,
+fake, or Ihara result is promoted from this run.  A future full task169 driver
+may pin this exact preflight receipt, but task169 remains a projected target6
+lane and is not the current all-seven witness construction.
+
+R07_760_JOINT_COEFF_GHA_BOOTSTRAP_V1_PREFLIGHT_CROSSCHECK_PASS_FULL_UNRUN
