@@ -1,8 +1,8 @@
 # Luna reply 175 - R07 all-seven raw bridge preflight v1
 
 Date: 2026-08-27
-Role: bounded mechanical/static implementation repair (175b and the
-post-production base-target repair).
+Role: bounded mechanical/static implementation repair (175b, base-target,
+and post-production container/hard-stop repairs).
 
 ## Result
 
@@ -10,6 +10,16 @@ Static GO for another isolated GHA SELFTEST/PRODUCTION attempt.  Runtime and
 the mathematical terminal remain UNKNOWN because this repair commission
 forbade local Python, GAP, Node, Git, GHA, and workflow dispatch.  No such
 process was started.
+
+Production run `33039406730` at head `8c75f840` reached the current producer
+and returned a fabricated typed runtime receipt only because the old outer
+guard caught a programming exception.  Artifact
+`%TEMP%/task175_prod_33039406730` contains receipt SHA-256
+`8e483e76a3d52f007541ffaceecb8d285247113cee415f071dcfcd265a9e00bb`,
+terminal `UNKNOWN_RESOURCE:runtime`, and exact reason
+`UNKNOWN_RESOURCE:runtime:TypeError:can only concatenate list (not "tuple") to list`.
+This run is historical implementation-failure evidence, not a typed
+mathematical or resource result.
 
 The task-175 producer no longer references the undefined names
 `h1_base_target`, `h2_base_target`, and `p_base_target`.  It now preserves the
@@ -29,18 +39,20 @@ task177 target     = -T, reconstructed from raw_base_targets
 ```
 
 Thus task175 does not alias the v110 target to the canary change row.  The
-tuple/list repair for run `33035595114` is retained unchanged.  No positive
-mathematical result is claimed.  Orbit images, membership, column generation,
-affine solving, correction search, lifts, cofinal claims, fake claims, and
-Ihara witnesses remain outside this preflight.
+tuple/list repair for run `33035595114` is retained, and the opposite
+list/tuple boundary exposed by run `33039406730` is repaired without changing
+either word.  Programming exceptions can no longer become accepted receipt
+terminals.  No positive mathematical result is claimed.  Orbit images,
+membership, column generation, affine solving, correction search, lifts,
+cofinal claims, fake claims, and Ihara witnesses remain outside this preflight.
 
 ## Final artifact identities
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_all_seven_raw_bridge_preflight_v1.py` | 57008 | `89ea5f2366c403afacb281ac5d817bbf813aa653316435831eee5c151647bd94` |
-| `crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py` | 79737 | `c887bb747f5c51b6495b493e189ab8daff62a29c2bed964c1813e3001a6a8f0b` |
-| `search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g` | 14855 | `dfdd11276105c681f283062fefd5cbff28b1c6b0a61142b1e0f14db29d6a7528` |
+| `search/d972_r07_all_seven_raw_bridge_preflight_v1.py` | 57132 | `ef0df11b4aa4efe3fc7b5136e7348c0920609ec9974e2fc918c7bd795deb28ca` |
+| `crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py` | 79414 | `4b6cd61050bbdfa23c4bb1e0b62b151fb93dec12a64e912b17fc6d320601c228` |
+| `search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g` | 14797 | `e4fa11d9b1f2ab7f0f0eb6c35c9a15bfa3c1fa5b3db37fefb67cd516273b4b2d` |
 | immutable fixture `search/certs/d972_r07_all_seven_raw_bridge_preflight_v1_20260827.json` | 6870 | `0d9a9588cd4f58531923dc208819f32d552006eea8e323a198382901d132c69f` |
 
 The reply is necessarily hashed by the parent after its final byte is written;
@@ -90,6 +102,50 @@ The earlier tuple/list fix is still present at producer lines 536--537:
 
 Only the Python container is normalized; the signed words remain the literal
 conjugates `u r u^-1` and `v r v^-1`.
+
+## Second production container diagnosis and hard-stop repair
+
+The opposite-direction TypeError in run `33039406730` is localized exactly,
+without executing the producer.  Inside `all_seven_fox_sample`, producer lines
+470--471 define a nested `reduce_word` which returns the frozen predecessor's
+`list`.  At lines 536--544:
+
+```text
+base_relation = tuple(selected[0]["word"])
+right_u       = reduce_word((1,) + kernel)       # list before repair
+c2            = reduce_word(right_u + base_relation + ...)
+```
+
+Thus line 544's first addition was literally `list + tuple`, matching the run
+reason word-for-word.  The previous `tuple + list` repair protected `c1` and
+the inverse suffixes but did not normalize `right_u`.  The narrow repair is:
+
+```text
+right_u = tuple(reduce_word((1,) + kernel))
+```
+
+No letter, multiplication order, conjugator, selected row, or receipt field is
+changed.  This is preferable to changing `f1`: the failed run had already
+constructed and used tuple-valued `f1` through the direct hexagon, pentagon,
+and prefix paths before entering this later same-context canary.
+
+The producer terminal registry no longer contains
+`UNKNOWN_RESOURCE:runtime`.  Its receipt-producing catch now handles only the
+explicit `Unknown` budget/input class.  Every other exception is re-raised as
+the stage-labelled hard traceback
+`TASK175_IMPLEMENTATION_STOP:production_reconstruction:<type>:<detail>` before
+any receipt is written, so the process exits nonzero and the serial shell never
+writes the producer-stage sentinel.  Mutation rejection uses the dedicated
+`MutationReject` class plus explicit `Unknown`; `TypeError`, `KeyError`, and
+`IndexError` are no longer counted as successful mutations.
+
+The checker likewise removes runtime from its valid receipt terminals, catches
+only its explicit `Stop` in the 20-mutation suite, and parses the requested
+receipt through the narrow JSON input gate.  A checker programming exception
+now propagates nonzero instead of being relabelled
+`UNKNOWN_RESOURCE:checker_exception`.  The driver removes runtime from both
+accepted terminal tables.  Consequently a programming failure cannot reach a
+checker PASS, driver PASS, or typed receipt promotion.
 
 ## Helper-independent checker repair
 
@@ -143,17 +199,21 @@ The producer, checker, driver, and immutable fixture contain zero bytes above
 ASCII 127.  Exact static pin audit found:
 
 ```text
-literal predecessor pins: 16/16 PASS
+producer frozen input pins: 16/16 PASS
+checker frozen input pins: 15/15 PASS
+driver literal predecessor pins: 16/16 PASS
 variable-path fixture pin: PASS (6870 bytes, 0d9a9588...)
-variable-path producer pin: PASS (57008 bytes, 89ea5f23...)
-variable-path checker pin: PASS (79737 bytes, c887bb74...)
+variable-path producer pin: PASS (57132 bytes, ef0df11b...)
+variable-path checker pin: PASS (79414 bytes, 4b6cd610...)
 overall driver pin audit: PASS
 ```
 
-The driver pin cascade is at lines 110--113.  The prior producer/checker pins
-`acec0196...` / `4b52450c...` and placeholders are absent from the final
-producer/checker/driver bundle.  The final driver is ASCII-only and has the
-identity in the table above.
+The driver pin cascade is at lines 108--111.  The prior producer/checker pins
+`89ea5f23...` / `c887bb74...`, their still older predecessors, and placeholders
+are absent from the final driver.  Runtime is absent from all three valid
+terminal registries and remains only as the deliberately rejected
+`terminal_marker` mutation literal.  The final driver is ASCII-only and has
+the identity in the table above.
 
 Static definition/use search found every H1/H2/P base-target use dominated by
 its direct binding; `prefix_formula` has exactly three call sites, all unpack
@@ -164,27 +224,40 @@ predecessor source loader.
 
 No Python parser, Python selftest, GAP parse, or runtime was invoked under the
 explicit prohibition.  Consequently syntax/runtime execution is UNKNOWN,
-not reported as PASS.  The static control-flow, delimiter, identifier, ASCII,
-hash, and pin audits are the evidence for the present static GO.
+not reported as PASS.  Static control-flow confirms that the failing list is
+normalized once, the 20 mutation names and base-target/canary gates are
+unchanged, and no generic exception path can write a runtime receipt.  The
+static delimiter, identifier, ASCII, hash, and pin audits are the evidence for
+the present static GO.
 
 ## Historical execution evidence
 
-Production run `33035595114` completed the workflow with terminal-agreeing
-fail-closed output:
+Production run `33035595114` exposed the first container mismatch, but the old
+generic outer guard incorrectly let that programming failure complete the
+workflow with a runtime-labelled receipt:
 
 ```text
 terminal=UNKNOWN_RESOURCE:runtime
 reason=UNKNOWN_RESOURCE:runtime:TypeError:can only concatenate tuple (not "list") to tuple
 ```
 
-That evidence motivated the retained tuple normalization above.  It does not
-test the current base-target repair.
+That evidence motivated the retained inverse-word tuple normalization above.
+It does not test the current base-target repair and is not a mathematical
+UNKNOWN.
 
 At the time of this commission, production run `33037668730` had already been
 started from old head `26d93f92`.  It was deliberately left untouched.  Its
 source/checker pins predate the final identities above, so regardless of its
 terminal it is historical evidence only and cannot promote this repaired
 bundle.
+
+Production run `33039406730` then used exactly the pre-repair source identities
+`89ea5f23...` / `c887bb74...`.  It emitted receipt SHA-256 `8e483e76...` and
+the exact opposite-direction `list + tuple` reason recorded in Section 1.
+The artifact is `%TEMP%/task175_prod_33039406730`.  Its producer/checker/driver
+agreement proves only that all three old components accepted the same
+fabricated runtime envelope; it does not promote the receipt.  The final
+identities in this report have not been run.
 
 Earlier SELFTEST run `33034589606` established the old driver's fixture path
 only (`terminal=FIXTURE_PASS`).  Earlier production run `33034678957` stopped
@@ -221,7 +294,10 @@ The driver rejects pre-existing outputs and runs exactly one producer followed
 serially by one checker under `timeout 9000s bash -o pipefail` with
 `set -euo pipefail`.  READY requires the full receipt gate, exact producer /
 checker terminal agreement, one marker each, and the independent 20-mutation
-replay.  A typed UNKNOWN remains an honest fail-closed result.
+replay.  A typed UNKNOWN remains an honest fail-closed result only when raised
+through the explicit `Unknown` budget/input class.  A programming exception
+exits before the producer sentinel and therefore cannot reach the checker or
+driver PASS gates.
 
 ## Boundary
 

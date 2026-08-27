@@ -24,7 +24,7 @@ UNKNOWN_PB3 = "UNKNOWN_INPUT:PB3_PRESENTATION_PIN"
 UNKNOWN_RAW = "UNKNOWN_INPUT:RAW_FORMULA"
 UNKNOWN_FOX = "UNKNOWN_INPUT:FOX_CANARY"
 ALLOWED = {READY, UNKNOWN_CONTEXT, UNKNOWN_PB3, UNKNOWN_RAW, UNKNOWN_FOX,
-           "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD", "UNKNOWN_RESOURCE:runtime"}
+           "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD"}
 MUTATION_NAMES = [
     "correction_left_right", "corrected_base_sign", "H2_u_z",
     "inverse_fox_prefix", "negative_pentagon_factor_4",
@@ -1319,7 +1319,7 @@ def mutation_suite(cert, canonical):
                 if variant is None:
                     fail(UNKNOWN_FOX, "unmapped semantic mutation " + name)
                 compare_ready(cert, reconstruct(cert, mutation=variant))
-        except (Stop, KeyError, TypeError, ValueError, IndexError):
+        except Stop:
             caught = True
         if not caught: fail(UNKNOWN_FOX, "mutation accepted " + name)
         result.append({"id": name, "caught": True})
@@ -1389,7 +1389,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(); parser.add_argument("--check", action="store_true"); parser.add_argument("--receipt", type=Path, default=CERT); parser.add_argument("--output", type=Path); parser.add_argument("--fixture", action="store_true"); args = parser.parse_args()
     marker = "D175_CHECK_PASS" if args.check else "D175_STATIC_CHECK_PASS"
     try:
-        pins = pin_inputs(); cert = json.loads(args.receipt.read_text(encoding="utf-8"))
+        pins = pin_inputs(); cert = read_json(str(args.receipt))
         if args.fixture:
             validate_static(cert)
             result = fixture_replay()
@@ -1401,8 +1401,6 @@ def main() -> int:
         print(marker); print("terminal=" + result["terminal"]); print(json.dumps(result, sort_keys=True)); return 0
     except Stop as exc:
         print("D175_CHECK_FAIL"); print("terminal=" + exc.terminal); print("detail=" + exc.detail); return 1
-    except (OSError, UnicodeError, json.JSONDecodeError, KeyError, TypeError, ValueError) as exc:
-        print("D175_CHECK_FAIL"); print("terminal=UNKNOWN_RESOURCE:checker_exception"); print("detail=" + str(exc)); return 1
 
 
 if __name__ == "__main__":

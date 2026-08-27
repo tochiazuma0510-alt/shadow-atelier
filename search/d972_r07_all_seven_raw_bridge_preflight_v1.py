@@ -25,7 +25,6 @@ TERMINALS = {
     "UNKNOWN_INPUT:RAW_FORMULA",
     "UNKNOWN_INPUT:FOX_CANARY",
     "UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD",
-    "UNKNOWN_RESOURCE:runtime",
 }
 
 PINS = {
@@ -66,6 +65,10 @@ PINS = {
 
 class Unknown(RuntimeError):
     """A typed fail-closed runtime stop, never a negative mathematical result."""
+
+
+class MutationReject(RuntimeError):
+    """An expected semantic rejection inside the bounded mutation suite."""
 
 
 def sha(data: bytes) -> str:
@@ -216,7 +219,7 @@ def semantic_mutations(base_state, validate):
         for row in ordered:
             if row.get("word"):
                 return row
-        raise ValueError("no nonempty roster witness")
+        raise MutationReject("no nonempty roster witness")
 
     def run(name, mutate):
         caught = False
@@ -224,7 +227,7 @@ def semantic_mutations(base_state, validate):
             candidate = copy.deepcopy(base_state)
             mutate(candidate)
             validate(candidate)
-        except (Unknown, KeyError, TypeError, ValueError, IndexError):
+        except (Unknown, MutationReject):
             caught = True
         jobs.append({"id": name, "caught": caught})
 
@@ -535,7 +538,8 @@ def all_seven_fox_sample(old, e3, e4, roster):
         if len(same_context) >= 2:
             break
         kernel = tuple(krow["word"])
-        left_u, right_u = (1,), reduce_word((1,) + kernel)
+        left_u = (1,)
+        right_u = tuple(reduce_word((1,) + kernel))
         c1 = reduce_word(left_u + base_relation + tuple(old.inv_word(left_u)))
         c2 = reduce_word(right_u + base_relation + tuple(old.inv_word(right_u)))
         if right_u == left_u or c1 == c2:
@@ -812,57 +816,57 @@ def run_preflight():
     def validate_mutation_state(state):
         if (state.get("terminal") != TERMINAL_READY or state.get("rank") != 4 or
                 state.get("base_sign") != 1):
-            raise ValueError("mutation envelope")
+            raise MutationReject("mutation envelope")
         if state.get("correction") != list(c) or group.eval(state["correction"]) != group.identity:
-            raise ValueError("correction word")
+            raise MutationReject("correction word")
         side = state.get("correction_side")
         if side == "right":
             expected_corrected = free_reduce(tuple(state["g760"]) + tuple(c))
         elif side == "left":
             expected_corrected = free_reduce(tuple(c) + tuple(state["g760"]))
         else:
-            raise ValueError("correction side")
+            raise MutationReject("correction side")
         if state.get("corrected_word") != list(expected_corrected):
-            raise ValueError("corrected-word side replay")
+            raise MutationReject("corrected-word side replay")
         retained = state.get("roster", [])
         if (digest_obj([[row["layer"], row["ordinal"], row["word"]]
                        for row in retained]) != expected_roster or
                 len(retained) != CAP or
                 any(group.eval(row["word"]) != group.identity for row in retained)):
-            raise ValueError("complete roster replay")
+            raise MutationReject("complete roster replay")
         if ([digest_obj(repr(sorted(row.items(), key=repr))) for row in state.get("pb4", [])]
                 != expected_pb4 or len(state.get("pb4", [])) != 11 or
                 any(old.d1(row, e4) != {} for row in state["pb4"])):
-            raise ValueError("PB4 D2 replay")
+            raise MutationReject("PB4 D2 replay")
         replayed_fx = all_seven_fox_sample(old, e3, e4, retained)
         if (state.get("fox") != replayed_fx.get("transcript") or
                 replayed_fx.get("same_context") != fx.get("same_context") or
                 replayed_fx.get("actual_product_additivity") != fx.get("actual_product_additivity")):
-            raise ValueError("Fox transcript replay")
+            raise MutationReject("Fox transcript replay")
         if state.get("contexts") != contexts or state.get("source_pairs") != expected_source_pairs:
-            raise ValueError("context formula replay")
+            raise MutationReject("context formula replay")
         if state.get("z_word") != list(z) or state.get("u_word") != list(u):
-            raise ValueError("derived word replay")
+            raise MutationReject("derived word replay")
         if state.get("blocks") != [1, 2, 3] or state.get("deletion") != [[1], [2], [], [3], [], []] or state.get("insertion") != [[1], [2], [4]]:
-            raise ValueError("coface map replay")
+            raise MutationReject("coface map replay")
         if state.get("raw_changes") != expected_raw:
-            raise ValueError("raw Fox replay")
+            raise MutationReject("raw Fox replay")
         source = state.get("base_target_source")
         selected_base_targets = state.get("base_targets")
         if (source != "g760_raw_fox" or
                 selected_base_targets != expected_base_targets or
                 selected_base_targets != expected_base_prefix):
-            raise ValueError("base target/canary separation")
+            raise MutationReject("base target/canary separation")
         pent = state.get("pentagon", {})
         if pent != expected_pentagon:
-            raise ValueError("pentagon formula replay")
+            raise MutationReject("pentagon formula replay")
         values = [factor_values[index] if sign > 0 else e4.inverse(factor_values[index])
                   for index, sign in zip(pent["ordered_factor_indices"], pent["ordered_factor_signs"])]
         replayed = e4.identity
         for value in reversed(values):
             replayed = e4.mul(replayed, value)
         if replayed != direct_p or pent["factor_blobs"] != [old._element_blob(value).hex() for value in factor_values]:
-            raise ValueError("ordered pentagon replay")
+            raise MutationReject("ordered pentagon replay")
     validate_mutation_state(mutation_state)
     mutation_rows = semantic_mutations(mutation_state, validate_mutation_state)
     stacked = sorted([
@@ -990,6 +994,7 @@ def main():
     parser.add_argument("--run-preflight", action="store_true")
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    stage = "production_reconstruction" if args.run_preflight else "static_receipt"
     try:
         if args.run_preflight:
             receipt = run_preflight()
@@ -1005,10 +1010,9 @@ def main():
         receipt["terminal"] = root
         receipt["status"] = "UNKNOWN_INPUT" if root.startswith("UNKNOWN_INPUT:") else "UNKNOWN_RESOURCE"
     except Exception as exc:
-        receipt = static_receipt()
-        receipt["reason"] = "UNKNOWN_RESOURCE:runtime:" + type(exc).__name__ + ":" + str(exc)
-        receipt["terminal"] = "UNKNOWN_RESOURCE:runtime"
-        receipt["status"] = "UNKNOWN_RESOURCE"
+        raise RuntimeError(
+            "TASK175_IMPLEMENTATION_STOP:" + stage + ":" +
+            type(exc).__name__ + ":" + str(exc)) from exc
     # An explicit output is honored in static mode as well, so the GHA
     # selftest can write a separate receipt without touching the immutable
     # checked-in fixture.  With no output argument the historical fixture
