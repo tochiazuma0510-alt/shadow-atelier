@@ -1,6 +1,6 @@
 # Luna reply 191 — R07 `u0/v0` batched boundary-preimage v2
 
-Date: 2026-08-28  
+Date: 2026-08-28
 Role: bounded mechanical implementation.  No Python, Node, GAP, git, GHA,
 network, or full production run was executed locally.
 
