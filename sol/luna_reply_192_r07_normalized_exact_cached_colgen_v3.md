@@ -220,15 +220,15 @@ self-reference:
 | authorized file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134659 | `90a7bc6647da680449cd2cc7c56a747f6ba02fd3d8fd5adb1644f65550ceccf6` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `3c4bed9bf5b8d8713c62fa6eff405f77aa34494b496a4338c1f9ab0f8a7a0d22` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134845 | `438242367187ab98d7c0ccf6cee22c00a3a21d416c891c8322789c9ce9f5b705` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `9ec61d445f34646a6e6e499a1b19a02a180021b26fd916f66c51ebc5c57b49ab` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The fixture-binding repair changes the producer/checker byte counts to
-164649/134659; Parent Sol refreshed those two SHA rows above before dispatch.
-The authenticated producer/checker pins are now also updated inside the
-driver.  Parent Sol refreshed its 11424-byte identity above before dispatch.
+The fixture-binding and dependent-row repairs change the producer/checker byte
+counts to 164649/134845.  Parent Sol refreshed both changed identities and the
+driver's internal checker pin before dispatch; the resulting 11424-byte driver
+identity is recorded above.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -269,10 +269,14 @@ pre-binding identities.  This is a fail-closed pin-drift code failure with no
 producer, checker, mathematical, or cross-checked result.  The supplied
 producer/checker identities are now installed above.
 
-Parent Sol dispatched the internally refreshed pin bundle as GHA SELFTEST
-run `33103088415` at immutable head
-`6aed50d8ea667ad8f33214b0a8bc38911ff9c4b2`.  It was queued at
-2026-08-27T18:21:51Z; no result is claimed while pending.
+Parent Sol dispatched run `33103088415` at immutable head
+`6aed50d8ea667ad8f33214b0a8bc38911ff9c4b2`.  The producer SELFTEST passed,
+but the checker failed in `_checker_cached_toy_schedule` because a dependent
+row was sent to the independent `RowSpace.add` API, which correctly rejects
+dependent rows.  This is a checker code SELFTEST failure with no mathematical
+or cross-checked result.  The checker now reduces first and adds only nonzero
+remainders, including replay paths, and derives the formula occurrence count
+from independent occurrence output.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO

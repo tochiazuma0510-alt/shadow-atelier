@@ -795,18 +795,19 @@ def _checker_cached_toy_schedule(helper):
     fixture = {"generators": [[1, 0, 2], [0, 2, 1]]}
     candidates = []
     for index, delta in enumerate(([], [1], [2], [1, 2]), 1):
-        row, _occurrences = helper.independent_toy_column(
+        row, occurrences = helper.independent_toy_column(
             fixture, delta, [1] * 18)
         candidates.append({"index": index, "delta": list(delta),
                            "word": [1] * 18, "row": row,
                            "formula": {"K": sum(row.values()) % 3,
                                        "terms": [[key.hex(), value]
                                                  for key, value in sorted(row.items())],
-                                       "eleven": 3}})
+                                       "eleven": len(occurrences)}})
     basis = helper.RowSpace(); active = []
     for candidate in candidates:
-        pivot, origin = basis.add(candidate["row"], candidate["index"])
-        if pivot is not None:
+        reduced, _ = basis.reduce(candidate["row"])
+        if reduced:
+            pivot, origin = basis.add(candidate["row"], candidate["index"])
             active.append({"index": candidate["index"], "pivot": pivot.hex(),
                            "ancestry": [[key, item] for key, item in
                                          sorted(origin.items())],
@@ -822,7 +823,10 @@ def _checker_cached_toy_schedule(helper):
             if not target[key]: del target[key]
     replay = helper.RowSpace()
     for item in active:
-        replay.add(candidates[item["index"] - 1]["row"], item["index"])
+        row = candidates[item["index"] - 1]["row"]
+        reduced, _ = replay.reduce(row)
+        require(reduced, "checker cached toy replay dependent row")
+        replay.add(row, item["index"])
     remainder, recovered = replay.reduce(target)
     require(not remainder and recovered == coefficients,
             "checker cached toy target solution")
