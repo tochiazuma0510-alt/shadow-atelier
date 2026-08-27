@@ -115,3 +115,30 @@ sol/luna_reply_178_r07_cubic_coset_moment_oracle_v2.md
 ```
 
 No production PASS or mathematical claim is asserted by this reply.
+
+## Parent execution addendum
+
+The parent audit corrected one transcription error before the first commit:
+the task178a SHA pin is the authenticated `ef5062f76d7198a1...`, not the
+draft `ef5062f76d7191a1...`.  The final producer and driver identities above
+already include that correction.
+
+GHA SELFTEST run `33042527047` at commit
+`896676506b62d727a6533a912d555afaac7c248f` completed successfully.  The
+downloaded artifact is
+`%TEMP%/task178_selftest_33042527047/gap-run-out`.  It contains exactly the
+three required terminal markers:
+
+```text
+R07_CUBIC_COSET_MOMENT_ORACLE_V2_PRODUCER_SELFTEST_PASS mutations=17 rejected=17 gamma_coarse_order=3 linked_graph_order=3
+R07_CUBIC_COSET_MOMENT_ORACLE_V2_CHECKER_SELFTEST_PASS mutations=17 rejected=17 gamma_coarse_order=3 linked_graph_order=3
+R07_CUBIC_COSET_MOMENT_ORACLE_V2_GHA_DRIVER_PASS mode=SELFTEST terminal=FIXTURE_PASS
+```
+
+The producer, checker, and driver-pass artifact SHA-256 values are,
+respectively, `b4c9da9541db3ed7c4cdb26610e45920f91295490db293f17b759c2a29ba5f71`,
+`86fd99d1280d5219b0fd46ff4fbcd27366a8a033584c44207e4b8c4661b2eddb`,
+and `b60da527b9c7ae06a66ae87eff2cf20df0ab1da093ebca9b0ad2e510c1c70a85`.
+This promotes only the finite toy SELFTEST to cross-checked status; the
+sealed R07 production path and all common-word/cofinal conclusions remain
+pending.
