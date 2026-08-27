@@ -26,17 +26,17 @@ self-referential.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,402 | `102443fc561780609637d469517730f9eed9f6937b72f812f846e2cd92b59804` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,520 | `21e8b76cc0299240383f19926ee62bd11ae78f52cbfd981d906955ed300b9fd4` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `cd95770cee97e4c7a7e441b722b3755e02a9956213edcd59c31558be03336885` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `0fbd864165adf14e4d5fd9477f057d01d190210326595ab8c3897600b321d5c3` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
 The producer/checker retain exact authenticated task187 and task179 source
 pins.  The driver pins the current producer/checker/fixture identities and all
 predecessor/arithmetic identities.
-The toy-pair collision repair changes the producer to 92,402 bytes.  Parent
-Sol refreshed its SHA and the corresponding driver producer pin above.
+The toy-pair and toy-ABI pair repairs change the producer to 92,520 bytes;
+parent Sol refreshed its SHA and the corresponding driver producer pin above.
 
 ## 3. Producer and checkpoint repair map
 
@@ -158,6 +158,15 @@ This is a producer SELFTEST code failure with no mathematical or
 cross-checked result.  The toy path now uses the directly bound two-argument
 `_toy_pair` at dual, literal-row, and terminal-pairing sites, while production
 pair semantics are unchanged.
+
+Parent Sol dispatched GHA SELFTEST run `33106272839` at immutable head
+`47555350`.  The producer SELFTEST failed in generic `solve` because the
+production wrapper called `v1.pair` and `_ToyV1` had no pair ABI binding.
+This is a producer SELFTEST code failure with no mathematical or
+cross-checked result.  `_ToyV1.pair` is now explicitly bound to `_toy_pair`,
+and the toy ABI also provides the generic `build_runtime` entry point.  The
+generic solve, replay, and checkpoint ABI calls were statically audited against
+the toy class, with production wrapper semantics unchanged.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO

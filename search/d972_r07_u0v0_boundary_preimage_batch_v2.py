@@ -766,6 +766,9 @@ class _ToyModel:
 
 class _ToyV1:
     Budget = _ToyBudget; Monitor = _ToyMonitor; Echelon = _ToyEchelon; AllSevenModel = _ToyModel
+    pair = staticmethod(_toy_pair)
+    @staticmethod
+    def build_runtime(monitor: Any) -> dict[str, Any]: return {}
     @staticmethod
     def group_for_block(runtime: dict[str, Any], block: int) -> _ToyGroup: return _ToyGroup()
     @staticmethod
