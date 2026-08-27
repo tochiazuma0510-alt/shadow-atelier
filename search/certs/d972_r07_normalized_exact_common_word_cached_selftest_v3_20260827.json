@@ -1,0 +1,1 @@
+{"schema":"d972-r07-normalized-exact-cached-colgen-selftest/v3","status":"UNKNOWN_RESOURCE","terminal":"UNKNOWN_RESOURCE:LOCAL_EXECUTION_GUARD","reason":"checked-in v3 fixture; execute only in serial GHA","mutation_controls":18,"cache_mutation_controls":19,"chunk_limit":256}
