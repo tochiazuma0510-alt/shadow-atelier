@@ -1,12 +1,29 @@
 #############################################################################
 ## Task192 normalized exact cached column-generation driver v3.
 ## ASCII only; producer and helper-nonshared checker are serial.
+## Launchers must evaluate the quoted MODE preamble before Read(...); a bare
+## SELFTEST token is an unbound GAP identifier and fails before this file runs.
 #############################################################################
+D192ModeVariable:="D972_R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_MODE";;
+D192CanonicalModePreamble:=function(mode)
+  if not IsString(mode) or not mode in ["SELFTEST","PRODUCTION"] then
+    Error("task192 driver: cannot construct MODE preamble");
+  fi;
+  return Concatenation(D192ModeVariable,":=\"",mode,"\";;");
+end;;
+D192SelftestModePreamble:=D192CanonicalModePreamble("SELFTEST");;
+D192ProductionModePreamble:=D192CanonicalModePreamble("PRODUCTION");;
+if D192SelftestModePreamble<>"D972_R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_MODE:=\"SELFTEST\";;" or
+   D192ProductionModePreamble<>"D972_R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_MODE:=\"PRODUCTION\";;" then
+  Error("task192 driver: canonical MODE preamble regression");
+fi;
 if not IsBound(D972_R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_MODE) then
-  Error("task192 driver: MODE must be SELFTEST or PRODUCTION");
+  Error("task192 driver: MODE must be a quoted SELFTEST/PRODUCTION string; use ",
+    D192SelftestModePreamble," or ",D192ProductionModePreamble);
 fi;
 D192Mode:=D972_R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_MODE;;
-if D192Mode<>"SELFTEST" and D192Mode<>"PRODUCTION" then
+if not IsString(D192Mode) or
+   (D192Mode<>"SELFTEST" and D192Mode<>"PRODUCTION") then
   Error("task192 driver: invalid MODE");
 fi;
 D192Producer:="search/d972_r07_normalized_exact_common_word_cached_v3.py";;
