@@ -133,6 +133,10 @@ all literal row checks remain complete and unsampled.
 No GHA run or production decision is claimed by Luna.  Parent Sol owns audit,
 execution, and brokerage.
 
+Parent Sol dispatched the bounded batched SELFTEST as GHA run `33103769264`
+at immutable head `bc81fb2c7104c778b834f4cf700604fdc877cc2d`.
+It was queued at 2026-08-27T18:30:04Z; no result is claimed while pending.
+
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
 TASK187 LIVE RUN MODIFIED:                     NO
