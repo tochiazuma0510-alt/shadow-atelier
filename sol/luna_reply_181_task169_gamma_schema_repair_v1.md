@@ -1,7 +1,7 @@
 # Luna reply 181: task169 Gamma schema repair v1
 
-Date: 2026-08-27  
-Role: Luna / implementation and static audit only  
+Date: 2026-08-27
+Role: Luna / implementation and static audit only
 Outcome: checker schema repair applied; local execution and GHA dispatch were not performed.
 
 ## Exact repair
