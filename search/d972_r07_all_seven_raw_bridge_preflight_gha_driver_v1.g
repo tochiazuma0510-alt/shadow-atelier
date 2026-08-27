@@ -119,7 +119,7 @@ T175Pin(T175R,
 T175Pin(T175P,
  "1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa",60306);;
 T175Pin(T175C,
- "c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc",85848);;
+ "0b45c3daa1db6cad63d434170c65d0dbfa928efc51543b881dc0aa2e3a0f1fce",88503);;
 T175Pin("search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py",
  "f8c7fc7f5b5bbfffa0cf147a59313981c5a4b2c6c00504a9f773029097fdde5f",33409);;
 T175Pin("search/d972_b345_joint_kernel_qstar_closure_v1.py",
@@ -209,6 +209,8 @@ T175AuditExit := function(path,stage,logpath)
   if T175Count(lograw,marker)<>1 then
     Error("task175 child failure marker ",stage);
   fi;
+  Print("T175_FAILURE_DIAGNOSTIC_RETAINED stage=",stage," exit=",code,
+        " log=",logpath," exit_receipt=",path,"\n");
   Error("task175 child stage failed ",stage," exit=",code);
 end;;
 
@@ -236,6 +238,12 @@ T175RunSelftest := function()
   T175StaticJsonGate(rawr);;
   T175AssertAllowed(rawc,"terminal=");;
   T175AssertMarker(rawc,"D175_STATIC_CHECK_PASS");;
+  if PositionSublist(rawc,"\"production_shaped_pb3\":")=fail or
+     PositionSublist(rawc,"\"exact_by\": \"v121\"")=fail or
+     PositionSublist(rawc,"\"middle_mark_formula\": \"A13=(A23*A12)^-1\"")=fail or
+     PositionSublist(rawc,"\"missing_inverse_rejected\": true")=fail then
+    Error("task175 selftest production-shaped PB3 control");
+  fi;
 
   # Bounded child-shell probes prove that a nonzero producer is visible and
   # prevents checker start, and that a nonzero checker cannot create PASS.

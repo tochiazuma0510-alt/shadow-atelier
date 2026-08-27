@@ -490,8 +490,11 @@ def build_quotients(q3: dict[str, Any]) -> tuple[Quotient, Quotient, list[list[l
     q4 = [permutation(row, int(q4_model["degree"])) for row in q4_model["marked_permutations"]]
     if len(q0) != 2 or len(q4) != 6:
         fail(UNKNOWN_CONTEXT, "coarse marked width")
+    # The middle PB3 mark is A13=z=(A23*A12)^-1.  The q3 coarse model stores
+    # only the marked A12/A23 rows, so the inverse is load-bearing here.
+    q0z = perm_inv(perm_mul(q0[1], q0[0]))
     e3 = Quotient(3, int(q0_model["degree"]), pc3,
-                  [(q0[0], p3[0]), (perm_mul(q0[1], q0[0]), p3[1]), (q0[1], p3[2])])
+                  [(q0[0], p3[0]), (q0z, p3[1]), (q0[1], p3[2])])
     e4 = Quotient(4, int(q4_model["degree"]), pc4, list(zip(q4, p4)))
     rel3, rel4 = pure_relations(3), pure_relations(4)
     if len(rel3) != 2 or len(rel4) != 11:
@@ -1508,6 +1511,63 @@ def validate_static(cert):
     return {"terminal": terminal, "pins": len(PINS), "independent_reconstruction": "NOT_EXECUTED_BY_LOCAL_GUARD"}
 
 
+def pb3_presentation_fixture():
+    """Bounded production-shaped PB3 payload and missing-inverse control."""
+    q3 = read_json(Q3_REL)
+    if (q3.get("schema") != "d972-b345-q-chief/v1" or
+            q3.get("terminal_token") != "B345_Q3_TYPED_SIGN_EXACT_WITH_WORD_CORRECTION"):
+        fail(UNKNOWN_PB3, "fixture q3 terminal")
+    pc3 = PcCollector(q3["groups"]["PB3"])
+    p3 = [pc3._coord(row["coords"])
+          for row in q3["groups"]["PB3"]["marked_generators"]]
+    q0_model = q3["coarse_models"]["Q0"]
+    degree = int(q0_model["degree"])
+    q0 = [permutation(row, degree)
+          for row in q0_model["marked_permutations"]]
+    if len(p3) != 3 or len(q0) != 2:
+        fail(UNKNOWN_PB3, "fixture marked width")
+
+    q0z = perm_inv(perm_mul(q0[1], q0[0]))
+    e3 = Quotient(3, degree, pc3,
+                  [(q0[0], p3[0]), (q0z, p3[1]), (q0[1], p3[2])])
+    relators = pure_relations(3)
+    rows = []
+    for relator in relators:
+        gradient, value = fox(e3, relator)
+        if value != e3.identity or d1(gradient, e3):
+            fail(UNKNOWN_PB3, "fixture PB3 value/D1")
+        rows.append(serial_row(gradient))
+    if len(rows) != 2:
+        fail(UNKNOWN_PB3, "fixture PB3 cardinality")
+    payload = {
+        "count": len(rows), "d1_zero": True,
+        "all_value_identity": True, "exact_by": "v121",
+        "rows": rows,
+        "row_digests": [digest_obj(row) for row in rows],
+        "relator_value_blobs": [element_blob(e3.eval(relator)).hex()
+                                for relator in relators],
+    }
+
+    # Destructive control for the exact production bug: omitting the inverse
+    # in A13 must make at least one of the same two PB3 relators nonidentity.
+    wrong_e3 = Quotient(
+        3, degree, pc3,
+        [(q0[0], p3[0]), (perm_mul(q0[1], q0[0]), p3[1]),
+         (q0[1], p3[2])])
+    wrong_values = [wrong_e3.eval(relator) for relator in relators]
+    wrong_nonidentity = sum(value != wrong_e3.identity
+                            for value in wrong_values)
+    if wrong_nonidentity == 0:
+        fail(UNKNOWN_PB3, "fixture missing-inverse mutation accepted")
+    return {
+        "status": "PASS", "payload": payload,
+        "payload_sha256": digest_obj(payload),
+        "middle_mark_formula": "A13=(A23*A12)^-1",
+        "missing_inverse_rejected": True,
+        "missing_inverse_nonidentity_relators": wrong_nonidentity,
+    }
+
+
 def fixture_replay():
     # A genuinely tiny local quotient exercises the same collector, quotient,
     # Fox, translation, D1, and sparse serialization paths as production.
@@ -1530,9 +1590,11 @@ def fixture_replay():
     # receipt mutation; it exercises the fixture's quotient validator path.
     if toy.eval((1, 1)) == toy.identity:
         fail(UNKNOWN_FOX, "fixture mutation accepted")
+    pb3_fixture = pb3_presentation_fixture()
     return {"terminal": "FIXTURE_PASS", "fixture": True,
             "mutation_path": "semantic_local_toy", "fox_d1": True,
-            "serialized_components": len(serial_row(translated))}
+            "serialized_components": len(serial_row(translated)),
+            "production_shaped_pb3": pb3_fixture}
 
 
 def validate_ready(cert):

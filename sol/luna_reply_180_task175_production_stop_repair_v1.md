@@ -5,8 +5,8 @@ Role: Luna bounded implementation/static audit
 
 ## 1. Disposition
 
-Disposition is **LATEST PRODUCTION IMPLEMENTATION STOP DIAGNOSED / STATIC
-SYMBOL REPAIR COMPLETE / RE-SELFTEST AND PRODUCTION NOT RUN**.
+Disposition is **PRODUCTION CHECKER MISMATCH DIAGNOSED / CURRENT STATIC REPAIR
+COMPLETE / CURRENT HASHES NOT RUN**.
 Run `33042556905` remains a hard producer implementation/resource stop.  It
 is neither a task175 `READY` receipt nor a mathematical `UNKNOWN`.
 
@@ -49,6 +49,28 @@ no driver PASS or positive receipt was emitted.  Thus the observability and
 hard-stop repairs worked exactly as intended.  This run is implementation
 failure evidence only, not a mathematical negative result.
 
+The next authenticated production run is `33051614970`, head
+`731a950b`.  After about 81 minutes its producer reached the exact positive
+producer lines
+
+```text
+D175_PRODUCER_DONE
+R07_ALL_SEVEN_RAW_BRIDGE_PREFLIGHT_READY
+```
+
+but the independent checker then emitted
+
+```text
+D175_CHECK_FAIL
+terminal=UNKNOWN_INPUT:PB3_PRESENTATION_PIN
+detail=PB3 presentation replay
+```
+
+and the driver failed closed.  The producer receipt is therefore only a
+candidate until an independent checker accepts it.  The checker line is not a
+mathematical `UNKNOWN` or `NO`: static comparison below proves a checker-local
+E3 encoding mismatch.
+
 No Python, Node, GAP, git, GHA, workflow dispatch, or production command was
 run during this commission.
 
@@ -57,8 +79,8 @@ run during this commission.
 ```text
 bytes  SHA-256                                                           path
 60306  1e0a65f5182157bb928638c2c9a71d475b3b788a6694ee4ded09f5a0ffd38cfa  search/d972_r07_all_seven_raw_bridge_preflight_v1.py
-85848  c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc  crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py
-21580  dbe147f98774fde50dee86de7306f9e18243ac1becef0ec7516765bcb2e08765  search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g
+88503  0b45c3daa1db6cad63d434170c65d0dbfa928efc51543b881dc0aa2e3a0f1fce  crosscheck/check_d972_r07_all_seven_raw_bridge_preflight_v1.py
+22052  919e7a9efe7385444c480203dc51525873e770236777dd61e2f6fc1ef22de494  search/d972_r07_all_seven_raw_bridge_preflight_gha_driver_v1.g
  6870  0d9a9588cd4f58531923dc208819f32d552006eea8e323a198382901d132c69f  search/certs/d972_r07_all_seven_raw_bridge_preflight_v1_20260827.json (unchanged)
 ```
 
@@ -135,6 +157,56 @@ does not import or execute the producer.  Its bytes/SHA therefore remain
 unchanged.  The pin cascade is exact at the actual boundary: the driver now
 pins the new producer identity and the unchanged checker identity, and static
 comparison of both driver pins with the files is exact PASS.
+
+### Run 33051614970 PB3 checker mismatch
+
+The q3 coarse model stores two marked Q0 permutations, the images of `A12`
+and `A23`.  PB3's lexicographic marked order is `(A12,A13,A23)`.  In the
+frozen `m=0` source, the middle mark is the hexagon element
+
+```text
+A13 = z = (A23*A12)^-1.
+```
+
+The producer reaches this through the exact pinned predecessor
+`reconstruct_quotients`, which constructs
+`q0z = perm_inv(perm_mul(q0[1],q0[0]))` and pairs it with the independently
+stored fine coordinate `p3[1]`.  It then evaluates the same two
+`pure_relations(3)` words, computes their two Fox/D1 rows, and emits the
+production `pb3` payload:
+
+```text
+count, d1_zero, all_value_identity, exact_by=v121,
+rows, row_digests, relator_value_blobs.
+```
+
+The checker independently reconstructs the same relator words and payload
+shape.  Static side-by-side comparison found its sole mismatch: it used
+
+```text
+perm_mul(q0[1],q0[0])
+```
+
+as the coarse component of `A13`, omitting the outer `perm_inv`.  Its fine
+component, generator order, two relator words, Fox convention, D1 gate, row
+serialization, and payload comparison were otherwise unchanged.  That wrong
+E3 necessarily reached the existing early
+`UNKNOWN_INPUT:PB3_PRESENTATION_PIN / PB3 presentation replay` check seen in
+the run.
+
+The repair adds only the missing independent inverse and retains the exact
+gate `all two PB3 relators evaluate to E3 identity`.  It does not copy the
+producer's rows or receipt booleans, and it does not weaken, bypass, or
+reclassify the presentation failure.
+
+The bounded checker SELFTEST now reads the already pinned 231,570-byte q3
+payload, independently constructs only PB3/E3, and emits the same
+production-shaped seven-field PB3 object after checking both quotient values
+and both D1 rows.  Its destructive control then reconstructs the former
+missing-inverse E3 and requires at least one of those same two relators to be
+nonidentity.  Acceptance of the wrong convention is itself a SELFTEST
+failure.  PB4, the 59,049-state retraction, the 6,441-row roster, and the
+110-pair production replay are not entered by this bounded control.
 
 ### Representation boundary
 
@@ -287,6 +359,22 @@ command.  A checker failure exits before driver PASS.  Because `tee` mirrors
 stderr into the GHA step log, the originating traceback or last flushed
 progress line is public even if later GAP checks fail.
 
+After validating the nonzero exit receipt and the exact shell marker, GAP now
+also prints one bounded manifest line
+`T175_FAILURE_DIAGNOSTIC_RETAINED` containing the stage, exit code, stage-log
+path, and exit-receipt path before raising its hard error.  Thus a future
+checker failure retains its full checker terminal/detail in the public GHA
+step log and identifies the two `ci/out` diagnostic files exactly.
+
+The generic workflow's upload-artifact step has no `if: always()` and was
+outside this commission.  A driver cannot force that later action to run while
+also preserving a hard nonzero GAP step; turning checker failure into process
+success would weaken fail-closure and was rejected.  Artifact upload on hard
+failure therefore remains unavailable without a workflow change, but the
+live `tee` log plus the new manifest are retained publicly.  Run
+`33051614970` already demonstrates that the checker terminal and detail
+survive this channel.
+
 GAP now audits the producer exit receipt before reading any checker path.  It
 audits the checker exit only after producer success.  If the outer timeout or
 an abrupt shell death prevents an exit receipt, GAP prints the exact fallback
@@ -325,6 +413,12 @@ probe, or driver contract.  SELFTEST does not execute the production-only
 110-pair path, but a fresh SELFTEST is still required because the driver now
 pins a new producer identity.  Expected marker text is unchanged.
 
+The PB3 repair likewise changes no existing exact marker or terminal.  A
+successful checker fixture JSON now additionally contains
+`production_shaped_pb3.status=PASS`, its exact payload/digest, and
+`missing_inverse_rejected=true`.  A fresh SELFTEST is required at the new
+checker/driver identities before production is rerun.
+
 ## 7. Static checks performed
 
 Only read/hash/ASCII/static text checks were used.  They found:
@@ -338,7 +432,28 @@ producer bare add_scaled calls:                              0
 all_seven_fox_sample pinned old APIs found:                  8/8
 checker reconstruct calls inside mutation dependency suite: 0
 checker canonical reconstruct(cert) calls in validate_ready: 1
+checker canonical inverse-middle E3 constructors:           2
+checker missing-inverse E3 constructors:                    1 (SELFTEST control only)
+checker production-shaped PB3 relator/value/D1 rows:         2/2
 driver PIPESTATUS captures:                                  6
+driver retained-failure diagnostic manifest:                 present
+driver outer timeout 9000s declarations:                     2
+driver non-ASCII bytes:                                      0
+driver NUL bytes:                                            0
+driver CR bytes:                                             0
+driver static double-quoted string scan:                     closed
+driver raw parenthesis/bracket counts:                       balanced
+fixture bytes/SHA:                                           unchanged
+```
+
+The driver contains six `PIPESTATUS` captures because production and SELFTEST
+each have producer/checker stages and SELFTEST has two isolated failure
+probes.  This does not add a second real producer or checker to production.
+
+Because local Python and GAP execution were explicitly forbidden, Python
+parse/runtime and GAP parse/runtime remain **not executed**, not reported as
+PASS.  Parent must perform the source review, commit/push, bounded SELFTEST,
+and only then production dispatch.
 
 ## 8. Parent GHA re-SELFTEST receipt
 
@@ -368,27 +483,13 @@ Downloaded `gap-run-out` identities include:
 - driver PASS sidecar: `53 / 668cd02a70318001f9c0079940b759820585ecccd92f8af17aae80b7f5301e54`;
 - run log: `402 / 83cb4e09ebdd5a6fe1cce0805b88ceddd1cfe8b795b8c6bb1cfe787bcc1cbadb`.
 
-This promotes the repaired bundle to `SELFTEST PASS`; production READY is
-still pending a fresh full run. No local Python, Node, or GAP was used.
-driver outer timeout 9000s declarations:                     2
-driver non-ASCII bytes:                                      0
-driver NUL bytes:                                            0
-driver CR bytes:                                             0
-driver static double-quoted string scan:                     closed
-driver raw parenthesis/bracket counts:                       balanced
-fixture bytes/SHA:                                           unchanged
-```
+This promoted the symbol-repair intermediate bundle to `SELFTEST PASS`.  It is
+now superseded by the PB3 checker/driver repair at the identities in section 2;
+those current identities have not run.  Production READY is still pending a
+fresh current-hash SELFTEST followed by a fresh full run.  No local Python,
+Node, or GAP was used.
 
-The driver contains six `PIPESTATUS` captures because production and SELFTEST
-each have producer/checker stages and SELFTEST has two isolated failure
-probes.  This does not add a second real producer or checker to production.
-
-Because local Python and GAP execution were explicitly forbidden, Python
-parse/runtime and GAP parse/runtime remain **not executed**, not reported as
-PASS.  Parent must perform the source review, commit/push, bounded SELFTEST,
-and only then production dispatch.
-
-## 8. Exact rerun preambles
+## 9. Exact rerun preambles
 
 SELFTEST:
 
