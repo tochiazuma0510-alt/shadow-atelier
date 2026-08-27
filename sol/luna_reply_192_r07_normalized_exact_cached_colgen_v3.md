@@ -196,7 +196,10 @@ constructed.  A bare `:=SELFTEST;;` token is rejected by GAP before the
 driver can be read, so it is not an accepted launcher spelling.  The driver
 pins the predecessor/proof/live manifests, rejects stale
 outputs, runs producer then checker serially with direct log redirection, and
-requires exactly one marker at each stage.  Production accepts only the
+requires exactly one marker at each stage.  Every redirected producer and
+checker invocation is wrapped in a fail-closed `if ! ...; then cat log; exit
+1; fi`, so a nonzero process always exposes its diagnostic log while no later
+success marker or sentinel can be emitted.  Production accepts only the
 matching `COMMON_WORD`, registered `UNKNOWN_RESOURCE` phase/cap/value/limit,
 or authenticated `UNKNOWN_INPUT` terminal; the driver and checker use the
 same registered phase/cap table.  It compares the extracted producer and
@@ -215,11 +218,12 @@ self-reference:
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164161 | `8bd9c1bf4b352c65f9e6b5a1c648c451efae45108a06c298a22ace2268396838` |
 | `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134437 | `0a35fafc91b7c979370eb538f77c81aa2df7b7148f757a82150531076bde3785` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11223 | `54b3f1cd73d892e71de7746bc67e6eacf7023edadd9cad27aabc905aaa061f75` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `60160ed3f77844eaa09fe269caa765f92709407e5bcd73dda2db7e7306c7bc26` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The mode-preamble repair above is included in the current driver identity.
+The current identity includes both the mode-preamble and fail-closed
+diagnostic-wrapper repairs.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -238,8 +242,11 @@ producer, checker, mathematical, or cross-checked result.
 
 Parent Sol then dispatched run `33101597039` at immutable head
 `28e4154674aacf53fe33518ed00359f608032b1d` by sending workflow inputs as
-JSON on stdin, with the mode quotes encoded as `\u0022`.  This third run is
-pending and is not yet a cross-checked result.
+JSON on stdin, with the mode quotes encoded as `\u0022`.  The quoted mode was
+accepted and the producer reached `TASK192_STAGE=PRODUCER_START`, but the
+producer exited nonzero; the prior shell's `set -e` stopped before `cat` and
+upload, so no producer, checker, mathematical, or cross-checked result was
+obtained.  This is a diagnostic-wrapper failure, now repaired above.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO

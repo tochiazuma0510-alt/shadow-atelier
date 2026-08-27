@@ -91,26 +91,29 @@ if D192Stream=fail then Error("task192 driver: shell open"); fi;
 PrintTo(D192Stream,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 if D192Mode="SELFTEST" then
   PrintTo(D192Stream,"echo TASK192_STAGE=PRODUCER_START\n");
-  PrintTo(D192Stream,"python3 -u -B ",D192Producer," --selftest --receipt ",D192Receipt," > ",D192ProducerLog," 2>&1\n");
+  PrintTo(D192Stream,"if ! python3 -u -B ",D192Producer," --selftest --receipt ",D192Receipt,
+    " > ",D192ProducerLog," 2>&1; then cat ",D192ProducerLog,"; exit 1; fi\n");
   PrintTo(D192Stream,"cat ",D192ProducerLog,"\n");
   PrintTo(D192Stream,"grep -Fxc '",D192Selftest,"' ",D192ProducerLog," | grep -qx 1\n");
   PrintTo(D192Stream,"echo TASK192_STAGE=PRODUCER_PASS\n");
   PrintTo(D192Stream,"echo TASK192_STAGE=CHECKER_START\n");
-  PrintTo(D192Stream,"python3 -u -B ",D192Checker," ",D192Receipt," --selftest > ",D192CheckerLog," 2>&1\n");
+  PrintTo(D192Stream,"if ! python3 -u -B ",D192Checker," ",D192Receipt," --selftest > ",
+    D192CheckerLog," 2>&1; then cat ",D192CheckerLog,"; exit 1; fi\n");
   PrintTo(D192Stream,"cat ",D192CheckerLog,"\n");
   PrintTo(D192Stream,"grep -Fxc '",D192CheckerPass,"' ",D192CheckerLog," | grep -qx 1\n");
   PrintTo(D192Stream,"echo TASK192_STAGE=CHECKER_PASS\n");
 else
   PrintTo(D192Stream,"echo TASK192_STAGE=PRODUCER_START\n");
-  PrintTo(D192Stream,"python3 -u -B ",D192Producer," --mode PRODUCTION --output ",D192Receipt,
+  PrintTo(D192Stream,"if ! python3 -u -B ",D192Producer," --mode PRODUCTION --output ",D192Receipt,
     " --seconds 19800 --boundary-pairs 8000000 --fibre-scans 80000000 --candidate-words 2000000",
     " --retained-columns 250000 --checkpoint-bytes 4000000000 --rss-bytes 5700000000",
-    " --oracle-rounds 1 > ",D192ProducerLog," 2>&1\n");
+    " --oracle-rounds 1 > ",D192ProducerLog," 2>&1; then cat ",D192ProducerLog,"; exit 1; fi\n");
   PrintTo(D192Stream,"cat ",D192ProducerLog,"\n");
   PrintTo(D192Stream,"grep -Ec '^",D192ProducerTerminal," (",D192Common,"|UNKNOWN_RESOURCE:(phase=(task175_reconstruction|fine_deletion|Q0_discovery|A_L_membership_scan|L_subgroup_closure|typed_singleton_equality|Q0_positive_shortlex_section):cap=(wall_seconds|rss_bytes)|phase=resume_rebuild:cap=(boundary_pairs|fibre_scans|candidate_words|retained_columns|global_roster|oracle_rounds)|phase=coarse_inverse_build:cap=(fibre_scans|wall_seconds|rss_bytes)|phase=positive_boundary_correlation:cap=(boundary_pairs|wall_seconds|rss_bytes)|phase=rank_increase:cap=(retained_columns|wall_seconds|rss_bytes)|phase=positive_correction_candidate:cap=(candidate_words|wall_seconds|rss_bytes)|phase=(weighted_eleven_occurrence_formula|weighted_support_fibre):cap=(wall_seconds|rss_bytes)|phase=weighted_global_prefix:cap=(global_roster|wall_seconds|rss_bytes)|phase=checkpoint_serialization:cap=checkpoint_bytes|phase=positive_global_fallback:cap=global_roster|phase=positive_correction_dovetail:cap=oracle_rounds):value=[0-9.]+:limit=[0-9.]+|UNKNOWN_INPUT:(module_not_uniquely_pinned|module_missing|module_pin|module_loader|missing|pin|task175:not_READY|resume:input_identity|resume:target|resume:normalized_semantics|resume:monitor_limits)(:[^[:cntrl:]]*)?)$' ",D192ProducerLog," | grep -qx 1\n");
   PrintTo(D192Stream,"echo TASK192_STAGE=PRODUCER_PASS\n");
   PrintTo(D192Stream,"echo TASK192_STAGE=CHECKER_START\n");
-  PrintTo(D192Stream,"python3 -u -B ",D192Checker," ",D192Receipt," > ",D192CheckerLog," 2>&1\n");
+  PrintTo(D192Stream,"if ! python3 -u -B ",D192Checker," ",D192Receipt," > ",D192CheckerLog,
+    " 2>&1; then cat ",D192CheckerLog,"; exit 1; fi\n");
   PrintTo(D192Stream,"cat ",D192CheckerLog,"\n");
   PrintTo(D192Stream,"grep -Ec '^",D192CheckerPass," terminal=",D192Common,"$' ",D192CheckerLog," | grep -qx 1 || grep -Ec '^",D192CheckerPass," terminal=(UNKNOWN_RESOURCE:(phase=(task175_reconstruction|fine_deletion|Q0_discovery|A_L_membership_scan|L_subgroup_closure|typed_singleton_equality|Q0_positive_shortlex_section):cap=(wall_seconds|rss_bytes)|phase=resume_rebuild:cap=(boundary_pairs|fibre_scans|candidate_words|retained_columns|global_roster|oracle_rounds)|phase=coarse_inverse_build:cap=(fibre_scans|wall_seconds|rss_bytes)|phase=positive_boundary_correlation:cap=(boundary_pairs|wall_seconds|rss_bytes)|phase=rank_increase:cap=(retained_columns|wall_seconds|rss_bytes)|phase=positive_correction_candidate:cap=(candidate_words|wall_seconds|rss_bytes)|phase=(weighted_eleven_occurrence_formula|weighted_support_fibre):cap=(wall_seconds|rss_bytes)|phase=weighted_global_prefix:cap=(global_roster|wall_seconds|rss_bytes)|phase=checkpoint_serialization:cap=checkpoint_bytes|phase=positive_global_fallback:cap=global_roster|phase=positive_correction_dovetail:cap=oracle_rounds):value=[0-9.]+:limit=[0-9.]+|UNKNOWN_INPUT:(module_not_uniquely_pinned|module_missing|module_pin|module_loader|missing|pin|task175:not_READY|resume:input_identity|resume:target|resume:normalized_semantics|resume:monitor_limits)(:[^[:cntrl:]]*)?)$' ",D192CheckerLog," | grep -qx 1\n");
   PrintTo(D192Stream,"producer_terminal=$(grep -E '^",D192ProducerTerminal," ' ",D192ProducerLog," | sed -E 's/^",D192ProducerTerminal," //'); test $(printf '%s\\n' \"$producer_terminal\" | wc -l) -eq 1\n");
