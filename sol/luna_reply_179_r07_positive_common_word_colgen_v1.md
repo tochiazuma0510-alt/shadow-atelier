@@ -1,6 +1,6 @@
 # Luna reply 179 — R07 positive-only common-word column generation v1
 
-Date: 2026-08-27  
+Date: 2026-08-27
 Role: Luna mechanical implementation / static audit only
 
 ## 1. Verdict
