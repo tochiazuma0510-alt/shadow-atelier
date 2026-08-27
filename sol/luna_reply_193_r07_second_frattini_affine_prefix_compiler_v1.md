@@ -82,7 +82,7 @@ Current identities:
 
 * producer: 37982 bytes, SHA256 `7470762f9eeb62eb84f09c00fb3c0225622c0bce1632e075b4b84e15291a860a`
 * checker: 32037 bytes, SHA256 `89d2a024188cd373e20802f079a946b9c1687ef47bd2a4e985c626568521d639`
-* fixture-generation driver: 9022 bytes, SHA256 `c871f65e5dc73979b3cb193fd0fee971fd37c8c87748efd86fb21d34bf18ffcc`
+* fixture-generation driver: 9799 bytes, SHA256 `4795d7b2122c12ddb4064d44343e9ee323728a1c8866b415f25d69fcf5c675f2`
 * fixture: 327 bytes, SHA256 `3bf40c5b6e3635b474674af8cb9a7e477e80481727f01574f4a50cff0c0acb49`
 * task186 checker: 54982 bytes, SHA256 `8898798d0d6a9e0b6cd67402e74ba0dc5048b4797a0f7a9657e58d70d553c488`
 
@@ -98,9 +98,13 @@ mathematical result was produced. The three `Exec` calls are now direct
 literal strings, and Parent Sol refreshed the driver identity above.
 
 Parent Sol redispatched the fixture bootstrap as GHA run `33104083100` at
-immutable head `64327a4efef2e715a789fa8fb2b7387b51d78271`.
-It was queued at 2026-08-27T18:33:44Z; no fixture result is claimed while
-pending.
+immutable head `64327a4efef2e715a789fa8fb2b7387b51d78271`. It failed with only
+`Error, task193 missing completion`: `set -e` exited on producer failure before
+the fixture-generation log was printed. This is a hidden producer/bootstrap
+code failure only; no fixture or mathematical result was produced. The
+FIXTURE_GEN producer and all normal SELFTEST/PRODUCTION producer/checker calls
+now use `if ! ...; then cat log; exit 1; fi`; Parent Sol refreshed the driver
+identity above before redispatch.
 
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA
