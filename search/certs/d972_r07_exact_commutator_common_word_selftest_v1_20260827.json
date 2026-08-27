@@ -1,0 +1,1 @@
+{"generators":[[1,0,2],[0,2,1],[0,1,2]],"normal_roster":[{"name":"r1","word":[1,1]},{"name":"r2","word":[2,2]},{"name":"r3","word":[1,2,-1,-2]}],"toy_words":{"zero":[1,2,-1,-2],"in_3L":[1,1,1,1,1,1],"not_in_3L":[1,1,1],"recovery":[-1,-1,-1,-1,-1,-1]},"schema":"d972-r07-exact-commutator-selftest-input/v1"}
