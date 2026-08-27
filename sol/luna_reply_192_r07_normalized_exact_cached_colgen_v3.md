@@ -231,8 +231,15 @@ local execution or identity/hash refresh was performed by Luna.
 
 Parent Sol dispatched the corrected GHA SELFTEST as run `33101227112` at
 immutable head `a1644ca9b1479b4fc0d6a6e397b9684607f2d5f3`, with the quoted
-`SELFTEST` preamble above.  Its result is pending and is not yet a
-cross-checked result.
+`SELFTEST` preamble requested through the PowerShell `gh -f` path.  That
+launcher path stripped the embedded quotes: the runner again received the
+bare token and failed before reading the driver.  It therefore has no
+producer, checker, mathematical, or cross-checked result.
+
+Parent Sol then dispatched run `33101597039` at immutable head
+`28e4154674aacf53fe33518ed00359f608032b1d` by sending workflow inputs as
+JSON on stdin, with the mode quotes encoded as `\u0022`.  This third run is
+pending and is not yet a cross-checked result.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
