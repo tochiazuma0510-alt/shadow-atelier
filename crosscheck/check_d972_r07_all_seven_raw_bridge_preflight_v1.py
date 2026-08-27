@@ -110,6 +110,16 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def file_identity(path: Path) -> tuple[int, str]:
+    digest = hashlib.sha256()
+    total = 0
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1 << 20), b""):
+            total += len(chunk)
+            digest.update(chunk)
+    return total, digest.hexdigest()
+
+
 def digest_obj(value: Any) -> str:
     return sha(json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("ascii"))
 
@@ -120,18 +130,19 @@ def pin_inputs() -> dict[str, Any]:
         path = ROOT / rel
         if not path.is_file():
             fail("UNKNOWN_RESOURCE:pin_missing", rel)
-        raw = path.read_bytes()
-        if len(raw) != expected_bytes:
+        actual_bytes, actual_sha = file_identity(path)
+        if actual_bytes != expected_bytes:
             fail("UNKNOWN_RESOURCE:pin_bytes", rel)
-        if sha(raw) != expected_sha:
+        if actual_sha != expected_sha:
             fail("UNKNOWN_RESOURCE:pin_sha", rel)
-        result[name] = {"path": rel, "bytes": len(raw), "sha256": expected_sha}
+        result[name] = {"path": rel, "bytes": actual_bytes, "sha256": expected_sha}
     return result
 
 
 def read_json(rel: str) -> dict[str, Any]:
     try:
-        value = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+        with (ROOT / rel).open("r", encoding="utf-8") as stream:
+            value = json.load(stream)
     except (OSError, UnicodeError, json.JSONDecodeError) as exc:
         fail("UNKNOWN_RESOURCE:json", rel + ":" + str(exc))
     if not isinstance(value, dict):
@@ -1168,7 +1179,7 @@ def reconstruct(cert: dict[str, Any], mutation: str | None = None):
     if mutation == "dropped_block_tag":
         block_tags[0] = 0
     stacked = sorted([[tag, component, blob, coefficient] for tag, row in zip(block_tags, (h1_direct, h2_direct, p_direct)) for component, blob, coefficient in serial_row(row)], key=lambda row: (row[0], row[1], bytes.fromhex(row[2])))
-    return {"q3": q3, "e3": e3, "e4": e4, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, correction_row), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {label: {"row": serial_row(canonical_base_targets[label]), "sha256": digest_obj(serial_row(canonical_base_targets[label]))} for label in ("H1", "H2", "P")}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
+    return {"q3": q3, "e3": e3, "e4": e4, "coface_maps": maps, "contexts": contexts, "aliases": aliases, "context_public": context_public, "retraction": retraction, "records": records, "joint": joint, "roster": rows, "g760": g, "correction": correction, "correction_provenance": roster_provenance(joint, correction_row), "f1": f1, "source_pairs": source_pairs, "source_blobs": source_blobs, "factor_values": factor_values_corr, "factor_values_base": factor_values_base, "factor_words": factor_words_corr, "factor_words_base": factor_words_base, "literal_words": {"H1_base": list(h1_base), "H2_base": list(h2_base), "H1_corrected": list(h1_corr), "H2_corrected": list(h2_corr), "P_base": list(pentagon_word(g)), "P_corrected": list(pentagon_word(f1)), "factor_words_base": [list(word) for word in factor_words_base], "factor_words_corrected": [list(word) for word in factor_words_corr]}, "ordered_indices": indices, "ordered_signs": signs, "ordered_intermediates": intermediates, "base_intermediates": base_intermediates, "ordered_blob": element_blob(product).hex(), "base_ordered_blob": element_blob(base_product).hex(), "direct_p_blob": element_blob(direct_p).hex(), "base_direct_p_blob": element_blob(e4.eval(pentagon_word(g))).hex(), "raw_base_targets": {label: {"row": serial_row(canonical_base_targets[label]), "sha256": digest_obj(serial_row(canonical_base_targets[label]))} for label in ("H1", "H2", "P")}, "raw": {"H1": h1_direct, "H2": h2_direct, "P": p_direct}, "prefix": {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}, "raw_values": {"H1": (h1_bv, h1_cv), "H2": (h2_bv, h2_cv), "P": (p_bv, p_cv)}, "pb3_rows": pb3_rows, "pb4_rows": pb4_rows, "pb3_digests": pb3_digests, "pb4_digests": pb4_digests, "fox": fox_replay, "stacked": stacked}
 
 
 def compare_ready(cert, obj):
@@ -1284,44 +1295,190 @@ def compare_ready(cert, obj):
     if any(value is not False for value in cert.get("boundaries", {}).values()): fail(UNKNOWN_RAW, "claim boundary")
 
 
+def mutation_dependency_probe(cert, canonical, name: str) -> None:
+    """Replay only the algebraic dependency cone changed by one mutation.
+
+    The canonical path has already reconstructed every quotient, all 6,441
+    roster words, both D2 tables, and all 110 Fox canaries.  These probes are
+    independent computations over those authenticated algebraic objects; no
+    whole-dictionary comparison is used as a mutation oracle.
+    """
+    e3, e4 = canonical["e3"], canonical["e4"]
+    g, correction, f1 = tuple(canonical["g760"]), tuple(canonical["correction"]), tuple(canonical["f1"])
+    x, y = (1,), (2,)
+    z, u = inverse(paper_product(x, y)), inverse(paper_product(y, x))
+
+    if name == "correction_left_right":
+        if reduce_word(correction + g) != f1:
+            fail(UNKNOWN_RAW, "mutation correction side")
+        return
+
+    if name == "corrected_base_sign":
+        wrong, _, _ = raw_difference(
+            e3, canonical["literal_words"]["H1_corrected"],
+            canonical["literal_words"]["H1_base"])
+        if serial_row(wrong) != serial_row(canonical["raw"]["H1"]):
+            fail(UNKNOWN_RAW, "mutation corrected/base sign")
+        return
+
+    if name in ("H2_u_z", "derived_u_order"):
+        fxy = f2_substitute(g, x, y)
+        fxy1 = f2_substitute(f1, x, y)
+        fux, fuy = f2_substitute(g, z, x), f2_substitute(g, z, y)
+        fux1, fuy1 = f2_substitute(f1, z, x), f2_substitute(f1, z, y)
+        wrong, _, _ = prefix_difference(
+            e3, [inverse(fux), inverse(fxy), fuy],
+            [inverse(fux1), inverse(fxy1), fuy1], embed_pb3)
+        if serial_row(wrong) != serial_row(canonical["prefix"]["H2"]):
+            fail(UNKNOWN_FOX, "mutation H2 u definition")
+        return
+
+    if name in ("inverse_fox_prefix", "derived_z_order"):
+        wrong_z = u if name == "derived_z_order" else z
+        fxy = f2_substitute(g, x, y)
+        fxz = f2_substitute(g, x, wrong_z)
+        fyz = f2_substitute(g, y, wrong_z)
+        fxy1 = f2_substitute(f1, x, y)
+        fxz1 = f2_substitute(f1, x, wrong_z)
+        fyz1 = f2_substitute(f1, y, wrong_z)
+        wrong, _, _ = prefix_difference(
+            e3, [fxy, inverse(fxz), fyz],
+            [fxy1, inverse(fxz1), fyz1], embed_pb3,
+            name == "inverse_fox_prefix")
+        if serial_row(wrong) != serial_row(canonical["prefix"]["H1"]):
+            fail(UNKNOWN_FOX, "mutation H1 prefix convention")
+        return
+
+    if name in ("negative_pentagon_factor_4", "negative_pentagon_factor_5",
+                "negative_pentagon_order"):
+        indices, signs = [1, 3, 0, 2, 4], [1, 1, 1, -1, -1]
+        if name == "negative_pentagon_factor_4":
+            signs = [1, 1, 1, 1, -1]
+        elif name == "negative_pentagon_factor_5":
+            signs = [1, 1, 1, -1, 1]
+        else:
+            indices = [1, 3, 0, 4, 2]
+        values = [canonical["factor_values"][index] if sign > 0
+                  else e4.inverse(canonical["factor_values"][index])
+                  for index, sign in zip(indices, signs)]
+        product = values[-1]
+        for value in reversed(values[:-1]):
+            product = e4.mul(product, value)
+        if product != e4.identity:
+            fail(UNKNOWN_RAW, "mutation pentagon occurrence")
+        return
+
+    if name == "coface_slot_1_3_swap":
+        maps = copy.deepcopy(canonical["coface_maps"])
+        maps[1], maps[3] = maps[3], maps[1]
+        contexts, aliases, public = context_registry(e4, maps)
+        if (contexts != canonical["contexts"] or aliases != canonical["aliases"] or
+                public != canonical["context_public"]):
+            fail(UNKNOWN_CONTEXT, "mutation coface slot")
+        return
+
+    if name in ("E3_E4_rank_swap", "E3_E4_blob_swap"):
+        q3 = copy.deepcopy(canonical["q3"])
+        if name == "E3_E4_rank_swap":
+            q3["groups"]["PB3"]["generator_count"] = 10
+        else:
+            marked = q3["groups"]["PB3"]["marked_generators"]
+            marked[0]["coords"], marked[1]["coords"] = marked[1]["coords"], marked[0]["coords"]
+        changed_e3, changed_e4, changed_maps = build_quotients(q3)
+        if (changed_e3.generators != e3.generators or
+                changed_e4.generators != e4.generators or
+                changed_maps != canonical["coface_maps"]):
+            fail(UNKNOWN_CONTEXT, "mutation quotient presentation")
+        return
+
+    if name == "context_name_only_dedup":
+        shortened = canonical["contexts"][:-1]
+        if len(shortened) != canonical["context_public"]["context_count"]:
+            fail(UNKNOWN_CONTEXT, "mutation context cardinality")
+        return
+
+    if name == "dropped_block_tag":
+        wrong = sorted(
+            [[tag, component, blob, coefficient]
+             for tag, row in zip([0, 2, 3],
+                                 (canonical["raw"]["H1"], canonical["raw"]["H2"], canonical["raw"]["P"]))
+             for component, blob, coefficient in serial_row(row)],
+            key=lambda row: (row[0], row[1], bytes.fromhex(row[2])))
+        if wrong != canonical["stacked"]:
+            fail(UNKNOWN_RAW, "mutation block tag")
+        return
+
+    if name in ("fourth_third_deletion_swap", "fine_insertion_index_4_3_swap"):
+        insertion = [[1], [2], [4]]
+        deletion = [[1], [2], [], [3], [], []]
+        if name == "fourth_third_deletion_swap":
+            deletion = [[1], [2], [], [], [3], []]
+        else:
+            insertion = [[1], [2], [3]]
+        for mark, image in enumerate(insertion, 1):
+            if e3.eval(substitute(image, deletion)) != e3.eval([mark]):
+                fail(UNKNOWN_CONTEXT, "mutation d_E i_E marked generator")
+        return
+
+    if name == "one_actual_roster_letter":
+        target = next((row for row in sorted(
+            canonical["roster"], key=lambda row: (row["layer"], row["ordinal"], row["word"]))
+                       if row.get("word")), None)
+        if target is None:
+            fail(UNKNOWN_RAW, "mutation roster target empty")
+        word = list(target["word"])
+        word[0] = -int(word[0])
+        if canonical["joint"].eval(word) != canonical["joint"].identity:
+            fail(UNKNOWN_RAW, "mutation roster joint evaluation")
+        return
+
+    if name == "actual_product_additivity_term":
+        selected = [row for layer, count in (("gamma_edge", 4), ("xy_action", 3), ("q0_relator", 3))
+                    for row in [item for item in canonical["roster"]
+                                if item["layer"] == layer and item.get("word")][:count]]
+        if len(selected) != 10:
+            fail(UNKNOWN_FOX, "mutation additivity selection")
+        spec = slot_specs(e3, e4)[0]
+        lift = spec["embed"] or (lambda word: tuple(word))
+        a = lift(f2_substitute(selected[1]["word"], spec["left"], spec["right"]))
+        b = lift(f2_substitute(selected[2]["word"], spec["left"], spec["right"]))
+        ga, va = fox(e3, a)
+        gb, vb = fox(e3, b)
+        gab, vab = fox(e3, a + b)
+        predicted = dict(ga)
+        add_scaled(predicted, translate(gb, va, e3), 1)
+        add_term(gab, (1, e3.identity), 1)
+        if va != e3.identity or vb != e3.identity or vab != e3.identity or gab != predicted:
+            fail(UNKNOWN_FOX, "mutation actual-product additivity")
+        return
+
+    if name == "raw_base_target_stacked_confusion":
+        wrong = {label: {"row": serial_row(canonical["raw"][label]),
+                         "sha256": digest_obj(serial_row(canonical["raw"][label]))}
+                 for label in ("H1", "H2", "P")}
+        if wrong != canonical["raw_base_targets"]:
+            fail(UNKNOWN_RAW, "mutation base target/raw change")
+        return
+
+    if name == "terminal_marker":
+        candidate = dict(cert)
+        candidate["terminal"] = "UNKNOWN_RESOURCE:runtime"
+        compare_ready(candidate, canonical)
+        return
+
+    fail(UNKNOWN_FOX, "unmapped semantic mutation " + name)
+
+
 def mutation_suite(cert, canonical):
-    names = list(MUTATION_NAMES)
     result = []
-    for name in names:
+    for name in MUTATION_NAMES:
         caught = False
         try:
-            if name == "terminal_marker":
-                # This sole envelope control checks terminal fail-closure;
-                # every data mutation below enters reconstruct().
-                candidate = copy.deepcopy(cert); candidate["terminal"] = "UNKNOWN_RESOURCE:runtime"; compare_ready(candidate, canonical)
-            else:
-                variant = {
-                    "correction_left_right": "correction_left_right",
-                    "corrected_base_sign": "corrected_base_sign",
-                    "H2_u_z": "H2_u_z",
-                    "inverse_fox_prefix": "inverse_fox_prefix",
-                    "negative_pentagon_factor_4": "negative_pentagon_factor_4",
-                    "negative_pentagon_factor_5": "negative_pentagon_factor_5",
-                    "negative_pentagon_order": "negative_pentagon_order",
-                    "coface_slot_1_3_swap": "coface_slot_1_3_swap",
-                    "E3_E4_rank_swap": "E3_E4_rank_swap",
-                    "E3_E4_blob_swap": "E3_E4_blob_swap",
-                    "context_name_only_dedup": "context_name_only_dedup",
-                    "dropped_block_tag": "dropped_block_tag",
-                    "fourth_third_deletion_swap": "fourth_third_deletion_swap",
-                    "fine_insertion_index_4_3_swap": "fine_insertion_index_4_3_swap",
-                    "derived_u_order": "derived_u_order",
-                    "derived_z_order": "derived_z_order",
-                    "one_actual_roster_letter": "actual_roster_letter",
-                    "actual_product_additivity_term": "actual_product_additivity_term",
-                    "raw_base_target_stacked_confusion": "raw_base_target_stacked_confusion",
-                }.get(name)
-                if variant is None:
-                    fail(UNKNOWN_FOX, "unmapped semantic mutation " + name)
-                compare_ready(cert, reconstruct(cert, mutation=variant))
+            mutation_dependency_probe(cert, canonical, name)
         except Stop:
             caught = True
-        if not caught: fail(UNKNOWN_FOX, "mutation accepted " + name)
+        if not caught:
+            fail(UNKNOWN_FOX, "mutation accepted " + name)
         result.append({"id": name, "caught": True})
     return result
 
@@ -1382,7 +1539,7 @@ def validate_ready(cert):
     validate_static(cert); canonical = reconstruct(cert); compare_ready(cert, canonical); mutations = mutation_suite(cert, canonical)
     if cert.get("mutation_results", {}).get("rows") != mutations:
         fail(UNKNOWN_FOX, "mutation replay receipt")
-    return {"terminal": READY, "pins": len(PINS), "fresh_roster": len(canonical["roster"]), "fresh_contexts": len(canonical["contexts"]), "fresh_aliases": len(canonical["aliases"]), "fresh_pb3_columns": len(canonical["pb3_rows"]), "fresh_pb4_columns": len(canonical["pb4_rows"]), "fresh_fox_pairs": canonical["fox"]["pairs"], "semantic_mutations_rejected": len(mutations), "semantic_mutation_gate": "FULL_RECONSTRUCTION_AND_VALIDATOR"}
+    return {"terminal": READY, "pins": len(PINS), "fresh_roster": len(canonical["roster"]), "fresh_contexts": len(canonical["contexts"]), "fresh_aliases": len(canonical["aliases"]), "fresh_pb3_columns": len(canonical["pb3_rows"]), "fresh_pb4_columns": len(canonical["pb4_rows"]), "fresh_fox_pairs": canonical["fox"]["pairs"], "semantic_mutations_rejected": len(mutations), "semantic_mutation_gate": "CANONICAL_FULL_RECONSTRUCTION_ONCE_PLUS_INDEPENDENT_DEPENDENCY_CONES"}
 
 
 def main() -> int:

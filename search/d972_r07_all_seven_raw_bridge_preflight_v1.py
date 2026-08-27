@@ -75,6 +75,16 @@ def sha(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+def file_identity(path: Path) -> tuple[int, str]:
+    digest = hashlib.sha256()
+    total = 0
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1 << 20), b""):
+            total += len(chunk)
+            digest.update(chunk)
+    return total, digest.hexdigest()
+
+
 def digest_obj(value) -> str:
     return sha(json.dumps(value, sort_keys=True, separators=(",", ":"),
                           ensure_ascii=True).encode("ascii"))
@@ -86,12 +96,12 @@ def pin_inputs() -> dict:
         path = ROOT / rel
         if not path.is_file():
             raise Unknown("UNKNOWN_RESOURCE:missing_input:" + rel)
-        data = path.read_bytes()
-        if expected_bytes and len(data) != expected_bytes:
+        actual_bytes, actual_sha = file_identity(path)
+        if expected_bytes and actual_bytes != expected_bytes:
             raise Unknown("UNKNOWN_RESOURCE:pin_bytes:" + rel)
-        if sha(data) != expected_sha:
+        if actual_sha != expected_sha:
             raise Unknown("UNKNOWN_RESOURCE:pin_sha:" + rel)
-        out[name] = {"path": rel, "bytes": len(data), "sha256": expected_sha}
+        out[name] = {"path": rel, "bytes": actual_bytes, "sha256": expected_sha}
     return out
 
 
@@ -214,6 +224,25 @@ def semantic_mutations(base_state, validate):
               "actual_product_additivity_term", "raw_base_target_stacked_confusion",
               "terminal_marker"]
     jobs = []
+    # Copy only the dependency cone that a registered mutation writes.  The
+    # remaining fields are immutable inputs to validate(), so retaining their
+    # references avoids twenty full copies of the 6,441-row roster and the
+    # lossless Fox transcript without changing a single mutation.
+    copied_fields = {
+        "H2_u_z": ("source_pairs",),
+        "inverse_fox_prefix": ("fox",),
+        "negative_pentagon_factor_4": ("pentagon",),
+        "negative_pentagon_factor_5": ("pentagon",),
+        "negative_pentagon_order": ("pentagon",),
+        "coface_slot_1_3_swap": ("source_pairs",),
+        "E3_E4_blob_swap": ("pb4",),
+        "context_name_only_dedup": ("contexts",),
+        "dropped_block_tag": ("blocks",),
+        "fourth_third_deletion_swap": ("deletion",),
+        "fine_insertion_index_4_3_swap": ("insertion",),
+        "one_actual_roster_letter": ("roster",),
+        "actual_product_additivity_term": ("fox",),
+    }
     def first_nonempty_row(rows):
         ordered = sorted(rows, key=lambda row: (row["layer"], row["ordinal"], row["word"]))
         for row in ordered:
@@ -224,7 +253,9 @@ def semantic_mutations(base_state, validate):
     def run(name, mutate):
         caught = False
         try:
-            candidate = copy.deepcopy(base_state)
+            candidate = dict(base_state)
+            for field in copied_fields.get(name, ()):
+                candidate[field] = copy.deepcopy(base_state[field])
             mutate(candidate)
             validate(candidate)
         except (Unknown, MutationReject):
@@ -478,7 +509,7 @@ def all_seven_fox_sample(old, e3, e4, roster):
         result = []
         for (component, value), coefficient in vector.items():
             if int(coefficient) % 3:
-                result.append([int(component), old._element_blob(value).hex(),
+                result.append([int(component), element_blob(value).hex(),
                                int(coefficient) % 3])
         return sorted(result, key=lambda row: (row[0], bytes.fromhex(row[1])))
 
@@ -621,6 +652,7 @@ def run_preflight():
     typed input stop, never a fabricated success.
     """
     pins = pin_inputs()
+    print("T175_PRODUCER_PROGRESS pins_authenticated", flush=True)
     v172 = load_source("search/d972_r07_full_e4_joint_orbit_preflight_v7.py", "p175_v172")
     prev = v172.load(v172.PREV, "p175_auth_prev")
     prev.Q3_ARTIFACT = v172.Q3
@@ -629,6 +661,7 @@ def run_preflight():
     e3, e4, _ = old.reconstruct_quotients(q)
     contexts, aliases, ctxpub = old.cheap_context_registry(e4)
     maps = retract_map_replay(old, e3, e4, contexts, aliases)
+    print("T175_PRODUCER_PROGRESS quotient_bridge_replayed", flush=True)
     words = [list(r["word"]) for r in q["correction_fibre"]["records"] if r.get("word")]
     if len(words) != 26:
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:record_count")
@@ -638,12 +671,14 @@ def run_preflight():
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:g760")
     joint = load_source("search/d972_b345_joint_kernel_qstar_closure_v1.py", "p175_joint")
     group, roster = v172.build_roster(joint, old, e3, e4, contexts, words)
+    print("T175_PRODUCER_PROGRESS roster_constructed", flush=True)
     # Empty reduced words are valid members of the lossless expanded roster;
     # only the selected correction witness must be word-bearing.
     if len(roster) != CAP:
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:roster")
     if any(group.eval(r["word"]) != group.identity for r in roster):
         raise Unknown("UNKNOWN_INPUT:RAW_FORMULA:roster_evaluation")
+    print("T175_PRODUCER_PROGRESS roster_replayed", flush=True)
     # Deterministic word-bearing canary.  Identity is checked directly in the
     # full joint group before it is allowed into the formula path.
     canary = next((row for row in sorted(
@@ -685,7 +720,7 @@ def run_preflight():
     product = multiplication_order[0]
     for factor in multiplication_order[1:]:
         product = e4.mul(product, factor)
-        ordered_products.append(old._element_blob(product).hex())
+        ordered_products.append(element_blob(product).hex())
     base_ordered = [factor_base_values[1], factor_base_values[3], factor_base_values[0],
                     e4.inverse(factor_base_values[2]), e4.inverse(factor_base_values[4])]
     base_multiplication_order = list(reversed(base_ordered))
@@ -693,12 +728,12 @@ def run_preflight():
     base_intermediates = []
     for factor in base_multiplication_order[1:]:
         base_product = e4.mul(base_product, factor)
-        base_intermediates.append(old._element_blob(base_product).hex())
+        base_intermediates.append(element_blob(base_product).hex())
     # Direct quotient replay in E3/E4 for all seven occurrences.  The five
     # source pairs are kept as distinct typed rows; no name-only dedup occurs.
     source_pairs = [(x, y), (x, z), (y, z), (u, x), (u, y)]
-    e3_contexts = [{"left_blob": old._element_blob(e3.eval(old.embed_f2_pb3(a))).hex(),
-                    "right_blob": old._element_blob(e3.eval(old.embed_f2_pb3(b))).hex()} for a, b in source_pairs]
+    e3_contexts = [{"left_blob": element_blob(e3.eval(old.embed_f2_pb3(a))).hex(),
+                    "right_blob": element_blob(e3.eval(old.embed_f2_pb3(b))).hex()} for a, b in source_pairs]
     if any(e3.eval(w) != e3.identity for w in (h1c, h2c)):
         raise Unknown("UNKNOWN_INPUT:E3_CONTEXT_KERNEL_BRIDGE:source_identity")
     direct_p = e4.eval(pword1)
@@ -743,7 +778,7 @@ def run_preflight():
         out = []
         for (component, value), coefficient in row.items():
             if coefficient % 3:
-                out.append([int(component), old._element_blob(value).hex(), int(coefficient) % 3])
+                out.append([int(component), element_blob(value).hex(), int(coefficient) % 3])
         return sorted(out, key=lambda x: (x[0], bytes.fromhex(x[1])))
     prefix_rows = {"H1": h1_prefix, "H2": h2_prefix, "P": p_prefix}
     base_target_rows = {"H1": h1_base_target, "H2": h2_base_target,
@@ -774,33 +809,33 @@ def run_preflight():
             any(fx.get("slot_counts", {}).get(str(i)) != 10
                 for i in range(1, 12))):
         raise Unknown("UNKNOWN_INPUT:FOX_CANARY")
+    print("T175_PRODUCER_PROGRESS fox_replayed", flush=True)
     mutation_raw = {name: {"direct": serial_row(e3 if name != "P" else e4, raw_rows[name]), "prefix": serial_row(e3 if name != "P" else e4, prefix_rows[name])} for name in raw_rows}
     mutation_base_targets = {
         name: serial_row(e3 if name != "P" else e4, base_target_rows[name])
         for name in base_target_rows}
-    mutation_pentagon = {"factor_blobs": [old._element_blob(x).hex() for x in factor_values],
+    mutation_pentagon = {"factor_blobs": [element_blob(x).hex() for x in factor_values],
                          "ordered_intermediate_blobs": ordered_products,
                          "ordered_factor_indices": [1, 3, 0, 2, 4],
                          "ordered_factor_signs": [1, 1, 1, -1, -1]}
-    # Mutation validation is driven by the actual typed inputs above.  Each
-    # candidate is sent through this validator, which re-evaluates every
-    # retained roster word, PB4 D2 column, 110-row Fox transcript, raw
-    # formula, and ordered pentagon product before it can be accepted.
+    # Mutation validation is driven by the actual typed inputs above.  The
+    # immutable baseline retains these already-built objects directly; the
+    # mutation harness copies only the dependency cone it writes.
     mutation_state = {
         "correction": list(c), "g760": list(g), "correction_side": "right",
         "corrected_word": list(f1), "rank": 4,
         "base_sign": 1,
-        "roster": copy.deepcopy(roster), "pb4": copy.deepcopy(pb4),
-        "fox": copy.deepcopy(fx["transcript"]),
-        "contexts": copy.deepcopy(contexts),
-        "source_pairs": copy.deepcopy(source_pairs),
+        "roster": roster, "pb4": pb4,
+        "fox": fx["transcript"],
+        "contexts": contexts,
+        "source_pairs": source_pairs,
         "z_word": list(z), "u_word": list(u), "blocks": [1, 2, 3],
         "deletion": [[1], [2], [], [3], [], []],
         "insertion": [[1], [2], [4]],
-        "raw_changes": copy.deepcopy(mutation_raw),
+        "raw_changes": mutation_raw,
         "base_target_source": "g760_raw_fox",
-        "base_targets": copy.deepcopy(mutation_base_targets),
-        "pentagon": copy.deepcopy(mutation_pentagon),
+        "base_targets": mutation_base_targets,
+        "pentagon": mutation_pentagon,
         "terminal": TERMINAL_READY,
     }
     expected_roster = digest_obj([[row["layer"], row["ordinal"], row["word"]]
@@ -814,10 +849,13 @@ def run_preflight():
     expected_pentagon = copy.deepcopy(mutation_pentagon)
     expected_source_pairs = copy.deepcopy(source_pairs)
     def validate_mutation_state(state):
+        # First reject the exact typed input surface changed by every bounded
+        # mutation.  Only the unmutated baseline reaches the expensive roster,
+        # D1, and 110-pair semantic replays below.
         if (state.get("terminal") != TERMINAL_READY or state.get("rank") != 4 or
                 state.get("base_sign") != 1):
             raise MutationReject("mutation envelope")
-        if state.get("correction") != list(c) or group.eval(state["correction"]) != group.identity:
+        if state.get("correction") != list(c):
             raise MutationReject("correction word")
         side = state.get("correction_side")
         if side == "right":
@@ -829,19 +867,22 @@ def run_preflight():
         if state.get("corrected_word") != list(expected_corrected):
             raise MutationReject("corrected-word side replay")
         retained = state.get("roster", [])
-        if (digest_obj([[row["layer"], row["ordinal"], row["word"]]
-                       for row in retained]) != expected_roster or
-                len(retained) != CAP or
-                any(group.eval(row["word"]) != group.identity for row in retained)):
+        if not isinstance(retained, list) or len(retained) != CAP:
             raise MutationReject("complete roster replay")
-        if ([digest_obj(repr(sorted(row.items(), key=repr))) for row in state.get("pb4", [])]
-                != expected_pb4 or len(state.get("pb4", [])) != 11 or
-                any(old.d1(row, e4) != {} for row in state["pb4"])):
+        if (retained is not mutation_state["roster"] and
+                digest_obj([[row["layer"], row["ordinal"], row["word"]]
+                            for row in retained]) != expected_roster):
+            raise MutationReject("complete roster replay")
+        candidate_pb4 = state.get("pb4", [])
+        if not isinstance(candidate_pb4, list) or len(candidate_pb4) != 11:
             raise MutationReject("PB4 D2 replay")
-        replayed_fx = all_seven_fox_sample(old, e3, e4, retained)
-        if (state.get("fox") != replayed_fx.get("transcript") or
-                replayed_fx.get("same_context") != fx.get("same_context") or
-                replayed_fx.get("actual_product_additivity") != fx.get("actual_product_additivity")):
+        if (candidate_pb4 is not mutation_state["pb4"] and
+                [digest_obj(repr(sorted(row.items(), key=repr)))
+                 for row in candidate_pb4] != expected_pb4):
+            raise MutationReject("PB4 D2 replay")
+        candidate_fox = state.get("fox")
+        if (candidate_fox is not mutation_state["fox"] and
+                candidate_fox != mutation_state["fox"]):
             raise MutationReject("Fox transcript replay")
         if state.get("contexts") != contexts or state.get("source_pairs") != expected_source_pairs:
             raise MutationReject("context formula replay")
@@ -860,15 +901,33 @@ def run_preflight():
         pent = state.get("pentagon", {})
         if pent != expected_pentagon:
             raise MutationReject("pentagon formula replay")
+
+        # Full semantic replay remains mandatory for the unique unmutated
+        # baseline.  Mutations have already been rejected by their own typed
+        # dependency gate, rather than by a whole-state/dictionary oracle.
+        if group.eval(state["correction"]) != group.identity:
+            raise MutationReject("correction word")
+        if any(group.eval(row["word"]) != group.identity for row in retained):
+            raise MutationReject("complete roster replay")
+        if any(old.d1(row, e4) != {} for row in candidate_pb4):
+            raise MutationReject("PB4 D2 replay")
+        replayed_fx = all_seven_fox_sample(old, e3, e4, retained)
+        if (candidate_fox != replayed_fx.get("transcript") or
+                replayed_fx.get("same_context") != fx.get("same_context") or
+                replayed_fx.get("actual_product_additivity") !=
+                fx.get("actual_product_additivity")):
+            raise MutationReject("Fox transcript replay")
         values = [factor_values[index] if sign > 0 else e4.inverse(factor_values[index])
                   for index, sign in zip(pent["ordered_factor_indices"], pent["ordered_factor_signs"])]
         replayed = e4.identity
         for value in reversed(values):
             replayed = e4.mul(replayed, value)
-        if replayed != direct_p or pent["factor_blobs"] != [old._element_blob(value).hex() for value in factor_values]:
+        if replayed != direct_p or pent["factor_blobs"] != [element_blob(value).hex() for value in factor_values]:
             raise MutationReject("ordered pentagon replay")
     validate_mutation_state(mutation_state)
+    print("T175_PRODUCER_PROGRESS canonical_mutation_baseline_replayed", flush=True)
     mutation_rows = semantic_mutations(mutation_state, validate_mutation_state)
+    print("T175_PRODUCER_PROGRESS semantic_mutations_rejected", flush=True)
     stacked = sorted([
         tagged_sparse(tag, component, value, coefficient)
         for tag, group_obj, row in ((1, e3, e3_h1), (2, e3, e3_h2),
@@ -909,14 +968,14 @@ def run_preflight():
                      "bridge_ids": [21,22,23,24,25],
                      "d_E_i_E_marks": maps["d_E_i_E_marks"],
                      "map_replay": maps},
-        "pentagon": {"factor_blobs": [old._element_blob(x).hex() for x in factor_values],
-                     "base_factor_blobs": [old._element_blob(x).hex() for x in factor_base_values],
+        "pentagon": {"factor_blobs": [element_blob(x).hex() for x in factor_values],
+                     "base_factor_blobs": [element_blob(x).hex() for x in factor_base_values],
                      "ordered_intermediate_blobs": ordered_products,
                      "base_ordered_intermediate_blobs": base_intermediates,
-                     "ordered_value_blob": old._element_blob(product).hex(),
-                     "base_ordered_value_blob": old._element_blob(base_product).hex(),
-                     "direct_word_value_blob": old._element_blob(direct_p).hex(),
-                     "base_direct_word_value_blob": old._element_blob(e4.eval(pword)).hex(),
+                     "ordered_value_blob": element_blob(product).hex(),
+                     "base_ordered_value_blob": element_blob(base_product).hex(),
+                     "direct_word_value_blob": element_blob(direct_p).hex(),
+                     "base_direct_word_value_blob": element_blob(e4.eval(pword)).hex(),
                      "ordered_factor_indices": [1, 3, 0, 2, 4],
                      "ordered_factor_signs": [1, 1, 1, -1, -1],
                      "direct_factor_replay": product == direct_p, "direct_word_replay": product == direct_p},
@@ -933,11 +992,11 @@ def run_preflight():
         "pb3": {"count": 2, "d1_zero": True, "all_value_identity": True, "exact_by": "v121",
                 "rows": [serial_row(e3, row) for row in pb3_rows],
                 "row_digests": [digest_obj(serial_row(e3, row)) for row in pb3_rows],
-                "relator_value_blobs": [old._element_blob(e3.eval(row)).hex() for row in pb3_relators]},
+                "relator_value_blobs": [element_blob(e3.eval(row)).hex() for row in pb3_relators]},
         "pb4": {"count": 11, "d1_zero": True, "all_value_identity": True, "exact_by": "v108",
                 "rows": [serial_row(e4, row) for row in pb4],
                 "row_digests": [digest_obj(serial_row(e4, row)) for row in pb4],
-                "relator_value_blobs": [old._element_blob(e4.eval(row)).hex() for row in pb4_relators]},
+                "relator_value_blobs": [element_blob(e4.eval(row)).hex() for row in pb4_relators]},
         "stacked_target": {"block_tags": [1, 2, 3], "row": stacked,
                            "key": "(block_tag,component,exact_element_blob)",
                            "cross_block_cancellation": False,
@@ -998,6 +1057,7 @@ def main():
     try:
         if args.run_preflight:
             receipt = run_preflight()
+            print("T175_PRODUCER_PROGRESS receipt_assembled", flush=True)
         else:
             receipt = static_receipt(pin_inputs())
     except Unknown as exc:
@@ -1021,7 +1081,13 @@ def main():
     if output.resolve() == CERT.resolve():
         raise SystemExit("refusing to overwrite checked-in static fixture")
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(receipt, sort_keys=True, indent=2) + "\n", encoding="utf-8")
+    # Stream the potentially large lossless roster receipt.  json.dumps plus
+    # string concatenation retained a second full Unicode copy before encoding.
+    if args.run_preflight:
+        print("T175_PRODUCER_PROGRESS receipt_serialization_started", flush=True)
+    with output.open("w", encoding="utf-8", newline="\n") as stream:
+        json.dump(receipt, stream, sort_keys=True, indent=2)
+        stream.write("\n")
     print("D175_PRODUCER_DONE")
     print(receipt["terminal"])
 

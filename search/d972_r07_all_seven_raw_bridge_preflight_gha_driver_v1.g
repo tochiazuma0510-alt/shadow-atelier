@@ -20,6 +20,17 @@ T175StageP := "ci/out/d972_r07_all_seven_raw_bridge_preflight_producer_v1.done";
 T175StageC := "ci/out/d972_r07_all_seven_raw_bridge_preflight_checker_v1.done";;
 T175StageSP := "ci/out/d972_r07_all_seven_raw_bridge_preflight_selftest_producer_v1.done";;
 T175StageSC := "ci/out/d972_r07_all_seven_raw_bridge_preflight_selftest_checker_v1.done";;
+T175ExitP := "ci/out/d972_r07_all_seven_raw_bridge_preflight_producer_exit_v1.txt";;
+T175ExitC := "ci/out/d972_r07_all_seven_raw_bridge_preflight_checker_exit_v1.txt";;
+T175ProbePLog := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_producer_v1.log";;
+T175ProbePExit := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_producer_exit_v1.txt";;
+T175ProbePChecker := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_producer_checker_started_v1.bad";;
+T175ProbePReceipt := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_producer_receipt_v1.bad";;
+T175ProbePVerdict := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_producer_verdict_v1.bad";;
+T175ProbeCLog := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_checker_v1.log";;
+T175ProbeCExit := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_checker_exit_v1.txt";;
+T175ProbeCReceipt := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_checker_receipt_v1.bad";;
+T175ProbeCVerdict := "ci/out/d972_r07_all_seven_raw_bridge_preflight_probe_checker_verdict_v1.bad";;
 T175Cap := 6441;;
 T175FoxCap := 110;;
 T175Timeout := 9000;;
@@ -106,9 +117,9 @@ T175Pin("ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closur
 T175Pin(T175R,
  "0d9a9588cd4f58531923dc208819f32d552006eea8e323a198382901d132c69f",6870);;
 T175Pin(T175P,
- "ef0df11b4aa4efe3fc7b5136e7348c0920609ec9974e2fc918c7bd795deb28ca",57132);;
+ "e70cdededfe11dffbcf1b6e52e44c12fa03f98d4d1b859bece3f48528ea9d425",60303);;
 T175Pin(T175C,
- "4b6cd61050bbdfa23c4bb1e0b62b151fb93dec12a64e912b17fc6d320601c228",79414);;
+ "c55ec99a9a920cd5d0ef92db7d5f2ad841dda7b0f1dcc59a5dc45e469ed6f7cc",85848);;
 T175Pin("search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py",
  "f8c7fc7f5b5bbfffa0cf147a59313981c5a4b2c6c00504a9f773029097fdde5f",33409);;
 T175Pin("search/d972_b345_joint_kernel_qstar_closure_v1.py",
@@ -119,24 +130,61 @@ T175Pin("search/d972_b345_triple_cube_raw_lambda_census_v1.py",
  "d4a290984ae8a93b6959f06d20c1de037b2814707778fba03c59ac87b2f736db",126942);;
 
 ## No file is allowed to pre-exist at the start of a GHA attempt.
-T175RejectExisting([T175LogP,T175LogC,T175Hash,T175Verdict,T175DriverVerdict,T175DriverPass,T175ROut,T175SelftestR,T175StageP,T175StageC,T175StageSP,T175StageSC]);;
+T175AllOutputs := [T175LogP,T175LogC,T175Hash,T175Verdict,T175DriverVerdict,
+ T175DriverPass,T175ROut,T175SelftestR,T175StageP,T175StageC,T175StageSP,
+ T175StageSC,T175ExitP,T175ExitC,T175ProbePLog,T175ProbePExit,
+ T175ProbePChecker,T175ProbePReceipt,T175ProbePVerdict,T175ProbeCLog,
+ T175ProbeCExit,T175ProbeCReceipt,T175ProbeCVerdict];;
+T175RejectExisting(T175AllOutputs);;
 
 ## The host generic gap-run.yml must supply a shell with pipefail and timeout.
 ## Exactly one producer is followed by exactly one independent checker.
 T175Preamble := Concatenation(
  "timeout 9000s bash -o pipefail -c '",
- "set -euo pipefail; mkdir -p ci/out; ",
- "python -B ",T175P," --run-preflight --output ",T175ROut," >",T175LogP," 2>&1; ",
- "echo T175_PRODUCER_STAGE_DONE >",T175StageP,"; ",
- "python -B ",T175C," --check --receipt ",T175ROut," --output ",T175Verdict," >",T175LogC," 2>&1; ",
- "echo T175_CHECKER_STAGE_DONE >",T175StageC,"'");;
+ "set -uo pipefail; mkdir -p ci/out; ",
+ "python -B ",T175P," --run-preflight --output ",T175ROut," 2>&1 | tee ",T175LogP,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ExitP,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=PRODUCER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175LogP,"; exit \"$t175_rc\"; fi; ",
+ "printf \"T175_PRODUCER_STAGE_DONE\\n\" >",T175StageP,"; ",
+ "python -B ",T175C," --check --receipt ",T175ROut," --output ",T175Verdict," 2>&1 | tee ",T175LogC,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ExitC,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=CHECKER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175LogC,"; exit \"$t175_rc\"; fi; ",
+ "printf \"T175_CHECKER_STAGE_DONE\\n\" >",T175StageC,"'");;
 T175SelftestPreamble := Concatenation(
  "timeout 9000s bash -o pipefail -c '",
- "set -euo pipefail; mkdir -p ci/out; ",
- "python -B ",T175P," --output ",T175SelftestR," >",T175LogP," 2>&1; ",
- "echo T175_SELFTEST_PRODUCER_DONE >",T175StageSP,"; ",
- "python -B ",T175C," --fixture --receipt ",T175R," >",T175LogC," 2>&1; ",
- "echo T175_SELFTEST_CHECKER_DONE >",T175StageSC,"'");;
+ "set -uo pipefail; mkdir -p ci/out; ",
+ "python -B ",T175P," --output ",T175SelftestR," 2>&1 | tee ",T175LogP,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ExitP,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=PRODUCER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175LogP,"; exit \"$t175_rc\"; fi; ",
+ "printf \"T175_SELFTEST_PRODUCER_DONE\\n\" >",T175StageSP,"; ",
+ "python -B ",T175C," --fixture --receipt ",T175R," 2>&1 | tee ",T175LogC,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ExitC,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=CHECKER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175LogC,"; exit \"$t175_rc\"; fi; ",
+ "printf \"T175_SELFTEST_CHECKER_DONE\\n\" >",T175StageSC,"'");;
+T175ProducerFailureProbe := Concatenation(
+ "bash -o pipefail -c 'set -uo pipefail; mkdir -p ci/out; ",
+ "{ printf \"T175_INJECTED_PRODUCER_FAILURE\\n\"; exit 17; } 2>&1 | tee ",T175ProbePLog,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ProbePExit,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=PRODUCER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175ProbePLog,"; ",
+ "else printf \"positive-receipt\\n\" >",T175ProbePReceipt,"; printf \"checker-started\\n\" >",T175ProbePChecker,"; printf \"positive-verdict\\n\" >",T175ProbePVerdict,"; fi; exit 0'");;
+T175CheckerFailureProbe := Concatenation(
+ "bash -o pipefail -c 'set -uo pipefail; mkdir -p ci/out; ",
+ "{ printf \"T175_INJECTED_CHECKER_FAILURE\\n\"; exit 23; } 2>&1 | tee ",T175ProbeCLog,"; ",
+ "t175_s=(\"${PIPESTATUS[@]}\"); t175_rc=\"${t175_s[0]}\"; ",
+ "if [ \"${t175_s[1]}\" -ne 0 ] && [ \"$t175_rc\" -eq 0 ]; then t175_rc=\"${t175_s[1]}\"; fi; ",
+ "printf \"%s\\n\" \"$t175_rc\" >",T175ProbeCExit,"; ",
+ "if [ \"$t175_rc\" -ne 0 ]; then printf \"T175_STAGE_FAILURE stage=CHECKER exit=%s\\n\" \"$t175_rc\" | tee -a ",T175ProbeCLog,"; ",
+ "else printf \"positive-receipt\\n\" >",T175ProbeCReceipt,"; printf \"positive-verdict\\n\" >",T175ProbeCVerdict,"; printf \"D175_DRIVER_PASS\\n\" >",T175DriverPass,"; fi; exit 0'");;
 
 ## Actual Exec entry points used by the generic gap-run.yml host.
 T175Exec := function(command)
@@ -144,19 +192,77 @@ T175Exec := function(command)
   return true;
 end;;
 
+T175AuditExit := function(path,stage,logpath)
+  local raw,code,marker,lograw;
+  if not IsExistingFile(path) then
+    Print("T175_STAGE_FAILURE stage=",stage," exit=MISSING_OR_TIMEOUT\n");
+    Error("task175 missing child exit receipt ",stage);
+  fi;
+  raw:=T175Read(path);;
+  if raw="0\n" then return true; fi;
+  if Length(raw)<2 or T175Count(raw,"\n")<>1 then
+    Error("task175 malformed child exit receipt ",stage);
+  fi;
+  code:=raw{[1..Length(raw)-1]};;
+  marker:=Concatenation("T175_STAGE_FAILURE stage=",stage," exit=",code);;
+  lograw:=T175Read(logpath);;
+  if T175Count(lograw,marker)<>1 then
+    Error("task175 child failure marker ",stage);
+  fi;
+  Error("task175 child stage failed ",stage," exit=",code);
+end;;
+
+T175RequireStage := function(path,expected,stage)
+  if not IsExistingFile(path) then
+    Print("T175_STAGE_FAILURE stage=",stage," exit=MISSING_STAGE_SENTINEL\n");
+    Error("task175 missing stage sentinel ",stage);
+  fi;
+  if T175Read(path)<>expected then Error("task175 stage sentinel ",stage); fi;
+  return true;
+end;;
+
 T175RunSelftest := function()
-  local rawp,rawc,rawr;
-  T175RejectExisting([T175LogP,T175LogC,T175SelftestR,T175StageSP,T175StageSC,T175StageP,T175StageC,T175DriverPass]);;
+  local rawp,rawc,rawr,probe;
+  T175RejectExisting(T175AllOutputs);;
   T175Exec(T175SelftestPreamble);;
+  T175AuditExit(T175ExitP,"PRODUCER",T175LogP);;
+  T175RequireStage(T175StageSP,"T175_SELFTEST_PRODUCER_DONE\n","PRODUCER");;
+  T175AuditExit(T175ExitC,"CHECKER",T175LogC);;
+  T175RequireStage(T175StageSC,"T175_SELFTEST_CHECKER_DONE\n","CHECKER");;
   rawp:=T175Read(T175LogP);; rawc:=T175Read(T175LogC);; rawr:=T175Read(T175SelftestR);;
-  if T175Read(T175StageSP)<>"T175_SELFTEST_PRODUCER_DONE\n" then Error("task175 selftest producer sentinel"); fi;
-  if T175Read(T175StageSC)<>"T175_SELFTEST_CHECKER_DONE\n" then Error("task175 selftest checker sentinel"); fi;
   T175AssertMarker(rawp,"D175_PRODUCER_DONE");;
   T175AssertTerminal(rawp);;
   T175AssertAllowed(rawr,"\"terminal\": \"");;
   T175StaticJsonGate(rawr);;
   T175AssertAllowed(rawc,"terminal=");;
   T175AssertMarker(rawc,"D175_STATIC_CHECK_PASS");;
+
+  # Bounded child-shell probes prove that a nonzero producer is visible and
+  # prevents checker start, and that a nonzero checker cannot create PASS.
+  T175Exec(T175ProducerFailureProbe);;
+  if T175Read(T175ProbePExit)<>"17\n" then Error("task175 producer probe exit"); fi;
+  probe:=T175Read(T175ProbePLog);;
+  if probe<>"T175_INJECTED_PRODUCER_FAILURE\nT175_STAGE_FAILURE stage=PRODUCER exit=17\n" then
+    Error("task175 producer probe exact log");
+  fi;
+  T175AssertMarker(probe,"T175_INJECTED_PRODUCER_FAILURE");;
+  T175AssertMarker(probe,"T175_STAGE_FAILURE stage=PRODUCER exit=17");;
+  if IsExistingFile(T175ProbePChecker) or IsExistingFile(T175ProbePReceipt) or
+     IsExistingFile(T175ProbePVerdict) or IsExistingFile(T175DriverPass) then
+    Error("task175 producer failure fail-closure");
+  fi;
+  T175Exec(T175CheckerFailureProbe);;
+  if T175Read(T175ProbeCExit)<>"23\n" then Error("task175 checker probe exit"); fi;
+  probe:=T175Read(T175ProbeCLog);;
+  if probe<>"T175_INJECTED_CHECKER_FAILURE\nT175_STAGE_FAILURE stage=CHECKER exit=23\n" then
+    Error("task175 checker probe exact log");
+  fi;
+  T175AssertMarker(probe,"T175_INJECTED_CHECKER_FAILURE");;
+  T175AssertMarker(probe,"T175_STAGE_FAILURE stage=CHECKER exit=23");;
+  if IsExistingFile(T175ProbeCReceipt) or IsExistingFile(T175ProbeCVerdict) or
+     IsExistingFile(T175DriverPass) then
+    Error("task175 checker failure fail-closure");
+  fi;
   PrintTo(T175DriverPass,"D175_DRIVER_PASS\nmode=SELFTEST\nterminal=FIXTURE_PASS\n");
   if T175Count(T175Read(T175DriverPass),"D175_DRIVER_PASS")<>1 then
     Error("task175 selftest driver pass sentinel");
@@ -256,11 +362,13 @@ end;;
 
 T175RunProduction := function()
   local rawp,rawc,rawr,terminal;
-T175RejectExisting([T175LogP,T175LogC,T175Hash,T175Verdict,T175DriverVerdict,T175DriverPass,T175ROut,T175SelftestR,T175StageP,T175StageC,T175StageSP,T175StageSC]);;
+  T175RejectExisting(T175AllOutputs);;
   T175Exec(T175Preamble);;
+  T175AuditExit(T175ExitP,"PRODUCER",T175LogP);;
+  T175RequireStage(T175StageP,"T175_PRODUCER_STAGE_DONE\n","PRODUCER");;
+  T175AuditExit(T175ExitC,"CHECKER",T175LogC);;
+  T175RequireStage(T175StageC,"T175_CHECKER_STAGE_DONE\n","CHECKER");;
   rawp:=T175Read(T175LogP);; rawc:=T175Read(T175LogC);; rawr:=T175Read(T175ROut);;
-  if T175Read(T175StageP)<>"T175_PRODUCER_STAGE_DONE\n" then Error("task175 producer stage sentinel"); fi;
-  if T175Read(T175StageC)<>"T175_CHECKER_STAGE_DONE\n" then Error("task175 checker stage sentinel"); fi;
   T175AssertMarker(rawp,"D175_PRODUCER_DONE");;
   T175AssertTerminal(rawp);;
   T175AssertAllowed(rawc,"terminal=");;
@@ -312,6 +420,9 @@ T175DriverContract := rec(
   selftest_mode_binding:="SELFTEST", production_mode_preamble:=T175ProductionModePreamble,
   selftest_mode_preamble:=T175SelftestModePreamble, mutually_exclusive:=true,
   exact_one_terminal:=true, json_coverage:=true, full_logs_on_failure:=true,
+  child_exit_receipts:=[T175ExitP,T175ExitC], live_stderr_via_tee:=true,
+  producer_failure_skips_checker:=true, checker_failure_blocks_driver_pass:=true,
+  selftest_failure_injection:=[T175ProducerFailureProbe,T175CheckerFailureProbe],
   terminal_agreement:=true, typed_unknown_gate:=true, driver_pass_sentinel:=T175DriverPass,
   selftest_mode:=T175SelftestPreamble, production_mode:=T175Preamble,
   executable_selftest:=T175RunSelftest, executable_production:=T175RunProduction,
