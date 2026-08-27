@@ -530,8 +530,8 @@ def all_seven_fox_sample(old, e3, e4, roster):
             break
         kernel = tuple(krow["word"])
         left_u, right_u = (1,), reduce_word((1,) + kernel)
-        c1 = reduce_word(left_u + base_relation + old.inv_word(left_u))
-        c2 = reduce_word(right_u + base_relation + old.inv_word(right_u))
+        c1 = reduce_word(left_u + base_relation + tuple(old.inv_word(left_u)))
+        c2 = reduce_word(right_u + base_relation + tuple(old.inv_word(right_u)))
         if right_u == left_u or c1 == c2:
             continue
         tagged1, tagged2, equal = [], [], True
