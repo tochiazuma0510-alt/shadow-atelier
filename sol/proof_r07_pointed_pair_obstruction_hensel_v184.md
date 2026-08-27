@@ -245,9 +245,9 @@ not \(e_1\) is a complete finite obstruction to a coefficient reducing to
 zero.  It is stronger and more targeted than merely observing failure of
 the universal pair-saturation equality.
 
-### Lemma 3.1 (EXPLICIT FIRST-FRATTINI INVERSE LENGTH)
+### Lemma 3.1 (EXPLICIT FRATTINI-EDGE INVERSE LENGTH)
 
-If the first relative kernel is
+If a relative kernel is
 
 \[
  K=\langle s_1,\ldots,s_t\rangle\cong(C_3)^t,
@@ -288,10 +288,26 @@ This proves (3.9).  Normality of \(K\) gives
 \(I_0^r=\Lambda_1J_K^r\), so \(I_0^{2t+1}=0\) as well.  The finite
 geometric-series identity proves (3.10). \(\square\)
 
-This bound removes a search parameter from the first-edge certificate: the
-producer and checker can replay exactly \(2t+1\) ordered powers.  Later
-non-elementary relative kernels require their authenticated nilpotence
-bound or a refined chief-step decomposition.
+This bound removes an inversion search parameter: the producer and checker
+can replay exactly \(2t+1\) ordered powers.
+
+### Corollary 3.2 (THE BOUND APPLIES AT EVERY MATCHED FRATTINI RUNG)
+
+Every diagonal kernel in the matched relative Frattini tower of v145 is an
+elementary abelian \(3\)-group.  Hence (3.10), with the actual rank \(t_n\),
+applies at every successor of that tower.
+
+#### Proof
+
+Each component transition kernel is
+\(K_{r,n}/K_{r,n+1}\), which is elementary abelian by v145 (1.4).  The
+kernel of the simultaneous diagonal context map embeds in the product of
+the seven component kernels.  A subgroup of a finite elementary abelian
+\(3\)-group is elementary abelian.  Apply Lemma 3.1. \(\square\)
+
+An arbitrary cofinal chief ladder may group several such steps into a
+non-elementary kernel.  It must either refine that edge into elementary
+abelian steps or authenticate a separate nilpotence bound.
 
 ## 4. Compatible tower selector
 
@@ -396,7 +412,7 @@ a right inverse on the whole return-even module.
 POINTED OBSTRUCTION CLASS / LIFT INDEPENDENCE:    PAPER_PROOF
 POINTED HENSEL EQUIVALENCE AND FINITE FORMULA:    PAPER_PROOF
 ROOF-ZERO I*M FAST GATE:                         PAPER_PROOF
-FIRST-FRATTINI INVERSE LENGTH 2t+1:              PAPER_PROOF
+EVERY FRATTINI-EDGE INVERSE LENGTH 2t+1:          PAPER_PROOF
 POINTED ALL-RUNG COMPATIBLE SELECTOR:             PAPER_PROOF
 R07 FIRST SUCCESSOR POINTED CLASS:                NOT COMPUTED
 R07 NATURAL ALL-RUNG POINTED ANCESTRY (5.1):      NOT PROVED
