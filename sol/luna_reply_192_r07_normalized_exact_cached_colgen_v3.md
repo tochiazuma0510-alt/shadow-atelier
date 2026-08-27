@@ -278,6 +278,10 @@ or cross-checked result.  The checker now reduces first and adds only nonzero
 remainders, including replay paths, and derives the formula occurrence count
 from independent occurrence output.
 
+Parent Sol dispatched this checker repair as GHA SELFTEST run `33104021006`
+at immutable head `e20c02ca96669800ade5ac7a826e933005471963`.
+It was queued at 2026-08-27T18:33:01Z; no result is claimed while pending.
+
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO

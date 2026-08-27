@@ -140,6 +140,11 @@ its diagnostic `cat`, leaving only a missing sentinel.  No math result or
 exact failing stage was obtained.  Both driver modes now expose the failed
 log before exiting.
 
+Parent Sol dispatched the diagnostic-wrapper repair as GHA SELFTEST run
+`33104145016` at immutable head
+`cf8a554b1c7cbaf752a727e5d8790070409deaf3`.  It was queued at
+2026-08-27T18:34:27Z; no result is claimed while pending.
+
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
 TASK187 LIVE RUN MODIFIED:                     NO
