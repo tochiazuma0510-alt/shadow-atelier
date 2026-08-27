@@ -701,6 +701,16 @@ class _ToyMonitor:
     def __init__(self, args: argparse.Namespace): pass
 
 
+def _toy_add_scaled(target: dict[bytes, int], source: dict[bytes, int], scalar: int) -> None:
+    """Add a sparse toy row modulo three without relying on v1 globals."""
+    for key, value in source.items():
+        residue = (target.get(key, 0) + int(scalar) * int(value)) % 3
+        if residue:
+            target[key] = residue
+        else:
+            target.pop(key, None)
+
+
 class _ToyEchelon:
     def __init__(self) -> None:
         self.rows: dict[bytes, dict[bytes, int]] = {}; self.ancestry: dict[bytes, dict[int, int]] = {}; self.order: list[bytes] = []
@@ -715,14 +725,14 @@ class _ToyEchelon:
         for pivot in self.order:
             value = row.get(pivot, 0)
             if value:
-                add_scaled(row, self.rows[pivot], -value); self.combine(coeff, self.ancestry[pivot], value)
+                _toy_add_scaled(row, self.rows[pivot], -value); self.combine(coeff, self.ancestry[pivot], value)
         return row, coeff
     def add(self, source: dict[bytes, int], column_id: int) -> tuple[bytes, dict[int, int]]:
         row = dict(source); ancestry = {column_id: 1}
         for pivot in self.order:
             value = row.get(pivot, 0)
             if value:
-                add_scaled(row, self.rows[pivot], -value); self.combine(ancestry, self.ancestry[pivot], -value)
+                _toy_add_scaled(row, self.rows[pivot], -value); self.combine(ancestry, self.ancestry[pivot], -value)
         require(row, "toy dependent retained row")
         pivot = min(row); scale = 1 if row[pivot] == 1 else 2
         self.rows[pivot] = {key: scale * value % 3 for key, value in row.items() if scale * value % 3}
@@ -773,7 +783,7 @@ class _ToyV1:
     @staticmethod
     def strip_exponents(v1: Any, row: dict[bytes, int]) -> dict[bytes, int]: return dict(row)
     @staticmethod
-    def add_scaled(target: dict[bytes, int], source: dict[bytes, int], scalar: int) -> None: add_scaled(target, source, scalar)
+    def add_scaled(target: dict[bytes, int], source: dict[bytes, int], scalar: int) -> None: _toy_add_scaled(target, source, scalar)
     @staticmethod
     def integer_exponent(word: Sequence[int]) -> tuple[int, int]: return (sum(int(x) == 1 for x in word) - sum(int(x) == -1 for x in word), sum(int(x) == 2 for x in word) - sum(int(x) == -2 for x in word))
     @staticmethod
@@ -808,7 +818,7 @@ def _toy_pins() -> dict[str, Any]: return {"v1": {"toy": {"path": "toy", "bytes"
 def _toy_targets() -> dict[str, Any]:
     runtime: dict[str, Any] = {}; model = _ToyModel(runtime); result = {}
     for label, word in (("u0", (1,)), ("v0", (2,))):
-        raw, replay = model.direct_column([], list(word)); target = {}; add_scaled(target, raw, -1)
+        raw, replay = model.direct_column([], list(word)); target = {}; _toy_add_scaled(target, raw, -1)
         result[label] = {"word": list(word), "integer_exponent": list(_ToyV1.integer_exponent(word)),
             "normalized_residue": list(_ToyV1.normalized_residue(word)), "A": _ToyV1.public_sparse(raw),
             "A_sha256": digest(_ToyV1.public_sparse(raw)), "target": _ToyV1.public_sparse(target),
@@ -874,7 +884,7 @@ def _toy_validate_receipt(receipt: dict[str, Any]) -> None:
                 require(record["classification"] == "dependent" and "column_id" not in record and record["rank_before"] == before and record["rank_after"] == before, "toy dependent class")
                 rem, dependency = space.reduce(row); rebuilt = {}
                 for cid, coefficient in record["dependency_chain"]:
-                    require(cid in row_by_id, "toy dependency ID"); add_scaled(rebuilt, row_by_id[cid], coefficient)
+                    require(cid in row_by_id, "toy dependency ID"); _toy_add_scaled(rebuilt, row_by_id[cid], coefficient)
                 require(not rem and rebuilt == row and record["dependency_chain"] == [[k, v] for k, v in sorted(dependency.items())], "toy dependent replay")
             decisions = {}
             for target_label in ("u0", "v0"):
@@ -889,7 +899,7 @@ def _toy_validate_receipt(receipt: dict[str, Any]) -> None:
         if label == "u0":
             require(not rem and item["decision"] == "MEMBER_D", "toy u0 decision")
             chain = [[int(k), int(v)] for k, v in sorted(coefficients.items())]; rebuilt = {}
-            for cid, coefficient in chain: add_scaled(rebuilt, row_by_id[cid], coefficient)
+            for cid, coefficient in chain: _toy_add_scaled(rebuilt, row_by_id[cid], coefficient)
             require(item["chain"] == chain and rebuilt == target and item["literal_boundary_sum"] == _ToyV1.public_sparse(rebuilt), "toy u0 chain")
         else:
             terminal = item.get("terminal_dual"); expected_dual = {TOY_TARGET_V: 1}

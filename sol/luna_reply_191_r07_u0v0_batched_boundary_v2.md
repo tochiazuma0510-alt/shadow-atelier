@@ -26,9 +26,9 @@ self-referential.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 91,677 | `6a3d248d8cedb6f662770fb60b7a5e7732f9cd89ecb87382908934d00f675b79` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 92,088 | `3cc952a175e39321902ec16c03d828c6135547bbc566e8012c2523e25a40999c` |
 | `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `3c2a346a95de80a295782455b32e9853f5dd0bfda356614783e25417d2b16803` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `74a483fc08245f393b504de317295c89f36d0494d3852ca1aa15fb83d9d15b1b` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
@@ -143,7 +143,11 @@ log before exiting.
 Parent Sol dispatched the diagnostic-wrapper repair as GHA SELFTEST run
 `33104145016` at immutable head
 `cf8a554b1c7cbaf752a727e5d8790070409deaf3`.  It was queued at
-2026-08-27T18:34:27Z; no result is claimed while pending.
+2026-08-27T18:34:27Z.  The run then exposed a producer SELFTEST code
+failure/no math result: `_ToyV1.add_scaled` called an unbound/self-referential
+`add_scaled` name.  The toy echelon, target, dependency, and chain replay now
+use an explicitly bound sparse mod-3 helper; no mathematical result is claimed
+from that run.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO
