@@ -44,7 +44,7 @@ D972JKPB1Pins := [
   [D972JKPB1Producer,
    "f7d80db6197224b2096d8034e2bccc7f3f62956cc0454727156652131cfaf0c7",111249],
   [D972JKPB1Checker,
-   "eb75667b7ebe514bba567aa72f4e558e6d23c9e64e5760865a2d7b0bf7db04fd",90234],
+    "46623966a71d1c9f2aa0f86f6f1e5fdf74098b4ecd5a76b4c2713eb8a33bbc95",94904],
   ["sol/luna_task_169_r07_joint_kernel_coeff_intersection_v1.md",
    "6223245e9e3ec7476b5b0c55631d7bcea254c7890c5220f2b5866b9f31b22fa7",10445],
   ["sol/proof_r07_joint_kernel_coefficient_intersection_v107.md",
@@ -462,9 +462,11 @@ else
        "R07_760_JOINT_COEFF_INTERSECTION_V1_CHECKER_PASS")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"mutations=23")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"cache_fixture_words=1365")<>1 or
-     D972JKPB1Count(D972JKPB1CheckerRaw,
-        "cache_fixture_mutations=4")<>1 or
-     D972JKPB1Count(D972JKPB1CheckerRaw,
+      D972JKPB1Count(D972JKPB1CheckerRaw,
+         "cache_fixture_mutations=4")<>1 or
+      D972JKPB1Count(D972JKPB1CheckerRaw,
+         "gamma_schema_mutations=5")<>1 or
+      D972JKPB1Count(D972JKPB1CheckerRaw,
         "empty_affine_inconsistent=true")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"canaries=31")<>1 or
      D972JKPB1Count(D972JKPB1CheckerRaw,"domain_seconds=5400")<>1 then

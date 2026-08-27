@@ -63,6 +63,26 @@ LEGACY_CANARY_GLOBAL_ORDINALS = tuple(sorted(
     {1, 6318, 6319, 6422, 6423, 6441} |
     set(range(257, TOTAL_RELATIONS + 1, 257))))
 LEGACY_CANARY_COUNT = 31
+# `Gamma_invariants` is intentionally the scalar 19-key projection of the
+# pinned task-157ee public Gamma object.  Keep this set exact: the six packed
+# public-section fields belong to the predecessor receipt, not this field.
+GAMMA_INVARIANT_KEYS = (
+    "order", "edge_count", "generator_count",
+    "greedy_generator_state_ids", "greedy_generator_count",
+    "max_section_factors", "order_distribution", "exponent",
+    "center_order", "derived_order", "cube_subgroup_order",
+    "frattini_order", "frattini_quotient_order",
+    "frattini_dimension_F3", "derived_in_center",
+    "conjugacy_class_size_distribution", "normal_under_x_y",
+    "state_rows_sha256", "transition_rows_sha256",
+)
+GAMMA_INVARIANT_KEY_SET = frozenset(GAMMA_INVARIANT_KEYS)
+GAMMA_PUBLIC_EXTRA_KEYS = (
+    "canonical_state_key", "canonical_states", "first_seen_BFS",
+    "section_parent_generators", "section_parent_states", "transitions",
+)
+GAMMA_PUBLIC_KEY_SET = frozenset(
+    GAMMA_INVARIANT_KEYS + GAMMA_PUBLIC_EXTRA_KEYS)
 CONTEXT_ROWS_SHA = (
     "bf07578f91f5ed66e6ddddd4ef83dafa45817a29df066940bbc13bd53cdd00f6")
 ALIAS_ROWS_SHA = (
@@ -149,6 +169,85 @@ def verify_self_digest(data: dict[str, Any], label: str) -> None:
     work = copy.deepcopy(data)
     claimed = work.pop("self_digest_sha256")
     require(claimed == digest_obj(work), label + " self digest")
+
+
+def validate_gamma_replay(gamma: Any, pinned_gamma: Any,
+                          group: Any,
+                          state_rows: Sequence[Sequence[str]]) -> None:
+    """Validate the typed invariant projection and independent Gamma replay."""
+    require(type(gamma) is dict and
+            all(type(key) is str for key in gamma),
+            "Gamma_invariants dictionary typing")
+    require(set(gamma) == GAMMA_INVARIANT_KEY_SET,
+            "Gamma_invariants exact 19-key schema")
+    require(type(pinned_gamma) is dict and
+            set(pinned_gamma) == GAMMA_PUBLIC_KEY_SET,
+            "pinned Gamma exact 25-key schema")
+    expected = {key: pinned_gamma[key] for key in GAMMA_INVARIANT_KEYS}
+    require(gamma == expected,
+            "Gamma_invariants pinned 19-key projection")
+    require(len(group.states) == gamma["order"] == 243 and
+            digest_obj(state_rows) == gamma["state_rows_sha256"] and
+            digest_obj(group.transitions) ==
+                gamma["transition_rows_sha256"],
+            "independent Gamma state/transition replay")
+
+
+def gamma_schema_probe() -> dict[str, Any]:
+    """Exercise the production Gamma validator with load-bearing mutations."""
+    class ProbeGroup:
+        def __init__(self, states: Sequence[Any],
+                     transitions: Sequence[Sequence[int]]) -> None:
+            self.states = list(states)
+            self.transitions = [list(row) for row in transitions]
+
+    state_rows = [["gamma-schema-probe"] for _ in range(243)]
+    transitions = [[0] for _ in range(243)]
+    pinned = {key: None for key in GAMMA_PUBLIC_KEY_SET}
+    pinned.update({key: 0 for key in GAMMA_INVARIANT_KEYS})
+    pinned["order"] = 243
+    pinned["state_rows_sha256"] = digest_obj(state_rows)
+    pinned["transition_rows_sha256"] = digest_obj(transitions)
+    gamma = {key: pinned[key] for key in GAMMA_INVARIANT_KEYS}
+    group = ProbeGroup([None] * 243, transitions)
+    validate_gamma_replay(gamma, pinned, group, state_rows)
+
+    mutations: list[tuple[str, Any]] = []
+    missing = copy.deepcopy(gamma)
+    missing.pop("order")
+    mutations.append(("missing_invariant_key", missing))
+    extra = copy.deepcopy(gamma)
+    extra["canonical_states"] = None
+    mutations.append(("extra_public_section_key", extra))
+    changed_value = copy.deepcopy(gamma)
+    changed_value["edge_count"] = 1
+    mutations.append(("changed_invariant_value", changed_value))
+    changed_state_digest = copy.deepcopy(gamma)
+    changed_state_digest["state_rows_sha256"] = "0" * 64
+    mutations.append(("changed_state_row_digest", changed_state_digest))
+    changed_transition_digest = copy.deepcopy(gamma)
+    changed_transition_digest["transition_rows_sha256"] = "0" * 64
+    mutations.append(("changed_transition_row_digest",
+                      changed_transition_digest))
+    rejected = 0
+    rejected_names: list[str] = []
+    for name, candidate in mutations:
+        try:
+            validate_gamma_replay(candidate, pinned, group, state_rows)
+        except RuntimeError:
+            rejected += 1
+            rejected_names.append(name)
+    require(rejected == len(mutations) == 5 and
+            rejected_names == [name for name, _ in mutations],
+            "Gamma schema mutation probes")
+    return {
+        "expected_invariant_key_count": len(GAMMA_INVARIANT_KEYS),
+        "expected_invariant_keys": list(GAMMA_INVARIANT_KEYS),
+        "expected_public_key_count": len(GAMMA_PUBLIC_KEY_SET),
+        "rejected": rejected,
+        "rejected_mutations": rejected_names,
+        "validator_path": "validate_gamma_replay",
+    }
 
 
 def load_module(name: str, path: Path, digest: str) -> Any:
@@ -1007,18 +1106,15 @@ def independent_domain_check(receipt: dict[str, Any],
     state_rows = [[blob.hex() for blob in group.key(state)]
                   for state in group.states]
     gamma = domain["joint_group_replay"]["Gamma_invariants"]
-    require(gamma == ctx["joint_receipt"]["gamma"] and
-            len(group.states) == gamma["order"] == 243 and
-            digest_obj(state_rows) == gamma["state_rows_sha256"] and
-            digest_obj(group.transitions) ==
-                gamma["transition_rows_sha256"] and
-            domain["joint_group_replay"]["Q0_presentation"] ==
+    validate_gamma_replay(gamma, ctx["joint_receipt"]["gamma"],
+                          group, state_rows)
+    require(domain["joint_group_replay"]["Q0_presentation"] ==
                 ctx["joint_receipt"]["q0_presentation"] and
             domain["joint_group_replay"]["record_words_sha256"] ==
                 RECORD_WORDS_SHA and
             domain["joint_group_replay"]["complete_Q0_relators_sha256"] ==
                 COMPLETE_RELATORS_SHA,
-            "independent marked joint image/presentation invariants")
+            "independent marked joint presentation invariants")
 
     delta = IndependentDelta(ctx["v1"], ctx["private"]["e4"])
     task_pairs = ((ctx["v1"].X0, ctx["v1"].Y0),
@@ -1795,6 +1891,7 @@ def check_receipt(path: Path, checkpoint_dir: Path,
     cache_fixture = exact_transition_cache_fixture()
     empty_affine_regression = independent_empty_affine_regression()
     receipt_mutations = mutation_tests(receipt, domain_seconds)
+    gamma_probe = gamma_schema_probe()
     ctx = context()
     domain_result = None
     full_result = None
@@ -1806,9 +1903,9 @@ def check_receipt(path: Path, checkpoint_dir: Path,
             receipt, ctx, domain_seconds)
     else:
         require(receipt.get("terminal_token") in {
-                    "R07_760_JOINT_COEFF_UNKNOWN_RESOURCE",
-                    "R07_760_JOINT_COEFF_INPUT_STOP"},
-                "missing domain only on stopped terminal")
+                "R07_760_JOINT_COEFF_UNKNOWN_RESOURCE",
+                "R07_760_JOINT_COEFF_INPUT_STOP"},
+            "missing domain only on stopped terminal")
     if receipt["mode"] == "full" and domain_result is not None:
         full_result = check_full_intersections(
             receipt, ctx, checkpoint_dir)
@@ -1823,6 +1920,7 @@ def check_receipt(path: Path, checkpoint_dir: Path,
         "source_pin_manifest_sha256": digest_obj(pins),
         "domain_crosscheck": domain_result,
         "completed_j_crosscheck": full_result,
+        "gamma_schema_probe": gamma_probe,
         "exact_transition_cache_fixture": cache_fixture,
         "independent_empty_affine_regression": empty_affine_regression,
         "mutation_tests_rejected": receipt_mutations,
@@ -1924,6 +2022,7 @@ def atomic_write(path: Path, raw: bytes) -> None:
 
 
 def self_test(domain_seconds: float) -> None:
+    gamma_probe = gamma_schema_probe()
     target = ROOT / DEFAULT_RECEIPT
     require(target.is_file(), "checker selftest needs finalized preflight")
     raw = target.read_bytes()
@@ -1936,10 +2035,11 @@ def self_test(domain_seconds: float) -> None:
           f"RS_rows={result['domain_crosscheck']['RS_row_count']} "
           f"rank_B_joint={result['domain_crosscheck']['rank_B_joint']} "
           f"mutations={result['mutation_tests_rejected']} "
-          f"cache_fixture_words={result['exact_transition_cache_fixture']['word_count']} "
-          f"cache_fixture_mutations={result['exact_transition_cache_fixture']['mutation_tests_rejected']} "
-          "empty_affine_inconsistent=true "
-          f"canaries={LEGACY_CANARY_COUNT} "
+           f"cache_fixture_words={result['exact_transition_cache_fixture']['word_count']} "
+           f"cache_fixture_mutations={result['exact_transition_cache_fixture']['mutation_tests_rejected']} "
+           "empty_affine_inconsistent=true "
+           f"gamma_schema_mutations={gamma_probe['rejected']} "
+           f"canaries={LEGACY_CANARY_COUNT} "
           f"domain_seconds={domain_seconds:g} "
           "full_j9_recomputed=false", flush=True)
 
@@ -1976,6 +2076,7 @@ def main() -> int:
           f"cache_fixture_words={result['exact_transition_cache_fixture']['word_count']} "
           f"cache_fixture_mutations={result['exact_transition_cache_fixture']['mutation_tests_rejected']} "
           "empty_affine_inconsistent=true "
+          f"gamma_schema_mutations={result['gamma_schema_probe']['rejected']} "
           f"canaries={LEGACY_CANARY_COUNT} "
           f"domain_seconds={domain_seconds:g} "
           f"bytes={len(raw)}", flush=True)
