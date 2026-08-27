@@ -509,3 +509,26 @@ Use `out_dir=ci/out`, `with_pquot_packages=false`, and `timeout_min=180`.
 No production result is claimed by this static repair.
 
 `TASK175_PRODUCTION_STOP_REPAIR_V1_STATIC_COMPLETE`
+
+## 10. Parent PB3-repair SELFTEST PASS and production relaunch
+
+The current PB3-repair bundle passed GHA SELFTEST run `33059085343` at
+head `9ec72d68f3ba99fbfe2d2bebfd5d78e0dcf2deea`.  The downloaded artifact
+contains the exact driver terminal
+
+```text
+D175_DRIVER_PASS
+mode=SELFTEST
+terminal=FIXTURE_PASS
+```
+
+and the independent checker reports
+`middle_mark_formula=A13=(A23*A12)^-1`, two identity PB3 relator values,
+two zero-D1 Fox rows, and `missing_inverse_nonidentity_relators=2` with
+`missing_inverse_rejected=true`.  Thus the exact production failure mode is
+exercised and rejected at the committed identities; this promotes the current
+bundle to `SELFTEST PASS`.
+
+Parent then launched the repaired production run as `33059240825`, again at
+head `9ec72d68f3ba99fbfe2d2bebfd5d78e0dcf2deea`.  Its outcome is pending and
+no production READY claim is made here.
