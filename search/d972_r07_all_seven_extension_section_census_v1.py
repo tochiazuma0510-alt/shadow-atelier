@@ -92,6 +92,8 @@ PINS = {
     "task174_terminal_note": ("sol/luna_reply_174_r07_target6_context_image_census_v1.md", 13224,
                               "516d15d4ad73e9e2d8e564789e856224c35a30a235e46e87ad857cb20470b49f"),
 }
+V135_PIN = ("sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md", 4539,
+            "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67")
 
 
 class Reject(RuntimeError):
@@ -173,6 +175,19 @@ def authenticate_pins(q3_path: Path, joint_path: Path) -> None:
         if not path.is_file():
             raise InputStop(f"MISSING_PINNED_INPUT:{name}:{path}")
         require(file_identity(path) == (size, digest), f"pin mismatch {name}")
+
+
+def authenticate_v135() -> None:
+    relative, size, digest = V135_PIN
+    path = ROOT / relative
+    if not path.is_file():
+        raise InputStop(f"MISSING_PINNED_INPUT:v135:{path}")
+    require(file_identity(path) == (size, digest), "pin mismatch v135")
+
+
+def public_v135_pin() -> dict[str, Any]:
+    relative, size, digest = V135_PIN
+    return {"path": relative, "bytes": size, "sha256": digest}
 
 
 def load_module(path: Path, name: str) -> Any:
@@ -1159,7 +1174,8 @@ def build_result(q3_path: Path, joint_path: Path, seconds: float) -> dict[str, A
             "coordinate_0_7_reason": "different typed ambient E3 versus E4",
         },
         "proof_pins": {"v108": "pinned_not_reproved", "v121": "pinned_not_reproved",
-                       "v122": "pinned_not_reproved", "v125": "implemented"},
+                       "v122": "pinned_not_reproved", "v125": "implemented",
+                       "v135": public_v135_pin()},
         "performance": {"elapsed_seconds": budget.elapsed(),
                         "direct_Delta_states_enumerated": 0,
                         "Q0_states_enumerated_once": EXPECTED_Q0,
@@ -1187,6 +1203,7 @@ def write_receipt(path: Path, receipt: dict[str, Any]) -> None:
 
 
 def run(args: argparse.Namespace) -> int:
+    authenticate_v135()
     if args.selftest:
         fixture_path = Path(args.fixture)
         require(file_identity(fixture_path) == (FIXTURE_BYTES, FIXTURE_SHA256),

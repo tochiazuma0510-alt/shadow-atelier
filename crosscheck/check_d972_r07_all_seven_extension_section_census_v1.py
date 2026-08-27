@@ -35,7 +35,7 @@ EXPECTED_GAMMA = 243
 EXPECTED_GAMMA_COARSE_ORDERS = (1, 1, 1, 1, 1, 81, 81, 81, 9, 9)
 WIDTHS = [40] * 5 + [154] * 5
 FAMILIES = [("ALL", tuple(range(10)))] + [(f"S{i}", (i,)) for i in range(10)]
-PRODUCER_SHA256 = "9fa449a61e95d3b8be1f5ceebcb93011ad44a1ac2ed656d6299f41529e07329f"
+PRODUCER_SHA256 = "304929fdd83e313864b8126457bcec4f59c8e597f2e2fdf8428793ada0c6ea99"
 PRODUCER_PATH = "search/d972_r07_all_seven_extension_section_census_v1.py"
 FIXTURE = ROOT / "search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json"
 FIXTURE_BYTES = 4350
@@ -96,6 +96,8 @@ PINS = {
     "task174_terminal_note": ("sol/luna_reply_174_r07_target6_context_image_census_v1.md", 13224,
                               "516d15d4ad73e9e2d8e564789e856224c35a30a235e46e87ad857cb20470b49f"),
 }
+V135_PIN = ("sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md", 4539,
+            "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67")
 
 
 class Reject(RuntimeError):
@@ -154,10 +156,18 @@ def public_pins() -> dict[str, dict[str, Any]]:
             for name, row in PINS.items()}
 
 
+def public_v135_pin() -> dict[str, Any]:
+    relative, size, digest = V135_PIN
+    return {"path": relative, "bytes": size, "sha256": digest}
+
+
 def authenticate() -> None:
     for name, (relative, size, digest) in PINS.items():
         raw = (ROOT / relative).read_bytes()
         require((len(raw), sha_bytes(raw)) == (size, digest), f"pin {name}")
+    relative, size, digest = V135_PIN
+    raw = (ROOT / relative).read_bytes()
+    require((len(raw), sha_bytes(raw)) == (size, digest), "pin v135")
     raw = (ROOT / PRODUCER_PATH).read_bytes()
     require(sha_bytes(raw) == PRODUCER_SHA256, "producer source pin")
     fixture_raw = FIXTURE.read_bytes()
@@ -1045,7 +1055,8 @@ def verify_complete(receipt: dict[str, Any]) -> dict[str, Any]:
             result["performance"]["direct_Delta_states_enumerated"] == 0 and
             result["proof_pins"] == {"v108": "pinned_not_reproved",
                                      "v121": "pinned_not_reproved",
-                                     "v122": "pinned_not_reproved", "v125": "implemented"},
+                                     "v122": "pinned_not_reproved", "v125": "implemented",
+                                     "v135": public_v135_pin()},
             "scope/pin boundary")
     return {"Gamma_order": EXPECTED_GAMMA, "Q0_order": EXPECTED_Q0,
             "family_count": 11, "direct_word_replay": True,

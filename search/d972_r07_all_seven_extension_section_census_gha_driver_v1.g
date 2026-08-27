@@ -23,10 +23,10 @@ D176Hashes:="ci/out/d972_r07_all_seven_extension_section_census_hashes_v1.txt";;
 D176Shell:="ci/out/d972_r07_all_seven_extension_section_census_command_v1.sh";;
 D176OK:="ci/out/d972_r07_all_seven_extension_section_census_v1.ok";;
 
-D176ProducerSHA:="9fa449a61e95d3b8be1f5ceebcb93011ad44a1ac2ed656d6299f41529e07329f";;
-D176ProducerBytes:=60006;;
-D176CheckerSHA:="64dacbd7cad2addaca09fb53e47a8d02164c15f4af53eed7c91bd02e8584d23c";;
-D176CheckerBytes:=80121;;
+D176ProducerSHA:="304929fdd83e313864b8126457bcec4f59c8e597f2e2fdf8428793ada0c6ea99";;
+D176ProducerBytes:=60643;;
+D176CheckerSHA:="b31af78d66b9d15926c2bc0223e7ae38c4c20dc018d8d4e3d915ddd4506cf538";;
+D176CheckerBytes:=80637;;
 D176FixtureSHA:="b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471";;
 D176FixtureBytes:=4350;;
 
@@ -47,6 +47,7 @@ D176Pins:=[
   ["sol/proof_pb3_two_relator_presentation_equality_v121.md","efd51ee51d496543e359704349877523a9d5d4aea686aee97e33c00dd6b84bd5",5762],
   ["sol/proof_r07_e3_context_kernel_retraction_bridge_v122.md","daadae2bed6a91ded8d3f1abec4d2fb6d379b80706f6387fa12abfd8f29e1348",7939],
   ["sol/proof_r07_all_seven_extension_section_orbit_reduction_v125.md","b82c81e0a053658fdb48cbb4d3054a094a57a81b2fd5d0153bcd0735ef4852b3",8545],
+  ["sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md","75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67",4539],
   ["sol/luna_reply_174_r07_target6_context_image_census_v1.md","516d15d4ad73e9e2d8e564789e856224c35a30a235e46e87ad857cb20470b49f",13224]
 ];;
 

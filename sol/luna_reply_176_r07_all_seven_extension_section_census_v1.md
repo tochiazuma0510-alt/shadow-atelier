@@ -5,7 +5,8 @@ Date: 2026-08-27
 ## 1. Disposition
 
 Disposition is **SECOND PRODUCTION TYPED UNKNOWN / NONCONTIGUOUS DELETION
-LAYOUT REPAIRED / RE-SELFTEST PENDING**.  GHA PRODUCTION run `33039406462` at
+LAYOUT REPAIRED / v135 PROVENANCE PINNED / RE-SELFTEST PENDING**.  GHA
+PRODUCTION run `33039406462` at
 head prefix `8c75f840` terminated normally with typed `UNKNOWN_INPUT`.  Its
 three exact terminal lines agree:
 
@@ -85,9 +86,9 @@ subsequent external SELFTEST and PRODUCTION runs recorded above.
 
 ```text
 bytes  SHA-256                                                           path
-60006  9fa449a61e95d3b8be1f5ceebcb93011ad44a1ac2ed656d6299f41529e07329f  search/d972_r07_all_seven_extension_section_census_v1.py
-80121  64dacbd7cad2addaca09fb53e47a8d02164c15f4af53eed7c91bd02e8584d23c  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
-15580  1ad33602c1cc259a7396d9eace21d5e63541a817bd2f2bf742773ed2ab9e2577  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
+60643  304929fdd83e313864b8126457bcec4f59c8e597f2e2fdf8428793ada0c6ea99  search/d972_r07_all_seven_extension_section_census_v1.py
+80637  b31af78d66b9d15926c2bc0223e7ae38c4c20dc018d8d4e3d915ddd4506cf538  crosscheck/check_d972_r07_all_seven_extension_section_census_v1.py
+15717  d8104835c1b156fcbf8ee3678aa86125e59be580b5bd4fe68e0a041cdd4c26cd  search/d972_r07_all_seven_extension_section_census_gha_driver_v1.g
  4350  b24827b10f8ceb0505802bf7065e2442d176b7b65ecb2066452941c2e7e0a471  search/certs/d972_r07_all_seven_extension_section_census_preflight_v1_20260827.json
 ```
 
@@ -101,11 +102,20 @@ values plus the corrected internal digest.
 
 ## 3. Producer implementation
 
-The producer authenticates fourteen frozen inputs by exact bytes and SHA-256:
-task176; the task157ee producer/checker/driver/task/reply, q3 receipt, and
-joint receipt; the frozen E3/E4 arithmetic; proofs v108, v121, v122, and v125;
-and the task174 terminal receipt note.  It imports neither task169 nor task175
-and does not import or resume task174's direct linked-image BFS.
+The producer authenticates fourteen fixture-public frozen inputs by exact bytes
+and SHA-256: task176; the task157ee producer/checker/driver/task/reply, q3
+receipt, and joint receipt; the frozen E3/E4 arithmetic; proofs v108, v121,
+v122, and v125; and the task174 terminal receipt note.  It separately
+authenticates the governing v135 note at exact path
+`sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md`, 4,539 bytes, and
+SHA-256
+`75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67`.
+The COMPLETE receipt retains that full path/bytes/SHA triple under
+`proof_pins.v135`, and the independently written checker requires exact field
+equality after authenticating v135 itself.  V135 remains separate from the
+immutable fixture's original public pin ledger, so no fixture bytes or semantics
+changed.  The producer imports neither task169 nor task175 and does not import
+or resume task174's direct linked-image BFS.
 
 The production path performs the following fail-closed reconstruction:
 
@@ -359,7 +369,8 @@ D972_R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_MODE:="PRODUCTION";;
 ```
 
 Unbound or any other string is an error.  It authenticates the producer,
-checker, fixture, and fourteen predecessors before creating output.  It
+checker, fixture, and fifteen predecessors, including v135, before creating
+output.  It
 rejects every pre-existing driver-owned artifact, runs one producer and then
 one checker strictly serially under Bash `set -euo pipefail`, gates exact-one
 markers and terminal agreement, writes artifact hashes and timings, and emits
@@ -496,25 +507,29 @@ R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_GHA_DRIVER_PASS mode=SELFTEST terminal
 
 Repair-specific source evidence is fixed at these lines:
 
-- producer lines 114--139 define packed permutation/EKey contracts; lines
-  327--493 implement, diagnose, and mutation-test the noncontiguous deletion;
-  lines 495--538 stream raw coarse-key bucket statistics; lines 767--810 replay
-  all ten Gamma coarse images; lines 912--921 retain the repaired Q0 relator
-  replay; and lines 1189--1251 preserve bounded SELFTEST, narrow typed receipt
-  conversion, and programming hard STOPs;
-- checker line 38 pins the new producer; lines 110--135 independently define
-  packed permutation/EKey contracts; lines 253--526 independently implement,
-  validate field-by-field, and mutation-test deletion; lines 344--386 and
-  598--637 rebuild raw bucket and Gamma coarse-image statistics; lines
-  704--1029 perform the COMPLETE semantic replay; and lines 1529 onward expose
-  bounded SELFTEST and production verdict paths;
+- producer lines 95--96 and 180--190 define/authenticate the exact v135 pin;
+  lines 116--142 define packed permutation/EKey contracts; lines 342--509
+  implement, diagnose, and mutation-test the noncontiguous deletion; lines
+  510--555 stream raw coarse-key bucket statistics; lines 782--822 replay all
+  ten Gamma coarse images; line 929 retains the repaired Q0 relator replay;
+  lines 1176--1178 retain v135 in COMPLETE `proof_pins`; and lines 1205--1268
+  preserve bounded SELFTEST, narrow typed receipt conversion, and programming
+  hard STOPs;
+- checker line 38 pins the new producer; lines 99--100 and 159--175 independently
+  define/authenticate the exact v135 pin; lines 112--139 independently define
+  packed permutation/EKey contracts; lines 263--546 independently implement,
+  validate field-by-field, and mutation-test deletion; lines 354--397 and
+  608--649 rebuild raw bucket and Gamma coarse-image statistics; lines
+  714--1063 perform the COMPLETE semantic replay, including exact v135 receipt
+  equality at lines 1056--1060; and lines 1540 onward expose bounded SELFTEST
+  and production verdict paths;
 - driver lines 26--31 pin the final producer/checker/fixture bytes and hashes,
-  lines 112--149 enforce terminal envelopes including the nonempty typed
-  `UNKNOWN_INPUT` reason, lines 158--207 perform lossless unformatted shell
-  emission, lines 162--176 define the closed exact-sentinel branch, and lines
-  208--211 reject a formatting continuation before execution; driver lines
-  246--257 map the audited terminal to a closed code and invoke the external
-  emitter; and
+  line 50 pins v135, lines 113--150 enforce terminal envelopes including the
+  nonempty typed `UNKNOWN_INPUT` reason, lines 159--208 perform lossless
+  unformatted shell emission, lines 163--177 define the closed exact-sentinel
+  branch, and lines 209--211 reject a formatting continuation before execution;
+  driver lines 247--258 map the audited terminal to a closed code and invoke the
+  external emitter; and
 - fixture lines 41, 44, and 46 bind its typed reason, canonical self-digest,
   and exact terminal.
 
@@ -527,9 +542,10 @@ found:
 - the earlier run `33038109917` artifact still matches its recorded
   `c969abc8...` receipt, Q0-relator reason, 26/0-second timing, and agreeing
   terminals;
-- all fourteen producer and checker predecessor pins match current exact
+- all fifteen governing producer/checker source pins (fourteen fixture-public
+  predecessors plus the separately authenticated v135 note) match current exact
   bytes/SHA-256;
-- all seventeen driver pins (three runtime files plus fourteen predecessors)
+- all eighteen driver pins (three runtime files plus fifteen predecessors)
   match;
 - checker-to-producer source pin and driver runtime pins agree;
 - fixture bytes/external SHA and corrected canonical self-digest agree in the
@@ -575,6 +591,13 @@ production promotion.  Production run `33039406462` passes those earlier
 representation gates and returns the separately typed coarse-layout stop with
 matching producer/checker/driver terminals and the exact hashes above.
 
+The later SELFTEST attempt `33041044008` was canceled when the independent
+audit found that v135 governed the repaired selector but was cited only in this
+reply, not authenticated by the runtime bundle.  It supplies no terminal or
+promotion evidence.  The narrow repair now exact-pins v135 in producer,
+checker, driver, and COMPLETE receipt semantics, but no replacement SELFTEST
+has yet run against the final identities in Section 2.
+
 The noncontiguous factor projection, six-row diagnostic,
 `deletion_convention_checks=10`, raw bucket summaries, and all-243 Gamma
 coarse-image replay are currently **RE-SELFTEST PENDING**.  Q0 completion,
@@ -584,4 +607,4 @@ until the current bundle passes SELFTEST and is dispatched again.
 No all-seven solution, correction word, cofinal lift, fake, or Ihara witness
 is claimed.
 
-R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_NONCONTIGUOUS_DELETION_REPAIRED_RESELFTEST_PENDING
+R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_V1_NONCONTIGUOUS_DELETION_REPAIRED_V135_PROVENANCE_PINNED_RESELFTEST_PENDING
