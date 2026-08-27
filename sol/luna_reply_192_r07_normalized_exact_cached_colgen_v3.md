@@ -260,6 +260,11 @@ undefined local name `fixture` (the function had bound `_fixture`).  It is a
 producer code SELFTEST failure with no checker, mathematical, or cross-checked
 result; the fixture binding and independent checker gate above repair it.
 
+Parent Sol dispatched the fixture-binding repair as GHA SELFTEST run
+`33102478643` at immutable head
+`014183e6ac7bf319251c44579b1f60b44e511f2b`.  It was queued at
+2026-08-27T18:14:28Z; no result is claimed while the run is pending.
+
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
 LIVE TASK186 RUN MODIFIED:                     NO
