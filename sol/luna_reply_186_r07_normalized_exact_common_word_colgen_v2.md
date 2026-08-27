@@ -104,6 +104,11 @@ The v2 driver now calls `SetPrintFormattingStatus(D186Stream,false)` before
 writing the shell, and production will be redispatched from the repaired
 commit. The cancelled run has no mathematical result.
 
+Replacement production run `33075481377`, commit
+`257d01e154f020901d24b96599da5a9602e58913`, was dispatched after the
+print-formatting repair with the registered 19,800-second and resource caps.
+It is in progress and has no result yet.
+
 The current task179 v1 inputs were authenticated before use:
 
 | live v1 file | bytes | SHA-256 |

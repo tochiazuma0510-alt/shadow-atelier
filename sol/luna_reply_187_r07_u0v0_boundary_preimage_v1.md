@@ -186,6 +186,13 @@ lines were folded with continuation backslashes. The driver now calls
 `SetPrintFormattingStatus(D187Stream,false)` before writing any shell text.
 This was a wrapper-only failure and produced no mathematical result.
 
+GHA SELFTEST run `33075481646`, commit
+`257d01e154f020901d24b96599da5a9602e58913`, completed successfully: producer,
+independent checker, all driver gates, final sentinel, and artifact upload
+passed. This authenticates the bounded SELFTEST only. Production run
+`33075593185` was then dispatched from the same commit with the registered
+19,800-second and resource caps; it is in progress and has no result yet.
+
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 RAW-TO-NORMALIZED SHORTCUT:                 NOT DECLARED
