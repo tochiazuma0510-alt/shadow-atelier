@@ -107,7 +107,12 @@ commit. The cancelled run has no mathematical result.
 Replacement production run `33075481377`, commit
 `257d01e154f020901d24b96599da5a9602e58913`, was dispatched after the
 print-formatting repair with the registered 19,800-second and resource caps.
-It is in progress and has no result yet.
+The workflow was externally cancelled at its six-hour hard timeout: the GAP
+step ran from `2026-08-27T13:11:35Z` to `19:11:03Z`, the artifact-upload step
+was skipped, and the authenticated artifact inventory is empty
+(`total_count=0`).  Hence no producer/checker terminal or checkpoint was
+recovered.  This is a workflow-layer `UNKNOWN_RESOURCE`, not a complete
+search, nonmembership statement, or mathematical result.
 
 The current task179 v1 inputs were authenticated before use:
 
