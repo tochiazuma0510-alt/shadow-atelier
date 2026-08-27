@@ -711,6 +711,12 @@ def _toy_add_scaled(target: dict[bytes, int], source: dict[bytes, int], scalar: 
             target.pop(key, None)
 
 
+def _toy_pair(functional: dict[bytes, int], row: dict[bytes, int]) -> int:
+    """Pair toy sparse rows without colliding with production ``pair``."""
+    return sum(int(value) * int(row.get(key, 0))
+               for key, value in functional.items()) % 3
+
+
 class _ToyEchelon:
     def __init__(self) -> None:
         self.rows: dict[bytes, dict[bytes, int]] = {}; self.ancestry: dict[bytes, dict[int, int]] = {}; self.order: list[bytes] = []
@@ -745,7 +751,9 @@ class _ToyEchelon:
             value = -sum(coefficient * functional.get(key, 0) for key, coefficient in self.rows[pivot].items() if key != pivot) % 3
             if value: functional[pivot] = value
             else: functional.pop(pivot, None)
-        require(all(pair(functional, self.rows[pivot]) == 0 for pivot in self.order) and pair(functional, target), "toy dual")
+        require(all(_toy_pair(functional, self.rows[pivot]) == 0
+                    for pivot in self.order) and
+                _toy_pair(functional, target), "toy dual")
         return functional
 
 
@@ -873,7 +881,7 @@ def _toy_validate_receipt(receipt: dict[str, Any]) -> None:
             row = _ToyV1.translated_boundary({}, int(key[0]), int(key[2]), bytes.fromhex(key[1])); public_row = _ToyV1.public_sparse(row)
             require(record.get("sparse_row") == public_row and record.get("sparse_row_sha256") == digest(public_row) and
                     record.get("active_dual") == batch["dual"] and record.get("active_dual_sha256") == digest(batch["dual"]) and
-                    record.get("dual_pairing") == pair(dual, row), "toy literal row")
+                    record.get("dual_pairing") == _toy_pair(dual, row), "toy literal row")
             before = len(space.order)
             if record["classification"] == "retained":
                 cid = record.get("column_id"); require(cid == len(row_by_id) + 1, "toy retained ID")
@@ -906,7 +914,7 @@ def _toy_validate_receipt(receipt: dict[str, Any]) -> None:
             require(rem and item["decision"] == "NONMEMBER_D" and type(terminal) is dict and
                     terminal.get("row") == _ToyV1.public_sparse(expected_dual) and
                     terminal.get("row_sha256") == digest(_ToyV1.public_sparse(expected_dual)) and
-                    terminal.get("pairing_target") == pair(expected_dual, target) != 0 and
+                    terminal.get("pairing_target") == _toy_pair(expected_dual, target) != 0 and
                     terminal.get("annihilates_retained") is True and
                     terminal.get("full_correlation") == correlate(_ToyV1, {}, occurrences, expected_dual, None, {}, audit=True) and
                     terminal["full_correlation"].get("active") == [], "toy v0 decision")
