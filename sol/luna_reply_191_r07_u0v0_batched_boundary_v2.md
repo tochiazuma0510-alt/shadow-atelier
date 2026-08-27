@@ -239,3 +239,10 @@ Thus the bounded SELFTEST implementation is **cross-checked**: the producer
 and independent checker agree and all registered mutation controls are
 rejected.  This does not decide the production boundary membership, does not
 construct a compatible cofinal lift, and is not a Lean verification.
+
+Parent Sol then dispatched the authenticated PRODUCTION job as GHA run
+`33109346940` at immutable head
+`d68580936b2981b7de41dea4cb3f199e742fde62`.  The JSON API payload preserved
+the literal GAP string preamble
+`D972_R07_U0V0_BOUNDARY_PREIMAGE_BATCH_V2_MODE:="PRODUCTION";;`; the workflow
+wall limit is 360 minutes.  At registration time the run was `in_progress`.
