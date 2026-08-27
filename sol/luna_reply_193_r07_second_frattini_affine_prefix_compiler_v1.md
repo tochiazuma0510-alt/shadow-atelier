@@ -89,6 +89,11 @@ Current identities:
 The first three identities above are refreshed for the fixture-generation
 dispatch.  The fixture and therefore the final SELFTEST pins remain pending.
 
+Parent Sol dispatched the bounded fixture-generation bootstrap as GHA run
+`33103538697` at immutable head
+`911499ccc00e4034927961fe21588e3a47f13d06`.  It was queued at
+2026-08-27T18:27:16Z; no fixture or SELFTEST result is claimed while pending.
+
 LAZY E3,1/E4,1 AFFINE COMPILER:               NOT EXECUTED BY LUNA
 ACTUAL SECOND-RUNG beta1:                      NOT EXECUTED BY LUNA
 SECOND-RUNG MEMBERSHIP / CORRECTION:           NOT ATTEMPTED
