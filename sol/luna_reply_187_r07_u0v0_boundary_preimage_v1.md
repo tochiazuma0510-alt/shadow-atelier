@@ -31,10 +31,10 @@ the receipt and checked independently.
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `85c7aa86c2406f76e7a285b44fd01224a0357fb90b20b085b12e4621a2fdddb3` |
-| `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32537 | `1ffa7b6b5f3a184b2956a36984d0cc8c58574ab43f80695bec918cef918ef566` |
-| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6573 | `202f0669f90118adb2922bd731e53b39fff98d5453e0af18bfe7c3d4ae12f06a` |
-| `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `de58b9ae79fbf9e12e70f9370e370345809367540682284699ed28f63fc175cd` |
+| `search/d972_r07_u0v0_boundary_preimage_v1.py` | 35173 | `18040f4f73fe963632bbd2200e730818a7354c5963143a5871e73b2d1284dbfe` |
+| `crosscheck/check_d972_r07_u0v0_boundary_preimage_v1.py` | 32825 | `e94d19311d0afe23fde869045f959490528d18e0f3537209e57b7cbefb452b18` |
+| `search/d972_r07_u0v0_boundary_preimage_gha_driver_v1.g` | 6573 | `34ed83db28003082fe7a403e62a1666268d3532077c95615fb5b61bdca24a7fb` |
+| `search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json` | 699 | `230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff` |
 | `sol/luna_reply_187_r07_u0v0_boundary_preimage_v1.md` | final reply file | self-identity intentionally not embedded |
 
 The four predecessor identities used by the bundle are task179 producer
@@ -141,6 +141,12 @@ not provide all registered resource attributes. This is likewise a
 syntax/runtime-only candidate failure with no mathematical result; the
 SELFTEST namespace now supplies every `Budget` constructor field.
 
+Dispatch record: GHA run `33072235499` produced a PASS receipt, but the
+checker rejected the independent toy certificate. This is a checker-certificate
+contract failure only, with no mathematical result; the checker now reports
+the exact mismatching toy receipt or fixture field while retaining strict
+independent equality.
+
 U0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 V0 BOUNDARY PREIMAGE:                       NOT EXECUTED BY LUNA
 RAW-TO-NORMALIZED SHORTCUT:                 NOT DECLARED
@@ -153,5 +159,8 @@ The parent Sol committed the initial bundle as
 `33071521623`; that run exposed only the brace defect recorded above.  The
 brace repair was committed as `91aa747becfb599c682a84040adb30d70c0777a0`
 and dispatched as run `33071845558`; that run exposed only the bounded
-`Budget`-namespace defect recorded above.  Neither run produced a
-boundary-preimage decision.
+`Budget`-namespace defect recorded above.  That repair was committed as
+`bb5094070327bcbc38ffbea79b69f469a536d0ae` and dispatched as run
+`33072235499`; the producer passed and the checker exposed the stale fixture
+row recorded above.  None of these runs produced a boundary-preimage
+decision.

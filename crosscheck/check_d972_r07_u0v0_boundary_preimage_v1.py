@@ -28,7 +28,7 @@ PINS = {
     "task179_fixture": ("search/certs/d972_r07_positive_common_word_colgen_selftest_v1_20260827.json", 407, "46a1d80984938afa4f1f5b24ff90b407fb8bf2b7f094a9c4f124c0304c5c7c78"),
     "v156": ("sol/proof_r07_task179_exact_exponent_lattice_v156.md", 10409, "2da7903829e6782eb434aad5a254b86f7fa86e8132fd1f0bccb7eb7fab3f4d7d"),
     "v157": ("sol/proof_r07_all_rung_exact_charming_lattice_selector_v157.md", 8367, "08e6d0e5fcac68400904c9844b19f1626c663f121a852a26f37a2d71a79a3ab8"),
-    "selftest_fixture": ("search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json", 699, "de58b9ae79fbf9e12e70f9370e370345809367540682284699ed28f63fc175cd"),
+    "selftest_fixture": ("search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json", 699, "230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff"),
 }
 ALLOWED_RESOURCE_CAPS = {
     "task175_reconstruction": {"wall_seconds", "rss_bytes"},
@@ -404,7 +404,10 @@ def validate_selftest(receipt: dict[str, Any]) -> None:
         "noncommutative": {"sigma": list(sigma), "tau": list(tau), "sigma_tau": list(pm(sigma, tau)),
             "tau_sigma": list(pm(tau, sigma)), "left_translation": True, "block_tagging": True,
             "coefficient_two_inverse": True, "resource_stop": True}}
-    require(toy == independent_toy and fixture["expected"] == independent_toy, "independent toy certificate")
+    for field in ("boundary_rows", "inside_target", "outside_target", "positive_chain", "negative_dual",
+                  "full_correlation", "rank_transitions", "noncommutative"):
+        require(toy.get(field) == independent_toy[field], "independent toy receipt field:" + field)
+        require(fixture["expected"].get(field) == independent_toy[field], "independent toy fixture field:" + field)
 
 def parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(); p.add_argument("receipt", type=Path); p.add_argument("--selftest", action="store_true"); return p

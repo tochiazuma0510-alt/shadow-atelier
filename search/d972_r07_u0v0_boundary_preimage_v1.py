@@ -40,7 +40,7 @@ PINS = {
     "v157": ("sol/proof_r07_all_rung_exact_charming_lattice_selector_v157.md", 8367,
         "08e6d0e5fcac68400904c9844b19f1626c663f121a852a26f37a2d71a79a3ab8"),
     "selftest_fixture": ("search/certs/d972_r07_u0v0_boundary_preimage_selftest_v1_20260827.json", 699,
-        "de58b9ae79fbf9e12e70f9370e370345809367540682284699ed28f63fc175cd"),
+        "230de05643a94f775120ef7e62b2f2023b13fd12228f18ca860ef81b134babff"),
 }
 MUTATIONS = (
     "roster_ordinal", "exponent_sign", "u0_formula", "v0_formula",
