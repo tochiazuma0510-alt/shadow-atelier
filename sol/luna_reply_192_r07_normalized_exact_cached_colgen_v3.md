@@ -220,15 +220,15 @@ self-reference:
 | authorized file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
-| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134845 | `438242367187ab98d7c0ccf6cee22c00a3a21d416c891c8322789c9ce9f5b705` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `9ec61d445f34646a6e6e499a1b19a02a180021b26fd916f66c51ebc5c57b49ab` |
+| `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134864 | `6f91d7f98abee317c43c986a4a00c015ab348907390080098729bda9bc711090` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `647041cb484ac863a7ea6eedfe3301d63c32102d3c6d56edb8813295c5ec0f81` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
-The fixture-binding and dependent-row repairs change the producer/checker byte
-counts to 164649/134845.  Parent Sol refreshed both changed identities and the
-driver's internal checker pin before dispatch; the resulting 11424-byte driver
-identity is recorded above.
+The fixture-binding, dependent-row, and independent-toy-Fox repairs change
+the producer/checker byte counts to 164649/134864.  Parent Sol refreshed the
+checker SHA and the driver's internal checker pin after the static repair.
+The driver remains 11424 bytes.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -278,9 +278,13 @@ or cross-checked result.  The checker now reduces first and adds only nonzero
 remainders, including replay paths, and derives the formula occurrence count
 from independent occurrence output.
 
-Parent Sol dispatched this checker repair as GHA SELFTEST run `33104021006`
-at immutable head `e20c02ca96669800ade5ac7a826e933005471963`.
-It was queued at 2026-08-27T18:33:01Z; no result is claimed while pending.
+Parent Sol dispatched run `33104021006` after that repair.  The producer
+SELFTEST passed, but the checker failed because task179 exposes
+`independent_toy_fox`, not `toy_fox`; direct, exact-direct, inverse, and
+rank-zero resume paths all referenced the nonexistent name.  This is a checker
+SELFTEST code failure with no mathematical or cross-checked result.  All such
+paths now explicitly call the independently loaded checker routine, and the
+driver/checker pin update is recorded above.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO

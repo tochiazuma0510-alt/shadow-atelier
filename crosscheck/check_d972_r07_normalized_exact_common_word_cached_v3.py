@@ -835,13 +835,13 @@ def _checker_cached_toy_schedule(helper):
         source = candidates[item["index"] - 1]["word"]
         correction = list(reduce_word(correction + (
             source if coefficients[item["index"]] == 1 else inv(source))))
-    direct = helper.toy_fox(correction,
-                            [tuple(row) for row in fixture["generators"]], 2)
+    direct = helper.independent_toy_fox(
+        correction, [tuple(row) for row in fixture["generators"]], 2)
     c_star = mul(correction, correction, correction)
     exact = exactify(c_star, [2] * 36,
                      [1] * 18 + [2] * 144,
                      [-1] * 18 + [-2] * 54)
-    exact_direct = helper.toy_fox(
+    exact_direct = helper.independent_toy_fox(
         exact[0], [tuple(row) for row in fixture["generators"]], 2)
     return {"attempted_candidates": [1, 2, 3, 4],
             "weighted_formulas": [item["formula"] for item in active],
@@ -906,12 +906,12 @@ def _checker_rank_zero_resume(helper, stop, expected):
         source = [1] * 18
         resumed_word = list(reduce_word(resumed_word +
                             (source if coefficient == 1 else inv(source))))
-    resumed_direct = helper.toy_fox(
+    resumed_direct = helper.independent_toy_fox(
         resumed_word, [tuple(row) for row in fixture["generators"]], 2)
     resumed_exact = exactify(mul(resumed_word, resumed_word, resumed_word),
                              [2] * 36, [1] * 18 + [2] * 144,
                              [-1] * 18 + [-2] * 54)
-    resumed_exact_direct = helper.toy_fox(
+    resumed_exact_direct = helper.independent_toy_fox(
         resumed_exact[0], [tuple(row) for row in fixture["generators"]], 2)
     require(resumed_word == expected["correction_word"] and
             [[key.hex(), value] for key, value in sorted(resumed_direct.items())] ==
@@ -1139,10 +1139,11 @@ def validate_cached_schedule_selftest(receipt, helper):
                 state["coefficient_inverse_row"] is True,
                 "checker coefficient-two replay")
         relation = [1] * 18
-        direct = helper.toy_fox(relation,
-                                [tuple(row) for row in ((1, 0, 2), (0, 2, 1))], 2)
-        inverse_direct = helper.toy_fox(list(inv(relation)),
-                                        [tuple(row) for row in ((1, 0, 2), (0, 2, 1))], 2)
+        direct = helper.independent_toy_fox(
+            relation, [tuple(row) for row in ((1, 0, 2), (0, 2, 1))], 2)
+        inverse_direct = helper.independent_toy_fox(
+            list(inv(relation)),
+            [tuple(row) for row in ((1, 0, 2), (0, 2, 1))], 2)
         expected_inverse = {key: (-value) % 3 for key, value in direct.items()
                             if (-value) % 3}
         require(inverse_direct == expected_inverse,
