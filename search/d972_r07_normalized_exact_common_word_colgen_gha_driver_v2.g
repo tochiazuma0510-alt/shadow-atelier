@@ -24,7 +24,7 @@ D186ProducerBytes:=0;; D186ProducerSHA:="";;
 D186CheckerBytes:=0;; D186CheckerSHA:="";;
 D186FixtureBytes:=0;; D186FixtureSHA:="";;
 D186Current:=[
- [D186Producer,58947,"4f13e455b17b8a813c92a1b41f5de0b433790225d60a2241f1281fed1d014ba1"],
+ [D186Producer,63041,"ed3261c8b6f3b167393319c52ce72cfd22d78c42796e89913aef8495689ac529"],
  [D186Checker,54978,"59e175054b27e4beab8308579d5c4d72e72df512d627077ddcfbd72e544ed0f5"],
  [D186Fixture,234,"34dd389d9a3aff50486e57137f8dafea7b14825baec13e3288ed595046940963"]
 ];;

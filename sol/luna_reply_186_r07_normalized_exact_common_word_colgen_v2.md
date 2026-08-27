@@ -64,6 +64,18 @@ pentagon, and hexagon controls. The checker selects r3/r9/r12 afresh from the
 6,441-word roster, reconstructs all exactification literals, and compares them
 before its independent c_exact replay.
 
+The toy-runtime repair for GHA SELFTEST run `33071950021` adds an independent
+typed task176 stub to the production-path SELFTEST.  Its `packed_joint_blob`,
+`blob`, `value_from_blob`, `multiply_blob`, and `inverse_blob` methods preserve
+the 36/4 and 144/10 permutation-plus-PC widths; the fake quotients expose the
+live `identity/eval/mul/inverse` contract, and the empty Fox object exposes the
+`hexagon_words/embed_f2_pb3/f2_substitute/inv_word/fox_gradient_without_sections/`
+`translate_vector` calls used by AllSeven occurrence/direct replay.  Static
+tracing also covers the PositiveSearch `basis/columns/target/monitor/progress/`
+`write_checkpoint/model/rt` fields used by add-column and rank-zero checkpoint
+replay.  Run `33071950021` is recorded as runtime-contract-only: it produced
+no mathematical result.
+
 The current task179 v1 inputs were authenticated before use:
 
 | live v1 file | bytes | SHA-256 |
@@ -130,9 +142,9 @@ The five authorized v2 files are:
 
 | file | bytes | SHA-256 |
 |---|---:|---|
-| `search/d972_r07_normalized_exact_common_word_colgen_v2.py` | 58947 | `4f13e455b17b8a813c92a1b41f5de0b433790225d60a2241f1281fed1d014ba1` |
+| `search/d972_r07_normalized_exact_common_word_colgen_v2.py` | 63041 | `ed3261c8b6f3b167393319c52ce72cfd22d78c42796e89913aef8495689ac529` |
 | `crosscheck/check_d972_r07_normalized_exact_common_word_colgen_v2.py` | 54978 | `59e175054b27e4beab8308579d5c4d72e72df512d627077ddcfbd72e544ed0f5` |
-| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 8498 | `cb01d5805a3cbaf5d0063ca7b44b7e9ff5f3ee9b2e8513388293c62938e12fb0` |
+| `search/d972_r07_normalized_exact_common_word_colgen_gha_driver_v2.g` | 8498 | `63b622213df6618e9ee4dca3d33343eb3d20d5836983d75129310c0576db29d3` |
 | `search/certs/d972_r07_normalized_exact_common_word_colgen_selftest_v2_20260827.json` | 234 | `34dd389d9a3aff50486e57137f8dafea7b14825baec13e3288ed595046940963` |
 | `sol/luna_reply_186_r07_normalized_exact_common_word_colgen_v2.md` | pending final write | pending final write |
 

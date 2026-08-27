@@ -942,9 +942,81 @@ def production_path_selftest(v1):
     target = dict(row)
 
     class IdentityQuotient:
-        identity = ()
+        """Typed joint-element identity used by the live v1 model methods."""
+        def __init__(self, degree):
+            require(degree in (36, 144), "production SELFTEST quotient degree")
+            self.degree = degree
+            self.identity = (bytes(range(degree)),
+                             bytes({36: 4, 144: 10}[degree]))
+
         def eval(self, word):
-            return ()
+            del word
+            return self.identity
+
+        def mul(self, left, right):
+            require(left == self.identity and right == self.identity,
+                    "production SELFTEST identity multiplication")
+            return self.identity
+
+        def inverse(self, value):
+            require(value == self.identity,
+                    "production SELFTEST identity inversion")
+            return self.identity
+
+    class MiniP176:
+        """Independent minimal implementation of task176's typed blob ABI."""
+        COORDINATE_WIDTHS = [40] * 5 + [154] * 5
+
+        @staticmethod
+        def packed_joint_blob(value, label):
+            if type(value) is not tuple or len(value) != 2:
+                raise TypeError(label + " must be a two-component tuple")
+            permutation, pc_value = value
+            if type(permutation) not in (bytes, tuple):
+                raise TypeError(label + " permutation must be bytes or tuple")
+            if type(permutation) is tuple and not all(type(x) is int for x in permutation):
+                raise TypeError(label + " tuple permutation entries must be integers")
+            if type(pc_value) is not bytes:
+                raise TypeError(label + " PC component must be bytes")
+            degree = len(permutation)
+            expected_pc_width = {36: 4, 144: 10}.get(degree)
+            if expected_pc_width is None or len(pc_value) != expected_pc_width:
+                raise ValueError(label + " unsupported degree/PC width")
+            packed = bytes(permutation)
+            if len(packed) != degree or set(packed) != set(range(degree)):
+                raise ValueError(label + " permutation is not bijective")
+            return packed + pc_value
+
+        @staticmethod
+        def blob(old, value):
+            del old
+            return MiniP176.packed_joint_blob(
+                value, "task186 SELFTEST typed element")
+
+        @classmethod
+        def value_from_blob(cls, raw, index):
+            if type(raw) is not bytes:
+                raise TypeError("production SELFTEST section blob must be bytes")
+            degree = 36 if index < 5 else 144
+            width = {36: 4, 144: 10}[degree]
+            if len(raw) != degree + width:
+                raise ValueError("production SELFTEST section blob width")
+            permutation = raw[:degree]
+            pc_value = raw[degree:]
+            cls.packed_joint_blob((permutation, pc_value),
+                                  "production SELFTEST decoded element")
+            return permutation, pc_value
+
+        @classmethod
+        def multiply_blob(cls, left, right, index, e3, e4):
+            group = e3 if index < 5 else e4
+            return cls.blob(None, group.mul(cls.value_from_blob(left, index),
+                                            cls.value_from_blob(right, index)))
+
+        @classmethod
+        def inverse_blob(cls, raw, index, e3, e4):
+            group = e3 if index < 5 else e4
+            return cls.blob(None, group.inverse(cls.value_from_blob(raw, index)))
 
     class EmptyFox:
         def hexagon_words(self, word):
@@ -964,8 +1036,9 @@ def production_path_selftest(v1):
     # typed quotient: this keeps the occurrence/direct E-key path load-bearing
     # without running the full six-thousand-word production universe twice.
     model = object.__new__(v1.AllSevenModel)
-    model.rt = {"joint_group": IdentityQuotient()}; model.old = EmptyFox()
-    model.e3 = IdentityQuotient(); model.e4 = IdentityQuotient(); model.g = []
+    model.e3 = IdentityQuotient(36); model.e4 = IdentityQuotient(144)
+    model.rt = {"joint_group": IdentityQuotient(36),
+                "p176": MiniP176()}; model.old = EmptyFox(); model.g = []
     model.specs = [{"block": 1, "coordinate": index, "quotient": model.e3,
                     "left": [], "right": [], "sign": 1, "lift": False,
                     "occurrence_prefix": (), "base_factor": []}
@@ -975,6 +1048,17 @@ def production_path_selftest(v1):
                      "occurrence_prefix": (), "base_factor": []}
                     for index in range(5)]
     model.pcontexts = [([], [])] * 5
+    p176 = model.rt["p176"]
+    for index, quotient, expected_width in ((0, model.e3, 40),
+                                             (5, model.e4, 154)):
+        packed = p176.packed_joint_blob(quotient.identity,
+                                        "task186 SELFTEST typed element")
+        require(len(packed) == expected_width and
+                p176.value_from_blob(packed, index) == quotient.identity and
+                p176.blob(None, quotient.identity) == packed and
+                p176.multiply_blob(packed, packed, index, model.e3, model.e4) == packed and
+                p176.inverse_blob(packed, index, model.e3, model.e4) == packed,
+                "production SELFTEST typed blob roundtrip")
     occurrence = v1.AllSevenModel.occurrence_column(model, [], [1] * 18)
     direct, direct_trace = v1.AllSevenModel.direct_column(model, [], [1] * 18)
     require(occurrence == row and direct == occurrence and
