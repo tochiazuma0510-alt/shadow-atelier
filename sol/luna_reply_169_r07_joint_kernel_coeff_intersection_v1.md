@@ -282,3 +282,24 @@ all seven relation evaluations and HT1--HT5 remain required
 no fake / cofinal lift / Ihara witness declared
 
 R07_760_JOINT_COEFF_GHA_BOOTSTRAP_STATIC_READY
+
+## Parent dispatch record (2026-08-27)
+
+The parent static audit accepted the preflight-only bootstrap and dispatched
+the generic `gap-run.yml` workflow.  This records execution provenance only;
+no computational result is promoted while the run is in progress.
+
+```text
+GHA run id:       33027004847
+workflow:         gap-run.yml
+branch:           sol/r07-explicit-lift-20260825
+commit SHA:       bce73ae3271c7dcfbcc3394e258400abca1ac2d9
+script:           search/d972_r07_760_l3_target6_joint_kernel_coeff_intersection_gha_preflight_driver_v1.g
+mode:             D972_R07_JOINT_COEFF_GHA_PREFLIGHT_BOOTSTRAP_V1_RUN=true
+domain seconds:   5400 per producer/checker domain build
+job timeout:      360 minutes
+dispatch status:  in_progress
+```
+
+No rank, coefficient intersection, lift, fake, or Ihara claim follows from
+the dispatch itself.
