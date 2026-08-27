@@ -27,8 +27,8 @@ self-referential.
 | file | bytes | SHA-256 |
 |---|---:|---|
 | `search/d972_r07_u0v0_boundary_preimage_batch_v2.py` | 93,042 | `dc258cae05b909df07458e80aa41ae0d7d7dbea44c43bd291980de9e10856830` |
-| `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,823 | `8dad4ca4fc0cb3e942c9ea3c7ea0a3da1339f2bbe683953c8518f511f5b85eac` |
-| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `3f6efd3ae64ea1f7187e4d650227994a46700c2530dcc93a16c5afff51de95b4` |
+| `crosscheck/check_d972_r07_u0v0_boundary_preimage_batch_v2.py` | 68,826 | `f0823119e1ab69bc2cb58b88f134eef72b169f82c9ce118bea1507036f76a07d` |
+| `search/d972_r07_u0v0_boundary_preimage_batch_gha_driver_v2.g` | 9,041 | `5b1289ab44cc0d35fb7a998530044b58ae966d3be3d9ade7e94b3182fd92b481` |
 | `search/certs/d972_r07_u0v0_boundary_preimage_batch_selftest_v2_20260827.json` | 1,396 | `fe5e2adbb35d7594ea3ddebff654772a906236067623ac0d5f34bc5ad3e73b34` |
 | `sol/luna_reply_191_r07_u0v0_batched_boundary_v2.md` | designated reply | reported out-of-band |
 
@@ -202,6 +202,16 @@ checkpoints from their public JSON artifacts after validation, before any
 mutation is sealed.  Production checkpoint serialization and replay semantics
 are unchanged.  This run is recorded as a producer SELFTEST code failure
 with no mathematical or cross-checked result.
+
+Parent Sol dispatched GHA SELFTEST run `33108424569` at immutable head
+`617e94c402c41b99738971cb46b2fb04adad2f44`.  Producer SELFTEST passed; the
+independent checker then raised `require() takes 2 positional arguments but 3
+were given` in its toy checkpoint transcript gate.  The checkpoint-columns
+predicate had accidentally been supplied as a third positional argument
+instead of being joined to the preceding statistics predicate.  The checker
+now combines both predicates with `and` and retains the same diagnostic
+message, without weakening the gate.  This run is recorded as producer PASS
+but checker code failure with no cross-checked result.
 
 BATCHED EXACT BOUNDARY DECISION:              NOT EXECUTED BY LUNA
 MATHEMATICAL BOUNDARY SPACE CHANGED:          NO

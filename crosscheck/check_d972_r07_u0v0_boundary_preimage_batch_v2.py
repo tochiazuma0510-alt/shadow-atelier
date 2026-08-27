@@ -557,7 +557,7 @@ def validate_toy_checkpoint(checkpoint: dict[str, Any]) -> None:
             [(record["batch_id"], record["batch_position"]) for record in checkpoint["target_reconsideration_log"]] == expected_keys and
             checkpoint.get("stats") == {"complete_correlation_rounds": 1, "support_occurrence_pairs_total": 4,
                 "pairs_per_round": [4], "active_total": 4, "retained_total": 2, "dependent_total": 0,
-                "cache_hits": 0, "cache_misses": 2, "rank_gains": [1, 2], "target_reconsiderations": 2},
+                "cache_hits": 0, "cache_misses": 2, "rank_gains": [1, 2], "target_reconsiderations": 2} and
             checkpoint.get("columns") == expected_columns, "toy checkpoint transcript state")
 
 
