@@ -58,7 +58,21 @@ finite canary. It does not assert all-rung saturation or promote \(\mu_1\)
 without the universal identity required by v175 or a structural all-rung
 instance of v183.
 
-## 2. Hard input gate
+## 2. Authorized files
+
+Create only:
+
+    search/d972_r07_actual_pair_coinvariant_canary_v1.py
+    crosscheck/check_d972_r07_actual_pair_coinvariant_canary_v1.py
+    search/d972_r07_actual_pair_coinvariant_canary_gha_driver_v1.g
+    search/certs/d972_r07_actual_pair_coinvariant_canary_selftest_v1_20260828.json
+    sol/luna_reply_195_r07_actual_pair_coinvariant_canary_v1.md
+
+Pin exact bytes and SHA-256 of every source and input. Temporary generation
+or test files stay outside the repository. Do not edit the five inputs or
+reuse an output path from another task.
+
+## 3. Hard input gate
 
 Production accepts exactly:
 
@@ -74,7 +88,7 @@ UNKNOWN_INPUT. Do not substitute \(g_{760}\), a task193 SELFTEST word, a
 roof row, Jennings data, one PB3/PB4 component, or a previously projected
 residual for either \(d_1\) or \(e_1\).
 
-## 3. Frozen modules and literal rows
+## 4. Frozen modules and literal rows
 
 Use the genuine seven separately tagged contexts and the common diagonal
 source action. Reconstruct \(d_1\) by evaluating \(g_{760}\) through the
@@ -95,7 +109,7 @@ eleven-PB4 boundary image. Any complete-correlation acceleration must merge
 all shard coefficients modulo three before deleting zeros and before every
 pivot.
 
-## 4. Complete diagonal orbit spans
+## 5. Complete diagonal orbit spans
 
 Let the common source generators act simultaneously in all seven contexts.
 Starting from \(d_1,e_1\), close a sparse echelon under the actions of
@@ -113,7 +127,7 @@ This stable span is \(M_1\). Build \(M_0\) independently from the reduced
 rows and the roof diagonal action. Equality of orbit counts, hashes, or
 group orders is not a replacement for the two literal stable-span replays.
 
-## 5. Complete relative-kernel generator gate
+## 6. Complete relative-kernel generator gate
 
 Construct a word-bearing generating set for
 \(K=\ker(\Delta_1\to\Delta_0)\). A deterministic Schreier traversal of the
@@ -132,7 +146,7 @@ acceptable only if its conjugates are saturated under the full
 An arbitrary short-word list or the support of a candidate \(\mu_1\) is not
 a complete \(K\)-generator certificate.
 
-## 6. Exact pair-coinvariant decision
+## 7. Exact pair-coinvariant decision
 
 Using only the certified \(K\) generators \(s_i\), form
 
@@ -152,7 +166,7 @@ terminal is exactly one of:
 PAIR_SATURATION_FAIL disproves only this v183 edge condition. It is not a
 proof that \(e_1\notin I_0d_1\), and it is not a no-lift result.
 
-## 7. Direct relative-multiplier decision
+## 8. Direct relative-multiplier decision
 
 Using the complete \(K\)-generator certificate, build
 
@@ -175,7 +189,7 @@ by closing every \((s_i-1)d_1\) under the full diagonal action. Reduce
 Do not infer the direct answer from the pair-saturation terminal. The receipt
 must carry both decisions.
 
-## 8. Independent checker and SELFTEST
+## 9. Independent checker and SELFTEST
 
 The checker imports no task195 producer helper. It reconstructs the two
 actual rows, diagonal actions, Schreier kernel words, orbit spans,
@@ -194,7 +208,7 @@ global-zero merge, orbit closure, kernel generation, \(s_i-1\) sign,
 coinvariant dimension, reduction map, multiplier coefficient, boundary
 ancestry, dual annihilation, stale round, checkpoint, and resource terminal.
 
-## 9. Driver and final ledger
+## 10. Driver and final ledger
 
 Use the generic GHA runner only; do not edit a workflow. The driver must pin
 all inputs and current producer/checker/fixture files, reject stale outputs,
