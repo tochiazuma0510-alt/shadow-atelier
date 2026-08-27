@@ -70,7 +70,6 @@ else
 fi;
 PrintTo(D187Stream,"printf 'R07_U0V0_BOUNDARY_PREIMAGE_V1_OK\\n' > ",D187OK,"\n"); CloseStream(D187Stream);;
 Exec(Concatenation("bash ",D187Shell));
-if not IsExistingFile(D187OK) then Error("task187 driver: missing completion sentinel"); fi;
 D187Sentinel:=D187Read(D187OK);;
 if D187Sentinel<>"R07_U0V0_BOUNDARY_PREIMAGE_V1_OK\n" then Error("task187 driver: invalid completion sentinel"); fi;
 if D187Mode="SELFTEST" then Print("R07_U0V0_BOUNDARY_PREIMAGE_V1_GHA_DRIVER_PASS mode=SELFTEST terminal=R07_U0V0_BOUNDARY_PREIMAGE_V1_SELFTEST_PASS\n");
