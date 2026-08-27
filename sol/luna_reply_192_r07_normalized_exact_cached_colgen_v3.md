@@ -221,13 +221,14 @@ self-reference:
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 164649 | `d394056420baed19a7692eee6efd0c05ff2dc642254226d81aace482ada21199` |
 | `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 134659 | `90a7bc6647da680449cd2cc7c56a747f6ba02fd3d8fd5adb1644f65550ceccf6` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `60160ed3f77844eaa09fe269caa765f92709407e5bcd73dda2db7e7306c7bc26` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11424 | `3c4bed9bf5b8d8713c62fa6eff405f77aa34494b496a4338c1f9ab0f8a7a0d22` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
 The fixture-binding repair changes the producer/checker byte counts to
-164649/134659; Parent Sol refreshed the two SHA rows above before dispatch.
-The current driver identity remains 11424 bytes.
+164649/134659; Parent Sol refreshed those two SHA rows above before dispatch.
+The authenticated producer/checker pins are now also updated inside the
+driver.  Parent Sol refreshed its 11424-byte identity above before dispatch.
 
 Only the five authorized task192 files were changed.  GHA SELFTEST run ID
 `33100220787` failed before producer startup because its launcher emitted the
@@ -262,8 +263,11 @@ result; the fixture binding and independent checker gate above repair it.
 
 Parent Sol dispatched the fixture-binding repair as GHA SELFTEST run
 `33102478643` at immutable head
-`014183e6ac7bf319251c44579b1f60b44e511f2b`.  It was queued at
-2026-08-27T18:14:28Z; no result is claimed while the run is pending.
+`014183e6ac7bf319251c44579b1f60b44e511f2b`.  It failed before producer
+startup because the driver's internal producer/checker pins still named the
+pre-binding identities.  This is a fail-closed pin-drift code failure with no
+producer, checker, mathematical, or cross-checked result.  The supplied
+producer/checker identities are now installed above.
 
 CACHED NORMALIZED FIRST-EDGE WORD:            NOT EXECUTED BY LUNA
 V2 MATHEMATICAL SCHEDULE CHANGED:              NO
