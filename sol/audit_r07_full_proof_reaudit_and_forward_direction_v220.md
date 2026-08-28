@@ -2488,3 +2488,41 @@ parallel, A1, and A5/A6 lines.  It changes no actual witness numerator.
 Delta53 converts two deterministic false-positive paths into narrowly typed
 repairs without interrupting A0 or A1.  It changes no actual witness
 numerator.
+
+#### v220-delta54 - 2026-08-28 (after delta53)
+
+**Individual progress**:
+
+- V253 audited the task298/v3 control flow and corrected the operational
+  interpretation of run 33163964747.  The sealed resume retains and replays
+  2,896 columns, rebuilds rank and the exact dual, and starts a fresh wall
+  clock.  Its stored boundary state has `complete=false` and
+  `restart_pair_cursor=0`; the v3 correlation function reads no cursor or
+  partial accumulator and therefore restarts that frozen-dual pair loop from
+  the beginning.
+- This is not a mathematical soundness defect: a completed full rerun returns
+  the same exact F3 correlation.  It is a resource defect because another
+  10,800-second run can repeat approximately the same prefix and consume the
+  cumulative pair cap without advancing a boundary cursor.
+- The production acceleration contract is now sharper: task303 must first
+  pass its process-map/reduce SELFTEST, and a later authenticated adapter must
+  either finish one full frozen-dual epoch inside the wall budget or retain a
+  deterministic completed-batch cursor plus independently replayable partial
+  accumulator.  Adaptive rank/dual epochs remain serial.
+- The A5/A6 generalized-kernel v6 implementation returned unexecuted and is
+  now under Sol(max) static code audit.  It is not yet an accepted SELFTEST.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, not pairwise continuation.
+  Neither the running serial attempt nor the unexecuted parallel kernel adds
+  a numerator.
+- A1 remains **3/4 RUNNING**; A2 **2/3**; A3/A4 **0/3 actual**.
+- A5 and A6 remain **0/3 actual**, pending Sol(max) audit and then GHA
+  SELFTEST of v6.  A7 remains **0/3 actual** with its synthetic implementation
+  SELFTEST separate.
+- A8, A9, B, C, W, and F remain zero; witness/fake/Ihara status is unchanged.
+
+Delta54 prevents repeated boundary work from being misreported as cursor
+progress and fixes the exact requirement for a genuinely accelerating A0
+adapter.  It changes no actual witness numerator.

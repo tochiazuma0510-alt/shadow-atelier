@@ -217,3 +217,19 @@ status       IN_PROGRESS (2026-08-28 19:36 JST)
 
 This records transport execution only.  A0 remains zero unless the run emits
 COMMON and the pinned helper-nonshared checker accepts the identical terminal.
+
+## Parent post-dispatch cursor audit
+
+The later v253 control-flow audit narrows the meaning of “resume.”  V2
+correctly transports the retained columns, rebuilt rank, current dual, limits,
+and cumulative counters.  The authenticated boundary object nevertheless has
+`complete=false` and `restart_pair_cursor=0`, and the v3 correlation routine
+does not read either `pair_attempts` or a cursor.  It recreates an empty
+accumulator and starts the frozen-dual pair loop at its beginning.
+
+Therefore run 33163964747 is a column/rank/dual resume with a fresh wall
+clock, but its current boundary epoch is a full restart rather than a
+continuation at pair 3,145,089.  This affects performance only; a completed
+full correlation remains exact.  A separately versioned production adapter
+must add deterministic batch/cursor and partial-accumulator replay or finish
+the epoch by parallel map/reduce in one wall budget.
