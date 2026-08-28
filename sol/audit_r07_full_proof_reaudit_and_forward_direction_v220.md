@@ -4456,3 +4456,36 @@ delta100--101.
 Durable branch record through delta101 is commit `ecafa8cd`, pushed to
 `origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
 delta102.
+
+#### v220-delta103 - 2026-08-29 (after delta102)
+
+**Individual progress**:
+
+- V290 closes the resume-accounting ambiguity exposed by the live A4-v5
+  repair.  Completed semantic work, restore validation, current-invocation
+  host resources, and physical peaks/gauges now have distinct composition
+  laws.  Semantic additive counters cannot be reset by resume; restore work
+  is charged separately; a fresh GHA continuation receives its explicit new
+  wall deadline; historical RSS/sidecar peaks are retained by maximum.
+- The theorem rejects both observed bad extremes: a blanket `max` merge
+  erases additive work and an overwrite of saved wall time erases history,
+  while blindly adding an exhausted old wall clock to the fresh driver
+  deadline makes genuine continuation impossible.
+- Static feedback to the in-progress A4-v5 implementation also identified a
+  literal recovery-v2 validator call-shape error and the producer/checker
+  checkpoint-code-owner mismatch.  These remain implementation findings,
+  not accepted mathematical terminals.
+
+**v220 mapping**:
+
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V288+v290 now fix both the
+  lossless state and its resource-accounting composition on paper; no source
+  is counted until fresh Sol(max) code/performance audit and GHA acceptance.
+- A0 remains **0/1; V10 IMPLEMENTATION ACTIVE**.  V290 applies to its claimed
+  DAG/checkpoint route as well, without accepting that implementation.
+- A2 remains **2/3** and every other count remains delta102.  No compatible
+  lift, fake certificate, or Ihara counterexample has been constructed.
+
+Durable branch record through delta102 is commit `bdf3dee2`, pushed to
+`origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
+delta103.
