@@ -1,0 +1,110 @@
+# Sol(max) task 322 — task320/v10 independent code, semantic, and performance audit
+
+Role: Sol(max), adversarial static auditor. Read every numbered section from
+first to last. Do not run Python, Node, GAP, GHA, workflows, git, or network.
+Read-only PowerShell byte/hash/JSON inspection is permitted. Do not edit any
+path except the reply required in Section 1. This audit concerns the code and
+its avoidable work, not row 36's non-arithmetic classification.
+
+## 1. Inputs and sole reply
+
+Read in full:
+
+- `sol/luna_task_320_r07_task307_v10_action_shape_pin_echelon_repair.md`
+- `sol/luna_reply_320_r07_task307_v10_action_shape_pin_echelon_repair.md`
+- `sol/sol_task_318_r07_task316_v9_executed_shape_code_performance_audit.txt`
+- `sol/sol_reply_318_r07_task316_v9_shape_code_performance_audit_v1.md`
+- all four v9 load-bearing files; and
+- all four v10 load-bearing files named in task320.
+
+Write the complete verdict only to:
+
+`sol/sol_reply_322_r07_task320_v10_code_performance_audit_v1.md`
+
+No other file may be changed. Report `PASS / UNEXECUTED` only if every gate
+below passes; otherwise report `REJECT / UNEXECUTED` with the first exact
+blocker and every further blocker found. A PASS authorizes only one bounded
+synthetic GHA SELFTEST, never production or actual A5/A6 progress.
+
+## 2. Exact identities, byte scope, and driver
+
+Independently compute byte counts and SHA-256 for the producer, checker,
+driver, and fixture. Check the three full driver pins, ASCII-only driver,
+exactly one final LF and no CR in every v10 text file, complete stale-output
+rejection, exactly one producer and one checker invocation in serial order,
+exact-one full-line terminal gates, terminal equality, sole post-gate
+sentinel, and the exact production terminal
+`STATIC_BLOCKED:actual typed matrices are not staged`.
+
+Compare v9 to v10 semantically. Apart from version/schema/seal/pins and the
+commissioned algorithmic echelon rewrite, the fixture must differ only by
+the exact twelve trailing scalar zeros in task320. No target, expected tuple,
+case/action order, nontrailing scalar, mutation owner, or terminal may move.
+
+## 3. Complete literal type and arithmetic reconstruction
+
+Enumerate, without trusting the Luna reply:
+
+1. all five cases times all six base/binding pairs, with exact literal
+   equality, row counts, every row length, integer type, and F3 range;
+2. all six stored actions, checking every theta action as 2x2, every z action
+   as 2x2, and every eta action as 11x11, again with all scalar checks; and
+3. the five expected tuples from the literal seeds, actions, D, O, C, target,
+   MEMBER ancestry, and NONMEMBER dual equations.
+
+The preflight in both programs must independently perform the complete
+base/binding and action checks before any compile, replay, or mutation. It
+must reject the old v9 ragged action pattern and may not infer action shapes
+from base matrices.
+
+## 4. Independent algorithm and echelon audit
+
+Audit the producer closure and checker replay line by line. Establish or
+reject all of the following:
+
+- incremental bases retain exactly the old accepted span, seed precedence,
+  action order, and lexicographic semantics;
+- a stored row is inserted only after independent reduction and never
+  silently treated as independent;
+- ancestry coefficients and change-of-basis coordinates are updated by the
+  same row operations and reconstruct every stored row exactly;
+- the checker implementation is genuinely independent and imports/shares no
+  producer helper or hidden semantic result;
+- left-kernel/nullspace, Hd1, MEMBER equations/ancestry, NONMEMBER duals, and
+  full two-way span checks remain complete;
+- the advertised queue-pop/closure-rank bounds are exact; and
+- all avoidable known-basis echelon rebuilds identified in task318 are zero
+  in both programs. Enumerate any remaining rank/RREF rebuild and classify it
+  as necessary or avoidable.
+
+Reject any repeated parsing, redundant recompilation, accidental exhaustive
+enumeration, retry/sleep/poll/lock, process pool, serial subprocess overhead
+beyond the prescribed one producer plus one checker, unbounded growth, or
+other code path that needlessly delays execution. Give concrete upper bounds
+for every loop and enumeration, including mutations.
+
+## 5. Mutation and fail-closed reachability
+
+Trace, do not merely count, the full ordered 19-owner roster. For all five
+baseline cases, producer wrong-seal canary, 19 producer mutations, checker
+wrong-seal canary, and 19 checker semantic mutations, prove or reject static
+reachability after the literal preflight. Every mutation must change
+canonical bytes, reseal outside the semantic exception boundary, reach its
+intended independent oracle, and be rejected for semantics. A no-op, mere
+reseal, exception swallowed by a broad catch, or wrong-owner rejection is a
+blocker.
+
+## 6. Verdict accounting
+
+End with exact identities and these separate verdicts:
+
+- byte/pin/scope;
+- all literal shapes and five expected tuples;
+- producer incremental algorithm;
+- checker independence and replay completeness;
+- 19/19 producer and 19/19 checker mutation static reachability;
+- performance/fixed bounds;
+- overall `PASS / UNEXECUTED` or `REJECT / UNEXECUTED`.
+
+Keep actual mutation counts at 0/19 and 0/19 because execution is forbidden.
+Keep actual A5/A6 at 0/3 and lift/fake/Ihara at NONE.
