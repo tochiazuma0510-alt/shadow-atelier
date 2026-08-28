@@ -3729,3 +3729,38 @@ old pivot digest.
 Delta85 proves that the next A0 acceleration can postpone the billion-byte
 Q0 candidate layer until it is mathematically needed, rather than merely
 parallelizing work before the boundary phase.
+
+#### v220-delta86 - 2026-08-29 (after delta85)
+
+**Individual progress**:
+
+- V278 separates exact checkpoint resume from the weaker claim actually
+  needed by a positive-only witness search.  The checkpoint sparse rows may
+  drive a deterministic heuristic basis and fresh duals without replaying all
+  2,896 source provenances before the first boundary epoch.
+- Every live basis row retains a formal coefficient map in checkpoint-column
+  and newly generated row symbols.  On a zero target remainder, the candidate
+  solution is expanded to its finite selected support.  The independent
+  checker then reconstructs every selected old row from its literal boundary
+  or correction provenance, replays every new row, and checks their complete
+  sparse sum against the independently rebuilt target before any COMMON can
+  pass.
+- This is sound because unselected discovery rows do not occur in the final
+  equality; an invalid heuristic can only propose a candidate that final
+  replay rejects.  No failure, zero correlation, or cap receives negative
+  content.  Exact cached-v3 path parity is explicitly not claimed.
+- Combined with v276 and v277, the prospective v7 pre-boundary path now needs
+  only authenticated sparse checkpoint parsing, triangular pivot arithmetic,
+  the light quotient/roster layer, and boundary correlation.  Heavy Q0 work
+  waits for correction search; old provenance replay waits for COMMON.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  V278 is a positive-soundness
+  theorem and performance contract, not an accepted output.
+- All other A0--A9 and B/C/W/F values remain as in delta85.  No compatible
+  lift, fake certificate, or Ihara counterexample has been constructed.
+
+Delta86 removes another unnecessary startup proof obligation while making
+the final explicit witness, rather than its heuristic discovery history, the
+sole authority.
