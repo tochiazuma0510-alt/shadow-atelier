@@ -409,7 +409,30 @@ def check_receipt(path: str) -> dict:
     if "c_in_K" in receipt:
         require(isinstance(receipt["c_in_K"], bool), "SS4_C_IN_K_TYPE", str(receipt.get("c_in_K")))
     if "tau_descends" in receipt:
-        require(receipt["tau_descends"] == receipt.get("c_in_K"), "SS4_TAU_DESCENDS_NOT_CONSERVATIVE_WITH_C_IN_K", f"tau_descends={receipt.get('tau_descends')} c_in_K={receipt.get('c_in_K')}")
+        # item 5 (裁定1761): (F2)-only operation makes this field NOT_APPLICABLE
+        # (no word-descent fallback path exists anymore); the earlier
+        # conservative-equals-c_in_K rule is retired.
+        require(receipt["tau_descends"] == "NOT_APPLICABLE", "SS4_TAU_DESCENDS_WRONG", str(receipt.get("tau_descends")))
+    # item 2 (裁定1761): product_order/word_eval_order declaration pair,
+    # fail-closed if missing. The M-window predicate's validated pair is
+    # ("tau2_tau_id","prepend"); the self-contained PGammaL window has its
+    # OWN independently-validated pair ("id_tau_tau2",
+    # "not_applicable_self_contained") -- both are ACCEPTED, but a receipt
+    # declaring anything else, or omitting either field, is rejected.
+    require("product_order" in receipt and "word_eval_order" in receipt, "SS4_CONVENTION_PAIR_MISSING", "")
+    if "product_order" in receipt and "word_eval_order" in receipt:
+        VALID_CONVENTION_PAIRS = {("tau2_tau_id", "prepend"), ("id_tau_tau2", "not_applicable_self_contained")}
+        require((receipt["product_order"], receipt["word_eval_order"]) in VALID_CONVENTION_PAIRS,
+                "SS4_CONVENTION_PAIR_WRONG", f"product_order={receipt.get('product_order')} word_eval_order={receipt.get('word_eval_order')}")
+    # item 4 (裁定1761): reduction_match is declared tautological-by-
+    # construction (target0 is derived from the SAME seed evaluation the
+    # candidate coset was built from); this checker does NOT independently
+    # judge reduction_match via CC-1 (it is excluded from that judgment, not
+    # silently trusted as substantive) -- it only requires the honesty flag
+    # itself be present and true, or the receipt is REJECTED for omitting it.
+    if not receipt.get("self_contained_E"):
+        require(receipt.get("reduction_match_tautological_by_construction") is True,
+                "SS4_REDUCTION_MATCH_HONESTY_FLAG_MISSING_OR_FALSE", str(receipt.get("reduction_match_tautological_by_construction")))
 
     if receipt.get("self_contained_E"):
         return check_self_contained_E(receipt, path, receipt_sha256, errors, require)
@@ -445,6 +468,29 @@ def check_receipt(path: str) -> dict:
     JY_mblock = tuple(JY[i] for i in range(36))
     mblock_order = group_order([JX_mblock, JY_mblock], 36)
     require(mblock_order == 1469664, "CK3_MBLOCK_ORDER_MISMATCH", f"computed={mblock_order}")
+
+    # item 1 (裁定1773 GO条件1): seed-coset linkage check. Independently
+    # re-evaluate the DECLARED seed word from JX_mblock,JY_mblock under the
+    # DECLARED word_eval_order (this checker does not trust the producer's
+    # own seed evaluation -- only JX,JY and the receipt's own seed_key/
+    # word_eval_order fields, which are checked separately above for
+    # membership in a known-valid set). This closes exactly the gap a T1
+    # (seed swap: relabel seed_key while leaving rows computed under a
+    # DIFFERENT seed) or T6 (self-consistent fake DROP: rows internally
+    # agree with each other but not with the declared seed) mutation would
+    # exploit -- prior to this check, only internal row-to-row consistency
+    # (REDUCTION_MBLOCK_INCONSISTENT) was enforced, never a tie-back to the
+    # declared seed itself.
+    seed_word = receipt.get("seed_key", {}).get("word") if isinstance(receipt.get("seed_key"), dict) else None
+    weo = receipt.get("word_eval_order")
+    recomputed_seed_mblock = None
+    if seed_word is not None and weo == "prepend":
+        z = pid(36)
+        for code in seed_word:
+            g = JX_mblock if abs(code) == 1 else JY_mblock
+            z = pmul(ppow(g, int(code // abs(code))), z)
+        recomputed_seed_mblock = z
+    require(recomputed_seed_mblock is not None, "SEED_COSET_LINK_UNEVALUABLE", f"seed_word={seed_word} word_eval_order={weo}")
 
     derived_chain = derived_subgroup_chain(JX, JY, deg)
     derived_order = chain_order(derived_chain)
@@ -528,6 +574,9 @@ def check_receipt(path: str) -> dict:
 
         m_block = p[:36]
         m_block_targets.add(m_block)
+        if recomputed_seed_mblock is not None:
+            require(m_block == recomputed_seed_mblock, "SEED_COSET_LINK_MISMATCH",
+                    f"row m={m}: m_block does not match independently-recomputed seed word image")
 
         verdict_recomputed = bool(producer_charming) and bool(hex310_recomputed) and bool(hex311_recomputed) and bool(row.get("onto")) and bool(row.get("reduction_match"))
         require(verdict_recomputed == row["verdict"], "VERDICT_RECOMPUTE_MISMATCH", f"row m={m}: recomputed={verdict_recomputed} producer={row['verdict']}")

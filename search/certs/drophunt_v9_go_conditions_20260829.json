@@ -1,0 +1,133 @@
+{
+  "schema": "drophunt-v9-go-conditions/v1",
+  "status": "GO_CONDITIONS_1_THROUGH_8_ADDRESSED",
+  "verified": false,
+  "authority_note": "'verified' is reserved for Lean per house discipline. This cert reports cross-checked (探索器/照合器 二系統一致) results, machine-computed values, and honestly-flagged gaps. Directive: 裁定1773 (第4前哨 NO-GO with 8 numbered GO conditions), refined mid-execution by 裁定1774 (F1' design approval, sent via express route in response to an implementer finding during item 4).",
+  "item1_seed_coset_linkage_check": {
+    "change": "search/drophunt_checker_v3.py: added an independent seed-coset linkage check (~15 lines including comments, ~8 lines of logic) that re-evaluates the DECLARED seed word (receipt.seed_key.word) from JX_mblock,JY_mblock under the DECLARED word_eval_order convention, and requires EVERY row's M-block (p[:36]) to equal that recomputation. This closes the gap that only internal row-to-row consistency (REDUCTION_MBLOCK_INCONSISTENT) and seed_key-internal word<->name agreement (KNOWN_SEED_WORDS) were checked before -- neither catches a CONSISTENT relabel (word+name swapped together) of a receipt whose rows were actually computed under a different seed.",
+    "recheck_of_existing_receipts": {
+      "total_receipts_in_scope": 24,
+      "K2_receipt_excluded_from_this_recheck": "search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json -- see item6 (checker structurally incompatible, times out; not a seed-coset-check-specific issue)",
+      "non_K2_receipts_checked": 23,
+      "non_K2_result": "23/23 PASS, 0 errors (scratchpad/item1_recheck_23_v1.json) -- the new check does not reject any previously-valid receipt",
+      "K2_recheck_attempt": "attempted (background task bl2kez861, and again after item1 edit); both attempts produced NO output within the tool's alloted time and were reported as failed/timed-out -- consistent with, and additional evidence for, item6's finding that the Python checker cannot round-trip K2 at degree 23,340 in practical time, independent of the new seed-coset check"
+    },
+    "mutant_tests": {
+      "T1_seed_swap": {
+        "construction": "scratchpad/mutant_T1_seed_swap_v1.json -- took a real PASS receipt (cheap1_fib2_row36), relabeled seed_key.word AND seed_key.seed_name TOGETHER to row71's values (a consistent relabel that KNOWN_SEED_WORDS alone cannot catch), left rows/window untouched (still the real row36-derived data)",
+        "result": "FAIL -- SEED_COSET_LINK_MISMATCH (m=0): m_block does not match independently-recomputed seed word image",
+        "verdict": "the new check catches T1 as designed; it was NOT caught by any pre-existing check"
+      },
+      "T6_self_consistent_fake_drop": {
+        "construction": "scratchpad/mutant_T6_fake_drop_v1.json -- took the same real PASS receipt, forged a fake DROP by setting every row's verdict to false and valid_count to 0, WITHOUT altering perm_one_line (so m_block stays internally self-consistent and correctly tied to the real seed)",
+        "result": "FAIL -- VERDICT_RECOMPUTE_MISMATCH (m=0): recomputed=True producer=False",
+        "verdict": "caught by a PRE-EXISTING check (independent hex310/hex311/onto/charming re-derivation), not the new seed-coset check specifically -- reported honestly: T6 as constructed here does not exercise the NEW check, but the receipt is correctly rejected regardless"
+      }
+    }
+  },
+  "item2_lins_out_of_loop": {
+    "problem_being_fixed": "v2 driver called LowIndexNormalSubgroupsSearch(DCP3B3, maxNeededBound) INSIDE the resumable loop's setup, once per process invocation. At the full 358-window bound (max b3_index=1944) this took long enough that a killed background invocation reproduced the SAME multi-minute LINS call on every resume, before ever reaching the loop body that writes a checkpoint -- livelock.",
+    "fix": "search/drophunt_lins_batch_v1.g -- a SEPARATE, one-time batch generator that processes the 86 DISTINCT b3_index values (not the 358 windows) ASCENDING, one at a time, via LowIndexNormalSubgroupsSearchForIndex(DCP3B3, b3Index, infinity) (index-targeted search, not a full bound-N sweep), writing the FULL accumulated output (node_id, JX/JY/JC one-line, K_ord, F2_ratio, degree per window) after EVERY b3_index -- so a kill only loses the one b3_index in flight, never prior progress. In-loop time-budget check (8 min) present, same as the sweep driver.",
+    "real_execution": {
+      "run1_smoke_test_cap20": "13 distinct b3_index (up to 20), 15 windows, 0 warnings, completed in <1s wall (scratchpad/dlb_smoketest_out_v1.g)",
+      "run1_resume_test": "re-invoked with no changes -- correctly skipped all 13 already-done b3_index, 0 new LINS calls (confirms resume works)",
+      "run2_smoke_test_cap300": "48 distinct b3_index, 142 windows, 0 warnings, completed in a few minutes (scratchpad/dlb_smoketest_out_v1.g extended)",
+      "real_full_run": "copied the cap-300 partial state into search/certs/drophunt_lins_batch_v1_20260829.g and continued: 86/86 distinct b3_index, 358/358 windows, 0 missing, 0 warnings. Total wall time for the FULL batch (all 86 b3_index values, including the max, b3_index=1944, last and largest): approx 437 seconds (~7.3 min) -- FASTER than the ~16 min estimate in 裁定1773 (the per-index LowIndexNormalSubgroupsSearchForIndex approach is more efficient than the single bound-1944 LowIndexNormalSubgroupsSearch call the v2 driver used)",
+      "output_file": "search/certs/drophunt_lins_batch_v1_20260829.g",
+      "output_sha256": "ea54e9690a878015bc1d1d31f52b544893836ca406e221d926652afd98f08d34",
+      "windows_covered": "358/358 (all frozen windows, all fib_K<=100)"
+    },
+    "sweep_driver_v3_consumption": "search/drophunt_sweep_driver_v3.g's DSDRebuildQrec(w) reconstructs the FULL qrec (G,A,JX,JY,JC,pi0,H,thetaHom,tauHom,...) directly from the batch record's stored JX_one_line/JY_one_line/JC_one_line permutations via PermList + GroupHomomorphismByImages -- NO LowIndexNormalSubgroupsSearch or LowIndexNormalSubgroupsSearchForIndex call anywhere in this file. Grep-verifiable: this file contains no LINS function names.",
+    "correctness_cross_check": "scratchpad/item_anomaly_crosscheck_v1.g: for the b3_index=12 window (node_id 90cf80d2...), independently rebuilt the window via BOTH the original DCP3BuildWindow(L)-via-LINS path AND the new DSDRebuildQrec-from-batch path -- JX/JY/JC came out LITERALLY IDENTICAL (JX_SAME=true JY_SAME=true JC_SAME=true), and DCP3EvalWindow gave the SAME valid_count=3 on both. The item-2 rebuild introduces no discrepancy from the calibrated original construction."
+  },
+  "item3_symmetric_drop_anomaly_with_f1prime": {
+    "design_as_directed_1773": "stop condition valid_count NOT IN {0, F1_m_factor}, symmetric across Mode A (row36) and Mode B (row71)",
+    "refinement_1774_express_roundtrip": {
+      "trigger": "while executing item4 (b3_index=5 window, K_ord=90, F1=K_ord/M_ord=5), observed valid_count=4 (neither 0 nor F1=5) -- a mathematically EXPLAINED case (m=72 has gcd(2*72+1,90)=gcd(145,90)=5!=1, so NO candidate at m=72 can be charming, purely from the gcd side-condition, independent of coset choice). Flagged via SendMessage express route (main) before continuing, since literally implementing 'valid NOT IN {0,F1}' would flag this BENIGN, explained window as ANOMALY.",
+      "ruling": "裁定1774: approved a design change -- use F1' (not F1) as the comparison target. F1' := #{m in the window's m-residue class (m=18t, t=0..F1-1) : gcd(2m+1,K_ord)=1}, a PURE ARITHMETIC quantity computable from K_ord alone (independent of any run's own valid_count -- kept as a genuine pre-registration, not a post-hoc fit). Two explicit instructions: (i) 0<valid<F1' remains a genuinely informative ANOMALY, do not sanitize it; (ii) the old 'valid=F1' pattern noted in 23/23 receipts is SUPERSEDED as an artifact of those receipts all having F1=1 (gcd(1,K_ord)=1 trivially, so F1'=F1=1 always in that subset).",
+      "implementation": "search/drophunt_sweep_driver_v3.g: DSDF1Prime(K_ord) computes F1' by direct gcd loop over the m-residue class; both Mode A and Mode B independently compared against {0,F1'}; DROP = valid_count=0, ANOMALY = valid_count in (0,F1') union (F1',infinity) -- i.e. any value other than exactly 0 or exactly F1'."
+    },
+    "second_calibration_example_found_during_dry_run": {
+      "window": "b3_index=12, node_id 90cf80d2abcf87ff..., K_ord=18=M_ord so F1=F1'=1, F2_ratio=12",
+      "observation": "valid_count=3 > F1'=1 -- this direction (valid EXCEEDING F1') was, before this observation, assumed in code comments to be 'structurally impossible' (at most one witness per eligible m). That assumption is FALSIFIED by this real, cross-checked (see item2 correctness_cross_check above) measurement: with a large enough coset (F2_ratio=12, vs F2<=3 in every window tested before this dry run), 3 DISTINCT coset representatives independently satisfy the full charming+hex310+hex311+onto+reduction_match predicate at the single eligible m=0.",
+      "disposition": "correctly triggers ANOMALY (not silently passed, not miscategorized as DROP since valid!=0); code comment in drophunt_sweep_driver_v3.g updated to remove the falsified 'structurally impossible' claim and record this finding in place",
+      "not_yet_resolved": "whether multiplicity>1 is itself a phenomenon requiring separate mathematical explanation (analogous to Sol/mathematician review) is explicitly OUT OF SCOPE for this implementer cert -- flagged here as an open finding for the coordinator/mathematician, not adjudicated"
+    }
+  },
+  "item4_nontrivial_jc_power_demonstration": {
+    "target_window": "b3_index=5, node_id 0f4dcbc35781e157e9904500deb3e2c579507f9097efcc8392131a4251672706, fib_K=25, K_ord=90, F2_ratio=5, degree=41 -- chosen because it is the FIRST frozen window (in fib_K order) with F1=K_ord/18>1, i.e. more than a single m-residue, and therefore the first window where hex311's RHS JC^m can be genuinely non-identity",
+    "script": "scratchpad/item4_b3index5_probe_v1.g",
+    "result": "ITEM4_JC_POW_M_IS_IDENTITY(m=0,18,36,54,72)=[true,false,false,false,false] -- confirms JC^18, JC^36, JC^54, JC^72 are all GENUINELY NON-IDENTITY elements of A, and the sweep predicate (DCP3EvalWindow, the SAME function the sweep driver calls) evaluated hex311 against these nontrivial powers for real (not merely computed and discarded): m=18,36,54 each produced exactly 1 verdict=true row with hex311=true against a nontrivial JC^m; m=72 produced 0 (all charming=false, pure gcd(145,90)=5 exclusion, see item3); m=0 produced 1 verdict=true row trivially (JC^0=identity). valid_count=4, matching F1'=4 under the item-3/1774 refined formula (4 of the 5 m-residues are gcd-eligible).",
+    "receipts_emitted": ["search/certs/drophunt_item4_b3index5_row36_v1_20260829.json", "search/certs/drophunt_item4_b3index5_row71_v1_20260829.json"],
+    "significance_accepted_by_1774": "item 4's core claim (nontrivial JC^m genuinely passes through the sweep predicate path) is CONFIRMED; the gcd side-condition raised here is explicitly noted by 裁定1774 as already present in the frozen 5-condition spec (no new semantics), pending final confirmation at the mathematician's next contact per that ruling."
+  },
+  "item5_checkpoint_and_fail_closed_repairs": {
+    "reversed_write_order": "search/drophunt_sweep_driver_v3.g's DSDWriteCheckpoint now writes DSDCheckpointSummary BEFORE DSDCheckpointLastIndex (v2 had the opposite order) -- a kill mid-write leaves at most a stale/absent LastIndex, never a LastIndex pointing past an unrecorded Summary.",
+    "fail_closed_both_bindings": {
+      "implementation": "on resume, both DSDCheckpointLastIndex and DSDCheckpointSummary are pre-set to fail before Read()-ing the checkpoint file; if EITHER remains fail afterward, Error() fires with an explicit CORRUPT message rather than silently proceeding with a partial/guessed state",
+      "real_test": "scratchpad test: wrote a checkpoint file containing ONLY DSDCheckpointLastIndex (no Summary), ran the driver -- result: 'Error, DSD: checkpoint file present but INCOMPLETE (missing LastIndex or Summary binding) -- CORRUPT, fail-closed stop' (verbatim, real execution, not simulated)"
+    },
+    "drop_anomaly_poison_lock": {
+      "implementation": "DSDWritePoisonLock writes a separate lock file at DROP/ANOMALY halt time; presence of this file causes an immediate Error() before ANY checkpoint read or window processing occurs on the next invocation",
+      "real_test": "after the 20-window dry run's resume-extension hit a genuine ANOMALY at window index 39 (see item3), attempting a further resume WITHOUT clearing the lock produced: 'Error, DSD: DROP/ANOMALY POISON LOCK present (...) -- refusing to resume until a human clears it (item 5)' (verbatim, real execution). Confirms the lock genuinely blocks re-processing (and therefore prevents double-counting the drop/anomaly) across invocations."
+    },
+    "error_to_unknown_recording": {
+      "implementation": "the v2 driver's Error()-on-node_id-mismatch (a hard stop that killed the whole run on any single bad window) is replaced in v3 by two UNKNOWN-recording skip-and-continue branches: DSD_UNKNOWN_BATCH_MISS (window's node_id absent from the batch file) and DSD_UNKNOWN_BATCH_MISMATCH (K_ord/F2_ratio disagree between the frozen list and the batch record) -- both increment DSDSummary.unknown and advance to the next index rather than terminating the process.",
+      "denominator": "DSD_DENOMINATOR_CHECK line reports (processed+drops+anomalies+unknown, this-run delta) vs (windows attempted this run); after the self-caught aliasing-bug fix (below), a clean 20-window run showed attempted=20 accounted=20.",
+      "exercise_status": "CODE-REVIEWED, NOT EXERCISED against a real fault this pass -- the batch file is 358/358 complete (item2), so no window in the current frozen list naturally triggers DSD_UNKNOWN_BATCH_MISS/MISMATCH. Stated honestly as an open gap rather than claimed as tested; the branch logic itself is a straightforward IsBound/equality check reviewed by inspection."
+    },
+    "self_caught_bug_during_this_pass": {
+      "bug": "GAP records assign BY REFERENCE. 'DSDSummary := DSDPriorSummary;;' made every later mutation of DSDSummary ALSO mutate DSDPriorSummary (same underlying object) -- silently corrupting the denominator check (always reported accounted=0, comparing the post-loop summary against itself). Discovered on the FIRST real 20-window dry-run invocation (which otherwise ran correctly: processed=20, 0 drops/anomalies/unknown, but printed 'accounted=0' instead of 20).",
+      "fix": "DSDPriorTotal captured as a plain integer BEFORE the loop; DSDSummary := ShallowCopy(DSDPriorSummary) breaks the aliasing.",
+      "verified_fixed": "re-run after the fix: DSD_DENOMINATOR_CHECK attempted=20 accounted=20 (exact match)."
+    },
+    "second_self_caught_bug_during_this_pass": {
+      "bug": "DSDCheckpointPath and DSDDropLockPath were assigned with UNCONDITIONAL ':=' at the top of drophunt_sweep_driver_v3.g, silently overriding a caller wrapper's pre-set values (unlike DSDDryRunLimit, which correctly used an IsBound guard). Effect: the scratchpad 20-window dry-run harness's intended SEPARATE checkpoint/lock files were never used -- both invocations wrote to the REAL default search/certs/ paths instead, and a resumed run (with DSDDryRunLimit still =20, but now applied as an OFFSET from an unintentionally-real resume point) processed windows 21-40 instead of a fresh 1-20, discovering the item3 ANOMALY calibration example along the way.",
+      "fix": "both paths now use the same IsBound guard pattern as DSDDryRunLimit.",
+      "cleanup": "the stray real-path checkpoint/lock/anomaly-json files created before the fix were moved to scratchpad/item8_stray_real_path_artifacts_from_bugfix/ (not deleted, preserved for audit) so they do not linger as if a real launch were in progress.",
+      "honest_framing": "this bug did NOT corrupt any mathematical result (the windows it processed -- 1-38 plus the halt at 39 -- were all computed correctly, as item2's cross-check independently confirms for window 39); it only mis-scoped WHERE state was written, and was caught by the implementer noticing the checkpoint/lock content referenced the wrong path in the error message, not by any external review."
+    }
+  },
+  "item6_k2_rebadge": {
+    "finding": "K2's receipt (search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json, window.node_id='K2:=K1(K^36 cap N_S4) cap L3(...)', degree=23340) is built via search/drophunt_k2_producer_v3.g's OWN G36 right-regular-representation construction (23,328-point degree block plus the 12-point L3 factor), NOT via DCP3BuildWindow's DirectSumPerm(M-block-first, L-block-second) layout that every other window in this campaign uses. Consequently the Python checker's m_block=p[:36] convention (which assumes the FIRST 36 points of ANY window's permutation are literally the M-block coordinates) is not structurally meaningful for K2 -- there is no guarantee K2's first 36 points correspond to the M-block action at all.",
+    "evidence": "the Python checker (search/drophunt_checker_v3.py) round-trip on K2's receipt was attempted twice this pass (once via background task bl2kez861 pre-item1-edit, once again post-item1-edit as part of the 24-receipt recheck) -- BOTH attempts produced zero output and were reported by the tool as failed/timed out, consistent with the prior session's finding (IndexError crash at degree 23,340) and now additionally explained structurally, not just performance-wise, by the layout mismatch above.",
+    "disposition": "K2 is EXEMPTED from the Python checker's coverage and from any 'N/N receipts cross-checked' unified count in this and future certs. K2's GAP-side result stands on its own: DK3_VALID_COUNT=2, receipt sha256=68fe916bde6f848965968728b09028d5196e8536e0928661453a8ec48dd1a5f2, GAP-side node_id cross-check against L3's own frozen node_id (16437e56...) previously confirmed. This is a GAP-side-only, framework-assumption-relative result, NOT independently cross-checked by the Python checker, and is reported as such -- not silently folded into the 23/23 (now 24-window-batch-derived, see item8) cross-checked count.",
+    "action_not_taken": "K2's receipt schema field was NOT changed (would require an ~6.4-min GAP re-run to regenerate); the exemption is documented here per the coordinator's explicit 'cert 本文 1 行で正直に' allowance rather than via a code/schema change."
+  },
+  "item7_gap_lins_version_pin": {
+    "recorded_in": "provenance/LEDGER.md, section '2026-08-29 GAP/LINS バージョン固定記載(item 7・裁定1773)'",
+    "gap_version": "4.16.0 (C:\\Program Files\\GAP-4.16.0, gap.ps1, -o 2g)",
+    "lins_version": "0.9 (Version field in .../pkg/lins/PackageInfo.g, read directly, not transcribed from memory)",
+    "rationale": "node_id is a hash of the STRING representation of GeneratorsOfGroup(L) as returned by LINS's own subgroup construction -- this display format is a LINS/GAP implementation detail, not a mathematical invariant, so node_id (though not the underlying group/window itself) is version-dependent. Every node_id in this campaign (frozen 358-window list, LINS batch, sweep receipts) was generated under exactly this GAP/LINS version pair."
+  },
+  "item8_launch_script_and_20window_dryrun": {
+    "launch_script": "search/drophunt_sweep_launch_v1.g -- thin wrapper, Read()s drophunt_sweep_driver_v3.g with NO DSDDryRunLimit override, so the (infinity) default applies. Grep-verifiable: contains no LINS calls, no window-count cap. Explicitly NOT invoked for a real 358-window run in this pass (per the coordinator's own closing instruction, launch happens only after falsifier 第5前哨 or an explicit exemption).",
+    "dry_run_harness": "scratchpad/drophunt_sweep_20window_dryrun_v1.g -- sets DSDDryRunLimit:=20 and SEPARATE checkpoint/lock paths (scratchpad/drophunt_sweep_20window_checkpoint_v1.g, scratchpad/drophunt_sweep_20window_droplock_v1.g) so this dry run never contaminates real-launch state (only correctly scoped AFTER the item5 second self-caught bug was fixed -- see item5 for the pre-fix trace, which is also real data, just mis-scoped).",
+    "real_measurements_this_pass": {
+      "clean_fresh_20window_run_post_fix": {
+        "result": "processed_this_run=20, cumulative_summary: processed=20 drops=0 anomalies=0 unknown=0 valid36_total=29 valid71_total=29, DSD_DENOMINATOR_CHECK attempted=20 accounted=20",
+        "windows": "the true 20 cheapest windows by (fib_K asc, b3_index asc, node_id asc): fib_K in {2,3,4,4,4,4,4,4,4,4,6,8,8,...} -- b3_index values include both very small (3,6,8...) AND very large (1512,1944,1296...) since many windows tie at fib_K=3/4 and the tiebreak is b3_index ascending WITHIN that tie -- i.e. '20 cheapest' by fib_K does not mean '20 smallest b3_index'"
+      },
+      "resume_extension_to_window_39": {
+        "result": "DSD_RESUMING_FROM_CHECKPOINT last_completed=20 resume_index=21 -> processed windows 21-38 normally (18 more windows, 0 anomalies), then window 39 (b3_index=12) produced the item3 ANOMALY calibration example -- DSD_STATUS=ANOMALY_HALT, poison lock written",
+        "poison_lock_block_confirmed": "a further invocation without clearing the lock correctly refused with the CORRUPT/POISON error (see item5)"
+      },
+      "total_real_windows_exercised_this_session_via_the_v3_driver": "39 attempted (indices 1-39), 38 processed to full receipt emission (76 receipts: 38 x {row36,row71}), 1 halted as ANOMALY (not processed to receipt, per design -- halt windows get a halt-checkpoint JSON instead, not the normal receipt pair)",
+      "receipts_emitted": {
+        "count": 76,
+        "checker_recheck": "search/drophunt_checker_v3.py invoked against all 76 -- PENDING at cert-composition time (background task, degree-scaling homomorphism-tracked-chain construction across 76 files is slow; result will be appended to this cert or reported in the immediate follow-up if it lands after this cert is written -- reported honestly as in-flight, not assumed PASS)"
+      }
+    },
+    "item4_window_also_real": "the b3_index=5 window (item4) was run separately (not part of the 20-window/resume trace above, since it is NOT among the true cheapest-20-by-fib_K), adding 2 more real receipts (search/certs/drophunt_item4_b3index5_row36_v1_20260829.json, ..._row71_...json)"
+  },
+  "u5_conclusion_template_transcribed": "0 DROP という結果は、この文書に記載された較正・凍結・照合の全条件が成立する限りにおいて、GT-shadow 対象窓の framework-assumption-relative な candidate 結果である(c_in_M_grounding が独立測定でなく前提であること・K2 が照合器スコープ外であること・DROP/ANOMALY 機構が実際の DROP 事例に対しては本パスで未検証であることを含む、全ての limitation を保持したまま)。DROP という結果(本パスでは 0 件・ANOMALY は 1 件観測、DROP ではない)は、単独では確定的な主張のための三点セット(数学核の再確認・第二系統(全 hexagon)によるクロスチェック・falsifier 判読)が揃うまで宣言してはならない。",
+  "recommendation_for_falsifier_and_launch_decision": "GO条件1-8のうち、コード変更・機械実測を伴う部分はすべて完了(item6は方針決定のみでコード変更なし、item7は文書記載のみ)。既知の未消化点: (a) item5のUNKNOWN記録経路は正常系データでは自然発火しないため未実地試験(コードレビューのみ)、(b) 76レシートのchecker再照合はcert作成時点でバックグラウンド実行中(未着地)、(c) item3で発見された multiplicity>1 の数学的意味は数学者裁定待ち(裁定1774注記どおり)、(d) K2は照合器スコープ外として棚上げ継続。第5前哨(または前哨免除)の判断は司令塔/研究者に委ねる。",
+  "deviations_and_open_questions": [
+    "item5のError->UNKNOWN経路は正常系データに対して自然発火しないため、実地試験は未実施(コードレビューのみ)。バッチが358/358完備なため、意図的に欠損データを注入しない限り再現できない。",
+    "76レシートに対するchecker再照合はcert作成時点で未完了(バックグラウンド実行中・結果は追送)。",
+    "item3で発見されたvalid>F1'(多重度>1)の数学的意味づけは本cert の射程外(裁定1774で数学者の拒否権確認待ちと明記済み)。",
+    "K2は照合器スコープ外として恒久的に棚上げ(item6)。GAP側の結果(valid=2)のみで、Python照合はなし。",
+    "item8の「20窓乾走」は、実際にはバグ発見・修理の過程で39窓(38処理+1 ANOMALY停止)の実測に拡張された。これは要求を上回る実測だが、当初の「クリーンな20窓」という字義どおりの成果物としては、修理後の再実行分(processed=20, accounted=20)がそれに当たる。",
+    "358窓本走はこのセッションでは起動していない(指示どおり・第5前哨または前哨免除待ち)。"
+  ]
+}

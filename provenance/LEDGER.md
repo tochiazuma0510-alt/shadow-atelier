@@ -3403,3 +3403,8 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 
 ## 2026-08-29 文献取得(CPŠ・裁定 1768)
 - papers/cps-2008-regular-hypermaps-psl2q.pdf(228,317B・sha256 先頭 6600d386ea47ff21・Conder ページの preprint 版)— PSL(2,8)/(9,9,9) の existence+明示生成行列・reflexibility。明示 Belyi は不在。
+
+## 2026-08-29 GAP/LINS バージョン固定記載(item 7・裁定1773)
+- 実行環境: GAP **4.16.0**(`C:\Program Files\GAP-4.16.0`・`gap.ps1` 経由・`-o 2g`)。
+- LINS パッケージ: **Version := "0.9"**(`.../pkg/lins/PackageInfo.g` 実測)。
+- 動機: DROP-HUNT-DOUBLE の node_id は `LowIndexNormalSubgroupsSearch`/`LowIndexNormalSubgroupsSearchForIndex` が返す生成元表示(`GeneratorsOfGroup`→`String`)に依存するハッシュ(`HexSHA256("index=...\n"+生成元語...)`)であり、**GAP/LINS のバージョンが変われば生成元の表示形式が変わり node_id が別物になり得る**(値そのものは変わらないが識別子が変わる)。凍結 358 窓リスト(`search/certs/drophunt_frozen_node_list_v1_20260829.json`)・LINS バッチ(`search/certs/drophunt_lins_batch_v1_20260829.g`)・掃引ドライバの node_id 交差確認はすべて上記バージョンの組で生成・再現されたものである旨、ここに固定記載する。
