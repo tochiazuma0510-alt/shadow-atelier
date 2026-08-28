@@ -261,3 +261,152 @@ $P_o/\sigma_o$ の実装は **registry の `pentagon_part_0..4` をそのまま�
 ## 9.5 40 検査への影響 — **なし**
 
 §4.2 の 40 検査は $\{$10 本の $\rho_o\}\times\{$4 本の $d_i\}$ の**集合上の走査**で、$P_o/\sigma_o$ を使わない ⟹ **順序非依存**。**implementer A の並行走行はそのまま続行してよい。**
+
+---
+
+# §10 ブロッカー 2 点への直接回答(2026-08-28・裁定 1732)
+
+## 10.0 まず判明した重大事実 — **受領票に「入っていない」**
+
+```
+gate: ci/b345_157eh_lexblock_artifacts_32401947156/d972_b345_q3_chief_v1.json
+  /maps = {"cofaces_3_4": [], "cofaces_4_5": [],
+           "deletions_4_3": [], "deletions_5_4": [],
+           "status": "BYPASSED_BY_EXACT_WORD_CORRECTION"}
+  /chief_fox = {"executed": false, "d2_bypassed_by_exact_word": true,
+                "status": "BYPASSED_BY_EXACT_WORD_CORRECTION", ...}
+  /endpoint_retractions = {"status": "BYPASSED_BY_EXACT_WORD_CORRECTION",
+                           "theorem": "i^-1 N_(r+1)(3)=N_r(3)"}
+```
+
+> ★ **`deletions_4_3` は空リスト。producer は削除写像の計算を意図的に迂回している**(`BYPASSED_BY_EXACT_WORD_CORRECTION`)。
+> ⟹ **implementer A が「pinned JSON から $d_i$ の Q 成分を読む」ことは原理的に不可能**だった。仮説を立てざるを得なかったのは**受領票の欠落が原因**であり、実装の落ち度ではない。**同じく `chief_fox.executed=false` なので Fox 鎖も受領票に無い。**
+
+---
+
+## 10.1 ブロッカー① — $d_i$ の Q 成分($Q_4\to Q_0$)
+
+### 10.1.1 反証された仮説の根因(診断)
+
+**$Q_0$ は $PB_3$ の商ではなく $F_2$ の商である。**
+```
+gate: /coarse_models/Q0 = {degree: 36, order_decimal: "1469664", marked_permutations: 2}
+      1469664 = 2^5 * 3^8 * 7
+```
+この **1,469,664 は $\lvert F_2/M_{F_2}\rvert$ の既知値**(972 窓の $F_2$-部分商;`gdyn_definition_draft_v2.md` §3.4 で使用)。⟹ **$Q_0=F_2/M_{F_2}$**、marked は **2 本($x,y$ の像 $q_{0x},q_{0y}$)**。
+一方 `/groups/PB3` は `generator_count: 4`(= $a_{12},a_{13},a_{23},c$)で marked は 3 本。
+
+⟹ **$a_{13}$ の像は marked に無く、$PB_3$ の関係式から解くしかない。**
+$$a_{12}\,a_{13}\,a_{23}=c,\qquad \bar c=1\ \text{in}\ Q_0\ (\text{$F_2$ 商ゆえ中心は死ぬ})\ \Longrightarrow\ \bar a_{13}=\bar a_{12}^{-1}\bar a_{23}^{-1}$$
+**⟹ 積の順序だけが問題**で、$(q_{0x}q_{0y})^{-1}$ と $(q_{0y}q_{0x})^{-1}$ の 2 通り。**仮説 $(q_{0x}\cdot q_{0y})^{-1}$ の反証は「もう一方の順序が正」を示唆する** — これは **W-1(paper 語順 ↔ GAP 語順)そのもの**。
+
+### 10.1.2 ★ 正しい手順 — **推測せず GAP に決めさせる**
+
+`GroupHomomorphismByImages` は関係式が破れると `fail` を返す。⟹ **これを裁定者に使う。**
+
+```gap
+Read("search/koubou157f_q3_chief_lib_v1.g");;
+q3   := JsonStringToGap(StringFile("ci/b345_157eh_lexblock_artifacts_32401947156/d972_b345_q3_chief_v1.json"));;
+q0x  := PermList(List(q3.coarse_models.Q0.marked_permutations[1], Int));;
+q0y  := PermList(List(q3.coarse_models.Q0.marked_permutations[2], Int));;
+Q0   := Group(q0x, q0y);;
+if Size(Q0) <> 1469664 then Error("Q0 order drift"); fi;          # ★ 較正 G-Q1
+
+## (1) a13 の像を GAP に決めさせる  ------------------------------------------
+P3    := D972Q3BuildPureFp(3);;            # PB3 (4 generators: a12, a13, a23, c)
+g3    := GeneratorsOfGroup(P3);;
+cands := [ (q0y*q0x)^-1, (q0x*q0y)^-1 ];;  # 2 通りだけ
+ok    := [];;
+for z in cands do
+  h := GroupHomomorphismByImages(P3, Q0, g3, [q0x, z, q0y, One(Q0)]);   # c -> 1
+  if h <> fail then Add(ok, z); fi;
+od;
+if Length(ok) <> 1 then Error("Q0-lift: not unique / none — 停止して報告"); fi;   # ★ G-Q2
+imA13 := ok[1];;                            # ← これが正解。推測しない。
+
+## (2) 削除写像 d_s : Q4 -> Q0  ----------------------------------------------
+q4marks := List(q3.coarse_models.Q4.marked_permutations, r -> PermList(List(r,Int)));;
+Q4  := Group(q4marks);;
+del := D972Q3Deletions(4);;                 # del[s][k] = PB4 の pair k の PB3 語(pair-index 列)or []
+imgs3 := [ q0x, imA13, q0y ];;              # PB3 pair 順 [1,2],[1,3],[2,3]
+dQ := [];;
+for s in [1..4] do
+  dQ[s] := GroupHomomorphismByImages(Q4, Q0, q4marks,
+             List([1..6], k -> D972Q3WordEval(del[s][k], imgs3)));;
+od;
+```
+
+> ### ★ ゲート(結果がどちらでも一級)
+> - **G-Q2**: `ok` が**ちょうど 1 本**であること。0 本なら「$\bar c=1$ の仮定」か marked の割当が誤り;2 本なら関係式が両順序を許す(=判別不能)⟹ **いずれも停止して報告**。
+> - **G-Q3**: `dQ[s] <> fail` であること。**`fail` が出たら、それは実装ミスではなく「削除が $Q_4\to Q_0$ に降りない」という一級の否定結果**(v122 の $d_E=d_Q\times d_\Pi$ の Q 成分が実は存在しない)⟹ **回避せず報告**。
+> - **G-Q4**: `D972Q3DeleteGenerator(4,s,pair)` が pair∋s で `[]` を返すこと(§4.1・確認済)⟹ 該当生成元が $1$ に落ちる。
+> - **G-Q5(較正)**: $\lvert Q_0\rvert=1{,}469{,}664$、$\lvert Q_4\rvert=583{,}152{,}628{,}325{,}845{,}597{,}028{,}352$(implementer A 実測と一致済)。
+
+**⚠ `D972Q3WordEval(w, imgs)` の引数規約**を cert に記録すること(`w` は符号つき pair-index 列・`imgs` は PB3 pair 順)。**W-1 の再発点。**
+
+---
+
+## 10.2 ブロッカー② — $w_e$(corrected residual の literal word)の所在
+
+### 10.2.1 受領票にあるもの / ないもの
+
+| 対象 | 所在 | 状態 |
+|---|---|---|
+| Fox 鎖 $e_P$ そのもの | `/chief_fox` | ❌ **`executed: false`**(exact word correction で迂回) |
+| **corrected residual の literal word** | ★ **`/selected_solution`** | ✅ **在り** — `correction_word: []`、`correction_index: 1`、`correction_q_coords: [0,0,0]` |
+| 補正核の 27 元(literal word つき) | ★ **`/correction_fibre/records[*].word`** | ✅ **在り**(符号つき整数列・`enumerated_count: 27`・`order: 27`) |
+| $\tilde D$ 診断語 | `/selected_solution/dtilde_diagnostic.word` | ✅ 在り(長い明示語) |
+
+> ★ **決定的**: **選ばれた解の補正語は空**(`correction_word: []`・`correction_index: 1`)。
+> ⟹ **$w_e$ =(補正なしの)関係語の評価値そのもの**。**別の literal word を探しに行く必要はない。**
+
+### 10.2.2 EP-G2 の実行形(受領票だけで回る)
+
+```gap
+## w_e := 選ばれた解に対する P ブロック関係語の値(補正語が空なので追加項なし)
+##   1) /selected_solution から f の語(source word)を取る
+##   2) pentagon 関係語 P(.) を registry の pentagon_part_0..4 の順(§9 裁定)で組む
+##   3) E4 で評価して w_e を得る
+for s in [1..4] do
+  Print("EP-G2 strand ", s, " : ", IsOne( Image(dE_s, w_e) ), "\n");;   # 期待: 4/4 true
+od;
+```
+- **$(d_i)_*\epsilon_P=d_i(w_e)-1$** なので、**Fox 鎖を作る必要は無い**(`ep_del_verdict_v2.md` §3.1 の Fox 恒等式 $D_1\mathrm{Fox}(w)=w-1$)。
+- **期待値 4/4 `true`**(BRUN-DEF ⟹ $w_e\in B_P$)。**非零なら (C-α) が崩れる ⟹ 以降は無意味・即報告。**
+
+### 10.2.3 予備手順 — 工房生成の $M$ から $\epsilon_P$ を作る(元仕様 E3 の具体形)
+
+10.2.2 が何らかの理由で回らない場合のみ:
+
+```
+E3-a  U_j, V_j を [F(x,y),F(x,y)] から取る:  [x,y], [x,y^2], [x^2,y], [[x,y],x], [[x,y],y]
+E3-b  roof 条件の代用(pi 未読のため):
+        全 10 context o で rho_o(U_j) = rho_o(V_j) を満たす対だけを採用
+        ⟹ 真の roof-fibre 対の部分集合(cert に「代用条件」と宣言)
+E3-c  a_j in F_3 を任意に取り  M := sum_j a_j (U_j - V_j)
+E3-d  eta_P(M) := eps_P - sum_o sigma_o P_o sum_j a_j (rho_o(U_j) - rho_o(V_j)) xi_o   # v198 (2.2)
+        ここで sigma_o = -1 は位置 3,4 のみ(§9.3)
+E3-e  (d_i)_* eta_P(M) を 4 本計算
+```
+⚠ **E3-b の代用条件は真の roof 条件より強い**ので、**得られる結論は「その部分集合上で成立」**に留まる。**cert に必ず明記。**
+
+---
+
+## 10.3 実行順(更新)
+
+1. **G-Q1 → G-Q2 → G-Q3**($d_i$ の Q 成分・§10.1.2)— **`fail` が出たらそこで停止・報告**(否定結果も一級)。
+2. **40 検査**(§4.2)— Q 成分が立てば即走る。**順序非依存。**
+3. **EP-G2**(§10.2.2)— **$w_e$ は受領票内。**
+4. evaluator(§10.2.3 は予備)。
+
+## 10.4 §9.4 の裁定反映(裁定 1732(c))
+
+**v189 (1.6) の E4 転記誤りの Sol 申し送りは「不介入につき保留」と裁定された。**
+⟹ 工房側は **EP-G4 mutant(v189 順序 $(1,27,21,26,28)$ を注入)で pin 済**とし、**次期 Sol 接触時のオンボーディング材料として本メモ §9 を提示する**。**本便でも Sol 文書は触らない。**
+
+## 10.5 UNKNOWN(本節で新たに確定したもの含む)
+
+1. **`deletions_4_3` が受領票に無い**(§10.0)— **これは受領票の欠落であり、再生成が要るなら producer 側の作業**。本メモの §10.1.2 は「受領票なしで chief_lib から組む」経路。
+2. **$\bar a_{13}$ の順序**は GAP が決める(§10.1.2 G-Q2)— **私は答えを断定しない**。反証済み仮説から「もう一方」が有力だが、**G-Q2 の実測で確定させること**。
+3. **削除が $Q_4\to Q_0$ に降りるか**(G-Q3)— **未検証**。降りなければ v122 の $d_Q$ 成分の存在自体が疑わしくなる ⟹ 一級の否定結果。
+4. $\pi$(v191 $\Delta_0$)未読 ⟹ §10.2.3 E3-b は代用条件。

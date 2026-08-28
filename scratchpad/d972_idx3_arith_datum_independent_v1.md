@@ -339,8 +339,17 @@ S4  Su    := cube(u_S4)    where u_S4 = u0inv^{sgn}   # sgn = +1 or -1 per 規�
     Sbeta := cube(beta)
 S5  assert Su != 1 and Sbeta != 1          # 両側非自明(素数選択条件)
 S6  cprime := 1 if Su == Sbeta else 2      # Su = Sbeta^{c'} in mu_3 ;  2 == -1
-S7  k3 := (dihedral k of a_M(Frob_p)) mod 3
-      = discrete log of Sbeta in mu_3(F_p)  (P1 corpus の marking で符号確定)
+S7  k3 := discrete log of Sanc in mu_3(F_p)      # ← アンカー由来(β ではない・規約台帳 D-2)
+    # ⚠⚠ 訂正(2026-08-28・裁定 1732(a)): 旧行は
+    #   "= discrete log of Sbeta in mu_3(F_p)  (P1 corpus の marking で符号確定)"
+    # だったが、**P1 corpus は k_sigma marking を持たない**(本文 grep 済・2026-08-28)。
+    #   ヒットする "Kummer" は全て B-5 の窓 torsor 類 [u_n]_{2n}(83/K9 線)であって
+    #   二面体 GT-shadow の k_sigma ではない。⟹ 旧行の典拠は**存在しなかった**。
+    # ★ さらに、正規化定数 c は **そもそも不要**になった:
+    #   SELECT は「Kummer 指標経由で Frobenius row を作る」経路を使わず、
+    #   ker(Psi - c' K3)|_{X^0} を既知 2 roster 上で直接評価する(K1-K5)。
+    #   K3 は正典 2405 Thm 4.3 の k mod 3(内在・機械確認済)、Psi は規約 D + u_dih アンカー。
+    #   正本 = scratchpad/joint_marked_frobenius_design_v1.md §6。
 S8  psi := discrete log of Su
 S9  SELECT := UNDEFINED   # ⚠⚠ 訂正(2026-08-28・裁定 1726/falsifier 要修正 4)
     # 旧: "SELECT := NN-09 if (psi == +k3) else NN-12  # census の符号規約に合わせる"
