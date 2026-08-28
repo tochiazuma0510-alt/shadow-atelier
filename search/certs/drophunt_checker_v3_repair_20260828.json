@@ -1,0 +1,126 @@
+{
+  "schema": "drophunt-checker-v3-repair/v1",
+  "status": "ITEM_1_2_8_COMPLETE_ITEMS_3_7_PARTIAL_OR_DEFERRED",
+  "verified": false,
+  "authority": "implementer task 2026-08-28, per 裁定1746 (falsifier NO-GO #2, WDICT-5)",
+  "note": "本走はまだ発射しない。8点のうち完了報告で明示された1(p直接評価+K2再現)/2(陽性対照)/8(venue4数)を優先実行し完了。3-7は時間予算内で部分実施または未着手として正直に報告する(推測で埋めない)。",
+
+  "root_cause_WDICT5_confirmed": {
+    "what_was_wrong": "v2's predicate obtained a candidate's word wp via PreImagesRepresentative (GAP's own free-group epimorphism, APPEND/standard left-to-right convention) but fed wp into EvalWordInQ, which uses PREPEND convention (val := g^pow * val, reversed order). EvalWordInQ(wp) != p in general -- theta/tau were evaluated on a DIFFERENT group element than the one the row claimed to test, in the direction that manufactures false DROPs.",
+    "K2_reproduced_the_bug_without_detecting_it": "acknowledged: the v2 K2 calibration (raw48/valid2) happened to reproduce the expected numbers WHILE carrying this defect, because K2's window has c_in_K2=true, where theta/tau word-level substitution IS mathematically safe regardless of convention mismatch in a specific narrow sense -- but the coordinator's point stands: calibration matching the expected numbers is NOT proof of implementation correctness, and this repair does not repeat that reliance."
+  },
+
+  "item1_predicate_repair_and_K2_p_direct_calibration": {
+    "status": "COMPLETE",
+    "repair": {
+      "producer": "search/drophunt_checker_producer_v3.g",
+      "method": "WORDS ARE NEVER USED for theta/tau/hexagon evaluation. theta~ := Ad(Delta), tau~ := Ad(delta) are built as GENUINE AUTOMORPHISMS of A:=Group(JX,JY,JC) via GroupHomomorphismByImages, using the closed-form identities (I4/I5 from scratchpad/math_f6false_admarking_v1.g, machine-confirmed on 150 windows by the mathematician): Ad(Delta)(x)=y,Ad(Delta)(y)=x,Ad(Delta)(c)=c ; Ad(delta)(x)=y,Ad(delta)(y)=y^-1 x^-1 c,Ad(delta)(c)=c. These identities hold IN PB3 ITSELF, hence in every quotient PB3/K automatically -- NO sigma1/sigma2 marking of the ROOF (M or K1) is needed at all, only of L (already computed, for c's L-block image). This ALSO eliminates the v2 BLOCKED-window case entirely: F6=false windows are now fully computable (confirmed empirically below, both on the small test set and on the true-largest window in item 8).",
+      "predicate_formula": "(i) f*theta~(f)=1  (ii) tau~^2(y^m f)*tau~(y^m f)*(y^m f)=c^m  (iii) <x^u,f^-1 y^u f>=G, all evaluated as group-element operations on p directly (p obtained via the SAME coset-construction as v2, never re-expressed as a word for predicate purposes)"
+    },
+    "small_window_retest": {
+      "script": "search/drophunt_checker_run_v3.g",
+      "raw_output": "search/certs/drophunt_checker_run_v3_summary_20260828.json",
+      "result": "ALL 5 windows (b3_index 96,12,18,3,48) now compute successfully with theta_welldefined=true, tau_welldefined=true -- including the 3 that were BLOCKED in v2 (F6=false: 96,12,48). No blocked case was hit."
+    },
+    "K2_rederivation_p_direct": {
+      "status": "SUCCESS -- both numbers match, using the REPAIRED group-element-only predicate",
+      "script": "search/drophunt_k2_producer_v3.g",
+      "raw_output": "search/certs/drophunt_k2_rederivation_v3_20260828.json",
+      "raw_fib": 48,
+      "expected_raw_fib": 48,
+      "raw_fib_matches": true,
+      "valid_count": 2,
+      "expected_valid_count": 2,
+      "valid_count_matches": true,
+      "valid_witnesses": ["m=0", "m=18"],
+      "theta_welldefined": true,
+      "tau_welldefined": true,
+      "total_elapsed_ms": 42376,
+      "significance": "K2's 48/2 result is now reproduced with the WDICT-5-repaired, group-element-only predicate, NOT the word-based v2 predicate that carried the defect -- this is the calibration re-derivation the coordinator required, superseding (not merely repeating) the v2 K2 cert."
+    }
+  },
+
+  "item2_positive_control": {
+    "status": "DEMONSTRATED",
+    "target_window": "b3_index=96 (F6=false / c not in K), the same window used throughout this repair line",
+    "script": "search/drophunt_checker_run_v3.g",
+    "raw_output": "search/certs/drophunt_checker_run_v3_summary_20260828.json (field item2_positive_control_b3index96)",
+    "method": "Took a genuine charming candidate f (nontrivial element of DerivedSubgroup(G), m=0), obtained its word via PreImagesRepresentative, evaluated the NAIVE word-level tau rule (v1's rejected prescription: theta_naive:x<->y, tau_naive:x->y,y->(xy)^-1, RHS=identity, no c) on that word AND on the same word with an adversarial relator r appended (a word evaluating to Identity(G) in the window's own joint quotient, with exponent-sum e(r) NOT congruent to 0 mod ord(cbar)=4, i.e. exactly the condition wcp5d identifies as exposing the descent failure).",
+    "results": {
+      "ord_cbar": 4,
+      "relator_length": 8,
+      "relator_source": "deterministic candidate (random search over 100,000 tries at lengths 2-15 exhausted without finding an adversarial relator by chance; a deterministic candidate word was used instead, still satisfying e(r) mod ord(cbar) != 0)",
+      "naive_rule_on_original_word": false,
+      "naive_rule_on_mutated_word": true,
+      "naive_rule_REVERSED": true,
+      "F2_repaired_rule_result": false,
+      "F2_stable_by_construction": true
+    },
+    "interpretation": "The naive (v1-style) word-level rule's verdict FLIPS (false->true) purely from appending an identity-evaluating relator to the word representative of the SAME group element -- reproducing exactly the falsifier's 600/600 reversal counterexample class on a real window in this repository, not a synthetic example. The repaired (F2) rule's result (false, for this specific candidate/m=0) is definitionally representative-independent: its computation path (group-element multiplication via theta~/tau~ automorphisms) never reads a word at any point, so there is no representative to vary. This is the mandated 'without this, mutants are empty' evidence."
+  },
+
+  "item8_venue_recheck_export_direct": {
+    "status": "COMPLETE",
+    "method": "sigma1,sigma2 read DIRECTLY (as literal GAP permutation-cycle expressions) from the already-existing LINS marked-strictness export artifact for the TRUE largest window (b3_index=192, node 064fd39d5e9070c3..., F2=96, |G|=141,087,744 ~= 1.41e8, matching the coordinator's stated scale) -- NO LowIndexNormalSubgroupsSearch call of any kind in this script.",
+    "script": "search/drophunt_venue_stage0b_v1.g",
+    "raw_output": "search/certs/drophunt_venue_stage0b_v1_20260828.json",
+    "sanity_check": {
+      "braid_relation_s1s2s1_eq_s2s1s2": true,
+      "size_G_matches_expected_141087744": true,
+      "c_in_K": false,
+      "theta_welldefined": true,
+      "tau_welldefined": true,
+      "note": "confirms the repaired predicate machinery works on a genuine F6=false window at true production scale, not just the small calibration set"
+    },
+    "four_numbers": {
+      "i_window_build_ms": 21,
+      "ii_warmup_ms": 98,
+      "iii_per_candidate_ms_approx": "4.3 (43ms over a 10-candidate sample; F3=96 candidates total for this window, m-direction F1=1 so all 96 come from the F2 coset)",
+      "iv_peak_RSS_proxy": {
+        "source": "GAP's own GasmanStatistics() (memory-manager internal stats; GAP does not expose OS-level RSS directly, so this is a lower-bound-ish proxy, not a true OS RSS measurement)",
+        "livekb": 73274,
+        "totalkb_allocated_workspace": 131072,
+        "interpretation_kb_to_mb": "livekb ~= 73 MB live data, totalkb ~= 128 MB allocated workspace -- both far under the 6 GB local-RAM cap"
+      }
+    },
+    "total_elapsed_ms_this_run": 413,
+    "venue_conclusion": "STRONG REVERSAL of the earlier (v1/v2) venue finding. The earlier GHA recommendation was driven entirely by the cost of LowIndexNormalSubgroupsSearch itself (LINS(B3,1944) alone did not complete in 10 minutes locally in the v2 repair pass). Reading sigma1/sigma2 DIRECTLY from the already-existing, already-downloaded export artifact (no LINS re-run) makes even the TRUE largest window (|G|~1.41e8) complete in 413ms total, using ~73-128MB RAM. This strongly suggests the GHA lane is NOT needed for a production sweep built on export-direct window reconstruction -- local execution appears entirely sufficient by 3-4 orders of magnitude of margin. This is a preliminary but very strong signal; a full-358-window local timing extrapolation was not performed in this pass (out of scope for item 8's specific 4-number request) but would be the natural next confirming step."
+  },
+
+  "items_3_to_7_status": {
+    "item3_MU9_MU8_mutants": {
+      "status": "NOT_EXECUTED_THIS_PASS",
+      "reason": "time budget exhausted after items 1/2/8 (the explicitly prioritized completion criteria); MU-1's earlier finding (zero detection power on c_in_K windows) is acknowledged but a fresh c_notin_K-window MU-1/MU-9/MU-8 mutant battery was not implemented as a formal mutant-test harness in this pass. The item-2 positive control (immediately above) covers the SAME underlying phenomenon MU-1/MU-9 would test (word-representative sensitivity on a c_notin_K window) but is not packaged as the requested formal mutant list with cert-recorded relator words for MU-9/MU-8 specifically.",
+      "what_remains": "MU-9 (W-1 paper/GAP word-order reversal) and MU-8 (seed_pool_432 vs symdiff_432 substitution) specifically, run-to-completion with cert-recorded evidence, on a c_notin_K window."
+    },
+    "item4_CK4_checker_fix": {
+      "status": "NOT_EXECUTED_THIS_PASS",
+      "reason": "search/drophunt_checker_v2.py's CK-4 logic (built for the v2 BLOCKED-window design) has NOT been updated for v3's producer schema (which no longer emits a window/rows.charming=null BLOCKED case at all, since F6=false is no longer blocked -- the entire premise of v2's CK-4 rule changed). A v3 checker (search/drophunt_checker_v3.py or similar) was not written in this pass.",
+      "what_remains": "write/adapt an independent v3 checker: F6=true windows' short-circuited rows should show null (not false) per the coordinator's explicit correction ('checkerの「false要求」を反転'), and any genuinely-still-blocked window (e.g. if theta~/tau~ construction fails for some future window) should show valid_count:null and cc1.match:false."
+    },
+    "item5_field_enforcement": {
+      "status": "NOT_EXECUTED_THIS_PASS",
+      "reason": "the v3 producer (search/drophunt_checker_producer_v3.g) does not yet emit a receipt JSON with the 8 required SS4 fields (F4_isolated/positive_recordability/predicate_rule/node_id/seed_key/wcp5d_ref/tau_descends/word_exponent_condition) -- it currently only prints console output and a small summary JSON, not per-row receipts in the v2-style schema. A DCP3EmitReceiptV3 emission function analogous to v2's was not written in this pass.",
+      "what_remains": "port v2's DCP2EmitReceiptV2-style emission to v3's schema, and a checker-side enforcement pass verifying all 8 fields are present and internally consistent."
+    },
+    "item6_reduction_match": {
+      "status": "PARTIALLY_ADDRESSED",
+      "what_was_done": "v3's producer DOES pin an independent M-target constant per seed at load time (DCP3Seeds[*].m_target_pinned, computed directly in the M model alone, not derived from any window's own candidate evaluation), and DCP3EvalWindow / the K2 script both assert (fail-closed) that this pinned constant matches the window's own pi0(seed) value before proceeding -- this closes the 'tautological dead code' the coordinator flagged, since the comparison is now against a value computed independently of the window under test.",
+      "what_remains": "this was verified to hold (not fail) on all windows tested in this pass (the 5 small windows, K2, and the item-8 largest window emitted a mismatch NOTE rather than erroring, since that window is not expected to reduce to g* specifically -- reduction match was checked informationally there, not as a hard gate, which is the CORRECT behavior but was not yet exercised as a NEGATIVE test, i.e. a window/seed pair engineered to FAIL the pinned-constant check has not been run to confirm the fail-closed path actually fires."
+    },
+    "item7_c_in_M_grounding": {
+      "status": "DOWNGRADED_TO_EXPLICIT_FRAMEWORK_ASSUMPTION_AS_INSTRUCTED",
+      "finding": "confirmed the falsifier's finding: lins_marked_strictness_export_v1.g's roof_M.c_image field IS a hardcoded string literal ('\"c_image\":\"identity\"') in the producer script's JSON-emission code, not a value computed from an actual marked B3/M model (which does not exist in this codebase -- M was built via MakeGn's x,y-only dihedral-tower construction, with no sigma1/sigma2 tracking, as documented throughout this whole repair line).",
+      "action_taken": "per the coordinator's own explicit fallback instruction ('不能なら cert で framework assumption に正直に格下げ'), this pass does NOT claim c-in-M is measured. search/drophunt_checker_producer_v3.g's DCP3JCM is explicitly labeled via the DCP3CinMGrounding string constant ('FRAMEWORK_ASSUMPTION_NOT_INDEPENDENTLY_MEASURED') and this label is intended to be threaded into every future receipt's grounding field (not yet done in a formal per-receipt way in this pass, since receipt emission itself is deferred per item 5 above).",
+      "consequence": "EVERY result in this entire repair line (v1 through v3, including today's K2 48/2 reproduction and the item-8 venue numbers) rests on this same unverified assumption for roof M's own c-triviality. This is the single largest standing risk flagged across this whole campaign and is NOT resolved by this pass -- only correctly labeled as unresolved rather than silently trusted."
+    }
+  },
+
+  "deviations_and_open_questions": [
+    "(1) Items 3, 4, 5 were not executed in this pass due to time budget prioritization toward the coordinator's explicit completion criteria (1+2+8). This is a real scope gap, not a hidden one.",
+    "(2) Item 6 was addressed structurally (pinned constant + fail-closed assertion exist and were exercised on positive cases) but the NEGATIVE test (does the fail-closed path actually fire on an engineered mismatch) was not run.",
+    "(3) Item 7's finding is the most consequential: c-in-M is STILL an unverified framework assumption after this pass, exactly as before -- this pass only makes that fact explicit and traceable (DCP3CinMGrounding constant) rather than resolving it. Every valid/raw-fib number in this entire repair line depends on it.",
+    "(4) The item-8 venue finding (local, not GHA) is a genuine and significant reversal of prior guidance, but is based on ONE window's timing, not a full-358-window extrapolation -- flagged as preliminary but strong.",
+    "(5) As in prior passes, no independent second-system (e.g. fresh Python) re-derivation of the v3 predicate's correctness was performed -- all of items 1/2/8 in this pass are single-system (GAP) results."
+  ]
+}
