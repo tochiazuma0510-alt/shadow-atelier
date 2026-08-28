@@ -3848,3 +3848,41 @@ positive path.
 Delta88 converts the independently measured v6 failure into one bounded v7
 implementation contract aimed at the actual 4,752-pair restart rather than
 another full six-hour replay.
+
+#### v220-delta89 - 2026-08-29 (after delta88)
+
+**Individual progress**:
+
+- Luna task336 returned the five A4-v4 files as `IMPLEMENTED / UNEXECUTED`.
+  The source claims one-pass task198 authority, actual E3/E4 affine/Fox
+  actors, forward/reverse ancestry tries, 65-tagged lazy full-D correlation,
+  v274 active-coordinate duals, v273 raw discrepancy ledgers, four-action K
+  closure, literal word DAGs, and the actual v247 least-index anchor.
+- These are implementation claims only.  Parent static inspection already
+  finds that producer `mutation_owner_reject` and checker
+  `reject_typed_mutation` explicitly reject post-hoc same-shaped dictionaries,
+  while the checker production tail accepts transcript Booleans such as
+  `all_row_dots` and `complete_all_65`.  Reply336's claim that all 48 routes
+  mutate live owners is therefore not accepted without adversarial trace.
+- The candidate has no checkpoint.  Its declared production performs
+  6,441+4t+1 quotient queries and may serialize chronological dual/row/
+  coefficient state, so runtime, repeated scans, output growth, cap recovery,
+  and unnecessary work are load-bearing audit questions, not optional
+  optimization notes.
+- Sol(max) task343 now audits every literal route, affine/Fox and trie owner,
+  full-D/finite-dual semantics, discrepancy recurrence, K/anchor replay,
+  all 48 physical mutation claims, and performance/checkpoint truth.  No
+  SELFTEST or production is authorized meanwhile.
+
+**v220 mapping**:
+
+- A4 remains **1/3**: accepted task198 input authority only.  A returned
+  unexecuted implementation does not establish invariant closure, a
+  word-bearing K basis, or an anchor.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**; A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A5/A6 **0/3 actual**, A7/A8 **0/3 actual**, A9
+  **0/3 actual**, and B/C/W/F remain zero.  No compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Delta89 stages A4-v4 only as an audit candidate and records the two visible
+places where static declarations must not be confused with actual owners.

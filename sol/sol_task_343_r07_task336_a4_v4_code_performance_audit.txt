@@ -1,0 +1,162 @@
+Sol(max) task 343 - task336 A4/v4 full code and performance audit
+
+Role: Sol(max), independent mathematical/code/performance auditor only.  Read
+this FULL mail, all numbered sections first to last.  Do not edit any
+implementation, run Python/Node/GAP/GHA/workflows/network/git, or infer an
+execution result.  Write only
+`sol/sol_reply_343_r07_task336_a4_v4_code_performance_audit_v1.md`.
+
+1. Mandatory complete inputs
+
+Read AGENTS.md and, in full:
+
+- task336, task339, task340, and Luna reply336;
+- all four A4/v4 machine files;
+- task328/task331 and all v3 outputs;
+- task333 audit and task330 accepted authority ruling;
+- v231, v247, v268, v271, v272, v273, and v274;
+- the accepted five-member task198 authority bundle and its producer/checker;
+- task176 producer/checker/accepted receipt, frozen q3 receipt, the pinned
+  E4 arithmetic source, and the v1 A4 producer/checker.
+
+Recompute read-only bytes/SHA-256 for every v4 output and load-bearing pin.
+Trace imports/calls/processes and source identities.  Do not trust reply336,
+fixture records, or producer Booleans as evidence.
+
+2. Literal reachability and first failures
+
+Trace statement by statement:
+
+- GAP driver -> emitted shell -> producer -> output -> checker -> verdict ->
+  exact-equal terminal -> sentinel-last;
+- SELFTEST normal cases and every producer/checker mutation;
+- production authority adapter -> light runtime -> actor/primitive/trie ->
+  all 6,441 rows -> lazy B/K oracle -> K closure -> v247 anchor;
+- MEMBER, NONMEMBER, UNKNOWN_INPUT, UNKNOWN_RESOURCE, hard exception,
+  malformed path/input, cap during each phase, and cleanup paths.
+
+Report the literal first failure on each route, then continue under the
+smallest hypothetical repair so independent blockers are exposed.  Static
+reachability requires actual values flowing through actual owners; a shaped
+certificate, transcript Boolean, explicit reject, fixture-only branch,
+unreachable method, or copied producer field is REJECT.
+
+3. Authority, affine/Fox, trie, and row semantics
+
+Check independently:
+
+- the exact task198 nested schema, five physical members, source/run/artifact
+  pins, rows/chunks/seals/counts/normal proof, bridge ledger/ABI/canaries, and
+  one-read/no-roster-copy claims;
+- the ten exact task232 contexts and their E3/E4 types; source actors,
+  inverses, left affine multiplication/inversion/translation, quotient
+  identities, F3 coefficients, and element codecs;
+- that every primitive and all three ancestry grammars are actual, and that
+  the forward trie/reverse trie really assemble every one of the 6,441 raw
+  ten-tagged defects rather than roof/hash/endpoint/placeholder rows;
+- that terminal materialization does not silently rescan all 5,475,488
+  letters or call a hidden Q0/Gamma enumeration; and
+- that checker arithmetic is helper-nonshared and recomputed rather than
+  copied from the producer transcript.
+
+Tie every claim to literal code and immutable data.  Recompute exact present-
+shape inventory and identify any unused trie, repeated flat scan, repeated
+source load/hash, full receipt copy, quadratic basis replay, recursive word
+expansion, or large serialized duplicate.
+
+4. Full-D lazy oracle and finite-active dual
+
+Audit the 65 tagged seeds, typed occurrence registry, inverse cache, raw-key
+grammar, and full `t=g*h^-1; t*h=g` correlation.  Check coefficient signs,
+cancellation, lexicographic order, translated row construction, strict B rank
+rise, new-key registration, and complete-zero certificate.
+
+For every query, check that the active registry is exactly the finite support
+union of target and live B/K rows, the dual is derived by the actual reduction
+projection/back-substitution, annihilates all live rows, pairs nontrivially
+with target, and is zero-extended.  A raw remainder-coordinate functional,
+invented key, omitted matching occurrence, incomplete translate key, or
+Boolean `all_row_dots/complete_all_65` accepted without recomputation is
+REJECT.  Confirm MEMBER coefficients against actual raw B/K rows and ensure a
+NONMEMBER is full D, not only discovered B.
+
+5. K chronology, discrepancy, words, and anchor
+
+Re-derive the code's sign convention.  For
+
+`r=v-Psi(Q)-sum(c_l*k_l)`, `k_new=s*r`,
+
+require the literal owner to construct and directly replay
+
+`W_new=(W_v product_l W_l^(-c_l))^s`,
+`E_new=s*(E_v+Q-sum_l c_l E_l)`.
+
+Check initial E=0, actual source-action translation of every raw ledger key,
+chronological independence under later B discovery, dependent-row
+coefficients, four source conjugates only for K, queue exhaustion, and exact
+word-DAG association/power/inverse conventions.  Check that discrepancy
+equality is in the raw ten-tagged module, never only modulo current B.
+
+Audit the H2(9) projection of every actual retained K word, least nonzero
+index, inverse scalar, powered literal word, endpoint `(0,0,3)`, all v247
+kernel/context/anchor gates, and independent checker replay.  No hard-coded
+index/scalar/eta/Boolean is permitted.
+
+6. Resource and performance truth
+
+The candidate implements no checkpoint.  Determine whether a bounded run can
+reach a meaningful terminal and whether a cap after hours of work loses all
+progress.  Recompute symbolic and present-shape work for:
+
+- 31 MB authority parse, 288 primitives/114,458 letters, producer/checker
+  tries, and 6,441 row assemblies;
+- every B/K reduction, active-dual construction, full correlation pair,
+  discovered column, 6,441+4t+1 queries, and queue action;
+- coefficient/ledger/DAG combination and expansion, all direct replays,
+  output/certificate growth, canonicalization, sealing, and checker replay;
+- actual peak/sampled RSS and caps, including allocations before checks.
+
+Look expressly for unnecessary slow work: flat replay after trie assembly on
+all rows, repeated basis reconstruction, scanning all keys/rows for each
+query, serial correlation that could be indexed, storing full dual/row/
+coefficient objects in every transcript, repeated word materialization,
+quadratic coefficient expansion, and checker duplication.  Distinguish an
+honest required cost from removable work.  A missing checkpoint is not a
+mathematical error but may make production execution unauthorized if the
+present bounded route cannot preserve progress.
+
+7. SELFTEST and physical mutation owners
+
+Audit the fixture and all 48 producer/checker mutations individually.  In
+particular inspect `mutation_payload`, `mutation_owner_reject`,
+`typed_mutation`, and `reject_typed_mutation` literally.  A same-shaped dict,
+`typed_mutations[name]=true`, explicit terminal `raise Reject`, hash change,
+or broad exception is not a mutation of an actual owner.  For each mutation
+state whether it changes physical authority bytes, actual affine/trie/basis/
+dual/correlation/ledger/DAG/anchor state, reaches the named production
+validator, is resealed when required, and is narrowly rejected.
+
+Confirm SELFTEST exercises actual production owners, not a miniature record
+whose fields already contain the expected answers.  Check producer/checker
+independence, stale-output gates, exact-one terminals, and sentinel-last.
+
+8. Final ruling and smallest repair
+
+Give one verdict `PASS` or `REJECT`, and `UNEXECUTED`.  PASS may authorize at
+most one bounded synthetic GHA SELFTEST; it must not authorize production.
+REJECT must list the smallest versioned v5 repair and preserve A4 at 1/3.
+Explicitly say which portions of v272--v274 are genuinely implemented and
+which are only shaped declarations.
+
+End with:
+
+AUDIT: PASS or REJECT
+EXECUTION: UNEXECUTED
+SYNTHETIC SELFTEST AUTHORIZED: YES or NO
+A4 INPUT AUTHORITY: 1/3
+A4 INVARIANT CLOSURE: 0/1
+A4 WORD-BEARING K + ANCHOR: 0/1
+ACTUAL A4: 1/3
+LIFT / FAKE / IHARA: NONE
+
+`TASK343_R07_TASK336_A4_V4_CODE_PERFORMANCE_AUDIT`
