@@ -2974,3 +2974,46 @@ It changes no actual witness numerator.
 Delta67 prevents an unauthenticated parallel run that was both slower and
 less checkable than its serial owner, while preserving a bounded repair and
 the no-producer-repeat A1 failover.  It changes no actual witness numerator.
+
+#### v220-delta68 - 2026-08-28 (after delta67)
+
+**Individual progress**:
+
+- V263 corrects v262's pointed conclusion.  A single pointed value
+  `B*q_infty=beta` does not define a homotopy on the cyclic module without
+  the old annihilator condition.  The annihilator-free recursion is valid
+  only when every reached residual retains one literal coefficient
+  `lambda_r` with
+  `z_r=[lambda_r*beta]_r`, and the correction is the word-bearing graded
+  value `[lambda_r*q_infty]_r`.
+- The first exact nonlinear canary is therefore not bare orbit membership.
+  It must return an explicit coefficient ancestry
+  `q2=[nu2*beta]_2`; then the full second-depth coefficient is
+  `lambda_2=mu+nu2`.  This is a conditional paper theorem, not an actual R07
+  return certificate.
+- V263 also gives a two-generator filtered countermodel in which
+  `B*q_infty=beta` and the nonlinear error gains a depth, but the first exact
+  remainder is `t*gamma` outside `Xi*beta`.  Hence no proof using only the
+  pointed linear identity and depth gain can make the all-rung return
+  automatic; an R07-specific identity or literal `q2` decision is genuinely
+  load-bearing.
+- The task320/v10 report and its four load-bearing file identities were read
+  and the reported byte counts and SHA-256 values match the current files.
+  V10 remains `UNEXECUTED`; a fresh independent static correctness and
+  performance audit is still required before GHA.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**.  V263 removes the invalid implicit extension of
+  the pointed value to a cyclic-module homotopy and fixes the exact
+  coefficient-bearing all-rung interface, but computes neither `q2` nor
+  `nu2`.
+- A5 and A6 remain **0/3 actual**.  Matching v10 identities and an
+  implementation report are not an actual milestone.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, A1 **3/4 RUNNING**, and A2
+  **2/3**.  A3/A4 and A7/A8 actual, B, C, W, and F retain their delta67
+  values.
+
+Delta68 replaces a subtly overstrong pointed statement by the exact
+ancestry-bearing recurrence and records v10 only at the pre-audit boundary.
+It changes no actual witness numerator.
