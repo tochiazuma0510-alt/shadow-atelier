@@ -762,8 +762,9 @@ def semantic_mutation_replay(certificate: dict[str, Any]) -> int:
         elif name == "e3_c21_e4_c21_merge": mutant["contexts"][7]["tag"] = "E3-C21"
         elif name == "repeated_e3_insertion": mutant["contexts"] = mutant["contexts"][:-1]
         elif name == "paper_product_order": mutant["successors"][0]["source_words"] = list(reversed(mutant["successors"][0]["source_words"]))
-        elif name in ("affine_multiplication", "affine_inverse", "crossed_derivation_order"):
-            mutant["affine_checks"][name.replace("_order", "")] = False
+        elif name == "affine_multiplication": mutant["affine_checks"]["multiplication"] = False
+        elif name == "affine_inverse": mutant["affine_checks"]["inverse"] = False
+        elif name == "crossed_derivation_order": mutant["affine_checks"]["crossed_derivation"] = False
         elif name == "roof_reduction": mutant["roof_reductions"][0] = False
         elif name == "raw_coordinate": mutant["basis"][0]["row"] = {}
         elif name == "block_tag": mutant["contexts"][0]["tag"] = "bad"

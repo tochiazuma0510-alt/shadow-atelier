@@ -24,9 +24,9 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 ```
 
 ```text
-producer  88971  26208c3bb55367f29e89ea45e5ad77b050b748a26f162d4827f1401ad6c93390
+producer  89086  b2e9187f1efba6c55621ba3bacd24d4918701af289ce1037974135f7019165b0
 checker   55032  68e86ac49c9a1adf76c26d046ab2bbd52376130ccdc007b8295d89c35cc32020
-driver     4242  4f80f270125ef48841d2de33138214a90369dba5f03739897133772072eb7beb
+driver     4242  649cfc550b3b0c3f313910ec317abace16b4b9d5352e06799a95289af55aa8db
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -131,6 +131,9 @@ without an `AttributeError`.
 Task267 makes the producer and checker require the canonical ten-entry typed
 context roster `(index, type, context_id, tag)` and exact `unused` values for
 `delta1_bfs` and `task192_word`, closing the four vacuous mutation paths.
+Task271 maps `affine_multiplication` and `affine_inverse` directly to the
+extant `affine_checks.multiplication` and `.inverse` owners, while retaining
+the explicit `crossed_derivation` mapping.
 
 ## 10. Resources, driver, and ledger
 
