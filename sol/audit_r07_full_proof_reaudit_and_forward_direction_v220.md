@@ -2630,3 +2630,32 @@ production adapter.  It changes no actual witness numerator.
 Delta57 replaces an overstated restart-cost model by the exact cumulative
 counter semantics and identifies persistent workers as the relevant A0 speed
 boundary.  It changes no actual witness numerator.
+
+#### v220-delta58 - 2026-08-28 (after delta57)
+
+**Individual progress**:
+
+- Task303/v5 GHA SELFTEST run 33166406322 succeeded at immutable head
+  ec047436ee2fdfc8a6df1673105f4b8c5a678723.  The artifact
+  (id 9683764319, digest
+  68c91a6648a1e243d2ee7d6613a9bd1f458f2fcb2b2073519e1b5d887782525a)
+  contains exact matching producer/checker PASS terminals, all four cases,
+  worker counts 2/3/4, two isolated epochs, and independent 20/20 mutation
+  rejection.  This is now a cross-checked synthetic implementation SELFTEST.
+- Task311 commissions the actual atomic-full-epoch task192 adapter.  V256's
+  observed short-epoch structure is built into its contract: one persistent
+  fork pool must survive distinct dual epochs, and workers partition expanded
+  descriptor-support pairs.  Rank/dual/candidate ownership stays serial.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  Its acceleration kernel now
+  has a cross-checked implementation SELFTEST, but task311 is unimplemented
+  and no actual COMMON/checker terminal exists.
+- A1 remains **3/4 RUNNING**; A2 **2/3**; A3/A4 **0/3 actual**.  A5/A6 remain
+  **0/3 actual** pending v7 Sol(max) audit; A7 remains **0/3 actual** with its
+  own synthetic SELFTEST separate.  A8, A9, B, C, W, and F remain zero.
+
+Delta58 turns the frozen-dual algebra into a cross-checked process kernel and
+immediately opens the actual persistent adapter implementation.  It changes
+no actual witness numerator.
