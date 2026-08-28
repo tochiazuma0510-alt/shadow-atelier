@@ -101,6 +101,11 @@ gate: K2 numeric check
 
 ## 2.3 判定述語(順序を固定する)
 
+> ### ⚠⚠⚠ **本節は誤り。裁定 1736 で全面差し替え。`fib_ruling_and_fibre_checker_spec_v2.md` §3 を見よ。**
+> 下記の「**$\theta,\tau$ は自由群の語レベルで適用してから商へ落とす**」は、**工房自身の裁定 164/165(`docs/notes/wcp5d_resolution_v1.md`・cross-checked)が既に棄却した旧処方**である。$\tau$ は $\mathrm{Ad}(\delta)$ から $c$ 成分を落としたもので、**$c\notin N$ の窓では $F_2/N_{F_2}$ に降りない**(LINS 66 窓中 40 窓が該当)。実装ヘルパ `search/week3-battery-common.g` L521–532 も**名指しで禁止済**であった。
+> falsifier は較正窓で **同一 GT-pair が語代表次第で hex311 が反転する数値反例(600/600)** を取得している ⟹ **false NONMEMBER = 偽の 648 一括宣言のリスク**があった。
+> **私の裁定伝搬の失敗**である(164/165 → 本仕様に未伝搬)。**以下は歴史的記録。実行してはならない。**
+
 各候補 $(m',f')$ に対し、**この順で**評価:
 1. **charming**: $2m'+1\in(\mathbb Z/K_{\rm ord})^\times$ かつ $f'K_{F_2}\in[F_2/K_{F_2},F_2/K_{F_2}]$。
 2. **hexagon 簡約形**(Prop 3.4・$f\in[F_2,F_2]$ 前提が 1 で確認済):(3.10) $f\theta(f)\in K_{F_2}$、(3.11) $\tau^2(y^{m'}f)\tau(y^{m'}f)y^{m'}f\in K_{F_2}$。
