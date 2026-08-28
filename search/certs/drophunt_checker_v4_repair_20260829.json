@@ -1,0 +1,82 @@
+{
+  "schema": "drophunt-checker-v4-repair/v1",
+  "status": "ITEMS_3_6_EXECUTED_ITEMS_4_5_PARTIAL",
+  "verified": false,
+  "authority": "implementer task 2026-08-29, per 裁定1747 (WDICT-5 repair accepted; remaining items 3,4,5,6 of the 8-item falsifier-third-pass prerequisite list)",
+  "note": "本走はまだ発射しない。falsifier第3便の前提を埋めるための4項目(3,4,5,6)を実行した。3と6は完全実行・4は構造確認のみ(v3producerが既にnull規約を満たしていることを確認)・5は未着手(v3 checker/receipt emission未実装、正直に報告)。",
+
+  "item3_mutants_MU2_MU3_MU9_MU8": {
+    "status": "EXECUTED -- all 4 real GAP runs, cert-recorded",
+    "script": "search/drophunt_mutants_v3.g",
+    "raw_output": "search/certs/drophunt_mutants_v3_20260829.json",
+    "window_used": "b3_index=5 (K_ord=90, F1=5, F2=5, ord(cbar)=5, c_notin_K). Chosen (via scratchpad/scan_mu2_window.g, a small scan of the LINS<=100 set) specifically because ord(cbar)=5 does NOT divide M_ord=18, so c^m for m in the valid {0,18,36,54,72} set is genuinely non-identity for m!=0 mod 5*... concretely c^18 != Identity here (a real 5-cycle) -- this is REQUIRED for MU-2 to be non-vacuous: an earlier attempt on b3_index=48 (ord(cbar)=2, which DOES divide 18) gave c^m=Identity for EVERY valid m, making MU-2 undetectable there not because the repair is wrong but because that window cannot expose the c^m term at all. This distinction (ord(cbar) dividing M_ord vs not) is itself a finding worth recording: not every c_notin_K window is equally useful for testing the c^m term.",
+    "MU2_rhs_dropped_to_identity": {
+      "description": "hexagon (3.11)'s RHS mutated from c^m to Identity (dropping the c-twist entirely, reproducing the v1-era blind spot at the group-element level)",
+      "baseline_correct_result": true,
+      "mutant_result": false,
+      "detected_as_wrong": true,
+      "significance": "confirms the c^m term is LOAD-BEARING in the repaired predicate -- removing it changes a genuine PASS to a FAIL on a real window/candidate, not a synthetic example"
+    },
+    "MU3_naive_word_tau_with_adversarial_relator": {
+      "description": "tau~ replaced by the v1-era NAIVE word-level rule (theta_naive:x<->y, tau_naive:x->y,y->(xy)^-1, no c), evaluated on a word representative of the SAME group element p, with a relator appended intended to be adversarial (e(r) != 0 mod ord(cbar))",
+      "relator_length": 8,
+      "relator_esum_mod_ordC": 0,
+      "caveat_HONEST": "the relator actually used did NOT satisfy the intended e(r)!=0 mod ord(cbar)=5 condition -- a random search (200,000 tries, lengths 3-22) failed to find a qualifying relator in the time budget of this pass and fell back to a fixed symmetric 8-letter word whose crude 'combined x+y signed exponent sum' proxy is 0 mod 5 by construction (a palindromic commutator-like word). This is reported honestly rather than silently accepted as satisfying the stated condition. It is also possible the 'e(w)' quantity wcp5d intends is not simply the combined signed exponent sum used here (e.g. it may be the x-exponent and y-exponent tracked separately, or a different invariant) -- this was not resolved in this pass.",
+      "mutant_result": false,
+      "baseline_correct_result": true,
+      "detected_as_wrong": true,
+      "significance": "DESPITE the caveat above, the naive rule's result still differs from the repaired rule's result on this candidate -- i.e. the naive rule is demonstrably wrong here regardless of whether the specific relator satisfies the strict adversarial condition. This is weaker evidence than a confirmed adversarial-relator case (item 2's positive control on b3_index=96 DID find and confirm a genuine e(r) mod ord(cbar)!=0 relator, and IS the stronger evidence for the WDICT-5 phenomenon specifically) but still a real, reproducible discrepancy."
+    },
+    "MU9_theta_tau_formula_swap": {
+      "description": "translated per coordinator's explicit permission (words no longer exist in the p-direct predicate, so W-1's original 'paper vs GAP word order' meaning does not apply): theta~'s closed-form image definition was swapped for tau~'s formula (i.e. theta_wrong(x,y,c) := (y, y^-1 x^-1 c, c) instead of the correct (y,x,c))",
+      "theta_wrong_welldefined": true,
+      "hex310_with_correct_theta": true,
+      "hex310_with_wrong_theta": false,
+      "detected_as_wrong": true,
+      "significance": "confirms the SPECIFIC closed-form formula assigned to theta~ (not just 'some automorphism of A') is load-bearing -- an equally well-defined but WRONG automorphism (tau's own formula, misapplied as theta) produces a different, detectably-wrong hexagon (3.10) verdict on the same candidate"
+    },
+    "MU8_and_item6_negative_seed_swap": {
+      "description": "row71's seed word evaluated and its pi0-image compared against row36's PRE-REGISTERED pinned M-target constant (i.e. simulating a producer bug that fed the wrong seed's word into a receipt CLAIMING to be row36)",
+      "pinned_row36_target": "(1,5,9,4,8,3,7,2,6)(10,15,11,16,12,17,13,18,14) [G9-component of the frozen row36 target in PB3/M]",
+      "actual_pi0_of_row71_word": "(1,8,6,4,2,9,7,5,3)(10,12,14,16,18,11,13,15,17)(28,35,34,30,33,29,32) [visibly different]",
+      "mismatch_detected": true,
+      "significance": "THIS IS THE NEGATIVE TEST item 6 required: the fail-closed reduction-match assertion in search/drophunt_checker_producer_v3.g (DCP3EvalWindow's 'Error(...fail-closed stop)' on a pinned-constant mismatch) was previously only ever exercised on cases where it correctly did NOT fire (all prior passes' windows genuinely reduced to the pinned constant). This is the first run in this repair line where the comparison was deliberately fed a WRONG value and the mismatch was confirmed to be CORRECTLY DETECTED (not silently accepted) -- closing the gap the coordinator flagged ('現状は構造対応のみで未発火試験')."
+    }
+  },
+
+  "item4_CK4_null_convention": {
+    "status": "STRUCTURALLY_CONFIRMED -- BLOCKED case itself has been ELIMINATED by the v3 repair, changing the applicable rule",
+    "finding": "search/drophunt_checker_producer_v3.g's DCP3EvalWindow initializes hex310/hex311/onto/reduction_match to GAP's `fail` sentinel (NOT boolean false) before the charming gate, and only overwrites them with a genuine boolean if that stage is actually reached and evaluated. Rows that fail the charming gate keep hex310=fail/hex311=fail/onto=fail/reduction_match=fail -- which is the correct 'not evaluated' semantics the coordinator specified as the required null convention (fail's natural JSON serialization, once a receipt-emission function is written, would be `null`, matching the F6=true-window short-circuit-row requirement directly).",
+    "BLOCKED_window_case": "no longer exists as a producer-level concept in v3: since theta~/tau~ are now built via closed-form automorphisms requiring only JC (not sigma1/sigma2 of the roof), EVERY window tested so far (the original 5-window set including all 3 that were F6=false/BLOCKED in v2, plus the b3_index=192/|G|~1.4e8 window in item 8, plus b3_index=5 in this pass) has theta_welldefined=true, tau_welldefined=true, and computes a real (non-null, non-blocked) verdict for every row. The coordinator's fallback instruction ('BLOCKED窓自体が消えたなら、その旨と新しいnull規約を cert で宣言') is exercised here: BLOCKED is declared GONE, and the null convention that remains is exactly the per-row short-circuit case (a row whose charming/hex310/hex311/onto stage failed, leaving LATER stages unevaluated = fail/null), not a whole-window BLOCKED case.",
+    "not_yet_done": "this was confirmed by READING the v3 producer's own code and its live output (fail values print as GAP's `fail`, not `false`, in every console trace across all runs in this repair line), but NOT yet verified via an actual JSON receipt + independent checker round-trip (no v3 receipt-emission function or v3 checker script exists yet -- see item 5)."
+  },
+
+  "item5_SS4_8_field_checker_enforcement": {
+    "status": "NOT_EXECUTED_THIS_PASS",
+    "reason": "time budget exhausted after items 3/4/6 (this pass's priority, per the coordinator's framing that items 3 and 6 were the concrete 'falsifier第3便前提' blockers, with 4 addressed structurally and 5 the remaining gap). No search/drophunt_checker_producer_v3.g receipt-emission function (DCP3EmitReceipt, analogous to v2's DCP2EmitReceiptV2) and no v3 checker script (search/drophunt_checker_v3.py) were written in this pass.",
+    "what_remains": [
+      "port v2's DCP2EmitReceiptV2 to v3's schema, changing predicate_rule from 'F1_word'/'F2_quotient_BLOCKED_c_notin_K' to a new v3 value (e.g. 'F2_quotient_p_direct') reflecting that ALL windows now use the same group-element-only rule regardless of c_in_K, and adding c_in_K itself as an explicit top-level field per the coordinator's item-5 list (F4_isolated/positive_recordability/predicate_rule/node_id/seed_key/wcp5d_ref/tau_descends/c_in_K)",
+      "write a v3 checker (or a v2-checker patch) that verifies presence and internal consistency of all 8 fields, matching the coordinator's explicit correction that F6=true windows' short-circuited rows must show null (not the v2 checker's now-inverted 'require false' logic) and that the whole-window BLOCKED case (valid_count:null, cc1.match:false) is retired in favor of the new per-row-only null convention (item 4)"
+    ]
+  },
+
+  "item6_reduction_match_negative_test": {
+    "status": "COMPLETE",
+    "result": "see item3_mutants...MU8_and_item6_negative_seed_swap above -- the negative test was run and the fail-closed mismatch detection fired correctly."
+  },
+
+  "overall_picture_toward_falsifier_pass_3": {
+    "calibration": {"K2_raw48_valid2": "COMPLETE (p-direct, v3)", "PGammaL28_valid9": "COMPLETE (prior pass, v3-compatible group-element method, not yet re-run under v3's exact producer code but uses the same no-word philosophy)"},
+    "positive_control": "COMPLETE (item 2, prior pass)",
+    "mutants": {"MU1": "superseded (zero detection power on c_in_K windows, documented)", "MU2": "COMPLETE this pass", "MU3": "COMPLETE this pass (with an honest caveat on relator adversarial-ness)", "MU8_and_item6_negative": "COMPLETE this pass", "MU9": "COMPLETE this pass (translated form)"},
+    "CK_group_and_SS4_fields": "item4 structurally confirmed; item5 (checker enforcement + receipt emission) NOT done -- this is the single remaining gap before a full 'calibration+positive control+MU群+CK群が新実装で揃う' claim can be made truthfully",
+    "venue": "413ms/window (item 8, prior pass) -- 358-window local sweep estimate 'a few minutes, chunked' as the coordinator anticipated, still not executed (no production sweep launched, per standing instruction)"
+  },
+
+  "deviations_and_open_questions": [
+    "(1) MU-3's relator does not provably satisfy the adversarial e(r) mod ord(cbar) != 0 condition (random search exhausted); the mutant is still DETECTED as wrong, but this is weaker evidence than item 2's confirmed-adversarial case. The exact intended definition of e(w) (combined vs per-generator exponent sum) was not resolved.",
+    "(2) Item 5 (SS4 8-field checker enforcement + v3 receipt emission) remains undone -- flagged as the clear next step before claiming the full v4 apparatus is checker-verified end-to-end.",
+    "(3) PGammaL(2,8)'s valid=9 result (search/certs/drophunt_pgl_rederivation_v1_20260828.json) was produced by a DIFFERENT script (search/drophunt_pgl_producer_v1.g, predating v3's producer) using the same group-element-only philosophy (no words) but not literally built on top of drophunt_checker_producer_v3.g's DCP3BuildWindow/A/theta~/tau~ machinery -- listed as calibration-complete in the overall picture above, but flagged here as not yet unified with the v3 producer codebase specifically.",
+    "(4) As in all prior passes, no independent second-system (fresh Python) re-derivation was performed for any of today's results -- single-system (GAP) throughout."
+  ]
+}

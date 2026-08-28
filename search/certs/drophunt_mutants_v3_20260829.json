@@ -1,0 +1,11 @@
+{
+  "schema":"drophunt-mutants-v3/v1",
+  "window":{"b3_index":5,"c_in_K":false,"K_ord":90,"ord_cbar":5},
+  "baseline_candidate_m":18,
+  "baseline_correct_F2_rule_holds":true,
+  "MU2_rhs_dropped_to_identity":{"holds":false,"detected_as_wrong":true},
+  "MU3_naive_word_tau_with_adversarial_relator":{"relator_length":8,"relator_esum_mod_ordC":0,"holds":false,"detected_as_wrong":true},
+  "MU9_theta_tau_formula_swap":{"theta_wrong_welldefined":true,"hex310_orig":true,"hex310_wrong":false,"detected_as_wrong":true},
+  "MU8_item6_negative_seed_swap":{"mismatch_detected":true},
+  "total_elapsed_ms":3962
+}
