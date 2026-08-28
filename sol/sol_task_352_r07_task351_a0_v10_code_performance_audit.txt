@@ -1,0 +1,248 @@
+# Sol(max) task 352 - task351 A0/v10 full code, soundness, and performance audit
+
+Role: Sol(max), fresh adversarial mathematical/code auditor.  Read every
+numbered section first to last before judging.  Do not edit any candidate,
+proof, workflow, v220 file, input, or artifact.  Do not run Python, Node,
+GAP, GHA, a workflow, git, or network.  Create only
+
+`sol/sol_reply_352_r07_task351_a0_v10_code_performance_audit_v1.md`.
+
+The verdict is `PASS / UNEXECUTED` only if every literal route below is
+statically sound and the advertised hosted computation is defensibly
+bounded.  Otherwise return `REJECT / UNEXECUTED`, identify the first exact
+deterministic stop, continue under the smallest explicitly labelled
+hypothetical repairs, and give one finite Luna successor prescription.
+Neither SELFTEST nor PRODUCTION is authorized by this mail.
+
+## 1. Frozen candidate and prerequisite order
+
+Read in full, in this order:
+
+1. `sol/luna_task_351_r07_task350_recovery_v2_a0_v10.md` and
+   `sol/luna_reply_351_r07_task350_recovery_v2_a0_v10.md`;
+2. all five machine outputs listed below, including every line of producer,
+   checker, driver, and fixture;
+3. task350/v9 and task349/v8, including their complete blocked replies;
+4. `sol/sol_reply_347_r07_task342_a0_v7_code_performance_audit_v1.md`;
+5. v265, v275--v279, v284, v287--v290;
+6. task175/task176 producer/checker, accepted task176 receipt, manifest,
+   recovered verdict, recovery-v1 and recovery-v2;
+7. every q3/E3/E4/joint/old/raw-checkpoint source and physical owner pinned
+   by v10; and
+8. v10's complete transitive import graph and the old live helper it loads.
+
+The frozen identities are:
+
+```text
+ci/in/d972_r07_all_seven_extension_section_census_crosscheck_v1.recovery.manifest.v2.json
+  2690 bytes
+  67dd555f6e0f943d0161ef2f2c8124b4cc31c9167846b45b43fd2001f5fbba3f
+  self e95b4e7781a14cffd07d445141f20c942861168d201f2ce62879a0ddf3a45026
+search/d972_r07_history_free_positive_fast_resume_v10.py
+  147892 bytes
+  235a798e097a7388603a72462a4fef28d9a7e044c47e4339eb4e30714bd9e472
+crosscheck/check_d972_r07_history_free_positive_fast_resume_v10.py
+  131175 bytes
+  b2723e9d6703f3cf529ffab7c571ce5dce8b23a428eb54810f57b05aba4a5b0f
+search/d972_r07_history_free_positive_fast_resume_gha_driver_v10.g
+  12812 bytes
+  51ce34e7908af9c6a489c76607a95a2c9b55142e04a9d19aaa1154177b06cba3
+search/certs/d972_r07_history_free_positive_fast_resume_selftest_v10_20260829.json
+  3785 bytes
+  de6273d681238b1aa560353c70a245cc28823326908e31be464fa2c399917203
+sol/luna_reply_351_r07_task350_recovery_v2_a0_v10.md
+  4721 bytes
+  245ef2c07cabad4ea598e457e2748b6884272d9a9494702adaa469526e976169
+```
+
+Recompute these identities read-only before using the files.  Any mismatch
+is the first stop.  Recovery-v2 must authenticate and explicitly supersede,
+not overwrite or silently forgive, recovery-v1's `...b34f...` transcription.
+
+## 2. Literal driver and terminal reachability
+
+Trace every command and branch from the ASCII driver through pinning,
+staging, SELFTEST, fresh production, authenticated resume, producer terminal,
+checker terminal, atomic artifacts, and last-write sentinel.  Trace the
+actual source pin and import graph rather than relying on the reply.
+
+Find the first deterministic exception, bad path, stale-output collision,
+pin mismatch, argument mismatch, schema mismatch, impossible require,
+attribute error, timeout decomposition error, terminal-regex failure, or
+exit-code error on the frozen inputs.  Do not stop after one finding.  Under
+minimal hypothetical repairs, continue through COMMON, UNKNOWN_INPUT,
+UNKNOWN_RESOURCE, malformed checkpoint, and hard exception.  A producer
+COMMON, a checker-shaped receipt, a static path, or any UNKNOWN does not
+complete A0.
+
+## 3. Recovery-v2 and physical authority
+
+Recompute the canonical recovery-v2 self seal by deleting only the top-level
+seal, and check its exact receipt/verdict/manifest/v1/run/head/artifact/ZIP/
+member/source graph.  Audit no-follow, regular-file, link-count, opened-handle
+before/after identity, pathname-after identity, bounded read/decompression,
+and Linux/Windows behavior.  The checker may authenticate task176 source
+bytes but must never execute or call its composite helpers.
+
+Check that the checker independently instantiates only the permitted pinned
+low-level E3/E4 operations.  Produce a complete module load/call table and
+reject hidden use of task176 `enumerate_q0_sections`, `q0_section_word`,
+coordinate evaluator, fibre, A-map, kernel, packing, or value helpers.
+
+## 4. Exact selected Q0 and Gamma semantics
+
+Audit all 1,469,664 Q0 parent/letter records and all 243 Gamma parent/record
+records as one-based chronological trees: sole `(0,0)` root; every nonroot
+parent earlier and nonzero; Q0 letters exactly 1/2; Gamma records exactly
+1--26 with `record-1` indexing.  Check that selected parent walks terminate,
+reverse in the correct order, and bind the exact literal words.
+
+Require independent replay of the selected 36-byte Q0 canonical permutation,
+all ten task176 marked-generator blobs with widths 40/154, and the selected
+970-byte Gamma ten-coordinate record.  A full JointGroup diagnostic is not
+the 970-byte projected row.  Check multiplication orientation, inverse and
+free reduction on actual group primitives.  Require the selected base word
+and typed row to be `red(gword+qword)`, in that order, and ensure every later
+correction uses exactly this reconstructed object.
+
+## 5. Exact K-nonzero and K-zero schedules
+
+For K nonzero, prove that the implementation recomputes the formula, K, W,
+bound/schedule, cursor bijection
+`qid=c//243+1, gid=c%243+1`, ten-coordinate product, scalar, direct column,
+and active-dual pairing.  Decide whether the W+1 argument is actually
+implemented with its stated hypotheses and does not become a copied bound.
+
+For K zero, audit the whole selected-coordinate proof, not just ranges:
+
+1. pre-cap every allocation, stream Q0 chronologically once at only the
+   selected coordinate, and derive every child from its exact earlier parent
+   and authenticated literal mark;
+2. reject duplicate 36/144-byte coarse keys and bind the complete pair digest
+   and accepted singleton-bucket metadata;
+3. rebuild all 243 Gamma values and the exact first-gid map, comparing the
+   authenticated `A_families[Sj].literal_elements` owner;
+4. after a coarse lookup of `a^-1*t`, require the retained Q0 state's complete
+   40/154-byte typed blob to equal that source before using it; the tautology
+   `a*(a^-1*t)=t` is not a Q0 membership proof;
+5. prove lexicographic leastness over the complete retained roster;
+6. authenticate the literal task176 word generators, replay each word,
+   independently rebuild the full ten-coordinate kernel BFS, prove exact
+   order 1/3/9, and bind cursor, state word, state blobs, and kernel word; and
+7. replay `red(kernel_word+gword+qword)`, target, scalar, all eleven/direct
+   H1/H2/P values, and dual pairing.
+
+Inspect producer fallbacks such as a missing kernel cursor default, private
+coarse-table helpers, copied counts/digests, and any mismatch between coarse
+and full typed keys.  A producer's fibre, A-map, kernel order, leastness
+Boolean, or heavy digest is never authority.
+
+## 6. Triangular solver, ancestry, and final COMMON
+
+Re-audit the exact 2,896-column old source and triangular equations: pivot
+order, coefficient one, earlier-pivot zeros, all support inspection,
+chronological injection, target and dual.  Audit ACTIVE/boundary/correction
+columns, coefficient-two inverse, rank rises, formal ancestry DAG node ids,
+selected old raw-record binding, selected new provenance, and the final
+literal sparse equality.
+
+Confirm that every selected correction reconstructed in Sections 4--5 is
+the same record used in formal solution, correction-word multiplication,
+joint-kernel check, corrected word, exponent gate and COMMON seal.  Decide
+whether an unreplayed unselected row can influence acceptance.  Derive the
+heavy identity from opened authorities and independently reconstructed
+selected semantics; a 64-hex shape or producer digest is insufficient.
+
+## 7. Checkpoint, DAG, process, and failure truth
+
+Trace every fresh and resumed frontier.  Validate the lossless hash-consed
+ancestry DAG, normalized rows, solution/remainder node ids, echelons,
+boundary process cleanup, current dual/epoch, heavy-state identity and every
+cursor.  No completed actual provenance may be silently recomputed and no
+needed heavy object may be omitted.
+
+Apply v290's typed accounting exactly: completed semantic counters add;
+restore validation is separate and nonzero; current-invocation wall/input
+starts at process invocation and does not inherit the prior run; peaks/gauges
+use their declared law.  Audit canary/rebuild-digest composition, the last
+checkpoint serialization charge, repeated resume, one atomic sidecar,
+UNKNOWN's bounded read, and producer/checker owner/code separation.
+
+Audit persistent W=2/W=4 worker IPC, atomic epoch commit, deadlines, partial/
+blocked/dead child cleanup, spawn/fork assumptions, and all SELFTEST faults.
+No SELFTEST or mutation work may run on PRODUCTION.
+
+## 8. Checker independence and physical mutations
+
+For COMMON, require the checker to rebuild target, every selected old/new
+row, Q0/Gamma/fibre/kernel schedule, correction product, word, joint-kernel
+value, all eleven/direct-all-seven values and final residual without producer
+helpers or producer semantic Booleans.  For nonpositive terminals it must do
+only bounded physical transport.
+
+For every fixture mutation, name the actual physical/live owner changed,
+the ordinary validator reached, the narrow first rejection, and whether the
+baseline route is reachable.  Reject mutation-name branches, miniature
+dictionaries, post-hoc copied digests, arbitrary-exception acceptance, and
+resealing which launders a changed authority.  Include recovery-v1/v2,
+Q0/Gamma/full-vs-projected/product order, coarse/full fibre, kernel, heavy
+identity, DAG/checkpoint, process, final row and terminal owners.
+
+## 9. Mandatory unnecessary-work and feasibility audit
+
+This section is load-bearing.  The researcher explicitly requires detection
+of avoidably slow work.  Give literal counts or defensible upper bounds for:
+
+- every read/hash/parse/canonicalization of the 86,368,039-byte old source,
+  13,649,089-byte task176 receipt and other large owners;
+- module compilation, target/dual/P reconstruction, pivot scans and support
+  inspections;
+- process creation, IPC bytes, boundary pairs and repeated epochs;
+- Q0 state/store/membership construction and its exact trigger;
+- each selected K-zero `N=1,469,664` state pass, inverse memory, Python-object
+  overhead, Gamma pass and kernel replay, including whether the same
+  coordinate inverse is rebuilt for multiple selected records instead of
+  cached once;
+- parent-walk and ten-coordinate replay cost per selected record;
+- ancestry expansion, checkpoint canonicalization/copy count, raw/heavy
+  reopen, positive checker work and mutations;
+- UNKNOWN checker work, output copies, final bytes and upload reserve.
+
+Find repeated full-document clones, all-coordinate Q0 indices, per-qid root
+walks, repeated formula/direct replay, quadratic sparse-map copying, busy
+loops, per-epoch pools, unused descriptor scans, duplicate target/dual builds,
+and work correct but unnecessary.  Check all allocations against conservative
+Python object overhead rather than raw payload only.  Give a defensible
+10,800-second producer + 7,200-second checker + 3,600-second artifact reserve
+assessment inside 21,600 seconds; do not report measured runtime.
+
+## 10. Verdict and successor
+
+A PASS authorizes exactly one future GHA SELFTEST/fresh-or-resume run through
+the frozen v10 driver and states the exact command without dispatching it.  A
+REJECT forbids execution and gives one bounded versioned Luna repair which
+preserves recovery-v2 and the sound v10 pieces while removing every literal
+or performance blocker found.
+
+Map the result to v220.  Static PASS remains A0 `0/1`; only an actual COMMON
+producer plus independent checker terminal changes it to `1/1`.  No outcome
+here proves a separator, lift, fake certificate, cofinal family, or Ihara
+counterexample.
+
+End exactly with:
+
+```text
+AUDIT VERDICT:                         PASS or REJECT / UNEXECUTED
+FIRST LITERAL STOP:                    <exact owner or NONE>
+MATHEMATICAL POSITIVE PATH:            PASS or REJECT
+CHECKER INDEPENDENCE:                  PASS or REJECT
+CHECKPOINT / RESUME:                   PASS or REJECT
+PHYSICAL MUTATIONS:                    PASS or REJECT
+UNNECESSARY SLOW WORK:                 NONE or <exact owners>
+SELFTEST / PRODUCTION AUTHORIZATION:   YES or NO
+ACTUAL A0 COMMON + CHECKER:            0/1
+SEPARATOR / NEGATIVE CLAIM:            FORBIDDEN
+LIFT / FAKE / IHARA:                   NONE
+```
+
+`TASK352_R07_TASK351_A0_V10_CODE_PERFORMANCE_AUDIT`

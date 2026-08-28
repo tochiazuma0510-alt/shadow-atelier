@@ -4489,3 +4489,40 @@ delta102.
 Durable branch record through delta102 is commit `bdf3dee2`, pushed to
 `origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
 delta103.
+
+#### v220-delta104 - 2026-08-29 (after delta103)
+
+**Individual progress**:
+
+- Luna task351 returned the complete versioned recovery-v2 owner and all four
+  A0-v10 machine files as `UNEXECUTED`.  Independent read-only hashing matches
+  the reported 2,690-byte recovery owner and the producer/checker/driver/
+  fixture identities.  Recovery-v2 corrects only recovery-v1's `...b34f...`
+  receipt-self transcription to the physical `...b34b...` value and records
+  no mathematical-grade change.
+- V10 now contains checker-local task176 owner decoding, one-based Q0/Gamma
+  parent grammars, selected 40/154-byte typed replay, a selected-coordinate
+  K-zero recurrence and kernel BFS, and DAG-native checkpoint fields.  These
+  are candidate implementation claims, not an accepted COMMON result.
+- Sol(max) task352 commissions the required fresh full code, soundness and
+  performance audit.  It expressly audits complete typed-state equality after
+  a coarse fibre lookup, task176 helper non-sharing, repeated 1,469,664-state
+  passes and Python-object memory, heavy-identity derivation, actual-owner
+  mutations, v290 resume accounting, avoidable slow work, and the complete
+  10,800/7,200/3,600-second hosted envelope.  No execution is authorized
+  before a PASS.
+- A4-v5 remains under implementation repair.  Its live source has adopted
+  typed counter maps, but the full-counter rebuild digest and current-run wall
+  boundary still require static closure before its own fresh Sol(max) audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V10 IMPLEMENTED / SOL(MAX) AUDIT ACTIVE**.  Recovery-v2
+  is a completed provenance repair, but neither static implementation nor an
+  audit changes the actual numerator.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  A2 remains **2/3** and all
+  other counts remain delta103.  No compatible lift, fake certificate, or
+  Ihara counterexample has been constructed.
+
+Delta104 freezes the A0-v10 candidate and moves it to adversarial audit while
+keeping GHA execution forbidden.
