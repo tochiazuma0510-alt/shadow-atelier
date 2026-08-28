@@ -1968,3 +1968,46 @@ A0 remains independently live.
 
 Delta41 removes a deterministic post-A1 A4 input failure and freezes the
 parallel launch contract.  It changes no actual witness numerator.
+
+#### v220-delta42 - 2026-08-28 (after delta41)
+
+**Individual progress**:
+
+- `proof_r07_post_endpoint_pro3_side_gate_collapse_v248.md` composes the
+  accepted paper route after A7.  For an actual task192 correction in the
+  accumulated normal commutator domain, the diagonal context orbit and every
+  finite Neumann partial correction remain in that same domain.  Hence
+  roof/mark invisibility and exact exponent zero are preserved without a new
+  rung-by-rung search; v94 separately propagates onto through the matched
+  pro-3 Frattini lane.
+- The same note fixes the remaining A9 boundary: A7 zero makes A8 boundary
+  extraction total by v197, and v174/v228 then give the pointed linear
+  Neumann descent from the same finite `M`.  What is not removed is the exact
+  nonlinear word replay of H1, H2, and the printed pentagon for the nested
+  partial corrections.  Mixed-prime formation and perfect-core gates remain
+  B and C rather than being hidden inside A9.
+- Static implementation commissions task285 and task286 were launched on
+  separate Luna agents.  Task285 implements the corrected v247-anchored A5
+  occurrence slice and fuses its positive ancestry into the A6 roof-fibre
+  word-pair polynomial.  Task286 implements the exact infinite-PB H1/H2/P
+  endpoint evaluator for that immutable polynomial.  Both are unexecuted
+  preparations and explicitly forbid fictional production inputs.
+
+**v220 mapping**:
+
+- A5 remains **0/3** and A6 remains **0/3**.  Their actual joint rows,
+  membership, ancestry, pair expansion, roof-fibre replay, and accepted `M`
+  do not yet exist; task285 is an implementation commission only.
+- A7 remains **0/3**.  Task286 has no actual task285 MEMBER input, so none of
+  H1/H2/P exact endpoint zero has been computed.
+- A8 and A9 remain **0/3**.  V248 narrows their post-A7 proof obligations but
+  is a paper theorem, not an extracted actual boundary or accepted nonlinear
+  correction receipt.
+- A0 remains **0/1 RUNNING** on `33149728601`; A1 remains **3/4 RUNNING** on
+  capture `33155653989` and direct production `33155710862`; A2 remains
+  **2/3**; A3 and A4 remain **0/3** with their implementation SELFTESTs
+  recorded separately.  B, C, W, and F remain zero.
+
+Delta42 removes repeated post-A7 roof/charming/onto searches from the
+mathematical route and starts the missing A5--A7 implementation chain.  It
+changes no actual witness numerator.
