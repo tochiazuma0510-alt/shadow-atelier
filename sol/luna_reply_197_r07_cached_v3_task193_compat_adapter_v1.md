@@ -266,3 +266,45 @@ GAP CHARACTER-RANGE CONSTRUCTION:        REPAIRED STATICALLY
 TASK197 PRODUCER / CHECKER:               NOT RUN IN THIS ATTEMPT
 MATHEMATICAL / CROSS-CHECKED RESULT:      NONE
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
+
+## 9. Independently audited repair and GHA SELFTEST
+
+Sol212 independently re-audited the string-allowlist repair and returned
+static `GO`: the path, scalar, digit, and hexadecimal alphabets are exact,
+GAP character-membership semantics are unchanged, and all 16 driver pins
+match.  Parent Sol committed the two-file repair as
+
+```text
+e1745e4e1b622379c0f14ad4a5e00c0e32d8a832
+```
+
+An initial dispatch, run `33130446195`, checked out the preceding remote
+head `08d23f0e` while the push response was delayed and repeated the known
+pre-producer Range failure.  It carries no new implementation or
+mathematical result.  After the remote branch was confirmed at `e1745e4e`,
+GHA SELFTEST run `33130846755` completed successfully at that immutable head.
+
+Parent downloaded and audited the artifact.  Producer, helper-nonshared
+checker, and driver emitted their three matching SELFTEST markers.  The
+receipt identity is
+
+```text
+3276 / c59e78d2425b066d3a4315b853e03f014febce477bd3699e3714ceb5fed553ba
+```
+
+and all `55/55` registered mutations were attempted and rejected.  Artifact
+`9670194395` has ZIP digest
+
+```text
+sha256:040b47a263a030b41d0648e42e86ba027ae6da214b20ec6509f6b3d41e90802a
+```
+
+This promotes only the bounded conversion SELFTEST to cross-checked status.
+Production still requires a positive, independently accepted task192-v3
+receipt and immutable artifact bindings.
+
+TASK197 ADAPTER SELFTEST:                    CROSS-CHECKED / 33130846755
+TASK192-v3 POSITIVE PRODUCTION INPUT:        NOT YET SUPPLIED
+TASK193-COMPATIBLE PRODUCTION RECEIPT:       NOT PRODUCED
+ACTUAL TASK193 beta1 / FIRST MULTIPLIER:     NOT EXECUTED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:      NOT DECLARED
