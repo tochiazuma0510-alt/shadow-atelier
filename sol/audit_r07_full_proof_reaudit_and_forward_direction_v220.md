@@ -2759,3 +2759,35 @@ no actual witness numerator.
 
 Delta61 supplies the complete actual A1 producer object and identifies a
 three-hour duplicate-work boundary without prematurely increasing A1 or A4.
+
+#### v220-delta62 - 2026-08-28 (after delta61)
+
+**Individual progress**:
+
+- V259 proves that the finite word-bearing v247 sections at distinct relative
+  edges do not themselves need to commute with reduction.  Every materialized
+  pair has equal coarse value, so its kernel word and every registered
+  conjugate lie in the current evaluation kernel.  Multiplying such a word
+  at depth (n) therefore preserves all earlier finite values automatically.
+- Consequently, once a finite MEMBER ancestry is selected at every abelian
+  edge and a word is selected from every nonempty nonabelian accepted set,
+  the ordered partial words already form a compatible Cauchy thread.  A
+  natural module-wide section would be stronger but is not an extra gate for
+  one based explicit lift.
+- The theorem does not promote a first-edge success to later membership.
+  The remaining all-rung mathematical obligation is exactly v252's actual
+  localized joint-image membership at every deeper residual, plus nonempty
+  perfect-core accepted sets.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**.  V259 removes a spurious section-compatibility
+  sub-obligation but supplies neither pointed Neumann data, nonlinear side-
+  gate acceptance, nor all-rung descent.
+- A0 **0/1 RUNNING-BOUNDARY-RESTART**, A1 **3/4** with a positive producer
+  candidate, A2 **2/3**, and A3--A8 actual retain their delta61 values.  B,
+  C, W, and F remain zero.
+
+Delta62 sharpens the uniform-explicit-lift frontier from “choose coherent
+edge sections” to the single substantive recurrence “prove every actual
+next residual is solvable.”  It changes no actual witness numerator.
