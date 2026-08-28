@@ -1,0 +1,69 @@
+{
+  "schema": "drophunt-pgl-calibration/v1",
+  "status": "SUCCESS_CALIBRATION_2_POINTS_COMPLETE",
+  "verified": false,
+  "authority": "implementer task 2026-08-28, per 裁定1741 (execute the 5-step plan written in the prior cert's item3)",
+  "note": "This cert executes exactly the 5-step plan recorded in search/certs/drophunt_f6_distribution_v1_20260828.json item3_PGammaL28_attempt.what_would_be_needed_to_complete_this.",
+
+  "step_a_point_index_convention_check": {
+    "status": "MATCHES -- verified by direct formula comparison, not assumed",
+    "gap_side": {
+      "file": "search/week3-psl-common.g",
+      "function": "MatToPermGF8 (line 206)",
+      "convention": "9 points, 1-indexed: point 1 = infinity (P^1's point at infinity); point 2+x = GF(8) field element x for x in 0..7. images[1] = 1 if c=0 else 2+GF8Mul(a,GF8Inv(c)); images[2+x] = 1 if den=0 else 2+GF8Mul(num,GF8Inv(den)).",
+      "gf8_encoding": "bit encoding a0+2*a1+4*a2, reduction polynomial x^3+x+1 (GF8Reduce XORs bits 4,3 against 0b1011 shifted, matching search/week3-psl-common.g lines 163-170)"
+    },
+    "python_side": {
+      "file": "search/pgl28_independent_window_producer_v1.py",
+      "function": "matrix_perm (line ~181)",
+      "convention": "9 points, 0-indexed: index0 = infinity; index(1+x) = GF(8) field element x for x in 0..7. images[0] = 0 if c==0 else 1+gf_mul(a,gf_inv(c)); images[1+x] = 0 if den==0 else 1+gf_mul(num,gf_inv(den)).",
+      "gf8_encoding": "bit encoding a0+2*a1+4*a2, reduction polynomial x^3+x+1 (gf_mul XORs bits 4,3 against 0b1011 shifted, matching lines ~63-78 -- IDENTICAL formulas to the GAP side, confirmed by direct code comparison)"
+    },
+    "reconciliation": "Converting Python's 0-indexed images to GAP's 1-indexed convention by adding 1 throughout reproduces the GAP formula EXACTLY: GAP images[1] = python images[0]+1 = 1 if c=0 else 1+(1+gf_mul(a,ginv(c))) = 2+gf_mul(a,ginv(c)), matching GAP's '2+GF8Mul(a,GF8Inv(c))' term-for-term. Same for the images[2+x] vs images[1+x]+1 case. The GF(8) field encoding and multiplication (bit encoding, reduction polynomial x^3+x+1, same XOR-based reduction) are identical between the two implementations by direct code inspection.",
+    "conclusion": "The point-index convention MATCHES. No adaptation or offset correction beyond the standard 0-index/1-index shift is needed. This is the confirmation the coordinator required before attempting the re-derivation (K2's lesson: never build on an unverified convention match)."
+  },
+
+  "step_b_e_construction_and_rederivation": {
+    "status": "SUCCESS",
+    "correction_to_the_prior_pass_plan": "The prior cert's steps (c)/(d) assumed the window would be a M-cap-N_PGL REDUCTION via a group homomorphism from E=PGammaL(2,8) down onto roof M's PSL(2,8) factor. Reading search/pgl28_independent_window_producer_v1.py's full main() flow in this pass revealed this assumption was WRONG: the reference producer does NOT build any such homomorphism. Instead it (i) runs a SELF-CONTAINED GT(E)-style hexagon/onto check ENTIRELY WITHIN E (m mod 9, f ranging over DerivedSubgroup(E) which equals PSL(2,8) as a SET of 504 elements, theta:=Ad(s), tau:=Ad(t) for a FRESH marked pair s(order2),t(order3) found by search WITHIN E and generating E itself -- NOT the same s,t=x4,y4 used for roof M's own PSL(2,8) block), and (ii) JOINS the resulting 'component_pass[m]' counts against the pre-existing 972-row M-target roster purely by matching each target's own m mod 9 value (no f-coordinate join, since E and M's f-parts share no common quotient -- proved in the reference script's own comments). This means fibre_size for EVERY M-target sharing a given m mod 9 equals |component_pass[m]| uniformly, and valid=9 reduces to a single self-contained question: is |component_pass[m]|=9 for every charming m (mod 9) inside E alone? No M-joint permutation group of any kind was needed. This correction was discovered by reading the reference implementation directly in this pass, not guessed.",
+    "construction": {
+      "E_construction": "E := Group(DCP2X4, DCP2Y4, Frobenius), where DCP2X4/DCP2Y4 are roof M's own PSL(2,8) generators (already built, verified point-index-consistent with the reference in step a) and Frobenius is the degree-9 permutation built directly from the confirmed convention (point 1 fixed, point 2+x -> 2+GF8Mul(x,x)).",
+      "E_order": 1512,
+      "E_order_check": "matches expected 1512 = 3*504 exactly",
+      "Frobenius_order": 3,
+      "derived_subgroup_of_E": {"order": 504, "note": "matches PSL(2,8)'s own order exactly, as required by the reference script's own assertion 'derived == frob_cosets[0]'"},
+      "marking_search": {
+        "method": "ported verbatim (same relations, same order of checks) from search/pgl28_independent_window_producer_v1.py's main(): search s (order 2) x t (order 3) in E for w:=s*t^-1 with Order(w) in {9,18}, x:=w^2 with Order(x)=9, y:=s^-1*x*s, require y equals t^-1*x*t, require ((t^2)^-1*x*t^2)*y*x=Identity, require (t^-1*s)^2=y, require <s,t>=E and <x,y>=E (both order 1512)",
+        "s_candidates_order2": 63,
+        "t_candidates_order3": 224,
+        "pairs_tried_before_success": 60,
+        "marking_found": true,
+        "search_time_ms": 4
+      },
+      "component_computation": {
+        "method": "for each charming m in {0,2,3,5,6,8} (mod 9) and each f in DerivedSubgroup(E) (504 elements): theta(f):=s^-1*f*s, check theta(f)*f=Identity (hexagon analog of (3.10)); tau applied via Ad(t) twice to y^m*f, check the triple product = Identity (hexagon analog of (3.11), RHS=Identity since E is self-contained, no c-twist); onto check <x^(2m+1), f*y^(2m+1)*f^-1> = E (order 1512). This is a plain group-element-level computation, no word-level anything, no c-in-K issue (E carries no separate 'c' of its own in this self-contained formulation).",
+        "results_per_m": {"0": 9, "2": 9, "3": 9, "5": 9, "6": 9, "8": 9},
+        "all_six_charming_m_give_exactly_9": true
+      }
+    },
+    "valid_9_matches_expected": true,
+    "expected_source": "OBS-UNIF-1 4th row / crosscheck/verdicts/pgl28_independent_window_v1_20260823.json (fibre_histogram {'9':972})",
+    "script": "search/drophunt_pgl_producer_v1.g",
+    "raw_output": "search/certs/drophunt_pgl_rederivation_v1_20260828.json",
+    "total_elapsed_ms": 23,
+    "run_venue": "local (gap.ps1), single run, far under 10 minutes"
+  },
+
+  "calibration_2_points_final_status": {
+    "K2_raw48_valid2": {"status": "COMPLETE", "source": "search/certs/drophunt_k2_rederivation_v1_20260828.json (raw_fib=48, valid_count=2, both match expected)"},
+    "PGammaL28_valid9": {"status": "COMPLETE", "source": "search/certs/drophunt_pgl_rederivation_v1_20260828.json (all 6 charming m give pass_count=9, matches expected)"},
+    "both_calibration_gates_closed": true,
+    "consequence_per_spec_v2_SS7_SS9": "The main-sweep-blocking calibration gate ('不合格なら本走禁止') is now satisfied on its implementation side. Per the coordinator's own framing: 実装側条件が全部揃った。残るは falsifier 再前哨と司令塔 go のみ -- this implementer does not launch either of those."
+  },
+
+  "deviations_and_open_questions": [
+    "(1) The corrected understanding of HOW the PGammaL(2,8) window's valid=9 arises (self-contained component computation joined by m-coordinate matching, not a group-homomorphism reduction of E onto M's PSL(2,8) factor) is new information discovered in this pass and should be cross-checked by 数学者/falsifier before being treated as settled, since it revises this implementer's own prior-cert assumption about the window's structure.",
+    "(2) The marked (s,t) pair found in this GAP run is a specific solution to the search conditions; the reference Python producer's own search (iterating candidates in its own sorted order) may find a DIFFERENT (s,t) pair satisfying the same conditions (the conditions do not claim uniqueness). Since the final component_pass counts (9 for every charming m) matched the expected value regardless, this does not affect the calibration result, but the SPECIFIC witness marking found here has not been cross-checked against the reference script's own specific witness -- only the aggregate counts were compared.",
+    "(3) As in the K2 pass, this GAP run is a single system; no independent second-system re-derivation (e.g. a fresh Python re-implementation) of this PGammaL(2,8) result was performed in this pass -- flagged as consistent with the K2 pass's own scope (calibration re-derivation through the NEW system, not yet a fresh cross-check of that new system)."
+  ]
+}
