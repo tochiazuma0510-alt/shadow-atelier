@@ -2263,3 +2263,54 @@ witness numerator.
 
 Delta48 removes an overstrong false obstruction before it could reject valid
 word corrections.  It changes no actual witness numerator.
+
+#### v220-delta49 - 2026-08-28 (after delta48)
+
+**Individual progress**:
+
+- proof_r07_ordered_nonlinear_residual_double_localization_v252.md proves
+  the exact one-step statement needed after v251: ordered materialization of
+  an admissible active-chief class kills that class in the literal H1/H2/P
+  residual, so every prefix/cross term lies one residual layer deeper.  Under
+  the authenticated relative typing, the new H1/H2 residuals also lie in the
+  \(PSL(2,8)\)-formation residual, while the pentagon residual lies in its
+  intersection with the Brunnian image.
+- The same paper keeps the crucial coupling: legal next corrections are the
+  joint common-word image
+  \(R_S(H)\cap\ker\pi_0\) from v37, not an independent product of the three
+  localized targets.  It also proves that the three A8 \(C_2\)-coefficients
+  are presentation-boundary certificates, not a nonlinear correction word.
+  Thus the remaining A9 assertion is precisely actual membership of each
+  deeper residual in the next joint affine image, together with nonempty
+  nonabelian accepted sets.
+- Task291 v1 is rejected before execution.  Its checker confused all nonzero
+  left-kernel vectors with an independent kernel basis, while its producer
+  and checker retained literal-distinct but linearly dependent orbit rows.
+  Several mutation names changed the wrong action owner or fields never read
+  by the checker.  Its own advertised baseline therefore cannot support an
+  implementation SELFTEST.  Task293 is the bounded rank-based repair.
+- Task292 v2 repairs the A7 wrapper defect in task286 v1: SELFTEST no longer
+  reads or pins any rejected task285 or ci/in artifact; all eleven declared
+  pins match current tracked bytes; production reaches a deterministic typed
+  UNKNOWN_INPUT with production_member_authenticated=false.  The exact
+  Artin/full-\(C_1\) engine, independent pointwise replay, five cases, two
+  typed guards, and 21 receipt mutations are preserved.  This is static and
+  unexecuted pending a pushed GHA SELFTEST.
+
+**v220 mapping**:
+
+- A5 remains **0/3** and A6 remains **0/3**.  Task291 contributes no accepted
+  implementation milestone; task293 is only a repair commission.
+- A7 remains **0/3 actual**.  Task292 is now statically dispatchable, but no
+  SELFTEST receipt and no actual A5/A6-derived \(M\) have been accepted.
+- A9 remains **0/3**.  V252 proves depth gain and double localization on
+  paper, but neither uniform joint-image membership nor an actual recursive
+  correction has been constructed.
+- A0 remains **0/1 RUNNING** on run 33149728601; A1 remains **3/4 RUNNING** on
+  capture 33155653989 and direct production 33155710862; A2 remains **2/3**;
+  A3/A4 remain **0/3** with their implementation SELFTESTs separate.  A8,
+  B, C, W, and F remain zero.
+
+Delta49 replaces two false implementation shortcuts by correctly typed
+contracts and narrows the nonlinear lift problem to one exact joint-image
+membership recurrence.  It changes no actual witness numerator.

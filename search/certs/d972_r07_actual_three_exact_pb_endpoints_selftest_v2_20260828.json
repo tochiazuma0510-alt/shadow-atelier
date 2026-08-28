@@ -1,0 +1,67 @@
+{
+  "schema": "d972-r07-actual-three-exact-pb-endpoints/v2/selftest-fixture",
+  "production_input": false,
+  "description": "Synthetic v2 exact-PB fixtures. The receipt expands every case to the production literal-input and certificate schema.",
+  "cases": [
+    {
+      "case_id": "zero_cross_occurrence",
+      "kind": "ZERO_CROSS_OCCURRENCE",
+      "expected_terminal": "R07_THREE_EXACT_PB_ENDPOINTS_ZERO"
+    },
+    {
+      "case_id": "h1_only_nonzero",
+      "kind": "H1_NONZERO",
+      "expected_terminal": "R07_THREE_EXACT_PB_ENDPOINTS_NONZERO block=H1"
+    },
+    {
+      "case_id": "h2_only_nonzero",
+      "kind": "H2_NONZERO",
+      "expected_terminal": "R07_THREE_EXACT_PB_ENDPOINTS_NONZERO block=H2"
+    },
+    {
+      "case_id": "p_only_nonzero",
+      "kind": "P_NONZERO",
+      "expected_terminal": "R07_THREE_EXACT_PB_ENDPOINTS_NONZERO block=P"
+    },
+    {
+      "case_id": "coefficient_collision_zero_deletion",
+      "kind": "COEFFICIENT_COLLISION",
+      "expected_terminal": "R07_THREE_EXACT_PB_ENDPOINTS_ZERO"
+    }
+  ],
+  "typed_swap_guards": [
+    "repeated_E3_slot_swap",
+    "typed_C21_E3_E4_swap"
+  ],
+  "mutation_controls": [
+    "source_word",
+    "pair_order",
+    "coefficient",
+    "block",
+    "position",
+    "type",
+    "rho",
+    "sign",
+    "prefix",
+    "inverse_slot",
+    "xi",
+    "epsilon",
+    "artin_factor_order",
+    "normal_form",
+    "bucket_deletion",
+    "M_digest",
+    "upstream_seal",
+    "full_C1_row",
+    "terminal",
+    "resource_terminal",
+    "checkpoint_owner"
+  ],
+  "claims": {
+    "A8_boundary_extracted": false,
+    "A9_lift": false,
+    "mixed_prime": false,
+    "perfect_core": false,
+    "fake": false,
+    "Ihara": false
+  }
+}

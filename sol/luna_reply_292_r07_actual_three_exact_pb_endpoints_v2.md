@@ -1,0 +1,91 @@
+# Luna reply 292 - R07 actual three exact PB endpoints v2
+
+Only the five authorized v2 paths were created. No Python, GAP, GHA, network,
+or git command was executed.
+
+## Static identities
+
+```text
+producer  40044  c44d2c8e7fdd7dcbf691600ba823445d1ac45695ef173043c723874a409f7208
+checker   46873  8d7598f376715af16ccec7bae5550f2c5329922b1b36326643a2a4e9e7cf72d8
+driver     5542  da35b73d2144b4e2d2850079e4aed6b19231cc589d42181b00333fd616b85dc5
+fixture    1696  5583205a500a878460de58e577daec0a2feff612b35742caf31ae0e4e902a9f7
+reply      self-referential bytes/SHA intentionally omitted (CV-10)
+```
+
+The reply's external identity is reported to the caller after the final bytes
+are written; embedding it here would change those same bytes.
+
+## v1 to v2 repair
+
+The endpoint mathematics was not rebuilt. Static slices from `reduce_word`
+through the fixture boundary in the producer, and from `cancel` through the
+fixture boundary in the checker, agree with v1 after only normalizing the
+checkpoint-owner version label.
+
+The mechanical wiring changes are:
+
+1. Schema, producer/checker/fixture paths, output paths, log labels, checkpoint
+   owner, and final sentinel are all v2/task292 identities.
+2. Every rejected task285 source pin, task285 receipt/verdict path, CLI option,
+   reader, object-shape authenticator, and driver pin was removed.
+3. PRODUCTION now deterministically emits
+   `UNKNOWN_INPUT:task285 accepted MEMBER/M ABI unavailable; a future accepted ABI requires a new explicit binding version`
+   without reading any task285 or `ci/in` file.
+4. The checker independently accepts only the exact sealed v2 blocker envelope
+   with that same terminal and `checkpoint_contract.owner=task292-producer`.
+   Its verdict keeps `production_member_authenticated=false` and records the
+   production binding as absent. This is envelope acceptance only, not MEMBER,
+   endpoint ZERO, or A7 acceptance.
+5. The synthetic upstream-seal mutation now uses a local
+   `future_a5_a6` canary; it does not name or consume a task285 SELFTEST.
+
+The v1 exact PB endpoint/Artin/full-C1 engine, independent pointwise replay,
+five synthetic cases, two typed guards, and all 21 destructive mutation owners
+remain present. Static fixture parsing gave exactly 5 cases, 2 guards, and 21
+mutations. Producer and checker contain no mutual/helper import.
+
+## SELFTEST dependency closure
+
+The raw pin table contains only the v2 producer/checker/fixture and these
+commission-designated tracked load-bearing sources:
+
+```text
+search/d972_r07_normalized_exact_common_word_cached_v3.py
+crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py
+search/d972_r07_second_frattini_affine_prefix_compiler_v1.py
+crosscheck/check_d972_r07_second_frattini_affine_prefix_compiler_v1.py
+search/d972_r07_actual_two_word_endpoint_specializer_v2.py
+crosscheck/check_d972_r07_actual_two_word_endpoint_specializer_v2.py
+search/d972_r07_seven_context_roof_presentation_v1.py
+crosscheck/check_d972_r07_seven_context_roof_presentation_v1.py
+```
+
+All eleven raw pins (three v2 artifacts plus eight tracked sources; the v2
+driver itself uses CV-10 path/schema/version identity) were compared statically
+against current bytes and full SHA-256 values with zero mismatches. The driver
+has zero non-ASCII characters. It retains stale-output rejection, exactly one
+producer/checker terminal, terminal equality, typed-terminal grammar, SELFTEST
+synthetic ZERO expectation, and one v2 sentinel.
+
+Neither SELFTEST producer nor SELFTEST checker reads or pins task285 source,
+receipt, or verdict bytes. SELFTEST therefore has no task285 or `ci/in`
+dependency. PRODUCTION also has no such file dependency and reaches its typed
+UNKNOWN_INPUT path rather than being preempted by a GAP missing-file error.
+
+## Status boundary
+
+```text
+V2 WIRING REPAIR:                       IMPLEMENTED STATICALLY
+ENDPOINT/ARTIN/FULL-C1 CORE:            PRESERVED FROM V1
+5 CASES / 2 GUARDS / 21 MUTATIONS:      PRESERVED
+SELFTEST / CHECKER / DRIVER EXECUTION:  UNEXECUTED
+ACCEPTED TASK285 MEMBER/M ABI:          ABSENT
+PRODUCTION RESULT:                      TYPED UNKNOWN_INPUT (FAIL CLOSED)
+```
+
+The synthetic SELFTEST ZERO and production UNKNOWN_INPUT are not declared to
+be an actual A7 ZERO. A8, A9, mixed-prime, perfect-core, fake, and Ihara flags
+remain false; no such conclusion is declared.
+
+`TASK292_R07_ACTUAL_THREE_EXACT_PB_ENDPOINTS_V2_UNEXECUTED`
