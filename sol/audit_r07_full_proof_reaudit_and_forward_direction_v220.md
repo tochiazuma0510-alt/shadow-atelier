@@ -4687,3 +4687,51 @@ any actual milestone numerator.
 
 Delta108 replaces the provisional A0 audit state by the complete frozen
 verdict and fixes the exact bounded successor without authorizing execution.
+
+#### v220-delta109 - 2026-08-29 (after delta108)
+
+**Individual progress**:
+
+- Luna task353 returned the six authorized A0-v11 files as **BLOCKED /
+  UNEXECUTED**.  Read-only physical hashing agrees with the reported five
+  machine identities: preregistration 2,179 bytes
+  `a47e082b...9e3757`, producer 3,803 bytes `3fd358c9...9d48f`, checker
+  2,830 bytes `a368543b...492b6d`, driver 2,277 bytes
+  `29493df2...458be4`, and fixture 514 bytes `2440b4e5...60bb46`.
+- V11 correctly refuses to fabricate prospective deterministic SELFTEST
+  receipt R or independent verdict V.  Their exact bytes, physical SHA,
+  self seals and semantic digests cannot be learned while the pre-audit
+  execution ban is in force.  V11 is therefore a provenance record of the
+  bootstrap cycle, not an A0 implementation, SELFTEST receipt, separator or
+  mathematical result.
+- The cycle is removed by a versioned two-stage protocol commissioned as
+  task354.  V12a is a fully implemented but SELFTEST-only deterministic R/V
+  artifact generator; production and resume are syntactically forbidden.
+  After a fresh Sol(max) static PASS, one bounded GHA SELFTEST may emit
+  candidate R/V.  A separate audit then freezes their exact physical
+  identities into v12b, which independently reruns the semantic validation
+  before any production route.  No manifest is rewritten after execution.
+- Unlike v11, v12a must implement the entire finite task352 repair before
+  audit: chronological triangular validation; corrected q3/Q0 and state
+  codecs; bounded exact K0 membership; derived heavy identity; authenticated
+  checkpoint and v290 accounting; removal of the identified slow work; and
+  every actual-owner physical mutation.  The absence of pre-execution R/V
+  hashes is expressly no longer a v12a blocker.
+- Concurrent A4-v5 static review continues to return literal implementation
+  gaps before its Sol(max) audit, including matrix inner-support validation,
+  exact mutation first reasons, reserved terminal transport, and typed
+  pre-checkpoint resource handling.  None is promoted to an A4 negative.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V11 BLOCKED / V12A SELFTEST-BOOTSTRAP IMPLEMENTATION
+  COMMISSIONED**.  The split advances the acceptance protocol but not the
+  actual numerator.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  A2 remains **2/3** and every
+  other count remains delta108.
+- No compatible lift, fake certificate, Ihara counterexample or cofinal
+  witness has been constructed.
+
+Delta109 fixes the A0 bootstrap direction without re-entering the rejected
+single-version cryptographic cycle and keeps all execution gated by a fresh
+Sol(max) audit.
