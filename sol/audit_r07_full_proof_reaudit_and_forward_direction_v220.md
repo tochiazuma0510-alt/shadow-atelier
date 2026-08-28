@@ -3566,3 +3566,36 @@ without counting implementation or elapsed runtime as mathematical progress.
 
 Delta80 closes the recursive word-to-representative gap before implementation
 can freeze it into a certificate.  It changes no actual witness numerator.
+
+#### v220-delta81 - 2026-08-29 (after delta80)
+
+**Individual progress**:
+
+- V274 closes the remaining feasibility point in v272's dual step.  For one
+  target, the union S of supports of that target and the live B+K rows is
+  finite.  Membership in the enormous raw module is exactly membership in
+  `F3^S`; if it fails, finite linear algebra gives a dual supported on S and
+  extended by zero elsewhere.
+- That finite support does not weaken the full-D test.  Pairing it with all
+  translated boundary rows is exactly the support-inversion correlation
+  `t=g*h^-1`; translations with no matching active support pair have zero
+  pairing by definition.  Thus reduction, separation, and complete D
+  annihilation require no E3/E4 state roster or ambient-sized vector.
+- A discovered translated column may add new keys to S, after which the next
+  round recomputes on the enlarged finite registry.  The honest correlation
+  work remains the measured matching-pair sum from v272, with no hidden group
+  order factor.  Actual active sizes can still exceed caps and would then be
+  `UNKNOWN_RESOURCE`.
+- Task340 binds this active-coordinate construction, metering, independent
+  nullspace check, and seven negative controls into A4/v4 task336.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  The dual oracle is now paper-complete and does not need
+  ambient enumeration, but actual active sizes, K rank, word ledger, and
+  anchor are uncomputed.
+- Every other milestone remains as in delta80.  No compatible cofinal lift,
+  fake certificate, or Ihara counterexample has been constructed.
+
+Delta81 proves that the exact A4 quotient decision is genuinely on-demand,
+not a disguised enumeration of the huge marked quotients.
