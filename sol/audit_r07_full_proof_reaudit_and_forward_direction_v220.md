@@ -4629,3 +4629,61 @@ verdict.
 
 Delta107 removes a shared-helper false-independence route without increasing
 any actual milestone numerator.
+
+#### v220-delta108 - 2026-08-29 (after delta107)
+
+**Individual progress**:
+
+- Sol(max) task352 completed the full static code, soundness and performance
+  audit of the frozen A0-v10 candidate.  The verdict is **REJECT /
+  UNEXECUTED**; no Python, Node, GAP, GHA, workflow or network execution was
+  used.  The audit reply is a 41,063-byte owner with SHA-256
+  `41c136b2a80cbba316b49d8c59be850d18ca5df91e5757987f4ee91e94009a15`.
+- The corrected first literal SELFTEST stop is producer lines 2290--2312:
+  the six-column test forbids all six pivots at once, whereas triangular
+  validation may forbid only chronological earlier pivots.  Frozen P5
+  legitimately contains the future P6 pivot with coefficient two.  The raw
+  checkpoint self seal is PASS and delta106's correction is final.
+- Independent later blockers were traced instead of stopping at that first
+  failure: an unbound `meter`, stale fixture pin, missing authenticated
+  SELFTEST receipt/verdict binding, loss of that binding in COMMON, full
+  JointGroup versus single-quotient codec confusion, literal-DAG unhashable
+  normalization, untrusted/incomplete checkpoint restore, and
+  delete-before-durable-final-write.
+- The checker also rejects the physical q3 owner by treating its 1..36 rows
+  as 0..35 and then composes Q0 permutations in the opposite order.  Its K0
+  route omits retained full 40/154-byte state equality after coarse lookup,
+  mishandles lookup misses and trivial kernels, and permits a producer cursor
+  fallback.  The heavy identity remains a 64-hex shape rather than an
+  independently derived owner.
+- The performance audit found a load-bearing approximately 650 MiB
+  Python-object peak for each selected E4 K0 inverse, repeated large DOM
+  parses, unnecessary duplicate-coordinate products, heavy-after-fork RSS
+  inflation, and no defended 21,600-second outer envelope.  V11 must use a
+  deterministic open-address qid table with retained full-key equality,
+  cache each coordinate once, remove duplicate work, and install producer,
+  checker, artifact and total deadlines.
+- The fixture roster is not an executed mutation suite: many names are never
+  read, and checker mutation functions are dead code.  A positive rerun is
+  forbidden until every listed mutation reaches a real ordinary validator
+  with a narrow first-rejection record.
+- Task352 supplies one finite versioned-v11 repair table preserving the raw
+  owner: chronological SELFTEST plus explicit meter and current fixture;
+  authenticated SELFTEST receipt/checker binding; corrected q3/Q0 and codec
+  typing; exact bounded K0 cache and membership; derived heavy identity;
+  recursively normalized and externally pinned checkpoint with v290
+  accounting and durable retirement; bounded worker/IPC and duplicate-work
+  removal; and fully connected physical mutations.  A fresh Sol(max)
+  code/performance PASS remains mandatory before any GHA run.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V10 REJECTED / V11 FINITE REPAIR NEXT**.  This is a
+  completed audit result, not a separator and not an executed candidate.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  A2 remains **2/3** and every
+  other count remains delta107.
+- No compatible lift, fake certificate, Ihara counterexample or cofinal
+  witness has been constructed.
+
+Delta108 replaces the provisional A0 audit state by the complete frozen
+verdict and fixes the exact bounded successor without authorizing execution.
