@@ -10,6 +10,8 @@ TASK226="ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.json"; TASK226_V
 MUTATIONS=json.loads('["task226_binding","translated_provenance_keyset","original_ancestry","w_abi_binding","u0_abi_binding","target_abi_binding","noncentral_action_order","occurrence_basis_row","occurrence_ancestry","queue_invariance","orbit_vs_486","orbit_vs_729","premature_block_sum","member_lambda_u0","member_kappa_w","member_target","quotient_zero","dual_orbit_annihilation","dual_486_annihilation","dual_729_annihilation","dual_target_pairing","terminal_vocabulary","resource_terminal","forbidden_conclusion"]')
 ACTUAL_ANCESTRY={"source":"task179_A18","substitution":"PB3/PB4_literal","prefix":"task198_one_based_signed"}
 EXPECTED_GATES={"task226_binding":"ABI schema","translated_provenance_keyset":"ABI u0 row","original_ancestry":"ABI u0 row","w_abi_binding":"ABI w","u0_abi_binding":"ABI occurrence u0","target_abi_binding":"gate ABI binding","noncentral_action_order":"noncentral action order","occurrence_basis_row":"occurrence basis row","occurrence_ancestry":"occurrence ancestry replay","queue_invariance":"queue invariance","orbit_vs_486":"producer 486 exact","orbit_vs_729":"producer 729 exact","premature_block_sum":"block rows","member_lambda_u0":"lambda reconstruction","member_kappa_w":"kappa reconstruction","member_target":"C replay","quotient_zero":"member chain","dual_orbit_annihilation":"dual orbit","dual_486_annihilation":"dual 486","dual_729_annihilation":"dual 729","dual_target_pairing":"dual target","terminal_vocabulary":"terminal vocabulary","resource_terminal":"resource terminal","forbidden_conclusion":"forbidden conclusion"}
+SCOPE_KEYS=["input_bytes","actor_operations","occurrence_support","orbit_actions","occurrence_rank_increases","block_rank_increases","block_rows","checker_roster","dual_work","mutation_work","serialized_bytes","wall_seconds"]
+EXPECTED_CAPS={"input_bytes":500000000,"actor_operations":2000000,"occurrence_support":2000000,"orbit_actions":2000000,"occurrence_rank_increases":486,"block_rank_increases":486,"block_rows":100000,"checker_roster":729,"dual_work":1000000,"mutation_work":100000,"serialized_bytes":2000000000,"wall_seconds":21600}
 class Stop(RuntimeError): pass
 class MutationAccepted(RuntimeError): pass
 def require(ok,msg):
@@ -70,6 +72,11 @@ def coefficient_decode(value):
     out={k:v for k,v in out.items() if v}; require(value==[[k,v] for k,v in sorted(out.items())],"c_i canonical"); return out
 def validate_resource(value,phase):
     require(type(value) is dict and set(value)=={"schema","terminal","phase","cap","value","limit","self_digest_sha256"},"resource terminal"); body=dict(value); claimed=body.pop("self_digest_sha256"); require(value.get("schema")==SCHEMA+"/resource-canary/v1" and value.get("terminal")==UNKNOWN_RESOURCE and value.get("phase")==phase and value.get("cap")=="serialized_bytes" and value.get("value")==0 and value.get("limit")==2000000000 and type(claimed) is str and claimed==obj_digest(body),"resource terminal")
+def validate_scope_accounting(accounting):
+    require(type(accounting) is dict and set(accounting)=={"roster","scopes","max_used","digest_sha256"},"scope accounting"); expected=["structural"]+["closure:"+name for name in ("case1","case2","case3","case4_member","case4_nonmember")]+["mutation:"+name for name in MUTATIONS]; require(accounting.get("roster")==expected and type(accounting.get("scopes")) is list and len(accounting["scopes"])==len(expected),"scope roster")
+    for scope,label in zip(accounting["scopes"],expected):
+        require(type(scope) is dict and set(scope)=={"label","used","digest_sha256"} and scope["label"]==label and type(scope["used"]) is dict and set(scope["used"])==set(SCOPE_KEYS) and all(type(value) in (int,float) and value>=0 and value<=EXPECTED_CAPS[key] for key,value in scope["used"].items()),"scope entry"); require(scope["digest_sha256"]==obj_digest({"label":scope["label"],"used":scope["used"]}),"scope digest")
+    maximum={key:max(scope["used"][key] for scope in accounting["scopes"]) for key in SCOPE_KEYS}; require(accounting["max_used"]==maximum,"scope maximum"); body=dict(accounting); claimed=body.pop("digest_sha256"); require(type(claimed) is str and claimed==obj_digest(body),"scope seal")
 def vec_encode(value): return [[list(k[1]),k[0],v] for k,v in sorted(value.items())]
 def action(row,actor,rows):
     out={}
@@ -202,7 +209,7 @@ def verify_gate(gate,abi,expected_terminal,expected_phase):
     if expected_terminal==MEMBER:
         require(not quotient and not block_remainder and block_decode(replay["C_kappa_w"])==target,"member chain")
     else:
-        require(block_remainder,"block remainder")
+        require(bool(block_remainder),"block remainder")
     if expected_terminal==NONMEMBER:
         phi=block_decode(gate["dual"]); require(phi and sum(phi.get(k,0)*v for k,v in target.items())%3==1,"dual target"); require(all(sum(phi.get(k,0)*v for k,v in row.items())%3==0 for row in block),"dual block"); require(all(sum(phi.get(k,0)*v for k,v in block_image(x,rows).items())%3==0 for x in ideal),"dual 486"); require(all(sum(phi.get(k,0)*v for k,v in block_image(x,rows).items())%3==0 for x in translates),"dual 729")
     return True
@@ -212,7 +219,7 @@ def load_json(path,expected):
     p=Path(path); require(not p.is_absolute() and p.as_posix()==expected,"path"); raw=(ROOT/p).read_bytes(); value=json.loads(raw); require(raw==canonical(value),"canonical input"); return value
 def authenticate(receipt,verdict,binding):
     require(receipt.get("schema")=="d972-r07-actual-two-word-endpoint-specializer/v2" and receipt.get("terminal")==COMPLETE,"task226 terminal"); claimed=receipt.get("self_digest_sha256"); body=dict(receipt); body.pop("self_digest_sha256",None); require(type(claimed) is str and claimed==obj_digest(body),"task226 receipt seal"); abi=receipt.get("result",{}).get("specialization_v216_abi"); require(type(abi) is dict,"task226 ABI"); require(verdict.get("accepted") is True and verdict.get("independent") is True and verdict.get("receipt_path")==TASK226 and verdict.get("receipt_bytes")==len(canonical(receipt)) and verdict.get("receipt_sha256")==obj_digest(receipt) and verdict.get("abi_sha256")==obj_digest(abi) and type(verdict.get("checker_reconstruction_sha256")) is str,"task226 verdict"); require(binding.get("schema")=="d972-r07-task226-production-binding/v1" and binding.get("receipt_path")==TASK226 and binding.get("verdict_path")==TASK226_VERDICT and binding.get("terminal")==COMPLETE and binding.get("checker_acceptance") is True,"task226 binding"); require(binding.get("receipt_bytes")==verdict["receipt_bytes"] and binding.get("receipt_sha256")==verdict["receipt_sha256"] and binding.get("verdict_bytes")==len(canonical(verdict)) and binding.get("verdict_sha256")==obj_digest(verdict) and binding.get("abi_sha256")==verdict["abi_sha256"] and binding.get("checker_reconstruction_sha256")==verdict["checker_reconstruction_sha256"],"task226 digests");
-    for key in ("run","head","artifact_id","zip_sha256"): require(type(binding.get(key)) is str and binding[key],"task226 binding "+key)
+    for key in ("run","head","artifact_id","zip_sha256"): require(bool(type(binding.get(key)) is str and binding[key]),"task226 binding "+key)
     check_abi(abi); return abi
 def set_path(value,path,replacement):
     current=value
@@ -230,12 +237,30 @@ def independent_mutations(cases):
         except Stop as exc:
             require(str(exc)==EXPECTED_GATES[name],"mutation gate "+name); records.append({"name":name,"expected_gate":EXPECTED_GATES[name],"observed_reason":str(exc),"before_sha256":obj_digest(cases[key]),"after_sha256":obj_digest(mutant[key]),"rejected":True})
     require(len(records)==24 and [x["name"] for x in records]==MUTATIONS and all(x["rejected"] and x["before_sha256"]!=x["after_sha256"] for x in records),"independent mutation evidence"); return records
+def independent_edge_controls(cases,claimed):
+    expected=[("empty_task226_binding","TASK226_run","task226 binding run"),("empty_dual","CASE_DUAL_TARGET","dual target"),("empty_block_remainder","CASE_BLOCK_REMAINDER","block remainder")]
+    require(type(claimed) is list and [x.get("name") for x in claimed]==[x[0] for x in expected],"edge control roster")
+    binding={"run":"","head":"head","artifact_id":"artifact","zip_sha256":"zip"}
+    try:
+        for key in ("run","head","artifact_id","zip_sha256"): require(bool(type(binding.get(key)) is str and binding[key]),"task226 binding "+key)
+        raise MutationAccepted("mutation accepted")
+    except Stop as exc:
+        require(str(exc)==expected[0][2],"edge binding gate")
+    for index,(name,producer_gate,checker_gate) in enumerate(expected[1:],1):
+        mutant=json.loads(json.dumps(cases["case3"])); mutant["dual" if name=="empty_dual" else "block_remainder"]=[]
+        try:
+            verify_gate(mutant,mutant["specialization_v216_abi"],NONMEMBER,"selftest")
+            raise MutationAccepted("mutation accepted")
+        except Stop as exc:
+            require(str(exc)==checker_gate,"edge gate "+name)
+        record=claimed[index]; require(record.get("expected_gate")==producer_gate and record.get("observed_reason")==producer_gate and record.get("rejected") is True and record.get("before_sha256")==obj_digest(cases["case3"]) and record.get("before_sha256")!=record.get("after_sha256"),"edge evidence "+name)
+    binding_record=claimed[0]; require(binding_record.get("expected_gate")==expected[0][1] and binding_record.get("observed_reason")==expected[0][1] and binding_record.get("rejected") is True and binding_record.get("before_sha256")!=binding_record.get("after_sha256"),"edge evidence binding"); return True
 def check_certificate(receipt,fixture,selftest):
     require(receipt.get("schema")== (SELFTEST_SCHEMA if selftest else SCHEMA),"consumer schema"); result=receipt.get("result"); require(type(result) is dict,"result");
     if not selftest and receipt.get("terminal") in (UNKNOWN_INPUT,UNKNOWN_RESOURCE): require(type(receipt.get("self_digest_sha256")) is str and type(result.get("phase",receipt.get("reason"))) is not type(None),"typed unknown"); return receipt["terminal"]
     abi=result.get("specialization_v216_abi"); check_abi(abi)
     if selftest:
-        require(receipt.get("terminal")==SELFTEST and fixture.get("mutation_controls")==MUTATIONS,"selftest seal"); cases=result.get("cases"); require(type(cases) is dict and set(cases)=={"case1","case2","case3","case4_member","case4_nonmember"},"selftest cases"); case_abis={name:cases[name].get("specialization_v216_abi") for name in cases}; require(all(type(case_abi) is dict for case_abi in case_abis.values()),"case ABI binding"); verify_gate(cases["case1"],case_abis["case1"],MEMBER,"selftest"); verify_gate(cases["case2"],case_abis["case2"],MEMBER,"selftest"); verify_gate(cases["case3"],case_abis["case3"],NONMEMBER,"selftest"); verify_gate(cases["case4_member"],case_abis["case4_member"],MEMBER,"selftest"); verify_gate(cases["case4_nonmember"],case_abis["case4_nonmember"],NONMEMBER,"selftest"); checker_records=independent_mutations(cases); require([x["name"] for x in checker_records]==MUTATIONS and all(x["expected_gate"]==x["observed_reason"] for x in checker_records),"independent mutation roster"); controls=result.get("mutation_controls",{}); require(controls.get("attempted")==MUTATIONS and len(controls.get("rejected",[]))==len(MUTATIONS) and [x.get("name") for x in controls["rejected"]]==MUTATIONS and all({"name","changed_field","expected_gate","observed_reason","before_sha256","after_sha256","rejected"}<=set(x) and x["rejected"] is True and x["before_sha256"]!=x["after_sha256"] and x["observed_reason"]==x["expected_gate"] for x in controls["rejected"]),"mutation evidence"); return SELFTEST
+        require(receipt.get("terminal")==SELFTEST and fixture.get("mutation_controls")==MUTATIONS,"selftest seal"); cases=result.get("cases"); require(type(cases) is dict and set(cases)=={"case1","case2","case3","case4_member","case4_nonmember"},"selftest cases"); accounting=result.get("scope_accounting"); validate_scope_accounting(accounting); resource=result.get("resource"); require(type(resource) is dict and set(resource)=={"caps","used"} and resource.get("caps")==EXPECTED_CAPS and resource.get("used")==accounting.get("max_used"),"resource accounting"); case_abis={name:cases[name].get("specialization_v216_abi") for name in cases}; require(all(type(case_abi) is dict for case_abi in case_abis.values()),"case ABI binding"); verify_gate(cases["case1"],case_abis["case1"],MEMBER,"selftest"); verify_gate(cases["case2"],case_abis["case2"],MEMBER,"selftest"); verify_gate(cases["case3"],case_abis["case3"],NONMEMBER,"selftest"); verify_gate(cases["case4_member"],case_abis["case4_member"],MEMBER,"selftest"); verify_gate(cases["case4_nonmember"],case_abis["case4_nonmember"],NONMEMBER,"selftest"); independent_edge_controls(cases,result.get("edge_controls")); checker_records=independent_mutations(cases); require([x["name"] for x in checker_records]==MUTATIONS and all(x["expected_gate"]==x["observed_reason"] for x in checker_records),"independent mutation roster"); controls=result.get("mutation_controls",{}); require(controls.get("attempted")==MUTATIONS and len(controls.get("rejected",[]))==len(MUTATIONS) and [x.get("name") for x in controls["rejected"]]==MUTATIONS and all({"name","changed_field","expected_gate","observed_reason","before_sha256","after_sha256","rejected"}<=set(x) and x["rejected"] is True and x["before_sha256"]!=x["after_sha256"] and x["observed_reason"]==x["expected_gate"] for x in controls["rejected"]),"mutation evidence"); return SELFTEST
     terminal=receipt.get("terminal"); require(terminal in (MEMBER,NONMEMBER,UNKNOWN_INPUT,UNKNOWN_RESOURCE),"terminal");
     if terminal in (MEMBER,NONMEMBER): verify_gate(result,abi,terminal,"production")
     require(all(receipt.get(flag) is False for flag in ("boundary_membership","pointed_mu1","exact_pb_endpoint_zero","cofinal_lift","fake","Ihara_witness")),"boundary flags")

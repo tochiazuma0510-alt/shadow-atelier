@@ -62,3 +62,45 @@ COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
 `TASK275_TASK227_SELFTEST_ENVELOPE_SCHEMA_UNEXECUTED`
+
+## 2026-08-28 — task278 typed-truth and per-scope budget repair
+
+- Repaired the strict-boolean owners without weakening `require(ok, msg)`:
+  producer dual construction, producer encoded NONMEMBER remainder, checker
+  encoded NONMEMBER remainder, and both task226 binding-string loops now end
+  in explicit `bool(...)` tests. The explicit empty-owner controls record
+  `TASK226_run` for an empty binding string, `CASE_DUAL_TARGET` for an empty
+  dual, and `CASE_BLOCK_REMAINDER` for an empty NONMEMBER remainder; the
+  checker independently reaches its corresponding `task226 binding run`,
+  `dual target`, and `block remainder` gates.
+- SELFTEST closure cases now receive five fresh `Budget` scopes, each of the
+  24 producer mutations receives a fresh scope, and each scope is fail-closed
+  against the unchanged rank caps. The receipt carries typed scope labels,
+  per-scope digests, and a coordinatewise maximum; production remains one
+  cumulative budget including authentication and serialization.
+- Added independent checker validation of the exact structural, five-case,
+  and 24-mutation scope roster/digests plus independent empty-owner controls.
+  The checker pins the full unchanged cap map, rejects bool-valued numeric
+  counters, bounds every used key by its exact cap, and requires the result
+  resource caps/used map to equal the expected caps/scope maximum. No
+  producer counters were summed across closure cases.
+- Refreshed producer/checker driver pins. The fixture bytes and SHA are
+  unchanged. No Python, Node, GAP, git, GHA, or network command was run.
+
+Identities after the task278 static edit:
+
+```text
+producer  47135  7e917ebc233395a7f829c893e0f4128d9104fb8e99a955f3d55a74002de1256a
+checker   34175  32b667988ff90c94329f4ed57d1eaf91256f0987b43f8f9855988dc973b23c86
+driver     5216  ee2425f8ec40d1b7c50e57106be58df6638e3d0b4527971db98fcfa43f4812ab
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+TASK227 STRICT-BOOLEAN OWNERS:                 REPAIRED STATICALLY
+TASK227 PER-SCOPE 486 CAP:                     REPAIRED STATICALLY
+FULL PRODUCER+INDEPENDENT CHECKER SELFTEST:    NOT EXECUTED BY LUNA
+ACTUAL TASK226 PACKAGE / A3 GATE:              NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
+
+`TASK278_TASK227_TYPED_TRUTH_BUDGET_REPAIR_COMMISSIONED`

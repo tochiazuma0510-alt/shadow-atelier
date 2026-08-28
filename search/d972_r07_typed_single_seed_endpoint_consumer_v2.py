@@ -24,6 +24,10 @@ class Budget:
         if self.used[key]>CAPS[key]: raise ResourceStop(phase,key,self.used[key],CAPS[key])
         elapsed=time.monotonic()-self.started
         if elapsed>CAPS["wall_seconds"]: raise ResourceStop(phase,"wall_seconds",elapsed,CAPS["wall_seconds"])
+def scope_snapshot(label,budget):
+    body={"label":label,"used":dict(budget.used)}; return {"label":label,"used":dict(budget.used),"digest_sha256":digest_obj(body)}
+def merge_scope_max(scopes):
+    require(bool(type(scopes) is list and scopes),"SCOPE_ROSTER"); keys=tuple(CAPS); out={key:max(scope["used"][key] for scope in scopes) for key in keys}; return out
 def canonical(v): return json.dumps(v,sort_keys=True,separators=(",",":"),ensure_ascii=True).encode("ascii")
 def digest_obj(v): return hashlib.sha256(canonical(v)).hexdigest()
 def require(ok,msg):
@@ -210,7 +214,7 @@ def closure(abi,budget,structural=None):
     replay={"sum_c_i_rows":sumrows,"lambda_u0":action_group_ring(lam,seed,items,budget),"kappa_w":action_group_ring(kappa,w,items,budget)}; replay["C_kappa_w"]=block_image(replay["kappa_w"],items)
     if member: require(not quotient and replay["sum_c_i_rows"]==replay["lambda_u0"] and replay["lambda_u0"]==replay["kappa_w"] and replay["C_kappa_w"]==target,"MEMBER_REPLAY")
     else:
-        dual=dual_for(target,blocks,budget); require(dual,"DUAL_CONSTRUCTION"); require(all(sum(dual.get(k,0)*v for k,v in row.items())%3==0 for row in blocks),"DUAL_ANNIHILATION"); require(sum(dual.get(k,0)*v for k,v in target.items())%3==1,"DUAL_TARGET_PAIRING")
+        dual=dual_for(target,blocks,budget); require(bool(dual),"DUAL_CONSTRUCTION"); require(all(sum(dual.get(k,0)*v for k,v in row.items())%3==0 for row in blocks),"DUAL_ANNIHILATION"); require(sum(dual.get(k,0)*v for k,v in target.items())%3==1,"DUAL_TARGET_PAIRING")
     return {"items":items,"w":w,"u0":seed,"occurrence_basis":rows,"occurrence_ancestry":ancestry,"block_basis":blocks,"block_echelon":eb,"block_remainder":remainder,"target":target,"member":member,"dual":{} if member else dual,"rank":len(rows),"block_rank":len(eb),"queue_exhausted":True,"actor_translate_count":729,"ideal_486":ideal_rows(w,items,budget),"translate_729":[action_group_ring({(a,b,r):1},seed,items,budget) for a in range(9) for b in range(9) for r in range(9)],"c_i":ci,"lambda":lam,"kappa":kappa,"replay_rows":replay,"quotient_remainder":quotient}
 def encode_actors(v): return [[list(a),c] for a,c in sorted(v.items())]
 def encode_row_coefficients(v): return [[i,c] for i,c in sorted(v.items())]
@@ -230,7 +234,7 @@ def guarded_json(path_text,expected,budget):
     path=Path(path_text); require(not path.is_absolute() and path.as_posix()==expected and expected.startswith("ci/in/"),"INPUT_PATH"); raw=(ROOT/path).read_bytes(); budget.bump("input_bytes",len(raw),"input"); value=json.loads(raw); require(raw==canonical(value),"NONCANONICAL_INPUT"); return value
 def authenticate_task226(receipt,verdict,binding,budget):
     require(receipt.get("schema")==TASK226_SCHEMA and receipt.get("terminal")==TASK226_COMPLETE,"TASK226_TERMINAL"); seal(receipt); require(verdict.get("accepted") is True and verdict.get("independent") is True,"TASK226_VERDICT_ACCEPTANCE"); require(verdict.get("receipt_path")==TASK226 and verdict.get("receipt_bytes")==len(canonical(receipt)) and verdict.get("receipt_sha256")==digest_obj(receipt) and type(verdict.get("abi_sha256")) is str and type(verdict.get("checker_reconstruction_sha256")) is str,"TASK226_VERDICT_BINDING"); require(binding.get("schema")=="d972-r07-task226-production-binding/v1" and binding.get("receipt_path")==TASK226 and binding.get("verdict_path")==TASK226_VERDICT and binding.get("terminal")==TASK226_COMPLETE and binding.get("checker_acceptance") is True,"TASK226_BINDING")
-    for key in ("run","head","artifact_id","zip_sha256"): require(type(binding.get(key)) is str and binding[key],"TASK226_"+key)
+    for key in ("run","head","artifact_id","zip_sha256"): require(bool(type(binding.get(key)) is str and binding[key]),"TASK226_"+key)
     require(binding.get("receipt_bytes")==verdict["receipt_bytes"] and binding.get("receipt_sha256")==verdict["receipt_sha256"] and binding.get("verdict_bytes")==len(canonical(verdict)) and binding.get("verdict_sha256")==digest_obj(verdict) and binding.get("abi_sha256")==verdict["abi_sha256"] and binding.get("checker_reconstruction_sha256")==verdict["checker_reconstruction_sha256"],"TASK226_DIGESTS"); abi=receipt.get("result",{}).get("specialization_v216_abi"); require(type(abi) is dict and verdict["abi_sha256"]==digest_obj(abi),"TASK226_ABI"); validate_abi(abi); return abi
 def toy_abi(zero=False):
     rows=[]
@@ -313,30 +317,57 @@ def validate_encoded_case(case,terminal,budget):
     if terminal==MEMBER:
         require(not quotient,"CASE_QUOTIENT_ZERO"); require(decode_block(replay["C_kappa_w"])==target,"CASE_MEMBER_TARGET")
     else:
-        require(block_remainder,"CASE_BLOCK_REMAINDER")
+        require(bool(block_remainder),"CASE_BLOCK_REMAINDER")
         dual=decode_block(case.get("dual",[])); expected_orbit=[sum(dual.get(k,0)*v for k,v in block_image(x,items).items())%3 for x in occ]; expected_486=[sum(dual.get(k,0)*v for k,v in block_image(x,items).items())%3 for x in expected_ideal]; expected_729=[sum(dual.get(k,0)*v for k,v in block_image(x,items).items())%3 for x in expected_translates]; expected_target=sum(dual.get(k,0)*v for k,v in target.items())%3; require(dual and expected_target==1,"CASE_DUAL_TARGET"); require(case.get("dual_orbit_pairings")==expected_orbit and not any(expected_orbit),"CASE_DUAL_ORBIT"); require(case.get("dual_486_pairings")==expected_486 and not any(expected_486),"CASE_DUAL_486"); require(case.get("dual_729_pairings")==expected_729 and not any(expected_729),"CASE_DUAL_729"); require(case.get("dual_target_pairing")==expected_target==1,"CASE_DUAL_TARGET"); require(all(sum(dual.get(k,0)*v for k,v in row.items())%3==0 for row in block),"CASE_DUAL_BLOCK")
     return True
 def selftest(fixture):
-    require(fixture.get("schema")==SELFTEST_SCHEMA+"/fixture" and fixture.get("mutation_controls")==MUTATIONS,"FIXTURE"); budget=Budget(); actor_roster(budget); q_axioms(budget); structural=True; abi=toy_abi(); fill_exact_u0(abi,budget); run=closure(abi,budget,structural); require(run["rank"]>=2,"SELFTEST_CASE1_RANK"); member=copy.deepcopy(abi); set_target_from_rows(member,run["block_basis"]); member_run=closure(member,budget,structural); nonmember=copy.deepcopy(member); support=nonmember["bar_epsilon_1"]["H1"] if nonmember["bar_epsilon_1"]["H1"] else nonmember["bar_epsilon_1"]["H2"]; require(len(support)>=2,"SELFTEST_SUPPORT"); support[0][1]=1 if support[0][1]==2 else 2; nonmember_run=closure(nonmember,budget,structural); zero=toy_abi(True); fill_exact_u0(zero,budget); zero_member=closure(zero,budget,structural); zero_non=copy.deepcopy(zero); zero_non["bar_epsilon_1"]["H1"]=[[[0,0,0,0],1]]; zero_non_run=closure(zero_non,budget,structural); require(member_run["member"] and not nonmember_run["member"] and zero_member["member"] and not zero_non_run["member"],"SELFTEST_CASES")
-    cases={"case1":encode_case(abi,run),"case2":encode_case(member,member_run),"case3":encode_case(nonmember,nonmember_run),"case4_member":encode_case(zero,zero_member),"case4_nonmember":encode_case(zero_non,zero_non_run)}; controls={"attempted":MUTATIONS,"rejected":mutation_execution(cases,budget)}; result={"schema":SELFTEST_SCHEMA,"specialization_v216_abi":abi,"cases":cases,"mutation_controls":controls,"resource":{"caps":CAPS,"used":budget.used},"actor_translate_count":729,"occurrence_rank_cap":486}; return certificate(SELFTEST,result)
+    require(fixture.get("schema")==SELFTEST_SCHEMA+"/fixture" and fixture.get("mutation_controls")==MUTATIONS,"FIXTURE"); structural_budget=Budget(); actor_roster(structural_budget); q_axioms(structural_budget); structural=True; scopes=[scope_snapshot("structural",structural_budget)]
+    def run_case(label,case_abi):
+        case_budget=Budget(); fill_exact_u0(case_abi,case_budget); case_run=closure(case_abi,case_budget,structural); scopes.append(scope_snapshot("closure:"+label,case_budget)); return case_run
+    abi=toy_abi(); run=run_case("case1",abi); require(run["rank"]>=2,"SELFTEST_CASE1_RANK"); member=copy.deepcopy(abi); set_target_from_rows(member,run["block_basis"]); member_run=run_case("case2",member); nonmember=copy.deepcopy(member); support=nonmember["bar_epsilon_1"]["H1"] if nonmember["bar_epsilon_1"]["H1"] else nonmember["bar_epsilon_1"]["H2"]; require(len(support)>=2,"SELFTEST_SUPPORT"); support[0][1]=1 if support[0][1]==2 else 2; nonmember_run=run_case("case3",nonmember); zero=toy_abi(True); zero_member=run_case("case4_member",zero); zero_non=copy.deepcopy(zero); zero_non["bar_epsilon_1"]["H1"]=[[[0,0,0,0],1]]; zero_non_run=run_case("case4_nonmember",zero_non); require(member_run["member"] and not nonmember_run["member"] and zero_member["member"] and not zero_non_run["member"],"SELFTEST_CASES")
+    cases={"case1":encode_case(abi,run),"case2":encode_case(member,member_run),"case3":encode_case(nonmember,nonmember_run),"case4_member":encode_case(zero,zero_member),"case4_nonmember":encode_case(zero_non,zero_non_run)}; mutation_records,mutation_scopes,edge_records=mutation_execution(cases); scopes.extend(mutation_scopes); roster=[scope["label"] for scope in scopes]; accounting={"roster":roster,"scopes":scopes,"max_used":merge_scope_max(scopes)}; accounting["digest_sha256"]=digest_obj(accounting); controls={"attempted":MUTATIONS,"rejected":mutation_records}; result={"schema":SELFTEST_SCHEMA,"specialization_v216_abi":abi,"cases":cases,"mutation_controls":controls,"edge_controls":edge_records,"scope_accounting":accounting,"resource":{"caps":CAPS,"used":accounting["max_used"]},"actor_translate_count":729,"occurrence_rank_cap":486}; return certificate(SELFTEST,result)
 def set_path(value,path,replacement):
     current=value
     for key in path[:-1]: current=current[key]
     current[path[-1]]=replacement
-def mutation_execution(cases,budget=None):
-    specs={"task226_binding":(("case1","specialization_v216_abi","schema"),"bad-schema"),"translated_provenance_keyset":(("case1","specialization_v216_abi","u0",0,"source_coefficient_terms",0,"source"),"bad-source"),"original_ancestry":(("case1","specialization_v216_abi","u0",0,"source_coefficient_terms",1,"ancestry"),"bad"),"w_abi_binding":(("case1","specialization_v216_abi","occurrences",0,"w_o"),[[[0,0,0,0],2]]),"u0_abi_binding":(("case1","specialization_v216_abi","occurrences",0,"u0"),[[[0,0,0,0],1]]),"target_abi_binding":(("case1","specialization_v216_abi","bar_epsilon_1","H1"),[[[0,0,0,0],1]]),"noncentral_action_order":(("case1","action_order_probe"),[]),"occurrence_basis_row":(("case1","occurrence_basis",0),[[[0,0,0,0],11,1]]),"occurrence_ancestry":(("case1","occurrence_ancestry",0),[]),"queue_invariance":(("case1","queue_exhausted"),False),"orbit_vs_486":(("case1","ideal_486",0),[]),"orbit_vs_729":(("case1","translate_729",0),[]),"premature_block_sum":(("case1","block_basis",0),[]),"member_lambda_u0":(("case2","lambda"),[]),"member_kappa_w":(("case2","kappa"),[]),"member_target":(("case2","replay_rows","C_kappa_w"),[]),"quotient_zero":(("case2","quotient_remainder"),[[[0,0,0],1]]),"dual_orbit_annihilation":(("case3","dual_orbit_pairings"),[1]),"dual_486_annihilation":(("case3","dual_486_pairings",0),1),"dual_729_annihilation":(("case3","dual_729_pairings",0),1),"dual_target_pairing":(("case3","dual_target_pairing"),0),"terminal_vocabulary":(("case1","terminal"),"BAD_TERMINAL"),"resource_terminal":(("case1","resource","cap"),"bad-cap"),"forbidden_conclusion":(("case1","pointed_mu1"),True)}
-    observations=[]
-    for name in MUTATIONS:
-        if budget: budget.bump("mutation_work",1,"mutation_"+name)
-        mutant=copy.deepcopy(cases); path,replacement=specs[name]; changed=".".join(str(k) for k in path); key=path[0]; expected_terminal=NONMEMBER if key=="case3" else MEMBER
+def edge_controls(cases):
+    records=[]
+    binding={"run":"","head":"head","artifact_id":"artifact","zip_sha256":"zip"}
+    try:
+        for key in ("run","head","artifact_id","zip_sha256"): require(bool(type(binding.get(key)) is str and binding[key]),"TASK226_"+key)
+        raise MutationAccepted("mutation accepted")
+    except InputStop as exc:
+        require(str(exc)=="TASK226_run","EDGE_EMPTY_BINDING")
+        records.append({"name":"empty_task226_binding","expected_gate":"TASK226_run","observed_reason":str(exc),"before_sha256":digest_obj({"run":"run","head":"head","artifact_id":"artifact","zip_sha256":"zip"}),"after_sha256":digest_obj(binding),"rejected":True})
+    for name,path,gate in (("empty_dual",("dual",),"CASE_DUAL_TARGET"),("empty_block_remainder",("block_remainder",),"CASE_BLOCK_REMAINDER")):
+        mutant=copy.deepcopy(cases["case3"]); set_path(mutant,path,[])
         try:
+            if name=="empty_dual":
+                require(bool(decode_block(mutant["dual"])),"CASE_DUAL_TARGET")
+            else:
+                ci=decode_coefficients(mutant["c_i"]); block=[decode_block(x) for x in mutant["block_basis"]]; combined={}
+                for i,v in ci.items(): combined=sparse_add(combined,sparse_scale(block[i],v))
+                require(sparse_add(combined,decode_block(mutant["block_remainder"]))==target_vector(mutant["specialization_v216_abi"]),"CASE_BLOCK_REMAINDER")
+            raise MutationAccepted("mutation accepted")
+        except InputStop as exc:
+            require(str(exc)==gate,"EDGE_"+name.upper())
+            records.append({"name":name,"expected_gate":gate,"observed_reason":str(exc),"before_sha256":digest_obj(cases["case3"]),"after_sha256":digest_obj(mutant),"rejected":True})
+    require([x["name"] for x in records]==["empty_task226_binding","empty_dual","empty_block_remainder"],"EDGE_CONTROLS"); return records
+def mutation_execution(cases):
+    specs={"task226_binding":(("case1","specialization_v216_abi","schema"),"bad-schema"),"translated_provenance_keyset":(("case1","specialization_v216_abi","u0",0,"source_coefficient_terms",0,"source"),"bad-source"),"original_ancestry":(("case1","specialization_v216_abi","u0",0,"source_coefficient_terms",1,"ancestry"),"bad"),"w_abi_binding":(("case1","specialization_v216_abi","occurrences",0,"w_o"),[[[0,0,0,0],2]]),"u0_abi_binding":(("case1","specialization_v216_abi","occurrences",0,"u0"),[[[0,0,0,0],1]]),"target_abi_binding":(("case1","specialization_v216_abi","bar_epsilon_1","H1"),[[[0,0,0,0],1]]),"noncentral_action_order":(("case1","action_order_probe"),[]),"occurrence_basis_row":(("case1","occurrence_basis",0),[[[0,0,0,0],11,1]]),"occurrence_ancestry":(("case1","occurrence_ancestry",0),[]),"queue_invariance":(("case1","queue_exhausted"),False),"orbit_vs_486":(("case1","ideal_486",0),[]),"orbit_vs_729":(("case1","translate_729",0),[]),"premature_block_sum":(("case1","block_basis",0),[]),"member_lambda_u0":(("case2","lambda"),[]),"member_kappa_w":(("case2","kappa"),[]),"member_target":(("case2","replay_rows","C_kappa_w"),[]),"quotient_zero":(("case2","quotient_remainder"),[[[0,0,0],1]]),"dual_orbit_annihilation":(("case3","dual_orbit_pairings"),[1]),"dual_486_annihilation":(("case3","dual_486_pairings",0),1),"dual_729_annihilation":(("case3","dual_729_pairings",0),1),"dual_target_pairing":(("case3","dual_target_pairing"),0),"terminal_vocabulary":(("case1","terminal"),"BAD_TERMINAL"),"resource_terminal":(("case1","resource","cap"),"bad-cap"),"forbidden_conclusion":(("case1","pointed_mu1"),True)}
+    observations=[]; mutation_scopes=[]; edge_records=None
+    for name in MUTATIONS:
+        mutation_budget=Budget(); mutation_budget.bump("mutation_work",1,"mutation_"+name); mutant=copy.deepcopy(cases); path,replacement=specs[name]; changed=".".join(str(k) for k in path); key=path[0]; expected_terminal=NONMEMBER if key=="case3" else MEMBER
+        try:
+            if name=="task226_binding": edge_records=edge_controls(cases)
             set_path(mutant,path,replacement)
-            validate_encoded_case(mutant[key],expected_terminal,budget)
+            validate_encoded_case(mutant[key],expected_terminal,mutation_budget)
             raise MutationAccepted("mutation accepted")
         except InputStop as exc:
             require(str(exc)==EXPECTED_GATES[name],"MUTATION_GATE_"+name)
             observations.append({"name":name,"changed_field":changed,"expected_gate":EXPECTED_GATES[name],"observed_reason":str(exc),"before_sha256":digest_obj(cases[key]),"after_sha256":digest_obj(mutant[key]),"rejected":True})
-    require(len(observations)==len(MUTATIONS) and [x["name"] for x in observations]==MUTATIONS,"MUTATION_REJECTION"); return observations
+        mutation_scopes.append(scope_snapshot("mutation:"+name,mutation_budget))
+    require(len(observations)==len(MUTATIONS) and [x["name"] for x in observations]==MUTATIONS and edge_records is not None,"MUTATION_REJECTION"); return observations,mutation_scopes,edge_records
 def main(argv=None):
     parser=argparse.ArgumentParser(); parser.add_argument("--selftest",action="store_true"); parser.add_argument("--fixture",default=FIXTURE); parser.add_argument("--task226",default=TASK226); parser.add_argument("--task226-verdict",default=TASK226_VERDICT); parser.add_argument("--task226-binding",default=TASK226_BINDING); parser.add_argument("--output"); args=parser.parse_args(argv)
     try:
