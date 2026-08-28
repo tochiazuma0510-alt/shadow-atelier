@@ -4999,3 +4999,29 @@ first physical-owner tranche without counting a blocker table as A4 closure.
 
 Delta117 permits strong physical evidence without sacrificing deterministic
 R/V identities.
+
+### Delta 118 (2026-08-29): checker-local preselection carrier
+
+- V299 separates the producer's full internal `RunPre` search-completion
+  summary from the load-bearing `OwnerPre(T176)` authority projection.  The
+  latter is constructed independently from the physically opened and decoded
+  task176 receipt/manifest/crosscheck/recovery-v2 chain, its Q0/Gamma/family
+  owner metadata, and the side-local primitive registry.
+- The final carrier now has the sufficient form
+  `H*=(P0,sources,authorities,OwnerPre,Sel(r))`.  V278 removes unselected
+  discovery state from positive acceptance, while v295/v296 require the
+  checker to rebuild the actual selected Q0/Gamma/K0/kernel/dual/correction
+  statement.  Therefore checker independence does not require a second build
+  of all ten 1,469,664-state coordinate tables, but it also cannot copy the
+  producer receipt's `heavy_public` or 64-hex digest.
+- This is a paper repair contract only.  A0 remains **0/1 V12A
+  SELFTEST-BOOTSTRAP IMPLEMENTATION ACTIVE** until the producer/checker use
+  this local carrier, every v297 row measures baseline revalidation and one
+  narrow terminal, P0/driver are frozen, Sol(max) passes, and GHA produces the
+  deterministic candidate R/V.
+- A4 remains **1/3 V6A AUTHORITY-TRACE AUDIT ACTIVE**.  A1 is **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A5/A6 and every later
+  lift/fake/Ihara gate remain unchanged.
+
+Delta118 removes a copied-authority route and an unnecessary second global
+heavy build without increasing any actual witness numerator.
