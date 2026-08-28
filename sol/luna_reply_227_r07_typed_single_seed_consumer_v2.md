@@ -104,3 +104,26 @@ ACTUAL TASK226 PACKAGE / A3 GATE:              NOT OBTAINED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
 
 `TASK278_TASK227_TYPED_TRUTH_BUDGET_REPAIR_COMMISSIONED`
+
+## 2026-08-28 — task278 follow-up: occurrence-basis quantifier repair
+
+Run `33150919697` at immutable head `617bca3e` is classified as an
+implementation failure before mathematical acceptance: producer line 284
+raised `NameError: name 'ordinal' is not defined` in the
+`CASE_OCCURRENCE_BASIS` owner. The outer occurrence-row quantifier was
+repaired so each `(ordinal,key)` pair is checked for both ordinal range and
+the corresponding key width. Sibling nested-comprehension sites were audited;
+the checker already uses a bound outer/inner quantifier. No execution was
+performed by Luna.
+
+Final identities after the follow-up:
+
+```text
+producer  47135  755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e
+checker   34175  32b667988ff90c94329f4ed57d1eaf91256f0987b43f8f9855988dc973b23c86
+driver     5216  4c28fcd58ed77c70886e6ca22da9a0353372d5dd19f48a66e4637a0e50dd1cb4
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+`TASK278_OCCURRENCE_BASIS_QUANTIFIER_REPAIRED_UNEXECUTED`
