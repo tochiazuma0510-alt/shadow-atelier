@@ -25,8 +25,8 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 
 ```text
 producer  89162  795ea643a5f9fadb8335db5e25b543182501f7c267dec52bd58796cfb8e82d95
-checker   55032  68e86ac49c9a1adf76c26d046ab2bbd52376130ccdc007b8295d89c35cc32020
-driver     4242  188e13558a85bd7c621c96516a607f2d117adc2f91726748d11bcb5145c95a27
+checker   55168  142e1310d25cf646f0b0759f24077a11bc8b2463d7b391360d775fed0a77a3a0
+driver     4242  2fe50602c62fff2a4b4d521f774594a0e3ffe9204f9022be348d28469ff6a222
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -137,6 +137,10 @@ the explicit `crossed_derivation` mapping.
 Task273 seals the complete plain SELFTEST receipt by computing
 `self_digest_sha256` over all fields before adding the seal, matching the
 checker’s existing envelope rule.
+Task276 repairs the independent checker’s maximum-pivot echelon traversal:
+`reduce` and `reduce_with_coeff` now eliminate in stored descending pivot
+order, while `dual` retains ascending construction for annihilation. The
+initial/translate span and coefficient-replay gates remain intact.
 
 ## 10. Resources, driver, and ledger
 

@@ -118,7 +118,9 @@ class IndependentEchelon:
 
     def reduce(self, source: dict[str, int]) -> dict[str, int]:
         row = {k: v % 3 for k, v in source.items() if v % 3}
-        for pivot in reversed(self.pivots):
+        # Maximum-pivot rows are appended in descending pivot order; eliminate
+        # in that same order so a later smaller pivot cannot reintroduce it.
+        for pivot in self.pivots:
             coefficient = row.get(pivot, 0)
             if coefficient: row = add(row, self.rows[pivot], -coefficient)
         return row
@@ -136,7 +138,7 @@ class IndependentEchelon:
     def reduce_with_coeff(self, source: dict[str, int]) -> tuple[dict[str, int], dict[str, int]]:
         row = {k: v % 3 for k, v in source.items() if v % 3}
         coefficients: dict[str, int] = {}
-        for pivot in reversed(self.pivots):
+        for pivot in self.pivots:
             coefficient = row.get(pivot, 0)
             if coefficient:
                 row = add(row, self.rows[pivot], -coefficient)
