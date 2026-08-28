@@ -2314,3 +2314,101 @@ word corrections.  It changes no actual witness numerator.
 Delta49 replaces two false implementation shortcuts by correctly typed
 contracts and narrows the nonlinear lift problem to one exact joint-image
 membership recurrence.  It changes no actual witness numerator.
+
+#### v220-delta50 - 2026-08-28 (after delta49)
+
+**Individual progress**:
+
+- Task292 SELFTEST run 33161574578 at immutable head
+  96b03359e31012322ac96f623ef47deffdb7332d returned the exact same
+  R07_THREE_EXACT_PB_ENDPOINTS_ZERO terminal from producer and the
+  helper-nonshared checker.  The checker independently replayed all five
+  expected ZERO/NONZERO cases, both typed-slot guards, the exact full Artin
+  and full-\(C_1\) computations, and rejected all 21 changed-owner mutations.
+  Its accepted verdict explicitly has producer_imported=false and
+  production_member_authenticated=false.
+- Task192 producer-only run 33149728601 reached a typed
+  UNKNOWN_RESOURCE wall stop after 10,801.54 seconds in
+  positive_boundary_correlation.  It consumed 3,145,728 of the registered
+  8,000,000 boundary pairs and retained 2,896 columns.  The sealed
+  86,368,039-byte resumable checkpoint has SHA-256
+  c261aa967867a4870228eae467f46ee4afbfc236445890debd891bcef4a250ab.
+  It contains no common word or separator and had no independent checker
+  run.
+- Task293 v2 is rejected before execution.  Its checker still reports the
+  number of all nonzero kernel vectors as the kernel dimension, so its
+  two-dimensional baseline reports 8 instead of 2.  It also fails to compare
+  the receipt terminal with the recomputed terminal and does not replay the
+  parent action or receipt Hd1 rows.  Its one-seed/one-common-action ABI is
+  insufficient for the actual joint closure.  Task294 commissions one
+  plural-seed/plural-action repair with complete receipt ancestry replay.
+
+**v220 mapping**:
+
+- A7 remains **0/3 actual**: task292 now has a cross-checked implementation
+  SELFTEST, but the five inputs are synthetic and no actual A5/A6-derived
+  \(M\) was supplied.  Consequently none of the H1/H2/P actual-zero
+  numerators is increased.
+- A0 remains **0/1**, now with status **UNKNOWN_RESOURCE** rather than
+  RUNNING.  The finite prefix and resumable checkpoint are recorded, but
+  neither is a positive terminal or an independent acceptance.
+- A5 remains **0/3** and A6 remains **0/3**; task293 contributes no
+  implementation milestone and task294 is only a repair commission.
+- A1 remains **3/4 RUNNING** on capture 33155653989 and direct production
+  33155710862; A2 remains **2/3**; A3/A4 remain **0/3** with implementation
+  SELFTESTs separate.  A8, A9, B, C, W, and F remain zero.
+
+Delta50 cross-checks the exact-endpoint engine and turns the three-hour A0
+run into a sealed resumable prefix without mistaking either result for an
+actual witness gate.  It changes no actual witness numerator.
+
+#### v220-delta51 - 2026-08-28 (after delta50)
+
+**Individual progress**:
+
+- The task294 A5-kernel v3 return was rejected before execution.  Although
+  its producer computed an RREF kernel basis, the independent checker again
+  enumerated all nonzero kernel vectors and returned their cardinality as
+  `left_kernel_dim`.  In dimension two this is (3^2-1=8), not two, so its
+  own generalized fixture could not satisfy the stated rank contract.
+- Task296 v4 repairs that exact basis/cardinality type error.  Its producer
+  now records kernel dimension (d) and nonzero-kernel cardinality
+  (3^d-1) separately; the checker independently enumerates the full kernel,
+  checks a received independent spanning basis, replays row ancestry,
+  per-action equivariance, the complete (Hd_1) span, MEMBER ancestry or a
+  NONMEMBER dual, and includes both a (d=2) / cardinality-eight canary and
+  a zero-dimensional canary.  Parent static audit accepts it for a GHA
+  SELFTEST, but it is not yet an actual A5 input.
+- The first task295 checkpoint transport was rejected before dispatch.  The
+  authenticated task192 checkpoint binds `wall_seconds=10800.0`, while that
+  driver passed 19,800.  The v3 resume firewall requires literal equality of
+  every monitor limit, so the proposed run would have stopped immediately at
+  `UNKNOWN_INPUT:resume:monitor_limits`.  Task298 changes only the fresh path
+  and restores the complete original limit vector; the fresh process still
+  receives a new 10,800-second wall-clock budget.
+- Task297 separately commissions a deterministic process-parallel
+  implementation of only the fixed-dual boundary correlation.  Adaptive dual
+  epochs remain serial.  Exact disjoint shard cover, mod-three merge, the v3
+  lexicographic winner, direct scalar replay, checkpoint truth, and an
+  independent serial-parity checker are required.  This is an unexecuted
+  speed path and cannot itself be an A0 result.
+- At 19:23 JST both A1 production runs 33155653989 and 33155710862 remained
+  in the GAP-script step.  No terminal or artifact was available to bind into
+  the already SELFTESTed A4 consumer.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE**.  The sealed prefix is transportable,
+  but neither the rejected limit-mismatched driver nor the parallelization
+  commission supplies COMMON plus independent acceptance.
+- A1 remains **3/4 RUNNING**.  A2 remains **2/3**.  A3 and A4 remain **0/3**
+  with their implementation SELFTESTs separate; A4 is ready to launch once
+  an accepted A1 artifact exists.
+- A5 remains **0/3** and A6 remains **0/3**.  Task296 is only a statically
+  accepted generalized implementation pending SELFTEST and actual matrices.
+- A7 remains **0/3 actual** with its cross-checked implementation SELFTEST
+  separate.  A8, A9, B, C, W, and F remain zero.
+
+Delta51 prevents two deterministic false executions, opens a faithful A0
+resume plus a parallel acceleration path, and makes the A5 kernel SELFTEST
+dispatchable.  It changes no actual witness numerator.

@@ -376,6 +376,7 @@ POSITIVESEARCH CACHE OWNER:              REPAIRED STATICALLY
 PRODUCTION RANK-CHANGE HOOK SELFTEST:     NOT EXECUTED BY LUNA
 CACHED NORMALIZED FIRST-EDGE WORD:        NOT OBTAINED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
+
 TASK199_TASK192_CACHE_OWNER_PRODUCTION_REPAIR_COMMISSIONED
 
 ## 8. Run 33126747887 dependency-pin STOP
@@ -399,4 +400,44 @@ RUN 33126747887:                         PIN-DRIFT STOP / NO RECEIPT
 TASK186 REPLY HISTORY PIN:               REFRESHED STATICALLY
 TASK192 PRODUCER / CHECKER:               NOT RUN IN THIS ATTEMPT
 MATHEMATICAL / CROSS-CHECKED RESULT:      NONE
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
+
+## 9. Producer-only run 33149728601
+
+Parent Sol ran the exact production producer at immutable head
+7dd85c94c01e35e090917f9d11f9a7252a260523 for a 10,800-second internal
+envelope.  The workflow completed successfully as a transport job, but the
+mathematical terminal was the typed resource stop
+
+```text
+UNKNOWN_RESOURCE:phase=positive_boundary_correlation:cap=wall_seconds:value=10801.537010798002:limit=10800.0
+```
+
+The producer made the following authenticated finite progress before the
+stop:
+
+```text
+boundary_pairs    3145728 / 8000000
+retained_columns  2896 / 250000
+phase             positive_boundary_correlation
+peak snapshot RSS 2506231808 bytes
+candidate_words   0
+```
+
+The downloaded receipt is 8,759 bytes with SHA-256
+955a6bebb442f6bbe111ffcb4c1eda732f8bbbe26292c4e5da451c69dbaf5dcc.
+Its checkpoint is 86,368,039 bytes with SHA-256
+c261aa967867a4870228eae467f46ee4afbfc236445890debd891bcef4a250ab.
+GHA artifact id 9681838782 has ZIP digest
+sha256:66ed561b0c19c22dd56ce6aaa1626159d8267788fa282d3f2cb72f33c36e6917.
+
+This producer-only UNKNOWN_RESOURCE has no independent acceptance and no
+common word, separator, finite word, fake, or Ihara conclusion.  A0 remains
+0/1.  The checkpoint is resumable input, not a partial positive or negative
+certificate.
+
+RUN 33149728601:                         AUTHENTICATED UNKNOWN_RESOURCE
+BOUNDARY CORRELATION PREFIX:             3145728 PAIRS / 2896 COLUMNS
+TASK192 A0 POSITIVE TERMINAL:             NOT OBTAINED
+INDEPENDENT CHECKER:                      NOT RUN ON RESOURCE TERMINAL
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED

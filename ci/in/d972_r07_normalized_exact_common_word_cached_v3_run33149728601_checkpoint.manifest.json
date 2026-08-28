@@ -1,0 +1,36 @@
+{
+  "schema": "d972-r07-normalized-exact-cached-colgen/resume-input/v1",
+  "source_run_id": 33149728601,
+  "source_head_sha": "7dd85c94c01e35e090917f9d11f9a7252a260523",
+  "source_artifact_id": 9681838782,
+  "source_artifact_digest": "sha256:66ed561b0c19c22dd56ce6aaa1626159d8267788fa282d3f2cb72f33c36e6917",
+  "source_receipt": {
+    "bytes": 8759,
+    "sha256": "955a6bebb442f6bbe111ffcb4c1eda732f8bbbe26292c4e5da451c69dbaf5dcc",
+    "terminal": "UNKNOWN_RESOURCE:phase=positive_boundary_correlation:cap=wall_seconds:value=10801.537010798002:limit=10800.0"
+  },
+  "zip": {
+    "path": "ci/in/d972_r07_normalized_exact_common_word_cached_v3_run33149728601_checkpoint.zip",
+    "bytes": 5001811,
+    "sha256": "f3ac82a04907983d987cc2a42d06fe3b612ec2040555f40be81200969358f566",
+    "member": "d972_r07_normalized_exact_common_word_cached_v3.json.checkpoint.json"
+  },
+  "raw_checkpoint": {
+    "bytes": 86368039,
+    "sha256": "c261aa967867a4870228eae467f46ee4afbfc236445890debd891bcef4a250ab"
+  },
+  "progress": {
+    "phase": "positive_boundary_correlation",
+    "boundary_pairs": 3145728,
+    "retained_columns": 2896,
+    "candidate_words": 0
+  },
+  "claims": {
+    "common_word": false,
+    "separator": false,
+    "finite_common_word": false,
+    "cofinal_lift": false,
+    "fake": false,
+    "ihara_witness": false
+  }
+}

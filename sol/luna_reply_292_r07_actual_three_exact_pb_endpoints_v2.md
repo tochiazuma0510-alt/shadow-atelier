@@ -89,3 +89,40 @@ be an actual A7 ZERO. A8, A9, mixed-prime, perfect-core, fake, and Ihara flags
 remain false; no such conclusion is declared.
 
 `TASK292_R07_ACTUAL_THREE_EXACT_PB_ENDPOINTS_V2_UNEXECUTED`
+
+## Sol dispatch record
+
+After static acceptance, the parent Sol broker committed and pushed the exact
+v2 package in commit
+96b03359e31012322ac96f623ef47deffdb7332d and dispatched generic
+gap-run.yml in SELFTEST mode:
+
+```text
+run_id   33161477632
+head_sha 96b03359e31012322ac96f623ef47deffdb7332d
+status   DISPATCH_WIRING_FAILURE
+reason   CLI dispatch stripped the GAP string quotes before the driver ran
+
+run_id   33161574578
+head_sha 96b03359e31012322ac96f623ef47deffdb7332d
+status   SELFTEST_CROSS_CHECKED_PASS
+```
+
+The successful run returned the same exact terminal from producer and the
+helper-nonshared checker:
+
+```text
+terminal       R07_THREE_EXACT_PB_ENDPOINTS_ZERO
+receipt        1197967 bytes
+receipt_sha256 6315d0616ffce490aa871614af44f16d89b1d1b062da42fc17a92617a2afd2d4
+verdict        6840 bytes
+verdict_sha256 ac17f4e43a87e7e7d9d135ae3c6564681dee16fcda9be5d0a9da45b9a7c5137a
+artifact_id    9681866887
+artifact_zip   sha256:b00acd4ea8ea2ecbd9752db2d07fcef94f3319a665583eb289831ac025aca284
+```
+
+The checker independently accepted all five expected terminals, both typed
+guards, the full Artin/full-C1 replay, and all 21 changed-owner mutations.
+It records producer_imported=false and production_member_authenticated=false.
+This cross-checks the implementation SELFTEST only.  The input is synthetic,
+so A7 actual H1/H2/P remains 0/3.
