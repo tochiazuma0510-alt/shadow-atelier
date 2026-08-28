@@ -3965,3 +3965,39 @@ production boundary.
 
 Delta91 turns the A4-to-A5 handoff into a recomputed proof-carrying
 transformation and simultaneously proves the one-endpoint-seed normal form.
+
+#### v220-delta92 - 2026-08-29 (after delta91)
+
+**Individual progress**:
+
+- V281 proves that every corrected v280/v242 A5 pair has the factored form
+  `A*u-A=A*(u-1)`. The three exact PB endpoints can therefore be evaluated
+  from one authenticated literal prefix DAG and one kernel-word dictionary,
+  using the exact ordered factor
+  `P_o rho_o(A) (rho_o(u)-1) xi_o` in each typed occurrence.
+- Prefix values are evaluated once along parent/letter edges and each A4 word
+  once per typed map. Before intrinsic PB-normal-form cost, the work is
+  linear in the prefix DAG, total kernel-word length, and the number of
+  factored pair/endpoint-support contributions; repeated evaluation of both
+  long concatenated words for every term is removed.
+- The compression is discovery-only on a positive candidate. Before A7
+  ZERO can count, the producer expands every literal `U=A*u,V=A`, the
+  helper-nonshared checker evaluates them from scratch, and all three full-C1
+  chains and their D1 endpoints are replayed. A named NONZERO remains only
+  a rejection of that M and is not a universal obstruction.
+- On ZERO, the expanded chains feed v197 directly; no second full translated-
+  boundary search is needed. V281 fixes the future A7-v3 input ABI but does
+  not implement or run it.
+
+**v220 mapping**:
+
+- A7/A8 remain **0/3 actual / 0/3 actual**. Their future positive path now
+  has a proof-preserving compressed evaluator and an explicit positive-only
+  replay boundary, but no actual A5 MEMBER exists to feed it.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A4 **1/3 UNDER V4 AUDIT**, A5/A6 **0/3 actual / 0/3
+  actual**, A9 **0/3 actual**, and B/C/W/F remain zero. No compatible lift,
+  fake certificate, or Ihara counterexample has been constructed.
+
+Delta92 removes repeated exact-word evaluation from the post-MEMBER gate
+without weakening the literal success certificate or overstating NONZERO.
