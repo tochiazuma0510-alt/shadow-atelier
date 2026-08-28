@@ -387,3 +387,40 @@ TASK176 RECEIPT:              AUTHENTICATED / UNCHANGED
 STRICT ARTIFACT MANIFEST:     REPAIRED
 V220-A1:                      3/4
 MATHEMATICAL NEGATIVE:        NONE
+
+## 15. Task220c — task176 exact status/terminal binding (2026-08-28)
+
+The run-33136073742 receipt diagnosis is a status/terminal type conflation:
+the authenticated task176 receipt has `status=COMPLETE` but its exact terminal
+is `R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS`. Both independent task198
+implementations now preserve the COMPLETE status and require that exact terminal
+literal; no alternate terminal, omitted check, semantic gate, self-digest gate,
+or bytes/SHA gate was accepted.
+
+Changed lines: producer 41 and 403 bind the exact task176 terminal; producer
+2570-2571 print the typed nonpositive `reason` before the existing exact
+terminal marker, without changing receipt bytes, terminal, exit code, or the
+positive marker grammar. Checker lines 48 and 392 independently bind the same
+exact terminal. GAP driver lines 109-110 refresh producer/checker pins while
+preserving the native directory repair, checker round repair, 43-member cone,
+and all other pins.
+
+Current static identities:
+
+```text
+producer 137169  6b2645b80f97256a659af81e856c086cca724b36e2a22ae70335b29ffa95d44c
+checker  153420  46c566925375cd87a7d95d1949715523c0fff8a2b857e9aa563e9ee094011af5
+driver    19266  c5e76c13c652581d62f7407acb7dd3de5c317b33bb026528d6e6f1d59b4aab3a
+reply    reported after this append (self-referential digest avoided)
+```
+
+No Python, Node, GAP, git, GHA, or network command was run by Luna. A new GHA
+SELFTEST and PRODUCTION run are required; production remains not reached.
+
+TASK176 STATUS/TERMINAL TYPE SEPARATION: STATICALLY REPAIRED
+TASK198 PRODUCER/CHECKER SELFTEST:       NOT RUN AFTER THIS REPAIR
+TASK198 6,441-ROW PRODUCTION:            NOT REACHED
+V220-A1:                                 3/4
+MATHEMATICAL NEGATIVE:                   NONE
+
+`TASK220C_TASK198_TASK176_TERMINAL_BINDING_COMMISSIONED`

@@ -38,6 +38,7 @@ TASK176_RUN = "33044121344"
 TASK176_HEAD = "0533e42019c9f67f6cec3d1566152db17b903836"
 TASK176_MEMBER = "d972_r07_all_seven_extension_section_census_v1.json"
 TASK176_MANIFEST = "ci/in/d972_r07_all_seven_extension_section_census_v1.manifest.json"
+TASK176_TERMINAL = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS"
 Q0_ORDER, GAMMA_ORDER, DELTA_ORDER = 1_469_664, 243, 357_128_352
 PRESENTATION_ROWS = 6_441
 RESOURCE_COUNTERS = ("q0_states", "q0_edges", "presentation_rows",
@@ -399,7 +400,7 @@ def authenticate_task176_receipt(path: Path, budget: Budget) -> dict[str, Any]:
     input_require(obj.get("schema") ==
                   "d972-r07-all-seven-extension-section-census/v1" and
                   obj.get("status") == "COMPLETE" and
-                  obj.get("terminal") == "COMPLETE",
+                  obj.get("terminal") == TASK176_TERMINAL,
                   "TASK176_ENVELOPE")
     input_require(obj.get("coordinates") == TASK176_COORDINATES,
                   "TASK176_COORDINATE_LEDGER")
@@ -2565,6 +2566,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         output = safe_runtime_path(args.output, ("ci/out/",), "OUTPUT")
         output.parent.mkdir(parents=True, exist_ok=True)
         output.write_bytes(canonical(result))
+    if result["terminal"] != ISO:
+        print("R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_NONPOSITIVE "
+              "reason=" + str(result["reason"]))
     print("R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL " +
           result["terminal"])
     return 0

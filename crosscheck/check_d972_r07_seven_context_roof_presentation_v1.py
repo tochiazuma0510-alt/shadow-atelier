@@ -45,6 +45,7 @@ TASK176_RUN = "33044121344"
 TASK176_HEAD = "0533e42019c9f67f6cec3d1566152db17b903836"
 TASK176_MEMBER = "d972_r07_all_seven_extension_section_census_v1.json"
 TASK176_MANIFEST = "ci/in/d972_r07_all_seven_extension_section_census_v1.manifest.json"
+TASK176_TERMINAL = "R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS"
 FUTURE_RESUME_CHECKPOINT = \
     "ci/in/d972_r07_seven_context_roof_presentation_resume_v1.checkpoint.json"
 OUTPUT_RESUME_CHECKPOINT = \
@@ -387,7 +388,8 @@ def authenticate_task176(path_text: str, budget: Budget) \
     obj = json.loads(raw)
     require(type(obj) is dict and self_digest(obj, "task176") and
             obj.get("schema") == "d972-r07-all-seven-extension-section-census/v1" and
-            obj.get("status") == "COMPLETE" and obj.get("terminal") == "COMPLETE" and
+            obj.get("status") == "COMPLETE" and
+            obj.get("terminal") == TASK176_TERMINAL and
             obj.get("coordinates") == COORDINATES, "task176 envelope/coordinates")
     result = obj.get("result")
     require(type(result) is dict, "task176 result")

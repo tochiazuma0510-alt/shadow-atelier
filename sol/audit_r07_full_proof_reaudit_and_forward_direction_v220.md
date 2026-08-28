@@ -722,3 +722,26 @@ presentation、actual \(K\)、single-seed membership、または witness の pos
 
 これは入力包装の STOP であり、roof presentation、single-seed gate、または witness の
 negative evidence ではない。
+
+#### v220-Δ6 — 2026-08-28 11:38 JST
+
+**個別進捗**:
+
+- manifest 修正後の task198 production run `33136073742` も producer の typed
+  `UNKNOWN_INPUT` で 6,441-row 計算前に停止した。
+- task176 receipt の exact envelope を再照合し、`status=COMPLETE` に加えて terminal は
+  汎用 `COMPLETE` ではなく
+  `R07_ALL_SEVEN_EXTENSION_SECTION_CENSUS_PASS` であることを同定した。
+- task198 producer と independent checker の双方をこの exact terminal へ束縛し、
+  nonpositive 時に typed `reason` を出す診断を追加した。修理後 SELFTEST と production は
+  まだ未実行である。
+
+**v220 内進捗**:
+
+- A1 は **3/4** のまま。最後の production acceptance は未完で、修理後 SELFTEST を
+  再照合してから production を再実行する。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
+
+これは task176 の status/terminal 型の取り違えによる入力認証 STOP であり、actual roof
+presentation、successor kernel、compatible lift、または witness に対する negative evidence
+ではない。
