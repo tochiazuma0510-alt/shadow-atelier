@@ -4415,3 +4415,44 @@ workflow was dispatched in delta100.
 Durable branch record: commit `f70121fa` was pushed to
 `origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
 delta100--101.
+
+#### v220-delta102 - 2026-08-29 (after delta101)
+
+**Individual progress**:
+
+- V289 factors v284's v7-specific A0-to-A2 argument through a stable
+  positive-carrier type \((g_{760},a,\operatorname{red}(g_{760}a),\omega)\).
+  Each A0 search version now owes only a closed, independently implemented
+  decoder from its accepted producer/verdict/transport bytes.  The v225 A2
+  mathematics is proved extensional in the resulting carrier and no longer
+  needs a new proof when checkpoint or selected-section dialects change.
+- The pending v10 decoder is not pre-accepted: it must pin the exact v10
+  schema/COMMON terminals and recovery-v2, enforce literal right
+  multiplication and direct replay, and reject every unknown schema or
+  nonpositive terminal.  A2 need not reopen the old 86 MB checkpoint or
+  enumerate the task176 section roster after the v10 positive carrier has
+  independently passed.
+- Read-only inspection independently reproduced the new recovery-v2
+  canonical self seal
+  `e95b4e7781a14cffd07d445141f20c942861168d201f2ce62879a0ddf3a45026`
+  at 2,690 bytes; its current physical SHA-256 is
+  `67dd555f6e0f943d0161ef2f2c8124b4cc31c9167846b45b43fd2001f5fbba3f`.
+  This records no A0 execution or acceptance.
+
+**v220 mapping**:
+
+- A2 remains **2/3**.  Its existing paper and SELFTEST milestones are
+  unchanged; v289 removes version-specific proof churn but the actual
+  specialization still requires an accepted A0 COMMON carrier.
+- A0 remains **0/1; RECOVERY-V2 COMPLETE / V10 IMPLEMENTATION ACTIVE**.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  Static review has already
+  identified and returned to Luna the resumed row-chunk cursor, cumulative
+  resource-counter, repeated action-checkpoint serialization, and
+  producer/checker checkpoint-owner defects; none is counted before a fresh
+  Sol(max) PASS and GHA acceptance.
+- All other counts remain those of delta101.  No compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Durable branch record through delta101 is commit `ecafa8cd`, pushed to
+`origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
+delta102.
