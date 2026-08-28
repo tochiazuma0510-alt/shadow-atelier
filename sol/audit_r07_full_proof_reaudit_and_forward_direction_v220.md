@@ -1861,3 +1861,65 @@ from actual witness gates.
 Delta39 closes the A3 implementation audit without moving an actual witness
 gate.  The next actual dependency is still the accepted A0 and A1 production
 pair, followed by A2 specialization and this now-accepted A3 consumer.
+
+#### v220-delta40 - 2026-08-28 (after delta39)
+
+**Individual progress**:
+
+- A1 production run `33143444409` at immutable head
+  `d3d17b62b3760012af5f768ef87308287dcf30e0` completed the unchanged
+  producer after about three hours and emitted exactly
+  `R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL
+  ROOF_BRIDGE_ISOMORPHISM`.  The independent checker then stopped before any
+  verdict with `AttributeError: module 'c198_old' has no attribute
+  'embed_f2'`.  The run uploaded no artifact, so this is a positive producer
+  candidate but not production acceptance.
+- The failure was a checker wiring defect, not a negative mathematical
+  terminal.  The producer helper implements
+  `embed_f2_pb3(w)=word_substitute(w,[[1],[3]])`; the independently pinned
+  checker helper implements `embed_f2(w)=substitute(w,[[1],[3]])`, with the
+  same signed substitution and free-reduction recursion.  Task283 therefore
+  keeps quotient/context reconstruction in the producer helper while passing
+  the distinct checker helper to the independent `JointGroup` and 19-relator
+  factor reconstruction.  The unchanged producer's 43-member source contract
+  is compared through an exact projection of the checker's authenticated
+  44-member cone.  Commit
+  `bed1d5e6b41477b8799f2a33a24e46f7800f9510` records that repair and a
+  fail-closed producer-capture mode.
+- Full A1 implementation SELFTEST run `33155633113` at that immutable head
+  completed successfully.  It emitted the exact producer and independent-
+  checker SELFTEST terminals, rejected all 44 registered mutations, and
+  produced a verdict with `accepted=true` and `independent=true`.  GitHub
+  artifact `9679484575` has archive digest
+  `sha256:72c9ff6a6940eeaa5bc7023758513ff8ca5b5c4c4c49145980a60a460f061c06`.
+  Independent download reread gives the SELFTEST receipt 37,831 bytes /
+  SHA-256
+  `002ce7f9b8efe38a1bb793e64ab637d3d06426ece211c3a97d0026d151ecc91a`
+  and verdict 455 bytes / SHA-256
+  `9cc1b16c28f03366dc7330f5a0a1db6221bb19a76da2149b5a60612b7487c0f2`;
+  the terminal file and final sentinel are byte-exact.
+- Actual producer-capture run `33155653989` and the redundant direct
+  producer-plus-independent-checker production run `33155710862` were
+  dispatched in parallel from the same immutable head.  The capture preserves
+  a typed receipt even if a later checker predicate stops; the direct run can
+  close A1 immediately only if its complete independent verdict and artifact
+  gates pass.
+
+**v220 mapping**:
+
+- A1 remains **3/4 RUNNING**.  Its implementation SELFTEST is now accepted,
+  and its producer has once emitted the positive actual terminal, but the
+  fourth numerator is specifically the combined actual producer plus
+  independent-checker production acceptance.  Neither fact substitutes for
+  that gate.
+- A0 remains **0/1 RUNNING** on producer-only run `33149728601`; A2 remains
+  **2/3**; A3 remains **0/3** with its full implementation SELFTEST recorded
+  separately; A4 remains **0/3** with its implementation SELFTEST recorded
+  separately.
+- A5--A9, B, C, W, and F remain zero.  No compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+Delta40 converts A1's lost positive producer result into an authenticated,
+independently wired rerun plan without counting it twice.  The first possible
+next numerator change is A1 `3/4 -> 4/4` on a complete production verdict;
+A0 remains independently live.
