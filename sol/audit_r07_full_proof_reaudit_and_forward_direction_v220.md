@@ -2526,3 +2526,33 @@ numerator.
 Delta54 prevents repeated boundary work from being misreported as cursor
 progress and fixes the exact requirement for a genuinely accelerating A0
 adapter.  It changes no actual witness numerator.
+
+#### v220-delta55 - 2026-08-28 (after delta54)
+
+**Individual progress**:
+
+- V254 proves the exact acceleration invariant for one frozen-dual boundary
+  epoch.  The descriptor/support pair roster is a finite ordered family over
+  F3; disjoint shard partials sum coordinatewise to the serial accumulator,
+  and therefore give the identical active set, v3 lexicographic winner,
+  translated row, and direct scalar.
+- V254 also proves the resumable form: an epoch-bound prefix accumulator at a
+  completed-batch cursor, plus every suffix pair exactly once, equals the
+  serial full correlation.  A failed or uncertain worker cannot advance the
+  durable cursor.  Any dual/rank change invalidates the prefix and starts a
+  new serially owned epoch.
+- This closes the paper correctness contract for the A0 optimization
+  boundary.  Task303 still has to implement and pass Sol(max) audit, and a
+  separate authenticated production adapter must bind the task192 checkpoint
+  and cursor state before GHA can exploit it.
+
+**v220 mapping**:
+
+- A0 remains **0/1**; v254 is a paper acceleration theorem, not COMMON plus
+  independent acceptance.
+- A1 remains **3/4 RUNNING**.  A2 remains **2/3**.  A3--A9 actual, B, C, W,
+  and F retain their delta54 values.
+
+Delta55 proves that the permitted parallel boundary is exactly equivalent to
+serial v3 and specifies safe resumption, while leaving every actual witness
+numerator unchanged.
