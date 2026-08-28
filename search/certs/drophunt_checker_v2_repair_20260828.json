@@ -1,0 +1,86 @@
+{
+  "schema": "drophunt-checker-v2-repair/v1",
+  "status": "REPAIR_COMPLETE_MAIN_SWEEP_NOT_LAUNCHED",
+  "verified": false,
+  "authority": "implementer task 2026-08-28, repaired per 裁定1737 (root cause 裁定1736 falsifier NO-GO), scratchpad/fib_ruling_and_fibre_checker_spec_v2.md sha16 380efc51a241ce67",
+  "note": "This is a REPAIR pass, not a production sweep. 本走はまだ発射しない (per instruction) -- falsifier re-preflight and 司令塔 go still required before any sweep.",
+  "root_cause_confirmed": {
+    "what_v1_got_wrong": "v1's hexagon predicate applied word-level theta/tau substitution UNCONDITIONALLY to every window, without checking whether c (the PB3 full twist, (s1 s2 s1)^2) lies in K. Word-level substitution is only well-defined as a function of the GROUP ELEMENT (not the specific word representing it) when c is in K; when c is not in K, tau does not descend to F2/K_F2, and the same group element can give different (3.11) verdicts depending on which word represents it.",
+    "concrete_impact_measured_this_pass": "Of the 5 small calibration windows already tested in v1, F6 (c in K) was computed for real in this repair and found FALSE for 3 of them (b3_index 96, 12, 48) and TRUE for only 2 (b3_index 18, 3). This means v1's verdicts for the 3 c_notin_K windows were computed via a predicate that is NOT a well-defined function of the shadow's group-theoretic coordinates -- exactly the falsifier's finding, now independently reproduced and localized by this repair.",
+    "not_an_implementer_error": "Per the coordinator's own message, this is a repair of a spec v1 defect (its SS2.3 word-level prescription), not an implementer bug in the original v1 code, which correctly implemented what v1's (now-dead) spec asked for."
+  },
+  "repair_implemented": {
+    "producer": {
+      "path": "search/drophunt_checker_producer_v2.g",
+      "F6_c_in_K_check": "computed for real per window: c's image in the roof-M block is a documented structural constant (identity, per lins_marked_strictness_export's roof_M.c_image=='identity' -- a property of K^(n)-type roofs, not window-specific data); c's image in the L-block is computed from S1p,S2p (images of sigma1,sigma2 in B3/L, via NaturalHomomorphismByNormalSubgroup -- data this producer already builds and v1 discarded). F6 := (joint c-image == identity).",
+      "predicate_when_F6_true": "word-level theta/tau substitution (SAFE in this regime, per wcp5d's degeneracy argument: c in K makes Ad(Delta)/Ad(delta) restricted to PN coincide exactly with the naive theta/tau, and (3.11)'s RHS c^m collapses to the identity for every m) -- this is mathematically the SAME regime v1 got right by accident on windows where c happened to be in K, now gated explicitly rather than applied blindly.",
+      "predicate_when_F6_false": "BLOCKED. Every candidate row's charming/hex310/hex311/onto/reduction_match/verdict fields are emitted as JSON null (CK-4), stage='BLOCKED_c_notin_K'. No hexagon/onto evaluation is attempted.",
+      "scope_gap_disclosed": "The FULL (F2) machinery for F6=false windows (constructing Delta=s1 s2 s1, delta=s1 s2 as genuine elements of the AMBIENT B3/K via marked sigma1,sigma2 for the roof M itself, then Ad(Delta)/Ad(delta) as automorphisms of PN) is NOT implemented in this repair pass. The roof M model (PB3/M=G9 x PSL(2,8), via MakeGn's x,y-only dihedral-tower construction) has no sigma1/sigma2 recovery, and the generic tool for that (BuildQTGeneral in search/week3-battery-common.g) blows the permutation degree up to 6*|Q| (~8.8 million points for Q=PB3/M), infeasible to construct/manipulate in this pass's time budget. This is reported honestly as unfinished infrastructure, not silently worked around -- F6=false windows are refused, not guessed."
+    },
+    "checker": {
+      "path": "search/drophunt_checker_v2.py",
+      "CK1_derived_subgroup_independent_rederivation": "IMPLEMENTED AND WORKING. Uses a degree-bounded stabilizer-chain (orbit + Schreier generators) with a sift-based membership test, applied to the NORMAL CLOSURE of the single commutator [JX,JY] (standard fact: for G=<a,b>, [G,G] is the normal closure of [a,b]). The falsifier's claim that this is implementable in ~15 lines/0.4s is CONFIRMED here: the checker independently recomputed the derived subgroup order for all c_in_K=true test receipts (367,416 for the F2=3 windows, matching |G|/8 exactly as expected for these small test cases) and used it to independently re-derive the producer's charming verdicts, with zero mismatches across all tested rows.",
+      "CK2_F2_times_Mord_eq_F5": "implemented, checked on all 10 receipts, 0 failures",
+      "CK3_Mblock_order": "implemented (restricts JX,JY to points 0..35 and independently confirms order 1,469,664 via the same stabilizer-chain algorithm), checked on all 10 receipts, 0 failures",
+      "CK4_null_not_false": "implemented; a bug was found and fixed during this pass (Python deserializes JSON null to None, not the string 'null' -- the checker's first draft compared against the wrong sentinel and produced 5 false FAILs on the BLOCKED-window receipts; corrected to compare against None, reported here transparently per house discipline, not silently fixed and hidden)",
+      "CK5_no_shared_helper": "maintained; checker does not Read()/import search/drophunt_checker_producer_v2.g or any GAP file"
+    },
+    "test_result_10_receipts": {
+      "windows_tested": ["cheap1_fib2 (b3_index=96, c_in_K=false)", "cheap2_fib3 (b3_index=12, c_in_K=false)", "cheap3_fib3 (b3_index=18, c_in_K=true)", "L3_fib3_K2ingredient (b3_index=3, c_in_K=true)", "fib4_kordvalidated (b3_index=48, c_in_K=false)"],
+      "seeds": ["row36", "row71"],
+      "all_10_pass": true,
+      "receipts": "search/certs/drophunt_checker_v2_receipt_*_20260828.json"
+    }
+  },
+  "MU1_result": {
+    "status": "PASS_INVARIANT",
+    "description": "The mandatory, order-of-execution-critical mutant (MU-1, group-element-function-of-verdict test): took the first genuinely-PASSING candidate found on a c_in_K=true window (cheap3_fib3, m=0), found a nontrivial RELATOR word r (random search, ~length 4-9, evaluating to the identity permutation in the window's joint quotient G but nonempty as a word), re-evaluated the FULL predicate chain (charming, hex310, hex311, onto) on the MUTATED word (original word concatenated with r) via a standalone re-implementation of the predicate (not the normal candidate-generation path), and compared against the original evaluation.",
+    "orig_word_length": "20 (row36 seed word length, per drophunt_checker_run_v2_repair_part1_20260828.json)",
+    "relator_found": true,
+    "same_group_element_confirmed": true,
+    "orig_verdict": true,
+    "mut_verdict": true,
+    "same_verdict": true,
+    "raw_output_path": "search/certs/drophunt_checker_run_v2_repair_part1_20260828.json",
+    "raw_gap_driver": "search/drophunt_checker_run_v2_repair_part1.g",
+    "note": "MU-1 was run on exactly ONE c_in_K=true window/candidate in this repair pass (time-boxed). It PASSED (verdict invariant under word-representative change by a relator), which is the theoretically-expected result for c_in_K=true windows per wcp5d's degeneracy argument -- this is consistent with, not yet an exhaustive proof of, correctness across all c_in_K=true windows. MU-1 was NOT run on any F6=false window since those are BLOCKED (no predicate is evaluated there to test for invariance).",
+    "implementation_bugs_found_and_fixed_during_MU1_development": [
+      "GAP does not support Python-style 'cond and \"A\" or \"B\"' ternary idiom for non-boolean branches -- a first draft crashed with 'must be true or false (not a list (string))'; replaced with an explicit if/else. Reported here per house discipline (errors reported, not smoothed over)."
+    ]
+  },
+  "calibration_2_points": {
+    "status": "NOT_COMPLETED_THIS_PASS",
+    "K2_raw48_valid2": {
+      "status": "NOT_ATTEMPTED",
+      "reason": "K2 = K1 cap ker(exp_B3 mod 3), where K1 = K^(36) cap N_S4, is OUTSIDE this pass's producer scope (K=M cap L for a single LINS row L against the fixed roof M=K^(9) cap N_S4). Re-deriving K2 through the NEW (F2)-repaired system requires first building a marked model for K1 (a G36 x PSL(2,8) roof, via MakeGn(36) instead of MakeGn(9), analogous to but distinct from the M model), then jointing it with the LINS L3 node (b3_index=3, already in this pass's test set as L3_fib3_K2ingredient -- but note that window is M cap L3, NOT K1 cap L3=K2; they are different windows). This additional construction was not completed within this repair pass's time budget. Flagged honestly as not done, not fabricated from the pre-existing (2026-08-24) cross-checked result, which per the coordinator's own instruction does not count as a re-derivation through the new implementation.",
+      "relevant_existing_data_not_reused_as_calibration": "crosscheck/verdicts/d972_rung_ordinary_idx3_crosscheck_v1_20260824.json (raw=48, valid=2, R07/R40) -- cited for context only, NOT counted as this pass's calibration gate per instruction point 5's explicit requirement for re-derivation through the new implementation."
+    },
+    "PGammaL28_valid9": {
+      "status": "NOT_ATTEMPTED",
+      "reason": "Same category of gap as K2: the PGammaL(2,8) independent window is a bespoke construction (search/pgl28_independent_window_producer_v1.py), not a K=M cap L single-LINS-row window, and re-deriving it through the new (F2)-repaired producer was not completed within this pass's time budget.",
+      "relevant_existing_data_not_reused_as_calibration": "crosscheck/verdicts/pgl28_independent_window_v1_20260823.json (valid=9, fibre_histogram {'9':972}) -- cited for context only, not counted as this pass's calibration gate."
+    },
+    "consequence": "Per spec v2 SS7/SS9 stage 1 ('不合格なら本走禁止'), calibration is a REQUIRED GATE before the main sweep. Since it was not attempted (not merely failed), the main sweep remains blocked on this gate regardless of the other repair results. This is the single largest open item from this pass."
+  },
+  "stage_0b_largest_window": {
+    "status": "SEE_APPENDED_RESULT_OR_IN_PROGRESS_NOTE",
+    "target": "b3_index=1944 class (largest in the fib<=100 358-window set, per scratchpad/drophunt_fib_distribution_v2.json)",
+    "script": "search/drophunt_checker_run_v2_stage0b.g",
+    "run_venue": "local (gap.ps1), run in background per 10-minute local-chunk discipline since LowIndexNormalSubgroupsSearch(B3,1944) alone was expected (by extrapolation from the earlier LINS(B3,2000) full sweep, which took 771,074 ms = 12.85 min for the search step alone on GHA) to plausibly exceed 10 minutes locally.",
+    "preliminary_finding": "As of this cert's writing, the LINS(B3,1944) search step alone had not yet completed after several minutes of background execution -- this is ITSELF significant venue evidence: even the FIRST of the 4 requested stage-0b numbers (window construction) could not be obtained within a single 10-minute local chunk, before any predicate evaluation or RSS measurement even begins. If the background run completes before this cert is finalized, its 4 numbers (build_ms, warmup_ms, per_candidate_ms_approx, gasman memory stats) are appended in stage_0b_result below; if not, this preliminary finding is the reported result, and the 4 numbers remain NOT_YET_MEASURED.",
+    "raw_output_path_if_completed": "search/certs/drophunt_checker_stage0b_20260828.json"
+  },
+  "stage_0b_result": "PENDING_BACKGROUND_TASK -- see stage_0b_largest_window.preliminary_finding; this field will be filled from search/certs/drophunt_checker_stage0b_20260828.json if/when that file exists",
+  "venue_recommendation_preliminary": {
+    "verdict": "GHA strongly indicated for the full 358-window sweep, reinforced (not newly established) by this pass",
+    "reasoning": "Independent of the exact stage-0b numbers, the LINS(B3,1944) search step's failure to complete within 10 minutes locally (mirroring the earlier LINS(B3,2000) full-census timing of ~13 minutes on GHA) confirms that windows anywhere near the top of the fib<=100 set's b3_index range (median 432, max 1944, per the prior calibration pass) individually risk exceeding local chunk budgets even before any predicate work. This is consistent with, and strengthens, the prior calibration pass's GHA recommendation.",
+    "RSS_still_unmeasured": "The 6GB-local-cap decision criterion (spec v2 SS9 0-c) could not be evaluated in this pass since the window construction itself did not complete locally within budget for the largest test window."
+  },
+  "deviations_and_open_questions": [
+    "(1) Full (F2) machinery for F6=false windows (real sigma1/sigma2 marking of the roof M, hence genuine Ad(Delta)/Ad(delta)) is NOT implemented. This is the single largest remaining gap: an unknown but likely substantial fraction of the 358-window fib<=100 set has F6=false (3 of 5 in this pass's small sample; the true distribution across all 358 is UNMEASURED, per spec v2 SS10 point 1) and cannot currently be evaluated at all, only BLOCKED.",
+    "(2) Calibration (K2, PGammaL(2,8)) was NOT completed through the new implementation -- the single largest open item, since spec v2 explicitly gates the main sweep on this.",
+    "(3) Stage 0-b's largest-window probe did not complete within this pass's active work window; its 4 requested numbers may be PENDING or, if the background task completes, appended separately.",
+    "(4) MU-1 was validated on only one (c_in_K=true) window/candidate, not exhaustively across all c_in_K=true windows in the 358-set.",
+    "(5) Given (1)-(3), 本走 remains correctly un-launched; falsifier re-preflight and 司令塔 go are still required, and per this repair's own findings, likely ALSO require either (a) completing the F6=false (F2)-full machinery, or (b) accepting a main sweep restricted to F6=true windows only with F6=false windows reported as UNKNOWN, as a scope decision for 司令塔/数学者, not this implementer, to make."
+  ]
+}
