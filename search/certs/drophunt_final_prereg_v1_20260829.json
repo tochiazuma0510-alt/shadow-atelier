@@ -1,0 +1,76 @@
+{
+  "schema": "drophunt-final-prereg/v1",
+  "status": "GO_CONDITIONS_1_THROUGH_8_PLUS_1776_LATTICE_REPAIR_COMPLETE",
+  "verified": false,
+  "authority_note": "'verified' is reserved for Lean per house discipline. This cert reports cross-checked (探索器/照合器 二系統一致) results, machine-computed values, and honestly-flagged gaps. Supersedes search/certs/drophunt_v9_go_conditions_20260829.json (裁定1773 implementation) with the 裁定1776 (MULT-COSET final stop lattice) repair and its consequences, discovered and resolved during the SAME work session.",
+  "directive_chain": [
+    "裁定1773: 第4前哨 NO-GO with 8 numbered GO conditions (数学核は全項生存、残は工学)",
+    "裁定1774: express-route reply approving F1' (gcd-eligibility count) design during item4 execution",
+    "裁定1776: MULT-COSET final stop lattice -- F1_prime (record-only, =K_ord/M_ord) vs F1_double_prime (decision denominator, =#{m gcd-eligible}); per_m/lift_m/mult_set/verdict; BUG>DROP>ANOMALY>PASS priority; window39 (mult=3) and b3_index=5 (lift_m=4) both re-classified PASS"
+  ],
+  "part1_go_conditions_1_through_8_as_of_1773": {
+    "summary": "carried forward unchanged from search/certs/drophunt_v9_go_conditions_20260829.json -- see that file for full detail on items 1 (seed-coset linkage check), 2 (LINS-out-of-loop, 358/358 batch complete), 4 (nontrivial JC^m demonstration), 5 (checkpoint/fail-closed/poison-lock, two self-caught bugs fixed), 6 (K2 rebadge), 7 (GAP/LINS version pin), 8 (launch script + dry run). Item 3's ORIGINAL 裁定1773 design (valid NOT IN {0,F1}) was refined by 裁定1774 mid-execution and then SUPERSEDED entirely by 裁定1776's richer per-m lattice (part 2 below) -- item3's final form is documented in part 2, not restated here."
+  },
+  "part2_1776_mult_coset_lattice_repair": {
+    "trigger": "During item8's 20-window dry-run resume, window 39 (b3_index=12, node_id 90cf80d2..., F2_ratio=12) showed valid_count=3 with F1'=1 -- 3 DISTINCT coset witnesses at the single eligible m, cross-checked byte-identical against the original LINS-based construction (not a bug in the item-2 rebuild path). Reported to the coordinator; 裁定1776 assigned this the name 'multiplicity' and specified a full per-m lattice (MULT-COSET) to classify it correctly instead of the coarser DROP/ANOMALY-only scheme.",
+    "field_renaming": "F1 (old, =K_ord/M_ord, what earlier prose called 'F1_m_factor') is now F1_prime (RECORD-ONLY). What the implementer's item3/1774 draft called 'F1'' (the gcd(2m+1,K_ord)=1 eligibility count) is now F1_double_prime (the DECISION denominator). This is a pure renaming for the SAME two quantities -- no new arithmetic.",
+    "new_fields_per_window_per_seed": {
+      "per_m": "array, one entry per m-residue (m=18t, t=0..F1_prime-1), value = JSON null if gcd(2m+1,K_ord)!=1 (never evaluated), else an INTEGER >=0 (count of witnessing coset elements at that m). Strict null/0 distinction enforced by both producer and checker.",
+      "lift_m": "count of gcd-eligible m with per_m[m]>=1",
+      "mult_set": "SORTED list of DISTINCT nonzero per_m values (MULT-COSET theorem: size<=1, i.e. multiplicity is constant across every lifting m -- a size>1 set is a THEOREM VIOLATION)",
+      "valid_total": "sum of all per_m entries (same quantity the old top-level valid_count already reported, kept for backward compat)",
+      "verdict": "exclusive priority lattice: BUG if lift_m>F1_double_prime or |mult_set|>1; else DROP if valid_total=0; else ANOMALY if lift_m<F1_double_prime; else PASS"
+    },
+    "implementation": {
+      "producer": "search/drophunt_checker_producer_v3.g: DCP3ComputeMultAnalysis(qrec,evalResult) computes all of the above from qrec.K_ord/qrec.M_ord and evalResult.rows; DCP3EmitReceipt now includes F1_prime, F1_double_prime, per_m, lift_m, mult_set, valid_total, verdict as top-level receipt fields on every emission (both the sweep driver's normal-path receipts and any standalone caller, e.g. item4's script).",
+      "sweep_driver": "search/drophunt_sweep_driver_v3.g's main loop now computes DSDMultA/DSDMultB via DCP3ComputeMultAnalysis for Mode A (row36) and Mode B (row71) respectively, symmetric as before; verdict != 'PASS' on either mode halts immediately with a poison lock (DROP/ANOMALY/BUG all lock; only PASS-on-both lets the loop advance). DSDSummary gained a 'bugs' counter alongside drops/anomalies/unknown, threaded through checkpoint read/write and the denominator check.",
+      "checker": "search/drophunt_checker_v3.py's check_receipt() independently recomputes F1_prime, F1_double_prime, per_m (with STRICT null/0 typing, not just value equality -- None and 0 are never treated as interchangeable), lift_m, mult_set, valid_total, and verdict from the SAME independently-re-derived rows (not trusted from the receipt), and requires an EXACT match against every declared field."
+    },
+    "reclassification_of_prior_results": {
+      "b3_index_5_window (fib_K=25, item4)": "F1_prime=5, F1_double_prime=4, per_m=[1,1,1,1,null], lift_m=4, mult_set=[1], valid_total=4, verdict=PASS (re-run for real via scratchpad/item4_b3index5_probe_v1.g; matches 裁定1774's own expectation exactly)",
+      "window_39 (b3_index=12, node_id 90cf80d2...)": "F1_prime=1, F1_double_prime=1, per_m=[3], lift_m=1, mult_set=[3], valid_total=3, verdict=PASS (re-run for real via the scratchpad 20-window dry-run harness's resume path; matches 裁定1776's own expectation exactly, superseding the earlier, now-obsolete ANOMALY classification under the pre-1776 lattice -- the superseded halt-checkpoint JSON was moved to scratchpad/item1776_superseded_pre_lattice_artifacts/, not deleted, for audit)"
+    },
+    "second_real_finding_this_pass_a_genuine_checker_bug_not_producer_bug": {
+      "discovery": "the FULL 76-receipt checker re-validation (part of item8's evidence gathering) landed with 2 FAILs: node_id f1b8d8351bdb19b5... (both row36 and row71 receipts), both showing 'HEX311_MISMATCH: row m=18: recomputed=None producer=True'.",
+      "diagnosis": "NOT a producer bug. This window has c_in_K=False (K_ord=36, degree=420). The checker's homomorphism-tracked chain for tau~ was built ONLY over G=<JX,JY> (per its own documented scope-limitation comment: 'JC only enters as a fixed multiplicative constant... sufficient for every row tested so far'). Direct diagnostic (scratchpad/item_anomaly_crosscheck_v1.g-style standalone check) confirmed: tau~(y^m f) genuinely LEAVES G when c_in_K is False (since tau~(y)=y^-1 x^-1 c involves JC, which is outside G exactly when c_in_K is False), so tau~^2's second application could not be sifted through a G-only chain -- a real, previously-untriggered CHECKER coverage gap (every c_in_K=False window tested before this pass's own 20-window dry run happened to have F2_ratio small enough, or simply hadn't reached a charming witness at the hex311 stage, to expose this).",
+      "fix": "search/drophunt_checker_v3.py: generalized build_hom_tracked_chain into build_hom_tracked_chain_general(gen_image_pairs, deg), accepting an ARBITRARY list of (generator,image) pairs rather than a hardcoded 2-generator (JX,JY) form. tau_chain is now built as build_hom_tracked_chain_general([(JX,JY),(JY,tau_img_y),(JC,JC)], deg) -- covering the FULL A=<JX,JY,JC> (theta_chain is unchanged/still 2-generator, since theta~(x)=y and theta~(y)=x never leave G regardless of c_in_K). When c_in_K is True, JC=identity and the generalized chain naturally degenerates back to the old 2-generator behavior (identity is filtered out of the working generator set), so this is backward-compatible, not a behavior change for any c_in_K=True receipt.",
+      "verification": "both previously-failing receipts re-checked PASS after the fix (individually, then again as part of the full 83-receipt batch below). The producer's own hex311=True verdict for this row was correct throughout -- confirmed by GAP's own GroupHomomorphismByImages evaluation over the full A, which was never scope-limited in the first place."
+    },
+    "poison_lock_clear_procedure": {
+      "file": "search/drophunt_sweep_clear_poison_lock_v1.g",
+      "design": "requires a human to explicitly set DSDClearConfirm:=true AND DSDClearLockPath before Read()-ing this file -- refuses (Error()) otherwise. Does NOT touch the checkpoint file (clearing the lock re-enables resume from the checkpoint's own last_completed index; it does not retroactively reprocess or erase the halt-checkpoint JSON that recorded the original DROP/ANOMALY/BUG event).",
+      "real_test": {
+        "refusal_without_confirm": "verbatim: 'Error, DSD: poison lock clear REFUSED -- set DSDClearConfirm:=true before Read()-ing this file (human confirmation required, see file header)'",
+        "clear_with_confirm": "confirmed via direct filesystem check: the synthetic test lock file (scratchpad/test_lock_for_clear.g) was present before, absent after -- RemoveFile executed for real, not simulated"
+      }
+    },
+    "frozen_list_v2_preregistration_column": {
+      "file": "search/certs/drophunt_frozen_node_list_v2_20260829.json",
+      "content": "adds F1_prime and F1_double_prime as pre-registered columns to all 358 windows, computed PURELY from K_ord/M_ord=18 (pure arithmetic, no dependency on any run's own results) -- node_id/b3_index/K_ord/F2_ratio/fib_K/degree/ordering are byte-identical to v1 (search/certs/drophunt_frozen_node_list_v1_20260829.json, v1_list_sha256 lineage recorded in v2's own header)",
+      "list_sha256": "cdfa9285dc38f8bb9f24a739a481b50762c15e647e8c29e4057477b49a8cd467",
+      "spot_checks": "b3_index=5 window: F1_prime=5, F1_double_prime=4 (matches the real b3_index=5 receipt). b3_index=12/node_id 90cf80d2... window (=window39): F1_prime=1, F1_double_prime=1 (matches the real window39 receipt)."
+    }
+  },
+  "part3_final_checker_validation": {
+    "scope": "83 receipts: 80 sweep-driver-emitted (search/certs/drophunt_sweep_receipt_*_v3_20260829.json, windows 1-40 in fib_K order, all on the POST-1776 schema), 2 item4 (b3_index=5, row36+row71), 1 self-contained PGammaL(2,8) (unaffected by the mult-lattice fields, its own check_self_contained_E code path). K2 and the pre-1776-schema calibration-era receipts (cheap1/cheap2/cheap3/fib4/L3_fib3, already validated PASS earlier this session under the item1-only checker, before the 1776 fields existed) are OUT OF SCOPE for this specific 83-receipt run -- see 'known_gaps' below.",
+    "result": "83/83 PASS, 0 errors (scratchpad/final_83_check_v1.json)",
+    "includes_the_hex311_coverage_bugfix_confirmation": "the 2 previously-failing f1b8d8351bdb19b5 receipts are included in this 83 and now PASS"
+  },
+  "part4_windows_actually_exercised_this_session": {
+    "total_distinct_windows": 41,
+    "breakdown": "40 windows via the sweep driver (fib_K-ascending indices 1-40, spanning a fresh 20-window run + a genuine multi-invocation resume extension to 40) + 1 additional window (b3_index=5, fib_K=25) via the standalone item4 script (not among the cheapest 40 by fib_K)",
+    "verdicts_observed": "40/40 sweep-driver windows verdict=PASS on BOTH row36 and row71 under the final 1776 lattice (0 DROP, 0 ANOMALY, 0 BUG, 0 UNKNOWN among these 40); the item4 window (b3_index=5) also verdict=PASS on both seeds",
+    "mult_set_diversity_observed": "most windows show mult_set=[1] (single witness per lifting m, the originally-assumed pattern); window39 (b3_index=12, F2_ratio=12) shows mult_set=[3] -- the only multiplicity>1 case observed in this session's real data, and it is internally consistent (mult_set has exactly one distinct value, so it does NOT trigger BUG)",
+    "0_DROP_0_BUG_this_session": "no window processed this session produced a DROP or BUG verdict. This is NOT evidence about the full 358-window population -- only 41/358 windows (11.5%) have been exercised through the full predicate so far."
+  },
+  "known_gaps_stated_honestly": [
+    "item5's UNKNOWN-recording branches (DSD_UNKNOWN_BATCH_MISS/MISMATCH) remain CODE-REVIEWED, NOT exercised against a real fault -- the batch file is 358/358 complete, so no window in the current frozen list naturally triggers them.",
+    "the BUG verdict class (lift_m>F1_double_prime or |mult_set|>1) has never fired in real data this session -- it is code-reviewed and its arithmetic is exercised indirectly (the b3_index=12 case tests |mult_set|=1 correctly NOT firing BUG), but no real MULT-COSET-theorem-violating window has been observed to confirm the BUG branch's halt/poison-lock/receipt-naming path end-to-end the way DROP and ANOMALY were confirmed in the 裁定1773 pass (both of those were exercised for real before being superseded by 1776's finer classification, so the HALT MECHANISM itself -- as opposed to the specific verdict labels -- is confirmed working).",
+    "the pre-1776-schema calibration-era receipts (cheap1/cheap2/cheap3/fib4/L3_fib3, 10 receipts total) were NOT regenerated under the new schema this pass (would require re-running GAP for each; judged out of scope for this repair, since they are historical calibration artifacts, not part of the frozen-358 sweep population) -- they remain validated only against the item1 (seed-coset-linkage) checker version, not the full 1776 mult-lattice checks.",
+    "K2 remains permanently exempted from the Python checker (item6, structural incompatibility, unchanged this pass).",
+    "the mathematical significance of multiplicity>1 (window39's mult_set=[3]) is explicitly OUT OF SCOPE for this implementer cert -- flagged for the coordinator/mathematician, not adjudicated here.",
+    "358-window real launch has NOT been started this session (per explicit instruction; launch happens only after falsifier 第5前哨 or an explicit exemption)."
+  ],
+  "u5_conclusion_template_transcribed": "0 DROP という結果は、この文書に記載された較正・凍結・照合の全条件が成立する限りにおいて、GT-shadow 対象窓の framework-assumption-relative な candidate 結果である(c_in_M_grounding が独立測定でなく前提であること・K2 が照合器スコープ外であること・BUG 分岐が実データで未発火であることを含む、全ての limitation を保持したまま)。DROP という結果(本パスでは 41 窓中 0 件)は、単独では確定的な主張のための三点セット(数学核の再確認・第二系統(全 hexagon)によるクロスチェック・falsifier 判読)が揃うまで宣言してはならない。",
+  "recommendation": "GO条件1-8(裁定1773)+MULT-COSET最終格子(裁定1776)まで実装・実測・照合完了。既知の未消化点は上記の通り誠実に記載(UNKNOWN経路・BUG分岐が実データ未発火・旧schema較正レシート10本が1776チェック対象外・K2恒久除外・multiplicity>1の数学的意味は数学者裁定待ち・358窓本走未起動)。第5前哨(または前哨免除)の判断は司令塔/研究者に委ねる。"
+}
