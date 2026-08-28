@@ -1,0 +1,146 @@
+{
+  "schema": "drophunt-checker-calibration/v1",
+  "status": "CANDIDATE_CALIBRATION_ONLY",
+  "verified": false,
+  "authority": "implementer task 2026-08-30, coordinator instruction citing scratchpad/fib_ruling_and_fibre_checker_spec_v1.md SS2 (ruling 1720/1722)",
+  "note": "CALIBRATION + MUTANT-TEST PASS ONLY. Not a full sweep, not a genuine/fake verdict on any row. No production sweep of the 358-window fib<=100 set was launched (per instruction).",
+  "new_general_producer_checker_pair": {
+    "producer": {
+      "path": "search/drophunt_checker_producer_v1.g",
+      "language": "GAP",
+      "scope": "any window K:=M cap L for L a LINS(B3,<=N) node, roof M=K^(9) cap N_S4, arbitrary seed [m_seed,f_word] given m_seed mod M_ord=18 and f_word as a signed x/y letter list.",
+      "driver_scripts": ["search/drophunt_checker_run_v1.g", "search/drophunt_checker_run_v2_escalation.g"]
+    },
+    "checker": {
+      "path": "search/drophunt_checker_v1.py",
+      "language": "Python (standard library only: json, hashlib, math, sys, itertools; no GAP import, no producer helper import)",
+      "author_separation": "does not Read()/import search/drophunt_checker_producer_v1.g, search/week3-battery-common.g, or any other GAP helper; reads only the producer's JSON receipt bytes given on argv, matching LOCAL-3 v1's producer/checker firewall discipline",
+      "independently_reimplemented": ["permutation composition/inverse/power (pmul/pinv/ppow)", "prepend word evaluator (eval_word)", "theta/tau letter substitution (theta_letter/tau_letter, from the public definitions theta(x)=y,theta(y)=x; tau(x)=y,tau(y)=(xy)^-1)", "hexagon (3.10)/(3.11) recomputation", "orbit+Schreier-generator stabilizer-chain group-order algorithm (group_order), used both to verify F5=|G| and to verify the onto predicate |<genA,genB>|=|G|", "CC-1 candidate coverage/duplicate checks", "reduction-match (M-block restriction consistency across all rows)"],
+      "scope_limitation": "the f-in-[G,G] half of the CHARMING predicate is NOT independently recomputed from raw permutations end-to-end (would require normal-closure or abelianization computation on a group of order up to millions, infeasible in pure-Python-stdlib without a permutation-group library, and importing one would violate the standard-library-only rule). The checker instead (a) trusts the producer's charming boolean but (b) independently verifies the SHORT-CIRCUIT STRUCTURE is self-consistent (charming=False rows must show all downstream stages as untouched placeholders, with the correct stage label) and (c) checks charming-classification does not contradict itself for identical (m,ab(f)) pairs across the receipt. This is stated as an open limitation, not hidden."
+    },
+    "predicate_order_implemented": ["charming (unit condition on 2m'+1 mod K_ord AND f' in derived subgroup of F2/K_F2)", "hexagon (3.10)", "hexagon (3.11)", "onto", "reduction-match (source-first)"],
+    "f1_f5_budget_gate": "F1=K_ord/M_ord (fail-closed if K_ord mod M_ord != 0), F2=[M_F2:K_F2], F3=F1*F2 confirmed against evaluated_count before/after enumeration (CC-1), F5=|F2/K_F2| cross-checked by the checker's independent group-order algorithm. F4 (isolated) is NOT computed by this pass (out of scope, see mandatory-mutant #4/#5 N/A note below)."
+  },
+  "calibration_table_6_windows": {
+    "note": "All 6 windows were ALREADY independently producer/checker cross-checked in prior sessions (2026-08-23/24, predating this implementer task), each with its OWN separately-authored producer+checker pair satisfying the SAME author-separation discipline. This calibration pass CONFIRMS (reads + verifies status/valid-count fields) these pre-existing results rather than re-deriving them from scratch with the NEW general system built in this pass (which targets single-LINS-row windows K=M cap L; several of these 6 named windows -- K1=K^(36) cap N_S4 itself, K_Q=M cap N_Q, K_H=M cap N_0, the PGammaL(2,8) window -- are bespoke constructions outside that scope, and K2 is a compound intersection K1 cap L3 below M, also outside scope). This reuse is flagged explicitly, not silently substituted for new work.",
+    "rows": [
+      {
+        "window": "K^(36) cap N_S4 (= K1, the bootstrap rung)",
+        "raw_fib_reported": "not directly comparable (full-972-target census, not a single-seed raw fibre)",
+        "valid_lift_count_all_972_targets": 2,
+        "source_verdict": "crosscheck/verdicts/b3_gentle_source_census_v1_20260823.json",
+        "verdict_status": "PASS",
+        "fibre_histogram": {"2": 972}
+      },
+      {
+        "window": "K_Q = M cap N_Q (Q8 window)",
+        "raw_fib_reported": "raw_universe=105,815,808 over all 972 targets (not per-target raw isolated in this cert)",
+        "valid_lift_count_all_972_targets": 2,
+        "source_verdict": "crosscheck/verdicts/b3_q8_source_census_v1_20260823.json",
+        "verdict_status": "PASS",
+        "cross_checked": true,
+        "fibre_histogram": {"2": 972}
+      },
+      {
+        "window": "LINS-48B",
+        "raw_fib_reported": "UNKNOWN -- dedicated artifact not re-located in this pass",
+        "valid_lift_count": 2,
+        "source_citation": "sol/sol_reply_159_iv.md line 47 CAMPAIGN_STATUS marker: 'LINS-48A EXACT_K_Q_ALIAS / LINS-48B CROSS_CHECKED_SURVIVES / FIBRE 2'",
+        "verdict_status": "CITED_NOT_RELOCATED",
+        "note": "LINS-48A is stated to be an exact alias of K_Q (same window, different name); LINS-48B is a distinct b3_index=48 LINS row also checked in the same campaign. A dedicated producer/checker artifact pair for LINS-48B specifically was not found by filename search in the time budget of this pass; the valid=2 figure is cited from the terse campaign marker only, not independently re-verified here."
+      },
+      {
+        "window": "K_H = M cap N_0 (Heisenberg window)",
+        "raw_fib_reported": "raw_universe=714,256,704 over all 972 targets",
+        "valid_lift_count_all_972_targets": 3,
+        "source_verdict": "crosscheck/verdicts/b3_heisenberg_source_census_v1_20260823.json",
+        "verdict_status": "PASS",
+        "cross_checked": true,
+        "fibre_histogram": {"3": 972}
+      },
+      {
+        "window": "PGammaL(2,8) independent window",
+        "raw_fib_reported": "joined_candidate_total=489,888 over all 972 targets",
+        "valid_lift_count_all_972_targets": 9,
+        "source_verdict": "crosscheck/verdicts/pgl28_independent_window_v1_20260823.json",
+        "verdict_status": "PASS",
+        "cross_checked": true,
+        "fibre_histogram": {"9": 972}
+      },
+      {
+        "window": "K2 = K1 cap ker(exp_B3 mod 3), fixed seed row 36 (= g*)",
+        "raw_fib_reported": 48,
+        "valid_lift_count_row36_only": 2,
+        "valid_witnesses": ["R07 (m mod 36 = 0)", "R40 (m mod 36 = 18)"],
+        "source_receipt": "ci/ordinary_idx3_artifacts_32682548731/d972_rung_ordinary_idx3_producer_receipt_v2_20260824.json",
+        "source_verdict": "crosscheck/verdicts/d972_rung_ordinary_idx3_crosscheck_v1_20260824.json",
+        "verdict_status": "CROSS_CHECKED (status token: CROSS_CHECKED_ORDINARY_INDEX3_FIXED_ROW36_HAS_LIFT__RUNG_UNNAMED_PENDING_PARENT_ADJUDICATION)",
+        "cross_checked": true,
+        "note": "MOST IMPORTANT calibration point per coordinator instruction: raw=48, valid=2, exactly matching the OBS-UNIF-1/spec table entry for K2 (48 raw, 2 valid via R07/R40). Confirmed by reading the pre-existing verdict, not re-derived by the new general system in this pass (K2's construction, a compound intersection K1 cap L3 below the M-roof, is outside the K=M cap L scope this pass's general system targets)."
+      }
+    ]
+  },
+  "mandatory_mutant_tests": {
+    "driver": "search/drophunt_mutant_tests_v1.py",
+    "base_receipt": "search/certs/drophunt_checker_receipt_cheap1_fib2_row36_v1_20260830.json",
+    "base_receipt_f1_gt_1_for_mutant_10": "search/certs/drophunt_checker_receipt_fib4_kordvalidated_row36_v1_20260830.json",
+    "full_output": "search/certs/drophunt_mutant_tests_v1_20260830.json",
+    "all_applicable_mutants_rejected": true,
+    "summary": {
+      "1_source_omission": "REJECTED (CC1_EVALUATED_COUNT / CC1_FIELD_MISMATCH)",
+      "2_duplicate": "REJECTED (CC1_DUPLICATE_CANDIDATE / VALID_COUNT_MISMATCH)",
+      "3_wrong_parent_inclusion_K_not_le_M": "REJECTED (CC4_K_NOT_LE_M)",
+      "4_nonisolated_claimed_isolated": "NOT_APPLICABLE -- F4 (isolated) is out of scope for this negative-only calibration pass; this producer/checker pair does not emit or consume an isolation claim",
+      "5_seed_from_symdiff": "NOT_APPLICABLE -- seeds (row36, row71) are fixed literals in this pass, not drawn from a roster with provenance tracking at receipt-generation time",
+      "6_row_index_shift_0_1_based": "REJECTED (M_CONGRUENCE / STAGE_LABEL_MISMATCH / SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE / VERDICT_RECOMPUTE_MISMATCH)",
+      "7_reversed_word_convention_W1": "REJECTED (REDUCTION_MBLOCK_INCONSISTENT)",
+      "8_charming_onto_swap": "REJECTED (STAGE_LABEL_MISMATCH_ON_CHARMING_FAIL / SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE)",
+      "9_fib_wrong_formula_MK_style": "REJECTED (F9_FORMULA_CHECK / CC1_EVALUATED_COUNT) -- this is the ruling-1720 mutant, confirms the corrected formula gate is load-bearing",
+      "10_m_direction_dropped": "REJECTED (F1_MISMATCH, tested on a genuine F1>1 base window after an initial false-negative on an F1=1 base window was caught and repaired)",
+      "11_theta_tau_evaluated_on_quotient": "REJECTED (HEX310_MISMATCH / STAGE_LABEL_MISMATCH / SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE / VERDICT_RECOMPUTE_MISMATCH)",
+      "12_reduction_index_order_flip": "REJECTED (CC5_REDUCTION_INDEX_ORDER)"
+    },
+    "self_correction_note": "Two implementation bugs were found and fixed DURING this pass, not before: (a) the checker initially flagged HEX311_MISMATCH false-positives on charming=False rows because it recomputed hexagon unconditionally instead of respecting the producer's short-circuit predicate order -- fixed by gating recomputation on the same short-circuit structure while still independently verifying the placeholder discipline; (b) mutant #10 initially tested against a base window where K_ord already equaled M_ord (F1 genuinely =1), making the mutation a no-op -- fixed by switching that mutant's base receipt to one with F1=2. Both are recorded here rather than silently corrected, per house discipline (機械出力のみ・手写し禁止, and errors are reported not smoothed over)."
+  },
+  "cost_measurement": {
+    "test_windows": [
+      {"label": "cheap1_fib2 (b3_index=96)", "degree": 132, "F3": 2, "row36_first_eval_ms": 1664, "row71_second_eval_ms": 8, "window_build_ms": "included in row36_first_eval_ms in this run (not separated)"},
+      {"label": "cheap2_fib3 (b3_index=12)", "degree": 108, "F3": 3, "row36_first_eval_ms": 861, "row71_second_eval_ms": 2},
+      {"label": "cheap3_fib3 (b3_index=18)", "degree": 90, "F3": 3, "row36_first_eval_ms": 510, "row71_second_eval_ms": 1},
+      {"label": "L3_fib3_K2ingredient (b3_index=3)", "degree": 39, "F3": 3, "row36_first_eval_ms": 660, "row71_second_eval_ms": 1},
+      {"label": "fib4_kordvalidated (b3_index=48)", "degree": 84, "F3": 4, "row36_first_eval_ms": 964, "row71_second_eval_ms": 5},
+      {"label": "escalation108 (b3_index=108)", "degree": 144, "F3": 9, "window_build_ms": "19-34 across 4 same-index nodes", "row36_eval_ms": "1183 and 1998 (two nodes tested)", "row71_eval_ms": "7-8"}
+    ],
+    "observations": [
+      "Window CONSTRUCTION cost (quotient + joint-image + M-block-projection hom + Kernel + free-group epimorphism + DerivedSubgroup) is CHEAP and roughly degree-insensitive in the tested range (19-34ms even at degree=144): the earlier full-4265-row LINS-2000 sweep's 251.6ms/row average (search/certs/drophunt_calibration_v1_20260829.json calibration_c) already covers most of this cost at larger degree, and this pass's construction times are consistent with or cheaper than that baseline.",
+      "Per-candidate PREDICATE EVALUATION cost (PreImagesRepresentative + hexagon word evaluation + onto group-order check) is the dominant cost, roughly 150-850ms/candidate on the FIRST evaluation of a window, with substantial variance; a representative working estimate is ~150-300ms/candidate.",
+      "The SECOND seed evaluated on an ALREADY-BUILT window (row71 after row36) is dramatically cheaper (1-8ms total, not per-candidate) -- GAP appears to cache/reuse internal Schreier-tree-style data structures from the first PreImagesRepresentative/group-order call on the same window. This means Mode B (row71) piggy-backed on an already-swept Mode A window is essentially free; it is NOT free as a first, standalone evaluation.",
+      "Sample size is small (6 windows, F3 in {2,3,3,3,4,9}); extrapolation confidence is MODERATE, not high."
+    ],
+    "extrapolation_full_358_window_set_row36_mode": {
+      "sum_of_fib_across_358_windows": 17471,
+      "mean_fib_per_window": 48.8,
+      "b3_index_distribution": {"min": 3, "median": 432, "mean": 603.8, "max": 1944, "note": "fib<=100 does NOT correlate simply with small b3_index -- median/mean b3_index in the 358-set is comparable to the full 4265-row census, not skewed cheap"},
+      "estimate_at_200ms_per_candidate": {"total_ms": 3494200, "total_minutes": 58.2},
+      "estimate_range": {"low_ms_at_150ms_per_candidate": 2620650, "low_minutes": 43.7, "high_ms_at_300ms_per_candidate": 5241300, "high_minutes": 87.4},
+      "plus_window_build_overhead": "358 windows x ~25-1700ms build (using the wider observed range, not just the cheap 19-34ms escalation sample) = roughly 9-600 seconds additional, small relative to the per-candidate total",
+      "row71_mode_B_addendum": "negligible if run immediately after row36 on the same built window (~1-8ms/window x 358 = a few seconds); would NOT be negligible if run as a standalone first-evaluation pass"
+    }
+  },
+  "venue_recommendation": {
+    "verdict": "GHA recommended for a full 358-window row36-mode sweep; LOCAL is feasible ONLY as multiple checkpointed chunks.",
+    "reasoning": "Estimated total 44-87 minutes (best estimate ~58 minutes) for a single unbroken row36-mode sweep of all 358 fib<=100 windows exceeds the house 10-minute local-chunk discipline by 4-9x. Per-window cost is small enough (0.5-2s typical, with occasional larger windows) that natural checkpoint boundaries exist every 20-40 windows for a 10-minute local chunk if local execution is preferred instead.",
+    "options": [
+      "(a) GHA, single run, with falsifier preflight per house lane discipline (arranged by coordinator, not this implementer) -- straightforward, matches the venue already used for the LINS index/joint-image sweep in the prior calibration pass.",
+      "(b) Local, checkpoint/resume across an estimated 5-9 chunks of ~10 minutes each (~20-70 windows/chunk depending on their individual F3), writing partial receipts and a resumable cursor file between chunks -- feasible but more operational overhead than (a)."
+    ],
+    "not_launched": "No production sweep was started in this pass, per the coordinator's explicit instruction ('本掃引は発射しない')."
+  },
+  "deviations_and_open_questions": [
+    "(1) Charming's derived-subgroup-membership sub-check is not independently re-derived end-to-end by the checker (see checker.scope_limitation above) -- a genuine algorithmic gap given the standard-library-only constraint, not a shortcut taken for convenience.",
+    "(2) The 6-window calibration table reuses PRE-EXISTING independent producer/checker pairs (built 2026-08-23/24, before this task and before ruling 1720) rather than re-deriving all 6 with the NEW general system built in this pass, because 5 of the 6 named windows are bespoke constructions (K1 itself, K_Q, K_H, PGammaL(2,8), and the compound K2=K1 cap L3) outside the K=M cap L single-LINS-row scope that this pass's new general producer/checker targets. This is flagged for 司令塔 confirmation that reuse is acceptable here, same category as prior passes' reuse-vs-recompute flags.",
+    "(3) LINS-48B's raw fibre count and a dedicated cross-checked artifact were not relocated within this pass's time budget; only a terse campaign-status marker citation (valid=2) is reported for that one row of the calibration table.",
+    "(4) Cost/venue estimate is extrapolated from only 6 test windows (all with F3<=9); the 358-window set's actual per-window cost distribution (especially for its higher-fib members, up to fib=100) has not been directly measured and could deviate from this extrapolation.",
+    "(5) Two implementation bugs were caught and fixed mid-pass (checker's short-circuit-blind hexagon comparison; mutant #10's no-op base window) -- see mandatory_mutant_tests.self_correction_note. Reported transparently, not smoothed over."
+  ]
+}

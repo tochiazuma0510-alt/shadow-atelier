@@ -1,0 +1,102 @@
+{
+  "schema": "drophunt-mutant-tests/v1",
+  "base_receipt": "search/certs/drophunt_checker_receipt_cheap1_fib2_row36_v1_20260830.json",
+  "base_receipt_f1_gt_1_for_mutant_10": "search/certs/drophunt_checker_receipt_fib4_kordvalidated_row36_v1_20260830.json",
+  "all_applicable_mutants_rejected": true,
+  "results": {
+    "1_source_omission": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "CC1_EVALUATED_COUNT: len(rows)=1 F3=2",
+        "CC1_FIELD_MISMATCH: {'evaluated_count': 1, 'expected_count': 2, 'match': True}"
+      ]
+    },
+    "2_duplicate": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "CC1_DUPLICATE_CANDIDATE: (0, (-1, 2, -1, -1, -2, -1, 2, 2, 1, 2, 2, -1, -2, -2, -2, -2, 1, 1, 1, 1))",
+        "VALID_COUNT_MISMATCH: recomputed=2 declared=1"
+      ]
+    },
+    "3_wrong_parent_inclusion": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "CC4_K_NOT_LE_M: K_ord=19 M_ord=18"
+      ]
+    },
+    "4_nonisolated_claimed_isolated": {
+      "status": "NOT_APPLICABLE",
+      "reason": "see module docstring: F4 isolation and seed-roster provenance are out of this pass's scope"
+    },
+    "5_seed_from_symdiff": {
+      "status": "NOT_APPLICABLE",
+      "reason": "see module docstring: F4 isolation and seed-roster provenance are out of this pass's scope"
+    },
+    "6_row_index_shift": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "M_CONGRUENCE: m=1 M_ord=18 (seed m_seed assumed 0)",
+        "HEX311_MISMATCH: row m=1: recomputed=False producer=True",
+        "STAGE_LABEL_MISMATCH_ON_HEX311_FAIL: pass",
+        "SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE_AFTER_HEX311: {'m': 1, 'f_word_codes': [-1, 2, -1, -1, -2, -1, 2, 2, 1, 2, 2, -1, -2, -2, -2, -2, 1, 1, 1, 1], 'charming': True, 'hex310': True, 'hex311': True, 'onto': True, 'reduction_match': True, 'verdict': True, 'stage': 'pass', 'eval_ms': 6}",
+        "VERDICT_RECOMPUTE_MISMATCH_GIVEN_PRODUCER_CHARMING: row m=1: recomputed=False producer=True"
+      ]
+    },
+    "7_reversed_word_convention": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "REDUCTION_MBLOCK_INCONSISTENT: 2 distinct M-block images across candidates, expected 1"
+      ]
+    },
+    "8_charming_onto_swap": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "STAGE_LABEL_MISMATCH_ON_CHARMING_FAIL: hex311_fail",
+        "SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE: {'m': 0, 'f_word_codes': [-1, 2, -1, -1, -2, 1, 2, 1, 1, 2, 1, 2, 2, -1, -2, -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, 2, 1, 2, 1, 2, 1, 2, -1, -2, -1, -2, -1, -2, -1, -2, -1, -2, -1, -1, -1, -1, -1, -1, -1, 2, 1, 2, 1, 2, 1, 2, -1, -2, -1, -2, -1, -2, -1, -2, 1, 1, 1], 'charming': False, 'hex310': True, 'hex311': False, 'onto': True, 'reduction_match': False, 'verdict': False, 'stage': 'hex311_fail', 'eval_ms': 1}"
+      ]
+    },
+    "9_fib_wrong_formula": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "F9_FORMULA_CHECK: F3=6 F1*F2=2 -- rejects mutant #9 ([M:K] style) and #10 (m-direction dropped) if formula does not match",
+        "CC1_EVALUATED_COUNT: len(rows)=2 F3=6",
+        "CC1_FIELD_MISMATCH: {'evaluated_count': 2, 'expected_count': 2, 'match': True}"
+      ]
+    },
+    "10_m_direction_dropped": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "F1_MISMATCH: 1 vs 2",
+        "CC1_EVALUATED_COUNT: len(rows)=4 F3=2",
+        "CC1_FIELD_MISMATCH: {'evaluated_count': 4, 'expected_count': 4, 'match': True}"
+      ]
+    },
+    "11_theta_tau_on_quotient": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "HEX310_MISMATCH: row m=0: recomputed=True producer=False",
+        "STAGE_LABEL_MISMATCH_ON_HEX310_FAIL: pass",
+        "SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE_AFTER_HEX310: {'m': 0, 'f_word_codes': [-1, 2, -1, -1, -2, -1, 2, 2, 1, 2, 2, -1, -2, -2, -2, -2, 1, 1, 1, 1], 'charming': True, 'hex310': False, 'hex311': True, 'onto': True, 'reduction_match': True, 'verdict': True, 'stage': 'pass', 'eval_ms': 6}",
+        "STAGE_LABEL_MISMATCH_ON_HEX311_FAIL: pass",
+        "SHORT_CIRCUIT_PLACEHOLDER_NOT_FALSE_AFTER_HEX311: {'m': 0, 'f_word_codes': [-1, 2, -1, -1, -2, -1, 2, 2, 1, 2, 2, -1, -2, -2, -2, -2, 1, 1, 1, 1], 'charming': True, 'hex310': False, 'hex311': True, 'onto': True, 'reduction_match': True, 'verdict': True, 'stage': 'pass', 'eval_ms': 6}",
+        "VERDICT_RECOMPUTE_MISMATCH_GIVEN_PRODUCER_CHARMING: row m=0: recomputed=None producer=True"
+      ]
+    },
+    "12_reduction_index_order": {
+      "status": "REJECTED",
+      "checker_status": "FAIL",
+      "checker_errors": [
+        "CC5_REDUCTION_INDEX_ORDER: target_first"
+      ]
+    }
+  }
+}
