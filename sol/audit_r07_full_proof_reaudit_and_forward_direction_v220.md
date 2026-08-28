@@ -1811,3 +1811,53 @@ without promoting diagnostics, repairs, or source agreement to witness gates.
 Delta38 is the new reporting baseline: the only v220 numerator change since
 delta37 is A2 `1/3 -> 2/3`; A3/A4 implementation work is explicitly separated
 from actual witness gates.
+
+#### v220-delta39 - 2026-08-28 (after delta38)
+
+**Individual progress**:
+
+- Three successive A3 SELFTEST stops were classified before any actual
+  mathematical acceptance.  Run `33150919697` exposed an unbound occurrence
+  quantifier in the producer; run `33151329705` exposed three one-argument
+  checker `require` calls; and run `33152004591` reached only the old opaque
+  driver sentinel.  Tasks 279--282 repaired the arity defect, made every
+  terminal mismatch print the redirected log, normalized a JSON pivot from
+  tuple to list at the serialization boundary, and removed only the literal
+  equality of two independently generated noncanonical basis lists.  All
+  two-way sparse span checks, exact 486/729 rosters, ancestry replays, block
+  images, mutations, caps, and terminal predicates were retained.
+- Full serial A3 SELFTEST run `33153010409` at immutable head
+  `d1e34bb450bdee48633f64b251db5b14580ce798` completed successfully in
+  8 min 13 s with one producer terminal, one independent-checker terminal,
+  and `D227_DRIVER_PASS mode=SELFTEST`.  The five cases independently replayed
+  ranks `(486,486,486,0,0)`, with MEMBER/MEMBER/NONMEMBER/MEMBER/NONMEMBER
+  terminals; every case retained all 486 ideal rows and 729 translates.  The
+  two NONMEMBER cases carried duals of support four and one with target
+  pairing one.  All 24 registered mutations and all three empty-owner edge
+  controls were rejected at their named gates.
+- GitHub artifact `9678665435` has archive digest
+  `sha256:cf67587fe34dd33d8bef1d79e57b942cccb54c03ca4de189b04c0daf97199549`.
+  Independent download reread gives the SELFTEST receipt
+  4,636,766 bytes / SHA-256
+  `dd642ad26b336c9ee5c399798b83867465cb9023c4ec08a02af3fa2eeb723df8`
+  and checker verdict 615 bytes / SHA-256
+  `3ea0e5e59662c3014364adcf11d3ec40d8e52d70a36c20d6529c7e00236238ea`.
+  The verdict recomputes the exact SELFTEST terminal and binds the receipt
+  bytes/digest.  Its `accepted=false, independent=false` fields are the
+  deliberate production-only acceptance convention, not a SELFTEST failure.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: actual task226 package **0**, actual orbit/486/729
+  equality **0**, and actual MEMBER coefficient or NONMEMBER dual **0**.
+  The complete producer-plus-independent-checker SELFTEST envelope is now
+  accepted and frozen separately; it is not one of A3's actual numerators.
+- A0 remains **0/1 RUNNING** on producer-only run `33149728601`; A1 remains
+  **3/4 RUNNING** on production run `33143444409`; A2 remains **2/3**; A4
+  remains **0/3** with its implementation SELFTEST recorded separately.
+- A5--A9, B, C, W, and F remain zero.  No compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+Delta39 closes the A3 implementation audit without moving an actual witness
+gate.  The next actual dependency is still the accepted A0 and A1 production
+pair, followed by A2 specialization and this now-accepted A3 consumer.
