@@ -87,6 +87,14 @@ Print("DSD_B4_CONTROL(row36_full_M_shadow)=", DSDB4Pass, "\n");;
 if not DSDB2Pass then
   Error("DSD: B-2 PREFLIGHT FAILED -- refusing to start sweep");
 fi;;
+## 裁定1781 item6: B-4 (row36 as a full GT(M) member, the calibration
+## CONTROL) was previously informational-only (Print but no Error). Made
+## fail-closed here -- both calibration seeds are frozen facts the roof M
+## must satisfy; if either fails, something about the roof model itself has
+## drifted and the sweep must not proceed on unverified footing.
+if not DSDB4Pass then
+  Error("DSD: B-4 CONTROL FAILED -- refusing to start sweep");
+fi;;
 
 #############################################################################
 ## item 2: load window ingredients from the pre-built batch (NO LINS call).
@@ -96,6 +104,15 @@ if not IsExistingFile(DSDBatchPath) then
   Error("DSD: batch file ", DSDBatchPath, " not found -- run search/drophunt_lins_batch_v1.g first (item 2)");
 fi;;
 Read("search/drophunt_frozen_node_list_v1_gap.g");;   # DSDFrozenWindows (fib_K asc order, authoritative processing order)
+## 裁定1781 item8 (wired, not document-only): DSDFrozenWindowsV2 carries the
+## pre-registered F1_prime/F1_double_prime columns (pure arithmetic from
+## K_ord, computed once at frozen-list-generation time, independent of any
+## run). Cross-checked against DCP3ComputeMultAnalysis's OWN (also pure-
+## arithmetic, independently re-derived from K_ord at eval time) computation
+## below, per window, fail-closed on mismatch.
+Read("search/drophunt_frozen_node_list_v2_gap.g");;   # DSDFrozenWindowsV2
+DSDFrozenV2ByNodeId := rec();;
+for DSDW in DSDFrozenWindowsV2 do DSDFrozenV2ByNodeId.(DSDW.node_id) := DSDW;; od;;
 DLBWindows := [];; DLBDoneIndices := [];;
 Read(DSDBatchPath);;
 Print("DSD_BATCH_LOADED windows=", Length(DLBWindows), " done_b3_index=", Length(DLBDoneIndices), "\n");;
@@ -305,15 +322,40 @@ while DSDIdx <= DSDEndIndex and not DSDStopFlag do
     " F1_double_prime=", DSDMultA.F1_double_prime, " lift_m=", DSDMultA.lift_m,
     " mult_set=", DSDMultA.mult_set, " verdict=", DSDMultA.verdict, "\n");;
 
+  ## 裁定1781 item8: cross-check the pre-registered frozen-v2 F1_prime/
+  ## F1_double_prime against the eval-time DCP3ComputeMultAnalysis
+  ## computation, for this window, fail-closed on mismatch.
+  if not IsBound(DSDFrozenV2ByNodeId.(DSDWin.node_id)) then
+    Error("DSD: node_id ", DSDWin.node_id, " missing from frozen v2 list -- fail-closed");
+  fi;;
+  DSDV2W := DSDFrozenV2ByNodeId.(DSDWin.node_id);;
+  if DSDV2W.F1_prime <> DSDMultA.F1_prime or DSDV2W.F1_double_prime <> DSDMultA.F1_double_prime then
+    Error("DSD: frozen-v2 F1_prime/F1_double_prime pre-registration MISMATCH for node_id ",
+      DSDWin.node_id, " -- frozen(", DSDV2W.F1_prime, ",", DSDV2W.F1_double_prime,
+      ") vs eval-time(", DSDMultA.F1_prime, ",", DSDMultA.F1_double_prime, ") -- fail-closed");
+  fi;;
+
   if DSDMultA.verdict <> "PASS" then
     Print("DSD_", DSDMultA.verdict, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
       " seed=row36 -- HALTING IMMEDIATELY\n");;
     DSDStubResult := DSDFullHexagonSecondSystemStub(DSDWin.node_id, "row36");;
+    ## 裁定1781 item2: emit a FULL producer receipt (JX/JY/JC+perm_one_line,
+    ## same DCP3EmitReceipt path normal-pass windows use) at halt time too --
+    ## the lighter DSDWriteHaltCheckpoint JSON alone is not checker-
+    ## verifiable (no window permutations, no perm_one_line per row).
+    DSDHaltLabel := DSDWin.node_id{[1..16]};;
+    DSDHaltPathA := Concatenation("search/certs/drophunt_sweep_receipt_", DSDHaltLabel, "_row36_v3_20260829.json");;
+    DSDEmitHaltA := DCP3EmitReceipt(DSDHaltPathA, DSDWin.node_id, DSDWin.b3_index, DSDQrec, "row36", DCP3Seeds[1].codes, DSDResultA, 0);;
+    Print("DSD_HALT_RECEIPT_EMITTED index=", DSDIdx, " path=", DSDEmitHaltA.path, "\n");;
     DSDWriteHaltCheckpoint(DSDWin, "row36", DSDResultA, DSDMultA, DSDMultA.verdict);;
     if DSDMultA.verdict = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;
     elif DSDMultA.verdict = "BUG" then DSDSummary.bugs := DSDSummary.bugs + 1;
     else DSDSummary.anomalies := DSDSummary.anomalies + 1;; fi;;
-    DSDWriteCheckpoint(DSDIdx - 1, DSDSummary);;
+    ## 裁定1781 item1: checkpoint at DSDIdx (NOT DSDIdx-1) -- this window's
+    ## outcome IS accounted (drops/anomalies/bugs incremented above and a
+    ## full receipt was just emitted), so resume must start at DSDIdx+1, not
+    ## re-attempt this SAME window a second time after the lock is cleared.
+    DSDWriteCheckpoint(DSDIdx, DSDSummary);;
     DSDWritePoisonLock(DSDMultA.verdict, DSDIdx, DSDWin.node_id);;
     Print("DSD_STATUS=", DSDMultA.verdict, "_HALT\n");;
     DSDStopFlag := true;;
@@ -330,11 +372,21 @@ while DSDIdx <= DSDEndIndex and not DSDStopFlag do
     Print("DSD_", DSDMultB.verdict, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
       " seed=row71 -- HALTING IMMEDIATELY\n");;
     DSDStubResult := DSDFullHexagonSecondSystemStub(DSDWin.node_id, "row71");;
+    ## 裁定1781 item2 (row71 side): row36 already PASSed to reach here, so
+    ## emit ITS full receipt too (it was computed but never written, since
+    ## normal-path emission only happens after BOTH modes PASS) -- plus the
+    ## row71 halt receipt -- so a human/checker has BOTH seeds' full data.
+    DSDHaltLabel := DSDWin.node_id{[1..16]};;
+    DSDHaltPathA36 := Concatenation("search/certs/drophunt_sweep_receipt_", DSDHaltLabel, "_row36_v3_20260829.json");;
+    DSDEmitHaltA36 := DCP3EmitReceipt(DSDHaltPathA36, DSDWin.node_id, DSDWin.b3_index, DSDQrec, "row36", DCP3Seeds[1].codes, DSDResultA, 0);;
+    DSDHaltPathB := Concatenation("search/certs/drophunt_sweep_receipt_", DSDHaltLabel, "_row71_v3_20260829.json");;
+    DSDEmitHaltB := DCP3EmitReceipt(DSDHaltPathB, DSDWin.node_id, DSDWin.b3_index, DSDQrec, "row71", DCP3Seeds[2].codes, DSDResultB, 0);;
+    Print("DSD_HALT_RECEIPT_EMITTED index=", DSDIdx, " pathA=", DSDEmitHaltA36.path, " pathB=", DSDEmitHaltB.path, "\n");;
     DSDWriteHaltCheckpoint(DSDWin, "row71", DSDResultB, DSDMultB, DSDMultB.verdict);;
     if DSDMultB.verdict = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;
     elif DSDMultB.verdict = "BUG" then DSDSummary.bugs := DSDSummary.bugs + 1;
     else DSDSummary.anomalies := DSDSummary.anomalies + 1;; fi;;
-    DSDWriteCheckpoint(DSDIdx - 1, DSDSummary);;
+    DSDWriteCheckpoint(DSDIdx, DSDSummary);;
     DSDWritePoisonLock(DSDMultB.verdict, DSDIdx, DSDWin.node_id);;
     Print("DSD_STATUS=", DSDMultB.verdict, "_HALT\n");;
     DSDStopFlag := true;;

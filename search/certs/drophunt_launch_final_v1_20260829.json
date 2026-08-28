@@ -1,0 +1,115 @@
+{
+  "schema": "drophunt-launch-final/v1",
+  "status": "PRE_LAUNCH_REPAIRS_COMPLETE_AWAITING_COORDINATOR_LAUNCH_AUTHORIZATION",
+  "verified": false,
+  "authority_note": "'verified' is reserved for Lean. This cert reports cross-checked (探索器/照合器 二系統一致) results and machine-computed values. Directive: 裁定1781 (第5前哨 = GO-with-conditions; 3 blocking + 6 same-turn items). Supersedes search/certs/drophunt_final_prereg_v1_20260829.json for anything this cert explicitly revises; that file's part1/part2/part3 content otherwise stands.",
+  "falsifier_finding_acknowledged": "GAP側本走=全358窓1分未満(最大窓266ms) -- independently reconfirmed this pass via a full 358-window scan (scratchpad/scan_all_358_for_halt_v1.g, both row36 and row71): elapsed_ms=31909 and 32042 respectively, i.e. ~32s each, well under the falsifier's <1min figure.",
+
+  "MAJOR_FINDING_full_358_window_scan_0_halts": {
+    "what_was_done": "while testing the halt-path fixes (items 1/2 below), ran a lightweight scan (DCP3EvalWindow + DCP3ComputeMultAnalysis only, NO receipt emission, NO checker invocation) over ALL 358 frozen windows, both row36 and row71, to look for a real halt case to test against.",
+    "result": "0/358 windows produced a DROP/ANOMALY/BUG verdict for EITHER seed. Every one of the 358 x 2 = 716 (window,seed) combinations verdict=PASS under the 裁定1776 MULT-COSET lattice.",
+    "explicit_caveat_this_is_NOT_the_real_launch": "this scan emitted ZERO receipts and ran the Python checker on ZERO of them -- it is a preview, not a substitute for the real launch (search/drophunt_sweep_launch_v1.g, which emits full receipts for every window and whose output must still be checker-verified via the batch runner, item4). Reported transparently to the coordinator via express route mid-session (see chat) before this cert was written, precisely because a preview of the launch's own outcome is exactly the kind of thing that must not be silently absorbed into a routine status update.",
+    "consequence_for_item1_2_testing": "since no real halt exists anywhere in the current 358-window population, items 1 and 2 (checkpoint-index fix, full-receipt-at-halt fix) could not be tested against a naturally-occurring halt. Both were instead tested against a SYNTHETIC, clearly-labeled test case: a THIRD seed (not row36/row71) -- a single-letter word 'x' -- run against the cheapest window (b3_index=3), which genuinely produced DROP via real GAP execution (not a hand-written fixture). See item1/item2 detail below."
+  },
+
+  "blocking_item1_halt_resume_double_count_fix": {
+    "bug": "at halt time, the v3-driver-pre-1781 code wrote the checkpoint with DSDWriteCheckpoint(DSDIdx - 1, DSDSummary) -- even though DSDSummary's drops/anomalies/bugs counter for THIS window (DSDIdx) had already been incremented and a halt-checkpoint JSON already written for it. On resume (after a human clears the poison lock), DSDResumeFrom = (DSDIdx-1)+1 = DSDIdx -- the SAME halted window would be re-attempted, double-counting it if it halted again (or silently reprocessing it if, e.g., a code fix changed its outcome).",
+    "fix": "search/drophunt_sweep_driver_v3.g: both halt branches (Mode A line ~331, Mode B line ~356 after edits) now call DSDWriteCheckpoint(DSDIdx, DSDSummary) -- the halted window IS accounted (summary incremented, full receipt + halt-checkpoint JSON both written), so resume correctly starts at DSDIdx+1.",
+    "consequence_for_clear_poison_lock_header": "search/drophunt_sweep_clear_poison_lock_v1.g's header claims clearing the lock 'allows the SWEEP TO CONTINUE PAST it, not to re-litigate it silently' -- this claim was FALSE under the pre-fix checkpoint-index bug (resume would re-litigate the same window), and is now TRUE after this fix (verified by code review of the corrected DSDWriteCheckpoint(DSDIdx,...) calls; the header text itself did not need editing, only the underlying behavior it describes did).",
+    "test_status": "code-reviewed (single-token arithmetic change, DSDIdx-1 -> DSDIdx, unambiguous); NOT separately exercised via a live driver halt-then-resume-then-confirm-index-advanced cycle, because no real halt exists in the 358-window population (see MAJOR_FINDING above) to trigger the driver's own halt branch naturally. The MECHANISM those branches invoke (DCP3EmitReceipt, DSDWriteHaltCheckpoint) WAS exercised for real via the synthetic-seed test (item2 below) -- only the surrounding DSDIdx-vs-DSDIdx-1 checkpoint arithmetic itself rests on code review rather than an end-to-end halt-resume test."
+  },
+
+  "blocking_item2_full_receipt_at_halt": {
+    "bug": "the pre-1781 halt path only wrote DSDWriteHaltCheckpoint's lightweight JSON (schema drophunt-sweep-halt-checkpoint/v3): per-row m/charming/hex310/hex311/onto/verdict/stage, but NO perm_one_line, NO window JX/JY/JC_one_line -- a receipt the Python checker cannot process (missing everything needed to independently re-derive theta~/tau~/onto).",
+    "fix_chosen": "the RECOMMENDED option (add the emit path) -- both halt branches now ALSO call DCP3EmitReceipt with the exact same signature normal-pass windows use, writing a FULL producer receipt (schema drophunt-checker-producer/v3, includes JX/JY/JC_one_line at window level and perm_one_line per row) to the SAME naming path a PASS receipt would have used. When Mode B halts (row36 already PASSed to reach there), row36's full receipt is ALSO emitted at that point (previously it would never have been written, since normal-path emission only fires after BOTH modes PASS) -- so a Mode-B halt now leaves BOTH seeds' full data on disk, not just the halting one.",
+    "real_test": {
+      "method": "since 0/358 windows halt for real (MAJOR_FINDING above), constructed a SYNTHETIC test: a third, non-calibration seed (single letter 'x', codes=[1]) against the cheapest real window (b3_index=3, node_id 16437e56...). This is REAL GAP execution against a real window -- only the SEED is synthetic/uncalibrated (clearly labeled seed_name='synthetic_empty_TEST_ONLY' in the emitted receipt), not a hand-written fixture.",
+      "result": "TEST_SYNTHETIC_VERDICT=DROP valid_total=0 per_m=[0] -- a genuine DROP verdict, for real",
+      "receipt_emitted": "scratchpad/test_halt_receipt_16437e56512d99ab_synthetic_v1.json, sha256=6b677f19a210bb2b05434601ddf79dcb1f9c5da4e6aafaf7f900b8343b4ae6da, 2436 bytes -- confirmed to contain window.JX_one_line (present=True) and rows[0].perm_one_line (present=True), i.e. everything the checker needs.",
+      "checker_note": "this receipt was NOT run through drophunt_checker_v3.py (it correctly would FAIL with SS4_SEED_KEY_UNKNOWN_SEED_NAME, since 'synthetic_empty_TEST_ONLY' is deliberately not in KNOWN_SEED_WORDS -- that is the checker functioning correctly by rejecting an unrecognized seed, not a defect)."
+    }
+  },
+
+  "blocking_item3_unbind_leak_guard": {
+    "bug": "search/drophunt_sweep_launch_v1.g Read()-ed the driver directly with no guard against a LEAKED DSDDryRunLimit/DSDCheckpointPath/DSDDropLockPath binding from an earlier Read() in the SAME gap session (e.g. a dry-run wrapper executed just before the real launch, interactively or via a script that chains both) -- the driver's IsBound guards would silently honor the stale binding, turning a '358-window launch' into an unnoticed 20-window run against the wrong checkpoint file.",
+    "fix": "search/drophunt_sweep_launch_v1.g now calls Unbind(DSDDryRunLimit);; Unbind(DSDCheckpointPath);; Unbind(DSDDropLockPath);; BEFORE Read()-ing the driver.",
+    "real_test": {
+      "unbind_safety_on_never-bound_var": "confirmed Unbind() does not error on an unbound global (scratchpad/test_unbind_safety.g, real execution)",
+      "leak_neutralization": "scratchpad/test_unbind_prevents_leak_v1.g: set DSDDryRunLimit:=20 and scoped checkpoint/lock paths (simulating exactly the leak scenario), then applied the SAME 3 Unbind() lines the launch script uses -- BEFORE: all 3 IsBound=true; AFTER: all 3 IsBound=false (verbatim real output). Confirms the fix neutralizes the leak."
+    }
+  },
+
+  "same_turn_item4_716_receipt_checker_batch_plan": {
+    "file": "search/drophunt_checker_batch_runner_v1.py (new) -- chunked, checkpointed wrapper around the EXISTING drophunt_checker_v3.check_receipt (imports it, adds no new verification logic -- explorer/checker separation preserved: the batch runner is plumbing, not a second checker implementation)",
+    "measured_rate": "8 receipts in 60s (time-budget-triggered stop) on a first real invocation against the current 80 sweep receipts; a resumed second invocation correctly continued from receipt 9 (no reprocessing), reaching 23/80 -- consistent with the falsifier's ~1.7h/716-receipt estimate (8 receipts/60s -> 716 receipts -> ~5370s -> ~89.5min -> ~1.5h, in the same ballpark as 1.7h)",
+    "checkpoint_format": "JSON (not a GAP script, since this runner is pure Python) with population-fingerprint fail-closing: if the receipt glob's file list differs from what the checkpoint recorded (a new receipt appeared/vanished), the runner REFUSES to resume rather than silently continuing against a different population.",
+    "launch_plan_integration": "the 716-receipt checker pass is now an explicit, separate post-GAP-launch step: `python search/drophunt_checker_batch_runner_v1.py \"search/certs/drophunt_sweep_receipt_*_v3_20260829.json\" --checkpoint <path> --batch-size 40 --time-budget-seconds 480`, re-invoked repeatedly (each invocation self-limits to an 8-min work budget) until ALL_RECEIPTS_CHECKED total=716 appears."
+  },
+
+  "same_turn_item5_checker_4_lines": {
+    "file": "search/drophunt_checker_v3.py",
+    "additions": [
+      "require(receipt.get('F1_prime') == F1, 'TOPLEVEL_F1_PRIME_MISMATCH', ...) -- top-level F1_prime value checked against window.F1_m_factor (previously the top-level field existed but was never independently value-checked, only presence-checked for the mult-lattice fields as a group)",
+      "c_in_K_recomputed = (JC == pid(deg)); require(c_in_K_recomputed == receipt.get('c_in_K'), 'C_IN_K_REDERIVATION_MISMATCH', ...) -- c_in_K is now independently RE-DERIVED (JC==identity), not merely type-checked",
+      "require(c_in_K == receipt.get('c_in_K'), 'C_IN_K_WINDOW_TOPLEVEL_MISMATCH', ...) -- window.c_in_K vs top-level c_in_K cross-consistency, previously unchecked",
+      "require(receipt.get('c_in_M_grounding') == 'FRAMEWORK_ASSUMPTION_NOT_INDEPENDENTLY_MEASURED', 'C_IN_M_GROUNDING_UNEXPECTED_VALUE', ...) -- the c_in_M_grounding field's value is now checked against the ONE fixed string it is always supposed to declare, so a receipt silently upgrading its own grounding claim (e.g. to 'INDEPENDENTLY_MEASURED') without an actual independent measurement having been built would be REJECTED"
+    ],
+    "test_status": "exercised implicitly by the full 83-receipt (now expanded, see part3 revision below) re-validation, all of which declare the fixed c_in_M_grounding string and internally-consistent c_in_K -- all continue to PASS after these additions (no regression). Not separately mutant-tested against a c_in_M_grounding value swap in this pass (a straightforward, low-risk addition; deprioritized under the same-turn/6-lines framing)."
+  },
+
+  "same_turn_item6_b4_fail_closed": {
+    "fix": "search/drophunt_sweep_driver_v3.g: added `if not DSDB4Pass then Error(...); fi;;` immediately after the existing B-2 fail-closed check.",
+    "test": "real execution (scratchpad/final_driver_test_v1.g, 5-window fresh run): DSD_B4_CONTROL(row36_full_M_shadow)=true printed, no Error raised, sweep proceeded -- confirms the calibration control still holds and the new fail-closed guard does not spuriously block the sweep."
+  },
+
+  "same_turn_item7_cert_corrections": {
+    "correction_a_exact_match_phrasing": {
+      "old_claim_being_corrected": "'every declared field EXACT match' (drophunt_final_prereg_v1_20260829.json's part2 description of the checker) overstated coverage -- several fields are declared in receipts but NOT independently checked by drophunt_checker_v3.py",
+      "enumerated_unchecked_fields": [
+        "top-level 'status' and 'verified' -- static/informational, never asserted to a specific value beyond presence",
+        "node_id -- opaque LINS-generator-string hash; the Python checker has no GAP/LINS access and cannot independently re-derive it. The ONLY independent re-derivation of node_id happens in GAP, inside the sweep driver itself (DSDNodeIdComputed cross-check against the frozen list), NOT in the Python checker.",
+        "'reduction_index_order' -- declared ('source_first') but never asserted against that or any specific value",
+        "'total_elapsed_ms' -- informational only, never checked",
+        "top-level 'seed' field vs seed_key.seed_name -- not explicitly cross-checked for equality (both are checked against KNOWN_SEED_WORDS separately, but not against EACH OTHER)",
+        "window.degree vs the actual length of JX_one_line/JY_one_line/JC_one_line arrays -- not explicitly asserted equal (the arrays are simply loaded at whatever length they have; a degree/array-length mismatch would likely surface indirectly via a group-order or hexagon mismatch downstream, but is not caught AT THE POINT of loading)",
+        "row.reduction_match -- per an ALREADY-existing, already-documented design decision (not new this pass): NOT independently re-derived; the checker only requires the top-level 'reduction_match_tautological_by_construction' honesty flag be present and true, and folds the receipt's OWN reduction_match value into its verdict_recomputed formula without separately recomputing it"
+      ]
+    },
+    "correction_b_old_schema_10_receipts": {
+      "old_claim_being_corrected": "drophunt_final_prereg_v1_20260829.json described the 10 pre-1776-schema calibration receipts (cheap1/cheap2/cheap3/fib4/L3_fib3, x2 seeds) as merely 'not regenerated under the new schema' / 'validated only against the item1 checker version' -- true but incomplete framing.",
+      "actual_measured_result": "re-ran the CURRENT checker (post-1776, post-1781) against all 10 -- ALL 10 FAIL, uniformly with TOPLEVEL_F1_PRIME_MISMATCH (top-level F1_prime=None) + MULT_F1_PRIME_MISSING + MULT_F1_DOUBLE_PRIME_MISSING (and further mult-lattice-field errors past those). scratchpad/old_schema_recheck_v1.json has the full output. This is EXPECTED (correct, intentional schema evolution -- not a regression), but the earlier framing should have said so explicitly rather than leaving 'not validated under new checks' ambiguous between 'skipped' and 'would fail if run'."
+    },
+    "correction_c_work_based_coverage": {
+      "window_count_coverage": "40/358 = 11.17% (sweep-driver-processed windows only, both seeds; item4's standalone b3_index=5 window and the item2 test's b3_index=3-with-synthetic-seed are excluded from this count as they are NOT part of the frozen-population sweep proper)",
+      "degree_weighted_work_coverage": "13496/229062 = 5.89% (sum of window.degree over the 40 sweep-driver-processed windows, divided by sum of window.degree over all 358 frozen windows -- a reasonable proxy for relative GAP-side computational cost, since chain/predicate construction cost scales with degree)",
+      "note_on_coordinator_estimate": "the coordinator's message cited '≈1.5%' as the work-based figure to report; this implementer's own computation (via two different reasonable bases: window-count and degree-weighted) does not reproduce that number (11.17% and 5.89% respectively). Reported HONESTLY rather than adjusted to match -- the discrepancy may reflect a different basis (e.g. checker-TIME-weighted, or counting against the eventual 716-receipt population rather than 358 windows) that this implementer does not have independent access to. If ≈1.5% referred to receipt-checker-time coverage: this session's cumulative real checker-verified receipts (83, part3 of drophunt_final_prereg_v1) against the eventual 716 population is 83/716=11.6%, also not 1.5%. Flagging this discrepancy explicitly rather than silently omitting it or fabricating a matching number."
+    }
+  },
+
+  "same_turn_item8_frozen_v2_wiring_choice": {
+    "choice_made": "WIRED (not document-only)",
+    "implementation": "search/drophunt_frozen_node_list_v2_gap.g (new GAP-native mirror of drophunt_frozen_node_list_v2_20260829.json, generated the same way v1's mirror was, 358 entries with F1_prime/F1_double_prime columns). search/drophunt_sweep_driver_v3.g now Read()s this file (DSDFrozenWindowsV2, indexed by node_id) and, for every window processed, cross-checks the frozen v2 pre-registered (F1_prime,F1_double_prime) pair against DCP3ComputeMultAnalysis's own eval-time computation of the SAME pair -- fail-closed Error() on any mismatch (both a missing-node_id case and a value-mismatch case are guarded).",
+    "real_test": "scratchpad/final_driver_test_v1.g (fresh 5-window run): all 5 windows passed the cross-check silently (no Error raised, consistent with 100% real-data agreement expected since both computations use the identical arithmetic on the identical K_ord) -- confirmed via the run completing normally to DSD_STATUS=RUN_COMPLETE."
+  },
+
+  "same_turn_item9_known_gaps_additions": {
+    "per_m_0_structural_reachability": "CORRECTED/REFINED per this pass's item2 fix: per_m=0 entries were structurally unreachable via the OLD normal-pass-only emit path (a 0 anywhere among gcd-eligible m implies either DROP (if it's the only outcome, valid_total=0) or ANOMALY (if some other m has a nonzero count) -- both of which HALT before the old normal-pass emission code ran). AFTER item2's fix (full receipts now ALSO emitted at halt time), per_m=0 entries DO now appear in emitted receipts -- specifically in DROP/ANOMALY-labeled halt receipts (confirmed via the synthetic test: per_m=[0] in the DROP-labeled scratchpad/test_halt_receipt_16437e56512d99ab_synthetic_v1.json). So the corrected statement is: per_m=0 is unreachable in a verdict='PASS' receipt (by the lattice's own definition -- PASS requires lift_m=F1_double_prime, i.e. every gcd-eligible m has per_m>=1), but IS reachable (and, since item2, IS actually emitted) in DROP/ANOMALY-labeled receipts.",
+    "null_unfired_via_driver_path": "CONFIRMED with real data this pass: 0/80 sweep-driver-emitted receipts (as of this cert) contain any null per_m entry, i.e. every window the driver itself has processed so far has F1_prime==F1_double_prime (no gcd-excluded m in its residue class). null per_m entries DO occur, but only via the standalone item4 script against b3_index=5 (fib_K=25), which is NOT among the windows the driver itself has processed in fib_K-ascending order yet (359 total windows, 29/358 have F1_prime>F1_double_prime per drophunt_frozen_node_list_v2, so null WILL eventually appear once the driver's fib_K-ascending traversal reaches one of those 29 -- b3_index=5/fib_K=25 is one of the earliest by fib_K, so this will likely be exercised for real early in the actual 358-window launch).",
+    "anomaly_structurally_unreachable_210_358": "CONFIRMED with real data this pass: 210/358 frozen windows have F1_double_prime=1 (computed via search/certs/drophunt_frozen_node_list_v2_20260829.json). For F1_double_prime=1, lift_m can only be 0 or 1 (there is exactly one gcd-eligible m), so 0<lift_m<F1_double_prime (the ANOMALY condition) is IMPOSSIBLE by integer arithmetic -- only DROP (lift_m=0) or PASS/BUG (lift_m=1, distinguished by mult_set) can occur for those 210 windows. ANOMALY can only occur among the remaining 148/358 windows (F1_double_prime>=2)."
+  },
+
+  "part3_revised_checker_coverage_summary": {
+    "note": "supersedes drophunt_final_prereg_v1_20260829.json's part3 83-receipt figure -- this session ALSO added: the item5-fixed checker re-validated against the previously-fixed 2 f1b8d... receipts (unchanged, still PASS), plus this pass's NEW additions (item5's 4 checker lines) were exercised on the same population without regression. The 10 old-schema calibration receipts are NOW EXPLICITLY reported as FAIL under the current checker (correction_b above), not silently excluded.",
+    "current_schema_population": "83/83 PASS (unchanged from drophunt_final_prereg_v1_20260829.json; item5's new checks did not change any verdict since all 83 already declared the correct fixed values)",
+    "pre_1776_schema_population": "10/10 FAIL (now explicitly measured and reported, not merely inferred)"
+  },
+
+  "u5_conclusion_template_transcribed": "0 DROP という結果は、この文書に記載された較正・凍結・照合の全条件が成立する限りにおいて、GT-shadow 対象窓の framework-assumption-relative な candidate 結果である(c_in_M_grounding が独立測定でなく前提であること・K2 が照合器スコープ外であることを含む、全ての limitation を保持したまま)。本パスの358窓プレビュースキャン(0 halt)は、正式発射(receipt発行+716レシートchecker照合)を経ていないため、まだこの結論文の対象ではない -- 正式発射後、716レシート全数がchecker PASSした時点で初めて、この結論文が正式に適用される。",
+  "readiness_statement": "裁定1781の Blocking 3 + 同時 6、計9項目すべて実装・実機テスト完了(item1のcheckpoint-index修理のみ、実halt不在のためコードレビュー止まり — 発行メカニズム自体は合成テストで実証済み)。search/drophunt_sweep_launch_v1.gが正式発射の入口(Unbindガード込み)。発射後は search/drophunt_checker_batch_runner_v1.py で716レシートをチャンク照合(~1.5-1.7h)。発射許可は司令塔の専権(第6前哨不要)。",
+  "known_open_items_not_blocking": [
+    "358窓プレビュースキャンで0 DROP/ANOMALY/BUGが判明したが、これは正式発射(receipt発行+checker照合込み)の結果ではなく予告に過ぎない — 正式発射・716レシートchecker完了までは確定結果として扱わない。",
+    "item1のcheckpoint-index修理はコードレビューのみ(実halt不在のため)。",
+    "item5の新規4行はミュータント試験なし(低リスク判断・同時実装枠のため見送り)。",
+    "coverage の work-based ≈1.5% はこの実装者の再現計算(11.17%・5.89%・11.6%のいずれも)と一致せず、不一致を正直に記載(捏造なし)。"
+  ]
+}
