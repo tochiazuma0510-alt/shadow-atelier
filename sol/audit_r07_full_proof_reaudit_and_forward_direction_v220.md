@@ -788,3 +788,21 @@ SELFTEST の再成功を actual gate と数えず、production positive の時�
 
 これは provenance manifest の値型だけの strict-equality STOP であり、actual roof
 presentation や witness に対する negative evidence ではない。
+
+#### v220-Δ9 — 2026-08-28 11:46 JST
+
+**個別進捗**:
+
+- v224 の manifest 型修正を commit
+  `ba6803cccdb3d77b35365854dea4ec627283c25c` に固定した。
+- task198 production を GHA run `33136789684` として同じ immutable head で再開した。
+  先行する precomputation STOP の時刻を越えて GAP-script step で実行中であるが、terminal
+  artifact はまだない。
+
+**v220 内進捗**:
+
+- A1 は **3/4 RUNNING**。実行開始や経過時間は分子に数えず、producer と independent
+  checker の production acceptance が揃った時だけ 4/4 とする。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
+
+従って actual witness 主鎖の complete gate はまだ 0 件である。

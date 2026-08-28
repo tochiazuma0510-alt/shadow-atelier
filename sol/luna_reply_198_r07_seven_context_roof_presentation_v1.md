@@ -390,6 +390,21 @@ MANIFEST VALUE TYPES:         REPAIRED (`artifact_id`, `run`)
 V220-A1:                      3/4
 MATHEMATICAL NEGATIVE:        NONE
 
+## 18. Parent production rerun after v224 (2026-08-28)
+
+Parent Sol committed and pushed the manifest type repair as
+`ba6803cccdb3d77b35365854dea4ec627283c25c`, then dispatched task198
+PRODUCTION as GHA run `33136789684` at that immutable head. Unlike the preceding
+precomputation failures, the run remained in the GAP-script step beyond their
+failure time. No terminal artifact is yet available, so this is recorded only
+as an in-progress execution and not as production acceptance.
+
+RUN 33136789684:              IN PROGRESS
+IMMUTABLE HEAD:               ba6803cccdb3d77b35365854dea4ec627283c25c
+TASK198 PRODUCTION MILESTONE: NOT YET COUNTED
+V220-A1:                      3/4 RUNNING
+COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
+
 ## 14. Production manifest schema STOP and repair (2026-08-28)
 
 Run `33135921512` reached producer terminal `UNKNOWN_INPUT` before the 6,441-row
