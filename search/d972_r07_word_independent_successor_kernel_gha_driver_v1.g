@@ -11,7 +11,7 @@ D232OK:="ci/out/d972_r07_word_independent_successor_kernel_v1.ok";;
 D232PLog:="ci/out/d972_r07_word_independent_successor_kernel_v1.producer.log";;
 D232CLog:="ci/out/d972_r07_word_independent_successor_kernel_v1.checker.log";;
 D232Sh:="ci/out/d972_r07_word_independent_successor_kernel_v1.sh";;
-D232Pins:=[[D232Producer,88686,"3ebd8a5e2af597bb38790469b055d6e61e27b86f06653320289885cd834dd8e6"],[D232Checker,54874,"dd41f90fc3cb5c5701655abaea56fc82178a56d32fcf9c631d723933d7ea2bc0"],[D232Fixture,720,"302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7"]];;
+D232Pins:=[[D232Producer,88706,"c884253038800d7ecdaa3931c57adb0f02b1e5f4d87a6533dfb09e65a94edd81"],[D232Checker,54874,"dd41f90fc3cb5c5701655abaea56fc82178a56d32fcf9c631d723933d7ea2bc0"],[D232Fixture,720,"302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7"]];;
 D232Read:=function(path) local x; x:=StringFile(path); if x=fail or Length(x)=0 then Error("task232 missing ",path); fi; return x; end;;
 D232Pin:=function(row) local x; x:=D232Read(row[1]); if Length(x)<>row[2] or HexSHA256(x)<>row[3] then Error("task232 pin drift ",row[1]); fi; end;;
 for D232PinRow in D232Pins do D232Pin(D232PinRow); od;

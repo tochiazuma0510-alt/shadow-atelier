@@ -24,9 +24,9 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 ```
 
 ```text
-producer  88686  3ebd8a5e2af597bb38790469b055d6e61e27b86f06653320289885cd834dd8e6
+producer  88706  c884253038800d7ecdaa3931c57adb0f02b1e5f4d87a6533dfb09e65a94edd81
 checker   54874  dd41f90fc3cb5c5701655abaea56fc82178a56d32fcf9c631d723933d7ea2bc0
-driver     4242  6b8350c4683f20923c96e2689015b245894983ba8045ca71b2c48d178918f558
+driver     4242  ddcd1ca059e3b0460f9043b87930ea4bdbd5259097eedd7b4f818059797561be
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -125,6 +125,9 @@ validation checks the ten typed successors/source words separately from
 `roof_reductions == [True] * 10`, and the producer mutation changes one ledger
 entry. The remaining mutation paths were audited; `false_ihara` now targets
 the extant `Ihara_witness` field explicitly.
+Task266 repairs the producer's tuple-owned `repeated_e3_insertion` mutation
+with tuple slicing, preserving the owner type and reaching the semantic gate
+without an `AttributeError`.
 
 ## 10. Resources, driver, and ledger
 
