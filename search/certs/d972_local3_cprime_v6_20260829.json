@@ -1,0 +1,90 @@
+{
+  "schema": "d972-local3-cprime-v6/1",
+  "ruling": "falsifier 最終監査 裁定1750 に厳密準拠して発行(implementer transcription pass, 2026-08-29)",
+  "supersedes": ["search/certs/d972_local3_v14_orient_v1_20260828.json (v1-v5 SELECT declarations, WITHDRAWN histories)"],
+
+  "1_select": {
+    "status": "UNDECLARED",
+    "note": "3 度目のブロック。以下 3 理由すべてが成立しているため SELECT は宣言不可。",
+    "reasons": [
+      {"code": "C", "label": "選別力ゼロ(MapB不変)", "detail": "MapB(ラベリング再対応)を動かしても判別に寄与しない不変量であることが v14 cert の1512/1512全数探索で確認済み — SELECTを支える判別力がこの構成には存在しない。"},
+      {"code": "B", "label": "循環(roster由来fit)", "detail": "K3側のr(あるいは符号)をrosterへの適合から事後選ぶと、roster自身がその適合で定義されているため証明として循環する。"},
+      {"code": "D", "label": "記号すり替え(ORIENT Psi != 当てはめ Psi')", "detail": "ORIENT定理が要求する類関数Psiと、実際にrosterへ当てはめて構成したPsi'は別物であり、後者でのfitをもって前者の確認としてはならない。"}
+    ]
+  },
+
+  "2_weak_forms_declared": {
+    "E_undecidability": {
+      "statement": "Psi は PSL(2,8) 上の類関数でない ⟹ Frobenius 分解型から決定不能",
+      "grade": "cross-checked"
+    },
+    "C_weak": {
+      "statement": "census delta 列 = 2405 Thm 4.3 正典三つ組と 972/972 一致(第1連言恒真につき実効3連言)",
+      "grade": "cross-checked",
+      "forbidden_wording": "「r を pin」という文言はこの弱形の記述に使用してはならない(禁止事項として明記)"
+    },
+    "B_weak": {
+      "statement": "NN-09/NN-12 の順序なし対は X^0 上 ker(Psi' -+ K3) と π-fibre 記述可能",
+      "grade": "candidate"
+    }
+  },
+
+  "3_factual_corrections": [
+    {
+      "old_wrong_text": "8 素数",
+      "corrected_text": "3 素数(候補12中8が判別的、S10実使用は [19,37,73])",
+      "note": "「8素数」という記述は誤り。判別力を持つ候補は12中8だが、S10段で実際に使用されたのは3個 [19,37,73]。"
+    },
+    {
+      "old_wrong_text": "V4 486/486",
+      "corrected_text": "現存 cert (search/certs/d972_local3_v14_orient_v1_20260828.json) は V4 FAIL(1512/1512候補で全数不成立)であり、これは当てはめ Psi'(ORIENT の Psi そのものではない)での再評価結果であると明記する。",
+      "note": "「V4 486/486」という記述はこのプロジェクトの現存certの内容と矛盾する誤記。正しくは0/1512 PASS(=1512/1512 FAIL)。"
+    },
+    {
+      "roster_name_annotation": "roster 名(NN-09/NN-12)には row_indices_sha256 を併記する。今回コーディネータから指定された値 4042644557996fd7... は search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json 内 nonnormal_candidates 配列のエントリで完全一致するバイト列として実装担当が確認済み(該当行: row_indices_sha256 = 4042644557996fd70c0a6bcf0b375d8ad7e26181838fe4d2ea828fdbaeb8b4fd)。ただしこのエントリがNN-09/NN-12いずれのラベルに対応するかの再照合はこのパスでは未実施(census内のNN-jjラベルは辞書順ランクに過ぎず符号意味を持たない、というD-6既知の事実により、ラベル対応の確定にはコーディネータ/数学者側の追加指定が必要)。",
+      "confirmed_hash_present_in_census": true,
+      "confirmed_full_hash": "4042644557996fd70c0a6bcf0b375d8ad7e26181838fe4d2ea828fdbaeb8b4fd"
+    }
+  ],
+
+  "4_pending_fields": {
+    "conclusion_pending_joint_marked_row": true,
+    "conclusion_pending_joint_marked_row_note": "census外接地の唯一の経路。5必須フィールドが8/23から未充足のまま復活登録。",
+    "pending_P5prime_comparison_map": true,
+    "pending_P5prime_comparison_map_note": "P5' 比較写像(ORIENT Psi と当てはめ Psi' を橋渡しする比較写像)が未構築であることを新規pending項目として明示。",
+    "pending_linkage_type_gate": true,
+    "pending_linkage_type_gate_note": "linkage type ゲート(B弱形のπ-fibre記述をcandidateからcross-checkedへ格上げするために必要な追加ゲート)が未通過であることを新規pending項目として明示。"
+  },
+
+  "5_permanent_rule_transcription": {
+    "rule": "翻訳ビットの census 内導出の提案は禁止(ORIENT (e)・3 回実証)",
+    "requirement": "この禁則に抵触しない提案とするには、提案に外部入力の特定を必須とする(census内部のデータのみからの自己言及的導出は3度実証済みの誤りパターンであるため、以後提案する際は必ず「外部入力は何か」を明記すること)。"
+  },
+
+  "6_D13_ledger_transcription_and_canary_repair": {
+    "D13_statement_transcribed": "κ は整数として偶数である。しかし mod 9 への還元は偶奇不変ではない(9が奇数のため、偶数+9=奇数となり偶奇が反転しうる)。偶数のまま mod 18 へ持ち上げることで 12/12 (実データに現れる12個のm値) が一意に復元可能である、とD-13で指摘されている。",
+    "canary_hole_identified": "scratchpad/math_thm43_k_v1.g は kappa を {0,2,4,6,8} という偶数値のみでスイープしており、実データが mod 9 還元後に実現する奇数残余 {1,3,7} を一度も検査していなかった。",
+    "repair_script": "scratchpad/math_thm43_k_v2.g",
+    "repair_method": "972行artifactから実際に出現する m 値(GAP側で独立に再読込)を全12個抽出し、kappa(m):=(m+1 if m odd else -m) を整数として計算、mod 9 に還元して実際に出現する残余集合を求め、その全域(偶数のみに限定しない)で恒等式 psi(x^{2k} y^{-2k} z^{kappa}) = (r^{2k}, r^{-2k}, r^{kappa}) を再検査した。",
+    "results": {
+      "real_m_values": [0, 2, 3, 5, 6, 8, 9, 11, 12, 14, 15, 17],
+      "kappa_as_integers": [-14, -12, -8, -6, -2, 0, 4, 6, 10, 12, 16, 18],
+      "all_kappa_even_as_integers": true,
+      "kappa_mod_9_real_residues": [0, 1, 3, 4, 6, 7],
+      "odd_residues_1_3_7_occur": true,
+      "identity_holds_for_real_residue_set": false,
+      "identity_holds_for_even_subset_only": true,
+      "mismatch_count": 27,
+      "mismatch_detail": "kappa in {1,3,7}(全て奇残余)で k=0..8 の全27組合せが恒等式に不一致。kappa in {0,4,6}(偶残余)では不一致なし。"
+    },
+    "verdict": "CANARY HOLE CONFIRMED REAL: v1で見過ごされていた奇残余kappaで恒等式 psi(x^{2k}y^{-2k}z^{kappa})=(r^{2k},r^{-2k},r^{kappa}) が実際に破れる(27/27不一致)。これは修理前は検出不能だった一級の否定的事実であり、Thm4.3の当該恒等式をmod9残余ベースで無条件に適用してはならないことを示す。r^{kappa}の評価はGAP側でr(位数9)のべき乗として自動的にmod9還元されるため、この不一致は表現上の見せかけではなく真の群論的不成立である。",
+    "note_scope": "この結果はThm4.3の恒等式そのものの一般的な誤りを主張するものではなく、この特定の(px,py,pz構成・kappaの与え方)datum上での検査結果であることを明記する。"
+  },
+
+  "grade": "candidate (ledger transcription items 1-5) + candidate (item 6 canary repair, machine-computed GAP output, single-system this pass)",
+  "generated_by": {
+    "scripts": ["scratchpad/math_thm43_k_v2.g"],
+    "tool": "GAP 4.16.0 (+ json package)",
+    "machine_output_only": true
+  }
+}
