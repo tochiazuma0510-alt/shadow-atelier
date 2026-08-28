@@ -4874,3 +4874,34 @@ case, and memory ceiling which the v12a implementation must now realize.
 
 Delta113 freezes the useful A4 implementation without mistaking a deliberate
 SELFTEST stop or an in-memory mutation roster for physical evidence.
+
+### Delta 114 (2026-08-29): post-selection A0 carrier and one-pass digest contract
+
+- Added `sol/proof_r07_postselection_heavy_carrier_bootstrap_v296.md`.
+  It separates the pre-selection Q0/Gamma input digest from the final
+  selected Q0/Gamma/K0/dual carrier.  The latter canonically binds P0, both
+  code identities, every frozen authority, the actual selected key and
+  complete ordinary replay state; a 64-hex shape or pre-K0 digest cannot
+  substitute for it.
+- V296 fixes the noncircular runtime route
+  `sources/authorities -> P0 -> driver -> R -> V`: R exposes the final carrier
+  at top level, and V binds the physical R while independently reconstructing
+  the same carrier.  V12a remains candidate-only; exact R/V pins belong only
+  to v12b.
+- V296 also proves that the 1,469,664-state K0 digest and the 4,194,304-slot
+  digest can be frozen after one build/one slot scan and reused by all
+  selected-record mutations and coordinate release.  Recomputing state,
+  slot and public digests on every mutation is forbidden avoidable work.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V12A SELFTEST-BOOTSTRAP IMPLEMENTATION ACTIVE**.  The
+  selected-carrier/digest subcontract is now fixed on paper, but no complete
+  checker, mutation receipt, P0/R/V artifact, Sol(max) PASS or GHA terminal
+  exists.
+- A4 remains **1/3; V6 PHYSICAL-MUTATION REPAIR ACTIVE**.  All other counts
+  remain Delta113.  No compatible lift, fake certificate, Ihara
+  counterexample or cofinal witness has been constructed.
+
+Delta114 prevents the live A0 implementation from authenticating the wrong
+phase or paying a million-state rescan for each mutation.
