@@ -194,8 +194,12 @@ if D198Count(D198Fixture,"d972-r07-seven-context-roof-presentation-selftest-fixt
    D198Count(D198Fixture,"\"mutation_count\": 44")<>1 then
   Error("task198: fixture schema/count");
 fi;
-CreateDirectory("ci/out");;
+if not IsDirectoryPath("ci/out") then
+  if CreateDir("ci/out")=fail then Error("task198: cannot create ci/out"); fi;
+fi;
+if not IsDirectoryPath("ci/out") then Error("task198: ci/out is not a directory"); fi;
 D198S:=OutputTextFile(D198SPath,false);;
+if D198S=fail then Error("task198: cannot open generated shell after ci/out creation"); fi;
 SetPrintFormattingStatus(D198S,false);;
 PrintTo(D198S,"#!/usr/bin/env bash\nset -euo pipefail\nmkdir -p ci/out\n");
 PrintTo(D198S,"printf 'TASK198_RESOURCE_ESTIMATE wall_seconds=",D198EstimatedWallSeconds,

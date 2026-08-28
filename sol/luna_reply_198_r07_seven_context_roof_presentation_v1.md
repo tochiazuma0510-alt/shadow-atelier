@@ -231,3 +231,51 @@ mathematical lift/fake/Ihara result:  NOT DECLARED
 
 Please send these exact five files to a new independent static auditor before
 any runtime or mathematical claim is promoted.
+
+## 9. Task220a — GAP `CreateDirectory` portability repair (2026-08-28)
+
+The task-220a instruction was read in full. The only code change is the
+replacement of unavailable `CreateDirectory("ci/out")` by the fixed-path,
+quoted GAP `Exec("mkdir -p 'ci/out'")` mechanism, followed by an explicit
+`OutputTextFile` failure check. This preserves the serial generated-shell
+contract and fails closed if `ci/out` cannot be created or opened. No producer,
+checker, fixture, workflow, proof, claim, or other file was modified.
+
+Static byte/SHA identities after this repair:
+
+```text
+driver  19086  0751d13cdd6fc06837622c5c6cdf48f71fbbf71556a9d89bd6e044c23f23523d
+reply   reported out-of-band after this append (self-referential digest avoided)
+```
+
+No Python, Node, GAP, git, GHA, network, producer, or checker execution was
+performed by Luna. Parent Sol must rerun the GHA SELFTEST and obtain a new
+independent audit.
+
+TASK198 GAP DIRECTORY PORTABILITY: STATICALLY REPAIRED / GHA NOT RUN BY LUNA
+TASK198 PRODUCER/CHECKER SELFTEST:  NOT EXECUTED BY LUNA
+MATHEMATICAL ROOF BRIDGE:           NOT DECLARED
+
+`TASK220A_TASK198_CREATEDIRECTORY_PORTABILITY_COMMISSIONED`
+
+## 10. Task220a addendum — native GAP API correction (2026-08-28)
+
+The prior §9 `Exec("mkdir -p ...")` repair was rejected by the additional
+portability audit because local GAP 4.16.0 provides the native `CreateDir`
+API. The driver now uses `IsDirectoryPath("ci/out")`, calls native
+`CreateDir("ci/out")` only when needed, explicitly rejects `fail`, verifies
+the resulting directory, and retains the `OutputTextFile` failure check.
+No shell subprocess is used for directory creation.
+
+Updated static identity:
+
+```text
+driver  19266  38b8d5efbf2694c59818f62df6d379113f1a8443c86d423f70e0cf464a394570
+reply   reported out-of-band after this append (self-referential digest avoided)
+```
+
+Producer, checker, mathematics, and all runtime execution remain untouched;
+Luna ran no Python, Node, GAP, git, GHA, or network command. Parent Sol must
+rerun the GHA SELFTEST.
+
+TASK220A NATIVE GAP DIRECTORY CORRECTION: STATICALLY REPAIRED / GHA NOT RUN BY LUNA
