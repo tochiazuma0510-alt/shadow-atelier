@@ -89,10 +89,20 @@ PB4_BRACKETS = {
  (3,4):(0,0,0,1),(3,5):(0,0,0,-1),(4,5):(0,0,0,1)
 }
 def bracket(i,j,d):
-    if i==j: return (0,)*d
-    if i>j: return tuple(-x % MOD for x in bracket(j,i,d))
-    if d==1: return tuple(x % MOD for x in PB3_BRACKETS.get((i,j),(0,)))
-    return tuple(x % MOD for x in PB4_BRACKETS.get((i,j),(0,0,0,0)))
+    if d==3:
+        table=PB3_BRACKETS; width=1
+    elif d==6:
+        table=PB4_BRACKETS; width=4
+    else:
+        raise Stop("Q degree")
+    if i==j:
+        out=(0,)*width
+    elif i>j:
+        out=tuple(-x % MOD for x in bracket(j,i,d))
+    else:
+        out=tuple(x % MOD for x in table.get((i,j),(0,)*width))
+    require(len(out)==width,"Q bracket width")
+    return out
 def cmul(a,b,d):
     na=a[:d]; nz=a[d:]; nb=b[:d]; nw=b[d:]
     c=[(na[i]+nb[i])%MOD for i in range(d)]
@@ -128,8 +138,12 @@ def class2_facts(d):
             h=cmul(cmul(cmul(cinv(gens[i],d),cinv(gens[j],d),d),gens[i],d),gens[j],d)
             expected=[0]*ncent; q=bracket(i,j,d)
             require(h==tuple([0]*d+list(q)),"Q commutator")
-    if d==3: require(bracket(0,2,d)==(8,),"Q negative PB3 canonical")
-    if d==6: require(bracket(0,3,d)==(8,0,0,0),"Q negative PB4 canonical")
+    if d==3:
+        require(bracket(0,1,d)==(1,),"Q positive PB3 canonical")
+        require(bracket(0,2,d)==(8,),"Q negative PB3 canonical")
+    if d==6:
+        require(bracket(0,1,d)==(1,0,0,0),"Q positive PB4 canonical")
+        require(bracket(0,3,d)==(8,0,0,0),"Q negative PB4 canonical")
     return {"degree":d,"width":d+ncent,"generator_count":len(gens),"brackets_checked":d*(d-1)//2}
 def exhaustive_arithmetic_oracle():
     """Independent finite oracle: every PB3 element/pair and direct word roster."""

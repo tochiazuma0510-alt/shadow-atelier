@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 SCHEMA="d972-r07-actual-two-word-endpoint-specializer/v2"; SELF_SCHEMA=SCHEMA+"/selftest"
 SELFTEST="R07_ACTUAL_TWO_WORD_ENDPOINT_SPECIALIZER_V2_SELFTEST_PASS"; COMPLETE="R07_ACTUAL_TWO_WORD_ENDPOINT_SPECIALIZER_V2_COMPLETE"
 UNKNOWN_INPUT="UNKNOWN_INPUT"; UNKNOWN_RESOURCE="UNKNOWN_RESOURCE"; MOD=9
+CONCLUSION_FLAGS=("boundary_membership","pointed_mu1","exact_pb_endpoint_zero","cofinal_lift","fake","Ihara_witness")
 FIXTURE="search/certs/d972_r07_actual_two_word_endpoint_specializer_selftest_v2_20260828.json"
 TASK192="ci/in/d972_r07_normalized_exact_common_word_cached_v3.json"; TASK198="ci/in/d972_r07_seven_context_roof_presentation_v1.json"
 MUTATIONS=["word_g0","word_a","word_f","ledger_block","ledger_sign","ledger_orientation","ledger_prefix","group_width","group_brackets","actor_convention","fox_d_occ","fox_d_raw","fox_B_a","fox_e","fox_D1_d","fox_D1_e","occurrence_p","u0_value","u0_provenance","abi_seal","task192_binding","task198_binding","terminal_input","terminal_resource","output_freshness","forbidden_conclusion"]
@@ -34,6 +35,16 @@ def canon(x): return json.dumps(x,sort_keys=True,separators=(",",":"),ensure_asc
 def seal(x):
  require(type(x) is dict and isinstance(x.get("self_digest_sha256"),str),"seal")
  y=dict(x); s=y.pop("self_digest_sha256"); require(s==hashlib.sha256(canon(y)).hexdigest(),"seal digest")
+def classify_receipt(x,selftest):
+ if selftest:
+  require(x.get("schema")==SELF_SCHEMA,"selftest schema")
+  term=x.get("terminal");require(term==SELFTEST,"selftest terminal")
+ else:
+  require(x.get("schema")==SCHEMA,"production schema")
+  term=x.get("terminal");require(term in (COMPLETE,UNKNOWN_INPUT,UNKNOWN_RESOURCE),"terminal")
+ if term in (SELFTEST,COMPLETE):
+  for flag in CONCLUSION_FLAGS:require(x.get(flag) is False,"forbidden conclusion:"+flag)
+ return term
 def seal_task192(x):
  require(type(x) is dict and type(x.get("self_digest")) is str and "self_digest_sha256" not in x,"task192 seal dialect");y=dict(x);s=y.pop("self_digest");require(s==digest(y),"task192 seal digest")
 def seal_task198(x):
@@ -68,9 +79,14 @@ def fox(w,d):
 PB3={(0,1):(1,),(0,2):(-1,),(1,2):(1,)}
 PB4={(0,1):(1,0,0,0),(0,3):(-1,0,0,0),(1,3):(1,0,0,0),(0,2):(0,1,0,0),(0,4):(0,-1,0,0),(2,4):(0,1,0,0),(1,2):(0,0,1,0),(1,5):(0,0,-1,0),(2,5):(0,0,1,0),(3,4):(0,0,0,1),(3,5):(0,0,0,-1),(4,5):(0,0,0,1)}
 def br(i,j,d):
- if i==j:return (0,)*(1 if d==3 else 4)
- if i>j:return tuple(-v%9 for v in br(j,i,d))
- return tuple(v%9 for v in (PB3 if d==3 else PB4).get((i,j),(0,)*(1 if d==3 else 4)))
+ if d==3:table=PB3;width=1
+ elif d==6:table=PB4;width=4
+ else:raise Stop("Q degree")
+ if i==j:out=(0,)*width
+ elif i>j:out=tuple(-v%9 for v in br(j,i,d))
+ else:out=tuple(v%9 for v in table.get((i,j),(0,)*width))
+ require(len(out)==width,"Q bracket width")
+ return out
 def mul(a,b,d):
  z=[(a[d+k]+b[d+k])%9 for k in range(len(a)-d)]; q=[(a[i]+b[i])%9 for i in range(d)]
  for i in range(d):
@@ -98,8 +114,12 @@ def class2_facts(d):
  for i in range(d):
   for j in range(i+1,d):
    h=mul(mul(mul(inv(gs[i],d),inv(gs[j],d),d),gs[i],d),gs[j],d);q=br(i,j,d);require(h==tuple([0]*d+list(q)),"Q commutator")
- if d==3:require(br(0,2,d)==(8,),"Q negative PB3 canonical")
- if d==6:require(br(0,3,d)==(8,0,0,0),"Q negative PB4 canonical")
+ if d==3:
+  require(br(0,1,d)==(1,),"Q positive PB3 canonical")
+  require(br(0,2,d)==(8,),"Q negative PB3 canonical")
+ if d==6:
+  require(br(0,1,d)==(1,0,0,0),"Q positive PB4 canonical")
+  require(br(0,3,d)==(8,0,0,0),"Q negative PB4 canonical")
  return {"degree":d,"width":len(one),"generator_count":d,"brackets_checked":d*(d-1)//2}
 def exhaustive_arithmetic_oracle():
  vals=[tuple(a)+tuple(z) for a in __import__("itertools").product(range(3),repeat=3) for z in __import__("itertools").product(range(3),repeat=1)];one=(0,0,0,0)
@@ -111,7 +131,7 @@ def exhaustive_arithmetic_oracle():
  for i,j in ((0,1),(0,2),(1,0),(1,2),(2,0),(2,1)):
   require(evalw(comm([i+1],[j+1]),3)==tuple([0,0,0]+list(br(i,j,3))),"PB3 direct bracket roster")
  for i,j in PB4:
-  require(evalw(comm([i+1],[j+1]),6)==tuple([0]*6+list(br(i,j,6)),),"PB4 direct bracket roster")
+  require(evalw(comm([i+1],[j+1]),6)==tuple([0]*6+list(br(i,j,6))),"PB4 direct bracket roster")
   require(evalw(comm([j+1],[i+1]),6)==tuple([0]*6+list(br(j,i,6))),"PB4 inverse bracket roster")
 def zero_safe_oracle():
  one=(0,0,0,0);require(add({}, {one:1})=={one:1},"r_o=1 setup");xi=add({one:1},{one:2});endpoint_one_minus_two=add({one:1},{one:2});translated_minus_original=add({one:1},{one:1},-1);require(xi=={},"xi coincident key");require(endpoint_one_minus_two=={},"one-minus endpoint coincident key");require(translated_minus_original=={},"translated-minus-original coincident key")
@@ -204,11 +224,11 @@ def expected_ledger():
  b=["H1","H1","H1","H2","H2","H2","P1","P2","P3","P5","P4"];t=["E3"]*6+["E4"]*5;ti=[0,1,2,3,0,4,5,6,7,8,9];c=[21,22,23,24,21,25,1,27,21,26,28];r=["hexagon_fxy","hexagon_fxz","hexagon_fyz","hexagon_fux","hexagon_fxy","hexagon_fuy","pentagon_b1","pentagon_b2","pentagon_b3","pentagon_b5_inverse_slot","pentagon_b4_inverse_slot"];s=[1,-1,1,-1,-1,1,1,1,1,-1,-1];o=["direct","inverse","direct","inverse","inverse","direct","direct","direct","direct","inverse","inverse"];p=[[3,2],[3],[],[6,5],[6],[],[11,10,9,8],[11,10,9],[11,10],[11],[]]; tags=["H1_fxy","H1_fxz","H1_fyz","H2_fux","H2_fxy","H2_fuy","P_b1","P_b2","P_b3","P_b5_inverse","P_b4_inverse"]
  return [{"ordinal":i+1,"block":q,"block_index":1 if q=="H1" else 2 if q=="H2" else i-3,"block_slot":1 if q not in ("H1","H2") else i%3+1,"occurrence":tags[i],"type":t[i],"ten_index":ti[i],"context_id":c[i],"role":r[i],"factor_sign":s[i],"orientation":o[i],"fox_prefix_occurrences":p[i]} for i,q in enumerate(b)]
 def validate(pkg,actual=None):
- w=pkg.get("words",{});rows=pkg.get("occurrences");require(w.get("f")==red(w.get("g0",[])+w.get("a",[])),"word replay");require(rows==expected_ledger(),"literal ledger")
+ w=pkg.get("words",{});rows=pkg.get("occurrences");require(w.get("f")==red(w.get("g0",[])+w.get("a",[])),"mutation word");require(rows==expected_ledger(),"literal ledger")
  require(pkg.get("output_guard")=="fresh-output-only","fresh output gate")
  if "canary" in pkg.get("predecessor_bindings",{}).get("task192",{}): require(pkg.get("predecessor_bindings",{}).get("task192",{}).get("canary")=="task192-selftest-binding" and pkg.get("predecessor_bindings",{}).get("task198",{}).get("canary")=="task198-selftest-binding","predecessor binding gate")
  if "terminal_probes" in pkg: require(pkg["terminal_probes"].get("input",{}).get("terminal")==UNKNOWN_INPUT and pkg["terminal_probes"].get("resource",{}).get("terminal")==UNKNOWN_RESOURCE,"terminal probe gate")
- g=pkg.get("group",{});require(g.get("q3_width")==4 and g.get("q4_width")==10 and g.get("actor_width")==3,"widths");require(g.get("PB3_facts")==class2_facts(3) and g.get("PB4_facts")==class2_facts(6),"Q facts")
+ g=pkg.get("group",{});require(g.get("q3_width")==4 and g.get("q4_width")==10 and g.get("actor_width")==3,"mutation width");require(g.get("PB3_facts")==class2_facts(3) and g.get("PB4_facts")==class2_facts(6),"Q facts")
  require(g.get("PB3_brackets")==[[[0,1],[1]],[[0,2],[-1]],[[1,2],[1]]] and g.get("PB4_brackets")==[[[0,1],[1,0,0,0]],[[0,3],[-1,0,0,0]],[[1,3],[1,0,0,0]],[[0,2],[0,1,0,0]],[[0,4],[0,-1,0,0]],[[2,4],[0,1,0,0]],[[1,2],[0,0,1,0]],[[1,5],[0,0,-1,0]],[[2,5],[0,0,1,0]],[[3,4],[0,0,0,1]],[[3,5],[0,0,0,-1]],[[4,5],[0,0,0,1]]],"Q facts")
  h,z=actor_facts();require(g.get("actor",{}).get("order")==729 and g["actor"].get("h")==list(h) and g["actor"].get("z0")==list(z),"group facts")
  ids=pkg.get("identities",{});require(ids and all(type(v) is bool and v for v in ids.values()),"Fox identities")
@@ -235,6 +255,8 @@ def validate(pkg,actual=None):
    parse_endpoint(lit[key][b],width)
   parse_endpoint(abi["bar_epsilon_1"][b],width)
  require(all(isinstance(abi["bar_epsilon_1"][b],list) for b in ("H1","H2","P")),"epsilon list schema")
+ for flag in ("boundary_membership","pointed_mu1","exact_pb_endpoint_zero","cofinal_lift","fake","Ihara_witness"):
+  require(pkg.get(flag,False) is False,"forbidden conclusion:"+flag)
 MUTATION_GATES={"word_g0":"mutation word","word_a":"mutation word","word_f":"mutation word","ledger_block":"literal ledger","ledger_sign":"literal ledger","ledger_orientation":"literal ledger","ledger_prefix":"literal ledger","group_width":"mutation width","group_brackets":"Q facts","actor_convention":"actor convention","fox_d_occ":"fresh complete ABI rebuild","fox_d_raw":"fresh complete ABI rebuild","fox_B_a":"fresh complete ABI rebuild","fox_e":"fresh complete ABI rebuild","fox_D1_d":"fresh complete ABI rebuild","fox_D1_e":"fresh complete ABI rebuild","occurrence_p":"fresh complete ABI rebuild","u0_value":"u0 provenance","u0_provenance":"u0 provenance","abi_seal":"ABI seal","task192_binding":"predecessor binding","task198_binding":"predecessor binding","terminal_input":"terminal probe gate","terminal_resource":"terminal probe gate","output_freshness":"fresh output gate","forbidden_conclusion":"forbidden conclusion"}
 def mutation_owner(bundle,name):
  if name=="word_g0":return bundle["words"]["g0"]
@@ -354,6 +376,9 @@ def execute_terminal_probes(budget):
  try: budget.bump("checker_work",1,"live resource probe");raise Stop("resource probe unexpectedly accepted")
  except ResourceStop as e: limited=envelope(SCHEMA,UNKNOWN_RESOURCE,{"reason":{"phase":e.phase,"cap":e.cap,"value":e.value,"limit":e.limit}})
  finally: budget.caps["checker_work"]=old
+ seal(bad);seal(limited)
+ require(classify_receipt(bad,False)==UNKNOWN_INPUT,"typed UNKNOWN_INPUT probe")
+ require(classify_receipt(limited,False)==UNKNOWN_RESOURCE,"typed UNKNOWN_RESOURCE probe")
  return bad,limited
 def main(argv=None):
  ap=argparse.ArgumentParser();ap.add_argument("receipt");ap.add_argument("--selftest",action="store_true");ap.add_argument("--fixture",default=FIXTURE);ap.add_argument("--task192",default=TASK192);ap.add_argument("--task198",default=TASK198);ap.add_argument("--task192-attestation",default="ci/in/d972_r07_normalized_exact_common_word_cached_v3.attestation");ap.add_argument("--task198-attestation",default="ci/in/d972_r07_seven_context_roof_presentation_v1.attestation");ap.add_argument("--verdict");args=ap.parse_args(argv)
@@ -363,13 +388,12 @@ def main(argv=None):
    candidate=ROOT/Path(source)
    if candidate.exists():budget.bump("input_bytes",candidate.stat().st_size,"input staging")
   receipt_path=str(args.receipt);rp=Path(receipt_path);require(not rp.is_absolute() and ".." not in rp.parts and receipt_path.replace("\\","/")==rp.as_posix() and receipt_path.startswith("ci/out/"),"receipt path alias")
-  raw_receipt=(ROOT/rp).read_bytes();r=json.loads(raw_receipt);seal(r)
+  raw_receipt=(ROOT/rp).read_bytes();r=json.loads(raw_receipt);seal(r);term=classify_receipt(r,args.selftest)
   if args.verdict and (ROOT/args.verdict).exists(): print("D226_CHECKER_PASS terminal="+UNKNOWN_INPUT+" reason=stale verdict refused");return 0
   reconstructed_for_verdict=None
   if args.selftest:
-   require(r.get("schema")==SELF_SCHEMA and r.get("terminal")==SELFTEST,"selftest envelope");validate(r["result"]);reconstructed_for_verdict=reconstruct(r["result"]["words"]["g0"],r["result"]["words"]["a"],r["result"]["occurrences"]);zero_safe_oracle();exhaustive_arithmetic_oracle();bad,limited=execute_terminal_probes();probes=r["result"].get("terminal_probes",{});require(probes.get("input")==bad and probes.get("resource")==limited,"executed terminal probes");f=json.loads((ROOT/args.fixture).read_bytes());require(f.get("mutation_controls")==MUTATIONS,"fixture roster");independent_mutations(r["result"]);budget.bump("mutation_work",len(MUTATIONS),"independent mutations");budget.bump("checker_work",1,"selftest reconstruction");term=SELFTEST
+   validate(r["result"]);reconstructed_for_verdict=reconstruct(r["result"]["words"]["g0"],r["result"]["words"]["a"],r["result"]["occurrences"]);zero_safe_oracle();exhaustive_arithmetic_oracle();bad,limited=execute_terminal_probes(budget);probes=r["result"].get("terminal_probes",{});require(probes.get("input")==bad and probes.get("resource")==limited,"executed terminal probes");f=json.loads((ROOT/args.fixture).read_bytes());require(f.get("mutation_controls")==MUTATIONS,"fixture roster");independent_mutations(r["result"]);budget.bump("mutation_work",len(MUTATIONS),"independent mutations");budget.bump("checker_work",1,"selftest reconstruction")
   else:
-   require(r.get("schema")==SCHEMA,"production schema");term=r.get("terminal");require(term in (COMPLETE,UNKNOWN_INPUT,UNKNOWN_RESOURCE),"terminal")
    if term==COMPLETE:
     raw192=(ROOT/args.task192).read_bytes();raw198=(ROOT/args.task198).read_bytes();t192=json.loads(raw192);t198=json.loads(raw198);seal_task192(t192);seal_task198(t198);require(t192.get("schema")=="d972-r07-normalized-exact-common-word-cached/v3" and t192.get("terminal")=="R07_NORMALIZED_EXACT_CACHED_COLGEN_V3_COMMON_WORD" and t198.get("schema")=="d972-r07-seven-context-roof-presentation/v1" and t198.get("status")=="COMPLETE" and t198.get("terminal")=="ROOF_BRIDGE_ISOMORPHISM","receipts");a192=check_attestation(args.task192_attestation,args.task192,raw192,"d972-r07-task192-production-binding/v1");a198=check_attestation(args.task198_attestation,args.task198,raw198,"d972-r07-task198-production-binding/v1");actual_g0=t192["g760"];actual_a=t192["exactification"]["literal"]["c_exact"];actual_f=t192["exact_direct_replay"]["replay"]["corrected_word"];actual_rows=t198["bridge"]["occurrence_ledger"];require(actual_f==red(actual_g0+actual_a),"actual predecessor word relation");require(r["result"].get("words",{}).get("g0")==actual_g0 and r["result"]["words"].get("a")==actual_a and r["result"]["words"].get("f")==actual_f and r["result"].get("occurrences")==actual_rows,"producer/predecessor datum binding");validate(r["result"],(actual_g0,actual_a,actual_rows));reconstructed_for_verdict=reconstruct(actual_g0,actual_a,actual_rows);pb=r["result"].get("predecessor_bindings",{});require(pb.get("task192",{}).get("sidecar_sha256")==digest(a192) and pb.get("task198",{}).get("sidecar_sha256")==digest(a198),"predecessor identity binding")
    if args.verdict:
