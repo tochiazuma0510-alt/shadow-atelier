@@ -136,6 +136,7 @@ PINS = {
     "task157ee_receipt": ("ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json", 2166036, "1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df"),
     "q3_receipt": ("ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.json", 231570, "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"),
     "e4_arithmetic": ("search/d972_b345_seedspan_triple4_v1.py", 535219, "fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29"),
+    "e4_arithmetic_checker": ("search/check_d972_b345_seedspan_triple4_v1.py", 574347, "ef5125e3b7e328ce8aa8cfd4c36d0937e28f44a480188fcd4ed01a37eb80b981"),
     "selftest_fixture": ("search/certs/d972_r07_seven_context_roof_presentation_selftest_v1_20260828.json", 1605, "fb31f6a0be2f2f5b530c6fe99796476ea16edb72fe7ddc192323995f2ae55ce7"),
 }
 
@@ -148,6 +149,7 @@ DEPENDENCY_CONE = (
     ("crosscheck/check_d972_r07_positive_common_word_colgen_v1.py", 73780, "de1d821c26cfc24c8069258ed1f19567358c86705dbc99103fff05a98d164c1d"),
     ("search/certs/d972_r07_full_e4_orbit_preflight_v7_20260827.json", 45246709, "86c6f3a72a3f852a1be7c5323bf72c7ad987377fd5483b6e32528fe263e290ff"),
     ("search/check_d972_b345_joint_kernel_qstar_closure_v2.py", 5942, "5c3b03af26a47f00fbfbd8484e17c591c5399ac708e566506d726d5dbd03ba88"),
+    ("search/check_d972_b345_seedspan_triple4_v1.py", 574347, "ef5125e3b7e328ce8aa8cfd4c36d0937e28f44a480188fcd4ed01a37eb80b981"),
     ("search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py", 33409, "f8c7fc7f5b5bbfffa0cf147a59313981c5a4b2c6c00504a9f773029097fdde5f"),
     ("search/d972_b345_full_d2_dual_correlation_v1.py", 78832, "6903b745be2c005c573d7a368beb826d5f411f0f4a353eeedf3a8cccbc9fde52"),
     ("search/d972_b345_full_d2_dual_correlation_v2.py", 42449, "6557bcfea70c0846158951fafe3d6ef8790479a5c7010db896ed76540dd5ae5f"),
@@ -184,6 +186,11 @@ DEPENDENCY_CONE = (
     ("sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md", 4539, "75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67"),
     ("sol/proof_r07_witness_first_fibre_dovetail_selector_v139.md", 8310, "62e2160348db38eca1570b2ca6eb8934b885569f4e8cfb276a91b98c9b983920"),
 )
+
+CHECKER_ONLY_DEPENDENCY_PATH = PINS["e4_arithmetic_checker"][0]
+PRODUCER_DEPENDENCY_CONE = tuple(
+    row for row in DEPENDENCY_CONE
+    if row[0] != CHECKER_ONLY_DEPENDENCY_PATH)
 
 
 class Reject(RuntimeError):
@@ -309,18 +316,31 @@ def pin_file(entry: tuple[str, int, str], budget: Budget) -> bytes:
     return raw
 
 
-def dependency_cone_manifest() -> dict[str, Any]:
+def _dependency_cone_manifest(
+        entries: Sequence[tuple[str, int, str]], expected_count: int,
+        label: str) -> dict[str, Any]:
     rows = [{"path": rel, "bytes": size, "sha256": sha}
-            for rel, size, sha in DEPENDENCY_CONE]
+            for rel, size, sha in entries]
     require([row["path"] for row in rows] == sorted(row["path"] for row in rows) and
-            len({row["path"] for row in rows}) == len(rows),
-            "normalized predecessor dependency cone")
+            len({row["path"] for row in rows}) == len(rows) == expected_count,
+            label)
     return {"schema": SCHEMA + "/task175-task176-task179-dependency-cone/v1",
             "roots": ["task175_producer", "task175_checker",
                       "task176_producer", "task176_checker",
                       "task179_producer", "task179_checker"],
             "member_count": len(rows), "members": rows,
             "members_sha256": digest_obj(rows)}
+
+
+def dependency_cone_manifest() -> dict[str, Any]:
+    return _dependency_cone_manifest(
+        DEPENDENCY_CONE, 44, "normalized checker dependency cone")
+
+
+def producer_dependency_cone_manifest() -> dict[str, Any]:
+    return _dependency_cone_manifest(
+        PRODUCER_DEPENDENCY_CONE, 43,
+        "normalized producer predecessor dependency cone")
 
 
 def authenticate_sources(budget: Budget) -> dict[str, Any]:
@@ -337,6 +357,23 @@ def authenticate_sources(budget: Budget) -> dict[str, Any]:
     return answer
 
 
+def producer_source_view(sources: dict[str, Any]) -> dict[str, Any]:
+    """Exact projection carried by the unchanged producer receipt."""
+    require(set(sources) == set(PINS) | {
+                "normalized_predecessor_dependency_cone"} and
+            sources["normalized_predecessor_dependency_cone"] ==
+                dependency_cone_manifest(),
+            "authenticated checker source view")
+    answer = {name: value for name, value in sources.items()
+              if name != "e4_arithmetic_checker"}
+    answer["normalized_predecessor_dependency_cone"] = \
+        producer_dependency_cone_manifest()
+    require(set(answer) == (set(PINS) - {"e4_arithmetic_checker"}) | {
+                "normalized_predecessor_dependency_cone"},
+            "exact producer source projection")
+    return answer
+
+
 def load_module(rel: str, name: str) -> Any:
     path = (ROOT / rel).resolve()
     spec = importlib.util.spec_from_file_location(name, path)
@@ -345,6 +382,39 @@ def load_module(rel: str, name: str) -> Any:
     sys.modules[name] = module
     spec.loader.exec_module(module)
     return module
+
+
+ARITHMETIC_BRIDGE_PROBE = [1, -2, 1, 2]
+PRODUCER_ARITHMETIC_APIS = (
+    "reconstruct_quotients", "cheap_context_registry", "embed_f2_pb3")
+CHECKER_ARITHMETIC_APIS = (
+    "embed_f2", "reduce_word", "inv_word", "commutator")
+
+
+def load_arithmetic_bridge(producer_name: str,
+                           checker_name: str) -> tuple[Any, Any]:
+    require(producer_name != checker_name and
+            producer_name not in sys.modules and
+            checker_name not in sys.modules,
+            "fresh distinct arithmetic helper module names")
+    producer_arithmetic = load_module(
+        PINS["e4_arithmetic"][0], producer_name)
+    checker_arithmetic = load_module(
+        PINS["e4_arithmetic_checker"][0], checker_name)
+    require(producer_arithmetic is not checker_arithmetic and
+            getattr(producer_arithmetic, "__name__", None) == producer_name and
+            getattr(checker_arithmetic, "__name__", None) == checker_name,
+            "distinct arithmetic helper module identities")
+    require(all(callable(getattr(producer_arithmetic, name, None))
+                for name in PRODUCER_ARITHMETIC_APIS),
+            "producer arithmetic helper APIs")
+    require(all(callable(getattr(checker_arithmetic, name, None))
+                for name in CHECKER_ARITHMETIC_APIS),
+            "independent checker arithmetic helper APIs")
+    require(producer_arithmetic.embed_f2_pb3(ARITHMETIC_BRIDGE_PROBE) ==
+            checker_arithmetic.embed_f2(ARITHMETIC_BRIDGE_PROBE),
+            "independent F2-to-PB3 orientation canary")
+    return producer_arithmetic, checker_arithmetic
 
 
 def self_digest(value: dict[str, Any], label: str) -> str:
@@ -743,8 +813,12 @@ def reconstruct_roster(budget: Budget) -> dict[str, Any]:
     # frozen_rows performs the sole live presentation_rows charge.
     budget.preflight("presentation_rows", PRESENTATION_ROWS,
                      "checker presentation_roster_preflight")
-    old = load_module(PINS["e4_arithmetic"][0], "c198_old")
+    old, checker_old = load_arithmetic_bridge(
+        "c198_producer_arithmetic", "c198_checker_arithmetic")
     independent = load_module(PINS["task157ee_checker_v1"][0], "c198_task157_checker")
+    require(callable(getattr(independent, "JointGroup", None)) and
+            callable(getattr(independent, "factor_presentation", None)),
+            "independent task157ee checker APIs")
     q3_raw = pin_file(PINS["q3_receipt"], budget)
     q3 = json.loads(q3_raw)
     e3, e4, _ = old.reconstruct_quotients(q3)
@@ -753,11 +827,11 @@ def reconstruct_roster(budget: Budget) -> dict[str, Any]:
              if row.get("word")]
     require(len(words) == 26 and all(strict_word(row, "q3 record") for row in words),
             "26 source records")
-    group = independent.JointGroup(old, e3, e4, contexts, words)
+    group = independent.JointGroup(checker_old, e3, e4, contexts, words)
     require(len(group.states) == GAMMA_ORDER and len(group.transitions) == GAMMA_ORDER,
             "independent Gamma reconstruction")
     budget.check("independent task157 factor orders start")
-    factor, relators = independent.factor_presentation(q3, old)
+    factor, relators = independent.factor_presentation(q3, checker_old)
     budget.check("independent task157 factor orders complete")
     budget.bump("gamma_operations", len(relators) + 2,
                 "independent factor presentation accounting")
@@ -1453,11 +1527,13 @@ def validate_complete(rec: dict[str, Any], args: argparse.Namespace,
         args.task176_receipt, budget)
     task157, _ = authenticate_task157(budget)
     task172, _ = authenticate_task172(budget)
+    producer_sources = producer_source_view(sources)
     expected_input = {"task176": task176, "task157ee": task157,
-        "task172": task172, "task179": sources["task179_producer"],
-        "sources": sources}
+        "task172": task172, "task179": producer_sources["task179_producer"],
+        "sources": producer_sources}
     require(rec["input"] == expected_input, "complete input bindings")
-    binding = expected_input_binding(task176, task157, task172, sources)
+    binding = expected_input_binding(
+        task176, task157, task172, producer_sources)
     rebuilt = reconstruct_roster(budget)
     rows = rec["Delta0"]["presentation"].get("rows")
     require(type(rows) is list and len(rows) == PRESENTATION_ROWS,
@@ -1657,7 +1733,8 @@ def validate_terminal_envelope(rec: dict[str, Any], args: argparse.Namespace,
     task176, q0_public, _ = authenticate_task176(args.task176_receipt, budget)
     task157, _ = authenticate_task157(budget)
     task172, _ = authenticate_task172(budget)
-    binding = expected_input_binding(task176, task157, task172, sources)
+    binding = expected_input_binding(
+        task176, task157, task172, producer_source_view(sources))
     rebuilt = reconstruct_roster(budget)
     validate_checkpoint(checkpoint, rebuilt["rows"], binding,
                         q0_public["parent_letter_transition_sha256"], budget)
@@ -2164,7 +2241,7 @@ def checker_replay_toy_checkpoint(checkpoint: Any, budget: Budget) -> dict[str, 
     q0 = checker_toy_q0(budget)
     binding = {"toy": "Dic3-S3-v4-production-path", "typed_coordinates": 10,
         "predecessor_dependency_cone_sha256":
-            dependency_cone_manifest()["members_sha256"]}
+            producer_dependency_cone_manifest()["members_sha256"]}
     require(value["input_binding"] == binding and
             value["q0_transition_sha256"] ==
             digest_obj({"parents": q0["parents"], "letters": q0["letters"]}) and
@@ -2313,7 +2390,7 @@ def read_toy_chain_checkpoint(evidence: Any, expected_cursor: int,
             checkpoint["input_binding"] == {
                 "toy": "Dic3-S3-v4-production-path", "typed_coordinates": 10,
                 "predecessor_dependency_cone_sha256":
-                    dependency_cone_manifest()["members_sha256"]} and
+                    producer_dependency_cone_manifest()["members_sha256"]} and
             checkpoint["q0_transition_sha256"] == digest_obj(
                 {"parents": q0["parents"], "letters": q0["letters"]}) and
             checkpoint["selected_gamma_records"] == [1] and
@@ -2390,7 +2467,8 @@ def validate_toy(value: dict[str, Any], expected: dict[str, Any],
     self_digest(value, "toy")
     require(toy_summary(value) == expected, "toy expected values")
     require(value["sources"] == {"normalized_predecessor_dependency_cone":
-            dependency_cone_manifest()}, "toy direct dependency-cone receipt")
+            producer_dependency_cone_manifest()},
+            "toy direct producer dependency-cone receipt")
     require(value.get("extension") == {"construction": "Dic_3_to_S3_non_split",
         "Q0_order": 6, "Gamma_order": 2, "D_order": checker_toy_d_order(),
         "non_split_witness": {"y_squared": list(dmul((0, 1), (0, 1))),
@@ -2623,6 +2701,9 @@ def selftest(fixture: dict[str, Any], receipt_path: str | None,
     sources = authenticate_sources(budget)
     require(sources["normalized_predecessor_dependency_cone"] ==
             dependency_cone_manifest(), "SELFTEST authenticated dependency cone")
+    load_arithmetic_bridge(
+        "c198_selftest_producer_arithmetic",
+        "c198_selftest_checker_arithmetic")
     require(type(receipt_path) is str and not Path(receipt_path).is_absolute() and
             Path(receipt_path).as_posix().startswith("ci/out/") and
             Path(receipt_path).is_file(), "producer SELFTEST receipt path")

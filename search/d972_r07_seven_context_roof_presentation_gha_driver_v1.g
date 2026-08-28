@@ -5,7 +5,8 @@ if not IsBound(D972_R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_MODE) then
   Error("task198: MODE must be bound");
 fi;
 D198Mode:=D972_R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_MODE;;
-if not IsString(D198Mode) or not D198Mode in ["SELFTEST","PRODUCTION"] then
+if not IsString(D198Mode) or not D198Mode in
+    ["SELFTEST","PRODUCTION","PRODUCER_CAPTURE"] then
   Error("task198: invalid MODE");
 fi;
 D198P:="search/d972_r07_seven_context_roof_presentation_v1.py";;
@@ -65,6 +66,7 @@ D198Cone:=[
  ["crosscheck/check_d972_r07_positive_common_word_colgen_v1.py","de1d821c26cfc24c8069258ed1f19567358c86705dbc99103fff05a98d164c1d",73780],
  ["search/certs/d972_r07_full_e4_orbit_preflight_v7_20260827.json","86c6f3a72a3f852a1be7c5323bf72c7ad987377fd5483b6e32528fe263e290ff",45246709],
  ["search/check_d972_b345_joint_kernel_qstar_closure_v2.py","5c3b03af26a47f00fbfbd8484e17c591c5399ac708e566506d726d5dbd03ba88",5942],
+ ["search/check_d972_b345_seedspan_triple4_v1.py","ef5125e3b7e328ce8aa8cfd4c36d0937e28f44a480188fcd4ed01a37eb80b981",574347],
  ["search/check_d972_r07_616_to_760_commutator_affine_rhs_v3.py","f8c7fc7f5b5bbfffa0cf147a59313981c5a4b2c6c00504a9f773029097fdde5f",33409],
  ["search/d972_b345_full_d2_dual_correlation_v1.py","6903b745be2c005c573d7a368beb826d5f411f0f4a353eeedf3a8cccbc9fde52",78832],
  ["search/d972_b345_full_d2_dual_correlation_v2.py","6557bcfea70c0846158951fafe3d6ef8790479a5c7010db896ed76540dd5ae5f",42449],
@@ -101,19 +103,20 @@ D198Cone:=[
  ["sol/proof_r07_q4_q0_noncontiguous_deletion_layout_v135.md","75c511a765ad88ec1aa72c63a0d1965ac85724695d743cbf00350572a884cf67",4539],
  ["sol/proof_r07_witness_first_fibre_dovetail_selector_v139.md","62e2160348db38eca1570b2ca6eb8934b885569f4e8cfb276a91b98c9b983920",8310]
 ];;
-if Length(D198Cone)<>43 or Set(D198Cone)<>D198Cone then
+if Length(D198Cone)<>44 or Set(D198Cone)<>D198Cone then
   Error("task198: dependency cone is not normalized");
 fi;
 
 D198Pins:=[
  [D198P,"6b2645b80f97256a659af81e856c086cca724b36e2a22ae70335b29ffa95d44c",137169],
- [D198C,"46c566925375cd87a7d95d1949715523c0fff8a2b857e9aa563e9ee094011af5",153420],
+ [D198C,"001277d44dbbc2acd7e03c6ecb6c6419df84996ae188cbb4be7b18f7cfb56ca1",157253],
  [D198F,"fb31f6a0be2f2f5b530c6fe99796476ea16edb72fe7ddc192323995f2ae55ce7",1605],
  ["ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json","1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df",2166036],
  ["ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.json","3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",231570],
  ["search/d972_b345_joint_kernel_qstar_closure_v1.py","06ba6cf361957db3e339d48d14b3d4fbc689de9642e3f96273fbe8f3160e76dc",67945],
  ["search/check_d972_b345_joint_kernel_qstar_closure_v2.py","5c3b03af26a47f00fbfbd8484e17c591c5399ac708e566506d726d5dbd03ba88",5942],
  ["search/check_d972_b345_joint_kernel_qstar_closure_v1.py","9e721634d1f16be806e315eec263ec272bc023587f862703c094b7dd37c0111f",47661],
+ ["search/check_d972_b345_seedspan_triple4_v1.py","ef5125e3b7e328ce8aa8cfd4c36d0937e28f44a480188fcd4ed01a37eb80b981",574347],
  ["search/d972_b345_seedspan_triple4_v1.py","fe18fc31fdf3f9416ebb829112ccbd514c27e6a8d30fe24691842865277a0b29",535219],
  ["search/d972_r07_positive_common_word_colgen_v1.py","47116826e1b94750fa5eaa0c577586aeaec23a476c5f004fc0d5ea83892845c7",123870],
  ["search/d972_r07_all_seven_extension_section_census_v1.py","878cf1d8d44e74a993309ed1c613c9fc57eb62fd2da48a30fd8797ff4b19af3b",66109],
@@ -136,7 +139,7 @@ D198Pins:=[
 ];;
 for D198PinRow in D198Pins do D198Pin(D198PinRow);; od;
 for D198PinRow in D198Cone do D198Pin(D198PinRow);; od;
-if D198Mode="PRODUCTION" then
+if D198Mode in ["PRODUCTION","PRODUCER_CAPTURE"] then
   D198Pin([D198I,"715441d8ecb1b4bb39a51cf3df15f04d6179ee6adeafa5b925485dbbe91f7f41",13649089]);;
   D198Manifest:=D198Read(D198M,"task176 artifact manifest");;
   for D198ManifestNeedle in [
@@ -152,7 +155,7 @@ if D198Mode="PRODUCTION" then
 fi;
 
 D198ResumeArgs:="";;
-if D198Mode="PRODUCTION" then
+if D198Mode in ["PRODUCTION","PRODUCER_CAPTURE"] then
   if IsExistingFile(D198RI)<>IsExistingFile(D198RM) then
     Error("task198: staged resume checkpoint/manifest pair incomplete");
   fi;
@@ -220,11 +223,19 @@ else
   PrintTo(D198S,"python3 -u -B ",D198P," --task176-receipt ",D198I," --output ",D198R," --checkpoint ",D198K," --checkpoint-manifest-output ",D198KM," --future-resume-checkpoint ",D198RI,D198ResumeArgs," --seconds ",D198EstimatedWallSeconds," --rss-bytes ",D198EstimatedPeakRSSBytes," --q0-states 1469664 --q0-edges 2939328 --presentation-rows 6441 --gamma-operations 5000000 --dag-nodes 10000000 --serialized-bytes 2000000000 --checkpoint-bytes 100000000 > ",D198PL," 2>&1 || { rc=$?; cat ",D198PL,"; exit $rc; }\n");
   PrintTo(D198S,"cat ",D198PL,"\n");
   PrintTo(D198S,"grep -Ec '^R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL (ROOF_BRIDGE_ISOMORPHISM|UNKNOWN_RESOURCE|UNKNOWN_INPUT)$' ",D198PL," | grep -qx 1\n");
-  PrintTo(D198S,"python3 -u -B ",D198C," --receipt ",D198R," --verdict ",D198V," --task176-receipt ",D198I,D198ResumeArgs," --seconds ",D198EstimatedWallSeconds," --rss-bytes ",D198EstimatedPeakRSSBytes," --q0-states 1469664 --q0-edges 2939328 --presentation-rows 6441 --gamma-operations 10000000 --dag-nodes 10000000 --serialized-bytes 2000000000 --checkpoint-bytes 100000000 > ",D198CL," 2>&1 || { rc=$?; cat ",D198CL,"; exit $rc; }\n");
-  PrintTo(D198S,"cat ",D198CL,"\n");
-  PrintTo(D198S,"grep -Fxc 'R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_CHECKER_PASS terminal=ROOF_BRIDGE_ISOMORPHISM rows=6441' ",D198CL," | grep -qx 1\n");
-  PrintTo(D198S,"grep -Fxc 'R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL ROOF_BRIDGE_ISOMORPHISM' ",D198PL," | grep -qx 1\n");
-  PrintTo(D198S,"printf 'ROOF_BRIDGE_ISOMORPHISM\n' > ",D198T,"\n");
+  if D198Mode="PRODUCTION" then
+    PrintTo(D198S,"python3 -u -B ",D198C," --receipt ",D198R," --verdict ",D198V," --task176-receipt ",D198I,D198ResumeArgs," --seconds ",D198EstimatedWallSeconds," --rss-bytes ",D198EstimatedPeakRSSBytes," --q0-states 1469664 --q0-edges 2939328 --presentation-rows 6441 --gamma-operations 10000000 --dag-nodes 10000000 --serialized-bytes 2000000000 --checkpoint-bytes 100000000 > ",D198CL," 2>&1 || { rc=$?; cat ",D198CL,"; exit $rc; }\n");
+    PrintTo(D198S,"cat ",D198CL,"\n");
+    PrintTo(D198S,"grep -Fxc 'R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_CHECKER_PASS terminal=ROOF_BRIDGE_ISOMORPHISM rows=6441' ",D198CL," | grep -qx 1\n");
+    PrintTo(D198S,"grep -Fxc 'R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL ROOF_BRIDGE_ISOMORPHISM' ",D198PL," | grep -qx 1\n");
+    PrintTo(D198S,"printf 'ROOF_BRIDGE_ISOMORPHISM\n' > ",D198T,"\n");
+  else
+    PrintTo(D198S,"test -s ",D198R,"\n");
+    PrintTo(D198S,"grep -Ec '^R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL ' ",D198PL," | grep -qx 1\n");
+    PrintTo(D198S,"D198CapturedTerminal=$(sed -n 's/^R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_PRODUCER_TERMINAL //p' ",D198PL,")\n");
+    PrintTo(D198S,"case \"$D198CapturedTerminal\" in\n  ROOF_BRIDGE_ISOMORPHISM|UNKNOWN_RESOURCE|UNKNOWN_INPUT) ;;\n  *) exit 1 ;;\nesac\n");
+    PrintTo(D198S,"printf '%s\n' \"$D198CapturedTerminal\" > ",D198T,"\n");
+  fi;
 fi;
 PrintTo(D198S,"printf 'R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_DRIVER_SENTINEL\n' > ",D198OK,"\n");
 CloseStream(D198S);;
@@ -240,5 +251,14 @@ fi;
 if D198Mode="PRODUCTION" and D198Terminal<>"ROOF_BRIDGE_ISOMORPHISM\n" then
   Error("task198: nonpositive production terminal");
 fi;
-Print("R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_GHA_DRIVER_PASS mode=",
-      D198Mode," terminal=",Chomp(D198Terminal),"\n");
+if D198Mode="PRODUCER_CAPTURE" and not D198Terminal in
+    ["ROOF_BRIDGE_ISOMORPHISM\n","UNKNOWN_RESOURCE\n","UNKNOWN_INPUT\n"] then
+  Error("task198: invalid producer capture terminal");
+fi;
+if D198Mode="PRODUCER_CAPTURE" then
+  Print("R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_GHA_DRIVER_PRODUCER_CAPTURE_PASS mode=",
+        D198Mode," terminal=",Chomp(D198Terminal),"\n");
+else
+  Print("R07_SEVEN_CONTEXT_ROOF_PRESENTATION_V1_GHA_DRIVER_PASS mode=",
+        D198Mode," terminal=",Chomp(D198Terminal),"\n");
+fi;
