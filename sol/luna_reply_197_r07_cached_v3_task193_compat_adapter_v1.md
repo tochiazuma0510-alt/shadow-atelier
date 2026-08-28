@@ -40,7 +40,7 @@ PowerShell `Get-FileHash`, are:
 |---|---:|---|
 | `search/d972_r07_cached_v3_task193_compat_adapter_v1.py` | 41745 | `5c39321ef16dd25b09328cfd0bd08ba55d166aa6fc4b2f22534e22697739e7af` |
 | `crosscheck/check_d972_r07_cached_v3_task193_compat_adapter_v1.py` | 34820 | `af7bca3dd2ada06c254150282bd2d5338d30292a4288f5a221353d4dbb6d6ff1` |
-| `search/d972_r07_cached_v3_task193_compat_adapter_gha_driver_v1.g` | 15036 | `6d6ca58730faa8a26f3c5759de4d989b779ea0dbb28790f8693f587baa2f92e8` |
+| `search/d972_r07_cached_v3_task193_compat_adapter_gha_driver_v1.g` | 15040 | `128a5c3e1e48efcc53c3ab01807456df4cf514cd5527b7c3a6d277ce15878793` |
 | `search/certs/d972_r07_cached_v3_task193_compat_adapter_selftest_v1_20260828.json` | 673 | `1d7ae0025aff04094123e9c6fb85cb0d27f83328ef192329eb464ebc84e863b9` |
 
 The reply identity is intentionally omitted from its own body to avoid a
@@ -243,3 +243,26 @@ FULL v2 CHECKER ATTESTATION:                  NOT EXECUTED BY LUNA
 TASK193-COMPATIBLE RECEIPT:                   NOT PRODUCED BY LUNA
 ACTUAL TASK193 beta1 / FIRST MULTIPLIER:       NOT EXECUTED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:       NOT DECLARED
+
+## 8. Run 33129626120 GAP character-range STOP
+
+Parent Sol dispatched task197 SELFTEST run `33129626120` at head
+`08d23f0e`.  The GAP driver stopped before the producer at construction of
+the path-character policy: expressions such as `['A'..'Z']` attempted to
+construct a GAP `Range` with character endpoints, producing
+`Range: <first> must be a small integer (not a character)`.  This is an
+implementation STOP with no producer/checker execution and no mathematical
+result.
+
+Driver lines 48--50 now encode the same ASCII allowlists as literal GAP
+strings.  GAP strings are lists of characters, so the existing
+`c in D197AllowedPathChars`, scalar, digit, and hexadecimal membership tests
+remain type-correct without constructing any character range.  No
+producer/checker semantic or source pin, fixture, accepted character, or
+path-policy condition changed.
+
+RUN 33129626120:                         IMPLEMENTATION STOP / NO RECEIPT
+GAP CHARACTER-RANGE CONSTRUCTION:        REPAIRED STATICALLY
+TASK197 PRODUCER / CHECKER:               NOT RUN IN THIS ATTEMPT
+MATHEMATICAL / CROSS-CHECKED RESULT:      NONE
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
