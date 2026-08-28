@@ -342,7 +342,16 @@ S6  cprime := 1 if Su == Sbeta else 2      # Su = Sbeta^{c'} in mu_3 ;  2 == -1
 S7  k3 := (dihedral k of a_M(Frob_p)) mod 3
       = discrete log of Sbeta in mu_3(F_p)  (P1 corpus の marking で符号確定)
 S8  psi := discrete log of Su
-S9  SELECT := NN-09 if (psi == +k3) else NN-12       # census の符号規約に合わせる
+S9  SELECT := UNDEFINED   # ⚠⚠ 訂正(2026-08-28・裁定 1726/falsifier 要修正 4)
+    # 旧: "SELECT := NN-09 if (psi == +k3) else NN-12  # census の符号規約に合わせる"
+    # → **実在しない対象への参照**。falsifier 実測(producer L706-713・機械 12/12)により
+    #   census ラベル NN-jj は**辞書式順位**であって符号意味論を一切持たない。
+    #   ⟹ 「census の符号規約」は存在しない。SELECT=NN-09 は撤回済(cert v5)。
+    # 正: S9 は **translation bit** を要する ── すなわち
+    #     「c' の生値(= +1)」を「どちらの roster か」に翻訳する外部データが要る。
+    #     その唯一の接地は **joint marked Frobenius row**(§7.3.7)で、
+    #     具体的な D972 key 1 本を測って 2 つの 324-key roster への**所属を直接照合**する。
+    #     ⟹ joint marked row が出るまで SELECT は fail-closed。**c' = +1 の生値は不変。**
 S10 REPEAT S1-S9 for two more primes; SELECT must agree (安定性検査)
 ```
 **費用**: 各素数ミリ秒。**必要な在庫は cert の $u_0^{-1}$ と $\beta$ だけ** — Belyi 写像も定義多項式も不要。
