@@ -4153,3 +4153,71 @@ actual numerator.
 Delta95 closes the synthetic A5/A6-v13 branch and fixes the next consumer at
 the actual authenticated dependency cone; it does not let a static-block
 sentinel or placeholder anchor masquerade as witness progress.
+
+#### v220-delta96 - 2026-08-29 (after delta95)
+
+**Individual progress**:
+
+- Luna task346 correctly returned A5/A6-v14 as `BLOCKED / UNEXECUTED` at its
+  first ordered missing owner.  The absent object is not a convenience flag:
+  it is task345's future accepted A4-v5 producer/checker pair and complete
+  ordered word-bearing basis `(u_i,k_i)` with completeness data.
+- No v14 machine file, fixture, execution, synthetic ABI, or placeholder
+  anchor was created.  The task198 authority is present, but it cannot
+  determine v280's least nonzero area index, adapted basis, local A3 pairs,
+  actual joint closure, MEMBER ancestry, or A6 pair records without the A4
+  basis.
+- The five v13 width-13 traces remain static finite-arithmetic fixtures only.
+  Task346 neither upgrades nor weakens the task344 rejection.  It will be
+  resumed only after A4-v5 has an accepted producer/checker receipt.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 actual / 0/3 actual; WAITING FOR ACCEPTED A4-V5
+  OWNER**.  A dependency-correct BLOCKED return does not change a numerator.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A4 **1/3 V5 IMPLEMENTATION ACTIVE**, A7/A8 **0/3
+  actual**, A9 **0/3 actual**, and B/C/W/F remain zero.  No compatible lift,
+  fake certificate, or Ihara counterexample has been constructed.
+
+Delta96 records the exact A5/A6 dependency without fabricating work behind
+the missing A4 basis and keeps the restart point unique.
+
+#### v220-delta97 - 2026-08-29 (after delta96)
+
+**Individual progress**:
+
+- A forward compatibility audit found that the accepted A2-v2 SELFTEST
+  implementation hard-codes the old cached-v3 task192 path, schema, terminal,
+  attestation dialect, and nested `c_exact` fields.  A successful A0-v7
+  COMMON receipt has a different schema/terminal and stores the same semantic
+  roles as `g760`, `correction_word`, and `corrected_word`; it would therefore
+  stop before A2 specialization despite being mathematically sufficient.
+- V284 proves a tagged positive-carrier normalization.  The v7 independent
+  selected-support checker derives
+  `corrected_word=red(g760+correction_word)`, coefficient-two inverse replay,
+  joint-kernel/exponent conditions, all eleven occurrence equality, and
+  direct H1/H2/P equality.  These are exactly the task192 word premises used
+  by v225.
+- V284 also proves extensionality: A2's occurrence prefixes, Fox targets,
+  residuals, Q3/Q4 images, `w`, `bar_epsilon_1`, and `u0` depend only on the
+  accepted literal `(g0,a,f)` and task198 interface, never on the A0 search
+  basis, dual history, checkpoint path, or selected-support size.
+- The required successor is a small versioned A2 consumer repair with
+  independent producer/checker tagged parsers and portable receipt/verdict/
+  artifact binding.  It must not replay the 86 MB checkpoint or run Q0.  It
+  is held until task342 freezes the final v7 bytes and ABI; no in-progress
+  source is pinned prematurely.
+
+**v220 mapping**:
+
+- A2 remains **2/3**: v284 removes a future semantic blocker on paper but is
+  not an implementation SELFTEST or actual specialization.  A0 remains
+  **0/1 V7 IMPLEMENTATION ACTIVE**.
+- A1 remains **4/4 CROSS-CHECKED**, A3 **0/3**, A4 **1/3 V5 IMPLEMENTATION
+  ACTIVE**, A5/A6 and A7/A8 remain **0/3 actual**, A9 **0/3 actual**, and
+  B/C/W/F remain zero.  No compatible lift, fake certificate, or Ihara
+  counterexample has been constructed.
+
+Delta97 prevents an accepted future A0-v7 word from being stranded at A2 by
+an obsolete schema check, while adding no unexecuted code to a numerator.
