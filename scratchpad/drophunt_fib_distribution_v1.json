@@ -1,0 +1,264 @@
+{
+  "schema": "drophunt-fib-analysis/v1",
+  "status": "CANDIDATE_ARITHMETIC_DERIVATION",
+  "verified": false,
+  "note": "Pure arithmetic re-derivation from an already GAP-computed source artifact. No new GAP execution. fib_K formula reading is an assumption -- see module docstring.",
+  "source_artifact_path": "ci/lins_marked_artifacts_32626064970/lins_marked_export/lins_marked_strictness_export_v1_20260823.json",
+  "source_artifact_sha256": "9fa4fff101d641688b858550e77e3543d7461bc00d149470b81dfdce91fa8324",
+  "source_artifact_sha16": "9fa4fff101d64168",
+  "source_universe": {
+    "group": "B3=<sigma1,sigma2 | sigma1 sigma2 sigma1=sigma2 sigma1 sigma2>",
+    "method": "one LowIndexNormalSubgroupsSearch call",
+    "index_upper_bound": 2000,
+    "nodes_total": 4266,
+    "identity_nodes_excluded": 1,
+    "nonidentity_rows": 4265
+  },
+  "source_claim_cover": {
+    "claim": "all 4,265 nonidentity nodes of the fixed index<=2000 LINS call",
+    "complete": true,
+    "mode": "bound_2000"
+  },
+  "source_roof_M": {
+    "name": "M=K^(9) cap N_S4",
+    "model": "compact marked PB3/M = G9 x PSL(2,8)",
+    "order": 1469664,
+    "permutation_degree": 36,
+    "marked_model_sha256": "8db38c483c6a39baf0d41fef2ba1e4d1f592e40c85b1fc323a3c41b8e440cc88",
+    "c_image": "identity"
+  },
+  "source_measured_costs_ms": {
+    "lins_elapsed_ms": 771074,
+    "total_elapsed_ms": 1072923,
+    "note": "real wall time already spent on GHA to compute K=L cap M index/[M_F2:K_F2] for ALL 4,265 rows (one-time, already done)."
+  },
+  "fib_distribution_all_rows": {
+    "n": 4265,
+    "degenerate_K_eq_M_count": 6,
+    "nondegenerate_count": 4259,
+    "min": 2,
+    "median": 140625,
+    "mean": 518506.9,
+    "max": 3996001,
+    "threshold_counts_fib_leq": {
+      "10": 19,
+      "50": 42,
+      "100": 61,
+      "500": 157,
+      "1000": 254,
+      "5000": 621,
+      "10000": 817
+    }
+  },
+  "fib_distribution_strict_F2_only": {
+    "n": 4255,
+    "min": 4,
+    "median": 142129,
+    "mean": 518994.4,
+    "max": 3996001
+  },
+  "cheapest_10_all_rows": [
+    {
+      "node_id": "170102fd74f753009cc5bbd7494d27141048a77b553ba42b1af98f398eb8c662",
+      "b3_index_of_L": 2,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "266c0732768883df4a2c689ab95037f5c0a382bfb0c45a54e5438337ec69d8a7",
+      "b3_index_of_L": 504,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "5d1f2a8b95649269600ca67bba633870604a543048dac298ddf04037dfe14a25",
+      "b3_index_of_L": 24,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "7137e55d57207116ca36966ab10441377853b1fa9c22509cb27b96b3882972e2",
+      "b3_index_of_L": 6,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "becb64dbb95961de019bd39034b6ca0db17fd2a68fe9a44b5b672bda50e97ef5",
+      "b3_index_of_L": 1008,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "ee1c1ddaf0c3fd510d385164c399725796816b5c71a71cb105d9c1cc1153b46f",
+      "b3_index_of_L": 648,
+      "PB3_ratio_M_over_K": 1,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "NO_REFINEMENT",
+      "fib_K": 1
+    },
+    {
+      "node_id": "52d6791dec7c9db6fa8e6d5ba15f603d4b344288ead26227028220a85c1e1a40",
+      "b3_index_of_L": 48,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "PB3_CENTER_ONLY",
+      "fib_K": 2
+    },
+    {
+      "node_id": "53614744b7c0ef150e2e214eb365135720fdd313fbe72b54650f9b3e34146d2e",
+      "b3_index_of_L": 4,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "PB3_CENTER_ONLY",
+      "fib_K": 2
+    },
+    {
+      "node_id": "94ef1460f8161259be35bbe636f7f001e30ee5901e4d32af3f2b815af053ac5c",
+      "b3_index_of_L": 12,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "PB3_CENTER_ONLY",
+      "fib_K": 2
+    },
+    {
+      "node_id": "bd68f10cb257e8c651fc136ddb87973c838c8be4f78bed5ec17991f222095de7",
+      "b3_index_of_L": 1296,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 1,
+      "class": "PB3_CENTER_ONLY",
+      "fib_K": 2
+    }
+  ],
+  "cheapest_15_strict_F2_only": [
+    {
+      "node_id": "1976c942bf89e0d151c3f131f0cde3b00da901d8a018886f1e8f68881a540c15",
+      "b3_index_of_L": 1296,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 4
+    },
+    {
+      "node_id": "43fefcb39d96f5bbd7ea2885869562fdd8c75af8f86137b41d152dedfc8fa9af",
+      "b3_index_of_L": 48,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 4
+    },
+    {
+      "node_id": "94c94ca930bb683bc37f5b9429a8613e6200b05c1fa1e81ff1ce597963da67cb",
+      "b3_index_of_L": 1296,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 4
+    },
+    {
+      "node_id": "a30e1d8cdf310efc79af078b17fb56b8311da2b240e70c54c7fc262df2f316cb",
+      "b3_index_of_L": 48,
+      "PB3_ratio_M_over_K": 2,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 4
+    },
+    {
+      "node_id": "1fac26eff3d392562e52c285eae4957105c8d0ced6ada25883f00155103c11db",
+      "b3_index_of_L": 96,
+      "PB3_ratio_M_over_K": 4,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 8
+    },
+    {
+      "node_id": "46c6ed93c70988d10b4d5cb700d4250cc5fd8058ef7691692c0e20dd6686826f",
+      "b3_index_of_L": 96,
+      "PB3_ratio_M_over_K": 4,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 8
+    },
+    {
+      "node_id": "6d48054f9605854a3da43f39ed7f5427f40e01324981461e279932cedaaef2de",
+      "b3_index_of_L": 96,
+      "PB3_ratio_M_over_K": 4,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 8
+    },
+    {
+      "node_id": "95cf80cfdf5c5089872f58b0a8eb8a629b86e4fc1c32214e6c96ba2282122ad7",
+      "b3_index_of_L": 8,
+      "PB3_ratio_M_over_K": 4,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 8
+    },
+    {
+      "node_id": "bdfb276d63f4837e0b6ad7c3ef7a4c8b4fd9b909868bf2b62b8b16b015eaba65",
+      "b3_index_of_L": 24,
+      "PB3_ratio_M_over_K": 4,
+      "F2_ratio_MF_over_KF": 2,
+      "class": "STRICT_F2",
+      "fib_K": 8
+    },
+    {
+      "node_id": "057b238568177289cbf76c399f21a44aa4ac9e04f8630cd13bf52f03310630b3",
+      "b3_index_of_L": 1512,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    },
+    {
+      "node_id": "16437e56512d99ab2c7ca8328293863fe6b7792504ebd592fa21da9d7952bc37",
+      "b3_index_of_L": 3,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    },
+    {
+      "node_id": "89c96e412539a5c6996ab22a868e5c8e37e63de0ac7902577ca2a68e61000780",
+      "b3_index_of_L": 18,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    },
+    {
+      "node_id": "9397f09fc4fa8d7728afbe2e4992da4d042845763456131898d053675059188c",
+      "b3_index_of_L": 6,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    },
+    {
+      "node_id": "d4499d99558718c428a872cfa183e7814bb5e02007e4e506c4afb876d8b05d4b",
+      "b3_index_of_L": 72,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    },
+    {
+      "node_id": "f92b10d42da7152a9ad2eeab90ba3b7a66105c3cc552c70b8381c4b209d99019",
+      "b3_index_of_L": 1944,
+      "PB3_ratio_M_over_K": 3,
+      "F2_ratio_MF_over_KF": 3,
+      "class": "STRICT_F2",
+      "fib_K": 9
+    }
+  ]
+}

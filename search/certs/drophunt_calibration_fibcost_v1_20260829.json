@@ -1,0 +1,20 @@
+{
+  "schema":"drophunt-calibration-fibcost/v1",
+  "status":"CANDIDATE_LOWER_BOUND_PROXY",
+  "verified":false,
+  "note":"Times quotient-group construction (NaturalHomomorphismByNormalSubgroup + IsomorphismPermGroup) and joint-image order computation for the 3 cheapest STRICT_F2 windows, via LowIndexNormalSubgroupsSearch(B3,48) (not a fresh LINS(B3,2000) call). Does NOT time hexagon/charming/onto predicate evaluation per raw candidate -- no generic reusable checker for arbitrary K exists yet in this repo (see calibration report item c). This is a LOWER BOUND on real fibre-exhaustion cost (search-space construction only, not search), reported honestly as such.",
+  "lins48_search_elapsed_ms":732,
+  "total_elapsed_ms":750,
+  "rows":[
+{"b3_index":3,"PB3_ratio_M_over_K":3,"F2_ratio_MF_over_KF":3,"fib_K":9,"quot_build_ms":1,"joint_image_ms":1,"row_total_ms":2},
+{"b3_index":8,"PB3_ratio_M_over_K":4,"F2_ratio_MF_over_KF":2,"fib_K":8,"quot_build_ms":0,"joint_image_ms":1,"row_total_ms":1},
+{"b3_index":48,"PB3_ratio_M_over_K":24,"F2_ratio_MF_over_KF":12,"fib_K":288,"quot_build_ms":0,"joint_image_ms":5,"row_total_ms":5},
+{"b3_index":48,"PB3_ratio_M_over_K":24,"F2_ratio_MF_over_KF":12,"fib_K":288,"quot_build_ms":0,"joint_image_ms":2,"row_total_ms":2},
+{"b3_index":48,"PB3_ratio_M_over_K":24,"F2_ratio_MF_over_KF":24,"fib_K":576,"quot_build_ms":0,"joint_image_ms":1,"row_total_ms":1},
+{"b3_index":48,"PB3_ratio_M_over_K":24,"F2_ratio_MF_over_KF":24,"fib_K":576,"quot_build_ms":1,"joint_image_ms":1,"row_total_ms":2},
+{"b3_index":48,"PB3_ratio_M_over_K":8,"F2_ratio_MF_over_KF":4,"fib_K":32,"quot_build_ms":0,"joint_image_ms":1,"row_total_ms":1},
+{"b3_index":48,"PB3_ratio_M_over_K":2,"F2_ratio_MF_over_KF":1,"fib_K":2,"quot_build_ms":1,"joint_image_ms":1,"row_total_ms":2},
+{"b3_index":48,"PB3_ratio_M_over_K":2,"F2_ratio_MF_over_KF":2,"fib_K":4,"quot_build_ms":0,"joint_image_ms":1,"row_total_ms":1},
+{"b3_index":48,"PB3_ratio_M_over_K":2,"F2_ratio_MF_over_KF":2,"fib_K":4,"quot_build_ms":0,"joint_image_ms":1,"row_total_ms":1}
+  ]
+}

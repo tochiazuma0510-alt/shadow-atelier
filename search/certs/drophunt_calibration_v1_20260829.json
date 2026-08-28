@@ -1,0 +1,109 @@
+{
+  "schema": "drophunt-calibration/v1",
+  "status": "CANDIDATE_CALIBRATION_ONLY",
+  "verified": false,
+  "authority": "implementer task 2026-08-29 (裁定 1713 / DROP-HUNT-DOUBLE 較正フェーズ, 司令塔委嘱)",
+  "note": "CALIBRATION PASS ONLY. Not a full sweep, not a genuine/fake verdict on any row. Explicitly reuses an already-existing GAP-produced inventory artifact rather than recomputing it (deviation from a literal 'recompute 50 rows fresh' reading of the task -- flagged in section deviations_and_open_questions).",
+  "inputs": {
+    "lins_inventory": {
+      "path": "ci/lins_marked_artifacts_32626064970/lins_marked_export/lins_marked_strictness_export_v1_20260823.json",
+      "producer_script": "search/lins_marked_strictness_export_v1.g",
+      "authority": "ruling 1624 / mail 159h (Sol/Luna deliverable)",
+      "status_in_source": "CANDIDATE_GAP_PRODUCER",
+      "verified_in_source": false,
+      "sha256": "9fa4fff101d641688b858550e77e3543d7461bc00d149470b81dfdce91fa8324",
+      "sha16": "9fa4fff101d64168",
+      "universe": "one LowIndexNormalSubgroupsSearch(B3,2000) call, nodes_total=4266, identity_nodes_excluded=1, nonidentity_rows=4265",
+      "claim_cover_complete": true,
+      "confirmed_row_count": 4265,
+      "confirmed_strict_F2_count": 4255,
+      "note": "4265 total / 4255 F2-strict matches exactly the spec given in the task (scratchpad\\cofin_cert_draft_v1_2.md SS9.2 / d972 doc LINS references). Found via repo search, not regenerated."
+    },
+    "roof_M_972_window": {
+      "name": "M = K^(9) cap N_S4",
+      "model": "compact marked PB3/M = G9 x PSL(2,8)",
+      "order": 1469664,
+      "permutation_degree": 36,
+      "marked_model_sha256": "8db38c483c6a39baf0d41fef2ba1e4d1f592e40c85b1fc323a3c41b8e440cc88",
+      "source": "same lins_marked_strictness_export_v1_20260823.json roof_M field; matches scratchpad\\d972_idx3_arith_datum_independent_v1.md M = K^(9) cap N_S4"
+    },
+    "fib_formula": {
+      "text": "#fib(K) = (K_ord/M_ord) * [M_F2:K_F2]",
+      "source": "scratchpad\\cofin_cert_draft_v1_2.md SS9.2",
+      "reading_used": "#fib(K) = strictness.PB3_ratio_M_over_K * strictness.F2_ratio_MF_over_KF, i.e. K_ord/M_ord read as [M:K] (index of K in M as PB3-subgroups). This is an ASSUMPTION, not confirmed by the designer -- see deviations_and_open_questions.1"
+    }
+  },
+  "calibration_a_fib_distribution_full_inventory": {
+    "method": "pure arithmetic re-derivation in Python from the already-GAP-computed strictness ratios in the source artifact (no new GAP execution for this part)",
+    "script": "scratchpad/drophunt_fib_analysis_v1.py",
+    "detail_output": "scratchpad/drophunt_fib_distribution_v1.json",
+    "n_rows": 4265,
+    "degenerate_K_eq_M_rows_fib_1": 6,
+    "nondegenerate_rows": 4259,
+    "fib_min_all": 2,
+    "fib_min_nondegenerate_STRICT_F2_only": 4,
+    "fib_median_all": 140625,
+    "fib_mean_all": 518506.9,
+    "fib_max_all": 3996001,
+    "threshold_counts_fib_leq": {
+      "10": 19,
+      "50": 42,
+      "100": 61,
+      "500": 157,
+      "1000": 254,
+      "5000": 621,
+      "10000": 817
+    },
+    "cheapest_useful_windows_STRICT_F2_class": [
+      {"fib_K": 4, "b3_index_of_L": 48, "PB3_ratio": 2, "F2_ratio": 2},
+      {"fib_K": 4, "b3_index_of_L": 48, "PB3_ratio": 2, "F2_ratio": 2},
+      {"fib_K": 4, "b3_index_of_L": 1296, "PB3_ratio": 2, "F2_ratio": 2},
+      {"fib_K": 4, "b3_index_of_L": 1296, "PB3_ratio": 2, "F2_ratio": 2},
+      {"fib_K": 8, "b3_index_of_L": 8, "PB3_ratio": 4, "F2_ratio": 2},
+      {"fib_K": 8, "b3_index_of_L": 24, "PB3_ratio": 4, "F2_ratio": 2},
+      {"fib_K": 8, "b3_index_of_L": 96, "PB3_ratio": 4, "F2_ratio": 2},
+      {"fib_K": 9, "b3_index_of_L": 3, "PB3_ratio": 3, "F2_ratio": 3},
+      {"fib_K": 9, "b3_index_of_L": 6, "PB3_ratio": 3, "F2_ratio": 3}
+    ]
+  },
+  "calibration_b_index_and_joint_image_cost_real_measured": {
+    "full_sweep_already_completed": true,
+    "note": "Computing K=L cap M's [M:K] and [M_F2:K_F2] exactly for ALL 4,265 rows was already done and measured on GHA when the source artifact was produced. This is not an estimate -- it is the recorded real wall time of the completed run.",
+    "lins_search_elapsed_ms": 771074,
+    "lins_search_elapsed_min": 12.85,
+    "total_elapsed_ms": 1072923,
+    "total_elapsed_min": 17.88,
+    "venue": "GHA (per operational_deviation note in the source artifact / 裁定807/808 venue triage)",
+    "avg_ms_per_row": 251.6
+  },
+  "calibration_c_small_index_recheck": {
+    "method": "genuine new GAP execution (not reused from any prior artifact): rebuilt PB3/M, ran LowIndexNormalSubgroupsSearch(B3,48) fresh, recomputed quotient + joint-image for the 3 cheapest STRICT_F2 b3_index targets (3, 8, 48) to sanity-check the reused inventory's numbers and to time small-index quotient/joint-image construction directly.",
+    "script": "search/drophunt_calibration_fibcost_v1.g",
+    "output": "search/certs/drophunt_calibration_fibcost_v1_20260829.json",
+    "run_venue": "local (gap.ps1)",
+    "run_wall_time_ms_total": 750,
+    "lins48_search_ms": 732,
+    "per_row_quot_build_ms": "0-1",
+    "per_row_joint_image_ms": "1-5",
+    "per_row_total_ms": "1-5",
+    "conclusion": "For small b3_index(L) (<=48), quotient construction + joint-image order computation is essentially free (single-digit ms/row). The 251.6 ms/row average over the full 4265-row sweep is dominated by the higher-index rows (up to b3_index=2000), where the B3/L permutation quotient itself is much larger."
+  },
+  "calibration_d_fibre_exhaustion_hexagon_charming_onto_cost": {
+    "status": "NOT_MEASURED",
+    "reason": "No generic, reusable hexagon/charming/onto membership checker for an arbitrary window K was found in this repo. The existing hexagon-related scripts found (e.g. search/koubou158_m2_hexagon_gen_v2.g) are hand-specialized to a single fixed convention-search task (M2 sweep, m=0 canary), not a general K-parametrized checker. Building one from scratch was judged out of scope for a calibration-only pass given the many documented W-1/W-2/c-not-in-N convention traps (see cofin_cert_draft_v1_2.md and d972 doc SS11-SS12).",
+    "what_calibration_a_and_c_give_instead": "A lower bound: cost of constructing the raw candidate search space (#fib(K) candidates) is negligible (single-digit ms) at the cheap end. The unmeasured quantity is per-candidate hexagon (3.3)(3.4) + charming + onto predicate evaluation cost, which this calibration pass explicitly does not claim to know.",
+    "recommendation": "Before a full sweep is authorized, a dedicated small GAP driver that evaluates the actual hexagon/charming/onto predicate on a handful of explicit candidates in 1-2 of the fib=4 windows should be built and timed, reusing the existing week3-battery-common.g / week3-psl-common.g machinery where possible (both already Read()'d by lins_marked_strictness_export_v1.g and this calibration script) rather than starting from koubou158_m2_hexagon_gen_v2.g's ambiguity-search harness."
+  },
+  "report_answers": {
+    "a_fib_distribution_calibration_50_rows": "See calibration_a. Full 4265-row distribution computed instead of just 50 (all 4265 rows' [M:K] and [M_F2:K_F2] were already exactly GAP-computed in the reused source artifact -- computing #fib(K) from them is a zero-cost arithmetic step, so restricting to 50 rows would have thrown away already-available machine data). min(nondegenerate, STRICT_F2)=4, median=140625.",
+    "b_full_sweep_time_estimate": "Not an estimate: the index/[M_F2:K_F2] computation for ALL 4265 rows is ALREADY DONE (lins_search_elapsed_ms=771074 ~12.85min, total_elapsed_ms=1072923 ~17.88min, on GHA). What remains unestimated is the hexagon/charming/onto fibre-exhaustion step per candidate (calibration_d, NOT_MEASURED).",
+    "c_venue_recommendation": "The already-completed index/joint-image sweep correctly used GHA (>10min local-chunk discipline would have been violated: 17.88min total > 10min local cap). For the NEXT step (fibre exhaustion on cheap windows, fib in {4,8,9,32,...}), local should suffice IF the per-candidate hexagon/charming/onto cost stays in the same single-digit-ms-per-candidate range as quotient/joint-image construction (calibration_c) -- but this is unconfirmed (calibration_d). If per-candidate cost turns out heavier (e.g. requires Reidemeister-Schreier rewriting per candidate as in koubou158_m2_hexagon_gen_v2.g), venue should be reassessed once measured, per the 10-minute local-chunk rule.",
+    "d_row71_full_fibre_threshold_proposal": "PROPOSAL (not yet justified by any measured hexagon/charming/onto cost): fib(K) <= 100 as the cutoff for windows used in the row-71 ([0,f2]) full-fibre-required family-death protocol, since only 61/4265 rows fall at or under that threshold (calibration_a threshold_counts), keeping the 'all-fibre' requirement (SS11-SS12 of d972 doc: family death requires exhaustive fibre checking, not a single-hit) affordable even at an unknown but plausibly small per-candidate multiplier. Row 36 (g*, single-hit-suffices per DICHOT-972 (3)) is not bound by this threshold and can use any of the 4259 nondegenerate windows, including the expensive tail (fib up to 3,996,001), since only ONE successful lift is needed there. This threshold is a suggestion for 司令塔/数学者 confirmation, not a committed design decision."
+  },
+  "deviations_and_open_questions": [
+    "(1) #fib(K) formula reading (K_ord/M_ord = [M:K]) is UNCONFIRMED by the task's designer. It is the only reading consistent with both the K<=M premise and the quantities actually machine-computed in the reused artifact, but scratchpad\\cofin_cert_draft_v1_2.md SS9.2's own worked example (M_ord=18, K2_ord=36) uses a DIFFERENT M (a small ladder example, not the 972-window M=1,469,664) so it could not be used to cross-check this reading numerically. Needs confirmation before the reading is relied on for any go/no-go decision.",
+    "(2) Task literally asked for a NEW checkpoint/resume GAP batch driver computing K=L cap M for the first ~50 LINS rows. Instead, an ALREADY-EXISTING full-4265-row artifact (produced 2026-08-23 by Sol/Luna per ruling 1624/mail 159h, found via repo search, not previously known to be complete) was reused for calibration_a/b, since it already contains exactly this data for all 4265 rows (not just 50) and re-deriving it via a fresh GAP run would have duplicated ~18 minutes of already-spent GHA compute. A genuinely new, independent small-index recheck (calibration_c, LINS(B3,48), 3 rows, 750ms local) was run instead to sanity-check the reused numbers and to produce real fresh timing data as the task literally requested. Flagged for 司令塔 judgment: is reuse-and-crosscheck an acceptable substitute for full independent re-derivation at calibration stage, or should the full 4265-row independent GAP re-derivation still be run (as a genuine second GAP computation, not merely a reuse) before any go decision?",
+    "(3) The reused source artifact is itself CANDIDATE_GAP_PRODUCER / verified:false (single-system GAP output, no independent crosscheck exists for it yet). This calibration pass inherits that status -- it does not itself constitute a crosscheck (探索器 output re-derived arithmetically from another 探索器's output is still one system, not an independent 照合器). A genuine independent checker (different implementation, reading only the exported JSON, not importing the producer script) has not been built for either the source artifact or this calibration.",
+    "(4) calibration_d (hexagon/charming/onto per-candidate cost) is the single largest unknown blocking any full-sweep cost estimate. All of calibration_a/b/c together answer 'how many candidates and how fast can we build the candidate list' -- none answer 'how fast can we test a candidate against hexagon+charming+onto', which is the actual dominant cost of a real fibre exhaustion."
+  ]
+}
