@@ -3183,3 +3183,45 @@ ancestry-free A5/A6 execution.  It changes no actual witness numerator.
 Delta72 replaces the vague instruction to replay a full nonlinear successor
 by one exact two-layer formula and one later-depth simplification.  It changes
 no actual witness numerator.
+
+#### v220-delta73 - 2026-08-28 (after delta72)
+
+**Individual progress**:
+
+- Sol(max) task323 returned `REJECT / UNEXECUTED` for A4/v2.  The actual
+  positive branch is unreachable: after several schema mismatches, the
+  producer unconditionally raises `LOCAL_AUTHENTICATED_EVALUATOR_NOT_STAGED`
+  and the checker unconditionally defers positive replay.  The shaped object
+  after the producer stop performs no successor-kernel computation.
+- The audit also found incorrect normal-proof field/value expectations,
+  incomplete bridge occurrence objects, no sealed checker verdict in the
+  driver, raw-versus-normalized coefficient errors, a wrong NONMEMBER sign,
+  broken K-basis/source ancestry, shallow broad-catch mutations, duplicate
+  reductions/serializations, and uncharged resource work.  No A4/v2 SELFTEST
+  or production run is authorized.
+- The original four-file authority staging was separately rejected because
+  it omitted the direct run's exact 150-byte checker-verdict member and did
+  not bind `accepted=true` and `independent=true`.  This does not reverse
+  v264's cross-check of the underlying GHA run; it blocks only promotion of
+  that incomplete staging bundle into A4.
+- A versioned authority-bundle-v2 candidate now adds the exact artifact
+  checker verdict (150 bytes, SHA-256
+  `ac841c5a979bbe89bdd47c73151ecabf29783793b7b288b4d08c4824596251de`)
+  and a canonical v3-schema acceptance manifest that binds both Booleans,
+  all five member identities, the direct run/head/artifact, receipt self
+  digest, and task198 source identities.  Task327 commissions a fresh
+  independent bundle-only audit; it is not yet accepted.
+- Commit `e164c116197c2e829992aad703eaf986b39625c7` records v266,
+  task325, and delta72 on the work branch.
+
+**v220 mapping**:
+
+- A4 remains **0/3 actual pending task327**.  A bundle-v2 PASS would supply
+  only milestone 1/3; the current consumer remains rejected and cannot supply
+  closure or K/anchor.
+- A0 **0/1**, A1 **4/4**, A2 **2/3**, A5/A6 **0/3 actual**, A9 **0/3
+  actual**, and A3, A7/A8 actual, B, C, W, and F retain their delta72 values.
+
+Delta73 turns the narrow missing-verdict defect into a separately versioned
+and auditable authority candidate while preserving every A4 implementation
+blocker.  It changes no actual witness numerator.
