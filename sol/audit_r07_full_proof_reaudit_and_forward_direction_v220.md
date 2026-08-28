@@ -4526,3 +4526,41 @@ delta103.
 
 Delta104 freezes the A0-v10 candidate and moves it to adversarial audit while
 keeping GHA execution forbidden.
+
+#### v220-delta105 - 2026-08-29 (after delta104)
+
+**Individual progress**:
+
+- V291 proves the exact A4 action column on both terminal types.  A MEMBER
+  relation contributes its K coefficient vector `c`; a rank-rise relation
+  with normalized new row `k_new=s*r` contributes
+  `c+s^(-1)e_new=c+s*e_new` over F3.  It simultaneously proves the word and
+  raw-discrepancy recurrence with signs `+Q`, `-sum(c_i E_i)`, and outer
+  scale `s`.
+- V291 also fixes the noncircular checkpoint test for a processed action
+  prefix: exactly four signed actions per completed queue parent, each query
+  tied to its MEMBER or rank-rise relation, recomputed column, appended K
+  item, partial matrix, event chain and queue cursor.  Repackaging stored
+  action fields and comparing them with themselves is expressly rejected.
+- The live A4-v5 implementation has been returned for this exact binding,
+  for chronological B/K reconstruction from insertion events, and for
+  removal of a guaranteed row-piece resource-cap stop.  These are active
+  implementation repairs and do not raise a milestone.
+- Sol(max)'s active A0-v10 audit found an earlier deterministic stop.  The
+  pinned 86,368,039-byte old checkpoint declares a top-level self digest
+  different from the SHA-256 of the canonical body with that field removed;
+  v10 calls that seal validator on every normal mode before search.  The
+  audit continues beyond a hypothetical versioned repair so that all later
+  defects are returned together.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V10 AUDIT REJECT-CLASS EARLIEST STOP FOUND / FULL AUDIT
+  CONTINUES**.  No GHA execution is authorized.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V291 closes its action-column
+  sign and resume-prefix mathematics on paper only.
+- A2 remains **2/3** and all other counts remain delta104.  No compatible
+  lift, fake certificate, or Ihara counterexample has been constructed.
+
+Delta105 advances the A4 proof boundary and records the first A0-v10 audit
+stop without mistaking either for an actual witness milestone.
