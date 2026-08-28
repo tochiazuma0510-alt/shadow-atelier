@@ -3225,3 +3225,64 @@ no actual witness numerator.
 Delta73 turns the narrow missing-verdict defect into a separately versioned
 and auditable authority candidate while preserving every A4 implementation
 blocker.  It changes no actual witness numerator.
+
+#### v220-delta74 - 2026-08-29 (after delta73)
+
+**Individual progress**:
+
+- V267 proves that A4 does not require the full 1,469,664-state Q0 section
+  store or the 2,939,328-edge global traversal.  The accepted task198 roster
+  already supplies every initial source word; a restricted actual E3/E4
+  evaluator, the four marked actions, a complete lazy PB boundary oracle,
+  and direct group replay suffice for the invariant kernel and v247 anchor.
+- Task327 found the five-member authority-v2 bundle mathematically and
+  semantically sound but returned `REJECT / UNEXECUTED` because its commission
+  inherited task323's false cross-capture normalization reference.  The old
+  `30,582,643 / 595dbe85...` value had removed `resume` as well as `resource`
+  and the self seal.
+- Task330 corrected only that expected reference.  Keeping `resume` and
+  removing exactly top-level `resource` plus `self_digest_sha256` gives two
+  byte-identical 31,016,535-byte objects with SHA-256
+  `8d6b9a7ed7d7ffaf61962678cd0e8bb3f4e6a219728c44cd1509e6c2cf2698ba`.
+  The independent ruling is now `AUTHORITY BUNDLE V2: PASS / UNEXECUTED`,
+  with no further bundle blocker.
+- V268 gives an exact faster evaluator for the 6,441 authenticated rows.
+  The row grammar uses only 243 Gamma section words, 26 record words, and 19
+  Q0 relators.  Their 288-word corpus has 114,458 literal letters but only
+  15,970 forward-prefix edges and 26,136 reverse-suffix edges.  A producer
+  and helper-nonshared checker can therefore reconstruct all row values by
+  opposite trie orientations and the authenticated ancestry identities,
+  instead of separately scanning the 5,475,488 stored row-word letters in
+  each of ten contexts.  Every new K/anchor word still requires direct actual
+  group replay.
+- Task328 plus the task331 performance addendum commissions the actual A4/v3
+  local evaluator, coefficient-bearing kernel, complete boundary oracle, and
+  v247 anchor with the prefix/suffix architecture.  It is implementation work
+  only and remains unexecuted.
+- Luna task324 returned A5/A6 v11 `IMPLEMENTED / UNEXECUTED`.  It claims to
+  carry raw-row transforms through every producer operation, use a distinct
+  batch-tableau checker, bind 19 owner-specific mutations on each side, and
+  remove the v10 repeated known-basis rebuilds.  Sol(max) task329 is auditing
+  the literal code and performance before any synthetic execution.
+- The A0 positive-only persistent-parallel task325 suffered a transport-layer
+  response failure with no v6 output and was restarted under the same scope.
+  This is not an algorithmic terminal.  The serial actual run `33163964747`
+  remains the live A0 computation.
+
+**v220 mapping**:
+
+- A4 advances from **0/3** to **1/3**.  The sole new milestone is the
+  independently accepted actual task198 input-authority bundle.  The A4/v2
+  consumer remains rejected; no actual closure, K basis, or anchor has been
+  computed, so A4 cannot be counted as 2/3 or 3/3.
+- A5 and A6 remain **0/3 actual**.  V11 is implemented but unexecuted and
+  under independent audit.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; the restarted v6 adapter is
+  preparation only.  A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3
+  **0/3**, A7/A8 **0/3 actual**, and A9 **0/3 actual**.
+- B, C, W, and F remain zero.  No compatible cofinal lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta74 is the first post-v220 increase in A4: it closes only authenticated
+input authority.  It also replaces A4's repeated long-word hot path by two
+exact ancestry-DAG replays without weakening the all-row semantic check.
