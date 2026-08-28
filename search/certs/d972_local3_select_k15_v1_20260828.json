@@ -1,0 +1,70 @@
+{
+  "schema": "d972-local3-select-k15/v1",
+  "status": "STOPPED_AT_PRECHECK_A",
+  "verified": false,
+  "authority": "implementer task 2026-08-28, coordinator instruction citing 裁定1732 / scratchpad/joint_marked_frobenius_design_v1.md SS6 (sha16 80a2b91eb6bc0cd9)",
+  "note": "K1-K5 SELECT computation was NOT performed. Pre-check (a), mandated to run BEFORE K1-K5 ('数学者の残確認 -- 準拠でなければ停止報告'), FAILS: no Psi(pi) evaluator matching SS6.3's 'convention D' definition (a direct pi-column -> C3 map, independent of Frobenius/primes) was found anywhere in this repository. Per the task's own stop condition, this halts the pass before K1-K5. Pre-check (b) WAS completed and CONFIRMS the ORIENT prediction exactly.",
+  "precheck_a_psi_evaluator_compliance": {
+    "result": "NOT_FOUND / NOT_CONFIRMED",
+    "requirement": "SS6.3 requires Psi to be evaluated as a direct function of each census row's pi (PSL(2,8) coset / S9 permutation) column, pinned by 'convention D + u_dih anchor' (SS6.3 boxed note: 'Psi 側は規約D+アンカーが固定'), independent of Frobenius/primes -- this is the entire point of SS6's re-derivation (SS6.3: '必要な入力は X の座標関数 K3,Psi と2つのkey集合だけ。Frobenius も素数も c も要らない').",
+    "search_performed": [
+      "grepped the repo for 'local3', 'Psi', 'convention D' implementations",
+      "read scratchpad/d972_local3_producer_v2.py in full function-signature detail: implements Psi ONLY via a Frobenius/prime discrete-log chain (S1-S9: pick prime p, cube_residue, discrete_log_mu3 against u_S4=u0 evaluated at Frob_p) -- this is exactly the machinery SS6 says to STOP using ('その経路を使わない')",
+      "read search/d972_idx3_arithmetic_producer_v2.py's index3_census() in full: the actual NN-09..NN-12 rosters (12 nonnormal index-3 candidates, later narrowed) were found via BRUTE-FORCE enumeration of Hom(X,S3) over 4 chosen generators (itertools.product(range(6), repeat=4)), classified by which generator assignment's image fixes which point -- there is no Psi(pi)-as-a-formula anywhere in this construction; the rosters are a byproduct of an abstract group-theoretic search, not a coordinate-function evaluation",
+      "grepped scratchpad/local3_udih_anchor_and_s9_conventions_v2.md for 'convention D': the document DEFINES the u_S4=u0 / u_dih anchor normalization used by the Frobenius-based Psi computation (SS3.1's D-1 entry), but does not define or implement a pi-column-only Psi evaluator either"
+    ],
+    "conclusion": "SS6's entire point is that a pi-column Psi evaluator would let SELECT be computed WITHOUT Frobenius/primes/c. That evaluator does not yet exist in this repository as a checkable artifact. Building one now (identifying the PGammaL(2,8)/PSL(2,8) Frobenius-twist C3 invariant combinatorially on the 9-point permutation representation, and separately establishing that its normalization matches 'convention D') is new mathematical/computational construction work, not a wiring task -- it is explicitly the '数学者の残確認' (mathematician's remaining confirmation) the coordinator's own instruction names as item (a), and this implementer did not find it already done. Per the coordinator's own stop rule ('準拠でなければ停止報告'), this pass stops here rather than fabricate or guess a Psi formula.",
+    "recommendation": "Route back to 数学者 (mathematician role) to either (i) locate/construct the convention-D-compliant pi->C3 evaluator with its own derivation and validation, or (ii) confirm in writing that no such evaluator exists yet and SS6's K1-K5 procedure needs that construction as a genuine prerequisite before any implementer can run it."
+  },
+  "precheck_b_k2_162_each_confirmed": {
+    "result": "CONFIRMED",
+    "method": "pure arithmetic, independent of any Psi evaluator -- computed directly from two already-existing, hash-pinned artifacts, no new GAP/group-theory computation needed",
+    "inputs": [
+      {"path": "search/certs/d972_b4_word_key_artifact_v1_20260816.json", "role": "972-row canonical key artifact; row[i][1][0] = m for row i"},
+      {"path": "search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json", "role": "finite_index3_census.nonnormal_candidates['IDX3-NN-09'/'IDX3-NN-12'].row_indices"}
+    ],
+    "X0_definition_used": "X^0 := {row i : m_i mod 3 == 0} (derived from d972_idx3_arith_datum_independent_v1.md SS7.1: X^0=ker(chi mod 3), chi(sigma)=u=2m+1 valued in (Z/3)^x={1,2}; u mod 3==1 (identity of (Z/3)^x) iff 2m=0 mod 3 iff m=0 mod 3, since 2 is a unit mod 3)",
+    "computed": {
+      "total_rows": 972,
+      "X0_size": 486,
+      "NN09_size": 324,
+      "NN12_size": 324,
+      "NN09_cap_NN12_size": 108,
+      "NN09_cap_X0_size": 162,
+      "NN12_cap_X0_size": 162
+    },
+    "match_to_ORIENT_prediction": true,
+    "note": "This exactly matches SS6.5 point 2's prediction (|A_c' cap X0|=162 for each roster) and joint_marked_frobenius_design_v1.md SS6.3 K2's expected '各162元'. Real, machine-computed, not assumed."
+  },
+  "K1_K5_procedure": {
+    "status": "NOT_EXECUTED",
+    "reason": "blocked by precheck_a failure (no Psi(pi) evaluator to run K3/K4/K5 against)",
+    "K1_X0_construction": "COMPLETED as part of precheck (b) above (486 elements, X0_definition_used)",
+    "K2_each_roster_cap_X0": "COMPLETED as part of precheck (b) above (162/162, confirmed)",
+    "K3_evaluate_Psi_minus_K3_on_each_roster": "NOT RUN -- requires the missing Psi(pi) evaluator",
+    "K4_select_identically_zero_side": "NOT RUN",
+    "K5_cross_check_other_side": "NOT RUN"
+  },
+  "D12_declaration": {
+    "status": "NOT_APPLICABLE_YET",
+    "reason": "D-12 (SS6.3's newly-required declaration of the F3-identification directions for Psi and K3) presupposes a working Psi evaluator to declare a direction FOR. K3's direction is pinnable now (Thm 4.3's k = 5*a mod 9 where a is the first D9-component exponent read directly from each row's delta field, then K3 := k mod 3 -- machine-confirmed identity, no free convention). Psi's direction cannot be declared because no evaluator exists yet to declare a direction of.",
+    "K3_direction_pinned": {
+      "formula": "k := (5 * delta1_exponent) mod 9  [2^-1 = 5 mod 9, per scratchpad/math_thm43_k_v1.g gate]",
+      "K3": "k mod 3",
+      "source": "2405.11725 Thm 4.3, machine-confirmed in scratchpad/math_thm43_k_v1.g (referenced by joint_marked_frobenius_design_v1.md SS6.2)",
+      "convention_free": true
+    },
+    "Psi_direction_pinned": false
+  },
+  "kappa_even_canary": {
+    "status": "NOT_RUN",
+    "reason": "kappa(m) even-ness is a property of the row data / Thm 4.3 construction itself (varkappa(m) = m+1 for m odd, -m for m even, per d972 doc and search/d972_idx3_arithmetic_producer_v2.py's varkappa()), independently checkable from the word-key artifact without needing Psi. Deferred here since it was requested as item 4 alongside K1-K5 execution and this pass stopped before reaching that stage; can be run standalone on request (cheap: read varkappa(m) for all 12 charming m values and confirm all even).",
+    "quick_note": "joint_marked_frobenius_design_v1.md SS6.2 already reports this canary was run once during the Thm 4.3 machine-confirmation (math_thm43_k_v1.g): 'kappa(m)=m+1(m odd)/-m(m even) は常に偶数' -- confirmed there, not independently re-run in this pass."
+  },
+  "two_systems_note": "Per instruction point 5 ('2 系統(これまでどおり別言語・共有なし)'), precheck (b) was computed once in Python here; a second independent system (e.g. a GAP re-derivation) was NOT run in this pass since the pass stopped at precheck (a) before reaching the point where a two-system cross-check of K1-K5 would be meaningful. If precheck (a) is resolved and K1-K5 is re-attempted, the two-system discipline should apply to that full run, including a re-derivation of precheck (b)'s 486/162/162 counts as part of the SAME two-system split (not reused from this single-system precheck).",
+  "deviations_and_open_questions": [
+    "(1) This pass could not confirm or deny whether a convention-D-compliant Psi(pi) evaluator exists somewhere in the repository outside the files this implementer searched (scratchpad/*local3*, search/d972_idx3_arithmetic_producer_v2.py, and grep hits for 'Psi'/'convention D'). A more exhaustive search (e.g. by a reader/mathematician role with more context on where such an evaluator might have been built) could not be ruled out within this pass's time budget.",
+    "(2) If no such evaluator exists, constructing one (a PGammaL(2,8)/PSL(2,8) Frobenius-outer-automorphism C3-invariant on the 9-point coset representation, calibrated against convention D) is nontrivial new work requiring mathematician-level design, not implementer-level wiring -- flagged back to the coordinator for routing.",
+    "(3) precheck (b)'s X^0 definition (m mod 3 == 0) was derived from reading scratchpad/d972_idx3_arith_datum_independent_v1.md SS7.1's prose definition (chi mod 3 valued in (Z/3)^x, kernel = identity class), not from an explicit formula in joint_marked_frobenius_design_v1.md itself, which only names X^0 without re-deriving it. This derivation should be spot-checked by the mathematician role before being relied upon for the eventual K1-K5 run, even though its OUTPUT (486/162/162) matches the predicted counts exactly (a necessary but not sufficient confirmation)."
+  ]
+}
