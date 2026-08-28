@@ -31,7 +31,7 @@ D227Pin:=function(row)
 end;;
 D227Pins:=[
   [D227P,"755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e",47135],
-  [D227C,"4fe41a07f86b83c4dae2acbf6de14b719a5cb81365eddcc6b5e25fe35acf17ef",34239],
+  [D227C,"028e615bd71276c22cea2180b8ff59e53d8e9ee745c84a1912c862f217f2bb95",34200],
   [D227F,"d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911",594]
 ];;
 for D227PinRow in D227Pins do D227Pin(D227PinRow);; od;
@@ -53,12 +53,12 @@ if D227Mode="SELFTEST" then
   PrintTo(D227Stream,"python3 -u -B ",D227P," --selftest --fixture ",D227F,
     " --output ",D227R," > ",D227PL," 2>&1 || { cat ",D227PL,"; exit 1; }\n");
   PrintTo(D227Stream,"grep -Fxc 'D227_PRODUCER_TERMINAL ",D227Selftest,
-    "' ",D227PL," | grep -qx 1\n");
+    "' ",D227PL," | grep -qx 1 || { cat ",D227PL,"; exit 1; }\n");
   PrintTo(D227Stream,"python3 -u -B ",D227C," ",D227R,
     " --selftest --fixture ",D227F," --verdict ",D227V,
     " > ",D227CL," 2>&1 || { cat ",D227CL,"; exit 1; }\n");
   PrintTo(D227Stream,"grep -Fxc 'D227_CHECKER_TERMINAL ",D227Selftest,
-    "' ",D227CL," | grep -qx 1\n");
+    "' ",D227CL," | grep -qx 1 || { cat ",D227CL,"; exit 1; }\n");
 else
   PrintTo(D227Stream,"python3 -u -B ",D227P," --task226 ",
     "ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.json",
@@ -67,16 +67,16 @@ else
     " --task226-binding ",
     "ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.binding.json",
     " --output ",D227R," > ",D227PL," 2>&1 || { cat ",D227PL,"; exit 1; }\n");
-  PrintTo(D227Stream,"grep -Ec '^D227_PRODUCER_TERMINAL (PROJECTED_MEMBER_SEED|PROJECTED_NONMEMBER_DUAL|UNKNOWN_INPUT|UNKNOWN_RESOURCE)$' ",D227PL," | grep -qx 1\n");
+  PrintTo(D227Stream,"grep -Ec '^D227_PRODUCER_TERMINAL (PROJECTED_MEMBER_SEED|PROJECTED_NONMEMBER_DUAL|UNKNOWN_INPUT|UNKNOWN_RESOURCE)$' ",D227PL," | grep -qx 1 || { cat ",D227PL,"; exit 1; }\n");
   PrintTo(D227Stream,"python3 -u -B ",D227C," ",D227R,
     " --task226 ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.json",
     " --task226-verdict ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.verdict.json",
     " --task226-binding ci/in/d972_r07_actual_two_word_endpoint_specializer_v2.binding.json",
     " --verdict ",D227V," > ",D227CL," 2>&1 || { cat ",D227CL,"; exit 1; }\n");
-  PrintTo(D227Stream,"grep -Ec '^D227_CHECKER_TERMINAL (PROJECTED_MEMBER_SEED|PROJECTED_NONMEMBER_DUAL|UNKNOWN_INPUT|UNKNOWN_RESOURCE)' ",D227CL," | grep -qx 1\n");
+  PrintTo(D227Stream,"grep -Ec '^D227_CHECKER_TERMINAL (PROJECTED_MEMBER_SEED|PROJECTED_NONMEMBER_DUAL|UNKNOWN_INPUT|UNKNOWN_RESOURCE)' ",D227CL," | grep -qx 1 || { cat ",D227CL,"; exit 1; }\n");
   PrintTo(D227Stream,"p=$(sed -n 's/^D227_PRODUCER_TERMINAL //p' ",D227PL," | head -n 1)\n");
   PrintTo(D227Stream,"c=$(sed -n 's/^D227_CHECKER_TERMINAL //p' ",D227CL," | head -n 1 | cut -d' ' -f1)\n");
-  PrintTo(D227Stream,"test \"$p\" = \"$c\"\n");
+  PrintTo(D227Stream,"test \"$p\" = \"$c\" || { cat ",D227PL,"; cat ",D227CL,"; exit 1; }\n");
 fi;
 PrintTo(D227Stream,"test -s ",D227R,"\n");
 PrintTo(D227Stream,"printf '%s' '",D227Sentinel,"_",D227Mode,"' > ",D227OK,"\n");

@@ -162,3 +162,88 @@ ACTUAL TASK226 PACKAGE / A3 GATE:              NOT OBTAINED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
 
 `TASK279_TASK227_CHECKER_REQUIRE_ARITY_REPAIR_COMMISSIONED`
+
+## 2026-08-28 — task280 fail-closed log visibility repair
+
+Run `33152004591` at immutable head
+`ebb6c5915b78f6cddf6407d72cc0801253b66116` is classified as an
+implementation/driver observability failure, not a MEMBER, NONMEMBER,
+resource, or mathematical rejection: only the final sentinel error was
+visible. Since the unchanged producer had reached the checker in the prior
+run, a checker terminal-grep failure is the leading inference, but the exact
+redirected reason is not claimed from this run. The serial GAP driver now
+cats the relevant producer or checker log on every SELFTEST and PRODUCTION
+terminal-grep failure, and cats both logs on producer/checker terminal
+disagreement. Existing commands, exact terminal vocabulary, pins, paths,
+order, and final sentinel are preserved.
+
+Final identities after task280:
+
+```text
+producer  47135  755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e
+checker   34239  4fe41a07f86b83c4dae2acbf6de14b719a5cb81365eddcc6b5e25fe35acf17ef
+driver     5387  ba4fbddefc068f57e6cb6a174ce84bad181049c766e89055de273f838b0f2ed8
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+TASK227 FAIL-CLOSED LOG VISIBILITY:             REPAIRED STATICALLY
+FULL PRODUCER+INDEPENDENT CHECKER SELFTEST:     NOT EXECUTED BY LUNA
+ACTUAL TASK226 PACKAGE / A3 GATE:               NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:         NOT DECLARED
+
+`TASK280_TASK227_FAIL_CLOSED_LOG_VISIBILITY_COMMISSIONED`
+
+## 2026-08-28 — task281 checker JSON pivot-shape repair
+
+Normalized the checker’s reconstructed `block_echelon` pivot from
+`list(p)` to the JSON-native `[p[0], list(p[1])]` shape before the existing
+exact row/ancestry equality. The composite-shape audit found no other checker
+comparison leaving a tuple where canonical producer JSON supplies a list.
+Producer, fixture, and task280 fail-closed logging remain unchanged; only the
+checker pin was refreshed. No execution was performed by Luna.
+
+Final identities after task281:
+
+```text
+producer  47135  755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e
+checker   34249  b706bd62ea7f2c4ae9e641eb09be122a1f98ae1a071ce11e983754c347309f98
+driver     5387  357b5c5d1670b1b2f9e43f4192f3f8acc9baaea089095a46afd3aa64dfda9ddb
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+TASK227 CHECKER JSON PIVOT SHAPE:               REPAIRED STATICALLY
+FULL PRODUCER+INDEPENDENT CHECKER SELFTEST:     NOT EXECUTED BY LUNA
+ACTUAL TASK226 PACKAGE / A3 GATE:               NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:         NOT DECLARED
+
+`TASK281_TASK227_CHECKER_JSON_PIVOT_NORMALIZATION_COMMISSIONED`
+
+## 2026-08-28 — task282 independent-basis equivalence repair
+
+Removed only the checker literal `rebuilt == occ` list equality, which
+overconstrained independently pivoted noncanonical bases. All two-way sparse
+span checks, rank checks, 486/729 exact rosters, ancestry replay,
+block-image/echelon checks, queue invariance, and algebraic replay checks are
+retained. The audit found no other direct equality between independently
+generated noncanonical basis lists. Task280 log visibility and task281
+JSON-native pivot normalization are preserved. No execution was performed by
+Luna.
+
+Final identities after task282:
+
+```text
+producer  47135  755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e
+checker   34200  028e615bd71276c22cea2180b8ff59e53d8e9ee745c84a1912c862f217f2bb95
+driver     5387  38352fd53e2aa2534e6b4d61c5a613c38fd65c4a6843fa5cb6dd2a04918cfe7d
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+TASK227 INDEPENDENT BASIS EQUIVALENCE:          REPAIRED STATICALLY
+FULL PRODUCER+INDEPENDENT CHECKER SELFTEST:     NOT EXECUTED BY LUNA
+ACTUAL TASK226 PACKAGE / A3 GATE:               NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:         NOT DECLARED
+
+`TASK282_TASK227_INDEPENDENT_BASIS_EQUIVALENCE_COMMISSIONED`
