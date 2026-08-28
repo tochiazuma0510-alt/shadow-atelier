@@ -1702,3 +1702,112 @@ lift cone.  Actual witness complete gates remain zero.
 Delta36 separates the already named nonarithmetic roof from the still absent
 compatible lift, and separates 432 unconditional-within-package names from the
 unselected final 216.
+
+#### v220-delta37 - 2026-08-28 (after delta36)
+
+**Individual progress**:
+
+- A2 full serial SELFTEST run `33145825325` at immutable head
+  `78225a3d822de4721e1534521ccb831111c0fb7b` failed its sentinel.  Direct
+  producer diagnostic run `33146069436` then emitted the positive producer
+  SELFTEST terminal, while producer-plus-checker diagnostic run `33146219086`
+  emitted checker `UNKNOWN_INPUT reason=fresh complete ABI rebuild`.
+- Source comparison located the exact first ABI disagreement: producer had
+  already computed the eleven quotient values `rkeys_g/rkeys_f`, but reused
+  `rg/rf` for flattened free block words and serialized those words in
+  `literals.rg/rf`.  The checker reconstructs the eleven quotient values,
+  consistent with the eleven occurrence `r_g/r_f` fields.  Task264 repairs
+  this variable collision; the distinct free-word fields remain unchanged.
+- A4 SELFTEST run `33146001722` at immutable head
+  `0818e23bcfdc27b3957b378df87d99f56525186d` reached the semantic mutation
+  suite and stopped on `KeyError: roof_identity`: producer read a nonexistent
+  successor field instead of the serialized ten-entry `roof_reductions`
+  ledger.  Task263 moves validation and mutation to that extant owner.  Retry
+  run `33146459352` is dispatched from head `0a739e82`.
+- A3 task257 remains rejected before execution: its producer used reference
+  equality in place of complete closure reconstruction and created three
+  mutation owners only in mutants.  Task261 requires actual lambda, kappa,
+  MEMBER/dual replay and extant terminal/resource/conclusion owners.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, full producer-plus-checker
+  implementation SELFTEST **0**, actual specialization **0**.  A producer-only
+  terminal and a diagnostic run are not the implementation gate.
+- A3 remains **0/3**: actual accepted package **0**, independently accepted
+  orbit/486/729 equality **0**, MEMBER-or-dual **0**.
+- A4 remains **0/3**: authenticated actual presentation input **0**, exhausted
+  actual invariant closure **0**, accepted actual word-bearing K/anchor **0**.
+  SELFTEST repair and retry do not count any actual numerator.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**; A5--A9, B, C, W,
+  and F remain zero.
+
+Delta37 converts two opaque sentinel failures into exact executable owners
+without promoting diagnostics, repairs, or source agreement to witness gates.
+
+#### v220-delta38 - 2026-08-28 (after delta37)
+
+**Individual progress**:
+
+- A2 full serial run `33149154721` at immutable head
+  `472c03d382ed1c6ee159314e5e2db2f9d45a4787` completed with
+  `D226_DRIVER_PASS mode=SELFTEST`.  The producer's canonical task226 ABI and
+  the helper-nonshared JSON-native checker now agree exactly; this closes the
+  implementation-SELFTEST milestone, not an actual specialization.
+- A4 full serial run `33149273691` at immutable head
+  `ff162138ef381eb7f4eed67ae9ec052fa61e7e12` completed with producer SELFTEST
+  PASS and independent checker PASS.  The checker rejected all 57 registered
+  mutations (`mutation_attempted=57`, `mutation_rejected=57`).  This accepts
+  the implementation envelope but supplies no actual task198 presentation.
+- A3 diagnostic run `33149066213` established that the actor action is a
+  representation, the toy occurrence ideal has rank exactly 486, `u0` and
+  all 729 translates reduce into it, and the polynomial identity holds.
+  High-cap run `33149217102` then reached a NONMEMBER case and stopped at
+  `DUAL_CONSTRUCTION`.
+- The decisive A3 diagnostic `33149727232`, immutable head
+  `7dd85c94c01e35e090917f9d11f9a7252a260523`, independently computed
+  `rank(rows)=486`, `rank(rows,target)=487`, a four-term dual, zero pairing
+  against all 486 rows, and target pairing one.  The producer nevertheless
+  rejected it because strict `require(ok is True)` was called on the nonempty
+  dual dictionary rather than `bool(dual)`.  A second independent sparse
+  maximum-pivot convention in run `33149834487` reproduced rank 486, nonzero
+  remainder, four-term dual, and pairings zero/one.
+- The same A3 run measured `occurrence_rank_increases=1458` and
+  `block_rank_increases=1458` after three separate rank-486 cases.  Thus the
+  original SELFTEST also adds per-case ranks into one cap of 486.  Task278
+  preserves the mathematical 486 cap, gives each production-shaped case a
+  separate fail-closed scope, and repairs only truth-value owners; it does not
+  widen the rank cap or weaken the dual checks.
+- The old A0 run `33129456772` ended its producer with
+  `UNKNOWN_RESOURCE:phase=positive_boundary_correlation:cap=wall_seconds`
+  after about 19,809 seconds, then the serial checker was cancelled by the
+  six-hour workflow limit.  It produced no accepted positive terminal and no
+  uploaded checkpoint.  Producer-only run `33149728601` at head
+  `7dd85c94c01e35e090917f9d11f9a7252a260523` is now running with a 10,800
+  second cap so a typed stop can upload its safe checkpoint before any
+  checker is launched.  A later shard will consume that checkpoint only after
+  byte/digest and resume-contract audit.
+- Runs `33149597213` and `33149660506` are excluded completely: an overquoted
+  base64 launcher caused Python `SyntaxError`, while the generic GAP wrapper
+  returned success.  They contain no mathematical or implementation result.
+
+**v220 mapping**:
+
+- A0 is **0/1 RUNNING** on producer-only run `33149728601`.  No execution time,
+  resource terminal, or checkpoint counts as the positive accepted word.
+- A1 is **3/4 RUNNING** on production run `33143444409`; only producer plus
+  independent-checker production acceptance can close the fourth milestone.
+- A2 is now **2/3**: paper contract **1**, full producer-plus-independent-
+  checker SELFTEST **1**, actual specialization **0**.
+- A3 remains **0/3**: actual task226 package **0**, actual orbit/486/729
+  equality **0**, actual MEMBER coefficient or NONMEMBER dual **0**.  The toy
+  dual diagnosis and task278 repair are not actual numerators.
+- A4 remains **0/3**: authenticated actual presentation input **0**, exhausted
+  actual invariant closure **0**, accepted actual word-bearing K/anchor **0**.
+  The complete implementation SELFTEST is recorded separately.
+- A5--A9, B, C, W, and F remain zero.  No compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+Delta38 is the new reporting baseline: the only v220 numerator change since
+delta37 is A2 `1/3 -> 2/3`; A3/A4 implementation work is explicitly separated
+from actual witness gates.
