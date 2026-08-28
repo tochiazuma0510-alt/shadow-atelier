@@ -1025,3 +1025,680 @@ task232はA1が閉じた直後にA2/A3と並行発進できる準備であり、
 This delta removes no mathematical gate and adds no witness gate. It prevents
 two syntactically plausible but word-independent/shallow implementations from
 being counted as progress.
+
+#### v220-delta17 — 2026-08-28 13:00 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task234 task227 second revision before
+  execution**. The returned source still has the shared-key ancestry overwrite
+  and `next(iter(block_basis...))` one-ancestor recovery identified in delta16.
+  It still computes `lambda-lambda*z0`, never replays `kappa odot w`, skips
+  empty serialized u0, and routes most named mutations through an unrelated
+  modulus change.
+- The alleged independent 486 reconstruction is also unchanged in the
+  load-bearing places: its degree-two row is `t*z0^2-t`, its roster contains a
+  bare `t`, its pivot rows are not normalized, and the two-way span function
+  is never called. Production MEMBER/NONMEMBER acceptance still checks only
+  for the presence of `ancestry` or `dual` and decodes none of the certificate.
+- The third repair contract is fixed in
+  `luna_task_235_r07_task227_third_static_repair_v1.md`. It requires complete
+  block ancestry, the four positive equalities, the full negative dual, exact
+  zero-safe task233 ABI, actual 486/729 equality, and independent terminal
+  reconstruction. The rejected task234 implementation remains unexecuted and
+  is not eligible for GHA.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: actual package **0/1**, orbit/486 equality **0/1**, and
+  accepted membership-or-dual **0/1**. A returned source file, an unexecuted
+  SELFTEST, and a repair commission do not increment these milestones.
+- A2 remains **1/3** and A4 remains **0/3**; neither is changed by the task227
+  rejection. A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING** pending fresh run
+  status. A5--A9, B, C, W, and F remain zero.
+
+The concrete gain in delta17 is adversarial exclusion of a false A3 terminal,
+not a witness gate. Actual witness complete gates remain zero.
+
+#### v220-delta18 — 2026-08-28 13:02 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task233 task226 second revision before
+  execution**. Production calls an undefined `seal`; its global Fox checks
+  feed a mixed H1/H2/P chain to a single PB3 endpoint map; and its untagged
+  endpoint dictionaries can merge H1 with H2.
+- The returned stable ABI has the load-bearing u0 serialization backwards:
+  `terms` contains the already formed difference u0, while task227 and the
+  task233 contract require `terms=w_o` and
+  `translated_terms=k_o(z0)w_o`. Thus a downstream reconstruction would form
+  translated-u0 instead of translated-w.
+- The independent checker does not compare the four Fox equalities. It asks
+  only whether one reconstructed Fox object is a dictionary, uses static
+  commutator factors instead of the actual substituted g0/f factors, and
+  trusts producer identity Booleans. Its mutation and resource probes remain
+  shallow.
+- A replacement contract is fixed in
+  `luna_task_236_r07_task226_third_static_repair_v1.md`, with block-typed Fox
+  endpoints, exact two-word replay, the corrected zero-safe ABI, full
+  independent reconstruction, genuine mutations, and real terminal probes.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**. The unexecuted rejected task233 return adds no
+  milestone.
+- A3 remains **0/3** and A4 remains **0/3**. A0 is **0/1 RUNNING** and A1 is
+  **3/4 RUNNING**: runs `33129456772` and `33136789684` were still in their
+  GAP-script steps at the latest poll. A5--A9, B, C, W, and F remain zero.
+
+Actual witness complete gates remain zero. Delta18 prevents a type-invalid
+Fox receipt from becoming the sole A2 input to all later gates.
+
+#### v220-delta19 — 2026-08-28 13:04 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task232 A4 implementation before
+  execution**. Its production function authenticates counts and then
+  unconditionally returns `TASK198_RELATOR_DAG_NOT_STAGED`; it never computes
+  one of the 6,441 successor defects or a K row.
+- The input adapter is itself mistyped: it reads the presentation from a
+  nonexistent `receipt.result.Delta0`, whereas task198 places
+  `Delta0.presentation`, `bridge`, and `evaluator` at top level. The alleged
+  ten successors are metadata/toy rows, with wrong paper-product order and
+  wrong PB4 pure-generator numbers, not the pinned affine successor.
+- The returned ancestry sign/scaling, mutation execution, and production
+  checker are also insufficient. The checker trusts counts and labels rather
+  than reconstructing actual defects, complete boundaries, closure, ancestry,
+  or duals.
+- `luna_task_237_r07_task232_actual_kernel_repair_v1.md` fixes the actual
+  task198 ABI and directs production through the pinned task179/task193 affine
+  arithmetic, complete lazy boundary oracle, 6,441-row invariant closure, and
+  independent reverse-order reconstruction.
+
+**v220 mapping**:
+
+- A4 remains **0/3**: presentation input **0/1**, invariant closure **0/1**,
+  word-bearing K **0/1**. An implementation that always returns UNKNOWN is not
+  preparation-input completion or queue completion.
+- A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **1/3**, and A3 is
+  **0/3**. A5--A9, B, C, W, and F remain zero.
+
+Delta19 replaces a toy-only A4 shell by an exact repair contract; actual
+witness complete gates remain zero.
+
+#### v220-delta20 — 2026-08-28 13:05 JST
+
+**Individual progress**:
+
+- `proof_r07_pregate_seeded_pointed_affine_slice_v238.md` now gives an
+  explicit source lift of an A3 positive coefficient. If
+  `kappa_D=lambda(z0-1)`, it replaces every actor (g=x^ay^bh^r) by the
+  literal roof-fibre pair (g[x,y]^3-g). This produces a word-bearing
+  `kappa_0 in I` with the same exponent-nine endpoint.
+- With `Phi(kappa)=C(kappa odot w)` and `H=ker Phi`, the A5 simultaneous gate
+  is proved equivalent to the single sliced membership
+  `e1-kappa_0*d1 in H*d1`. The slice is computed exactly as the kernel of the
+  endpoint projection on a completed v214 joint basis, retaining full
+  coefficient ancestry; a separating dual excludes every endpoint-compatible
+  pointed multiplier.
+- On a positive slice, `mu1=kappa_0+theta` is already a finite sum of literal
+  roof-fibre pairs. Therefore the scheduled A6 branch has `alpha=mu1,beta=0`
+  and needs no Neumann-power expansion or second word search. It still needs
+  actual pair collection/evaluator replay and A7 exact PB endpoints.
+
+**v220 mapping**:
+
+- A5 remains **0/3**: no actual joint rows, slice membership, or accepted mu1
+  ancestry has been computed. V238 fixes the exact positive algorithm and its
+  negative dual.
+- A6 remains **0/3**: its ancestry expansion is reduced to direct collection,
+  but no actual ancestry, roof-fibre replay, or accepted M exists.
+- A0 **0/1 RUNNING**, A1 **3/4 RUNNING**, A2 **1/3**, A3 **0/3**, A4
+  **0/3**; A7--A9, B, C, W, and F remain zero.
+
+Delta20 shortens the positive A3-to-A6 path without counting a paper theorem
+as an actual witness gate. Actual witness complete gates remain zero.
+
+#### v220-delta21 — 2026-08-28 13:09 JST
+
+**Individual progress**:
+
+- `proof_r07_actual_pointed_row_sign_cokernel_bridge_v239.md` fixes the exact
+  task193-to-A5 row dictionary.  If `beta1` is task193's raw corrected-word
+  defect, then the v144 augmented error is `+beta1`, whereas the v214/v238
+  pointed residual is `e1=-beta1`; the original pointed target is
+  `d1=-D(g760)`.
+- The proof separates the full upper Fox cokernel from its cycle/homology
+  subspace.  The corrected row `e1` is a cycle, but `d1` generally is not:
+  its required endpoint replay is `D1(d1)=1-R(g760)`, not zero.  This
+  supersedes the old task195/task196 clause requiring `D1=0` for both rows.
+- The v145 general second-rung preimage and the v214 pointed multiplier are
+  now type-separated: they have the same target `-beta1` but different source
+  maps.  The deterministic A5 adapter must reconstruct `d1` through the same
+  affine arithmetic, compare `e1` blockwise with `-beta1`, and retain the
+  nonzero endpoint of `d1` in the full cokernel.
+- With an A3 seed `kappa0`, the executable v238 target is fixed without a sign
+  ambiguity as `r0=-beta1-kappa0*d1`, tested against `(ker Phi)*d1`.
+
+**v220 mapping**:
+
+- A5 remains **0/3**: the joint-row ABI is now mathematically fixed, but no
+  actual `d1/e1` package, slice membership, or accepted `mu1` ancestry has
+  been produced.  A paper bridge does not complete the joint-row milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A2 remains **1/3**,
+  A3 and A4 remain **0/3**, and A6--A9, B, C, W, and F remain zero.
+
+Delta21 removes a real sign/cycle type hazard before A5 implementation; it
+does not increment an actual witness gate. Actual witness complete gates
+remain zero.
+
+#### v220-delta22 — 2026-08-28 13:12 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task236/task226 third repair before
+  execution**.  Its block algebra sets `d_raw=-G` but then computes
+  `B_a=F-d_raw=F+G`; the required identity is `B_a=F-G=F+d_raw`.  Producer
+  and checker duplicate this error.
+- The sparse rows `r^-1-1` and `1-R` are built with dictionary literals.  If
+  the two group keys coincide, Python overwrites the first coefficient rather
+  than cancelling to the empty row, violating the zero-safe ABI.
+- Production uses one `self_digest_sha256` verifier for both inputs, although
+  task192's actual v3 receipt uses `self_digest`.  The checker also has an
+  indentation syntax error.  Even after that repair, it reconstructs from the
+  producer-carried words instead of the actual predecessor words and hashes
+  the producer ABI as its alleged independent reconstruction.
+- Most named mutations execute the same `rword_g[0]=[]` edit and leave the ABI
+  seal stale, so they are rejected at the seal rather than their named
+  semantic gate.  The driver has no producer/checker/fixture byte/hash pins,
+  and the advertised RSS cap is not measured.
+- `luna_task_240_r07_task226_fourth_static_repair_v1.md` fixes the exact Fox
+  sign, zero-key cancellation, predecessor seal dialects, actual-input
+  reconstruction, one-to-one mutations, bounded arithmetic oracle, driver
+  pins, and live resource/terminal paths.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**.  The unexecuted task236 return adds no
+  milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A3 and A4 remain
+  **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta22 prevents a sign-invalid and predecessor-unbound endpoint package from
+entering A3. Actual witness complete gates remain zero.
+
+#### v220-delta23 — 2026-08-28 13:16 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task235/task227 third repair before
+  execution**.  It applies the canonical coefficients `t(z0-1)` and
+  `t(z0^2+z0+1)` to `u0=(z0-1)w` instead of to `w`.  The second family then
+  vanishes identically, so its alleged 486 roster omits the degree-one part.
+- The actual task226 ABI is also mistyped.  The returned task227 requires an
+  occurrence `u0` dict and parses top-level `source_coefficient_terms` as an
+  xi sparse row, whereas the stable ABI carries an occurrence sparse list and
+  two signed provenance records at top level.  Actual A2 output would be
+  rejected before closure.
+- The independent positive checker reconstructs separate rows but does not
+  require `sum c_i rows=lambda*u0=kappa*w`, does not compare their block image
+  with the target, and ignores the quotient remainder.  It checks only the
+  length of the producer 486 roster.  Its mutation harness catches the
+  explicit `mutation accepted` sentinel and records it as a rejection.
+- `luna_task_241_r07_task227_fourth_static_repair_v1.md` fixes the ABI,
+  constructs canonical 486 rows on `w`, compares their span with both the
+  exhausted orbit and all 729 translates of `u0`, closes the complete
+  positive/negative replay, and makes certificate mutations genuine.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: actual package **0/1**, orbit/486/729 equality **0/1**,
+  membership-or-dual **0/1**.  The task235 source is unexecuted and rejected.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A2 remains **1/3**,
+  A4 remains **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta23 prevents an incomplete ideal span from being promoted as the v216
+pre-gate. Actual witness complete gates remain zero.
+
+#### v220-delta24 — 2026-08-28 13:20 JST
+
+**Individual progress**:
+
+- `proof_r07_actual_a5_three_input_slice_compiler_v242.md` joins the corrected
+  task193 row signs, the A3 literal endpoint seed, and the word-independent A4
+  kernel into one finite A5 compiler.  Its joint seeds are occurrence-lifted:
+  `((s_i-1)d1,(s_i-1) odot w)`, exhausted under the common marked action with
+  literal coefficient and boundary ancestry.
+- The proof shows that `d1` need not be a cycle: the group action is computed
+  in the full Fox cokernel, while `D1((u-v)d1)` is retained as a separate
+  endpoint audit.  Thus v239's corrected row type does not obstruct the
+  invariant closure.
+- Because the printed block map `C` is not action-equivariant, v242 retains all
+  eleven occurrence coordinates throughout closure and applies `C` only in
+  the terminal endpoint-nullspace matrix.  This supersedes a premature
+  block-summed reading of v238 Section 4.
+- The post-`C` endpoint-coordinate nullspace of the complete joint image gives
+  exactly `(ker Phi)*d1`.  The sole actual target is now fixed as
+  `r0=-beta1_task193-kappa0*d1`; MEMBER returns `mu1=kappa0+theta` with both
+  pointed and projected-endpoint equalities, while NONMEMBER returns a dual
+  excluding all endpoint-compatible pointed multipliers for the fixed lower
+  word.
+- A positive ancestry is already a literal sum of the two roof-fibre pair
+  types `s(g)[x,y]^3-s(g)` and `g*s_i-g`, giving the direct A6 handoff.
+- GHA runs `33129456772` (A0) and `33136789684` (A1) remain in their GAP-script
+  steps with no terminal; elapsed time is not counted.
+
+**v220 mapping**:
+
+- A5 remains **0/3**: joint-row package **0/1**, slice membership **0/1**,
+  accepted `mu1` ancestry **0/1**.  V242 closes the paper/production theorem,
+  not an actual milestone.
+- A6 remains **0/3**: the direct handoff is specified but no actual ancestry,
+  roof-fibre replay, or accepted `M` exists.
+- A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **1/3**, A3 and A4 are
+  **0/3**, and A7--A9, B, C, W, and F remain zero.
+
+Delta24 makes the post-A3/A4 A5 computation executable without changing the
+actual witness count. Actual witness complete gates remain zero.
+
+#### v220-delta25 - 2026-08-28 13:34 JST
+
+**Individual progress**:
+
+- Parent static audit rejected the task240/task226 fourth repair before
+  execution.  Both producer and checker still catch their own explicit
+  `mutation accepted` exception and serialize it as `rejected=true`; hence
+  the advertised mutation pass is vacuous.
+- The checker still has inconsistent indentation in `check_attestation` and
+  is not parsable.  The producer's translated-minus-original zero oracle is
+  also arithmetically false: it multiplies a coefficient-two singleton by
+  `-1`, so the asserted cancellation leaves coefficient two.
+- The corrected block dictionary itself is retained:
+  `d=-Fox(R(g0))`, `B_a=Fox(R(f))-Fox(R(g0))`, and
+  `e=d-B_a=-Fox(R(f))`.  Separate task192/task198 seal dialects and actual
+  predecessor reconstruction are also present, but cannot promote an
+  unparsable and mutation-unsound package.
+- `luna_task_243_r07_task226_fifth_static_repair_v1.md` requires a fatal
+  uncaught mutation-acceptance path, genuine owning gates, the corrected
+  zero oracle, complete package reconstruction, exact ABI freeze, and a
+  final pinned-cone audit.
+- The task241/task227 reported byte identities do not match the files visible
+  in the shared worktree, so A3 is not accepted and will be resynchronized
+  only against the final accepted task226 ABI.
+- The three omitted display-math closing delimiters in v242 were restored;
+  this is a typesetting repair and changes no mathematical claim or gate.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**.  The task240 source is rejected and no GHA
+  execution is authorized for it.
+- A3 remains **0/3**: actual package **0**, 486/729/orbit equality **0**,
+  member-or-dual **0**.  A mismatched unexecuted return adds no milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A4 and A5 remain
+  **0/3**, and A6--A9, B, C, W, and F remain zero.
+
+Delta25 prevents vacuous mutation evidence and a syntax-invalid checker from
+entering the actual witness cone. Actual witness complete gates remain zero.
+
+#### v220-delta26 - 2026-08-28 13:43 JST
+
+**Individual progress**:
+
+- Parent static audit rejected the task237/task232 actual A4 repair before
+  execution.  Its echelon scales a new normalized row but fails to scale the
+  inherited ancestry coefficients, so a pivot coefficient two produces a
+  false source certificate.
+- A nonmember K insertion drops every complete-boundary coefficient and then
+  demands literal equality between the remaining relator ancestry and the
+  boundary-reduced row.  The actual equality is only modulo the serialized
+  boundary combination; the current word ancestry therefore cannot replay in
+  general.
+- The checker independently rebuilds only a raw K basis and compares raw
+  spans without adjoining boundaries.  It also calls the same imported
+  task179 deciding boundary oracle as the producer, and it does not replay the
+  producer's memberships, duals, ancestry, actions, or quotient-span
+  containments.
+- The positive receipt lacks the promised action matrices/inverse products,
+  direct order-three/commutation replay, explicit basis source words, and a
+  concrete `[x,y]^3` evaluator receipt.  The driver does not compare producer
+  and checker production terminals before writing its sentinel.
+- `luna_task_244_r07_task232_second_actual_kernel_repair_v1.md` fixes the
+  scaled ancestry, boundary-aware word certificate, independent quotient
+  span/oracle, semantic SELFTEST, positive K ABI, one live resource meter,
+  and strict terminal equality.
+
+**v220 mapping**:
+
+- A4 remains **0/3**: authenticated presentation input **0**, exhausted
+  invariant closure **0**, independently accepted word-bearing K **0**.  The
+  task237 return is unexecuted and rejected.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A2 remains **1/3**,
+  A3 remains **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta26 prevents a boundary-blind and ancestry-invalid K basis from entering
+the A5 compiler. Actual witness complete gates remain zero.
+
+#### v220-delta27 - 2026-08-28 13:49 JST
+
+**Individual progress**:
+
+- Parent re-read the shared task227 files after the task241 report.  The
+  reported final identities are not present: the visible producer/checker are
+  the obsolete task219 route (26,181/14,854 bytes), not the reported
+  29,903/18,423-byte task227 implementation.
+- The visible producer never consumes `specialization_v216_abi`; it consumes
+  task192/task198 directly, fabricates zero occurrence prefixes, builds one
+  global central seed, and has no canonical 486 or translate-729 roster.  The
+  checker does not independently reconstruct the orbit or either span.
+- `luna_task_245_r07_task227_fifth_shared_tree_repair_v1.md` freezes the exact
+  task243 ABI, requires all three two-way span comparisons, the complete
+  MEMBER/NONMEMBER chain, genuine mutations, and post-edit identities read
+  from the shared tree.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: accepted actual task226 package **0**, exact
+  486/729/orbit equality **0**, member-or-dual **0**.  A report whose bytes
+  are absent from the shared tree adds no milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A2 remains **1/3**,
+  A4 and A5 remain **0/3**, and A6--A9, B, C, W, and F remain zero.
+
+Delta27 restores one filesystem truth for A3 before any GHA execution.
+Actual witness complete gates remain zero.
+
+#### v220-delta28 - 2026-08-28 13:56 JST
+
+**Individual progress**:
+
+- Parent static audit rejected the task243/task226 fifth repair before GHA.
+  The checker leaves `check_attestation` indented inside
+  `independent_mutations` after its return, so the production call has no
+  global function.  Its common validation block is also nested under
+  `name != abi_seal`, leaving the seal mutation untested.
+- The returned 96-name roster still records the same `rword_g` digest for
+  mutations of unrelated owners and never asserts that `observed_reason`
+  matches `expected_gate`.  It therefore does not meet the claimed
+  field-specific evidence contract even though accepted mutations now escape.
+- Both arithmetic oracles call an associativity check with the third factor
+  fixed to the identity.  Task240 required all triples in the finite PB3
+  fixture; the current label `exhaustive` is false.
+- `luna_task_246_r07_task226_sixth_surgical_repair_v1.md` reduces the mutation
+  roster to 26 named owners, requires owner-specific changed digests and
+  reason gates, places all validation on one path, restores a global
+  attestation function, and requires the actual finite associativity triple
+  loop.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**.  No task243 source is dispatched.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A3 and A4 remain
+  **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta28 converts a repeatedly nominal mutation suite into a bounded,
+auditable target before spending GHA time. Actual witness complete gates
+remain zero.
+
+#### v220-delta29 - 2026-08-28 14:18 JST
+
+**Individual progress**:
+
+- A load-bearing audit has rejected v238 Lemma 2.1's literal-cube premise.
+  The authenticated task176 roof marked-generator blobs were evaluated along
+  both the producer multiplication ABI and the independent checker coordinate
+  path.  The word `[x,y]^3` is nonidentity in all ten typed roof coordinates;
+  both paths give joint blob SHA-256
+  `1460601df23f2e444d0fc3cad5b13d36e74ff7982c8c4b3551c38796af1d392d`.
+- `proof_r07_a4_anchored_relative_ideal_lift_v247.md` proves the correction.
+  Since `q(K)=<z0>`, the ordered A4 word-bearing basis contains an element
+  with nonzero `z0` projection.  Raising the least such basis element by the
+  inverse scalar gives an actual `k_z in K` with `q(k_z)=z0`.
+- An A3 positive coefficient `kappa_D=lambda(z0-1)` now lifts explicitly as
+  `sum lambda_g (s(g)k_z-s(g))`.  Every pair has equal actual roof value and
+  its projected coefficient is exactly `kappa_D`; the v238 affine slice and
+  v242 occurrence-level A5 closure then remain valid with this replacement.
+- The same argument is proved for every elementary-abelian relative
+  Frattini edge: a word-bearing K basis plus its rank-at-most-three projected
+  matrix gives a finite source-word right inverse `I(R_m)->I_m`.  This is an
+  all-rung compiler, not yet a coherent inverse-limit choice.
+- `luna_task_244b_r07_task232_projection_anchor_erratum_v1.md` withdraws the
+  invalid literal-cube canary from the active A4 repair and requires the
+  actual basis-derived `k_z`, with independent Delta0 and D1 replay.
+
+**v220 mapping**:
+
+- A4 remains **0/3**: the extra projected-anchor ABI is now correct on paper,
+  but no authenticated presentation terminal, exhausted actual K closure, or
+  independently accepted word-bearing K/`k_z` receipt exists.
+- A5 remains **0/3**: its paper base point is repaired from an A3-only literal
+  cube to an A3+A4 actual-kernel lift; no joint-row package, slice membership,
+  or accepted `mu1` ancestry exists.
+- A6 remains **0/3**: direct pair compilation remains available after the
+  replacement, but there is no actual ancestry, roof replay, or accepted M.
+- A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **1/3**, A3 is **0/3**,
+  and A7--A9, B, C, W, and F remain zero.
+
+Delta29 removes an invalid actual-roof identification while preserving the
+explicit-lift route through a stronger A4-derived anchor. Actual witness
+complete gates remain zero.
+
+#### v220-delta30 - 2026-08-28 14:27 JST
+
+**Individual progress**:
+
+- Parent static audit rejected the task245/task227 fifth return before
+  execution.  Its files and reported hashes now match, but producer
+  `validate_abi` requires an `ancestry` field in the translated provenance
+  record, contradicting the frozen task226 ABI in which only the original
+  record carries ancestry.
+- The checker occurrence action has the wrong noncommutative order: it forms
+  `g*p*p^-1` instead of `p*g*p^-1`.  The toy prefix is central, so the current
+  SELFTEST does not expose this error.
+- More seriously, checker gates do not bind serialized `w`, `u0`, or target
+  to their independently reconstructed task226 ABI values.  They also do not
+  replay each occurrence-basis row from its ancestry.  A self-consistent
+  span for a substituted problem could therefore be accepted.
+- The producer mutation loop unconditionally raises a synthetic `InputStop`
+  after any mutation which reaches validation, while missing top-level paths
+  are counted via `KeyError`; observed reasons are not tied to owning gates.
+  Resource rank counters also conflate occurrence and block ranks.
+- `luna_task_248_r07_task227_sixth_semantic_repair_v1.md` fixes these exact
+  boundaries: ABI-to-gate equality, noncentral action order, per-row ancestry,
+  independent orbit closure, honest one-owner mutations, and typed resource
+  terminals.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: actual accepted task226 input **0**, independently
+  accepted 486/729/orbit equality **0**, MEMBER-or-dual **0**.  Matching
+  source hashes do not complete a semantic or execution milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A2 remains **1/3**,
+  A4 and A5 remain **0/3**, and A6--A9, B, C, W, and F remain zero.
+
+Delta30 prevents an ABI-unbound projected result from entering the corrected
+A3+A4 explicit lift. Actual witness complete gates remain zero.
+
+#### v220-delta31 - 2026-08-28 14:34 JST
+
+**Individual progress**:
+
+- Parent static audit rejected the task246/task226 sixth return before GHA.
+  Its SELFTEST calls the package validator and mutation suite before attaching
+  the mandatory `output_guard`, terminal probes, and binding canaries.  It
+  therefore must stop at the freshness gate, and later binding/terminal
+  mutation owners would be absent.
+- Two claimed word mutations are no-ops: reversing the SELFTEST words
+  `g0=[1,2,1]` and `a=[2,2]` leaves both owners unchanged.  The required
+  before/after digest inequality cannot hold.
+- The published 8 MB input cap is below the task198 predecessor's registered
+  serialized-receipt allowance of 2 GB.  It can reject an otherwise valid
+  actual A1 artifact before specialization.
+- `luna_task_249_r07_task226_seventh_execution_order_repair_v1.md` preserves
+  the corrected Fox algebra and narrows repair to SELFTEST order, nontrivial
+  word mutations, and a finite upstream-compatible input cap.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**.  The sixth return is not dispatched.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A3 and A4 remain
+  **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta31 keeps an execution-impossible SELFTEST and undersized production cap
+out of A2. Actual witness complete gates remain zero.
+
+#### v220-delta32 - 2026-08-28 (after delta31)
+
+**Individual progress**:
+
+- A1 production run `33136789684`, immutable head
+  `ba6803cccdb3d77b35365854dea4ec627283c25c`, stopped after 2 h 7 min in
+  the producer's finite-presentation order proof because the stock GHA Python
+  environment had no `sympy`.  Before that stop the pinned inputs, quotient
+  bridge, roster, Fox replay, and semantic mutations had all completed.
+- The traceback is exactly `ModuleNotFoundError: No module named 'sympy'` at
+  `fp_group_order`; no producer receipt, independent-checker terminal, or
+  mathematical MEMBER/NONMEMBER conclusion was emitted.
+- A dependency-pinned retry was dispatched as GHA run `33143444409` from
+  head `d3d17b62b3760012af5f768ef87308287dcf30e0`, installing
+  `sympy==1.14.0` before reading the unchanged task198 driver.  This is an
+  environment retry, not a completed gate.
+
+**v220 mapping**:
+
+- A1 remains **3/4 RUNNING**: driver, producer SELFTEST, and checker SELFTEST
+  are retained; production acceptance is still **0/1**.
+- A0 remains **0/1 RUNNING**, A2 remains **1/3**, A3 and A4 remain **0/3**,
+  and A5--A9, B, C, W, and F remain zero.
+
+Delta32 separates an environment dependency stop from mathematical negative
+evidence. Actual witness complete gates remain zero.
+
+#### v220-delta33 - 2026-08-28 (after delta32)
+
+**Individual progress**:
+
+- The task249 A2 return repaired the SELFTEST construction order, replaced
+  the two palindromic no-op word mutations, and raised the authenticated-input
+  cap to 2.1 GB.  Parent audit then found that its Linux driver compared
+  lowercase `sha256sum` output with uppercase stored digests, which would stop
+  before Python execution.  Task250 repaired the three pins to their exact
+  lowercase values.  The source remains unexecuted pending GHA SELFTEST.
+- Parent rejected the task248 A3 return before execution because it requires
+  occurrence and original-provenance ancestry to be lists, while the frozen
+  actual task226 ABI emits the exact three-key ancestry object
+  `{source, substitution, prefix}`.  The toy ABI alone used an empty list and
+  hid this production incompatibility.  Task251 requires production-shaped
+  ancestry in both producer and independent checker.
+- Parent rejected the task244/244b A4 return before execution because its
+  production path requires `q1_z0_evaluator` (and its checker first seeks
+  `d1_z0_from_source_word`), but neither callable exists in the pinned task179
+  dependency cone.  It is therefore guaranteed to return `UNKNOWN_INPUT`
+  before actual K construction.  Task252 replaces the missing API by
+  independent built-in `H2(9)` signed-word evaluators and requires actual
+  ten-roof/K replay of the selected v247 anchor.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: the three task249 defects and the driver-pin defect are
+  repaired statically, but implementation SELFTEST is still **0/1** and no
+  actual specialization exists.
+- A3 remains **0/3**: the returned source cannot consume the actual A2 ABI;
+  no package, orbit equality, or member/dual terminal is accepted.
+- A4 remains **0/3**: a guaranteed missing-API STOP supplies neither the
+  presentation-input, exhausted-closure, nor word-bearing-K milestone.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, and A5--A9, B, C,
+  W, and F remain zero.
+
+Delta33 prevents SELFTEST-shaped provenance and a nonexistent projection API
+from entering the actual A3+A4 lift. Actual witness complete gates remain
+zero.
+
+#### v220-delta34 - 2026-08-28 (after delta33)
+
+**Individual progress**:
+
+- A2 SELFTEST run `33144585375` at immutable head
+  `556ecc23eaa10747a35e3dd2afcbfa950974bca5` failed before the driver
+  sentinel.  Diagnostic run `33144873333` exposed the sealed producer terminal
+  `UNKNOWN_INPUT` with exact reason `Q commutator`.
+- Task254 correctly canonicalized negative central coordinates modulo nine,
+  but parent full-source reread found the remaining owner: producer bracket
+  dispatch tests `d==1` although PB3 is called with noncentral degree `d==3`.
+  Thus PB3 was still evaluated with the four-coordinate PB4 bracket table.
+  Task258 fixes degree dispatch and the independently found checker mutation-
+  gate failures before another GHA run.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract **1**, implementation SELFTEST **0**,
+  actual specialization **0**.  Neither a typed UNKNOWN nor a static repair is
+  an implementation acceptance.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**, A3 and A4 remain
+  **0/3**, and A5--A9, B, C, W, and F remain zero.
+
+Delta34 fixes the exact PB3/PB4 dispatch frontier; it adds no witness gate.
+
+#### v220-delta35 - 2026-08-28 (after delta34)
+
+**Individual progress**:
+
+- Parent rejected task251 A3 before execution: stale list-shaped ancestry rows
+  remained beside the dict-shaped replacements, and the checker called
+  `all(bool)`.  Task255 removed those concrete runtime faults.
+- The next full semantic audit still rejected A3.  Its 24 registered mutations
+  mutate only the ABI and call only `validate_abi`; `target_abi_binding` and the
+  queue/orbit/member/dual owners are therefore accepted.  Expected reasons are
+  copied dynamically from observed exceptions, and the checker does not run
+  an independent mutation suite.  Task257 restores the literal task248
+  production-shaped owner contract.
+- Parent rejected task252 A4 before execution.  Its toy path references
+  undefined `basis_rows`, claims `[1]` has H2(9) value `(0,0,0)`, omits literal
+  source words required by its own ancestry validator, and directs three
+  selected-anchor mutations at an unrelated basis receipt.  Task256 requires
+  all-basis H2 replay and exact selected-anchor ownership.
+
+**v220 mapping**:
+
+- A3 remains **0/3**: actual package **0**, independently accepted
+  orbit/486/729 equality **0**, MEMBER-or-dual **0**.
+- A4 remains **0/3**: authenticated presentation input **0**, exhausted
+  invariant closure **0**, independently accepted word-bearing K/anchor **0**.
+- A0 **0/1 RUNNING**, A1 **3/4 RUNNING**, A2 **1/3**; A5--A9, B, C, W, and F
+  remain zero.
+
+Delta35 prevents two SELFTEST-shaped certificates from entering the explicit
+lift cone.  Actual witness complete gates remain zero.
+
+#### v220-delta36 - 2026-08-28 (after delta35)
+
+**Individual progress**:
+
+- `sol_reply_253_r07_nonarithmetic_648_audit.md` re-audited v67/v75/v76 and
+  the finite index-three receipt/verdict.  At the accepted-theorem-package-
+  relative paper grade, the actual marked arithmetic image satisfies
+  `A in {IDX3-NN-09, IDX3-NN-12}`.  The finite census is cross-checked, while
+  the arithmetic 324-bit payload remains not cross-checked and not Lean
+  verified.
+- The common outside set
+  `O=X minus (A_9 union A_12)` has 432 explicitly pinned rows.  Every row of O,
+  including zero-based rows 9 and 36, is therefore nonarithmetic at that paper-
+  relative grade.  The actual complete 648-row roster is still one of two
+  candidates: the remaining 216 rows depend on the unselected A9/A12
+  orientation.
+
+**v220 mapping**:
+
+- W remains **0/3**.  The nonarithmetic prerequisite for rows 9/36 is named,
+  but no compatible finite shadow carrying either row, compatible cofinal
+  lift, or Ihara conclusion has been constructed.
+- No A0--A9, B, C, or F numerator changes.  The arithmetic result is a sharpened
+  prerequisite boundary, not a compatible-witness milestone.
+
+Delta36 separates the already named nonarithmetic roof from the still absent
+compatible lift, and separates 432 unconditional-within-package names from the
+unselected final 216.
