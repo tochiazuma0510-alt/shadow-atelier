@@ -3625,3 +3625,37 @@ not a disguised enumeration of the huge marked quotients.
 
 Delta82 prevents the v13 repair from reviving an already disproved explicit
 lift while preserving its finite arithmetic test suite.
+
+#### v220-delta83 - 2026-08-29 (after delta82)
+
+**Individual progress**:
+
+- Static trace of the A0 resume distinguishes a second potential bottleneck
+  from boundary correlation: the authenticated 2,896 retained columns are
+  rebuilt sequentially from rank zero before the v6 persistent correlation
+  hook is installed, and the live owner then performs further resume replay.
+  Task337 has been explicitly asked to determine the literal count and whether
+  this makes the advertised acceleration unreachable or needlessly slow.
+- V275 proves a fallback exact resume theorem.  If an independent normalized
+  basis P carries direct sparse coefficients both `P=A*C` and `C=B*P` for the
+  immutable raw retained columns C, the two spans are exactly equal and the
+  target may be reduced from P without replaying the historical serial rank
+  chain.  A subsequent COMMON with complete raw/word replay is valid even if
+  the new positive-only search follows different duals from cached-v3.
+- Both containments, raw column provenance, pivot independence, fresh
+  target/dual construction, and final positive replay are mandatory.  The
+  existing checkpoint does not yet contain an accepted P/A/B package, and
+  v275 makes no actual speed or COMMON claim.
+- GHA run `33163964747` remains untouched and in progress.  V275 is a
+  versioned fallback only if its terminal/audit shows rank-zero replay is the
+  blocking cost.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  A paper resume theorem and an
+  unexecuted v6 adapter do not count.
+- All other A0--A9 and B/C/W/F values remain as in delta82.  No compatible
+  lift, fake certificate, or Ihara counterexample exists.
+
+Delta83 prevents the next A0 optimization from accelerating only the wrong
+side of the resume boundary.
