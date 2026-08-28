@@ -841,3 +841,42 @@ presentation や witness に対する negative evidence ではない。
 
 この更新で A2 実装の入力語・符号・group-key 型は一意になったが、actual
 \(w,\bar\epsilon_1,u_0\)、v216 membership、compatible lift、fake、Ihara はまだ未計算である。
+
+#### v220-Δ11 — 2026-08-28 12:18 JST
+
+**個別進捗**:
+
+- `proof_r07_three_exact_endpoints_to_all_pro3_v228.md` で v174/v191/v194 の仮定を
+  再照合し、一つの roof-fibre word-pair \(M\) が三つの **exact** PB endpoint を全て
+  消せば、同じ \(M\) と有限 boundary chain が全 matched pro-3 段へ自然に降り、各段で
+  multiplier を選び直す必要がないことを一つの合成定理として固定した。
+- この jump を起こすのは A3 の exponent-nine pass ではなく A7 の H1/H2/P exact zero
+  三本である。A8 は存在定理を証明書へする relator-decomposition 抽出、A9 は Neumann
+  correction・side gates・all-rung descent という役割分離も固定した。
+- task226 の初版を parent static audit で **実行前拒否**した。主な停止理由は Q3 bracket
+  sign、Q4 の 12 本の非零 bracket の欠落、degree 座標の mod-9 未還元、tuple inverse の
+  実行不能、actual 11-row ledger/prefix の不使用、pentagon combined block の消失、signed
+  prefix の不使用、\([x,y]^3\) でなく \(x^3\) を使う誤り、\((z_0-1)\odot w\) の `-w`
+  欠落、および mutation を実行せずリストへ記録しただけである点である。
+- 修理仕様を `luna_task_229_r07_task226_static_math_repair_v1.md` に固定した。初版 task226
+  の5ファイルは commit/GHA 対象から隔離し、修理後も parent static audit を通るまで
+  SELFTEST に送らない。
+- task227 の5 implementation files は Luna から戻ったが、拒否中 task226 ABI に依存する
+  ため dependency-blocked とし、未実行・未採択のまま隔離した。
+- 12:17 JST 時点で task192 production run `33129456772` と task198 production run
+  `33136789684` はともに同じ GAP-script step で `in_progress`。開始や経過時間を完了には
+  数えない。
+
+**v220 内進捗**:
+
+- A0 は **0/1 RUNNING**、A1 は **3/4 RUNNING** のまま。
+- A2 は **1/3** のまま。初版 implementation は不採択であり、紙の訂正や修理 commission
+  を implementation SELFTEST と二重計上しない。
+- A3 は **0/3** のまま。task227 のファイル存在は actual package、orbit closure、
+  membership-or-dual のいずれでもない。
+- A4--A9, B, C, W, F は全て **0** のまま。v228 は A7 positive 後に rung-by-rung
+  multiplier search が不要であることを証明したが、actual \(M\) も exact endpoint zero
+  もまだないため A7--A9 の分子を上げない。
+
+従って actual witness 主鎖の complete gate は引き続き 0 件である。今回の実質的前進は、
+全段 jump の正確な発火条件を A7 に固定し、誤ったA2実装をGHA投入前に遮断したことである。
