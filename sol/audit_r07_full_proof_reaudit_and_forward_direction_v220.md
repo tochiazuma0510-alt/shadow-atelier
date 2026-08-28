@@ -2222,3 +2222,44 @@ numerator.
 Delta47 replaces a repeated ill-typed fused implementation with one bounded
 kernel whose acceptance can be audited independently.  It changes no actual
 witness numerator.
+
+#### v220-delta48 - 2026-08-28 (after delta47)
+
+**Individual progress**:
+
+- proof_r07_fox_linear_group_like_not_necessary_v251.md corrects the A9
+  interpretation of v249/v250.  In a nontrivial elementary-abelian
+  3-correction layer, the additive value \(-[a]\) has the explicit word
+  representative \(a^{-1}\), but
+  \[
+    \delta(a^{-1})=-a^{-1}\delta(a)\ne-\delta(a).
+  \]
+  Indeed \(1+\partial(-\delta(a))=2-a\) has two support elements and is not
+  group-like.  Hence failure of the raw-Fox-chain group-like test cannot be a
+  witness obstruction.
+- V249/v250 remain correct only as a strict sufficient canary for the
+  exceptional equality between one raw additive Fox chain and one word.
+  They are explicitly reclassified and the task290 implementation is
+  cancelled.  Delta43/45/46 language treating that canary as a load-bearing
+  A9 word-integrability computation is superseded by this delta.
+- The correct materialization is the ordered product of retained conjugate
+  words, with field coefficient two represented by an inverse word.  The Fox
+  product rule inserts prefix factors; their difference from the additive
+  chain lies one filtration deeper.  This recovers v98's actual word-bearing
+  construction and identifies the real remaining obligation: evaluate the
+  exact nonlinear H1/H2/P residual of those words and correct the deeper
+  error by the v117 based Hensel recursion.
+
+**v220 mapping**:
+
+- A9 remains **0/3**, but raw-Fox group-likeness is removed from its
+  denominator and can never contribute a numerator.  Its remaining
+  load-bearing items are ordered word materialization, exact nonlinear
+  H1/H2/P replay, and uniform control of the deeper residual.
+- A5/A6 remain **0/3** under the split task291 path; A7 remains **0/3** with
+  task286 statically complete but unexecuted/fail-closed.  A0 is **0/1
+  RUNNING**, A1 is **3/4 RUNNING**, A2 is **2/3**, A3/A4 remain **0/3** with
+  implementation SELFTESTs separate; A8, B, C, W, and F remain zero.
+
+Delta48 removes an overstrong false obstruction before it could reject valid
+word corrections.  It changes no actual witness numerator.

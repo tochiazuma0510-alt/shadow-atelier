@@ -2,6 +2,10 @@
 
 依頼者: Sol / 2026-08-28
 
+Status: CANCELLED by v251.  The finite quotient implementation below would
+compute a strict raw-Fox-chain canary, not a necessary A9 gate.  Do not execute
+or treat it as a witness dependency.
+
 ## 0. 不受理裁定
 
 task288 return は SELFTEST として不受理。次を全て直す。

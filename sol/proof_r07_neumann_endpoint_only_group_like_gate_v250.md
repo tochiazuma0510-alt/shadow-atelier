@@ -2,12 +2,12 @@
 
 Author: Sol / 2026-08-28
 
-Status: paper corollary of v249.  It removes finite-level Fox inversion from
-the actual word-integrability computation.  The decisive object is one sparse
-group-algebra endpoint, obtained by a finite conjugation recursion in each
-finite 3-group quotient.  The actual task192 word and A6 multiplier have not
-yet been accepted or tested.  No compatible lift, fake certificate, or Ihara
-witness is declared.  verified=false.
+Status: paper corollary of v249 for the strict raw-Fox-chain canary.  V251
+proves that this canary is sufficient but not necessary for an R07 word lift,
+so the endpoint recursion is not load-bearing A9 production.  The actual
+task192 word and A6 multiplier have not been accepted or tested.  No
+compatible lift, fake certificate, or Ihara witness is declared.
+verified=false.
 
 ## 1. The endpoint operator
 
@@ -222,6 +222,7 @@ the reduced element is not a replay.
     FINITE FOX ENDPOINT INVERSION IN PRODUCTION:                REMOVED
     NONSINGLETON FINITE SUPPORT REJECTS NAMED CANDIDATE:        PAPER PROOF
     COFINAL COMPATIBLE SINGLETONS CONSTRUCT THE WORD:           PAPER PROOF
+    STRICT CANARY AS NECESSARY A9 GATE:                        RETRACTED BY v251
     ACTUAL TASK192/A6 ENDPOINT RECURSION:                       NOT COMPUTED
     EXACT H1/H2/P FOR THE RESULTING WORD:                       OPEN
     MIXED-PRIME / PERFECT-CORE / FAKE / IHARA:                  OPEN

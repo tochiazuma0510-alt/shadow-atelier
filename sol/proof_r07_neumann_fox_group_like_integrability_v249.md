@@ -2,13 +2,12 @@
 
 Author: Sol / 2026-08-28
 
-Status: paper theorem isolating the exact word-integrability gate for the
-v174/v228 additive Neumann correction.  It converts the statement “the
-completed correction chain comes from one profinite word” into one Hopf
-group-like identity, with exact finite-quotient countercertificates.  It does
-not assert that the current uncomputed A6 multiplier passes that identity,
-and it does not by itself prove the nonlinear R07 relations.  No compatible
-lift, fake certificate, or Ihara witness is declared.  `verified=false`.
+Status: paper theorem characterizing exact integrability of one raw additive
+Fox chain.  V251 reclassifies this as a strict sufficient canary, not a
+necessary A9 word-lift gate: ordered word materialization has deeper Fox
+prefix terms.  A finite failure rejects only literal equality with this raw
+chain.  It does not reject the module correction, roof branch, lift, fake, or
+Ihara witness.  The current A6 multiplier is uncomputed.  `verified=false`.
 
 ## 1. Completed Fox calculus in the relative source group
 
@@ -325,12 +324,13 @@ The independent checker reconstructs the Fox chain with a different
 Schreier tree and checks the basis-independent group-algebra element
 \(u_{Q,n}\).  A matching hash without support replay is insufficient.
 
-Passing (4.10) constructs the one word demanded by v174.  It does **not** by
-itself prove that substituting that word satisfies the exact two hexagons and
-printed pentagon, nor does it close mixed-prime formation or perfect-core
-gates.  Those literal evaluations remain separate.  Conversely, failure of
-(4.10) explains precisely why a linear multiplier can fail to be an explicit
-word lift.
+Passing (4.10) constructs one especially rigid word whose Fox chain is the
+raw additive series.  V174 does not require this literal Fox-chain equality:
+v98 materializes the same graded module values by ordered word products whose
+Fox chains contain deeper prefix terms.  Therefore failure of (4.10) rejects
+only this strict Fox-linear materialization.  It does not reject an explicit
+word lift obtained by nonlinear Hensel correction.  Exact two-hexagon and
+printed-pentagon evaluations remain separate.
 
 ## 6. Fixed frontier
 
@@ -339,8 +339,9 @@ COMPLETED FREE FOX ENDPOINT ISOMORPHISM:             PAPER PROOF
 GROUP-LIKE ELEMENTS = PRO-3 WORDS:                   PAPER PROOF
 FOX CHAIN INTEGRABLE <=> ENDPOINT GROUP-LIKE:        PAPER PROOF
 A6 WORD PAIRS -> EXPLICIT NEUMANN SOURCE CHAIN:      PAPER CONSTRUCTION
-ONE HOPF IDENTITY DECIDES WORD INTEGRABILITY:         PAPER PROOF
+ONE HOPF IDENTITY DECIDES RAW FOX-CHAIN INTEGRABILITY: PAPER PROOF
 ACTUAL A6 M / Q_INFINITY / GROUP-LIKE TEST:           NOT COMPUTED
+GROUP-LIKE TEST AS NECESSARY A9 GATE:                 RETRACTED BY v251
 EXACT NONLINEAR H1/H2/P FOR THE RESULTING WORD:       OPEN
 MIXED-PRIME / PERFECT-CORE / FAKE / IHARA:           OPEN
 ```
