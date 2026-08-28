@@ -2556,3 +2556,43 @@ adapter.  It changes no actual witness numerator.
 Delta55 proves that the permitted parallel boundary is exactly equivalent to
 serial v3 and specifies safe resumption, while leaving every actual witness
 numerator unchanged.
+
+#### v220-delta56 - 2026-08-28 (after delta55)
+
+**Individual progress**:
+
+- Independent Sol(max) task306 rejected the A5/A6 generalized-kernel v6
+  before execution.  Its checker catches canonical no-op/reseal failures in
+  the same exception region as semantic rejection, so such precondition
+  failures can be counted as successful mutant rejections.  Its production
+  driver also word-splits the space-containing typed terminal and checks only
+  positive marker count rather than exactly one.  Task307 commissions a
+  versioned v7 repair of precisely those implementation defects.
+- Task303 returned the fixed-dual process-map/reduce v5 package unexecuted.
+  It is now under an independent Sol(max) static audit before any GHA
+  SELFTEST.  Its intentional production `STATIC_BLOCKED` boundary is not an
+  audit defect: the authenticated task192 adapter is a separate next step.
+- V255 strengthens the paper adapter contract.  It fixes the byte-level v3
+  descriptor/support pair order, proves that a canonical sparse prefix
+  accumulator is sufficient for resume, and proves that the winning
+  contributor list can be reconstructed locally from only the selected
+  \((B,r,t)\) via \(g=t h\).  It also proves an atomic crash-safe batch
+  transition and the whole-search simulation theorem.
+- At 20:02 JST exact A0 run 33163964747 and A1 capture/direct runs
+  33155653989/33155710862 all remained in their GHA script steps.  The A0 run
+  remains a boundary restart, not cursor continuation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  Task303 is only an
+  unexecuted kernel candidate under audit, and V255 is a paper adapter theorem.
+- A1 remains **3/4 RUNNING**; A2 remains **2/3**; A3/A4 remain **0/3 actual**
+  with their implementation SELFTESTs separate.
+- A5 and A6 remain **0/3 actual** and have no accepted generalized-kernel
+  SELFTEST; task306 is a rejection and task307 only a repair commission.
+- A7 remains **0/3 actual** with its synthetic SELFTEST separate.  A8, A9,
+  B, C, W, and F remain zero; witness/fake/Ihara status is unchanged.
+
+Delta56 removes another false implementation acceptance and closes two
+mathematical state-size/provenance gaps needed by the forthcoming A0
+production adapter.  It changes no actual witness numerator.
