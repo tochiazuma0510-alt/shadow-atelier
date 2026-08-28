@@ -15,6 +15,7 @@ Read in full:
 - `sol/sol_reply_323_r07_task315_a4_v2_code_performance_audit_v1.md`
 - `sol/sol_task_327_r07_task198_authority_bundle_v2_audit.txt` and its reply
   if present;
+- `sol/proof_r07_a4_restricted_evaluator_sufficiency_v267.md`;
 - the complete A4/v2 quartet;
 - the complete task198 producer/checker and the accepted receipt;
 - the new `acceptance_v2` manifest and exact checker-verdict member;
