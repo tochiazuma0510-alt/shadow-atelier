@@ -369,3 +369,21 @@ TASK198 AUTHENTICATED PRODUCTION INPUT: STAGED
 TASK198 GHA PRODUCTION RUN 33135921512: IN PROGRESS
 V220-A1: 3/4 RUNNING
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
+
+## 14. Production manifest schema STOP and repair (2026-08-28)
+
+Run `33135921512` reached producer terminal `UNKNOWN_INPUT` before the 6,441-row
+work. Static replay found that the staged task176 receipt had the correct exact
+bytes/SHA, but the first parent-created manifest nested its values under
+descriptive keys. `authenticate_task176_receipt` requires exact equality with
+the flat seven-key dictionary `artifact_id`, `zip_sha256`, `run`, `head`,
+`member`, `member_bytes`, and `member_sha256`.
+
+The manifest has been corrected to that exact schema without changing any
+immutable value or the task176 receipt. A fresh production run is required.
+
+RUN 33135921512:              UNKNOWN_INPUT / 6,441-ROW WORK NOT REACHED
+TASK176 RECEIPT:              AUTHENTICATED / UNCHANGED
+STRICT ARTIFACT MANIFEST:     REPAIRED
+V220-A1:                      3/4
+MATHEMATICAL NEGATIVE:        NONE

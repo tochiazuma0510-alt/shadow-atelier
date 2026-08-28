@@ -703,3 +703,22 @@ presentation、actual \(K\)、single-seed membership、または witness の pos
 
 従って v220-Δ4 は A1 最終 milestone の実行開始であり、actual witness gate の完了数は
 まだ 0 件である。
+
+#### v220-Δ5 — 2026-08-28 11:31 JST
+
+**個別進捗**:
+
+- task198 production run `33135921512` は producer の typed `UNKNOWN_INPUT` で
+  6,441-row 計算前に停止した。checker は同じ nonpositive terminal を受理したが、
+  driver は positive production 以外を fail-closed にした。
+- v223 の静的監査で、task176 payload ではなく v222 staging manifest の nested key
+  layout が producer の exact seven-key dictionary と不一致だったと同定し、同じ
+  immutable values を strict schema へ修正した。
+
+**v220 内進捗**:
+
+- A1 は **3/4** のまま。production milestone は未完で、再実行待ち。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
+
+これは入力包装の STOP であり、roof presentation、single-seed gate、または witness の
+negative evidence ではない。
