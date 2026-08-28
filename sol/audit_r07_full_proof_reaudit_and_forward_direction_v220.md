@@ -880,3 +880,32 @@ presentation や witness に対する negative evidence ではない。
 
 従って actual witness 主鎖の complete gate は引き続き 0 件である。今回の実質的前進は、
 全段 jump の正確な発火条件を A7 に固定し、誤ったA2実装をGHA投入前に遮断したことである。
+
+#### v220-Δ12 — 2026-08-28 12:24 JST
+
+**個別進捗**:
+
+- task227 初版も parent static audit で **実行前拒否**した。Q3/Q4 積が degree-one 座標の
+  和でなく左右 tuple の連結を返すため key width が 4/10 から 7/16 へ壊れること、task226
+  と同じ不完全 bracket table と誤った \((0,0,j)\) coset を持つことを確認した。
+- queue の generator action が必要な \(p_oq_o(g)p_o^{-1}\) でなく裸の \(q_o(g)\) を使い、
+  \(u_0\) でも `-w` を再び落としていた。従ってこの版の orbit span は v216 の
+  \(I(R_0)\odot w\) ではない。
+- member terminal は target を表す係数を回収せず seed の occurrence prose を ancestry として
+  返し、nonmember dual は一座標だけの特殊形しか探さない。checker も 486 ideal rows / 729
+  translates を構成せず supplied count を読むだけで、mutation も実行していなかった。
+- `luna_task_230_r07_task227_static_math_repair_v1.md` に、actor group-ring 係数を echelon と
+  同時追跡し、positive 時に
+  \(\kappa=\lambda(z_0-1)\) と三段の direct replay、negative 時に一般の分離双対を返す修理を
+  固定した。independent checker には canonical 486 rows と全729 translates の実構成を要求した。
+
+**v220 内進捗**:
+
+- A3 は **0/3** のまま。初版task227は actual package、正しいorbit closure、accepted
+  membership-or-dual のどれも与えない。
+- A2 は **1/3**、A0 は **0/1 RUNNING**、A1 は **3/4 RUNNING** のまま。
+- A4--A9, B, C, W, F は全て **0**。task230 は修理 commission であり、実装または actual
+  gate の完了として数えない。
+
+この監査により、A3で必要な positive certificate は単なる `member=true` でなく、block target
+を作る明示的な \(\kappa\in I(R_0)\) と、その quotient-zero・action replay までであると固定した。
