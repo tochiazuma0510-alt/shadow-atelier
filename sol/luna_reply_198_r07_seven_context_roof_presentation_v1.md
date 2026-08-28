@@ -370,6 +370,26 @@ TASK198 GHA PRODUCTION RUN 33135921512: IN PROGRESS
 V220-A1: 3/4 RUNNING
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 
+## 17. Parent production run 33136670838 and manifest type repair (2026-08-28)
+
+Parent Sol dispatched task198 PRODUCTION as GHA run `33136670838` at immutable
+head `7670da0a09fd7f553522a84203ae19adc0f5eefe`. The producer failed closed before
+the 6,441-row computation and emitted the new exact diagnostic
+`reason=TASK176_ARTIFACT_MANIFEST`; the checker accepted the same typed
+`UNKNOWN_INPUT`, and the driver rejected a nonpositive production terminal.
+
+Static comparison then isolated the remaining strict-equality mismatch. The
+flat seven-key manifest had numeric JSON values for `artifact_id` and `run`,
+whereas both independent implementations pin those provenance identifiers as
+strings. Those two values are now encoded as strings. No value, payload byte,
+payload SHA, artifact ZIP digest, run id, or head SHA changed.
+
+RUN 33136670838:              UNKNOWN_INPUT / 6,441-ROW WORK NOT REACHED
+EXACT DIAGNOSTIC:             TASK176_ARTIFACT_MANIFEST
+MANIFEST VALUE TYPES:         REPAIRED (`artifact_id`, `run`)
+V220-A1:                      3/4
+MATHEMATICAL NEGATIVE:        NONE
+
 ## 14. Production manifest schema STOP and repair (2026-08-28)
 
 Run `33135921512` reached producer terminal `UNKNOWN_INPUT` before the 6,441-row

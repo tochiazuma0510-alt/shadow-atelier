@@ -768,3 +768,23 @@ presentation、successor kernel、compatible lift、または witness に対す�
 - A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
 
 SELFTEST の再成功を actual gate と数えず、production positive の時だけ A1 を 4/4 にする。
+
+#### v220-Δ8 — 2026-08-28 11:44 JST
+
+**個別進捗**:
+
+- task198 production run `33136670838`、immutable head
+  `7670da0a09fd7f553522a84203ae19adc0f5eefe` は 6,441-row 計算前に typed
+  `UNKNOWN_INPUT` で停止した。
+- task220c で追加した診断により、原因は exact
+  `TASK176_ARTIFACT_MANIFEST` と局所化された。
+- flat seven-key manifest の `artifact_id` と `run` が JSON number だったのに対し、
+  producer/checker の pin は string であることを同定し、値を変えず JSON string へ修正した。
+
+**v220 内進捗**:
+
+- A1 は **3/4** のまま。production acceptance は未完で、型修正後の再実行待ち。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
+
+これは provenance manifest の値型だけの strict-equality STOP であり、actual roof
+presentation や witness に対する negative evidence ではない。
