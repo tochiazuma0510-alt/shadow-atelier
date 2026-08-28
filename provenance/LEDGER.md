@@ -3395,3 +3395,8 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - papers/nekrashevych-0802.2554-free-subgroups-rooted-trees.pdf — 397eac9bfe398c2d(210,151 B・arXiv:0802.2554)
 - papers/bkn-0802.2837-amenability-automata-groups.pdf — 02d5ac4adfacc164(267,300 B・arXiv:0802.2837・Duke 154 (2010))
 - 用途: [DYN-CEIL] 鎖(IMG contracting+no-free-subgroups ⟹ ker(F₂→IMG(T))≠1)。Nek05 書籍(Thm 5.5.3 原典)は未入手 — 二次二重確認の格。
+
+## 2026-08-29 文献取得(札 1 再開材料・裁定 1760)
+- papers/mssv-1805.07751-belyi-map-database.pdf(arXiv:1805.07751・Belyi map database)
+- papers/kmsv-1311.2081-numerical-belyi-maps.pdf(arXiv:1311.2081・数値 Belyi 計算法)
+- 一次データ = LMFDB Belyi maps group 9T27(マーク済 9 件・API 取得可)。scout 報告書 = 金庫 scout/scout_20260829_fuda1_translation_bit.md。sha は取得ログ参照(裁定 1760)。
