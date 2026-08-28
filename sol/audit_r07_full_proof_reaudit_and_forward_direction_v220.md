@@ -4905,3 +4905,31 @@ SELFTEST stop or an in-memory mutation roster for physical evidence.
 
 Delta114 prevents the live A0 implementation from authenticating the wrong
 phase or paying a million-state rescan for each mutation.
+
+### Delta 115 (2026-08-29): actual-owner first-rejection trace contract
+
+- Added `sol/proof_r07_actual_owner_first_rejection_trace_v297.md`, shared by
+  the active A0-v12a and A4-v6 repairs.  It defines physical/path/ephemeral
+  owner identities, ordinary validator-entry events, the first typed
+  rejection, and the exact producer/checker-separated evidence row.
+- V297 forbids empty-byte placeholder digests, fixture-copied
+  `reached_validator` fields, expected-reason control flow, broad catches,
+  detached dictionaries, and the pattern which throws an artificial
+  "accepted" exception inside the same catch used for genuine rejections.
+- V297 also proves a bounded performance factoring: an independently
+  computed immutable ordinary baseline may be bound once and compared by all
+  later envelope mutations.  A0 therefore retains the required W2/W4/fault
+  baseline but must not rerun an unchanged worker epoch thirteen times; the
+  same rule covers the cached K0 digests of v296.
+
+**v220 mapping**:
+
+- This closes the mutation-evidence semantics on paper but changes no actual
+  numerator.  A0 remains **0/1 V12A IMPLEMENTATION ACTIVE** and A4 remains
+  **1/3 V6 PHYSICAL-MUTATION REPAIR ACTIVE**.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A5/A6 and all
+  later witness/fake gates remain unchanged.  No compatible lift, fake
+  certificate, Ihara counterexample or cofinal witness has been constructed.
+
+Delta115 turns both active mutation tasks into auditable ordinary-pipeline
+experiments rather than self-reported rejection tables.
