@@ -66,7 +66,7 @@ bytes.  Acceptance means all of the following.
 There are presently two admissible positive dialects.
 
 - In cached-v3, put
-  
+
   \[
     g_0=R.\texttt{g760},\qquad
     a=R.\texttt{exactification.literal.c\_exact},\qquad

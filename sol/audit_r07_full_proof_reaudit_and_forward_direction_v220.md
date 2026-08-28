@@ -4221,3 +4221,7 @@ the missing A4 basis and keeps the restart point unique.
 
 Delta97 prevents an accepted future A0-v7 word from being stranded at A2 by
 an obsolete schema check, while adding no unexecuted code to a numerator.
+
+Durable branch record: commit `f54af78972013c18b1349841a726f15a20c30300`
+was pushed to `origin/sol/r07-explicit-lift-20260825`.  No workflow was
+dispatched in delta96--97.
