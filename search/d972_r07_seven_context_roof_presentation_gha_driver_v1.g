@@ -109,7 +109,6 @@ D198Pins:=[
  [D198P,"292473d5f9d01827bb6971352a82b8f238be1b1a19a98002c575c8ebf39760ee",136938],
  [D198C,"238eaa230b2ce1456e03780572c28b3fa71ae14786993e3dde056173886bed5a",153271],
  [D198F,"fb31f6a0be2f2f5b530c6fe99796476ea16edb72fe7ddc192323995f2ae55ce7",1605],
- [D198I,"715441d8ecb1b4bb39a51cf3df15f04d6179ee6adeafa5b925485dbbe91f7f41",13649089],
  ["ci/b345_157ee_artifacts_32359956713/d972_b345_joint_kernel_qstar_closure_v1.json","1c3ad7a7124cee152eb40968cf212c14641a9f8720063c85f70533864898d0df",2166036],
  ["ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.json","3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",231570],
  ["search/d972_b345_joint_kernel_qstar_closure_v1.py","06ba6cf361957db3e339d48d14b3d4fbc689de9642e3f96273fbe8f3160e76dc",67945],
@@ -138,6 +137,7 @@ D198Pins:=[
 for D198PinRow in D198Pins do D198Pin(D198PinRow);; od;
 for D198PinRow in D198Cone do D198Pin(D198PinRow);; od;
 if D198Mode="PRODUCTION" then
+  D198Pin([D198I,"715441d8ecb1b4bb39a51cf3df15f04d6179ee6adeafa5b925485dbbe91f7f41",13649089]);;
   D198Manifest:=D198Read(D198M,"task176 artifact manifest");;
   for D198ManifestNeedle in [
     "9635036013","250e25c992cbe8562f59fb808a8b0d86a7b54fdb750a57f2b1cd1c6cd0c89912",

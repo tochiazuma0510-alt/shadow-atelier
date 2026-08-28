@@ -1,9 +1,13 @@
 # Luna reply 198d -- repair handoff after Sol212 STOP
 
-This turn changed only the five task198-authorized files. I did not run
-Python, GAP, Node, git, GHA, or a network command. Every check reported below
-was a PowerShell read-only/static check. This is a handoff to a new independent
-auditor, not a self-issued PASS and not a mathematical result.
+The Sol212 repair series changed only the five task198-authorized files. This
+follow-up changed only the driver and this designated reply. I did not run
+Python, GAP, Node, git, GHA, or a network command; my checks were PowerShell
+read-only/static checks. External GHA SELFTEST run `33132138219` at immutable
+head `a79f425cfb5fb79b377231ae314c68bd3c7b3b50` reached only the driver and
+stopped before producer launch because a production-only
+`ci/in` receipt was pinned unconditionally. This is a repair handoff, not a
+self-issued PASS and not a mathematical result.
 
 ## 1. Scope, proof contract, and dependency cone
 
@@ -172,6 +176,17 @@ staging checkpoint names. The output checkpoint and manifest use the same
 basenames as the next-run staged input, so artifact download need only place
 the pair under `ci/in`; the v2 manifest already binds that future path.
 
+Run `33132138219` exposed one driver input-scope error: the external task176
+receipt `D198I` was inside unconditional `D198Pins`, although SELFTEST neither
+stages nor consumes it. Its exact byte/SHA pin is now executed inside the
+`PRODUCTION` branch immediately before the production-only task176 manifest
+check. The unconditional bundle pins now contain checked-in task198/proof/
+fixture/dependency files only. A static audit of every `ci/in` symbol found no
+other external input action outside `PRODUCTION`: task176 receipt/manifest and
+the optional checkpoint/manifest pair are all production-scoped. SELFTEST
+still authenticates the full checked-in 43-member cone and current task198
+producer/checker/fixture bundle.
+
 All current-output sidecars and every SELFTEST output/staged/preflight path are
 in the stale-output rejection list. Execution remains serial. A nonpositive
 producer terminal makes the checker return nonzero, so no positive sentinel is
@@ -186,6 +201,8 @@ PowerShell-only static checks found:
 - all 43 cone member byte/SHA identities: current, zero mismatches;
 - driver dependency cone: 43, sorted, unique, zero identity mismatches;
 - checker mutations: 44 names, 44 unique;
+- unconditional driver pin table: zero `ci/in` members; all four external
+  `ci/in` paths are consumed only in `PRODUCTION`;
 - obsolete checkpoint-v2, resume-manifest-v1, fixture-v3, and
   `PROPER_QUOTIENT` terminal tokens absent;
 - driver producer/checker/fixture pins equal the identities below.
@@ -196,18 +213,20 @@ self-referential digest):
 ```text
 producer  136938  292473d5f9d01827bb6971352a82b8f238be1b1a19a98002c575c8ebf39760ee
 checker   153271  238eaa230b2ce1456e03780572c28b3fa71ae14786993e3dde056173886bed5a
-driver     18983  b4ab65cd1f7df87aee4efb4154a470e4dc6beb6b3a031c9ffc3d7f6a4fa5c1d1
+driver     18994  4e0dc556a51581e3bc0f06d9cd478ff9689fa3f681080e770ad88ee714a827b5
 fixture     1605  fb31f6a0be2f2f5b530c6fe99796476ea16edb72fe7ddc192323995f2ae55ce7
 ```
 
 Execution boundary:
 
 ```text
-Python syntax/SELFTEST:                 NOT RUN
-GAP driver/SELFTEST:                    NOT RUN
-production 6,441-row reconstruction:    NOT RUN
-independent production acceptance:      NOT RUN
-mathematical lift/fake/Ihara result:     NOT DECLARED
+GHA run 33132138219:                 PRE-PRODUCER DRIVER INPUT-SCOPE STOP
+producer/checker in that run:        NOT STARTED
+Python SELFTEST after this repair:    NOT RUN
+GAP driver after this repair:        NOT RUN
+production 6,441 reconstruction:     NOT RUN
+independent production acceptance:   NOT RUN
+mathematical lift/fake/Ihara result:  NOT DECLARED
 ```
 
 Please send these exact five files to a new independent static auditor before
