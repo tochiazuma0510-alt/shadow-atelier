@@ -3398,3 +3398,46 @@ promoted.  It changes no actual witness numerator.
 Delta76 replaces a false source-surjectivity step by a complete finite-rank
 boundary algorithm and freezes the exact affine evaluator type.  It changes
 no actual witness numerator.
+
+#### v220-delta77 - 2026-08-29 (after delta76)
+
+**Individual progress**:
+
+- V272 separates mathematical completeness from the production hot path.
+  V271's full marked-generator closure is correct, but its terminal boundary
+  rank can be enormous.  A4 therefore need not and should not precompute all
+  of the translated PB boundary space.
+- For a target `v` and current K span `L`, the exact lazy oracle reduces
+  against discovered boundaries `B` plus `L`.  A nonzero remainder gives a
+  dual annihilating `B+L`; the 65-tagged support-inversion correlation either
+  returns one active full PB translate, which strictly raises `rank(B)`, or
+  proves that the dual annihilates the whole boundary space `D`.  The latter
+  is a complete NONMEMBER certificate.  MEMBER carries an explicit B/K
+  replay.  Thus every query terminates without enumerating E3/E4 or all D.
+- V272 gives the corrected actual evaluator recurrence.  Each trie node is
+  `(roof,Fox-gradient)` and multiplication/inversion use the left-Fox affine
+  laws.  The 6,441 authenticated ancestry rows are assembled from 288 affine
+  primitive values; every new K/anchor word is independently flat-replayed.
+- Applying the complete lazy oracle to the 6,441 defects and then to the four
+  source conjugates of every accepted K row proves the v231 kernel at queue
+  exhaustion.  Coefficient ancestry gives a deterministic literal source
+  word for every normalized K basis row, and the v247 least-index projection
+  then gives the required anchor if the actual run succeeds.
+- The honest boundary-correlation cost is the sum of matching
+  dual-support/base-occurrence pairs across query rounds.  There are exactly
+  `p` active-boundary rank raises and at most one complete-zero correlation
+  per quotient query; no `4b`, `12b`, or hidden full-group enumeration is
+  claimed for the chosen hot path.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  V272 closes the paper correctness and feasible
+  algorithm design for the missing 2/3 and 3/3 milestones, but no actual
+  boundary column, K rank, basis word, or anchor has yet been computed.
+- A0 **0/1 running**, A1 **4/4**, A2 **2/3**, A3 **0/3**, A5/A6
+  **0/3 actual**, A7/A8 **0/3 actual**, A9 **0/3 actual**, and B/C/W/F zero
+  are unchanged from delta76.
+
+Delta77 removes the need for an eager gigantic boundary basis while retaining
+a full translated-boundary proof at every quotient decision.  It changes no
+actual witness numerator.
