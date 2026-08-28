@@ -4814,3 +4814,18 @@ self-hashed driver or a detached SELFTEST model.
 
 Delta111 fixes the exact K0 algorithm, leastness theorem, trivial-kernel
 case, and memory ceiling which the v12a implementation must now realize.
+### Delta 112 (2026-08-29): selected-K0 reconstruction theorem and exact memory ledger
+
+- Added `sol/proof_r07_coordinate_stratified_k0_reconstruction_v295.md`.
+- The full-state open-address selector, Gamma first-id compression, exact
+  word-bearing kernel BFS, and checker-only coordinate grouping are now a
+  fixed proof contract.  Grouping local checker predicates does not reorder
+  the producer's canonical correction search or any chronological
+  cross-record validation.
+- Corrected the payload ledger: E3 `75,563,776` bytes/coordinate, E4
+  `243,105,472`, all ten simultaneously `1,593,346,240` before container
+  overhead.  The old `10*243,105,472` figure is only a conservative bound,
+  not an exact allocation.
+- v220 task effect: the mathematical selected-K0 subgate of A0 is closed as
+  a contract, but actual A0 remains `0/1` until v12a implements ordinary
+  baseline/mutations and P0/R/V, then passes fresh Sol(max) audit and GHA.
