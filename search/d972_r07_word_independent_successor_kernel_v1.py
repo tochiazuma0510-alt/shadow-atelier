@@ -83,7 +83,7 @@ PROOF_PINS = (
 )
 TASK198_PINS = (
     ("search/d972_r07_seven_context_roof_presentation_v1.py", 137169, "6b2645b80f97256a659af81e856c086cca724b36e2a22ae70335b29ffa95d44c"),
-    ("crosscheck/check_d972_r07_seven_context_roof_presentation_v1.py", 153420, "46c566925375cd87a7d95d1949715523c0fff8a2b857e9aa563e9ee094011af5"),
+    ("crosscheck/check_d972_r07_seven_context_roof_presentation_v1.py", 157253, "001277d44dbbc2acd7e03c6ecb6c6419df84996ae188cbb4be7b18f7cfb56ca1"),
     ("search/certs/d972_r07_seven_context_roof_presentation_selftest_v1_20260828.json", 1605, "fb31f6a0be2f2f5b530c6fe99796476ea16edb72fe7ddc192323995f2ae55ce7"),
 )
 TASK198_EXTERNAL_FIELDS = {
