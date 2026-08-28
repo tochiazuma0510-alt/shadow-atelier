@@ -3659,3 +3659,35 @@ lift while preserving its finite arithmetic test suite.
 
 Delta83 prevents the next A0 optimization from accelerating only the wrong
 side of the resume boundary.
+
+#### v220-delta84 - 2026-08-29 (after delta83)
+
+**Individual progress**:
+
+- V276 specializes v275 to the ancestry already expected from an ordered
+  rank-raising checkpoint.  If each computed pivot row satisfies
+  `p_j=sum_{i<=j} a_ji c_i`, every diagonal `a_jj` is nonzero, and the pivot
+  keys form the registered normalized echelon, the triangular coefficient
+  matrix is invertible.  Hence the single replay direction already proves
+  both span containments and rank r; a separate dense reverse matrix is not
+  required.
+- Each pivot-row equality can be reconstructed independently from immutable
+  raw columns, so the certificate arithmetic can be sharded without the
+  historical serial dependency of 2,896 successive `Echelon.add` calls.
+  Target and dual are then rebuilt fresh.  Exact cached-v3 path parity would
+  require extra pivot/remainder/dual gates; a history-free positive search
+  needs only exact starting span and final raw membership replay.
+- The actual checkpoint's ancestry has not been promoted to this theorem's
+  premise.  Triangularity, nonzero diagonal, all sparse equalities, pivots,
+  resource size, and an independent reconstruction remain unexecuted gates.
+  Task337 is still completing the v6 audit before a v7 commission is cut.
+
+**v220 mapping**:
+
+- A0 remains **0/1**.  V276 is a paper-grade acceleration certificate only.
+- All other milestones remain as in delta83; no compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Delta84 reduces the prospective exact resume certificate from two arbitrary
+span maps to one checked invertible triangular ancestry, without trusting an
+old pivot digest.
