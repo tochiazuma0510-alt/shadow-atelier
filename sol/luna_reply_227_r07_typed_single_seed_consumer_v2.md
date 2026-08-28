@@ -1,4 +1,4 @@
-# Luna reply 269 - task227 checker occurrence owner-label repair
+# Luna reply 272 - task227 u0 owner-object repair
 
 UNEXECUTED: no Python, Node, GAP, git, GHA, or network command was run. Only
 the five authorized task227 files were changed; task226/task233, task229,
@@ -33,15 +33,18 @@ predecessors, proofs, and workflows were not changed.
   SELFTEST while keeping production structural checks mandatory.
 - Renamed the checker occurrence structural rejection to its preregistered
   `occurrence basis row` owner gate; no mutation data or ordering changed.
+- Fixed the producer expected-row comparison to read the typed ABI owner
+  `abi["u0"][i]`, preserving the encoded occurrence-vector check and roster
+  equality.
 
 ## Identities
 
 ```text
-producer  43973  bf29fd048d23c07a7f003f786d6b5c4595bc84beae1185ebbe3ef525fb5ebca6
+producer  43975  ef09c7c262d8096c7070766edea3521968144a2cd1ef9ccc5a0d6d1cd4511924
 checker   30232  196b2bf96b39d6a9f63ae2d5a83c9e981f2cab0f67b78395800ebe6c0dbad661
-driver     5216  bf5f91064c2aa52572b10a4f7fdc6f409c387152d269c32f10e5197f1a8170ca
+driver     5216  e35d54bbd9eb6939e827bd1fcf768b59b92f5644e4e11229e617b9fdcb8dfba5
 fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
-reply     3126  (self-referential SHA intentionally omitted; final SHA reported to parent)
+reply     3257  (self-referential SHA intentionally omitted; final SHA reported to parent)
 ```
 
 No accepted task226 production package or production MEMBER/NONMEMBER terminal
@@ -55,4 +58,4 @@ A4 AND LATER:                  UNCHANGED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
-`TASK269_TASK227_CHECKER_OCCURRENCE_OWNER_LABEL_UNEXECUTED`
+`TASK272_TASK227_U0_OWNER_OBJECT_UNEXECUTED`
