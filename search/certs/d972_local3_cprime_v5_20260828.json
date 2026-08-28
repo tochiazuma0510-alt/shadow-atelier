@@ -1,0 +1,68 @@
+{
+  "schema": "d972-local3-cprime/v5",
+  "generated_by": {
+    "note": "v5 is a CORRECTION/WITHDRAWAL cert on top of v4, per falsifier ruling 1726 (D-6 hunt returned a decisive negative finding). No new S1-S10 computation performed; this cert withdraws the SELECT declaration made in v3/v4 while explicitly preserving the raw c' computation (which the ruling does NOT challenge), and records two logic-error corrections found in v3/v4's own D-6 disclaimer text.",
+    "v4_cert_reference": "search/certs/d972_local3_cprime_v4_20260830.json (sha16 c06816bd7d1520f0)",
+    "v3_cert_reference": "search/certs/d972_local3_cprime_v3_20260829.json (sha16 1e51358853989d75)",
+    "v2_cert_reference": "search/certs/d972_local3_cprime_v2_20260829.json (sha16 cb3ba50f672d2c18)",
+    "date_naming_note": "Per instruction point 5: this cert's filename uses 20260828 (the actual/intended date) even though v1-v4 were named 0829/0830 (a naming lead that originated from the coordinator's own instructions at the time). No renaming of v1-v4 performed; this is a note only, not a repair."
+  },
+  "task": "v5 correction per ruling 1726: withdraw the v3/v4 SELECT declaration (D-6's S9 label-mapping rule is ungrounded), preserve the raw c'=+1 computation, correct two logic errors in v3/v4's own D-6 disclaimer text",
+
+  "falsifier_finding_1726_summary": {
+    "what_was_found": "census label NN-jj is assigned by LEXICOGRAPHIC RANK, carrying ZERO sign semantics. Confirmed via the census producer's own code (lines L706-713) with 12/12 machine confirmation.",
+    "consequence": "The frozen S9 rule ('SELECT := NN-09 if psi==+k3 else NN-12') is an UNGROUNDED convention -- it was never shown to correspond to how the census actually assigned the NN-09/NN-12 labels. The v3/v4 SELECT declaration (SELECT=NN-09) was built directly on top of this ungrounded rule and is therefore withdrawn, NOT because the c' computation was wrong, but because the LAST STEP translating c' into a census label had no grounding.",
+    "what_is_NOT_challenged": "The raw c'=+1 computation itself (2-system agreement, 3-prime stability, anchor-based per sec.7.3.6, S4-normalization-invariant) is UNCHANGED and remains solid. This ruling is about the LABEL TRANSLATION step only."
+  },
+
+  "SELECT_WITHDRAWN": {
+    "SELECT": "WITHDRAWN(S9 rule ungrounded — falsifier 1726)",
+    "instruction_compliance": "Per instruction point 1, verbatim withdrawal string used"
+  },
+
+  "cprime_raw_value_UNCHANGED_AND_SOLID": {
+    "value": 1,
+    "selected_branch_D5": "B (u_S4 = u0, per falsifier ruling 1719, unchanged)",
+    "properties_unchanged_by_this_ruling": [
+      "two-system agreement (Python producer / GAP checker, exact match at all 3 primes)",
+      "3-prime stability (p=19,37,73, DC-5 agree=true)",
+      "anchor-based (u_dih, not beta -- correction C-A3, DC-7 confirmed opposite-of-v1 as required)",
+      "S4-normalization invariance (sec.7.3.6, 8/8 machine gate, resolved in v4)"
+    ],
+    "reference": "full raw per-prime values in search/certs/d972_local3_cprime_v3_20260829.json D5_resolved section (Su, cprime, k3_anchor, psi at each of the 3 primes)"
+  },
+
+  "conclusion_pending_joint_marked_row": true,
+  "conclusion_pending_joint_marked_row_note": "NEW pending item (replaces the withdrawn SELECT). The translation bit (does c'=+1 correspond to NN-09 or NN-12?) is NOT recoverable from the census's own row labels (lexicographic, zero sign semantics per 1726) or from any hash-matching exercise (see correction (b) below). It requires ONE joint marked Frobenius row measurement, per the census producer's own first_missing_datum specification (search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json field arithmetic_bridge.first_missing_datum / arithmetic_identification.first_missing_datum -- 'IDX3-JOINT-MARKED-FROBENIUS-ROWS-AND-BASEFIELD-DIAGRAM-MISSING'). The mathematician is designing this measurement; not attempted by this implementer in this cert.",
+
+  "corrections_to_v3_v4_disclaimer_text": {
+    "instruction_compliance": "Per instruction point 3: two logic-error corrections recorded, offending lines identified and superseded (not silently deleted -- both original texts are quoted here for the record, per project convention that corrections must be struck through/marked, not erased)",
+    "correction_a_D6_disclaimer_logic_reversed": {
+      "original_text_v3": "\"this cert treats D6 as: supported-but-not-formally-closed-by-this-implementer; the SELECT declaration above relies on the frozen S9 formula (psi/k3 comparison) applied directly, which does not itself require D-6's census-label question to be separately re-proven\" (search/certs/d972_local3_cprime_v3_20260829.json, D6_note.this_cert_treats_D6_as)",
+      "error": "REVERSED LOGIC. Applying the frozen S9 formula IS PRECISELY the use of the unproven D-6 assumption (that the S9 rule's psi==+k3 <=> NN-09 correspondence is grounded in how the census was actually built) -- it does not bypass D-6, it silently ASSUMES D-6's answer. v3/v4 characterized this as 'not requiring D-6 to be re-proven', which inverted the dependency: applying S9's SELECT formula to produce a census label is exactly the step that DEPENDS ON D-6, not a step independent of it.",
+      "correction": "STRUCK. The S9 SELECT formula's output is NOT a census label absent a separately-proven D-6 grounding. This is exactly why SELECT is now withdrawn in this cert rather than merely re-flagged as 'candidate'.",
+      "struck_through": true
+    },
+    "correction_b_tag7_consistent_claim_overstated": {
+      "original_text_v3": "\"tag7_324key_hash_crosscheck_sol_reply_253 ... there is no evidence of a labeling corruption between the census cert and Sol's independently-pinned artifact\" and D6_note's claim that the 10/10 hash match is 'consistent with' the census label mapping's integrity (search/certs/d972_local3_cprime_v3_20260829.json D6_note.status)",
+      "error": "OVERSTATED. Per theorem ORIENT (e) (scratchpad/d972_idx3_arith_datum_independent_v1.md sec.7.1): the symmetric difference A_+ triangle A_- (432 keys) lies ENTIRELY on the K3!=0 side, meaning NO key in the census is epsilon-invariantly forced to reveal which set is A_+ vs A_-. Consequently a hash match on the ROSTER (which 2 sets of 324 keys exist, matching Sol's pinned hashes byte-for-byte) carries ZERO bits of ORIENTATION information -- it confirms the SETS are identical, not which LABEL(NN-09 vs NN-12) corresponds to which SIGN(c'=+1 vs c'=-1). Calling this 'consistent with' the label direction implied a nonzero evidentiary weight that ORIENT (e) rules out categorically.",
+      "correction": "STRUCK. The tag-7 10/10 hash match provides EXACTLY ZERO bits of orientation/label-direction information, not merely 'inconclusive but suggestive' evidence. It remains valid and useful for its actual, narrower purpose (confirming roster identity / hash reproducibility of the NAMED SETS against Sol's pin), but must not be cited in any future cert as bearing on the c'-to-NN-jj translation question.",
+      "struck_through": true
+    }
+  },
+
+  "grade_UPDATED": {
+    "grade": "candidate (normalization resolved, translation bit not yet obtained)",
+    "instruction_compliance": "Per instruction point 4, verbatim grade string used",
+    "what_this_means": "The raw LOCAL-3 c'=+1 computation is fully resolved (anchor-based, S4-normalization-invariant, D-5 closed) and stands as a solid candidate-grade result. What remains open is ONLY the translation of this c' value into a census NN-09/NN-12 label -- this requires the pending joint-marked-Frobenius-row measurement, not further LOCAL-3 computation."
+  },
+
+  "summary_for_report": {
+    "SELECT": "WITHDRAWN(S9 rule ungrounded — falsifier 1726)",
+    "cprime_raw_value": 1,
+    "cprime_raw_value_status": "unchanged, solid (2-system agreement, 3-prime stable, anchor-based, normalization-invariant)",
+    "grade": "candidate (normalization resolved, translation bit not yet obtained)",
+    "new_pending": "conclusion_pending_joint_marked_row=true",
+    "corrections_recorded": 2
+  }
+}
