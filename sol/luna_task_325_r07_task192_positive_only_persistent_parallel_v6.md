@@ -5,8 +5,8 @@ sections first to last.  Do not run Python, Node, GAP, GHA, workflows, git,
 or network.  Preserve v1--v5, all sealed inputs, workflows, and v220.  Edit
 only the five versioned outputs named below.
 
-This commission is queued after task324; do not start it concurrently in the
-same agent turn unless task324 is completely closed.
+This commission may run concurrently with task324 only in a separate Luna
+agent.  Do not mix the two tasks' files or execution boundaries.
 
 ## 1. Inputs and sole outputs
 
