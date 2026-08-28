@@ -1,0 +1,64 @@
+{
+  "schema": "d972-r07-seven-context-roof-presentation-selftest-fixture/v4",
+  "toy": "Dic_3_to_S3_non_split_extension",
+  "expected": {
+    "q0_order": 6,
+    "gamma_order": 2,
+    "D_order": 12,
+    "presentation_rows": 9,
+    "layer_counts": {
+      "Gamma_Cayley": 2,
+      "action": 4,
+      "Q0_lift": 3
+    },
+    "q0_relator_count": 3,
+    "selected_gamma_records": [1],
+    "kernel_order": 1,
+    "raw_coordinate_count": 10,
+    "occurrence_count": 11,
+    "seven_block_count": 7,
+    "q0_order_upper_bound": 6,
+    "total_order_bound": 12
+  },
+  "mutation_count": 44,
+  "production_path": {
+    "presentation_checkpoint_cursor": 4,
+    "presentation_bridge_cursor": 0,
+    "presentation_terminal_cap": "gamma_operations",
+    "bridge_checkpoint_cursor": 9,
+    "bridge_cursor": 2,
+    "preflight_presentation_limits": [0, 4],
+    "preflight_q0_counters": [0, 0],
+    "portable_resume_stages": 2,
+    "current_output_to_fixed_stage": true
+  },
+  "context_map_count": 7,
+  "toy_coordinate_automorphisms": [
+    {"u": 1, "v": 0},
+    {"u": 1, "v": 1},
+    {"u": 1, "v": 2},
+    {"u": 1, "v": 3},
+    {"u": 1, "v": 4},
+    {"u": 1, "v": 5},
+    {"u": 5, "v": 0},
+    {"u": 5, "v": 1},
+    {"u": 5, "v": 2},
+    {"u": 5, "v": 3}
+  ],
+  "joint_coordinate_image": {
+    "normal_form_count": 12,
+    "distinct_value_count": 12,
+    "nonsplit_cocycle_in_image": true
+  },
+  "nonsplit_section_cocycle": {
+    "left": "y",
+    "right": "y",
+    "quotient_product": "identity",
+    "canonical_product_section_word": [],
+    "nontrivial": true
+  },
+  "source_generators": {
+    "x": [1],
+    "y": [2]
+  }
+}
