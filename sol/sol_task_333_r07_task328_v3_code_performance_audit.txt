@@ -1,0 +1,64 @@
+Sol(max) task 333 - task328/A4-v3 independent code and performance audit
+
+Role: independent adversarial mathematics/code auditor.  Read every numbered
+section before judging.  Do not edit implementation files and do not run
+Python, Node, GAP, GHA, workflows, git, or network.  Write only
+`sol/sol_reply_333_r07_task328_v3_code_performance_audit_v1.md`.
+
+1. Read in full task328 and its reply; task315/task323 and replies; task327 and
+task330 audits; v247, v267, v268, v269; task331 and task332; all five v3
+outputs; the accepted task198 bundle; task176 producer/checker; the frozen E4
+arithmetic; the pinned q3 receipt; and the final task193 producer/checker.
+
+2. Independently decide PASS or REJECT before any execution authorization.
+Trace the actual positive branch call by call.  A named or shaped method is
+not an implementation.  In particular determine whether the exact callable
+lookups used by `LocalRuntime` exist with the invoked signatures; whether E3,
+E4, the 31 contexts, finite deletion map, typed codecs, and forty actors are
+actual objects rather than placeholder tuples/dictionaries; and whether the
+first production call can reach all 6,441 rows.
+
+3. Reconstruct the mathematical type of a successor defect.  It must be the
+ten-tagged affine/Fox chain of each roof-identity relation, modulo the complete
+translated PB3/PB4 boundary space.  Audit whether the producer really calls
+`fox_gradient_without_sections` (or an exactly equivalent independent
+implementation), preserves components/blobs/raw coefficients, and derives
+the seven occurrence bridge.  Reject hashes, ledger signs, fixed dictionaries,
+or roof group values used as substitutes for affine chains.
+
+4. Audit v268 literally.  The 6,441 words have three different ancestry
+grammars.  Confirm that producer prefix and checker reverse-suffix tries are
+actually used to evaluate primitive words in the real ten quotients and then
+assemble every stored relation, with direct equality against the authenticated
+row word.  Count actual group operations; do not accept hard-coded inventory
+numbers as work.
+
+5. Audit v269 literally.  The thirteen base boundary rows are two PB3 and
+eleven PB4 Fox/presentation rows reconstructed from pinned arithmetic; they
+are not fields of task198's top-level bridge.  Confirm the producer performs
+the complete invariant rank closure under x^+-1,y^+-1, with raw coefficient
+ancestry, and the checker performs genuine support-inversion dual column
+generation.  A fabricated tuple identity or declared `complete_zero_correlation`
+is not a completeness proof.
+
+6. Audit the live B+K echelon, all accepted/dependent coefficient replays,
+NONMEMBER duals in the authenticated typed universe, two-way span modulo
+independently rebuilt boundaries, queue exhaustion, integer word DAG,
+normalization/prior-K/boundary ancestry, direct actual word evaluation, and
+every v247 H2/least-index/inverse-scalar/powered-word/anchor gate.  The anchor
+must be computed from an actual basis, never hard-coded.
+
+7. Audit authority-v2 exact paths, bytes, seals, run/head/artifact members,
+the real receipt spellings and canaries, all 34 producer and 34 checker
+mutations at their owning gates, narrow exception handling, resource stops,
+serialization accounting, driver exact-one terminals, sealed verdict, and
+sentinel-last behavior.  Include unnecessary or asymptotically bad work.
+
+8. Report exact file bytes/SHA-256, the first load-bearing failure if any,
+all additional failures, independently derived operation bounds, and the
+smallest versioned repair.  End exactly with a clear audit/execution ruling.
+No SELFTEST is authorized unless every actual semantic and performance gate
+passes static audit.  Actual A4 remains 1/3 before execution; no lift/fake/
+Ihara claim may be promoted.
+
+TASK333_R07_TASK328_V3_CODE_PERFORMANCE_AUDIT
