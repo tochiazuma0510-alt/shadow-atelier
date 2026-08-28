@@ -727,9 +727,9 @@ def validate_fixture(value: dict[str, Any]) -> None:
     require(value.get("rank", 0) >= 2 and value.get("order") == 3 ** value["rank"] and
             value.get("nilpotence_bound") == 2 * value["rank"] + 1,
             "checker fixture rank")
-    require(len(value.get("contexts", [])) == 10 and
-            value["contexts"][0].get("tag") == "E3-C21" and
-            value["contexts"][7].get("tag") == "E4-C21" and
+    require([(row.get("index"), row.get("type"), row.get("context_id"), row.get("tag"))
+             for row in value.get("contexts", [])] ==
+            list(zip(range(10), CONTEXT_TYPES, CONTEXT_IDS, CONTEXT_TAGS)) and
             len(value.get("successors", [])) == 10 and
             all(item.get("source_words") for item in value["successors"]) and
             value.get("successor_digest") == digest([item["source_words"] for item in value["successors"]]),
@@ -810,6 +810,8 @@ def validate_fixture(value: dict[str, Any]) -> None:
             binding.get("terminal") == "ROOF_BRIDGE_ISOMORPHISM" and
             all(binding.get(key) for key in ("run", "head", "artifact", "member", "checker",
                                               "delta1_bfs", "task192_word")) and
+            binding.get("delta1_bfs") == "unused" and
+            binding.get("task192_word") == "unused" and
             value.get("resource_terminal", {}).get("rank_zero") is True and
             all(flag is False for flag in value.get("forbidden_downstream", {}).values()),
             "checker fixture bindings")

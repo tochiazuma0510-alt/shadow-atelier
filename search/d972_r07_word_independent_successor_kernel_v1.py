@@ -638,13 +638,17 @@ def semantic_mutation_replay(certificate: dict[str, Any]) -> int:
     def validate(value: dict[str, Any]) -> None:
         require(value["rank"] >= 2 and value["order"] == 3 ** value["rank"], "mutation rank/order")
         require(value["nilpotence_bound"] == 2 * value["rank"] + 1, "mutation nilpotence")
-        require(len(value["contexts"]) == 10 and value["contexts"][0]["tag"] == "E3-C21" and
-                value["contexts"][7]["tag"] == "E4-C21", "mutation typed contexts")
+        require([(row.get("index"), row.get("type"), row.get("context_id"), row.get("tag"))
+                 for row in value["contexts"]] ==
+                [(row["index"], row["type"], row["context_id"], row["tag"])
+                 for row in CONTEXT_LEDGER], "mutation typed contexts")
         require(value["task198_binding"].get("schema") ==
                 "d972-r07-seven-context-roof-presentation/v1" and
                 value["task198_binding"].get("terminal") == "ROOF_BRIDGE_ISOMORPHISM" and
                 all(value["task198_binding"].get(key) for key in
-                    ("run", "head", "artifact", "member", "checker", "delta1_bfs", "task192_word")),
+                    ("run", "head", "artifact", "member", "checker", "delta1_bfs", "task192_word")) and
+                value["task198_binding"].get("delta1_bfs") == "unused" and
+                value["task198_binding"].get("task192_word") == "unused",
                 "mutation task198 binding")
         require(all(item.get("source_words") for item in value["successors"]) and
                 value["successor_digest"] == digest([item["source_words"] for item in value["successors"]]),

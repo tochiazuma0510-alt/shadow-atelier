@@ -24,9 +24,9 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 ```
 
 ```text
-producer  88706  c884253038800d7ecdaa3931c57adb0f02b1e5f4d87a6533dfb09e65a94edd81
-checker   54874  dd41f90fc3cb5c5701655abaea56fc82178a56d32fcf9c631d723933d7ea2bc0
-driver     4242  ddcd1ca059e3b0460f9043b87930ea4bdbd5259097eedd7b4f818059797561be
+producer  88971  26208c3bb55367f29e89ea45e5ad77b050b748a26f162d4827f1401ad6c93390
+checker   55032  68e86ac49c9a1adf76c26d046ab2bbd52376130ccdc007b8295d89c35cc32020
+driver     4242  4f80f270125ef48841d2de33138214a90369dba5f03739897133772072eb7beb
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -128,6 +128,9 @@ the extant `Ihara_witness` field explicitly.
 Task266 repairs the producer's tuple-owned `repeated_e3_insertion` mutation
 with tuple slicing, preserving the owner type and reaching the semantic gate
 without an `AttributeError`.
+Task267 makes the producer and checker require the canonical ten-entry typed
+context roster `(index, type, context_id, tag)` and exact `unused` values for
+`delta1_bfs` and `task192_word`, closing the four vacuous mutation paths.
 
 ## 10. Resources, driver, and ledger
 
