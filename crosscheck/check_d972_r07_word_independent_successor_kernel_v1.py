@@ -894,6 +894,7 @@ def check_selftest(receipt: dict[str, Any], fixture: dict[str, Any] | None) -> N
         elif name == "task192_word": toy_mutant["task198_binding"]["task192_word"] = "bad"
         elif name == "traversal_stale": toy_mutant["alternate_span_forward"] = False
         elif name == "resource_stop_completion": toy_mutant["resource_terminal"]["rank_zero"] = False
+        elif name == "false_ihara": toy_mutant["forbidden_downstream"]["Ihara_witness"] = True
         elif name.startswith("false_"): toy_mutant["forbidden_downstream"][name[6:]] = True
         try:
             validate_fixture(toy_mutant)

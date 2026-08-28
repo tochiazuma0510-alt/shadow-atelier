@@ -649,7 +649,8 @@ def semantic_mutation_replay(certificate: dict[str, Any]) -> int:
         require(all(item.get("source_words") for item in value["successors"]) and
                 value["successor_digest"] == digest([item["source_words"] for item in value["successors"]]),
                 "mutation source substitutions")
-        require(len(value["successors"]) == 10 and all(item["roof_identity"] is True for item in value["successors"]), "mutation roof")
+        require(len(value["successors"]) == 10 and
+                value["roof_reductions"] == [True] * 10, "mutation roof")
         require(value["affine_checks"]["multiplication"] is True and value["affine_checks"]["inverse"] is True and
                 value["affine_checks"]["crossed_derivation"] is True, "mutation affine")
         require(value["queue_actions"] > 0 and len(value["basis"]) == value["rank"], "mutation queue/basis")
@@ -759,7 +760,7 @@ def semantic_mutation_replay(certificate: dict[str, Any]) -> int:
         elif name == "paper_product_order": mutant["successors"][0]["source_words"] = list(reversed(mutant["successors"][0]["source_words"]))
         elif name in ("affine_multiplication", "affine_inverse", "crossed_derivation_order"):
             mutant["affine_checks"][name.replace("_order", "")] = False
-        elif name == "roof_reduction": mutant["successors"][0]["roof_identity"] = False
+        elif name == "roof_reduction": mutant["roof_reductions"][0] = False
         elif name == "raw_coordinate": mutant["basis"][0]["row"] = {}
         elif name == "block_tag": mutant["contexts"][0]["tag"] = "bad"
         elif name == "omitted_boundary": mutant["boundary"] = []
@@ -782,6 +783,8 @@ def semantic_mutation_replay(certificate: dict[str, Any]) -> int:
         elif name == "selftest_production": mutant["task198_binding"]["member"] = False
         elif name == "traversal_stale": mutant["alternate_span_forward"] = False
         elif name == "resource_stop_completion": mutant["resource_terminal"]["rank_zero"] = False
+        elif name == "false_ihara":
+            mutant["forbidden_downstream"]["Ihara_witness"] = True
         elif name.startswith("false_"):
             mutant["forbidden_downstream"][name[6:]] = True
         try:

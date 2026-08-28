@@ -24,9 +24,9 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 ```
 
 ```text
-producer  88606  fb774472f7e33dfd4b8a794470b6a47cf3238230af71eabf32cafed16014cd46
-checker   54779  92a5f277ce0255b77ac05330e9ad656e7851cc758f58ec26cb9d9e36498ad16b
-driver     4242  69fb6bb62019b3b76cfb4e052c4b4f75466719e59ce57f1b7f34e30693bfbf69
+producer  88686  3ebd8a5e2af597bb38790469b055d6e61e27b86f06653320289885cd834dd8e6
+checker   54874  dd41f90fc3cb5c5701655abaea56fc82178a56d32fcf9c631d723933d7ea2bc0
+driver     4242  6b8350c4683f20923c96e2689015b245894983ba8045ca71b2c48d178918f558
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -120,6 +120,11 @@ anchor. Task260 makes the `projected_coordinate` mutation own
 `projection_anchor.projected_coordinate`; its selected-anchor equality gate
 now rejects that non-vacuous mutation. The exponent-zero toy source is the
 nonempty cancelling word `[1,-1]`.
+Task263 makes `roof_reductions` the sole toy roof ledger owner: producer
+validation checks the ten typed successors/source words separately from
+`roof_reductions == [True] * 10`, and the producer mutation changes one ledger
+entry. The remaining mutation paths were audited; `false_ihara` now targets
+the extant `Ihara_witness` field explicitly.
 
 ## 10. Resources, driver, and ledger
 
