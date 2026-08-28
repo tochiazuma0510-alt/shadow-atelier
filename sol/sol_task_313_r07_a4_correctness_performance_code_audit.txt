@@ -1,0 +1,37 @@
+Role: independent Sol(max) static code auditor.  Read AGENTS.md and the full
+task.  Do not run Python, Node, GAP, GHA, network, or git.  Modify exactly one
+path:
+
+`sol/sol_reply_313_r07_a4_correctness_performance_code_audit_v1.md`
+
+Audit these accepted A4 paths in full:
+
+- `search/d972_r07_word_independent_successor_kernel_v1.py`
+- `crosscheck/check_d972_r07_word_independent_successor_kernel_v1.py`
+- `search/d972_r07_word_independent_successor_kernel_gha_driver_v1.g`
+- `search/certs/d972_r07_word_independent_successor_kernel_selftest_v1_20260828.json`
+
+Also read the mathematical pins v188, v189, v190, v231, and v247, the task198
+input authentication clauses, and `sol/audit_r07_task198_actual_producer_capture_v258.md`.
+
+Return PASS or REJECT before actual A4 execution.  Correctness audit must
+check exact task198 manifest/attestations, 6,441 rows and chunks, ten typed
+contexts, complete boundary, invariant queue exhaustion, ancestry, dual,
+projected `k_z` anchor, mutation gates, exact terminals, stale-output gates,
+and fail-closed resource behavior.
+
+Performance is a load-bearing audit target.  Identify every production hot
+path and give its asymptotic/roster bound where statically possible.  Reject
+if the code unnecessarily reparses the 31 MB receipt, reconstructs the 6,441
+rows more than required, repeatedly recomputes ranks from scratch where the
+existing echelon can be updated, enumerates full vector or group spaces when
+a generator-only calculation suffices, materializes an unbounded closure,
+duplicates producer work inside one process, starts needless subprocesses,
+uses sleeps/locks/serial waits, ignores a safe existing checkpoint, or makes
+the configured resource cap unreachable for the preregistered actual input.
+Distinguish necessary independent checker replay from accidental duplicate
+work.  If performance cannot be certified, REJECT with exact source lines and
+a bounded repair.
+
+Do not count a static PASS as A4 actual progress.  Report A4 actual 0/3 and no
+lift/fake/Ihara conclusion.

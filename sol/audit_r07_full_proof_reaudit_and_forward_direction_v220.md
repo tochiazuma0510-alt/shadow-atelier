@@ -2727,3 +2727,35 @@ SELFTEST without changing any actual witness, fake, or Ihara conclusion.
 Delta60 converts the observed GHA failure into one exact, bounded v8 repair
 and strengthens future code audits with a performance criterion.  It changes
 no actual witness numerator.
+
+#### v220-delta61 - 2026-08-28 (after delta60)
+
+**Individual progress**:
+
+- Task198 actual producer-capture run 33155653989 succeeded at immutable head
+  bed1d5e6b41477b8799f2a33a24e46f7800f9510.  Artifact 9684074697 has archive
+  digest adbd58fb887bce0b3be86ce1302447f7a1fd875607384ef39c159ba855b36840.
+- V258 authenticates the 31,017,244-byte candidate receipt.  It has exactly
+  6,441 presentation rows in seven contiguous chunks, exact normal closure,
+  all 6,441 bridge replays, bridge kernel order one, seven blocks, eleven
+  occurrences, four marked replays, and the ten-coordinate v188 evaluator.
+  Its producer terminal is `ROOF_BRIDGE_ISOMORPHISM`.
+- The capture contains no independent production checker verdict, so it is
+  not yet accepted or staged for A4.  Direct run 33155710862 continues at the
+  same head.  The observed producer cost is 10,564.41 seconds in one process;
+  the current direct mode duplicates that producer work before checking.
+  Future code audits now include avoidance of such unnecessary slow paths.
+- Task313 commissions an independent pre-production audit of both correctness
+  and performance of the A4 kernel.  This is audit preparation, not an actual
+  A4 milestone.
+
+**v220 mapping**:
+
+- A1 remains **3/4**, now with a positive actual producer candidate but no
+  independent production acceptance.  A4 remains **0/3 actual** pending the
+  exact checked A1 handoff and task313.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; A2 remains **2/3**.  A3 and
+  A5--A9 actual, B, C, W, and F retain their delta60 values.
+
+Delta61 supplies the complete actual A1 producer object and identifies a
+three-hour duplicate-work boundary without prematurely increasing A1 or A4.
