@@ -4001,3 +4001,100 @@ transformation and simultaneously proves the one-endpoint-seed normal form.
 
 Delta92 removes repeated exact-word evaluation from the post-MEMBER gate
 without weakening the literal success certificate or overstating NONZERO.
+
+#### v220-delta93 - 2026-08-29 (after delta92)
+
+**Individual progress**:
+
+- Task343's in-progress static audit found the first deterministic A4-v4
+  production stop before any of the 6,441 rows: producer and checker require
+  a task198 evaluator canary named `y_inverse` which the authenticated
+  authority does not contain.  The final audit is still running and may find
+  further independent blockers.
+- Under that minimal hypothetical repair, task343 measured a larger
+  performance defect.  The code builds a trie and then flatly reevaluates all
+  long words twice: 109,509,760 source-letter/context substitution
+  iterations, with at least 13,980,547,956 sequential whole-reduction letter
+  visits already in contexts 0, 5, and 7.  These are static code counts, not
+  an execution result.
+- V282 proves the replacement.  The tuple of exact group, affine, and
+  left-Fox values is a semidirect-product word state.  A forward prefix DAG
+  therefore gives every literal row exactly once; an independent checker can
+  build a reverse suffix DAG and obtain the same leaves through the opposite
+  factorization.  Work is linear in the two DAG edge counts and typed
+  contexts, while all 6,441 authority rows remain covered.
+- A future v5 must remove post-trie flat reevaluation, derive canary names
+  from the authenticated schema, checkpoint evaluation/quotient frontiers,
+  replay only selected positive words directly, and export the complete
+  ordered basis for v280's downstream anchor recomputation.  The final
+  task343 findings remain binding before commission.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNDER V4 AUDIT**.  V282 supplies a correctness-preserving
+  performance theorem and v5 direction, not an actual closure, K basis, or
+  anchor.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A5/A6 and A7/A8 remain **0/3 actual**, A9 **0/3
+  actual**, and B/C/W/F remain zero.  No compatible lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta93 turns the measured A4-v4 word-evaluation blowup into one exact
+bidirectional DAG contract without counting the unexecuted code as progress.
+
+#### v220-delta94 - 2026-08-29 (after delta93)
+
+**Individual progress**:
+
+- Sol(max) task343 completed the full A4-v4 audit as `REJECT / UNEXECUTED`;
+  SELFTEST remains unauthorized.  The exact authenticated file hashes agree
+  with reply336, but actual production stops before row 1 at the nonexistent
+  task198 `y_inverse` canary.  Under that one hypothetical repair it next
+  stops at row 6,319 because an action singleton is incorrectly requested
+  from the 288-word primitive trie rather than the 40-state actor cache.
+- Further independent blockers survive both local repairs.  Rank-rise action
+  columns are omitted from the final source-action matrix; MEMBER and dual
+  round schemas are conflated; the checker trusts producer dot/correlation
+  Booleans and does not rebuild the 6,441 rows, chronological B/K evolution,
+  dual, 65-family correlation, selected column, rank rise, coefficients, word
+  recurrence, action closure, or anchor.  Its MaxPivot dual pullback also uses
+  the elimination operations in the wrong order.
+- All 48 advertised v4 mutations are nonphysical (`0/48` actual owners).
+  Producer SELFTEST first hard-stops at mutation 35 by looking for a
+  nonexistent top-level `kernel`; most earlier routes are explicit
+  mutation-name/flag rejection.  Task176 acceptance and task198 physical
+  source/inner bridge/ABI owners are not fully authenticated, writes are not
+  atomic, and the null checkpoint cannot resume any completed work.
+- Task343 confirmed v4 contains genuine producer-side ten-context affine/Fox
+  arithmetic, 65 tagged base relations, finite-active dual/full correlation,
+  lazy B insertion, v273 discrepancy recurrence, and a dynamic H2 candidate.
+  These pieces remain implementation material, not accepted evidence.  The
+  checker does not certify the ordered word-bearing K basis or per-item actual
+  rho0/rho1/q, so the v4 receipt is not a valid v280 input.
+- The audited redundant flat passes add exactly
+  `2*10*5,475,488=109,509,760` source-letter/context substitutions and at
+  least `13,980,547,956` growing-prefix visits in only three length-preserving
+  contexts.  V282's forward primitive prefix DAG and independent reverse
+  suffix DAG remove these passes while retaining every authority row.
+- Luna task345 now commissions a fresh A4-v5 implementation.  Its binding
+  contract includes physical task176/task198 ownership, one evaluation per
+  DAG edge, actor-cache action rows, independently reconstructed 6,441-row
+  closure and full-D oracle, typed round schemas, complete rank-rise action
+  columns, memoized word/ledger states, v280-ready ordered basis data,
+  physical mutations, bounded atomic checkpoint/transport, and
+  Linux/Windows-relative driver paths.  It may not execute before a new
+  Sol(max) code-and-performance audit.
+
+**v220 mapping**:
+
+- A4 remains **1/3 V4 REJECTED / V5 IMPLEMENTATION COMMISSIONED**.  Only the
+  accepted task198 input authority counts; invariant closure and the accepted
+  word-bearing K basis/anchor remain uncomputed.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A5/A6 **0/3 actual**, A7/A8 **0/3 actual**, A9
+  **0/3 actual**, and B/C/W/F remain zero.  No compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Delta94 closes the rejected v4 audit and fixes one nonrepeating v5 repair
+frontier; no static code, SELFTEST, or paper optimization is added to the
+actual numerator.
