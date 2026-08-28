@@ -206,7 +206,7 @@ def reconstruct(g0,a,rows):
  for i,row in enumerate(rows):
   d=3 if i<6 else 6;one=(0,)*(d+(1 if d==3 else 4));q=one;pw=[]
   for j in row["fox_prefix_occurrences"]:pw.extend(bg[j-1]);q=mul(q,evalw(bg[j-1],d),d)
-  p=mul(q,rg[i],d) if row["orientation"]=="direct" else q;xi=add({}, {inv(rg[i],d):1});xi=add(xi,{one:2});xi={k:(v*row["factor_sign"])%3 for k,v in xi.items() if v%3};wo=translate(xi,p,d)
+  p=mul(q,rg[i],d) if row["orientation"]=="direct" else q;xi=add({}, {inv(rg[i],d):1});xi=add(xi,{one:2});wo=translate(xi,p,d);wo={k:(v*row["factor_sign"])%3 for k,v in wo.items() if v%3}
   qx,qy=evalw(pairs[i][0],d),evalw(pairs[i][1],d);h=mul(mul(mul(inv(qx,d),inv(qy,d),d),qx,d),qy,d);kz=mul(mul(h,h,d),h,d);k=mul(mul(p,kz,d),inv(p,d),d);tr=translate(wo,k,d);u0=add(tr,wo,-1)
   block="H1" if row["block"]=="H1" else "H2" if row["block"]=="H2" else "P"
   occ.append(dict(row,combined_block=block,q_degree=3 if d==3 else 4,key_width=4 if d==3 else 10,signed_prefix_word=pw,signed_prefix=list(q),base_g=bg[i],base_f=bf[i],rword_g=wg[i],rword_f=wf[i],r_g=list(rg[i]),r_f=list(rf[i]),p_o=list(p),**{"q_o(x)":list(qx),"q_o(y)":list(qy),"z0_source_word":red(comm(pairs[i][0],pairs[i][1])*3),"q_o(z0)":list(kz),"k_o(z0)":list(k),"xi_o":jsg(xi),"w_o":jsg(wo),"translated":jsg(tr),"translated_w_o":jsg(tr),"u0":jsg(u0),"ancestry":{"source":"task179_A18","substitution":"PB3/PB4_literal","prefix":"task198_one_based_signed"}}))

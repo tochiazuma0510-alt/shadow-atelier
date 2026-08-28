@@ -1,4 +1,4 @@
-# Luna reply 264 - task226 rg/rf variable-collision repair
+# Luna reply 270 - task226 unsigned-xi checker repair
 
 Status: **UNEXECUTED**. No Python, Node, GAP, git, GHA, or network command was
 run. Edits were confined to the authorized task226 five-file set; the fixture
@@ -84,12 +84,31 @@ signed factor and block-word rosters, Fox-chain dictionaries, endpoints,
 No PB3/PB4 arithmetic, Fox identity, ledger, typed-UNKNOWN, mutation owner,
 or conclusion semantics was changed.
 
+## Unsigned xi checker repair
+
+Parent diagnostic run `33147829352` localized the next producer/checker ABI
+difference to `occurrences[1].xi_o[0].coefficient`: producer `2`, checker `1`.
+The producer already implements the preregistered placement
+
+```text
+xi_o = r_o^-1 - 1,
+w_o  = factor_sign * P_o * xi_o.
+```
+
+The independent checker reconstruction now likewise leaves `xi` unsigned,
+first translates it by `P_o`, and applies `factor_sign` only to the resulting
+`wo` coefficients. Consequently negative-factor occurrences serialize the
+same unsigned `xi_o` as positive-factor occurrences while retaining the sign
+in `w_o`. Words, prefix/orientation handling, quotient rosters, Fox data,
+mutation owners, typed UNKNOWN gates, and false conclusions are unchanged.
+This Luna pass did not execute the checker or full serial driver.
+
 ## Final identities
 
 ```text
 producer  40556  a1532740a7343bd8166c17947f6bd95203a4abdaaafd8e0d9607d3cdf202e6fb
-checker   35436  4826489341848537e5547860a3c87c25debe84d670bda586ebe1bddd6a1f2ff5
-driver     5167  12baf43d6fc25569a91d5560f840ea77efb7cb89b0067a1ff1f3a3a1277bc63c
+checker   35436  b81de8d7701995c5022dc2e97099599b18dafa6030233f29c37e60dfb70084eb
+driver     5167  866469da9629c6218cf40012e36fdbabf5d1a6a20d726a7d9581fc75eafc19d6
 fixture     1187  91c62b70b3275e9e3bee9689bd677049adc172cb0519a2ccf2808d17d6cabef3
 reply     reported out of band after final close (self-referential digest avoided)
 ```
@@ -106,4 +125,4 @@ A2 ACTUAL SPECIALIZATION:          0/1 AWAITING A0/A1
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
-`TASK264_TASK226_RG_RF_VARIABLE_COLLISION_REPAIR_UNEXECUTED`
+`TASK270_TASK226_UNSIGNED_XI_CHECKER_REPAIR_UNEXECUTED`
