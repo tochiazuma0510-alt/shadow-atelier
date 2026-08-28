@@ -1,0 +1,121 @@
+{
+  "schema": "d972-local3-cprime/v1",
+  "generated_by": {
+    "producer": {
+      "tool": "Python 3.13",
+      "script": "scratchpad/d972_local3_producer_v1.py",
+      "script_sha16": "18b41ed12f367fbd"
+    },
+    "checker": {
+      "tool": "GAP 4.16.0 (+ json package for the 432-key canary's file parsing only)",
+      "script": "scratchpad/d972_local3_checker_v1.g",
+      "script_sha16": "184a09a1531d8ceb"
+    },
+    "authorship_independence": "Producer (Python, fractions-based modular arithmetic) and checker (GAP, PowerModInt-based modular arithmetic) were written independently from the frozen spec, share NO code, helper functions, or imports between them. Both re-read the same input cert files directly (no intermediate hand-off)."
+  },
+  "task": "LOCAL-3 protocol (scratchpad/d972_idx3_arith_datum_independent_v1.md sec.7.3, frozen), S1-S10 computation to obtain the c' orientation bit for the IDX3 NN-09/NN-12 discrimination, per ruling 1713's ops assignment",
+  "pins": {
+    "math_source": "scratchpad/d972_idx3_arith_datum_independent_v1.md",
+    "math_source_section": "sec.7.3 (S1-S10 pseudocode, sec.7.3.3 prime conditions, sec.7.3.4 DC-1..DC-5)",
+    "u0inv": "-1423828125/256",
+    "u0inv_source": "search/certs/ds4_receipt_v1_20260812.json field input_u0_inverse (verbatim, both systems)",
+    "beta": 2,
+    "beta_source": "pin per instruction (sec.3.1 beta=2 prediction)",
+    "census_source": "search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json",
+    "artifact_source": "search/certs/d972_b4_word_key_artifact_v1_20260816.json",
+    "declared_convention_D_this_run": "sgn=+1, i.e. u_S4 := u0inv literally (no extra inversion applied). This is a PRE-DECLARED, reproducible choice for THIS run, made because u_dih (the geometric anchor needed to VALIDATE which sign is correct) has not yet been delivered by the mathematician -- see conclusion_pending_u_dih below.",
+    "mu3_generator_convention": "omega := smallest g in [2,p) with g^((p-1)/3) != 1, then omega := g^((p-1)/3) (deterministic, reproducible; used identically by both systems)"
+  },
+
+  "canary_432key_sec7_1": {
+    "instruction_compliance": "Confirmed BEFORE the main computation, per instruction point 2",
+    "method": "NN-09 (324 rows) symmetric-difference NN-12 (324 rows) from the census cert; for each of the resulting rows, read the canonical-key artifact's delta[0][0] (=2k mod 9), compute k = (delta[0][0]*5) mod 9 (5 = inverse of 2 mod 9), K3 = k mod 3; canary requires |symdiff|=432 and K3 != 0 for every one of those 432 rows",
+    "producer_result": {"NN09_size": 324, "NN12_size": 324, "symdiff_size": 432, "bad_rows_with_K3_zero": [], "pass": true},
+    "checker_result": {"NN09_size": 324, "NN12_size": 324, "symdiff_size": 432, "bad_rows_with_K3_zero": [], "pass": true},
+    "two_system_agreement": true,
+    "verdict": "PASS -- proceeded to main computation as authorized by instruction"
+  },
+
+  "prime_scan": {
+    "candidate_primes_p_equiv_1_mod9": [19, 37, 73, 109, 127, 163, 181, 199, 271, 307, 379, 397],
+    "condition_iii_results_both_systems_identical": [
+      {"p":19,"status":"OK","Su":7,"Sbeta":7},
+      {"p":37,"status":"OK","Su":26,"Sbeta":26},
+      {"p":73,"status":"OK","Su":64,"Sbeta":64},
+      {"p":109,"status":"STOP_S5_FAIL_NONDISCRIMINATING","Su":1,"Sbeta":1},
+      {"p":127,"status":"STOP_S5_FAIL_NONDISCRIMINATING","Su":1,"Sbeta":1},
+      {"p":163,"status":"OK","Su":104,"Sbeta":104},
+      {"p":181,"status":"OK","Su":48,"Sbeta":48},
+      {"p":199,"status":"OK","Su":106,"Sbeta":106},
+      {"p":271,"status":"OK","Su":242,"Sbeta":242},
+      {"p":307,"status":"STOP_S5_FAIL_NONDISCRIMINATING","Su":1,"Sbeta":1},
+      {"p":379,"status":"OK","Su":327,"Sbeta":327},
+      {"p":397,"status":"STOP_S5_FAIL_NONDISCRIMINATING","Su":1,"Sbeta":1}
+    ],
+    "chosen_primes_for_S10": [19, 37, 73]
+  },
+
+  "main_computation_S1_to_S10": {
+    "declared_convention": "sgn=+1 (see pins)",
+    "per_prime": [
+      {"p":19, "Su":7, "Sbeta":7, "cprime":1, "k3":1, "psi":1, "psi_eq_k3":true},
+      {"p":37, "Su":26, "Sbeta":26, "cprime":1, "k3":1, "psi":1, "psi_eq_k3":true},
+      {"p":73, "Su":64, "Sbeta":64, "cprime":1, "k3":1, "psi":1, "psi_eq_k3":true}
+    ],
+    "two_system_agreement": "EXACT MATCH on every field (Su, Sbeta, cprime, k3, psi) at all 3 primes, both producer (Python) and checker (GAP)",
+    "S9_SELECT": "PENDING_CENSUS_CONVENTION_NOT_PINNED (deliberately not resolved -- see conclusion_pending_u_dih)",
+    "note_vs_sec7_3_3_prediction_table": "sec.7.3.3's table row 2 ('u_S4=u0^-1' => Su=Sbeta^1 => c'=+1) matches this run's result under the field-name reading that the STORED cert quantity 'input_u0_inverse' already equals u0^-1 (i.e. this run's declared u_S4=u0inv IS the table's 'u_S4=u0^-1' row); consistent, not independently re-derived as a claim about which row is geometrically correct."
+  },
+
+  "destructive_controls_sec7_3_4": {
+    "DC1_orientation_flip": {
+      "method": "Re-ran S1-S9 at the same 3 primes with sgn=-1 (u_S4 := 1/u0inv)",
+      "flipped_cprimes": [-1, -1, -1],
+      "flipped_agree_across_primes": true,
+      "original_cprime": 1,
+      "flipped_cprime": -1,
+      "pass": true,
+      "both_systems_agree": true
+    },
+    "DC2_embedding_flip": {
+      "method": "Re-ran S7/S8 at p=19 using omega^2 (instead of omega) as the mu_3(F_p) generator base",
+      "orig_cprime": 1, "flipped_gen_cprime": 1,
+      "orig_k3_psi": [1,1], "flipped_k3_psi": [2,2],
+      "pass_cprime_and_psi_eq_k3_relation_invariant": true,
+      "both_systems_agree": true
+    },
+    "DC3_cube_injection": {
+      "method": "Multiplied u_S4 by a^-9 (a=2, so a^-9=1/512) before cubing, at p=19",
+      "orig_Su": 7, "injected_Su": 7,
+      "pass_Su_unchanged": true,
+      "both_systems_agree": true
+    },
+    "DC4_negative_control": {
+      "method": "Ran S1-S9 at p=109 (fails condition iii, Su=Sbeta=1)",
+      "result_status": "STOP_S5_FAIL_NONDISCRIMINATING",
+      "pass_correctly_stopped_no_cprime_returned": true,
+      "both_systems_agree": true
+    },
+    "DC5_three_prime_agreement": {
+      "primes": [19, 37, 73],
+      "cprimes": [1, 1, 1],
+      "agree": true,
+      "caveat_verbatim_transcribed_per_instruction_point_5": "Agreement across 3 primes does NOT guarantee convention D's correctness (all primes could be consistently reflecting a WRONG declared convention, since a flip of convention D would flip all 3 primes' results together). This is a stability/consistency check only, not a validity proof of which orientation is geometrically correct -- per sec.7.3.4 DC-5's own explicit statement ('一致しても規約Dの正しさは保証しない')."
+    },
+    "all_five_DC_pass": true
+  },
+
+  "conclusion_pending_u_dih": true,
+  "conclusion": {
+    "what_is_established": "Under the DECLARED (not yet geometrically validated) convention D = sgn+1, the LOCAL-3 protocol's 3-prime cube-residue computation gives c'=+1 consistently and stably (DC-5 agree=true), with all 5 destructive controls behaving exactly as the frozen spec predicts, and with FULL two-independent-system (Python producer / GAP checker) agreement on every raw value.",
+    "what_is_NOT_established": "Which of NN-09/NN-12 this c'=+1 corresponds to (S9's SELECT step) -- the census sign-convention mapping was NOT resolved this run, per instruction. The GEOMETRIC correctness of the declared convention D itself (i.e. whether sgn=+1 or sgn=-1 is the one matching the actual marked-cover orientation) also remains open, pending u_dih (the dihedral-window anchor value computed via the identical recipe D, per sec.7.3.1) and the mathematician's S9 census-convention declaration document.",
+    "next_step": "Once u_dih and the S9 convention document are delivered (may arrive in a second delivery per instruction point 4), this cert's SELECT field can be completed and the final NN-09-vs-NN-12 c' declaration can be closed. No guess is made here in their absence."
+  },
+
+  "grade": "candidate, single-system-verified computation cross-checked by a second independent implementation (producer/checker separation maintained: no shared code); NOT yet promoted to a final c'/SELECT declaration (fail-closed per instruction)",
+  "scope_sec7_3_5": [
+    "This 1-row protocol, once completed, closes ONLY the NN-09/NN-12 selection.",
+    "Does NOT auto-promote: the value |A|=324 itself, the 648 genuine-fake determination, the Im(Ih_M)=A equality, or any other IDX3 pin.",
+    "Grade ceiling even after full completion: candidate. Cross-checked status additionally requires (already satisfied here): (i) independent second-system implementation [DONE, this cert], (ii) DC-1 through DC-5 all pass [DONE, this cert], (iii) 432-key canary (sec.7.1) pass [DONE, this cert]. What remains for a closed SELECT: u_dih delivery + S9 convention document (external, pending)."
+  ]
+}
