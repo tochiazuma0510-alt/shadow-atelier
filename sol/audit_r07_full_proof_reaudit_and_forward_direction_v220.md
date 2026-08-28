@@ -4098,3 +4098,58 @@ bidirectional DAG contract without counting the unexecuted code as progress.
 Delta94 closes the rejected v4 audit and fixes one nonrepeating v5 repair
 frontier; no static code, SELFTEST, or paper optimization is added to the
 actual numerator.
+
+#### v220-delta95 - 2026-08-29 (after delta94)
+
+**Individual progress**:
+
+- Sol(max) task344 completed the A5/A6-v13 audit as `REJECT / UNEXECUTED`.
+  The five width-13 cases were independently derived from their literal
+  matrices and are statically reachable, but they are synthetic only.  On
+  Linux GHA the committed Windows absolute-path equality is the first stop;
+  on this Windows tree producer mutation 25 is the first hard stop.  The
+  checker independently rejects a legitimate dependent
+  `normalized_ancestry=null` at ordinal 2 before its mutation suite.
+- Ten producer and fourteen checker nested-owner locators hash nonexistent
+  top-level fields, while producer controls 35--44 reference unassigned
+  locals and checker controls 35--44 alter placeholder anchor data.  The
+  production driver passes no actual input and can emit only
+  `STATIC_BLOCKED`; no task198/task232 row, A2/A3 package, task192/task193
+  object, accepted A4 basis, actual joint closure, or A6 polynomial enters
+  the program.
+- The v13 retained-basis signs, padding, post-closure nullspace orientation,
+  MEMBER ancestry, NONMEMBER dual, and the five frozen arithmetic traces are
+  sound.  Those reusable finite-linear-algebra routines do not compensate
+  for the absent actual adapter or independent word/map replay.  Repeated
+  accepted-row reductions, up to 27 toy tableaus, whole-receipt mutation
+  copies, phase-corrupt meters, nonportable RSS, and absent live/output caps
+  are also removed from the successor contract.
+- V283 composes v242, v280, and v281 into one Boolean-free actual pipeline.
+  It proves explicitly that replacing the old cube representative by
+  v280's locally constructed A3+A4 base point cannot change the A5 decision:
+  two base points differ by an element of `ker Phi`, so their targets differ
+  by an element of `H d1`.  It also fixes one-pass retained ancestry and the
+  canonical factored A6 handoff.
+- The seven control-character corruptions in the stored v280 LaTeX
+  (`rho`/`bigl`) were repaired without changing its mathematical statement.
+  Luna task346 now commissions A5/A6-v14 with portable relative paths, a
+  required actual input cone, independent task198/task232/task192/task193
+  reconstruction, a Boolean-free A4-v5 consumer, locally generated A3 base
+  pairs, full pre-`C` closure, v281 pair DAGs, physical controls, and bounded
+  atomic checkpoint/transport.  It must report BLOCKED rather than invent an
+  unavailable accepted upstream ABI, and may not execute before Sol(max)
+  audit.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 actual / 0/3 actual; V13 REJECTED / V14 IMPLEMENTATION
+  COMMISSIONED**.  V283 is a paper theorem and the frozen cases are static,
+  so neither changes a numerator.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A4 **1/3 V5 IMPLEMENTATION ACTIVE**, A7/A8 **0/3
+  actual**, A9 **0/3 actual**, and B/C/W/F remain zero.  No compatible lift,
+  fake certificate, or Ihara counterexample has been constructed.
+
+Delta95 closes the synthetic A5/A6-v13 branch and fixes the next consumer at
+the actual authenticated dependency cone; it does not let a static-block
+sentinel or placeholder anchor masquerade as witness progress.

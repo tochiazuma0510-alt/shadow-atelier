@@ -104,8 +104,8 @@ These assertions admit direct finite replay and require no trusted Boolean.
 #### Proof
 
 Evaluation of a literal power gives
-(ho _1(u_*)=\rho _1(u_j)^e=k_j^e=k_*).  Since (K) is a subgroup,
-(k_*\in K), and (1.4) gives (ho _0(u_*)=1).  Finally,
+(\rho _1(u_*)=\rho _1(u_j)^e=k_j^e=k_*).  Since (K) is a subgroup,
+(k_*\in K), and (1.4) gives (\rho _0(u_*)=1).  Finally,
 
 \[
  q(k_*)=q(k_j)^e=z_0^{a_je}=z_0.
@@ -202,9 +202,9 @@ pointed row (d_1\in Z_1^{\rm full}), and the occurrence action before the
 non-equivariant block map (C).  Define
 
 \[
- v_*=igl((k_*-1)d_1,(k_*-1)\mathbin\odot w\bigr),
+ v_*=\bigl((k_*-1)d_1,(k_*-1)\mathbin\odot w\bigr),
  \qquad
- v_i=igl((\widetilde k_i-1)d_1,
+ v_i=\bigl((\widetilde k_i-1)d_1,
             (\widetilde k_i-1)\mathbin\odot w\bigr).
 \tag{4.3}
 \]
@@ -299,7 +299,7 @@ If the accepted A3 package proves
 
 #### Proof
 
-Theorem 2.1 gives (ho_0(u_*)=1), so the two endpoints in each pair have
+Theorem 2.1 gives (\rho_0(u_*)=1), so the two endpoints in each pair have
 the same (Delta _0)-value.  It also gives (q(\rho_1(u_*))=z_0); the
 normal-form section maps to (g).  This proves the pairwise assertions and
 (5.4).  The source-independent endpoint theorem v214 (2.7) says that the
@@ -322,7 +322,7 @@ An honest A5 input adapter performs, in order:
 4. construct the adapted basis (3.1), replay its invertible two-way change
    and all values in (3.3);
 5. authenticate the A3 coefficient map and derive each section (5.2);
-6. construct (5.3) locally and replay every pair through (ho_0,ho_1,q);
+6. construct (5.3) locally and replay every pair through (\rho_0,\rho_1,q);
 7. build the A5 seeds (4.3), close their joint action, and decide the v242
    slice; and
 8. on MEMBER, expand the retained ancestry into the same locally replayed
