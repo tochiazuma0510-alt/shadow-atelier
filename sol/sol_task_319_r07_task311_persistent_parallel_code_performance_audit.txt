@@ -1,0 +1,106 @@
+# Sol task 319 — task311 persistent parallel adapter correctness/performance audit
+
+Role: Sol(max), independent static mathematical/code/performance auditor.  Do
+not edit implementation, run Python/Node/GAP/GHA/network/git, or infer any
+runtime PASS.  Read every numbered section below and reply only to
+`sol/sol_reply_319_r07_task311_persistent_parallel_code_performance_audit.md`.
+
+## 1. Read in full
+
+Read the following files completely:
+
+- `sol/luna_task_311_r07_task192_persistent_parallel_adapter_v1.md`
+- `sol/luna_reply_311_r07_task192_persistent_parallel_adapter_v1.md`
+- `sol/proof_r07_task192_cache_equivalence_and_parallel_boundary_v254.md`
+- `sol/proof_r07_parallel_fixed_dual_correlation_contract_v255.md`
+- `sol/audit_r07_parallelization_unit_and_resource_boundary_v256.md`
+- `sol/sol_reply_310_r07_task311_prereg_math_performance_audit.md`
+- `search/d972_r07_normalized_exact_common_word_cached_parallel_v4.py`
+- `crosscheck/check_d972_r07_normalized_exact_common_word_cached_parallel_v4.py`
+- `search/d972_r07_normalized_exact_common_word_cached_parallel_resume_gha_driver_v1.g`
+- `search/certs/d972_r07_normalized_exact_common_word_cached_parallel_selftest_v1_20260828.json`
+- the pinned cached-v3 producer/checker/driver/fixture named in task311 and
+  the task303/v5 inputs which v4 loads or authenticates.
+
+## 2. Exact current identities and discrepancy
+
+Audit the bytes currently on disk, not Luna's prose.  Parent recomputation
+after Luna completion gave:
+
+```text
+producer 74256 2eb1f7d932eb46ff22ec6c37b2ee537366f7651950843a23fac4bf3cca02776c
+checker  50557 ba00c6fb8b9602304c2785086c5cbeb331d90d8f32124accc5b33b5a0252ae03
+driver    9203 fe870f5f0d391f21e84922c4c34d20263d9821a3297252802692338115214823
+fixture   1313 7def0fafacf6703b16f8a40933edc0208da3077d8c59a9e36307f16cf2ef4c19
+reply     6096 7d7e7cc284772fac6a93be09020a460532bdea1170a74716f8a1ddddc8de1bf0
+```
+
+The Luna reply instead states producer `74127 / 7ac78c...`.  Locate the
+literal cause and decide whether this is only stale self-reporting or a
+load-bearing source mutation.  Any audit verdict must pin the actual bytes.
+
+## 3. Semantic equivalence audit
+
+Trace the production path end to end.  Decide whether v4 changes only the
+cached-v3 `BoundaryDescriptorCache.correlation` operation and returns the
+exact v3 row/provenance shape.  Check descriptor-outer and live support
+insertion order, expanded descriptor-support pair sharding, `t=g*h^-1`,
+`t*h=g`, F3 zero deletion, ordered merge, exact winner order
+`(block,translation_blob,relator_index)`, local winning provenance,
+translated-row reconstruction, direct scalar, and empty-active semantics.
+
+Check that rank/dual/correction/candidate/COMMON/checkpoint ownership stays
+with the authenticated cached-v3 code, and that production does not replace
+the actual task192 universe with the synthetic fixture.  Audit every dynamic
+module load and pin; reject producer-helper sharing in the checker.
+
+## 4. Process, checkpoint, and fail-closed audit
+
+Audit the literal code for one Linux `fork` pool created only after the live
+runtime/cache exists, reuse of stable PIDs across epochs, and exactly one
+close/join on normal and exceptional exits.  Check worker failure, missing or
+duplicate shard, overlap/gap, stale epoch, PID replacement, partial return,
+unknown RSS, timeout, and resource uncertainty all stop before merge and do
+not serialize a fictitious mid-epoch cursor.  Check last-safe v3 checkpoint
+authentication, historical-counter preservation, COMMON sidecar behavior,
+physical `single_process=false`, aggregate parent+child RSS accounting, and
+honest inner-v3 legacy labels.
+
+## 5. Adversarial performance audit (load-bearing)
+
+Look specifically for any processing that makes the supposedly faster route
+needlessly slow:
+
+1. pool recreation per epoch/correlation or sequential `get`/wait behavior;
+2. parent recomputation of the full correlation after workers return;
+3. repeatedly pickling the full descriptor/runtime/dual/history roster;
+4. constructing and retaining all contributor histories instead of only
+   sparse partials plus the winning local provenance;
+5. full-record sorting, global locks, repeated checkpoint parsing, repeated
+   cache construction, or hidden whole-state copies;
+6. shard imbalance when support is concentrated under one descriptor;
+7. unbounded epoch receipt/history growth or inert resource caps;
+8. work duplicated by the checker that is not independently necessary.
+
+Give asymptotic and concrete hot-path accounting from the code.  A semantic
+PASS with a load-bearing performance blocker is REJECT for GHA production.
+
+## 6. SELFTEST/checker adequacy
+
+Manually enumerate the fixture cases and mutation roster.  Check that real
+Linux processes are required; at least three distinct epochs use one pool
+and stable at-least-two PIDs; concentrated-support expanded-pair sharding is
+actually exercised; serial parity covers active, cancellation, no-active,
+lex winner, and local provenance; all required fail-closed mutations are
+semantic (no no-op/reseal counted); and the checker independently recomputes
+the decisive invariants.  Check driver exact-one terminals, mode pins, stale
+output handling, artifact requirements, and ASCII-only GAP source.
+
+## 7. Verdict and v220 boundary
+
+Return exactly one of `PASS / UNEXECUTED` or `REJECT / UNEXECUTED`, with
+line-numbered findings and explicit repair instructions for every blocker.
+PASS authorizes only a pinned GHA SELFTEST, not production and not A0.  A0
+remains `0/1`; no lift/fake/Ihara numerator changes.  Record actual source
+identities and state whether the byte/hash discrepancy is fatal.
+

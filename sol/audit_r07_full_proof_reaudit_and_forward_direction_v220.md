@@ -2932,3 +2932,45 @@ and fixes the dispatch transport.  It changes no actual witness numerator.
 Delta66 prevents another deterministically blocked synthetic run and gives
 the first falsifiable nonlinear return gate after the Neumann correction.
 It changes no actual witness numerator.
+
+#### v220-delta67 - 2026-08-28 (after delta66)
+
+**Individual progress**:
+
+- Sol(max) task319 returned `REJECT / UNEXECUTED` for the first A0 persistent
+  adapter.  The executable producer was rewritten after its reported hash,
+  while the driver pins none of the v4 quartet.  Its SELFTEST baseline has a
+  noncanonical duplicate mod-17 representative and wrong F3 scalar, and the
+  checker/driver terminal grammars disagree.
+- Production is also deterministically blocked by a Python chained-
+  comparison error and by rejecting valid empty/short v3 rosters.  Blocking
+  pool waits, scheduler-dependent PID assumptions, incomplete cleanup,
+  lost failed-epoch counters, unbound sidecars, and an inadequate production
+  checker prevent safe execution.
+- The performance audit found roughly eight full expanded-roster encodings
+  plus aggregate pickle per epoch, repeated group decoding/inversion, linear
+  provenance rescans, and two unbounded epoch-history lists.  These costs can
+  dominate the approximately 2,896 dependent correlations and defeat the
+  purpose of parallelization.
+- Task321 commissions a v5 architecture with dedicated persistent workers,
+  deadlines and cleanup state, lazy prefix-index sharding, cached group
+  objects, streaming bounded transcripts, truthful failed-work counters, and
+  independent reconstruction of every production correlation.  If the v3
+  owner lacks enough dual history for that replay, Luna must return BLOCKED
+  rather than weaken the checker.
+- Task317 separately commissions a checker-only task198 driver pinned to the
+  exact successful 31,017,244-byte producer capture.  It is a failover for
+  direct run 33155710862 and invokes the expensive producer zero times.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  The rejected parallel code is
+  no milestone; the existing serial GHA run remains the only live A0 run.
+- A1 remains **3/4 RUNNING**.  The checker-only implementation is preparation
+  and does not accept the captured producer object by itself.
+- A2 remains **2/3**; A3--A9 actual, B, C, W, and F retain their delta66
+  values.
+
+Delta67 prevents an unauthenticated parallel run that was both slower and
+less checkable than its serial owner, while preserving a bounded repair and
+the no-producer-repeat A1 failover.  It changes no actual witness numerator.
