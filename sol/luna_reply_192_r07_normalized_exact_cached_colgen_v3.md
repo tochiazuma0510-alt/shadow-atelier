@@ -226,7 +226,7 @@ self-reference:
 |---|---:|---|
 | `search/d972_r07_normalized_exact_common_word_cached_v3.py` | 193704 | `f27b4971351832b8730fb8cce4e782e893a958dfb850203cc735c7bc3aa31f37` |
 | `crosscheck/check_d972_r07_normalized_exact_common_word_cached_v3.py` | 154009 | `dfc8cbbd96a1da45f15e01607ed343b66a78a7201f4a80952fba33aaeb361e10` |
-| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11548 | `faef6dcaf4b49f6fff322341b95a4ad3be23732ad2bc68a7625407d84ec1cb37` |
+| `search/d972_r07_normalized_exact_common_word_cached_gha_driver_v3.g` | 11548 | `2f7ff7b459e46d014268907ff5ba5f03c035836e8f8df79a2c5f4cdc3b75351d` |
 | `search/certs/d972_r07_normalized_exact_common_word_cached_selftest_v3_20260827.json` | 276 | `c49f434ad3daf1cc661ba45563dbb9557d436f91dca78c8ee0f47ed70332da12` |
 | `sol/luna_reply_192_r07_normalized_exact_cached_colgen_v3.md` | parent/out-of-band | intentionally not self-hashed |
 
@@ -377,3 +377,26 @@ PRODUCTION RANK-CHANGE HOOK SELFTEST:     NOT EXECUTED BY LUNA
 CACHED NORMALIZED FIRST-EDGE WORD:        NOT OBTAINED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED
 TASK199_TASK192_CACHE_OWNER_PRODUCTION_REPAIR_COMMISSIONED
+
+## 8. Run 33126747887 dependency-pin STOP
+
+Parent Sol dispatched task192 SELFTEST run `33126747887` at head
+`5107c8e3`.  The driver stopped at its immutable-history gate before the
+producer or checker ran: the pinned task186 reply identity was the obsolete
+`11868/31325a2845e1e51f6535aae3c0a9942b11c2fb553a1bb4cb0c1eff88dab4fdeb`,
+while the committed historical file is
+`12246/307600e0435868c250143fb0691df443d9e957070fea72288cda7caaba5762e0`.
+This is a pin-drift STOP only and supplies no producer receipt, checker
+attestation, mathematical result, or cross-check.
+
+All 17 rows in `D192Current`, `D192Proofs`, `D192History`, and `D192Live`
+were remeasured from the current files.  The task186 reply was the sole
+drift; the other 16 rows matched their exact byte counts and SHA-256 values.
+The driver history row now pins the current committed identity.  The
+historical task190 reply was not modified.
+
+RUN 33126747887:                         PIN-DRIFT STOP / NO RECEIPT
+TASK186 REPLY HISTORY PIN:               REFRESHED STATICALLY
+TASK192 PRODUCER / CHECKER:               NOT RUN IN THIS ATTEMPT
+MATHEMATICAL / CROSS-CHECKED RESULT:      NONE
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:   NOT DECLARED

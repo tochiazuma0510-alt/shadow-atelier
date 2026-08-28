@@ -52,7 +52,7 @@ D192Proofs:=[
 ];;
 D192History:=[
  ["sol/luna_task_186_r07_normalized_exact_common_word_colgen_v2.md",6093,"aaae31643bdb0e25171e7a8dfef49b4a008e3b08a175c2e1337a5c11f13a3645"],
- ["sol/luna_reply_186_r07_normalized_exact_common_word_colgen_v2.md",11868,"31325a2845e1e51f6535aae3c0a9942b11c2fb553a1bb4cb0c1eff88dab4fdeb"],
+ ["sol/luna_reply_186_r07_normalized_exact_common_word_colgen_v2.md",12246,"307600e0435868c250143fb0691df443d9e957070fea72288cda7caaba5762e0"],
  ["sol/luna_task_190_r07_exact_colgen_speed_audit.md",3699,"36502b0151e036c0df76de3e77722c1b9a9eb9ae0242fbdb6faba887d4510d29"],
  ["sol/luna_reply_190_r07_exact_colgen_speed_audit.md",22022,"6fe8ee264e33b75012b23a71c695282958882a1b1eadcc459cfff991184dfe3f"],
  ["search/d972_r07_normalized_exact_common_word_colgen_v2.py",63053,"ec73db0a474b3b52d69e19862e8185ae22423b2406f3922b5669d9a4e85fafab"],
