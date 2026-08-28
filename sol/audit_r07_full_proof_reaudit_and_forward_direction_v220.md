@@ -4258,3 +4258,65 @@ dispatched in delta96--97.
 
 Delta98 moves A0 from implementation work to adversarial audit without
 authorizing another six-hour run or counting static acceleration claims.
+
+#### v220-delta99 - 2026-08-29 (after delta98)
+
+**Individual progress**:
+
+- Sol(max) task347 completed the full A0-v7 static audit as `REJECT /
+  UNEXECUTED`.  All five candidate identities, 21/22/24 source-pin rosters,
+  the frozen ZIP/member, old rank-2,896 triangular owner, target, and first
+  1,188-support dual agree.  No frozen-input forced exception was found before
+  search.  The first authorization/contract stop is producer line 2303: every
+  PRODUCTION unconditionally runs the process/mutation SELFTEST before the
+  first real pair.
+- The sound reusable core is now sharply delimited: the 1,011,460-contribution
+  A*C reconstruction and v276 triangular equations, one persistent W=2/W=4
+  boundary roster, the exact 4,752-pair first epoch, Q0-LATE transition, and
+  selected-support all-eleven/direct-all-seven sparse equality.  These do not
+  by themselves satisfy the commissioned positive provenance.
+- Independent fatal successors remain.  Three earlier-pivot owners perform
+  4,191,960 comparisons/probes each; target/dual and mutation work are
+  duplicated; the checker accepts selected Q0/Gamma/fibre/schedule ids and a
+  heavy digest mostly by shape; live checkpoints contain unrestorable process
+  state, the driver has no resume route, heavy state is not restored, UNKNOWN
+  may parse/copy up to 4 GB, final receipt/verdict writes are non-atomic, and
+  no checker/upload reserve is left inside six hours.
+- Luna task349 commissions one bounded v8 which removes production SELFTEST,
+  uses pivot-set/support-linear P insertion and ancestry DAGs, sends sliced
+  IPC, lazily indexes Q0, independently replays selected old and Q0/Gamma/
+  fibre owners, implements a real clean-state resume ABI, makes UNKNOWN cheap,
+  makes every output atomic, and enforces the 10,800/7,200/3,600-second
+  producer/checker/upload decomposition.  It is implementation-only and may
+  not execute before a new Sol(max) audit.
+- The accepted task176 checker verdict missing from the worktree was recovered
+  from immutable GHA run `33044121344`, artifact `9635036013`.  Its physical
+  757 bytes and SHA-256 `e6a45a34353ce1fb54c99b4f9cbc8b106f34bfc751dd50044f2a79da72cad5e5`
+  exactly match the already accepted reply; a separate sealed recovery
+  manifest records run/head/artifact/archive and producer/checker identities.
+  This restores the A4-v5 physical input owner without changing task176's
+  already `CROSS_CHECKED` mathematical grade.
+- V285 proves the formal invariant needed when lazy boundary and K discoveries
+  interleave.  Every combined pivot carries a raw boundary ledger plus K
+  coordinates; MEMBER and rank-rise reductions expand to the fixed v273
+  convention.  A rank-rise action column is `c+s e_new`, conjugation acts on
+  the discrepancy ledger, and v280's adapted basis transports the ledger with
+  an explicit invertible change matrix.  These are paper proofs, not an A4
+  execution.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V7 REJECTED / V8 IMPLEMENTATION ACTIVE**.  No new GHA run
+  is authorized or dispatched.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  The task176 checker-result
+  owner is no longer missing, and v285 fixes its mathematical certificate
+  invariant, but no A4 SELFTEST, closure, ordered K basis, or independent
+  checker terminal exists.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A5/A6 **0/3
+  actual and waiting for accepted A4-v5**, A7/A8 **0/3 actual**, A9 **0/3
+  actual**, and B/C/W/F remain zero.  No compatible lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta99 closes the rejected A0-v7 audit, restores one exact A4 authority
+owner, and fixes the mixed-echelon/action proof boundary without counting any
+unexecuted implementation or paper theorem in the actual numerator.
