@@ -1,4 +1,4 @@
-# Luna reply 259 - task226 typed-UNKNOWN flag-order repair
+# Luna reply 264 - task226 rg/rf variable-collision repair
 
 Status: **UNEXECUTED**. No Python, Node, GAP, git, GHA, or network command was
 run. Edits were confined to the authorized task226 five-file set; the fixture
@@ -57,12 +57,39 @@ It requires their classifications to remain `UNKNOWN_INPUT` and
 envelopes with the producer's probes. The serial driver retains its exact
 producer/checker terminal-equality gate.
 
+## Executed rejection and rg/rf owner repair
+
+Parent execution established that run `33145825325` failed the driver
+sentinel, run `33146069436` reached the exact positive producer SELFTEST
+terminal, and run `33146219086` reached that same producer terminal before
+the checker returned `UNKNOWN_INPUT reason=fresh complete ABI rebuild`. This
+Luna pass did not execute those runs or any replacement run.
+
+The producer's `rg/rf` names no longer get overwritten by flattened free
+words. `literals.rg` and `literals.rf` now serialize the exact eleven
+per-occurrence quotient values from `rkeys_g/rkeys_f`: six Q3 values of width
+four followed by five Q4 values of width ten. The three block free words
+remain only under `relation_words_g/f` and their existing `R_B_g0/f` aliases.
+
+Before whole-ABI comparison, both producer and independent checker now
+require exactly eleven `rg/rf` rows and re-evaluate each corresponding
+`rword_g/rword_f`. Every re-evaluated value must equal both the literal roster
+entry and the owning occurrence's `r_g/r_f`. Thus this field has a named
+semantic gate and is not protected only by a whole-object digest/equality.
+
+A key-by-key static comparison of the remaining ABI found no further shape
+mismatch: the top-level ABI fields, all occurrence fields, substitutions,
+signed factor and block-word rosters, Fox-chain dictionaries, endpoints,
+`minus_fox` fields, and `u0` ancestry have matching producer/checker shapes.
+No PB3/PB4 arithmetic, Fox identity, ledger, typed-UNKNOWN, mutation owner,
+or conclusion semantics was changed.
+
 ## Final identities
 
 ```text
-producer  40316  2529d8db89021185c51a4a244af8888041017048925838b42bfcb632dafe573c
-checker   34979  aae3babcc998f7f4832e1639c357fc13e9d0eed822a793c6331e696508817424
-driver     5167  5810dc785b1c66c48967b82ede7dacb6e8dc17c6152ef05514ce9930e773e630
+producer  40556  a1532740a7343bd8166c17947f6bd95203a4abdaaafd8e0d9607d3cdf202e6fb
+checker   35436  4826489341848537e5547860a3c87c25debe84d670bda586ebe1bddd6a1f2ff5
+driver     5167  12baf43d6fc25569a91d5560f840ea77efb7cb89b0067a1ff1f3a3a1277bc63c
 fixture     1187  91c62b70b3275e9e3bee9689bd677049adc172cb0519a2ccf2808d17d6cabef3
 reply     reported out of band after final close (self-referential digest avoided)
 ```
@@ -79,4 +106,4 @@ A2 ACTUAL SPECIALIZATION:          0/1 AWAITING A0/A1
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
-`TASK259_TASK226_TYPED_UNKNOWN_FLAG_ORDER_REPAIR_UNEXECUTED`
+`TASK264_TASK226_RG_RF_VARIABLE_COLLISION_REPAIR_UNEXECUTED`

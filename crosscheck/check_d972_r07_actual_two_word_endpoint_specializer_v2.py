@@ -244,8 +244,12 @@ def validate(pkg,actual=None):
  if "terminal_probes" in pkg: require(pkg["terminal_probes"].get("input",{}).get("terminal")==UNKNOWN_INPUT and pkg["terminal_probes"].get("resource",{}).get("terminal")==UNKNOWN_RESOURCE,"terminal probe gate")
  claimed=abi.get("self_digest_sha256");body={k:v for k,v in abi.items() if k!="self_digest_sha256"};require(type(claimed) is str and claimed==digest(body),"ABI seal")
  actual_g0,actual_a,actual_rows=(w["g0"],w["a"],rows) if actual is None else actual
- rebuilt=reconstruct(actual_g0,actual_a,actual_rows);require(rebuilt==abi,"fresh complete ABI rebuild")
  lit=abi["literals"]
+ require(len(abi.get("occurrences",[]))==11 and len(lit.get("rword_g",[]))==11 and len(lit.get("rword_f",[]))==11 and len(lit.get("rg",[]))==11 and len(lit.get("rf",[]))==11,"quotient value roster")
+ for i,o in enumerate(abi["occurrences"]):
+  d=3 if i<6 else 6
+  require(lit["rg"][i]==list(evalw(lit["rword_g"][i],d)) and lit["rf"][i]==list(evalw(lit["rword_f"][i],d)) and lit["rg"][i]==o.get("r_g") and lit["rf"][i]==o.get("r_f"),"quotient value roster")
+ rebuilt=reconstruct(actual_g0,actual_a,actual_rows);require(rebuilt==abi,"fresh complete ABI rebuild")
  for b in ("H1","H2","P"):
   for key in ("d_occ","d_raw","B_a","e"):
    parse_chain(lit[key][b])

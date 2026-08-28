@@ -262,7 +262,7 @@ def specialize(g0,a,rows):
     rkeys_f=[ceval(w,3 if i<6 else 6) for i,w in enumerate(rwords_f)]
     base_g=[w if factor_signs[i]==1 else winv(w) for i,w in enumerate(rwords_g)]
     base_f=[w if factor_signs[i]==1 else winv(w) for i,w in enumerate(rwords_f)]
-    rg=[]; rf=[]; occ=[]
+    occ=[]
     relation_words=[]; relation_words_f=[]
     for lo,hi in ((0,3),(3,6),(6,11)):
         bw=[]
@@ -270,7 +270,6 @@ def specialize(g0,a,rows):
         for j in reversed(range(lo,hi)): bw.extend(base_g[j]); bwf.extend(base_f[j])
         relation_words.append(red(bw))
         relation_words_f.append(red(bwf))
-    rg=red([x for block in relation_words for x in block]); rf=red([x for block in relation_words_f for x in block])
     for idx,row in enumerate(rows):
         rr=rwords_g[idx]; dd=3 if idx<6 else 6; r=rkeys_g[idx]
         q=tuple((0,)*(dd+(1 if dd==3 else 4))); prefix_word=[]
@@ -330,7 +329,7 @@ def specialize(g0,a,rows):
     u0_rows=[]
     for o in occ:
         u0_rows.append({"ordinal":o["ordinal"],"terms":o["w_o"],"translated_terms":o["translated"],"source_coefficient_terms":[{"source":"translated","coefficient":1,"terms":o["translated"]},{"source":"original","coefficient":-1,"terms":o["w_o"],"ancestry":o["ancestry"]}]})
-    abi={"schema":"d972-r07-v216-specialization-abi/v1","modulus":9,"actor_convention":"x^a y^b h^r; [x,y]=x^-1 y^-1 x y=(0,0,1), product r+r'-b*a', inverse (-a,-b,-r-a*b) mod 9, z0=(0,0,3)","ledger":rows,"occurrences":occ,"bar_epsilon_1":eps_blocks,"u0":u0_rows,"ten_to_eleven":[r["ten_index"] for r in rows],"occurrence_ledger_sha256":digest(rows),"insertion_digest":digest({"substitutions":sub,"static_substitution_factors":factors}),"literals":{"substitutions":sub,"static_substitution_factors":[{"left":list(L),"right":list(R),"factor_sign":s} for L,R,s in sub["PB3"]["H1"]+sub["PB3"]["H2"]+sub["PB4"]["b_display"]],"relation_factors_g":[list(w) for w in base_g],"relation_factors_f":[list(w) for w in base_f],"relation_words_g":relation_words,"relation_words_f":relation_words_f,"rword_g":rwords_g,"rword_f":rwords_f,"R_B_g0":relation_words,"R_B_f":relation_words_f,"rg":rg,"rf":rf,"d_occ":d_occ_blocks,"d_raw":d_raw_blocks,"B_a":ba_blocks,"e":e_blocks,"one_minus_R_g":one_g_blocks,"one_minus_R_f":one_f_blocks,"D1_d_occ":d1_d_blocks,"D1_e":d1_e_blocks,"minus_fox_Rg":minus_g_blocks,"minus_fox_Rf":minus_f_blocks}}
+    abi={"schema":"d972-r07-v216-specialization-abi/v1","modulus":9,"actor_convention":"x^a y^b h^r; [x,y]=x^-1 y^-1 x y=(0,0,1), product r+r'-b*a', inverse (-a,-b,-r-a*b) mod 9, z0=(0,0,3)","ledger":rows,"occurrences":occ,"bar_epsilon_1":eps_blocks,"u0":u0_rows,"ten_to_eleven":[r["ten_index"] for r in rows],"occurrence_ledger_sha256":digest(rows),"insertion_digest":digest({"substitutions":sub,"static_substitution_factors":factors}),"literals":{"substitutions":sub,"static_substitution_factors":[{"left":list(L),"right":list(R),"factor_sign":s} for L,R,s in sub["PB3"]["H1"]+sub["PB3"]["H2"]+sub["PB4"]["b_display"]],"relation_factors_g":[list(w) for w in base_g],"relation_factors_f":[list(w) for w in base_f],"relation_words_g":relation_words,"relation_words_f":relation_words_f,"rword_g":rwords_g,"rword_f":rwords_f,"R_B_g0":relation_words,"R_B_f":relation_words_f,"rg":[list(q) for q in rkeys_g],"rf":[list(q) for q in rkeys_f],"d_occ":d_occ_blocks,"d_raw":d_raw_blocks,"B_a":ba_blocks,"e":e_blocks,"one_minus_R_g":one_g_blocks,"one_minus_R_f":one_f_blocks,"D1_d_occ":d1_d_blocks,"D1_e":d1_e_blocks,"minus_fox_Rg":minus_g_blocks,"minus_fox_Rf":minus_f_blocks}}
     abi["self_digest_sha256"]=digest(abi)
     return {"words":{"g0":g0,"a":a,"f":f,"f_equals_reduce_g0_plus_a":f==red(g0+a)},"occurrences":rows,"group":group,"identities":identities,"w":[o["w_o"] for o in occ],"epsilon":eps_blocks,"u0":[{"ordinal":o["ordinal"],"terms":o["w_o"],"translated_terms":o["translated"],"u0":o["u0"]} for o in occ],"specialization_v216_abi":abi}
 
@@ -359,8 +358,11 @@ def validate_package(pkg):
     lit=abi.get("literals",{}); require("static_substitution_factors" in lit and "relation_factors_g" in lit and "relation_factors_f" in lit,"typed literal ledger")
     pairs=[(L,R) for L,R,s in substitutions()["PB3"]["H1"]+substitutions()["PB3"]["H2"]+substitutions()["PB4"]["b_display"]]
     require(len(abi.get("occurrences",[]))==11 and len(lit.get("rword_g",[]))==11 and len(lit.get("rword_f",[]))==11,"actual word roster")
+    require(len(lit.get("rg",[]))==11 and len(lit.get("rf",[]))==11,"quotient value roster")
     for i,o in enumerate(abi["occurrences"]):
         require(o.get("rword_g")==red(subst(pkg["words"]["g0"],*pairs[i])) and o.get("rword_f")==red(subst(pkg["words"]["f"],*pairs[i])) and lit["rword_g"][i]==o["rword_g"] and lit["rword_f"][i]==o["rword_f"],"actual word replay")
+        dd=3 if i<6 else 6
+        require(lit["rg"][i]==list(ceval(lit["rword_g"][i],dd)) and lit["rf"][i]==list(ceval(lit["rword_f"][i],dd)) and lit["rg"][i]==o.get("r_g") and lit["rf"][i]==o.get("r_f"),"quotient value roster")
     rebuilt=specialize(pkg["words"]["g0"],pkg["words"]["a"],pkg["occurrences"])
     for key in ("words","occurrences","group","identities","w","epsilon","u0","specialization_v216_abi"):
         require(pkg.get(key)==rebuilt.get(key),"fresh complete ABI rebuild" if key=="specialization_v216_abi" else "fresh complete "+key+" rebuild")
