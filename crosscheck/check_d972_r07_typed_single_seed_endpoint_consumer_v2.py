@@ -56,17 +56,17 @@ def vec_decode(value):
         require(type(term) is list and len(term)==3 and type(term[0]) is list and type(term[1]) is int and type(term[2]) is int and term[2] in (1,2),"vector encoding"); k=(term[1],tuple(term[0])); out[k]=(out.get(k,0)+term[2])%3
     out={k:v for k,v in out.items() if v}; require(value==vec_encode(out),"vector canonical"); return out
 def block_decode(value):
-    require(type(value) is list); out={}
+    require(type(value) is list,"block encoding type"); out={}
     for term in value:
         require(type(term) is list and len(term)==3 and type(term[0]) is str and type(term[1]) is list and type(term[2]) is int and term[2] in (1,2),"block encoding"); k=(term[0],tuple(term[1])); out[k]=(out.get(k,0)+term[2])%3
     out={k:v for k,v in out.items() if v}; require(value==[[b,list(k),v] for (b,k),v in sorted(out.items())],"block canonical"); return out
 def actor_decode(value):
-    require(type(value) is list); out={}
+    require(type(value) is list,"actor encoding type"); out={}
     for term in value:
         require(type(term) is list and len(term)==2 and type(term[0]) is list and len(term[0])==3 and type(term[1]) is int and term[1] in (1,2),"actor encoding"); k=tuple(term[0]); out[k]=(out.get(k,0)+term[1])%3
     out={k:v for k,v in out.items() if v}; require(value==[[list(k),v] for k,v in sorted(out.items())],"actor canonical"); return out
 def coefficient_decode(value):
-    require(type(value) is list); out={}
+    require(type(value) is list,"c_i encoding type"); out={}
     for term in value:
         require(type(term) is list and len(term)==2 and type(term[0]) is int and type(term[1]) is int and term[1] in (1,2),"c_i encoding"); out[term[0]]=(out.get(term[0],0)+term[1])%3
     out={k:v for k,v in out.items() if v}; require(value==[[k,v] for k,v in sorted(out.items())],"c_i canonical"); return out

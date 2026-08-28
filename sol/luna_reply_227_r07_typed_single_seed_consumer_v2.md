@@ -127,3 +127,38 @@ reply     (final byte/SHA reported to parent)  (self-referential SHA intentional
 ```
 
 `TASK278_OCCURRENCE_BASIS_QUANTIFIER_REPAIRED_UNEXECUTED`
+
+## 2026-08-28 — task279 checker require-arity repair
+
+Run `33151329705` at immutable head
+`ce273e5c56b9162bde44378ea8f82a7f5dee39ea` is classified as an
+implementation failure, not a MEMBER, NONMEMBER, resource, or mathematical
+rejection: checker `block_decode` reached `require(type(value) is list)` with
+one argument and raised `TypeError` before mathematical acceptance. Static
+arity audit found three malformed local-checker calls, all repaired with
+stable diagnostics and no predicate changes:
+
+- `block_decode` line 59: `block encoding type`;
+- `actor_decode` line 64: `actor encoding type`;
+- `coefficient_decode` line 69: `c_i encoding type`.
+
+No further malformed checker `require` calls or keyword-argument calls were
+found. The producer and fixture were unchanged; only the checker pin and
+this authorized reply were updated. No execution was performed by Luna.
+
+Final identities after task279:
+
+```text
+producer  47135  755ba97e55266bcdb51796cc1a89a562efa782db48475d0e3479e82e325cde8e
+checker   34239  4fe41a07f86b83c4dae2acbf6de14b719a5cb81365eddcc6b5e25fe35acf17ef
+driver     5216  afff1bf11efad6bcbf837dcc8e9c675d7043dd93c038692f6a9c64324dd70207
+fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
+reply     (final byte/SHA reported to parent)  (self-referential SHA intentionally omitted)
+```
+
+TASK227 CHECKER REQUIRE ARITY:                 REPAIRED STATICALLY
+FULL PRODUCER+INDEPENDENT CHECKER SELFTEST:    NOT EXECUTED BY LUNA
+ACTUAL TASK226 PACKAGE / A3 GATE:              NOT OBTAINED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
+
+`TASK279_TASK227_CHECKER_REQUIRE_ARITY_REPAIR_COMMISSIONED`
