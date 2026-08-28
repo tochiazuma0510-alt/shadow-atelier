@@ -1,0 +1,50 @@
+# Sol(max) task 330 - task327 authority normalization erratum
+
+Role: the same independent Sol(max) auditor.  This is a narrow correction to
+the commission, not a new consumer audit.  Read all sections first to last.
+Do not run Python, Node, GAP, GHA, workflows, git, or network.  Create only
+`sol/sol_reply_330_r07_task327_authority_normalization_erratum_v1.md`.
+
+## 1. Retained audit record
+
+Read task327 and reply327 in full.  Retain every independently recomputed
+byte, seal, direct-run, checker-verdict, source, row/chunk, normal-generation,
+bridge, evaluator-ABI, and false-witness gate from reply327.  Do not weaken or
+silently omit any gate.  The corrected five-member bundle is still the same
+receipt, acceptance_v2 manifest, two attestations, and checker verdict.
+
+## 2. Sole commissioned correction
+
+Replace only task327 Section 3's mistaken cross-capture expected reference.
+When the preserved producer-only capture is available, remove exactly the two
+top-level members `resource` and `self_digest_sha256` from each receipt,
+canonicalize the complete remaining objects **while retaining `resume`**, and
+require exact equality at:
+
+```text
+bytes  = 31,016,535
+sha256 = 8d6b9a7ed7d7ffaf61962678cd0e8bb3f4e6a219728c44cd1509e6c2cf2698ba
+```
+
+The old 30,582,643 / `595dbe85...` value is explicitly superseded because it
+also removed `resume`.  No manifest or receipt byte is changed by this
+erratum.
+
+## 3. Verdict
+
+Return `PASS / UNEXECUTED` iff the corrected normalization passes and reply327
+contains no further bundle blocker.  Otherwise return `REJECT / UNEXECUTED`
+with every blocker.  A PASS advances only v220 A4 input authority to 1/3.  It
+does not authorize the rejected A4/v2 consumer, SELFTEST, production, actual
+local evaluator, K/anchor, lift, fake, or Ihara.
+
+Report the corrected comparison and concise inheritance ledger, then:
+
+```text
+AUTHORITY BUNDLE V2:           PASS or REJECT / UNEXECUTED
+A4 INPUT-AUTHORITY MILESTONE:  eligible 1/3 only on PASS
+A4 CONSUMER / PRODUCTION:      REJECTED / UNEXECUTED
+LIFT / FAKE / IHARA:           NONE
+```
+
+End with `TASK330_R07_TASK327_AUTHORITY_NORMALIZATION_ERRATUM_COMPLETE`.
