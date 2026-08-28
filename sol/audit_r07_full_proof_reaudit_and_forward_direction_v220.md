@@ -1923,3 +1923,48 @@ Delta40 converts A1's lost positive producer result into an authenticated,
 independently wired rerun plan without counting it twice.  The first possible
 next numerator change is A1 `3/4 -> 4/4` on a complete production verdict;
 A0 remains independently live.
+
+#### v220-delta41 - 2026-08-28 (after delta40)
+
+**Individual progress**:
+
+- Downstream preflight found that A4 task232 still pinned the superseded
+  153,420-byte task198 checker.  Actual A4 production would therefore have
+  returned a pin-drift `UNKNOWN_INPUT` even after A1 acceptance.  Task284
+  changed only that row to the authenticated task283 checker identity
+  157,253 bytes / SHA-256
+  `001277d44dbbc2acd7e03c6ecb6c6419df84996ae188cbb4be7b18f7cfb56ca1`
+  and refreshed the forced A4-producer pin in its serial driver.  No A4
+  closure, projection, receipt, mutation, resource, terminal, or conclusion
+  predicate changed.  Commit
+  `b5f83583c83ce95209a8923d2bfa9eb9b4898749` records the repair.
+- A4 regression SELFTEST run `33156188006` at that immutable head completed
+  with the exact producer SELFTEST terminal and independent-checker terminal;
+  all 57 registered mutations were rejected.  GitHub artifact `9679702491`
+  has archive digest
+  `sha256:b783e9c51a20fb444bc69a8ddcdfc017e01b6c8835f5478f8125d952482b1059`.
+  Independent download reread gives the SELFTEST receipt 9,134 bytes /
+  SHA-256
+  `1bd838a3e197034c77a3c934a055b3c2fe8bafa046b90e37f71e615cbbf78f8f`;
+  the producer/checker terminal files and final sentinel are byte-exact.
+- The actual A4 input contract is now preregistered: an accepted task198
+  receipt, a seven-field run/head/artifact/member manifest, and exact one-line
+  producer/checker attestations.  Task192's actual word is explicitly unused
+  by this construction, so A4 can start as soon as A1 closes, independently
+  of A0 and A2.
+
+**v220 mapping**:
+
+- A4 remains **0/3**: authenticated actual task198 presentation input **0**,
+  exhausted actual invariant closure **0**, accepted actual word-bearing
+  `K`/anchor **0**.  The refreshed implementation SELFTEST is recorded
+  separately and is not an actual numerator.
+- A0 remains **0/1 RUNNING** on `33149728601`; A1 remains **3/4 RUNNING** on
+  capture `33155653989` and direct production `33155710862`; A2 remains
+  **2/3**; A3 remains **0/3** with its implementation SELFTEST recorded
+  separately.
+- A5--A9, B, C, W, and F remain zero.  No compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+Delta41 removes a deterministic post-A1 A4 input failure and freezes the
+parallel launch contract.  It changes no actual witness numerator.
