@@ -3339,3 +3339,62 @@ exact ancestry-DAG replays without weakening the all-row semantic check.
 
 Delta75 prevents a fast but wrongly typed boundary quotient from being
 promoted.  It changes no actual witness numerator.
+
+#### v220-delta76 - 2026-08-29 (after delta75)
+
+**Individual progress**:
+
+- V271 finds that v270's correction from 13 to 65 seeds was necessary but
+  not sufficient.  The complete presentation-boundary space in coordinate
+  `i` uses every left translate by the full marked `E3` or `E4`; closing only
+  under the two source-context images constructs the smaller context-subgroup
+  orbit unless that pair is surjective.
+- The missing surjectivity premise is false on the accepted actual data.
+  Cross-checked task176 gives context-image orders `39,680,928` in the five
+  E3 coordinates, `357,128,352` in E4 coordinates 5--7, and `119,042,784`
+  in E4 coordinates 8--9, while the pinned marked coarse `Q4` quotient alone
+  has order `583,152,628,325,845,597,028,352`.  Hence no actual E4 context
+  pair generates full `E4`.
+- The corrected complete producer algorithm runs ten tagged queues: each E3
+  queue closes its two seeds under the three marked PB3 generators and their
+  inverses, while each E4 queue closes its eleven seeds under the six marked
+  PB4 generators and their inverses.  If their total terminal ranks are
+  `b3,b4`, there are exactly `b3+b4` rank raises and at most
+  `6*b3+12*b4` post-seed candidates.  The independent coordinate-aware
+  support-inversion checker remains valid.  The eventual K closure, unlike
+  the boundary closure, still uses the four source actions.
+- V271 also fixes the fast evaluator's value type: every trie/DAG node must
+  carry the actual affine pair `(roof,Fox-chain)` with product
+  `(a,u)(b,v)=(ab,u+a*v)`, not a roof value, tuple placeholder, or hash row.
+  Primitive and new K/anchor words require direct agreement with the frozen
+  Fox evaluator.
+- Consequently task328/A4-v3 is ineligible for execution independently of
+  its other placeholder defects: it hard-codes thirteen seeds and source-only
+  boundary actions.  Sol(max) task333 is auditing all defects against the
+  corrected v271 contract.
+- Luna task334 returned A5/A6-v12 `IMPLEMENTED / UNEXECUTED`.  Parent static
+  trace already finds that the checker is handed the v12 wrapper fixture while
+  its validator demands the v11 source schema, and the driver pins byte/hash
+  identities different from the returned files.  Its transcript also appears
+  to use hard-coded pop/rank decisions instead of applying the frozen action
+  matrices.  Sol(max) task335 now performs the full independent audit; no
+  SELFTEST is authorized meanwhile.
+- A0 serial production run `33163964747` remains in the GAP-script step.
+  Elapsed runtime is not a milestone, and no terminal has been promoted.
+
+**v220 mapping**:
+
+- A4 remains **1/3**: only the task198 input authority is accepted.  The
+  corrected boundary theorem is paper infrastructure; actual boundary rank,
+  K closure, word-bearing basis, and v247 anchor remain uncomputed.
+- A5 and A6 remain **0/3 actual**.  V12 is unexecuted and under independent
+  audit; its returned source is not an implementation milestone.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, A1 **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A7/A8 **0/3 actual**, and A9
+  **0/3 actual**.
+- B, C, W, and F remain zero.  No compatible cofinal lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta76 replaces a false source-surjectivity step by a complete finite-rank
+boundary algorithm and freezes the exact affine evaluator type.  It changes
+no actual witness numerator.

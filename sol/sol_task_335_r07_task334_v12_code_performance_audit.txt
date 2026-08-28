@@ -1,0 +1,91 @@
+# Sol(max) task 335 - task334 A5/A6 v12 independent code/performance audit
+
+Role: Sol(max), independent adversarial mathematics/code auditor.  Read this
+entire mail, sections 1 through 8, before acting.  Do not run Python, Node,
+GAP, GHA, workflows, git, or network.  Do not edit implementation files.
+Create only `sol/sol_reply_335_r07_task334_v12_code_performance_audit_v1.md`.
+
+## 1. Mandatory inputs and identities
+
+Read in full task324/reply324, task329/reply329, task334/reply334, v242, the
+complete v11 and v12 producer/checker/driver/fixture quartets, and every
+paper/fixture pinned by task334.  Audit literal files, not the reply prose.
+Recompute read-only byte counts, SHA-256, driver pins, fixture identities,
+ASCII/CR/final-LF facts, and v11 immutability.  No execution is authorized.
+
+## 2. Actual five-case mathematics
+
+Trace all five frozen cases and all thirty base/binding pairs.  Check whether
+the v12 transcript is produced by the literal theta/z/eta action matrices,
+the live rank-raising queue, post-closure C, left kernel, Hd1, target, and
+MEMBER/NONMEMBER decision.  Reject hard-coded pop/rank/accepted tables,
+copying seed rows in place of action rows, zero eta placeholders, copied
+terminals, or shaped records that do not result from the frozen arithmetic.
+
+## 3. Coefficient and transcript invariant
+
+Prove or refute `RetainedF3Basis` on the literal source.  Follow roster growth,
+zero padding, every pivot scale/elimination, transform widths, dependent-row
+coefficients, raw replay, and composition through closure/left-kernel/Hd1.
+Every record's coefficients must reconstruct its own immutable raw candidate;
+queue parents/actions/ranks/decisions must be recomputed, not read from a
+hard-coded count.  Check recursive canonical F3 type/range validation before
+all arithmetic.
+
+## 4. Checker independence and certificates
+
+Trace checker CLI and its exact fixture object.  Require a genuinely
+independent reconstruction of actions, queue, span, left kernel, Hd1,
+MEMBER ancestry, and NONMEMBER dual pairing.  A dense-tableau digest or
+Boolean label is not a two-way span proof.  Require independent producer
+receipt seal/envelope validation and canonical verdict construction.
+
+## 5. Mutations and driver
+
+Audit all 34 producer and 34 checker mutation owners.  Each must mutate the
+actual production-shaped owner, reseal, enter the normal semantic validator,
+and be rejected at a narrow gate; an explicitly raised exception is not a
+mutation oracle.  Trace driver pins against actual bytes, fixture schema
+passed to each CLI, exact-one terminal logic, producer/checker terminal
+equality, nonempty sealed verdict, stale-output rejection, and sentinel-last.
+
+## 6. Performance and unnecessary work
+
+Count actual queue candidates, reductions, tableau rows, parses,
+serializations, copies, mutation replays, and any coefficient enumeration.
+Search for `3^r`, repeated known-basis reconstruction, duplicated producer
+logic, repeated fixture parse, recursive expansion, sleep/retry/poll/lock/
+pool/subprocess, and hard-coded work presented as computation.  Give exact or
+defensible symbolic bounds and identify needless slow paths.
+
+## 7. Static reachability and ruling
+
+Trace SELFTEST and PRODUCTION from entry to sealed output.  Return exactly one
+of `PASS / UNEXECUTED`, `REJECT / UNEXECUTED`, or `BLOCKED / UNEXECUTED`.
+PASS authorizes only one bounded synthetic GHA SELFTEST.  Production is
+expected to remain the declared static block and supplies no actual A5/A6
+milestone.
+
+As adversarial starting points, independently confirm or refute rather than
+trusting these parent observations: the checker may receive a v12 fixture
+where it expects the v11 source schema; driver byte/hash pins may be stale;
+the transcript may ignore every action matrix; coefficient transforms may
+lose width after a new raw row; terminals/duals/Hd1 may be copied or absent;
+and most mutations may be direct forced exceptions rather than owner gates.
+
+## 8. Sole reply
+
+Put verdict first, then identities, first load-bearing failure, all additional
+defects, coefficient proof/counterexample, checker-independence ruling,
+34x2 mutation ledger, performance counts, static reachability, and the
+smallest versioned repair.  End with:
+
+```text
+AUDIT:                         PASS, REJECT, or BLOCKED
+EXECUTION:                     UNEXECUTED
+SYNTHETIC SELFTEST AUTHORIZED: YES only on PASS
+ACTUAL A5 / ACTUAL A6:         0/3 / 0/3
+LIFT / FAKE / IHARA:           NONE
+```
+
+`TASK335_R07_TASK334_V12_CODE_PERFORMANCE_AUDIT`
