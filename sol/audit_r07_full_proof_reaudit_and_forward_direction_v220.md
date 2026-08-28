@@ -2110,3 +2110,40 @@ numerator.
 Delta44 is an audit advance: it removes a false A5/A6 implementation result
 and replaces it with the correctly typed repair contract.  It changes no
 actual witness numerator.
+
+#### v220-delta45 - 2026-08-28 (after delta44)
+
+**Individual progress**:
+
+- The first task288 Neumann--Fox implementation was also rejected before
+  execution.  Although its manifest named a finite quotient, the producer
+  never consumed that quotient and instead used freely reduced source words
+  as group-algebra basis elements.  It therefore had no finite 3-group
+  augmentation nilpotence.  Its advertised noncommutative nilpotence case
+  started from the zero Fox chain and applied no operator.
+- The audit further found no equal-roof replay for A6 pairs, compatibility
+  reduced to equality of manifest-supplied basis labels rather than an actual
+  quotient map, and finite-family success incorrectly set all_rung=true.
+  The production checker did not reconstruct Fox chains or Neumann powers.
+  The driver declared pins without hashing files and used Windows findstr
+  in the Linux GHA runner.
+- Task290 requires a literal finite nonabelian 3-group algebra, direct
+  reduction of the completed Fox chain map
+  \(T_W(v_se_s)=\sigma_W(v_s)\delta(WsW^{-1})\), a nonzero nilpotence canary,
+  full support collection in quotient element IDs, real rung reduction maps,
+  independent production replay, and fail-closed
+  PASS_REGISTERED_FAMILY/all_rung=false.  That repair is in progress.
+
+**v220 mapping**:
+
+- A9 remains **0/3**.  V249's paper criterion remains intact, but task288
+  supplies no accepted implementation SELFTEST and no actual finite
+  group-like result.  Task290 is only the corrected implementation contract.
+- A5/A6 remain **0/3** under task289 repair; A7 remains **0/3** under task286
+  finalization.  A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **2/3**,
+  and A3/A4 remain **0/3** with their implementation SELFTESTs separate.
+  A8, B, C, W, and F remain zero.
+
+Delta45 prevents a free-group toy from being mistaken for the finite-rung
+group-like gate and fixes the exact quotient ABI.  It changes no actual
+witness numerator.
