@@ -1,0 +1,131 @@
+Sol(max) task 337 - task325 A0/v6 independent code and performance audit
+
+Role: Sol(max), mathematical/code/performance auditor only.  Read this FULL
+mail, all numbered sections, first to last.  Do not edit implementation, run
+Python/Node/GAP/GHA/workflows/network/git, or infer an execution result.  Write
+only `sol/sol_reply_337_r07_task325_v6_code_performance_audit_v1.md`.
+
+1. Mandatory complete inputs
+
+Read AGENTS.md and, in full:
+
+- `sol/luna_task_325_r07_task192_positive_only_persistent_parallel_v6.md`
+  and its reply;
+- all four v6 machine outputs;
+- the complete cached-v3 producer/checker/driver/fixture;
+- task303, task298, task319/reply319, task321/reply321, and every v253--v256
+  paper/commission cited by task325;
+- the positive-only v140 and history-free v265 papers; and
+- the staged checkpoint ZIP manifest and the exact raw checkpoint member
+  identities pinned by v6.
+
+Recompute read-only bytes/SHA-256 for the v6 quartet and every load-bearing
+pin.  Trace the actual import/call/subprocess/process graph.  Do not trust the
+Luna reply as evidence.
+
+2. First-failure and reachability audit
+
+Trace, statement by statement, these routes without executing them:
+
+- GAP driver to emitted shell and whether GAP actually runs it;
+- SELFTEST producer, all real-process cases, receipt, checker, verdict, and
+  sentinel-last;
+- production from the staged cached-v3 checkpoint through the first boundary
+  epoch, UNKNOWN_RESOURCE checkpoint/resume, and a hypothetical inner COMMON;
+- the outer v6 COMMON receipt through exactly one physical cached-v3 checker
+  call and independent compact-view replay; and
+- malformed input, timeout, worker death, partial return, and cleanup paths.
+
+Report the literal first failure on each route, then continue the audit under
+minimal hypothetical repairs so independent blockers are not hidden.  A
+driver that merely writes a shell, a stale byte pin, unreachable hook, wrong
+CLI spelling, fork-context mismatch, or fixture/schema mismatch is REJECT.
+
+3. Mathematical equivalence of the parallel owner
+
+Compare the v6 subclass result with the exact cached-v3
+`BoundaryDescriptorCache.correlation` ABI and ordered semantics.  Check:
+
+- descriptor and typed-dual support construction, duplicate handling,
+  component/block/relator tags, coefficient signs, C17/F3 codecs, and exact
+  pair order;
+- interval prefix arithmetic and disjoint complete cover, including zero and
+  short rosters;
+- actual group support inversion `t=g*h^-1`, direct check `t*h=g`, full-key
+  accumulation, cancellation, lexicographic winner, contributing-pair
+  reconstruction, translated-row construction, and direct pairing scalar;
+- that no digest/hash/endpoint tuple substitutes for the cached-v3 row;
+- that serially dependent dual/rank epochs never overlap or commit partial
+  results; and
+- that installing the hook after authentication/resume and before the first
+  epoch affects exactly the intended live cache owner.
+
+Every equality must be tied to literal code and actual immutable data.  A
+same-shaped dictionary or copied scalar is not an equivalence proof.
+
+4. Processes, atomic resume, and resource truth
+
+Audit Linux `fork` availability and multiprocessing context, inherited object
+safety, pipes/events/shared arrays, result ordering, EOF/death/timeout
+detection, event-driven waiting, cancellation, terminate/join/close behavior,
+and empty final PID roster.  Look specifically for deadlocks, blocking reads,
+lost partial counters, double charges, zombie children, unsafe inherited file
+handles, and cleanup that depends on the happy path.
+
+Recompute conservation equations for attempted/committed/discarded/retried
+pairs and epochs, the historical checkpoint lower bounds, the 640-pair suffix,
+atomic clean restart, epoch-chain digest, and checkpoint fixed-point byte
+accounting.  Confirm that a claimed replayable state contains every actual
+owner needed to resume and that COMMON forbids/deletes checkpoint sidecars.
+
+Audit exact peak RSS aggregation and every serialized frame.  Identify
+unnecessary slow work as explicitly requested by the researcher: repeated
+support encoding/decoding per worker/epoch, descriptor scans, large shard
+accumulators, pickling copies, provenance rescans, repeated hashing,
+canonicalization, source loads, nested process launches, polling, sleeps,
+retries, and work already owned by cached-v3.  Give literal present-shape
+counts and symbolic worst-case bounds; do not call omitted work an
+optimization.
+
+5. Positive authority and checker independence
+
+For COMMON, prove the outer receipt binds one existing physical inner receipt
+by exact resolved path, bytes, SHA, self seal, schema, terminal, source pins,
+and sidecar exclusivity.  Exclude traversal, symlink/alias, stale/synthetic
+substitution, TOCTOU, duplicate terminal, and post-check mutation.  Verify the
+compact view contains and recomputes every mathematical field claimed in
+task325 rather than copying Booleans.
+
+The checker may not import v6 producer code or share its mutation/runtime
+helper.  Confirm it invokes the exact pinned cached-v3 checker once only for
+COMMON, requires return code zero, empty stderr and the sole exact full line,
+then independently derives the compact view.  Check that nonpositive and
+SELFTEST routes cannot fake or accidentally invoke that authority.
+
+6. SELFTEST, mutation owners, driver, and final ruling
+
+Audit every advertised SELFTEST case with real process construction and both
+worker counts.  For all 22 producer and 22 checker mutations, determine
+whether a production-shaped owner is materially changed, correctly resealed,
+routed through its actual validator, and rejected at the registered exact
+stage/reason.  Explicit raises, hash-change tests, broad exception catches,
+and producer mutation flags trusted by the checker are failures.
+
+Audit source/fixture/checkpoint pins, stale-output roster, timeout, exact-one
+equal producer/checker terminal payloads, nonempty sealed receipt/verdict,
+terminal-specific sidecars, and that the sentinel is literally the final
+successful operation.  Confirm the driver executes rather than only emits its
+shell and propagates failures.
+
+Give one verdict `PASS` or `REJECT`, and `UNEXECUTED`.  PASS may authorize at
+most one bounded synthetic GHA SELFTEST; it must not authorize production.
+REJECT must list the smallest versioned repair and preserve the current A0
+numerator.  End with:
+
+AUDIT: PASS or REJECT
+EXECUTION: UNEXECUTED
+SYNTHETIC SELFTEST AUTHORIZED: YES or NO
+ACTUAL A0 COMMON + CHECKER: 0/1
+LIFT / FAKE / IHARA: NONE
+
+`TASK337_R07_TASK325_V6_CODE_PERFORMANCE_AUDIT`

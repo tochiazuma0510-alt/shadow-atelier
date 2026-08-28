@@ -3487,3 +3487,48 @@ actual witness numerator.
 
 Delta78 converts the independent v3 rejection into a non-repeating v4
 implementation contract.  It changes no actual witness numerator.
+
+#### v220-delta79 - 2026-08-29 (after delta78)
+
+**Individual progress**:
+
+- Luna task325 returned the A0 positive-only persistent-parallel v6 adapter
+  as `IMPLEMENTED / UNEXECUTED`.  It claims a persistent Linux-fork worker
+  roster at the cached-v3 boundary-correlation owner, serial dual epochs,
+  exact interval cover/merge, clean atomic restart, aggregate RSS accounting,
+  and a COMMON gate that invokes the pinned cached-v3 checker exactly once.
+  These are source claims only.  Sol(max) task337 now audits literal
+  reachability, mathematical equivalence, process cleanup, counters,
+  checkpoint binding, needless slow work, checker independence, mutations,
+  and driver/sentinel behavior before any SELFTEST.
+- Sol(max) task335 independently returned `REJECT / UNEXECUTED` on A5/A6
+  v12.  The source ignores every frozen action matrix and manufactures its
+  closure from hard-coded pop/rank tables; it never computes the joint image,
+  left kernel, `Hd1`, MEMBER ancestry, or NONMEMBER dual.  Its retained-basis
+  coefficient sign and transform-width invariants are both false, all 68
+  mutation paths are detached forced/toy failures, and driver/checker schema
+  and hash gates stop deterministically before a semantic result.
+- Task335 fixes the smallest honest A5/A6 repair as a v13 semantic rebase on
+  immutable v11: retain v11's real matrix closure and post-closure arithmetic,
+  attach a chronological coefficient-bearing transcript to the live owner,
+  replace exponential checker enumeration by independent polynomial
+  elimination, and route all mutations through their actual validators.
+  Luna task338 commissions that implementation only; execution remains
+  forbidden.
+- A4/v4 implementation task336 is active under the v272 lazy full-boundary
+  contract.  A0 serial production run `33163964747` is still in its GAP
+  script and has no promotable terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  The v6 parallel adapter is
+  unexecuted and unaudited, so it contributes no numerator.
+- A4 remains **1/3**.  A5 and A6 remain **0/3 actual**; task335 closes v12
+  negatively and v13 is implementation work only.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A7/A8
+  **0/3 actual**, A9 **0/3 actual**, and B/C/W/F zero.
+- No compatible cofinal lift, fake certificate, or Ihara counterexample has
+  been constructed.
+
+Delta79 turns both returned candidates into explicit audit/repair branches
+without counting implementation or elapsed runtime as mathematical progress.
