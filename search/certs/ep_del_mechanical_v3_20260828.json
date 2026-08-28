@@ -1,0 +1,101 @@
+{
+  "schema": "ep-del-mechanical/v3",
+  "generated_by": {
+    "tool": "GAP 4.16.0",
+    "script": "scratchpad/ep_del_mechanical_v3.g",
+    "script_sha16": "f5ef86e88570c400",
+    "task": "EP-DEL mechanical check v3 per ep_del_wiring_memo_v1.md sec.10 (sha16 cef221c14f43c5a5) and ruling 1735: G-Q1->G-Q2->G-Q3, 40-test, EP-G2, evaluator prep"
+  },
+  "pins": {
+    "A2_q3_chief_receipt_sha256_verified": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",
+    "note_receipt_bypass_confirmed": "Per memo sec.10.0, this receipt's /maps.deletions_4_3 is genuinely empty (BYPASSED_BY_EXACT_WORD_CORRECTION) -- confirmed by direct inspection this pass; the prior implementer's inability to read d_i's Q-component from the receipt was a receipt gap, not an implementation fault, as the memo itself states."
+  },
+
+  "GQ1_GQ2_GQ3": {
+    "GQ1": {"Q0_size": 1469664, "pass": true},
+    "GQ2": {
+      "method": "Built the extended 4-generator presentation (a12,a13,a23,c) with c:=a12*a13*a23 and the pure-braid relations among a12,a13,a23 (D972Q3BuildPureFp(3).relations, since the receipt's own D972Q3BuildPureFp(3) only exposes 3 generators, not the memo's literal 4 -- this implementer extended it explicitly per the memo's stated relation a12*a13*a23=c). Tried both candidate images for a13: (q0y*q0x)^-1 and (q0x*q0y)^-1, requiring a GroupHomomorphismByImages well-definedness check (not a guess).",
+      "candidate_qy_qx_inverse_well_defined": true,
+      "candidate_qx_qy_inverse_well_defined": false,
+      "survivor_count": 1,
+      "unique_survivor": "(q0y*q0x)^-1",
+      "pass": true,
+      "note": "Matches the memo's own diagnosis (sec.10.1.1): the refuted hypothesis (q0x*q0y)^-1 pointed to 'the other order' being correct -- confirmed exactly here."
+    },
+    "GQ3": {
+      "method": "Built dQ[s] := GroupHomomorphismByImages(Q4, Q0, q4marks, [D972Q3EvalGroupWord(del[s][k], [q0x,imA13,q0y]) : k in 1..6]) for s=1..4, using D972Q3EvalGroupWord (the group-element evaluator; NOTE the memo's literal pasted code used 'D972Q3WordEval', which is chief_lib's SYMBOLIC word-rewriting function, not a group-element evaluator -- this was a naming mismatch in the memo's pasted snippet, corrected here to the function that actually multiplies group elements, per the same intent).",
+      "strand_1_well_defined": true,
+      "strand_2_well_defined": true,
+      "strand_3_well_defined": true,
+      "strand_4_well_defined": true,
+      "pass": true,
+      "verdict": "The deletion maps DO descend Q4->Q0 for all 4 strands (v122's d_Q component genuinely exists) -- positive result, not the negative 'first-class' outcome the memo flagged as possible."
+    },
+    "GQ4_sanity": {"pass": true, "note": "D972Q3DeleteGenerator [] behavior re-confirmed (same as v2 cert's W-2)"},
+    "Pi_component_dPi": {"strand_1": true, "strand_2": true, "strand_3": true, "strand_4": true,
+      "note": "Re-confirms v2 cert's already-successful Pi4[3]->Pi3[3] construction; unchanged."}
+  },
+
+  "forty_test": {
+    "method": "10 rho_o contexts (5 hex E3-native via D972Q3HexPairs(q0x,q0y)/D972Q3HexPairs(m3[1],m3[3]); 5 pentagon E4-native via D972Q3Pairs(q4marks)/D972Q3Pairs(m4)) x 4 d_i strands = 40 cells. For pentagon (E4-native) contexts: applied (dQ[i],dPi[i]) then tested IsAbelian in E3 (per-component, Q-part and Pi-part separately, matching the memo's stated direct-product decomposition). For hex (E3-native) contexts: tested IsAbelian directly in E3 (NOT transformed by d_i, since they are already E3-valued) -- this gives the SAME result for i=1..4 within each hex context, a design convention explicitly flagged here as this implementer's reading of the memo's own statement ('E3側5本...d_sの像もE3内'), not independently re-confirmed against the registry.",
+    "commutative_count": 12,
+    "total": 40,
+    "noncommutative_cells": [
+      ["hex1",1],["hex1",2],["hex1",3],["hex1",4],
+      ["hex2",1],["hex2",2],["hex2",3],["hex2",4],
+      ["hex3",1],["hex3",2],["hex3",3],["hex3",4],
+      ["hex4",1],["hex4",2],["hex4",3],["hex4",4],
+      ["hex5",1],["hex5",2],["hex5",3],["hex5",4],
+      ["pent1",4],["pent2",1],["pent3",1],["pent3",2],["pent4",2],["pent4",3],["pent5",3],["pent5",4]
+    ],
+    "commutative_cells": [["pent1",1],["pent1",2],["pent1",3],["pent2",2],["pent2",3],["pent2",4],
+      ["pent3",3],["pent3",4],["pent4",1],["pent4",4],["pent5",1],["pent5",2]],
+    "verdict": "NOT 40/40 -- all 5 hex contexts are noncommutative for every strand (20/20 noncommutative), and the 5 pentagon contexts show a MIXED pattern (12/20 commutative). Per instruction's ternary framing, this is the 'partial noncommutative' branch: EP-DEL is NOT proved by this test alone, and the listed 28 (o,i) cells are the ones that would need the full mini-evaluator (E1-E4) to resolve.",
+    "caveat_on_hex_uniformity": "The fact that ALL 20 hex cells are noncommutative, identically across i=1..4, is a direct consequence of this implementer's convention (d_i acts as identity/no-op on already-E3-native contexts) -- it is NOT independent evidence about 4 different strand-specific behaviors for the hex side. If the memo intends a genuinely different (nontrivial, strand-dependent) action of d_i on the hex-native contexts, this convention should be revisited; flagged rather than presented as settled."
+  },
+
+  "EP_G2": {
+    "w_e_source": "search/certs (none written) -- computed directly from q3.selected_solution.typed_source_word = [-2,-2,-1,-1,2,2,1,-2,-1,-1,2,2,2,-1,-2,-2,1,1,1,1] and q3.selected_solution.correction_word = [] (empty, confirming w_e needs no additional Fox-chain correction term per the memo)",
+    "two_readings_computed_and_both_reported": {
+      "reading_A_pentagon_relator_recomputation": {
+        "method": "Fresh, independent GAP recomputation (not a JSON-flag read) of the pentagon relator: evaluated typed_source_word at each of the 5 pentagon (Q,Pi) context pairs in chief_lib's OWN native D972Q3Pairs order, combined via D972Q3PentFromValues -- the exact same computation chain chief_lib itself uses internally to set pentagon_exact.",
+        "cross_check_vs_receipt_flag": {"receipt_pentagon_exact": true, "freshly_recomputed_pentQV_is_identity": true, "freshly_recomputed_pentPV_is_identity": true, "match": true},
+        "note": "Because this w_e is ALREADY the identity (matching pentagon_exact=true), applying d_i to it trivially gives the identity for every strand -- EP-G2 passes 4/4 under this reading, but the test is VACUOUS/tautological (it re-confirms an already-known fact rather than probing something new).",
+        "epg2_per_strand": [true, true, true, true],
+        "pass_count": "4/4"
+      },
+      "reading_B_typed_source_word_coface4_embedding": {
+        "method": "Evaluated typed_source_word DIRECTLY as a 2-letter F(x,y) word into Q4/Pi4[3], using x:=q4marks[1](=a12), y:=q4marks[4](=a23) -- the 'coface-4' embedding convention (slot=rank+1 keeps pair indices unchanged), consistent with the SAME x=a12,y=a23 pattern already established and load-bearing for q0x/q0y (G-Q1/G-Q2) and m3[1]/m3[3] (Pi3-side B2).",
+        "w_e_is_already_identity": {"Q_part": false, "Pi_part": false},
+        "note": "Unlike Reading A, this w_e is GENUINELY NONTRIVIAL before applying d_i -- a real, non-vacuous test.",
+        "epg2_per_strand": [true, true, true, false],
+        "pass_count": "3/4",
+        "FLAG": "Strand 4 FAILS under this reading: d_4(w_e) != 1. If Reading B is the mathematically correct interpretation of the memo's w_e, this is exactly the '非零なら(C-α)崩壊' condition the instruction says to report as a first-class negative result immediately."
+      }
+    },
+    "which_reading_is_correct": "NOT DETERMINED BY THIS IMPLEMENTER. The memo's recipe text ('pentagon関係語P(.)をregistryのpentagon_part_0..4の順で組む...E4で評価してw_eを得る') most literally supports Reading A (build the PENTAGON RELATOR, not raw typed_source_word), but Reading A's vacuous/tautological character (trivially re-confirming pentagon_exact) makes it a weak candidate for what EP-G2 is supposed to newly test. Reading B is a defensible alternative (typed_source_word as the literal 'corrected residual chain' word, per the memo's OTHER phrase 'w_e=関係語の評価値そのもの' read as 'the relation word itself' = the source word), and it produces a genuinely discriminating, non-vacuous result -- including a strand-4 failure that would be a first-class finding if confirmed.",
+    "instruction_compliance_on_stop_condition": "Per instruction point 3 ('非零なら(C-α)崩壊で即停止報告'), this implementer is flagging Reading B's strand-4 failure PROMINENTLY and immediately in this cert, WITHOUT declaring a confirmed (C-α) counterexample, because the reading itself (which formula genuinely IS w_e) has not been confirmed. This is reported as the single most important open question from this pass, not buried."
+  },
+
+  "evaluator_prep_E3a_E3b_only": {
+    "instruction_compliance": "Per instruction item 4's scope ('工房生成MのE3-a~E3-e予備手順...まで'), only the E3-a (candidate commutator generation) and E3-b (substitute roof condition check) steps were attempted -- E3-c/d/e (eta_P(M) construction) were NOT run, since none of the 5 tried candidates passed the E3-b substitute condition (nothing to build eta_P from yet)",
+    "candidates_tried": [
+      {"name": "[x,y] vs 1", "roof_substitute_condition_holds_all_10_contexts": false},
+      {"name": "[x,y^2] vs 1", "roof_substitute_condition_holds_all_10_contexts": false},
+      {"name": "[x^2,y] vs 1", "roof_substitute_condition_holds_all_10_contexts": false},
+      {"name": "[[x,y],x] vs 1", "roof_substitute_condition_holds_all_10_contexts": false},
+      {"name": "[[x,y],y] vs 1", "roof_substitute_condition_holds_all_10_contexts": false}
+    ],
+    "verdict": "0/5 simple commutator candidates satisfy the substitute roof condition (rho_o(U)=rho_o(V) for all 10 contexts) against the identity. A genuine M (nontrivial U_j,V_j pair, not just 'commutator vs identity') was not found this pass; this is preliminary scaffolding only, per the instruction's own 'prep only' scope, not a completed evaluator run."
+  },
+
+  "TERNARY_OUTCOME": "UNKNOWN -- neither EP-DEL PROVED (40-test is 12/40, not 40/40) nor a confirmed (C-alpha) counterexample (EP-G2's negative signal, Reading B strand 4, is reported but NOT confirmed as the correct w_e reading). The 28-cell noncommutative list from the 40-test and the w_e reading ambiguity from EP-G2 are the two concrete open items narrowing further work.",
+
+  "headline_one_line": "G-Q1/G-Q2/G-Q3 all PASS (Q-component of d_i now fully constructed: a13's image is uniquely (q0y*q0x)^-1, all 4 strand-deletion maps Q4->Q0 are well-defined). 40-test: 12/40 commutative (all 20 hex cells noncommutative under this implementer's 'd_i acts as identity on E3-native contexts' convention; pentagon cells mixed 12/20) -- NOT a full EP-DEL proof, 28 (o,i) cells listed for future evaluator work. EP-G2: two distinct readings of w_e computed; the vacuous pentagon-relator reading passes trivially 4/4, but the more likely genuinely-discriminating reading (typed_source_word via coface-4 embedding) FAILS at strand 4 (3/4) -- flagged immediately as a possible (C-alpha) issue requiring mathematician disambiguation of which w_e reading is correct before any conclusion is drawn.",
+  "grade": "mechanical measurement, single-system; G-Q1-Q3 solid and unambiguous; 40-test complete but convention-dependent for the hex side; EP-G2 genuinely ambiguous pending w_e reading confirmation",
+  "open_questions_for_mathematician": [
+    "Which EP-G2 w_e reading is correct: Reading A (pentagon relator, vacuously trivial) or Reading B (typed_source_word via coface-4 embedding, nontrivial, fails at strand 4)? This is now the single highest-priority open item.",
+    "Is this implementer's 'd_i acts as identity on E3-native hex contexts' convention for the 40-test correct, or does d_i act nontrivially there too via some mechanism not yet identified (which would change the reported 20/20-noncommutative hex block)?",
+    "The memo's literal pasted code used 'D972Q3WordEval' where this implementer substituted 'D972Q3EvalGroupWord' (the group-element evaluator) -- confirm this substitution was the intended function, not a sign of a different, unread convention."
+  ]
+}
