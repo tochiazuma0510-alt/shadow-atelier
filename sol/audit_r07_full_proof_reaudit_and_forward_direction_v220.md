@@ -3103,3 +3103,45 @@ gate without conflating it with an actual successor kernel or witness.
 Delta70 fixes the exact A0 information deficit and separates A4 input
 authentication from actual positive-branch reachability.  It changes no
 actual witness numerator.
+
+#### v220-delta71 - 2026-08-28 (after delta70)
+
+**Individual progress**:
+
+- Sol(max) task322 returned `REJECT / UNEXECUTED` for A5/A6 v10.  The v10
+  literal repair itself is sound: all 30 base/binding pairs, all six action
+  shapes, and all five expected tuples reconstruct.  The load-bearing
+  algorithm does not retain row-operation transforms, however, so its
+  purported coordinates are pivot coordinates rather than ancestry in the
+  accepted raw-row order.
+- The checker mirrors the producer echelon, omits the v9 equality binding the
+  receipt's `closure_rank`, uses broad exception catches as mutation success,
+  and still performs at least 58 avoidable known-basis RREF rebuilds.  No v10
+  GHA run is authorized.  Task324 commissions a v11 coefficient-carrying
+  producer, a genuinely different batch checker algorithm, owner-specific
+  mutation codes, complete receipt-field binding, and retained-basis queries.
+- V265 sharpens the A0 positive trust boundary.  Retrospective replay of all
+  approximately 2,896 dual epochs is necessary for an algorithm-trace or
+  negative/exhaustion certificate, but not for a positive existential word
+  whose joint-kernel type, exponent gate, full literal defect, and explicit
+  PB3/PB4 boundary preimage are independently reconstructed.
+- Consequently the task321 absence of `boundary_epoch_history` does not block
+  a new **positive-only** parallel discovery adapter.  The old checkpoint may
+  be treated as heuristic discovery state; every nonpositive exit must remain
+  `UNKNOWN`, and A0 can advance only after a helper-nonshared checker directly
+  accepts the final word/boundary equality.  This is a paper-level trust-
+  boundary correction, not an actual COMMON result.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART** on serial run `33163964747`.
+  V265 removes one implementation blocker for a future positive-only adapter
+  but supplies no word.
+- A5 and A6 remain **0/3 actual**.  V10 is rejected and unexecuted; the
+  corrected v11 implementation is in progress.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A4 **0/3 pending audit**, and
+  A3, A7--A9 actual, B, C, W, and F retain their delta70 values.
+
+Delta71 removes an overstrong A0 search-history requirement without weakening
+positive verification or authorizing a negative claim, and prevents an
+ancestry-free A5/A6 execution.  It changes no actual witness numerator.
