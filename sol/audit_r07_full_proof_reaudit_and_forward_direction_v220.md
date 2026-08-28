@@ -2065,3 +2065,48 @@ changes no actual witness numerator.
 Delta43 gives the explicit-word obstruction/test for the fixed Neumann
 candidate and repairs its convergence proof.  It changes no actual witness
 numerator.
+
+#### v220-delta44 - 2026-08-28 (after delta43)
+
+**Individual progress**:
+
+- The task287 A5/A6 SELFTEST return was rejected by static adversarial audit
+  before execution.  Its mutation function returned rejection unconditionally
+  even when the mutated case completed; the checker trusted those reported
+  Booleans.  More importantly, it closed endpoint rows and tested membership
+  in their image instead of forming joint rows
+  \((z,\widehat\eta)\), taking the left kernel after \(C\), and testing the
+  target in the resulting \(Hd_1\) slice required by v242.
+- The same audit found that the reported NONMEMBER functional was not derived
+  or dotted against the slice, the three MEMBER equations were copied
+  Booleans, roof equality was replaced by equality of freely reduced source
+  words, and every toy pair freely cancelled so the compiled \(M\) was zero.
+  Thus no SELFTEST or implementation milestone is inferred from that return.
+- Task289 gives the repair a literal two-coordinate joint ABI, computed
+  post-\(C\) left kernel, genuine MEMBER ancestry or separating dual,
+  distinct source words with equal finite roof value, nonzero collected
+  \(M\), direct successor replay \(M\mapsto\mu_1\), and producer- plus
+  checker-owned semantic mutation execution.  The repair is in progress.
+- The separate task286 A7 implementation has completed its pin-independent
+  exact Artin \(F_3/F_4\) engines, three combined endpoint collections,
+  full-\(C_1\) zero replay, independent pointwise-Artin checker, five positive/
+  negative fixtures, and 21 mutation owners.  Its production adapter remains
+  fail-closed and its task285 pins are deliberately withheld until task289
+  stops changing that input.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3**.  Rejecting the fictional mutation count and the
+  wrong image problem prevents a false implementation milestone; task289 is
+  only a repair commission.
+- A7 remains **0/3**.  Task286 is a nearly complete implementation envelope,
+  but no accepted actual \(M\) exists and the final static pins/SELFTEST have
+  not been accepted.
+- A9 remains **0/3** with the v249 paper predicate fixed.  A0 is **0/1
+  RUNNING**, A1 is **3/4 RUNNING**, A2 is **2/3**, and A3/A4 remain **0/3**
+  with their implementation SELFTESTs separate.  A8, B, C, W, and F remain
+  zero.
+
+Delta44 is an audit advance: it removes a false A5/A6 implementation result
+and replaces it with the correctly typed repair contract.  It changes no
+actual witness numerator.
