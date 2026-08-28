@@ -43,3 +43,55 @@ A5/A6 / lift/fake/Ihara:     NOT DECLARED
 ```
 
 TASK296_R07_JOINT_SLICE_KERNEL_GENERAL_V4_UNEXECUTED
+
+## Parent Sol dispatch
+
+Parent static audit accepted the v4 SELFTEST for GHA execution and rejected
+all v1--v3 returns as superseded.  The generic unchanged workflow was
+dispatched as follows:
+
+```text
+run id       33163411739
+commit sha   97ae4410
+mode         SELFTEST
+script       search/d972_r07_joint_slice_kernel_general_gha_driver_v4.g
+timeout      60 minutes
+status       DISPATCHED
+```
+
+This dispatch is an implementation test only.  A5/A6 actual inputs and all
+witness conclusions remain absent pending the run result.
+
+The first CLI dispatch lost the quoted GAP string before execution:
+
+```text
+run id       33163411739
+terminal     dispatcher failure: Variable SELFTEST must have a value
+math engine  NOT STARTED
+```
+
+It is not a SELFTEST result.  Parent re-dispatched through the JSON API so
+the literal preamble `D296Mode:="SELFTEST";;` is preserved:
+
+```text
+run id       33163594826
+commit sha   97ae44101e9109068b3b93c46e06de4e6ae1f7d0
+status       FAILURE BEFORE MATHEMATICAL SELFTEST
+```
+
+The JSON dispatch did preserve the exact quoted preamble and reached the
+Python producer.  It then failed in fixture parsing before compiling any of
+the five cases:
+
+```text
+RuntimeError: fixture seal/schema
+source       parse_fixture, first require call
+cause        value.get("fixture_seal") is a nonempty string, while require
+             accepts only the singleton boolean True (`ok is True`)
+artifact     none (upload step skipped)
+```
+
+Thus v4 has no accepted implementation SELFTEST.  This is a fail-closed
+Boolean-typing defect, not an A5/A6 mathematical result.  A versioned v5
+repair must normalize every truthy non-Boolean predicate before re-execution;
+the actual A5/A6 numerators remain zero.
