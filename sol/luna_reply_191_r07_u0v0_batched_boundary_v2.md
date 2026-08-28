@@ -246,3 +246,50 @@ Parent Sol then dispatched the authenticated PRODUCTION job as GHA run
 the literal GAP string preamble
 `D972_R07_U0V0_BOUNDARY_PREIMAGE_BATCH_V2_MODE:="PRODUCTION";;`; the workflow
 wall limit is 360 minutes.  At registration time the run was `in_progress`.
+
+## 8. Parent Sol production terminal and resumable frontier
+
+Run `33109346940` completed its workflow successfully at
+`2026-08-28T01:08:47Z`, but its authenticated mathematical terminal is
+
+```text
+UNKNOWN_RESOURCE:complete_boundary_correlation:wall_seconds:19809.333522258>19800
+```
+
+It is therefore neither a membership decision nor a nonmembership decision.
+The producer and independent checker emitted matching terminal markers, and
+the driver accepted only that authenticated checker terminal.  The downloaded
+receipt has identity
+
+```text
+7896 / e6a3c55c4f7f9ab09c3f626ab7774b32780a8770d2515f54c0f811e00cfb382b
+```
+
+The complete resource counters at the stop are:
+
+```text
+boundary_pairs      17,564
+oracle_rounds        2,291
+retained_columns    13,360
+rss_bytes        2,325,528,576
+wall_seconds        19,809.333522258
+```
+
+The newly written continuation checkpoint is present and sealed:
+
+```text
+84,914,159 / 14854c3b2476641cdab62d86dfeae34aab8b1091f4664e5d6562c57d08362c57
+```
+
+Artifact `9670577968` has ZIP digest
+`sha256:e5f93063b667ae879f07b958326a3518ce45fdbace164dc3746b727575dc4ef3`.
+The checkpoint is a lossless restart boundary; a continuation must bind this
+exact byte identity and write a fresh output checkpoint.  Restarting from the
+empty span would discard the authenticated 13,360-column prefix and is not the
+production path.
+
+```text
+BATCHED EXACT BOUNDARY DECISION:              UNKNOWN_RESOURCE / RESUMABLE
+U0/V0 MEMBERSHIP OR NONMEMBERSHIP:            NOT DECIDED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:        NOT DECLARED
+```
