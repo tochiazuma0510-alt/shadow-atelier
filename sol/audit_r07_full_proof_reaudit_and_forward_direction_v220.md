@@ -909,3 +909,34 @@ presentation や witness に対する negative evidence ではない。
 
 この監査により、A3で必要な positive certificate は単なる `member=true` でなく、block target
 を作る明示的な \(\kappa\in I(R_0)\) と、その quotient-zero・action replay までであると固定した。
+
+#### v220-Δ13 — 2026-08-28 12:36 JST
+
+**個別進捗**:
+
+- `proof_r07_word_independent_successor_and_direct_pair_compiler_v231.md` で v188 をtask198の
+  10 typed contextsへ具体化した。完全roof presentationの6,441 relator defectsを固定
+  first-successorで評価し、roof action closureを取るだけで
+  \(K=\ker(\Delta_1\to\Delta_0)\) の全word-bearing basisが得られる。
+- \(K\) はtowerとcontext mapsだけで決まり、task192の補正語には依存しない。従ってA4は
+  A1 production acceptanceの直後にA2/A3と並行実行でき、旧task196の巨大な
+  \(\Delta_1\) BFSを要求しないと証明した。
+- A5 ancestryの係数項 \(g(k_i-1)=gk_i-g\) は最初からroof-fibre word pairである。
+  そのため
+  \[
+  M=(1+\widetilde\beta+\cdots+\widetilde\beta^{2t})\widetilde\alpha
+  \]
+  を順序どおり有限展開し、task198 roof evaluatorでfibre分割すればA6の \(M\) を直接作れる。
+  完全なsuccessor state rosterや第二のblind word searchは不要である。
+
+**v220 内進捗**:
+
+- A4 は **0/3** のまま。dependencyを短縮したが、A1 actual productionが未完なので
+  `presentation input` milestoneはまだ閉じない。
+- A6 も **0/3** のまま。direct compiler theoremは立ったが、A5 actual ancestryがなく、
+  ancestry expansion / roof-fibre check / accepted \(M\) は一つも実行していない。
+- A0 は **0/1 RUNNING**、A1 は **3/4 RUNNING**、A2 は **1/3**、A3は **0/3**。
+  A5, A7--A9, B, C, W, F は全て **0**。
+
+これは分子の増加ではなく、A4をA0待ちから外し、A6から巨大successor enumerationを除去した
+依存鎖の短縮である。actual witness 主鎖のcomplete gateは引き続き0件である。
