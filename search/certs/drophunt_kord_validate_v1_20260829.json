@@ -1,0 +1,19 @@
+{
+  "schema":"drophunt-kord-validate/v1",
+  "M_ord_computed":18,
+  "Order_MX":18,
+  "Order_MY":18,
+  "all_rows_match":true,
+  "rows":[
+{"b3_index":3,"direct_Kord":18,"formula_Kord":18,"match":true,"Kord_over_Mord":1},
+{"b3_index":8,"direct_Kord":36,"formula_Kord":36,"match":true,"Kord_over_Mord":2},
+{"b3_index":48,"direct_Kord":72,"formula_Kord":72,"match":true,"Kord_over_Mord":4},
+{"b3_index":48,"direct_Kord":18,"formula_Kord":18,"match":true,"Kord_over_Mord":1},
+{"b3_index":48,"direct_Kord":18,"formula_Kord":18,"match":true,"Kord_over_Mord":1},
+{"b3_index":48,"direct_Kord":18,"formula_Kord":18,"match":true,"Kord_over_Mord":1},
+{"b3_index":48,"direct_Kord":72,"formula_Kord":72,"match":true,"Kord_over_Mord":4},
+{"b3_index":48,"direct_Kord":18,"formula_Kord":18,"match":true,"Kord_over_Mord":1},
+{"b3_index":48,"direct_Kord":36,"formula_Kord":36,"match":true,"Kord_over_Mord":2},
+{"b3_index":48,"direct_Kord":36,"formula_Kord":36,"match":true,"Kord_over_Mord":2}
+  ]
+}
