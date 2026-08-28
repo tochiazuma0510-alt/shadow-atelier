@@ -1,0 +1,108 @@
+{
+  "schema": "d972-r07-history-free-positive-fast-resume/selftest-input/v8",
+  "worker_counts": [2, 4],
+  "fixture_policy": {
+    "group_source": "live task175/task176 E3/E4 owners",
+    "codec_source": "task176 canonical packed E3/E4 codecs",
+    "reducer_source": "v7 FormalReducer",
+    "process_source": "v7 PersistentBoundaryOwner using Linux fork",
+    "post_hoc_transcripts_forbidden": true,
+    "physical_mutation_before_validator": true
+  },
+  "process_cases": [
+    "empty_support",
+    "one_support",
+    "short_support",
+    "typed_present_shape_filter",
+    "f3_cancellation",
+    "active",
+    "zero",
+    "three_serial_duals",
+    "deadline_timeout",
+    "blocked_pipe",
+    "worker_death",
+    "partial_result",
+    "bounded_cleanup"
+  ],
+  "triangular_mutations": [
+    "future_ancestry_index",
+    "zero_diagonal",
+    "changed_raw_sparse_entry",
+    "changed_ancestry_coefficient",
+    "duplicate_pivot",
+    "wrong_pivot",
+    "hidden_smaller_pivot",
+    "skipped_P_equation"
+  ],
+  "boundary_mutations": [
+    "wrong_typed_support",
+    "missing_interval",
+    "overlapping_interval",
+    "wrong_t_orientation",
+    "changed_accumulator",
+    "changed_winner",
+    "changed_scalar",
+    "cross_epoch_frame",
+    "blocked_send",
+    "partial_worker",
+    "dead_worker",
+    "surviving_process",
+    "counter_reset"
+  ],
+  "phase_mutations": [
+    "heavy_call_before_heavy_digest",
+    "fabricated_heavy_digest",
+    "stale_correction_progress",
+    "zero_promoted_to_negative",
+    "light_resource_checkpoint",
+    "heavy_transition"
+  ],
+  "positive_mutations": [
+    "omitted_selected_row",
+    "changed_selected_row",
+    "changed_selected_coefficient",
+    "wrong_coefficient_two_word",
+    "copied_sparse_equality_boolean",
+    "changed_target",
+    "changed_boundary_preimage"
+  ],
+  "physical_mutations": [
+    "symlink_candidate",
+    "hardlink_candidate",
+    "toctou_substitution",
+    "unbound_checkpoint",
+    "positive_claim_on_resource_exit",
+    "separator_flip",
+    "cofinal_flip",
+    "fake_flip",
+    "ihara_flip",
+    "terminal_reseal",
+    "stale_output"
+  ],
+  "expected_first_checkpoint": {
+    "columns": 2896,
+    "rank": 2896,
+    "boundary_columns": 2896,
+    "correction_columns": 0,
+    "raw_support_total": 20354,
+    "raw_support_max": 12,
+    "ancestry_entries_total": 137926,
+    "ancestry_entries_max": 258,
+    "ancestry_weighted_contributions": 1011460,
+    "pivot_support_total": 289774,
+    "pivot_support_max": 522,
+    "first_dual_support": 1188,
+    "first_dual_matching_descriptors": 4,
+    "first_dual_pairs": 4752
+  },
+  "claims": {
+    "common_word": false,
+    "finite_common_word": false,
+    "separator": false,
+    "negative": false,
+    "cofinal_lift": false,
+    "fake": false,
+    "ihara_witness": false
+  }
+}
+

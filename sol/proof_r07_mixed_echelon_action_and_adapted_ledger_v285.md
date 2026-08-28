@@ -143,6 +143,7 @@ For a complete zero-correlation query, first expand its reduction by (2.2):
  r=v-\Psi(Q)-\sum_{i<t}c_i k_i\ne0,
  \qquad k_t=s r.
 \tag{3.4}
+\]
 
 The newly inserted K pivot is the numerical row \(k_t\) itself and has the
 formal pair
@@ -150,6 +151,7 @@ formal pair
 \[
  \boxed{(0,e_t).}
 \tag{3.5}
+\]
 
 Here \(e_t\) is the new standard basis vector.  Equations (3.2), (3.5), and
 Lemma 2.1 inductively attach a valid formal pair to every combined pivot,
@@ -196,6 +198,7 @@ For a rank rise, (3.4) gives
 \[
  k_{t+1}=s\left(v-\Psi(Q)-\sum_{i\le t}c_i k_i\right).
 \tag{4.2}
+\]
 
 Since every nonzero scalar in \(\mathbf F_3\) is its own inverse,
 
@@ -205,6 +208,7 @@ Since every nonzero scalar in \(\mathbf F_3\) is its own inverse,
  \sum_{i\le t}c_i k_i+s^{-1}k_{t+1}
  =\sum_{i\le t}c_i k_i+s k_{t+1}\pmod D.}
 \tag{4.3}
+\]
 
 Thus the rank-rise column is \(c+s e_{t+1}\), not merely \(e_{t+1}\).
 Future K insertions only append zero coordinates to this already exact
@@ -222,6 +226,7 @@ basis size gives the complete four source-action matrices.  They satisfy
  \qquad
  M_yM_{y^{-1}}=M_{y^{-1}}M_y=I.
 \tag{4.4}
+\]
 
 #### Proof
 
@@ -244,6 +249,7 @@ For a K word node retain
 \[
  (W,k,E),\qquad \delta(W)=k+\Psi(E),\qquad\rho_0(W)=1.
 \tag{5.1}
+\]
 
 Product, inverse, and scalar-power nodes between K nodes use
 
@@ -252,12 +258,14 @@ Product, inverse, and scalar-power nodes between K nodes use
  \quad (k,E)^{-1}=(-k,-E),
  \quad (k,E)^s=(sk,sE).
 \tag{5.2}
+\]
 
 For a signed source actor \(a\), conjugation is a distinct typed operation:
 
 \[
  \boxed{a(W,k,E)a^{-1}=(aWa^{-1},a\cdot k,a\cdot E).}
 \tag{5.3}
+\]
 
 It is invalid to treat (5.3) as ordinary addition of three detached K
 ledgers: the actor itself has nontrivial roof value.  Equivalently one may
@@ -276,6 +284,7 @@ Let each accepted A4 item satisfy
 \[
  \delta(W_i)=k_i+\Psi(E_i).
 \tag{6.1}
+\]
 
 Use v280's recomputed least index \(j\), exponents \(a_i\), and
 \(e=a_j^{-1}\).  Define
@@ -291,6 +300,7 @@ Use v280's recomputed least index \(j\), exponents \(a_i\), and
  \quad(i\ne j).
  \end{aligned}
 \tag{6.2}
+\]
 
 Because all these words have trivial lower roof value, (6.1) and the
 additive laws (5.2) give
@@ -299,8 +309,9 @@ additive laws (5.2) give
  \boxed{
  \delta(W_*)=k_*+\Psi(E_*),
  \qquad
- \delta(\widetilde W_i)=\widetilde k_i+Psi(\widetilde E_i).}
+ \delta(\widetilde W_i)=\widetilde k_i+\Psi(\widetilde E_i).}
 \tag{6.3}
+\]
 
 Let old basis coordinates be ordered \(1,\ldots,t\), and new coordinates be
 ordered by `*` followed by the old indices \(i\ne j\).  The change matrix
@@ -311,14 +322,16 @@ ordered by `*` followed by the old indices \(i\ne j\).  The change matrix
  \qquad
  T_{\widetilde i}=e_i-a_i e e_j.
 \tag{6.4}
+\]
 
 Its inverse, defined by \(K=K'T^{-1}\), has columns
 
 \[
  (T^{-1})_j=a_j e_*,
  \qquad
- (T^{-1})_i=e_{\widetilde i}+a_i e_*quad(i\ne j).
+ (T^{-1})_i=e_{\widetilde i}+a_i e_*\quad(i\ne j).
 \tag{6.5}
+\]
 
 Direct multiplication gives \(TT^{-1}=T^{-1}T=I\).  Hence a consumer can
 check the adapted raw rows, literal words, discrepancy ledgers, and both

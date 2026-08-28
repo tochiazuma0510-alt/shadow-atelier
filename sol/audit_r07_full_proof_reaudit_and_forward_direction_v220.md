@@ -4324,3 +4324,56 @@ unexecuted implementation or paper theorem in the actual numerator.
 Durable branch record: commit `961fa54993c581282b0c2fcbab12afb06e423641`
 was pushed to `origin/sol/r07-explicit-lift-20260825`.  No workflow was
 dispatched in delta99.
+
+#### v220-delta100 - 2026-08-29 (after delta99)
+
+**Individual progress**:
+
+- Luna task349 returned A0-v8 honestly as `BLOCKED / UNEXECUTED`.  It removed
+  the production-embedded SELFTEST, repaired the chronological pivot gate,
+  introduced disjoint IPC slices and phase-aware clean checkpoints, and
+  corrected the pivot-two normalization.  Two acceptance blockers remain:
+  the checker still trusts producer-supplied selected Q0/Gamma/fibre/schedule
+  semantics, and actual rank-rise records still expand/store legacy flat
+  `pivot_expression` ancestry rather than remaining DAG-native.
+- V287 proves a finite selected-authority replacement for the first blocker.
+  The accepted 13,649,089-byte task176 receipt literally contains the
+  1,469,664-entry Q0 roster and parent/letter owners, ten marked generators,
+  and the complete 243-entry Gamma ten-state/parent/word owners.  A nonzero-K
+  term needs only two selected parent replays; a zero-K least-fibre claim
+  needs one streaming coordinate inverse, all 243 Gamma values, and a kernel
+  BFS of order at most nine.  No ten-by-1,469,664 checker index is required.
+- Luna task350 commissions A0-v9 to implement exactly that selected replay,
+  remove every eager actual-row ancestry expansion and flat expression,
+  restore the immutable DAG/echelons genuinely, and replace accumulating
+  phase-versioned checkpoint paths by one atomic process-owned sidecar.  It
+  remains implementation-only and cannot execute before a fresh Sol(max)
+  full code-and-performance PASS.
+- V286 proves that task198's complete bridge trace is a deterministic
+  function of the literal relator word and the exact ten-coordinate state
+  already computed by the independent forward/reverse DAG evaluators.  Thus
+  A4-v5 may fuse the 6,441 trace digests into row assembly and need not run a
+  second flat 6,441-word replay.  Producer/checker implementation remains in
+  progress.
+- V288 proves the corresponding lossless resume state theorem.  Chronological
+  raw B/K rosters, a topological word/ledger DAG, the active registry, queue
+  and action prefix, and composable row/bridge digest prefixes determine the
+  next transition.  Echelons may be rebuilt from those rosters, but completed
+  authority rows and completed K actions must not be re-evaluated.  This is a
+  paper repair contract, not an accepted checkpoint implementation.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V8 BLOCKED / V9 IMPLEMENTATION ACTIVE**.  V287 closes a
+  paper design gap but no positive COMMON terminal or checker verdict exists.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V286 removes a redundant
+  bridge replay and v288 fixes the restore boundary, but neither supplies the
+  A4 SELFTEST, closure, ordered K basis, or independent checker terminal.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A5/A6 **0/3
+  actual and waiting for accepted A4-v5**, A7/A8 **0/3 actual**, A9 **0/3
+  actual**, and B/C/W/F remain zero.  No compatible lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta100 converts both current implementation blockers into explicit bounded
+successor contracts without increasing any actual milestone numerator.  No
+workflow was dispatched in delta100.
