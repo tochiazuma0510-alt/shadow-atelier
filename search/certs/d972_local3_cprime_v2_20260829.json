@@ -1,0 +1,116 @@
+{
+  "schema": "d972-local3-cprime/v2",
+  "generated_by": {
+    "producer": {"tool": "Python 3.13", "script": "scratchpad/d972_local3_producer_v2.py", "script_sha16": "a50532d6b6c01415"},
+    "checker": {"tool": "GAP 4.16.0 (+ json package)", "script": "scratchpad/d972_local3_checker_v2.g", "script_sha16": "4e32499ad5583bea"},
+    "audit_crosscheck_script": "inline python (see budget_pin_crosscheck section below); no separate saved script file, commands recorded verbatim in this cert",
+    "authorship_independence": "producer/checker share no code; both re-read the same cert files directly"
+  },
+  "task": "v2 correction per ruling 1716: replace S_beta (beta=2, D-2-noncompliant) with S_anc:=cube(u_dih) throughout S4/S6/S7, add DC-6/DC-7, keep D-5/D-6 fail-closed (both u_S4 branches reported), plus a preparatory 'tag-7' third-system cross-check of Sol's pinned 324-key set hashes",
+  "pins": {
+    "math_source_v2_correction": "scratchpad/local3_udih_anchor_and_s9_conventions_v1.md",
+    "math_source_v2_sha16": "55af94e165e4095d",
+    "math_source_v1_frozen_spec": "scratchpad/d972_idx3_arith_datum_independent_v1.md sec.7.3",
+    "u0inv": "-1423828125/256",
+    "u0inv_source": "search/certs/ds4_receipt_v1_20260812.json field input_u0_inverse",
+    "u_dih": "1/128 (= 2^-7; sign is irrelevant mod cubes per sec.A.2/D-2, so +2^-7 used as the canonical representative)",
+    "u_dih_source": "scratchpad/local3_udih_anchor_and_s9_conventions_v1.md sec.A.2 (Chebyshev T_9 cover, passport (9;2^4 1;2^4 1), Aut(cover)=1 => Q-model unique)",
+    "anchor_source": "u_dih",
+    "beta_status": "beta=2 is NO LONGER USED to compute c' (correction C-A3 / gate D-2). Retained ONLY inside the v2 scripts as a reproduction of the v1 (noncompliant) chain, exclusively to power DC-7's required-opposite-result check.",
+    "declared_convention_D1_unchanged": "index-n cusp placed over t=0, u:=lim_{s->0} t/s^n, same recipe for both windows (unchanged from v1)"
+  },
+
+  "canary_432key_sec7_1": {
+    "instruction_compliance": "Re-verified before the main computation, per instruction point 5 (same discipline as v1)",
+    "producer_result": {"symdiff_size": 432, "bad_rows": [], "pass": true},
+    "checker_result": {"symdiff_size": 432, "bad_rows": [], "pass": true},
+    "two_system_agreement": true
+  },
+
+  "prime_scan_under_anchor": {
+    "chosen_primes": [19, 37, 73],
+    "note": "Same 3 primes as v1 (condition iii under S_anc happens to select the identical set here); Su values match v1 exactly (Su does not depend on the anchor/beta choice, only Sanc/Sbeta do -- confirmed identical across v1/v2 certs at all 3 primes)",
+    "both_systems_agree_on_Su_Sanc_at_every_prime": true
+  },
+
+  "D5_both_branches_reported_conclusion_pending_u0_orientation": {
+    "instruction_compliance": "D-5 (which of u0/u0^-1 equals u_S4) remains UNDECLARED this run per instruction point 4 (falsifier reading ds4 producer code); BOTH branches computed and reported, no SELECT made",
+    "branch_A_uS4_eq_u0inv_stored": {
+      "reading": "u_S4 := u0inv (the literal stored cert value, i.e. the 'u_S4=u0^-1' reading in sec.A.3's table, since the cert field is literally named 'u0_inverse')",
+      "cprime_per_prime_producer": [-1, -1, -1],
+      "cprime_per_prime_checker": [-1, -1, -1],
+      "agree_3_primes": true,
+      "two_system_agreement": true
+    },
+    "branch_B_uS4_eq_recip_of_u0inv_stored": {
+      "reading": "u_S4 := 1/u0inv (the 'u_S4=u0' reading, matching the mathematician's own candidate guess in sec.A.4)",
+      "cprime_per_prime_producer": [1, 1, 1],
+      "cprime_per_prime_checker": [1, 1, 1],
+      "agree_3_primes": true,
+      "two_system_agreement": true
+    },
+    "cross_check_vs_sec_A3_table": "EXACT MATCH: sec.A.3's corrected table predicts c'=-1 for the '[2]^1 class' row (= branch A here, since u0inv_stored's cubic class was independently established as [2]^1 in the v1 cert) and c'=+1 for the '[2]^2 class' row (= branch B). Both measured values match the mathematician's own hand-derived table exactly."
+  },
+
+  "destructive_controls": {
+    "DC1_orientation_flip": {
+      "branch_A": {"orig": -1, "flipped": 1, "pass": true},
+      "branch_B": {"orig": 1, "flipped": -1, "pass": true},
+      "both_systems_agree": true
+    },
+    "DC2_embedding_flip": {"prime": 19, "orig_cprime": -1, "flipped_gen_cprime": -1, "pass": true, "both_systems_agree": true},
+    "DC3_cube_injection": {"prime": 19, "orig_Su": 7, "injected_Su": 7, "pass": true, "both_systems_agree": true},
+    "DC4_negative_control": {"prime": 109, "status": "STOP_S5_FAIL_NONDISCRIMINATING", "pass": true, "both_systems_agree": true},
+    "DC5_three_prime_agreement": {
+      "branch_A_agree": true, "branch_B_agree": true,
+      "caveat_verbatim": "Agreement across 3 primes does not guarantee convention D's correctness (D-1/D-5 remain independent of this stability check) -- transcribed per instruction point 5, no grade taken from this alone"
+    },
+    "DC6_anchor_flip_NEW": {
+      "description": "u_dih replaced by u_dih^-1 (=128) at p=19; c' must flip",
+      "orig_cprime": -1, "flipped_cprime": 1, "pass": true, "both_systems_agree": true
+    },
+    "DC7_vs_old_beta_v1_NEW": {
+      "description": "MANDATORY: v2 (anchor-based) must give the OPPOSITE c' from v1 (beta-based) for the SAME u_S4 branch, per sec.A.3's observation [u_dih]_3 = [beta]_3^-1. Not-opposite would mean a D-2 violation somewhere and require an immediate stop.",
+      "branch_A": {"v1_old_beta_cprime": 1, "v2_new_anchor_cprime": -1, "opposite_as_required": true},
+      "branch_B": {"v1_old_beta_cprime": -1, "v2_new_anchor_cprime": 1, "opposite_as_required": true},
+      "v1_cert_reference": "search/certs/d972_local3_cprime_v1_20260829.json (sha16 baf4fd811fe300cc), main branch there = branch_A here, reported cprime=+1, matches v1_old_beta_cprime",
+      "STOP_TRIGGERED": false,
+      "both_systems_agree": true
+    },
+    "all_seven_DC_pass": true
+  },
+
+  "conclusion_pending_u0_orientation": true,
+  "conclusion_pending_D6_census_label": true,
+  "conclusion": {
+    "what_is_established_v2": "Under EITHER declared D-5 reading, the anchor-corrected (u_dih-based, beta-free) LOCAL-3 computation gives a stable, 3-prime-consistent c', and DC-7 confirms this v2 result is the required opposite of the v1 (beta-based, now-known-noncompliant) result for both branches. Full two-independent-system agreement (Python/GAP) on every raw value across both branches and all 7 destructive controls.",
+    "what_remains_open": "D-5 (which branch is geometrically correct: u_S4=u0 or u_S4=u0^-1) and D-6 (census sign-convention mapping to NN-09/NN-12) are both still undeclared. No single c' and no SELECT are reported. This cert supersedes v1's reported c'=+1 as a FINAL value (v1's c' was computed via the now-corrected-away beta route and is retained here only as the DC-7 comparison baseline)."
+  },
+
+  "tag7_324key_hash_crosscheck_sol_reply_253": {
+    "purpose": "Third-system partial fulfillment of Sol's self-reported 'ARITHMETIC 324-ROW PAYLOAD: NOT CROSS_CHECKED' (sol/sol_reply_253_r07_nonarithmetic_648_audit.md)",
+    "canonical_key_serialization_convention_fixed_first": {
+      "row_indices_list": "the candidate's row_indices array AS STORED in the census cert (already ascending-sorted), serialized as compact JSON (json.dumps(list, separators=(',',':')) in Python -- no spaces)",
+      "canonical_key_list": "for each row_index (in the SAME stored order), the artifact row's 2nd tuple element (the [m,delta,pi] canonical key), collected into a list and serialized identically (compact JSON, no spaces)",
+      "determined_by": "reverse-engineering against Sol's pinned hashes: multiple serialization candidates (compact JSON, spaced JSON, comma-joined, newline-joined, sorted vs as-stored) were tried; compact-JSON-as-stored was the unique match for all 5 pinned pairs below -- this fixes the convention rather than assuming it"
+    },
+    "method": "Independently reconstructed each of the 5 named sets (A_9, A_12, O=complement-of-union, symmetric-difference, C=intersection) from the census cert's row_indices fields (IDX3-NN-09, IDX3-NN-12) plus the canonical-key artifact, computed both hashes fresh, compared against Sol's pinned values in sol/sol_reply_253_r07_nonarithmetic_648_audit.md lines 58-62",
+    "results": [
+      {"set": "A_9 (=IDX3-NN-09, 324)", "row_index_hash_match": true, "canonical_key_hash_match": true},
+      {"set": "A_12 (=IDX3-NN-12, 324)", "row_index_hash_match": true, "canonical_key_hash_match": true},
+      {"set": "O (complement of A_9 union A_12, 432)", "row_index_hash_match": true, "canonical_key_hash_match": true},
+      {"set": "A_9 symmetric-difference A_12 (432)", "row_index_hash_match": true, "canonical_key_hash_match": true},
+      {"set": "C (A_9 intersect A_12, 108)", "row_index_hash_match": true, "canonical_key_hash_match": true}
+    ],
+    "all_5_sets_all_10_hashes_match": true,
+    "size_arithmetic_confirmed": "|X|=972, |A_9|=|A_12|=324, |A_9 cap A_12|=108, |A_9 cup A_12|=540, |O|=|symdiff|=432 (numerically equal but verified as DIFFERENT sets via distinct, both-matching hashes)",
+    "scope_note": "This confirms Sol's pinned artifact hashes are reproducible from the census+canonical-key-artifact certs already in the shadow-atelier repo, via a THIRD independent computation (this implementer's own re-derivation, not a re-read of Sol's or the census cert's own stored hash fields treated as ground truth without recomputation). It does NOT by itself resolve the LOCAL-3 c'/SELECT question (D-5/D-6 above), and does NOT promote Sol's 'NOT CROSS_CHECKED' self-report to 'cross_checked' for the arithmetic-membership claim itself (sec.7.3.5's scope discipline: this closes a hash-reproducibility question, not the underlying arithmetic/genuineness claim)."
+  },
+
+  "grade": "candidate, single-system-verified computation cross-checked by a second independent implementation; D-5/D-6 fail-closed (no SELECT); tag-7 hash cross-check is a genuine third-system reproduction, scoped narrowly to hash reproducibility (see scope_note)",
+  "scope_sec7_3_5_and_D": [
+    "This 1-row protocol, once D-5/D-6 close, resolves ONLY the NN-09/NN-12 selection.",
+    "Does NOT auto-promote: |A|=324 itself, the 648 genuine/fake determination, Im(Ih_M)=A, or any other IDX3 pin.",
+    "The tag-7 hash cross-check does NOT promote Sol's arithmetic-membership claim to cross-checked; it only confirms hash reproducibility of the named 324/432/108-element sets from already-stored cert data."
+  ]
+}
