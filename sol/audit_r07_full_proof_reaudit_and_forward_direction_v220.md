@@ -2011,3 +2011,57 @@ parallel launch contract.  It changes no actual witness numerator.
 Delta42 removes repeated post-A7 roof/charming/onto searches from the
 mathematical route and starts the missing A5--A7 implementation chain.  It
 changes no actual witness numerator.
+
+#### v220-delta43 - 2026-08-28 (after delta42)
+
+**Individual progress**:
+
+- proof_r07_neumann_fox_group_like_integrability_v249.md isolates the exact
+  missing bridge between v174's additive Neumann chain and one genuine
+  profinite correction word.  For the free pro-3 completion of the normal
+  source roof kernel, completed Fox differentiation identifies the Fox chain
+  module with the completed augmentation ideal.  A chain \(Q\) is the Fox
+  chain of one word exactly when \(1+\partial Q\) is group-like; group-like
+  elements of the completed group algebra are precisely the pro-3 group
+  elements.  One finite quotient with nonsingleton support is therefore an
+  exact negative certificate for the named candidate, while a positive
+  cofinal identity explicitly returns the word.
+- The paper was adversarially repaired before acceptance.  The invalid route
+  of treating finite-quotient augmentation ideals as free modules was
+  replaced by the free-pro-3 Magnus power-series decomposition.  For each A6
+  pair \(U-V\), the exact identity
+  \[
+    (\operatorname{Inn}(UV^{-1})-1)z
+      =(UV^{-1}-1)zVU^{-1}+z(VU^{-1}-1)
+  \]
+  proves that its transported Fox action raises the augmentation filtration
+  once.  This supplies convergence and finite-rung nilpotence rather than
+  assuming them.
+- The first task285 return implemented only a fail-closed production envelope
+  and no A5/A6 mathematics or SELFTEST core, so it is rejected as completion
+  and is not committed as an accepted implementation.  Task287 requires the
+  same Luna to implement the complete finite joint-slice/pair compiler and
+  five production-shaped SELFTEST cases.  Task288 separately commissions the
+  finite-rung Fox/group-like gate with an independent sparse checker.  Both
+  commissions are implementation work and neither is an actual receipt.
+
+**v220 mapping**:
+
+- A5 remains **0/3** and A6 remains **0/3**.  Task285's static stub supplies
+  no joint row, membership ancestry, roof-fibre pair replay, or accepted
+  multiplier; task287 is the live repair.
+- A9 remains **0/3**.  V249 replaces the vague phrase “materialize the
+  Neumann sum as a word” by one exact group-like predicate and a finite
+  countercertificate format, but the actual A6 \(M\), the resulting
+  \(Q_\infty\), and a cofinal group-like pass have not been computed.
+- A7 and A8 remain **0/3**; exact H1/H2/P endpoints and their boundary
+  extraction still require an actual A5/A6 MEMBER object.  V249 neither
+  implies those nonlinear identities nor counts them.
+- A0 remains **0/1 RUNNING** on run 33149728601; A1 remains **3/4 RUNNING** on
+  capture 33155653989 and direct production 33155710862; A2 remains
+  **2/3**; A3 and A4 remain **0/3** with their implementation SELFTESTs
+  recorded separately.  B, C, W, and F remain zero.
+
+Delta43 gives the explicit-word obstruction/test for the fixed Neumann
+candidate and repairs its convergence proof.  It changes no actual witness
+numerator.
