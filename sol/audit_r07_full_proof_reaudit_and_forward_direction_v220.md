@@ -4596,3 +4596,36 @@ stop without mistaking either for an actual witness milestone.
 Delta106 preserves the audit trail while removing the false self-seal stop;
 the next A0 state change waits for task352's completed, internally checked
 verdict.
+
+#### v220-delta107 - 2026-08-29 (after delta106)
+
+**Individual progress**:
+
+- V292 fixes the A4 independent-checker boundary.  Producer and checker may
+  share the authenticated finite-group identity, multiplication, inverse and
+  marked generators, but not one implementation of free-word substitution,
+  left-Fox collection, PB3/PB4 relation generation, composite affine
+  evaluation, or row assembly.
+- V292 gives a checker-local signed-word grammar and proves the exact left
+  Fox scan, including the positive-prefix and negative-new-prefix signs and
+  the affine product/inverse laws.  It separately gives the recursive
+  Fadell--Neuwirth grammar producing the ordered 2 PB3 and 11 PB4 relations,
+  hence all 65 tagged base rows, without calling the producer helper.
+- Static inspection found that the live unexecuted A4-v5 draft still calls
+  the same pinned old `f2_substitute`, `fox_gradient_without_sections`, and
+  `pure_relations` routines on both sides.  This has been returned to Luna:
+  the checker must implement V292 locally or report `BLOCKED / UNEXECUTED`.
+  The finding is not an A4 mathematical terminal and does not authorize a
+  run.
+
+**v220 mapping**:
+
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V292 closes the missing
+  independence theorem on paper, but no SELFTEST, production closure,
+  ordered K basis, or independent checker terminal exists.
+- A0 remains **0/1; V10 SOL(MAX) AUDIT ACTIVE**.  A2 remains **2/3**, and all
+  other counts remain delta106.  No compatible lift, fake certificate, or
+  Ihara counterexample has been constructed.
+
+Delta107 removes a shared-helper false-independence route without increasing
+any actual milestone numerator.
