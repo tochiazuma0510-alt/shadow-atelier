@@ -1,0 +1,59 @@
+{
+  "schema": "ep-del-mechanical-v4-beta-occ/v1",
+  "scope": "datum_relative",
+  "scope_note": "All PASS/FAIL statements below are relative to the ONE endpoint datum in ci/b345_157eh_lexblock_artifacts_32401947156/d972_b345_q3_chief_v1.json (selected_solution.typed_source_word, correction_word=[]). No generalization to other data points or to the abstract EP-DEL claim is made or implied.",
+  "generated_by": {
+    "script": "scratchpad/ep_del_mechanical_v4.g",
+    "script_sha16": "3d376e0799827a77",
+    "tool": "GAP 4.16.0 (+ json package)",
+    "task": "ruling 1739 item 2 -- (beta-occ) 8-cell test + 2 canaries",
+    "reuses": "search/koubou157f_q3_chief_lib_v1.g (D972Q3* functions), same G-Q1-Q3 / Pi-component rebuild as scratchpad/ep_del_mechanical_v3.g (independently re-derived fresh in this script, not imported by reference)"
+  },
+  "pins": {
+    "A2_input_sha256": "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72",
+    "Q0_order_check": 1469664,
+    "srcWord": [-2,-2,-1,-1,2,2,1,-2,-1,-1,2,2,2,-1,-2,-2,1,1,1,1]
+  },
+
+  "interpretation_flag_IMPORTANT": "The instruction specifies testing the occurrence pair (U_j,V_j) 'that actually appears at the endpoint' with pi(U_j)=pi(V_j). This implementer interpreted U_j := srcWord (typed_source_word) and V_j := [] (empty word / identity), i.e. the SAME residual-defect pair already used for EP-G2 Reading B in v3 (justified by selected_solution.correction_word=[] meaning the endpoint datum asserts srcWord IS the identity, so V=[] is literally 'the other member of the occurrence pair that srcWord is being equated to'). This is a DESIGN CHOICE made under ambiguity, not a verbatim reading of a formula -- flagged explicitly for mathematician review in case (U_j,V_j) was meant to denote a different pair internal to the pentagon relator's own generator structure.",
+
+  "beta_occ_8cell": {
+    "method": "For each of the 8 coordinator-specified (context o, strand i) cells, computed uQ:=EvalGroupWord(srcWord,ctxQ[o]), vQ:=EvalGroupWord([],ctxQ[o])=1, then compared Image(dQ[i],uQ) with Image(dQ[i],vQ); identically for the Pi-side with dPi[i]. ctxQ[o]:=pentQpairs[o] (chief_lib native D972Q3Pairs(q4marks) order), NOT the registry pentagon order.",
+    "cells_tested": [["pent1",4],["pent2",1],["pent3",1],["pent3",2],["pent4",2],["pent4",3],["pent5",3],["pent5",4]],
+    "results": [
+      {"cell": "pent1{4}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent2{1}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent3{1}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent3{2}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent4{2}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent4{3}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent5{3}", "eqQ": false, "eqPi": false, "overall": false},
+      {"cell": "pent5{4}", "eqQ": false, "eqPi": false, "overall": false}
+    ],
+    "pass_count": 0,
+    "total": 8,
+    "verdict": "FAIL (0/8) under this implementer's (U,V):=(srcWord,[]) interpretation, evaluated at pentQpairs[o] (chief_lib-native context, not the coface-4 embedding used by EP-G2/canary(a))",
+    "note": "This is a DIFFERENT construction from canary (a) below: here U is evaluated using the PENTAGON CONTEXT's own (x,y) substitution pentQpairs[o] for each of the 5 contexts, not the single coface-4 (q4marks[1],q4marks[4]) embedding. The two need not agree, and empirically they do not (canary (a) passes cleanly at the one coface-4 point; this 8-cell sweep fails at all 8 context/strand combinations under the pentQpairs[o] substitution)."
+  },
+
+  "canary_a_equality": {
+    "method": "d4 (deletion of strand 4) is expected identity-like on <a12,a23>=B2. Checked Image(dQ[4], w_e_Q_B) = EvalGroupWord(srcWord,[q0x,q0y]) and the Pi-side analog Image(dPi[4], w_e_Pi_B) = EvalGroupWord(srcWord,[m3[1],m3[3]]), where w_e_Q_B/w_e_Pi_B := EvalGroupWord(srcWord, coface-4 embedding (q4marks[1],q4marks[4]) resp. (m4[1],m4[4])).",
+    "Q_side_equal": true,
+    "Pi_side_equal": true,
+    "overall_pass": true
+  },
+
+  "canary_b_dictionary_crosscheck": {
+    "status": "PARTIAL -- NOT a full pass",
+    "detail": "The 8-cell list supplied by the coordinator was confirmed to match exactly the noncommutative-pentagon-cell list independently found in the v3 40-test (search/certs/ep_del_mechanical_v3_20260828.json). A full independent re-derivation of a context<->coface dictionary FROM SCRATCH (i.e. deriving pentagon context order purely from the 40-test's own commutative/noncommutative pattern, without reading the coordinator-supplied cell list) was NOT performed this pass due to the 10-minute compute-budget instruction; only the match-check against the supplied list was done.",
+    "cell_list_matches_v3_noncommutative_pattern": true,
+    "registry_order_cross_check_performed": false
+  },
+
+  "grade": "candidate, single-system GAP output only for this pass (10-minute budget did not allow a second independent implementation for the 8-cell/canary battery); machine-generated, not hand-transcribed",
+  "open_questions_for_mathematician": [
+    "Is the (U_j,V_j):=(srcWord,[]) interpretation of 'the occurrence pair that actually appears at the endpoint' correct, or does the intended pair come from elsewhere in the pentagon relator's own internal structure (e.g. a genuine commutator/braid-relation pair rather than srcWord-vs-identity)?",
+    "The 8-cell sweep (0/8 pass, using pentQpairs[o] context substitution) and canary (a) (pass, using the single coface-4 embedding) are two DIFFERENT evaluations of a structurally similar equality -- is this divergence expected (different embeddings genuinely probe different things) or does it indicate the 8-cell construction has a wiring error that canary (a)'s narrower, already-validated construction does not share?",
+    "Canary (b) was only partially executed (match-check, not full independent re-derivation) -- is a full re-derivation needed before this canary can be counted as empirical backing for the pentagon order ruling?"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "schema": "d972-local3-v1v4-orient/v1",
+  "generated_by": {
+    "producer": {"tool": "Python 3.13", "script": "scratchpad/d972_v1v4_orient_v1.py", "script_sha16": "e4611a7654e8c54b"},
+    "checker": {"tool": "GAP 4.16.0 (+ json package)", "script": "scratchpad/d972_v1v4_orient_v1.g", "script_sha16": "5b5400bc1e173ebd"},
+    "task": "V1-V4 SELECT structural test per scratchpad/joint_marked_frobenius_design_v1.md sec.7 (sha16 5a2ef97868f4e315), ruling 1739 item 1"
+  },
+  "pins": {
+    "X0_definition": "X^0 := {row : canonical-key m mod 3 == 0}, independently derived from sec.7's cocycle-relation context (chi(sigma) = u = 2m+1 mod 9, 'chi mod 3' = the (Z/9)^x -> (Z/3)^x reduction of u; ker = {m : u==1 mod 3} = {m : m==0 mod 3}), NOT read verbatim from a formula in the source doc (which states the RESULT |X^0|=486 but not this specific derivation) -- flagged as this implementer's derivation, independently cross-checked by matching the stated |X^0|=486 exactly",
+    "K3_definition": "unchanged from all prior LOCAL-3 certs this session: k := (delta[1][1] * 5) mod 9 (5 = inverse of 2 mod 9), K3 := k mod 3",
+    "PsiPi_construction": "per math_psi_pi_v1.g / sec.7.1 verbatim: S:=PSL(2,8), G:=PGammaL(2,8) (GAP's own native permutation representations, BOTH already degree-9 -- NrMovedPoints(G)=9 confirmed directly, so the sec.7.1 'implementation note' about Sylow-3 giving the wrong degree-56 action was found to be about an UNUSED auxiliary check in math_psi_pi_v1.g, not about G/S themselves, which GAP already provides in the correct degree-9 form out of the box)",
+    "relabeling_gap_note": "GAP's native PGammaL(2,8)/PSL(2,8) degree-9 point-labeling does NOT match the census artifact's own pi-column S9 labeling (raw membership test: 468/486 failures). A conjugator tau in Sym(9) was found via RepresentativeAction(Sym(9), H, S) where H:=Group(31 sampled artifact pi-values) (confirmed |H|=504, genuinely conjugate to S, not merely same order). This resolves sec.7.7 UNKNOWN item 2 ('pi 列の実体...データ経路...要確認') mechanically: a valid conjugator exists and gives 0/486 membership failures once applied."
+  },
+
+  "V1": {"X0_size": 486, "expected": 486, "pass": true, "both_systems_agree": true},
+  "V2": {"NN09_cap_X0": 162, "NN12_cap_X0": 162, "expected": [162,162], "pass": true, "both_systems_agree": true},
+  "V3": {
+    "membership_failures_before_relabeling": "468/486",
+    "membership_failures_after_relabeling_tau": "0/486",
+    "pass": true
+  },
+  "V4": {
+    "method": "For the roster tau found via RepresentativeAction(Sym(9),H,S), tested (a) NN-09 cap X0 as ker(Psi-K3) and NN-12 cap X0 as ker(Psi+K3), and (b) the swapped assignment -- neither holds",
+    "initial_tau_result": "FAIL on all 4 sub-checks (NN-09 minus, NN-09 plus, NN-12 minus, NN-12 plus all have nonzero residuals somewhere)",
+    "exhaustive_relabeling_search": {
+      "method": "Since S is normal in G (index 3), any tau' = tau*g for g in G ALSO satisfies H^tau' = S (because (H^tau)^g = S^g = S). This is the COMPLETE coset of valid conjugators (|G|=1512 candidates, matching |N_Sym9(H)|=|N_Sym9(S)|=1512 by conjugacy of normalizers -- i.e. this is exhaustive, not a partial sample).",
+      "candidates_tried": 1512,
+      "candidates_passing_V4": 0,
+      "verdict": "EXHAUSTIVE SEARCH FOUND NO VALID LABELING FOR WHICH V4 HOLDS."
+    },
+    "pass": false
+  },
+
+  "TERNARY_VERDICT": "FAIL -- first-class negative result, per instruction's own framing ('通らなければ...一級の否定結果 ⟹ 即報告')",
+  "headline_one_line": "V1/V2/V3 all pass cleanly (X0=486, roster intersections=162/162, and a valid GAP<->artifact pi-labeling conjugator was found giving 0/486 membership failures after an exhaustive labeling-ambiguity check). V4 -- the decisive structural test (does one roster equal ker(Psi-K3) and the other ker(Psi+K3) on X^0) -- FAILS, and an EXHAUSTIVE search over the full 1512-element space of group-theoretically valid relabeling conjugators found NO choice for which V4 holds. This rules out 'wrong labeling representative' as the explanation and points to a genuine issue in the ORIENT typing, the K3/Psi sign convention, or the roster identification itself.",
+  "grade": "candidate, two-system-agreed measurement; V4's negative result is reported as a first-class finding requiring mathematician review, not attributed to implementer labeling error (the labeling-ambiguity axis was exhaustively ruled out this pass)",
+  "open_questions_for_mathematician": [
+    "Since the FULL valid-labeling search (1512/1512) failed to find a V4-passing conjugator, is the issue instead in: (a) this implementer's X^0 derivation (m mod 3 == 0 -- independently derived, not read verbatim, though it exactly reproduces |X^0|=486), (b) the K3 sign/formula itself, (c) the specific H used for finding tau (generated from only 31 sample rows -- though it correctly reproduces order 504 and genuine conjugacy to S), or (d) the ORIENT theorem's own typing (A_c' cap X^0 = ker(Psi - c'*K3)) as applied to THIS specific census (NN-09/NN-12) rather than to the abstract A_+/A_- construction?",
+    "Could the failure be diagnostic rather than a pure refutation -- e.g. does a NEAR-miss (small nonzero residual count) exist among the 1512 candidates that would suggest a sign/off-by-something error rather than a structural failure? This was not measured this pass (only binary pass/fail per candidate); a minimum-residual-count sweep could be a fast follow-up if requested."
+  ]
+}
