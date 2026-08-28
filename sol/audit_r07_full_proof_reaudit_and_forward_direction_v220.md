@@ -3802,3 +3802,49 @@ sole authority.
 Delta87 closes the old six-hour branch without laundering its producer-only
 line into evidence and fixes the next executable frontier at the bounded v7
 positive path.
+
+#### v220-delta88 - 2026-08-29 (after delta87)
+
+**Individual progress**:
+
+- Sol(max) task337 returned `REJECT / UNEXECUTED` on A0-v6; SELFTEST is not
+  authorized.  The literal first production failure is deterministic:
+  driver `--seconds 19800` conflicts with the checkpoint's `10800.0`, so the
+  route performs one 2,896-column rank-zero replay and exits
+  `UNKNOWN_INPUT:resume:monitor_limits` before runtime, pool, or first epoch.
+- Under the minimal 10800 repair the producer would still perform two serial
+  2,896-column insertions, eagerly construct the 1,469,664-state Q0 runtime,
+  and only then start the pool.  A hypothetical COMMON invokes a physical
+  cached-v3 checker that replays all columns twice more; the audited lower
+  bound is 41,947,930 pivot-loop visits end-to-end.  Preconstructor resource
+  stops are noncheckpointable, positive binding has symlink/TOCTOU/copied-view
+  defects, and all 22+22 mutations are synthetic rather than physical-owner
+  tests.
+- The actual current boundary epoch is much smaller than the generic bound:
+  its 1,188 dual entries are all typed `(1,1)`, exactly four descriptors
+  match, and the clean restart has 4,752 pairs.  Conditional on reaching it,
+  task337 found the v6 support-inversion kernel mathematically faithful.
+- The independent read-only extraction of all 2,896 checkpoint rows found
+  zero triangular, diagonal, canonical, duplicate-pivot, normalization, or
+  earlier-pivot failures.  Exact sparse work is 1,011,460 ancestry-weighted
+  contributions and 289,774 computed-pivot support entries.  This is a
+  concrete v276 candidate, not a cross-check or execution result.
+- Luna task342 now commissions A0-v7 as a fresh history-free positive owner:
+  one sparse triangular basis build, v277 light runtime and pre-Q0 persistent
+  boundary pool, v278 selected-support final replay, bounded resource
+  checkpoint, cheap nonpositive checker, immutable physical COMMON binding,
+  and real-owner mutations.  It may not wrap the old full main/checker or
+  execute anything before a new Sol(max) audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 V7 IMPLEMENTATION COMMISSIONED**.  The actual old run is
+  cancelled and v6 is rejected; the triangular extraction is static only.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A4 **1/3**,
+  A5/A6 **0/3 actual**, A7/A8 **0/3 actual**, A9 **0/3 actual**, and B/C/W/F
+  remain zero.  No compatible lift, fake certificate, or Ihara counterexample
+  has been constructed.
+
+Delta88 converts the independently measured v6 failure into one bounded v7
+implementation contract aimed at the actual 4,752-pair restart rather than
+another full six-hour replay.
