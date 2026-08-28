@@ -41,7 +41,7 @@ $$\#\mathrm{fib}(K)=\frac{K_{\rm ord}}{M_{\rm ord}}\cdot[M_{F_2}:K_{F_2}]\qquad(
 | ~~F4~~ | ~~isolated 判定~~ | ⚠ **`NOT_EVALUATED` と記録する**(§4)。落下狩りに不要・$\diamond$ 閉包は高い |
 | F5 | $\lvert PB_3/K\rvert$ | 述語評価の作業サイズ。**検査: `F2 × 1,469,664 == F5`**(§5) |
 | **★ F6(新)** | **$c\in K$ か**($c$ = $PB_3$ の中心生成元) | (F1) 語規律が使えるかの判定。**$c\notin K$ なら語規律は禁止** |
-| **★ F7(新)** | **$\tau$ が $F_2/K_{F_2}$ に降りるか** | **降りなければ語規律は禁止**(降りても保守側で禁止してよい)。**fail-closed** |
+| ~~**★ F7(新)**~~ | ~~**$\tau$ が $F_2/K_{F_2}$ に降りるか**~~ | ⚠⚠ **意味を再定義(2026-08-29・裁定 1759(3)(b))**: (F2) 規律下では $\tilde\tau=\mathrm{Ad}(\delta)$ は **常に $A=PB_3/K$ の自己同型**($K\trianglelefteq B_3$ から従う)⟹ 「降りるか」は**恒真で 0 ビット**。**F7 は (F1) 語規律を使う場合に限り**「$\tau$ が $F_2/K_{F_2}$ に降りるか」の意味で残す。**(F2) 単独運用なら F7 は廃止**し、欄は `NOT_APPLICABLE` とする |
 | **★ F8(新)** | $\mathrm{ord}(c\bmod K)$ | (F1) を代替に使う場合の語条件 $e(w)\equiv0$ の法 |
 
 ---
@@ -49,6 +49,21 @@ $$\#\mathrm{fib}(K)=\frac{K_{\rm ord}}{M_{\rm ord}}\cdot[M_{F_2}:K_{F_2}]\qquad(
 ## 3. ★★ 判定述語 —(F2)商規律(**v1 §2.3 の全面差し替え**)
 
 **正本**: `docs/notes/wcp5d_resolution_v1.md` §(F2)。**実装正本**: `search/wall-miner-v4.g` の `CorrectedShadows`。
+
+> ### 3.0 ★ 積順序の裁定(2026-08-29・裁定 1759(1))— **receipt 宣言文(逐語で載せること)**
+>
+> **`product_order = "tau2_tau_id"`**
+> 判定式 (3.11) の積順序は **$\tilde\tau^{2}(w)\cdot\tilde\tau(w)\cdot w$**、ここで **$w=y^{m}\!\cdot\! f$**($y^m$ が**左**)。
+> 典拠 = arXiv:2401.06870 Proposition 3.4 の逐語:
+> $$\tau^{2}(y^{m}f)\,\tau(y^{m}f)\,y^{m}f\in N_{F_2}\tag{3.11}$$
+> 同 Prop の自己書き換え (3.13) $=x^{m}f(z,x)\,z^{m}f(y,z)\,y^{m}f\in N_{F_2}$($z:=y^{-1}x^{-1}$)と**語として一致**することを機械確認済(`MO_IDENTITY_311_EQUALS_313 true`)。逆順 $w\,\tilde\tau(w)\,\tilde\tau^{2}(w)$ は (3.13) と**一致しない**(`MO_REVERSED_ORDER_ALSO_EQUALS_313 false`)⟹ **別対象**。
+>
+> **`word_eval_order`** — 上の順序は**評価方向と対でしか意味を持たない**:
+> - `word_eval_order = "append"`(標準準同型 $F_2\to G$)⟹ 群の積を**そのままの順**で組む: `t2*t1*w`。
+> - `word_eval_order = "prepend"`(反準同型 $\psi(w_1w_2)=\psi(w_2)\psi(w_1)$)⟹ 群の積を**反転**して組む: `AbstractProd([t2,t1,w])`(= `w*t1*t2` in GAP)。
+>
+> **⟹ 工房の既存パイプラインは `prepend`**(`EvalWordInQ` は `val := g^pow * val`)。したがって `wall-miner-v4` の `CorrectedShadows`/`RtOf` が使う `AbstractProd` の反転は**誤りではなく正しい補正**である(`suite-wp2-explorer.g` L56 の自己申告「paper 記法, 左から順 → GAP 表現; 反転規約, 実測確認済み」と整合)。
+> **⟹ 規約を混ぜたものだけが誤り。** 受領票は 2 欄を必ず対で宣言し、不一致は fail-closed で停止すること。
 
 $A:=PB_3/K$、$\tilde\theta:=\mathrm{Ad}(\Delta)|_A$、$\tilde\tau:=\mathrm{Ad}(\delta)|_A$($K\trianglelefteq B_3$ ゆえ**常に** $A$ の自己同型として well-defined)。**語を一切使わず $A$ の中で**:
 
@@ -72,9 +87,16 @@ CorrectedShadows := function(W, charmingSet)
       Add(out, [m, f]);
 ```
 
-> ### ⚠ 実装上の必須事項(wcp5d §「次の一手」逐語)
-> **$\sigma_1,\sigma_2$ を保持すること($B_3/K$ の marking を捨てない)。** $\tilde\theta=\mathrm{Ad}(\Delta)$・$\tilde\tau=\mathrm{Ad}(\delta)$ は $B_3/K$ の元による共役なので、**$PB_3/K$ だけでは作れない**。
-> $c\in K$ の窓では $c=1$ となり旧式に退化する ⟹ **分岐不要・(F2) 一本で全窓を通せる。**
+> ### ⚠⚠ 訂正済(2026-08-29・裁定 1759(3)(a))— 旧記述は**誤り**
+> ~~**$\sigma_1,\sigma_2$ を保持すること($B_3/K$ の marking を捨てない)。** $\tilde\theta=\mathrm{Ad}(\Delta)$・$\tilde\tau=\mathrm{Ad}(\delta)$ は $B_3/K$ の元による共役なので、**$PB_3/K$ だけでは作れない**。~~
+>
+> **正しい記述**: $K\trianglelefteq B_3$(NFI の定義)ゆえ $\mathrm{Ad}(g)$($g\in B_3$)は $PB_3$ と $K$ をともに保ち、**$A=PB_3/K$ の自己同型を直接誘導する**。さらにその生成子像は $x=\sigma_1^2,\ y=\sigma_2^2,\ c=(\sigma_1\sigma_2\sigma_1)^2$ の**閉形式**で書け、$\sigma_i$ を一切通らない:
+> $$\tilde\theta:\ x\mapsto y,\ y\mapsto x,\ c\mapsto c\ ;\qquad \tilde\tau:\ x\mapsto y,\ y\mapsto y^{-1}x^{-1}c,\ c\mapsto c .$$
+> **⟹ $B_3/K$ の構成は不要**($6\lvert Q\rvert$ の正則表現爆発も不要)。必要なのは $A=\langle\bar x,\bar y,\bar c\rangle$ のみで、$\bar c$ は既存 record の `Cp_on_L` から次数を増やさずに作れる。
+> **機械裏取り**: `scratchpad/math_f6false_admarking_v1.g` — index$\le$100 の全 **150 窓**で恒等式 I1–I5 が `all_ok=true`;F6=false 窓 b3_index=96 で `theta_welldefined=true tau_welldefined=true theta^2=id=true tau^3=id=true`。
+> **falsifier が per-window の `GroupHomomorphismByImages` 実検査で独立確認**(裁定 1759)。⟹ **v3 の $p$ 直接評価は原理的に正当。**
+>
+> $c\in K$ の窓では $\bar c=1$ となり旧式に退化する ⟹ **分岐不要・(F2) 一本で全窓を通せる。**
 
 ### 3.1 (F1) 語規律(代替・**条件つきでのみ許可**)
 
@@ -95,7 +117,9 @@ $$\tilde\tau(\bar w)=\overline{\tau(w)}\cdot c^{\,e_y(w)},\qquad \tilde\tau^{2}(
 |---|---|---|
 | `predicate_rule` | `"F2_quotient"`(または `"F1_word"`) | **必須**。`F1_word` なら下 2 つも必須 |
 | `c_in_K` | bool(F6) | $c\notin K$ で `F1_word` を選んだら **fail-closed で停止** |
-| `tau_descends` | bool / `NOT_EVALUATED`(F7) | `false` で `F1_word` なら**停止** |
+| `tau_descends` | bool / `NOT_APPLICABLE`(F7・再定義後) | ⚠ **(F2) 運用では `NOT_APPLICABLE` 固定**(恒真ゆえ 0 ビット)。`F1_word` 使用時のみ bool で、`false` なら**停止** |
+| **`product_order`**(新設・裁定 1759(1)) | `"tau2_tau_id"` 固定 | **§3.0 の宣言文を逐語で載せる。単独では意味を持たない** — 次欄と対で必須 |
+| **`word_eval_order`**(新設・裁定 1759(1)) | `"prepend"` / `"append"` | **`product_order` と対で宣言。不一致は fail-closed で停止**(CV-9) |
 | `word_exponent_condition` | `e(w) mod ord(c mod K) == 0` の実測 | (F1) 使用時のみ |
 | **`F4_isolated`** | **`NOT_EVALUATED`** | ⚠ 落下狩りに不要。**評価していないことを明示的に書く**(空欄禁止) |
 | **`positive_recordability`** | **`NONE`** | ★ **片道切符の機械化**: 非 isolated 窓では陽性($g^\ast$ が持ち上がった)を**記帳できない**(cofin v1.2 §9.2 W-4)。**このフィールドが `NONE` の cert は陽性主張に使ってはならない** |
@@ -133,7 +157,8 @@ $$\tilde\tau(\bar w)=\overline{\tau(w)}\cdot c^{\,e_y(w)},\qquad \tilde\tau^{2}(
 | **MU-7** | **$\#\mathrm{fib}$ を $[M:K]\cdot[M_{F_2}:K_{F_2}]$ で計算** | 実走 | CC-1 が発火 |
 | **MU-8** | **seed を `symdiff_432` から取る** | 実走 | `seed_key` digest 不一致で停止 |
 | **MU-9** | **W-1 reverse**(paper 語順 ↔ GAP 語順) | 実走 | verdict が変わる |
-| **MU-10** | **marking 破棄**($\sigma_1,\sigma_2$ を落として $PB_3/K$ だけで $\tilde\theta,\tilde\tau$ を作ろうとする) | 実走 | **構成不能で停止**(§3 の必須事項) |
+| ~~**MU-10**~~ | ~~**marking 破棄**($\sigma_1,\sigma_2$ を落として $PB_3/K$ だけで $\tilde\theta,\tilde\tau$ を作ろうとする)~~ | ~~実走~~ | ~~**構成不能で停止**~~ |
+| **MU-10′**(差替・2026-08-29) | **$\tilde\tau$ の生成子像から $c$ を落とす**($y\mapsto y^{-1}x^{-1}c$ を $y\mapsto y^{-1}x^{-1}$ に) | 実走 | **F6=false 窓で判定が変わる**(F6=true 窓では不変)⟹ **陰性対照として有効**。旧 MU-10 は「構成不能」を期待していたが**構成は常に可能**なので mutant として無効 |
 
 ⚠ **MU-1 は「数学の誤りを検出する」唯一の mutant** である。**これを必ず筆頭に置き、通らなければ本走禁止。**
 
