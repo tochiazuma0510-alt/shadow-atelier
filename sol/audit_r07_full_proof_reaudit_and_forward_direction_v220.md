@@ -806,3 +806,38 @@ presentation や witness に対する negative evidence ではない。
 - A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
 
 従って actual witness 主鎖の complete gate はまだ 0 件である。
+
+#### v220-Δ10 — 2026-08-28 12:01 JST
+
+**個別進捗**:
+
+- `proof_r07_actual_two_word_endpoint_specializer_v225.md` で v221 の語役割を再監査し、
+  original target と corrected residual を
+  \[
+  d_B=-\delta R_B(g_{760}),\qquad
+  e_B=-\delta R_B(g_{760}c_{\rm exact})
+  \]
+  と固定した。v221 が両方を補正後語から作っていた箇所は supersede した。
+- task179 の right-correction prefix と完全に整合する occurrence normal form を
+  \[
+  d_o=\delta(\rho_o(g_{760})^{-1}),\qquad
+  \xi_o=\rho_o(g_{760})^{-1}-1
+  \]
+  と同定し、direct/inverse の両 slot について
+  \(d_B=\sum_o\sigma_oP_od_o\) を紙上で証明した。
+- occurrence coefficient group は Q3 の 4-coordinate key / Q4 の 10-coordinate key、
+  common actor だけが \(D_1=H_2(9)\) の 3-coordinate key であると型を分離し、
+  class-two PB の積・逆元・bracket sign を明示した。
+- この修正版を実装する機械的 commission を
+  `luna_task_226_r07_actual_two_word_endpoint_specializer_v2.md` として開始した。
+  SELFTEST または actual output はまだない。
+
+**v220 内進捗**:
+
+- A2 は **1/3** のまま。paper milestone の内容を v225 で訂正・強化したが、同じ
+  milestone を二重計上しない。task226 の implementation SELFTEST が parent GHA と
+  independent checker を通った時だけ 2/3 にする。
+- A0 は **0/1 RUNNING**、A1 は **3/4 RUNNING**。A3--A9, B, C, W, F は **0**。
+
+この更新で A2 実装の入力語・符号・group-key 型は一意になったが、actual
+\(w,\bar\epsilon_1,u_0\)、v216 membership、compatible lift、fake、Ihara はまだ未計算である。
