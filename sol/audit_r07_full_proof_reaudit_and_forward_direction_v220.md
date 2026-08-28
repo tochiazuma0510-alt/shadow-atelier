@@ -3441,3 +3441,49 @@ no actual witness numerator.
 Delta77 removes the need for an eager gigantic boundary basis while retaining
 a full translated-boundary proof at every quotient decision.  It changes no
 actual witness numerator.
+
+#### v220-delta78 - 2026-08-29 (after delta77)
+
+**Individual progress**:
+
+- Sol(max) task333 independently audited the A4/v3 source and returned
+  `REJECT / UNEXECUTED`; SELFTEST remains forbidden.  The first production
+  failure is the use of nonexistent top-level task198 row/count fields
+  instead of `Delta0.presentation`.  The GAP driver only emits a shell and
+  pins a stale checker hash, so it cannot establish an execution terminal.
+- More importantly, the audit independently confirms the mathematical
+  blockers behind v271--v272: v3 hashes roof endpoints instead of evaluating
+  affine/Fox defects, uses thirteen untagged seeds and source-only boundary
+  actions, never constructs a live coefficient-bearing `B+K` quotient, and
+  supplies shaped dual and anchor records rather than replayable witnesses.
+  Its producer/checker mutation rosters also disagree (`34` versus `26`).
+- The claimed v268 speedup is not implemented in v3.  The accepted 6,441
+  stored row words contain 5,475,488 letters; the reachable v3 loop would
+  rescan them in nested context calls while constructing unused tries.  It
+  therefore exceeds the intended ancestry-trie work by orders of magnitude.
+- The repair frontier is now fixed as A4/v4: parse the one authenticated
+  receipt once, evaluate the 288 primitive words as persistent affine/Fox
+  prefix states, assemble all 6,441 ancestry identities, generate the 65
+  tagged PB boundary families lazily by complete support inversion, close K
+  only under the four source actions, retain literal coefficient/word
+  ancestry, and apply the actual v247 least-index anchor.  The checker must
+  independently use suffix evaluation, a different echelon convention, and
+  flat correlation/replay.  Luna task336 commissions only this implementation
+  and no execution.
+- A0 serial production run `33163964747` remains in the GAP-script step.
+  It has no terminal, so elapsed time still contributes zero.  A5/A6-v12
+  remains unexecuted under Sol(max) task335 audit.
+
+**v220 mapping**:
+
+- A4 remains **1/3**: authenticated task198 input authority only.  Task333
+  closes the v3 audit negatively and fixes the v4 implementation boundary;
+  no actual boundary rank, K basis, literal anchor, or A4 terminal exists.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; A1 **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A5/A6 **0/3 actual**,
+  A7/A8 **0/3 actual**, and A9 **0/3 actual**.
+- B, C, W, and F remain zero.  No compatible cofinal lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta78 converts the independent v3 rejection into a non-repeating v4
+implementation contract.  It changes no actual witness numerator.
