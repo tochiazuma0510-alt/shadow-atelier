@@ -1,0 +1,20 @@
+{
+  "schema":"drophunt-k2-rederivation/v1",
+  "K1_G36_order":23328,
+  "K1_block_order":11757312,
+  "K1_N_ord":36,
+  "L3_c_in_L3":true,
+  "c_in_K2_assumed_via_c_in_K1_framework_property":true,
+  "joint_G_order":35271936,
+  "joint_degree":23340,
+  "K_ord":36,
+  "F1_m_factor":2,
+  "F2_ratio":24,
+  "raw_fib_F3":48,
+  "expected_raw_fib":48,
+  "raw_fib_matches_expected":true,
+  "valid_count":2,
+  "expected_valid_count":2,
+  "valid_count_matches_expected":true,
+  "total_elapsed_ms":25966
+}

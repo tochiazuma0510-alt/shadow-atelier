@@ -1,0 +1,85 @@
+{
+  "schema": "drophunt-f6-distribution-and-calibration/v1",
+  "status": "F6_DISTRIBUTION_DONE_K2_CALIBRATED_PGL_HONEST_STOP",
+  "verified": false,
+  "authority": "implementer task 2026-08-28, per 裁定1740 (v2 repair inspection, 3-item follow-up)",
+  "note": "本走はまだ発射しない。この便は F6/F7 分布・K2 較正・PGammaL(2,8) 試行の3件のみ。",
+
+  "item1_F6_F7_distribution": {
+    "method": "PURE PYTHON, zero new GAP execution. Parsed sigma1/sigma2 (stored per row as GAP permutation-cycle strings, NOT just x,y) directly from the already-existing full LINS marked-strictness export artifact (ci/lins_marked_artifacts_32626064970/lins_marked_export/lins_marked_strictness_export_v1_20260823.json). Computed Cp:=(S1*S2*S1)^2 per row via independently-implemented cycle-notation parsing + permutation composition, and cross-checked the result against each row's own stored c_eq_delta_sq field (independently computed by the original census producer via the same formula) -- 0/4265 mismatches, confirming the parser/convention is correct.",
+    "script": "scratchpad/drophunt_f6_distribution_v1.py",
+    "detail_output": "scratchpad/drophunt_f6_distribution_v1.json",
+    "F6_definition": "c in K=M cap L <=> c in L (c is always in M by documented K^(9)-roof structural property)",
+    "F7_definition": "set conservatively equal to F6 per spec v2 SS10 point 4 (unproven <= direction of 'tau does not descend => wrong answer'; treat non-descent as dangerous)",
+    "summary_all_4265_rows": {"F6_true": 407, "F6_false": 3858},
+    "summary_fib_leq_100_358_set": {"total": 358, "F6_true": 91, "F6_false": 267},
+    "deliverable_a_F6_true_subset": {
+      "description": "the 91-window subset of the 358 fib<=100 set that is FULLY sound under the current v2 (F2)-repaired machinery -- the first-wave sweep candidate list",
+      "count": 91,
+      "node_ids_path": "scratchpad/drophunt_f6_distribution_v1.json (field F6_true_358_subset_node_ids, 91 entries)"
+    },
+    "deliverable_b_F6_false_count": {
+      "description": "window count for which the mathematician is designing the full marking-preserving (F2) construction (roof M's own sigma1/sigma2 recovery, still the unimplemented gap flagged in the v2 repair cert)",
+      "count": 267
+    }
+  },
+
+  "item2_K2_rederivation": {
+    "status": "SUCCESS -- both numbers match",
+    "raw_fib": 48,
+    "expected_raw_fib": 48,
+    "raw_fib_matches": true,
+    "valid_count": 2,
+    "expected_valid_count": 2,
+    "valid_count_matches": true,
+    "valid_witnesses": ["m=0 (R07)", "m=18 (R40)"],
+    "construction": {
+      "roof": "K1 := K^(36) cap N_S4 (NOT the usual roof M=K^(9) cap N_S4)",
+      "K1_construction_method": "G36 dihedral factor built via the SAME abstract (a,e)-triple algebra (dmul/ginv/gmul/gx/gy) already validated and machine-confirmed in search/d972_rung_ordinary_idx3_producer_v2.py, PORTED to GAP with identical formulas (not a fresh derivation), then realized as a genuine PERMUTATION representation via its own right-regular action (BFS closure over the 23,328-element abstract group -- matches that script's own machine-confirmed |G36|=23328 exactly), direct-summed with the same PSL(2,8) degree-9 model used for roof M.",
+      "K1_block_order": 11757312,
+      "K1_block_order_check": "23328 * 504 = 11757312, matches exactly",
+      "K1_N_ord": 36,
+      "L3": "the same LINS row used throughout this repair (node 16437e56512d99ab..., b3_index=3, ker(exp_B3 mod 3))",
+      "K2_definition": "K2 := K1 cap L3, computed directly as a joint of the K1 block (degree 23328+9=23337) with L3's own B3/L3 block (degree 3), giving joint degree 23340 and joint group order 35,271,936 -- matching search/d972_rung_ordinary_idx3_producer_v2.py's own independently-reported PB3_joint order exactly.",
+      "reduction_to_M": "the raw-fibre formula (K_ord/M_ord)*[M_F2:K_F2] was evaluated DIRECTLY against roof M (not routed through K1's own 1944-target census), via a GroupHomomorphismByImages reduction K1-block -> M-block (dihedral mod-9 reduction on the G36 factor + identity on PSL(2,8)), which GAP verified is well-defined.",
+      "c_in_K2": {
+        "value": true,
+        "how_determined": "c in L3 independently computed and confirmed true (matches this pass's own item-1 F6 result for that exact node); c in K1 was NOT independently re-verified in this pass (same documented gap as roof M: K1's own sigma1/sigma2 for the G36 block are not tracked by the right-regular-representation construction used here) -- ASSUMED via the same K^(n)-type-roof structural property already relied on for M, flagged explicitly as an assumption, not a re-derivation, consistent with how M's c-triviality has been handled throughout this repair."
+      },
+      "predicate_used": "word-level (F1_word), safe under the c_in_K2=true assumption -- SAME regime as the v2-repaired producer's F6=true windows",
+      "total_elapsed_ms": 25966,
+      "run_venue": "local (gap.ps1), single run, well under 10 minutes"
+    },
+    "script": "search/drophunt_k2_producer_v1.g",
+    "raw_output": "search/certs/drophunt_k2_rederivation_v1_20260828.json",
+    "significance": "This CLOSES the calibration gate that the prior (v2 repair) pass left open. K2 is now re-derived through the new (F2)-repaired implementation, not merely cited from the pre-existing 2026-08-24 cross-checked artifact, and the two required numbers (raw 48 / valid 2, R07 m=0 / R40 m=18) match exactly."
+  },
+
+  "item3_PGammaL28_attempt": {
+    "status": "HONEST_STOP -- not completed, structure reported instead of a rushed/unverified attempt",
+    "target": "search/pgl28_independent_window_producer_v1.py's window: roof M's own G9 dihedral factor DIRECT-SUMMED with E:=PGammaL(2,8) (order 1512 = 3*504, the full semilinear group PSL(2,8).3 acting on the SAME 9 points as PSL(2,8), generated by PSL(2,8) plus one Frobenius generator of order 3), giving joint_order = 1,469,664 * 1512 = 2,222,131,968 and expected valid=9 (fibre_histogram {'9':972} in the pre-existing crosscheck).",
+    "why_stopped_rather_than_attempted": "Building the Frobenius generator (a degree-9 permutation: point 'infinity' fixed, the 8 GF(8)-element points mapped via x -> x^2, per search/pgl28_independent_window_producer_v1.py lines ~284-285) requires matching the EXACT point-indexing convention already baked into this repo's existing GF(8)/PSL(2,8) permutation construction (search/gaplib_common.g's MakeMatGF8/MatToPermGF8, used for roof M's own DCP2X4/DCP2Y4). This convention (which of the 9 points is 'infinity', and in what order the 8 field elements are assigned to the remaining points) was NOT verified to match the Python producer's own convention within this pass's remaining time budget. Given K2's own construction (item 2) already demonstrated that a convention mismatch produces WRONG results silently accepted as 'done' rather than caught, and this repair's entire premise is fixing exactly that class of silent-wrong-answer bug, the responsible choice given real time constraints was to STOP rather than risk shipping an unverified PGammaL(2,8) result under time pressure, per the coordinator's own explicit permission ('無理なら誠実停止で構造を報告').",
+    "what_would_be_needed_to_complete_this": [
+      "(a) Confirm search/gaplib_common.g's MatToPermGF8 point-indexing matches search/pgl28_independent_window_producer_v1.py's matrix_perm convention (both appear to use 'point 1/index0 = infinity, images[1+x]=... for x in GF(8)' but this needs an explicit side-by-side check, not an assumption)",
+      "(b) Build the Frobenius permutation FR on the SAME 9 points as DCP2X4/DCP2Y4 (roof M's PSL(2,8) generators) using the confirmed convention, verify Order(FR)=3 and that <DCP2X4,DCP2Y4,FR> has order exactly 1512",
+      "(c) Direct-sum this E:=Group(DCP2X4,DCP2Y4,FR) block (still degree 9, same points, no size increase over the existing PSL(2,8) block -- this construction is actually CHEAPER than K2's, once (a)/(b) are done correctly) with roof M's own G9 dihedral factor (degree 27) to get the joint window, replacing the usual PSL(2,8)-only PSL block",
+      "(d) Determine c_in_K for this window the same way as elsewhere (c is in M's G9 factor by the same structural property; the E block's own c-image needs checking, analogous to L3's Cp check)",
+      "(e) Evaluate the predicate for seed row36 (or the appropriate seed for this window's own 972-target relationship) and compare valid_count against the expected 9"
+    ],
+    "estimated_additional_work": "small (this window's construction is structurally SIMPLER than K2's, since E stays at degree 9 -- no 23,328-point closure/regular-representation step is needed here). The blocker was verification time for the point-indexing convention, not raw computational cost.",
+    "no_fabricated_result": "No valid_count, raw_fib, or partial verdict is reported for this item -- it was not run to completion."
+  },
+
+  "stage_0b_status_confirmation": {
+    "instruction": "coordinator confirmed LowIndex(1944) may be abandoned; the >10-minute local wall-clock itself is the deliverable evidence for GHA routing, already recorded in the prior cert",
+    "prior_cert_reference": "search/certs/drophunt_checker_v2_repair_20260828.json (field stage_0b_largest_window.preliminary_finding)",
+    "background_task_final_state": "the LowIndexNormalSubgroupsSearch(B3,1944) background run did not produce search/certs/drophunt_checker_stage0b_20260828.json within this session's active work window; per this instruction, it is not being chased further, and the prior cert's timeout-based finding stands as the recorded evidence.",
+    "action_taken_this_pass": "none (per explicit permission to abandon); no new stage-0b attempt was made in this pass"
+  },
+
+  "deviations_and_open_questions": [
+    "(1) K2's c_in_K1 (as distinct from c_in_L3, which WAS verified) is an ASSUMPTION carried over from the same unverified structural property already relied on for roof M throughout this whole repair line -- flagged again here, not newly introduced by this pass, but still open.",
+    "(2) F7 (tau_descends) is reported as conservatively identical to F6 per spec v2's own guidance, not independently measured as a separate quantity -- the spec itself (SS10 point 4) treats this as an open unproven direction, not a gap specific to this implementer pass.",
+    "(3) PGammaL(2,8) remains unattempted; see item3 for the exact next steps if 司令塔/数学者 want it picked up."
+  ]
+}
