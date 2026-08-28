@@ -3886,3 +3886,44 @@ another full six-hour replay.
 
 Delta89 stages A4-v4 only as an audit candidate and records the two visible
 places where static declarations must not be confused with actual owners.
+
+#### v220-delta90 - 2026-08-29 (after delta89)
+
+**Individual progress**:
+
+- Luna task338 returned the five A5/A6-v13 files as `IMPLEMENTED /
+  UNEXECUTED`.  The source claims live width-13 joint closure, retained raw
+  ancestry, post-closure kernel and Hd1 arithmetic, an independent
+  bottom-pivot checker, five frozen synthetic cases, 44 owner mutations, and
+  a v247-labelled A4 anchor contract.
+- These claims do not advance the actual numerator.  Parent literal inspection
+  finds that both `validate_actual_anchor` functions accept a nonempty word
+  string plus copied Booleans `rho1_in_kernel`, `rho0_replay`, and
+  `q_z0_replay`; they do not parse or evaluate the word, replay rho0/rho1/q,
+  prove K membership, authenticate the A4 receipt, or check the least-index
+  property.
+- The ten advertised anchor mutations change the synthetic wrapper's
+  placeholder `anchor_contract` fields and compare them against hard-coded
+  placeholders.  This is visibly different from mutating an actual A4
+  receipt, word evaluation, K certificate, or base-pair owner.  The
+  PRODUCTION driver passes no `--actual-input`, the production functions emit
+  only `STATIC_BLOCKED`, and `corrected_base_pairs` is not on that route.
+- Sol(max) task344 now audits all finite arithmetic, retained-basis signs,
+  checker independence, 44+44 physical mutation claims, actual v247 anchor
+  consumption, driver reachability, and unnecessary slow work.  It will
+  continue past each first failure under minimal hypothetical repairs and
+  prescribe a bounded v14 if needed.  No execution is authorized meanwhile.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 actual / 0/3 actual**.  The five frozen cases, even if
+  statically correct, are synthetic and cannot supply an actual joint row,
+  MEMBER ancestry, pair polynomial, or witness.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A4 **1/3 UNDER V4 AUDIT**, A7/A8 **0/3 actual**, A9
+  **0/3 actual**, and B/C/W/F remain zero.  No compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Delta90 stages A5/A6-v13 only as an audit candidate and fixes the actual
+anchor replay, rather than a Boolean-shaped receipt, as the next admissible
+production boundary.

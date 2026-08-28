@@ -1,0 +1,155 @@
+Sol(max) task 344 - task338 A5/A6-v13 full code and performance audit
+
+Role: Sol(max), independent mathematical/code/performance auditor only. Read
+this FULL mail, every numbered section first to last. Do not edit any
+implementation, run Python/Node/GAP/GHA/workflows/network/git, or infer an
+execution result. Write only
+`sol/sol_reply_344_r07_task338_a5a6_v13_code_performance_audit_v1.md`.
+
+1. Mandatory complete inputs
+
+Read AGENTS.md and, in full:
+
+- task338, binding addendum task341, and Luna reply338;
+- all four A5/A6-v13 machine files and the immutable v11 source fixture;
+- task335 and its reply334 audit, plus v11/v12 tasks, replies, and outputs;
+- v231, v239, v242, and the binding v247 anchor theorem;
+- task198's accepted five-member authority bundle and the actual task232 ten
+  typed E3/E4 contexts expected downstream;
+- v220 deltas 64, 82, and 90.
+
+Recompute read-only bytes/SHA-256 for every v13 output and every imported
+source. Trace the complete import graph, CLI/driver calls, input ownership,
+and all paths from literal bytes to terminal. Do not trust reply338, fixture
+expectations, producer exports, copied Booleans, or digest-shaped strings as
+mathematical evidence.
+
+2. Literal reachability and first failures
+
+Trace statement by statement:
+
+- GAP driver -> emitted shell -> producer -> receipt -> checker -> verdict ->
+  terminal comparison -> sentinel-last;
+- all five SELFTEST cases and every producer/checker mutation;
+- PRODUCTION with no actual input, with a malformed actual input, and with a
+  well-shaped purported v247/A4 input;
+- the intended actual task198/task232 matrices -> joint closure -> kernel ->
+  Hd1 -> MEMBER/NONMEMBER -> A6 pair polynomial route.
+
+Identify the literal first failure on each route, then continue under the
+smallest hypothetical repair to expose independent blockers. In particular,
+check whether the driver ever passes `--actual-input`, whether PRODUCTION can
+ever consume actual typed matrices, and whether `corrected_base_pairs` is
+reachable from the production owner. A STATIC_BLOCKED receipt is not an
+actual A5/A6 computation.
+
+3. Five frozen arithmetic cases
+
+Independently trace the live arithmetic of each frozen case without executing
+it. Check all source dimensions and F3 entries, theta/z/eta actions, D/O/C,
+queue order, chronological candidates, retained transforms, dependencies,
+closure rank, left kernel, reconstructed kernel rows, Hd1, target solve, and
+MEMBER/NONMEMBER certificate. Verify the advertised five tuples from actual
+matrix arithmetic rather than the wrapper's expected table.
+
+State exactly what this establishes: at most static reachability of a
+synthetic finite-linear-algebra suite. It supplies neither an actual A4
+anchor nor an actual A5/A6 numerator.
+
+4. Retained-basis and polynomial checker audit
+
+Check all signs and padding in the invariant
+
+`raw_candidate = sum(reduction_coefficients[i] * R_i) + remainder`
+
+and the accepted normalized transform, dependent zero relation, row updates,
+post-closure C boundary, nullspace orientation, Hd1 construction, and target
+certificate. Confirm that every exported accepted and dependent ancestry
+actually replays.
+
+Audit checker independence literally: no imported producer/helper, no copied
+pivots/ranks/terminal/ancestry as authority, a genuinely distinct bottom-
+pivot/dense method, two-way span comparisons, independent MEMBER solution,
+and a valid NONMEMBER dual. Report any common semantic table or trusted
+producer field that defeats independence.
+
+5. Binding v247 actual-anchor ABI
+
+This is load-bearing. The obsolete base point
+`s(g)[x,y]^3-s(g)` is forbidden. Actual production must consume an
+independently authenticated A4 least-index anchor word `u_z`, replay the
+literal word in the pinned roof/tower representations, compute rather than
+receive
+
+- `rho0(u_z)=1`,
+- `rho1(u_z) in K`, and
+- `q(rho1(u_z))=z0`,
+
+and then build and replay every ordered base pair
+`s(g)u_z-s(g)` with the actual A3 coefficients.
+
+Audit `ANCHOR_CONTRACT`, `validate_actual_anchor`,
+`corrected_base_pairs`, the producer/checker production functions, and the
+driver. A nonempty receipt-id/word string, an integer of the right type, a
+copied Boolean such as `rho0_replay=true`, or a pair dictionary whose strings
+merely omit `[x,y]^3` is not an anchor replay. Determine whether any actual
+word parser, rho0/rho1/q evaluator, K-membership proof, receipt digest pin,
+least-index proof, section-word endpoint replay, coefficient ledger, or
+roof-fibre check exists and is reachable.
+
+Continue under the smallest repair and specify the exact v14 production ABI
+needed to consume the future accepted A4-v4 output without circular trust.
+
+6. Real owner mutations
+
+Audit every one of the 44 producer and 44 checker mutations. For each owner,
+record the physical object changed, whether it is the object used in normal
+control flow, whether seals are recomputed when appropriate, the normal
+validator reached, and exact narrow rejection.
+
+Pay special attention to the ten anchor owners. Mutating the synthetic
+wrapper's placeholder `anchor_contract` and comparing it with another
+hard-coded placeholder is not a mutation of an actual A4 receipt, word,
+representation replay, K proof, or base-pair list. An explicit named raise,
+post-hoc shaped dictionary, mutation oracle, copied expected terminal, or
+producer rejection flag is REJECT.
+
+7. Resource and unnecessary-work audit
+
+Audit actual operation counts and asymptotic bounds for candidate creation,
+queue closure, row reductions, coefficient-vector updates, nullspace, Hd1,
+solve, certificate replay, canonicalization, mutation suite, serialization,
+and checker work. Look explicitly for work that makes the eventual actual
+run needlessly slow: repeated known-basis reconstruction, dense tableaux when
+sparse elimination suffices, duplicate closure, recursive ancestry expansion,
+whole-object hashing/canonicalization inside loops, cumulative/per-case meter
+confusion, copied large transcripts, or redundant 44-fold recomputation.
+
+Check cap placement, sealed final resource accounting, bounded output size,
+and whether UNKNOWN_RESOURCE/UNKNOWN_INPUT remain honest. Give concrete
+counts for the five frozen cases and formulas in N, width 13, closure rank r,
+kernel dimension d, and Hd1 rank h. Recommend only optimizations preserving
+literal replay and independent checking.
+
+8. Verdict and minimal successor
+
+Give one adversarial verdict:
+
+- PASS only if all static mathematics, independence, physical mutations,
+  driver routes, and actual production ABI are literally sound and reachable;
+- otherwise REJECT, with the earliest fatal blocker, every independent
+  blocker found after hypothetical repair, and a minimal bounded v14 repair
+  contract.
+
+Do not authorize SELFTEST, PRODUCTION, or GHA execution. Static inspection
+does not change v220 numerators. End exactly with:
+
+```text
+CODE/PERFORMANCE AUDIT:          PASS or REJECT
+SELFTEST / PRODUCTION:           UNEXECUTED
+FIVE FROZEN CASES:               STATICALLY REACHABLE or BLOCKED
+ACTUAL A5 / ACTUAL A6:           0/3 / 0/3
+LIFT / FAKE / IHARA:             NONE
+```
+
+`TASK344_R07_TASK338_A5A6_V13_CODE_PERFORMANCE_AUDIT`
