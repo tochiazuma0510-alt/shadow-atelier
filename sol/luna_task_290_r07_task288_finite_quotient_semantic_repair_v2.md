@@ -41,9 +41,11 @@ nonabelian \(UT_3(\mathbf F_3)\) を使ってよい。例えば elementを tripl
 
 mod 3で計算し、identity/inverse/generator images/全27 element rosterを独立に検査する。
 production ABIは少なくとも element roster、multiplication、inverse、identity、
-source generator images、各 conjugator word evaluation、roof projection、次 rungへの
-reduction mapを持つ。tableのclosure/associativity/identity/inverseと3-power orderを
-producer/checkerが別実装で検査する。
+source generator images、各 conjugatorが誘導する complete action automorphism、
+roof projection、次 rungへの reduction mapを持つ。actual conjugatorは relative
+3-groupの外にあり得るので、必要なら \(Q\triangleleft E\) となる有限 ambient context
+group \(E\) とそのword valuesを持たせる。tableのclosure/associativity/identity/inverse、
+3-power order、各 actionのautomorphism lawをproducer/checkerが別実装で検査する。
 
 group algebra support keyは reduced source wordでなく finite group element ID。
 multiply/conjugate/collect/counit/group-like singletonは必ず quotient tableで計算する。
@@ -73,6 +75,23 @@ Mcalは pair coefficientsを含む \(\sum b_i(T_U-T_V)\)。
 
 Q_Nは nonzero alphaから開始し、次 powerがchain exact zeroになるまで全 powersを保持する。
 cap到達は UNKNOWN_RESOURCE。u=1+partial(Q_N)はQ support全体から計算する。
+
+Production の authoritative gate は、有限商で partial を反転せず endpointだけを
+再帰してよい。具体的に
+
+\[
+ z_0=\bar a-1,\qquad
+ \overline{\mathcal M}(z)=\sum_i b_i
+       (\operatorname{Ad}_{U_i}z-\operatorname{Ad}_{V_i}z),
+\]
+\[
+ q=-\sum_{r\ge0}\overline{\mathcal M}^{\,r}z_0,\qquad u=1+q
+\]
+
+を \(\mathbf F_3[Q]\) でexact zeroまで計算する。これは
+\(\partial T_W=\sigma_W\partial\) により chain recursion のendpointと同じであり、
+finite partialの非injectivityに依存しない。producer/checkerはこのendpoint recursionを
+独立に再構成する。direct chain formulaはFox ancestry/naturality SELFTESTとして保持する。
 
 ## 3. nonvacuous SELFTEST
 

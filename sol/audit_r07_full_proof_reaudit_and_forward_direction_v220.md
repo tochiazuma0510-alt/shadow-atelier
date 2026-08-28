@@ -2147,3 +2147,78 @@ actual witness numerator.
 Delta45 prevents a free-group toy from being mistaken for the finite-rung
 group-like gate and fixes the exact quotient ABI.  It changes no actual
 witness numerator.
+
+#### v220-delta46 - 2026-08-28 (after delta45)
+
+**Individual progress**:
+
+- proof_r07_neumann_endpoint_only_group_like_gate_v250.md proves that the
+  actual v249 decision needs no finite-rung Fox endpoint inverse or Schreier
+  basis.  If \(z_0=\bar a-1\) and
+  \[
+    z_{r+1}=\sum_i b_i
+       (\bar\sigma_{U_i}-\bar\sigma_{V_i})z_r,
+  \]
+  then the exact finite reduction of the candidate is
+  \(u=1-\sum_rz_r\).  Equal-roof typing makes this operator raise the finite
+  3-group augmentation filtration, so the recursion stops exactly.
+- A nonsingleton support of this \(u\) at one finite rung rejects the named
+  \((a,M)\); compatible singleton supports over an authenticated cofinal
+  system construct the pro-3 word.  A finite registered list remains only a
+  finite-family pass.  The proof also retains the actual typing in which
+  \(U,V\) may lie in an ambient context group and act on the normal relative
+  3-group by automorphisms.
+- Task290 was sharpened accordingly: production and checker now recurse
+  directly on sparse endpoints in the finite group algebra.  A direct finite
+  Fox-chain map remains only an ancestry/naturality canary, avoiding the
+  noninjective finite endpoint inversion which caused the first task288
+  implementation to be ill-typed.
+
+**v220 mapping**:
+
+- A9 remains **0/3**.  Its word-integrability computation is now reduced to
+  one finite conjugation recursion plus a support test, but no actual
+  task192/A6 input or cofinal singleton result exists.
+- A5/A6 remain **0/3** under task289; A7 remains **0/3** under task286.  A0 is
+  **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **2/3**, and A3/A4 remain
+  **0/3** with implementation SELFTESTs separate.  A8, B, C, W, and F remain
+  zero.
+
+Delta46 removes finite Fox inversion from the executable A9 path and leaves
+only exact finite group-algebra operations.  It changes no actual witness
+numerator.
+
+#### v220-delta47 - 2026-08-28 (after delta46)
+
+**Individual progress**:
+
+- The task289 A5/A6 repair was rejected statically.  Its own normal anchor
+  case has projected exponent two, so it constructs \(u_z=[1,1]\) and then
+  immediately requires \(u_z=[1]\); the baseline SELFTEST cannot reach a
+  positive terminal.  The producer also ignores the supplied fixture and
+  runs a separate internal case set.
+- Its coefficient ancestry is still typed as a residual \(z\)-row rather
+  than a relative-ideal coefficient, so the displayed theta equations compare
+  objects of the wrong type.  The checker reconstructs neither the joint
+  closure, left kernel, \(Hd_1\), MEMBER ancestry, nor dual; it trusts their
+  receipt fields and trusts the producer mutation list.  The claimed
+  \(M\mapsto\mu_1\) replay is only a copied field.
+- The monolithic repair loop is therefore stopped.  Task291 starts a new,
+  smaller versioned implementation containing only the mathematical A5
+  kernel: typed coefficient module \(\Theta\), equivariant maps
+  \(D:\Theta\to Z\) and \(O:\Theta\to\widehat E\), complete joint closure,
+  post-\(C\) left kernel, \(Hd_1\), genuine MEMBER ancestry or separating
+  dual, and an independently enumerating checker.  A4 anchor and A6 word-pair
+  compilation will be attached only after this kernel passes.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3**.  Task289 supplies no accepted SELFTEST and is
+  superseded for forward implementation by the split task291 kernel.
+- A7 remains **0/3**, A9 remains **0/3**, and all other values are unchanged:
+  A0 **0/1 RUNNING**, A1 **3/4 RUNNING**, A2 **2/3**, A3/A4 **0/3** with
+  their implementation SELFTESTs separate; A8, B, C, W, F are zero.
+
+Delta47 replaces a repeated ill-typed fused implementation with one bounded
+kernel whose acceptance can be audited independently.  It changes no actual
+witness numerator.
