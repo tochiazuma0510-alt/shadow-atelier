@@ -1,0 +1,48 @@
+{
+  "schema": "d972-local3-cprime/v4",
+  "generated_by": {
+    "note": "v4 is a DECLARATION cert closing the S4-normalization pending item on top of v3's already-computed, two-system-agreed raw values. No new S1-S10 computation was performed; this cert applies the mathematician's S4-normalization resolution (sec.7.3.6, new) to v3's declaration.",
+    "v3_cert_reference": "search/certs/d972_local3_cprime_v3_20260829.json (sha16 1e51358853989d75)",
+    "v2_cert_reference": "search/certs/d972_local3_cprime_v2_20260829.json (sha16 cb3ba50f672d2c18)"
+  },
+  "task": "v4 declaration per ruling 1724(a) item 1: close conclusion_pending_s4_normalization (mathematician resolved via sec.7.3.6, machine gate 8/8), leaving only D-6 as the residual pending item",
+
+  "S4_normalization_RESOLVED": {
+    "instruction_compliance": "Per instruction: mathematician resolved the S4-side normalization gap flagged in v3",
+    "resolution_summary": "The 3-point normalization factor is +-3*sqrt(-3), a COMPLETE CUBE in Q(zeta_3) => c' is INVARIANT under this normalization choice. Machine gate reported as 8/8 by the mathematician.",
+    "source": "scratchpad/d972_idx3_arith_datum_independent_v1.md sec.7.3.6 (new section, per this ruling)",
+    "this_cert_treats_as": "accepted mathematician finding, not independently re-derived by this implementer in this cert (no new GAP/Python computation was requested or performed for item 1; this is a declaration-only update)"
+  },
+
+  "D5_unchanged_from_v3": {
+    "selected_branch": "B (u_S4 = u0)",
+    "anchor_cprime": 1,
+    "raw_values": "unchanged from v3/v2 -- see search/certs/d972_local3_cprime_v3_20260829.json D5_resolved section for full per-prime values (Su, cprime, k3_anchor, psi at p=19,37,73, two-system agreed)"
+  },
+
+  "S9_SELECT_unchanged": {
+    "SELECT": "NN-09",
+    "declaration": "c' = +1  =>  SELECT = IDX3-NN-09 (search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json candidate_id IDX3-NN-09, canonical_keys_sha256 994df2d1bd03d97426e2257322e6c9fb2a101bfe5c4a5db8be10177c17f23364)",
+    "unchanged_from_v3": true
+  },
+
+  "grade_UPDATED": {
+    "grade": "candidate (D-6-relative)",
+    "instruction_compliance": "S4-normalization cap REMOVED (resolved); the sole remaining pending item is D-6 (census label-mapping direction), per instruction",
+    "what_changed_from_v3": "v3's grade was 'candidate (S4-side-normalization-relative)'; that dependency is now closed. The grade ceiling is now gated ONLY on D-6.",
+    "D6_status": "still open -- falsifier is hunting the defining formula for the census label-direction question (per instruction item 1). Not resolved in this cert.",
+    "what_this_cert_does_NOT_claim": "cross_checked status is not claimed. SELECT=NN-09/c'=+1 remains a candidate-grade declaration pending D-6's formal closure."
+  },
+
+  "conclusion_pending_s4_normalization": false,
+  "conclusion_pending_s4_normalization_note": "RESOLVED (sec.7.3.6): 3-point normalization factor +-3*sqrt(-3) is a complete cube in Q(zeta_3), so c' is invariant under it. Machine gate 8/8 per mathematician's delivery.",
+  "conclusion_pending_D6_label_direction": true,
+  "conclusion_pending_D6_label_direction_note": "Sole remaining pending item. D-6 (census sign-convention / label-mapping direction, i.e. formal confirmation that NN-09/NN-12's own construction encodes c'=+1/-1 in the direction assumed by the frozen S9 rule) is under active investigation by the falsifier (hunting the defining formula). Not closed in this cert.",
+
+  "summary_for_report": {
+    "SELECT": "NN-09",
+    "cprime": 1,
+    "grade": "candidate (D-6-relative)",
+    "remaining_pending": ["conclusion_pending_D6_label_direction=true (falsifier hunting defining formula)"]
+  }
+}

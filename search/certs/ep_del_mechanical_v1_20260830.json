@@ -1,0 +1,37 @@
+{
+  "schema": "ep-del-mechanical/v1",
+  "generated_by": {
+    "tool": "search only, no GAP computation performed this run",
+    "task": "EP-DEL mechanical check per ruling 1724(a) item 2: EP-G2 first, then 40x IsAbelian(Im(d_i o rho_o)) over 10 rho_o x 4 d_i"
+  },
+  "STATUS": "STOPPED_BEFORE_COMPUTATION -- concrete artifact for rho_o (10 maps) and d_i (4 strand-deletion maps) not assembled within budget; per instruction's explicit fallback ('見つからなければ停止して報告'), reporting the search result instead of guessing or rushing an implementation",
+
+  "spec_located": {
+    "primary_spec": "scratchpad/local3_udih_anchor_and_s9_conventions_v2.md sec.5 (\"§5 ④ EP-DEL — E3/E4の可換性とミニevaluator仕様\"), specifically sec.5.1's sharpened E0 test (boxed: Im(d_i o rho_o) commutative => (C-beta)=0 => EP-DEL PROVED) and sec.5.2's EP-G1..G5 gates",
+    "secondary_spec": "scratchpad/ep_del_verdict_v2.md sec.3-5 (three-value verdict framing, (C-alpha)/(C-beta) decomposition)",
+    "abstract_map_definitions_found": "sol/proof_r07_ten_occurrence_seven_block_action_bridge_v189.md sec.1: defines a=rho_xy, b=rho_xz, c=rho_yz, d=rho_ux, e=rho_uy : F->E3 (5 maps) and p1,p2,p3,p5,p4 : F->E4 (5 maps), printed occurrence order b1,b2,b3,b5^-1,b4^-1 -- this IS the abstract statement of the '10 rho_o' the instruction refers to (5 into E3, 5 into E4)",
+    "endpoint_formula_found": "sol/proof_r07_endpoint_only_word_evaluator_v198.md exists (not fully read this run) -- referenced by local3_udih...v2.md sec.5.2 as the source of eps_P (v198 (1.3)) and eta_P(M) (v198 (2.2))"
+  },
+
+  "what_could_NOT_be_assembled_within_budget": {
+    "concrete_rho_o_generator_images": "v189 defines the 10 maps ABSTRACTLY (as homomorphisms F(x,y)->E3 or F(x,y)->E4) but does not itself give explicit numeric/GAP-executable generator images (e.g. permutations or pc-group elements) for E3, E4, or where the source letters x,y,z,u concretely land. v189 sec.4 states the maps are 'bound' by a chain of further artifacts: Task175 (11-occurrence inventory), V122 (identifies source-E3 maps with d_EC_21..25), Task176 (serializes the 10 coordinates, IDs '21,22,23,24,25,1,27,21,26,28'), and a 'direct evaluator' -- none of these intermediate artifacts (Task175/V122/Task176's own outputs) were locatable as files in this repo under an obvious name within the search performed (see search_performed below).",
+    "concrete_d_i_strand_deletion_maps": "search/koubou157f_q3_chief_lib_v1.g (1655 lines) DOES contain concrete PB4->PB3 and PB5->PB4 strand-deletion machinery (deletions_4_3, deletions_5_4, per-strand deletion certificates) as part of a much larger chief-series library (PB3/PB4/PB5, Q3/Q4/Q5, Pi3[3]/Pi4[3]/Pi5[3], E3=?, E4=Q4 x Pi4[3]). This library is consumed by search/koubou157f_iota_i0c_v1.g, which itself requires THREE further pinned/SHA-checked JSON artifacts as inputs (a q3_chief_receipt at a ci/ path with a specific run-hash directory name, an iota_rewrite output, plus upstream gate flags from that iota computation) before it produces any usable E4/deletion objects. Correctly re-deriving E3 (not explicitly named in the chief lib excerpt read) and wiring the 10 rho_o maps onto this library's actual GAP objects would require reading and correctly chaining together this dependency graph, which spans dozens of R07-campaign documents (task175/task176/V122/task198/v188/v189/v194/v198 and their many audit/repair replies) that this implementer has no pre-built context for.",
+    "search_performed": [
+      "grep for d_EC_21/dEC21/StrandDelet/strand.delet across the full repo (background, completed) -- found search/koubou157f_q3_chief_lib_v1.g and its scratchpad twin as the only concrete-GAP-code hits",
+      "grep for task176/V122 within sol/ -- found ~30 R07-campaign documents referencing these labels, none inspected in full (would require substantial additional reading)",
+      "grep for eps_P/EP_DEL/EPDEL as GAP identifiers across search/*.g -- NO existing runnable evaluator script found (confirms no ready-made EP-DEL/epsilon_P GAP artifact currently exists in this repo; sec.5.2's 'mini evaluator' is a SPEC to be newly implemented, not a pre-existing script to be located)"
+    ]
+  },
+
+  "EP_G2_status": "NOT RUN -- blocked upstream (see above); could not obtain epsilon_P concretely",
+  "forty_isabelian_status": "NOT RUN -- blocked upstream (see above); could not obtain the 10 rho_o and 4 d_i as concrete GAP objects",
+  "ternary_outcome": "NONE OF THE THREE -- this run did not reach a PROVED / partial-noncommutative-list / REFUTED outcome. This is a fourth, explicitly-anticipated-by-instruction outcome: search-not-found, stop-and-report.",
+
+  "assessment_for_next_step": {
+    "not_a_dead_end": "The concrete machinery (chief lib, deletion maps, E4=Q4 x Pi4[3]) DOES appear to already exist in this repo (search/koubou157f_q3_chief_lib_v1.g + its consumer koubou157f_iota_i0c_v1.g), so this is very likely NOT a case of missing raw material -- it is a case of this implementer lacking the accumulated context (built up over many prior sessions/agents in the R07 campaign) to correctly identify which specific pinned JSON artifacts encode the 10 rho_o maps and how they compose with the chief lib's deletion maps.",
+    "recommended_next_step": "Either (a) commission a reader/research pass specifically to trace task175 -> V122 -> task176 -> the chief lib's E4/deletion objects and produce a short 'wiring memo' (which files, which fields, in what order) that a subsequent implementer pass can execute directly, or (b) have the mathematician/Sol (who authored v189/v198 and the chief lib) supply the wiring memo directly, since they carry the R07 campaign context this implementer does not have.",
+    "time_spent_this_pass": "search and reading only; no GAP invoked; well under the 10-minute compute budget (the budget was never reached because computation never started)."
+  },
+
+  "grade": "not-run; search-and-report only, per instruction's explicit stop-if-not-found clause"
+}
