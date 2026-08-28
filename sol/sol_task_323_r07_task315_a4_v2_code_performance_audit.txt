@@ -1,0 +1,131 @@
+# Sol(max) task 323 — task315 A4/v2 independent code and performance audit
+
+Role: Sol(max), adversarial static auditor. Read all sections first to last.
+Do not run Python, Node, GAP, GHA, workflows, git, or network. Read-only
+PowerShell byte/hash/text inspection is permitted. Audit implementation code
+and avoidable work, not row 36's non-arithmetic classification. Edit only the
+reply named below.
+
+## 1. Inputs and sole output
+
+Read in full:
+
+- `sol/luna_task_315_r07_a4_semantic_incremental_performance_rewrite_v2.md`
+- `sol/luna_reply_315_r07_a4_semantic_incremental_performance_rewrite_v2.md`
+- `sol/sol_task_313_r07_a4_correctness_performance_code_audit.txt`
+- `sol/sol_reply_313_r07_a4_correctness_performance_code_audit_v1.md`
+- the complete four-file A4/v1 bundle; and
+- the complete four-file A4/v2 bundle.
+
+Write only:
+
+`sol/sol_reply_323_r07_task315_a4_v2_code_performance_audit_v1.md`
+
+Return `PASS / UNEXECUTED` only if every task315 gate and every task313
+F1--F13/performance defect is repaired. Otherwise return
+`REJECT / UNEXECUTED`, with the first exact blocker and all additional
+blockers. A PASS authorizes only one bounded synthetic GHA SELFTEST; it does
+not authorize production, actual A4, or witness claims.
+
+## 2. Identity, driver, and execution boundary
+
+Independently compute exact bytes/SHA-256 of producer, checker, driver, and
+fixture. Check driver pins, ASCII, stale-output deletion/rejection, exactly
+one producer and checker invocation, exact-one full-line terminals, terminal
+equality, sealed nonempty receipt/verdict, and sole post-gate sentinel.
+
+Prove the current production route fails closed exactly at
+`STATIC_BLOCKED:TASK198_AUTHORITY_NOT_STAGED`, with zero A4 milestones and
+false lift/fake/Ihara flags. Identify every further intentionally unreachable
+production stop. In particular audit whether a later manifest-pin refresh
+alone would suffice, or whether `LOCAL_AUTHENTICATED_EVALUATOR_NOT_STAGED` or
+another unconditional stop still prevents actual A4. Do not call a merely
+shaped but unreachable positive branch implemented.
+
+## 3. Task198 semantic authentication
+
+Audit exact resolved containment/basenames for all four authority paths,
+outputs, and checkpoints. Check the canonical acceptance schema, source/run/
+head/artifact/ZIP/member/self-digest/attestation binding, exact layer-local
+ordinals `1..6318`, `1..104`, `1..19`, seven chunks, normal-generation proof,
+bridge orders and replays, ten-to-eleven mapping, seven blocks, eleven
+occurrences, four marked inverse replays, complete evaluator ABI, typed
+coordinate distinction, widths, digests, and canaries. Reject any global
+ordinal reinterpretation, textual-prefix path test, alias escape, or Boolean
+copied from the receipt.
+
+## 4. Lightweight runtime and exact mathematics
+
+Trace both programs for any call or equivalent path that builds the full
+1,469,664-state Q0 universe, 2,939,328 edges, raw section store, duplicate
+6,441-row roster, or `p179.build_runtime`/task176 full builders. Confirm or
+reject the claimed local PB3/PB4 codec, ten context substitutions, forty
+cached actor values, typed sparse-row bucketing, and direct 6,441-defect
+reconstruction by the checker.
+
+Audit the exact boundary/kernel algorithm:
+
+- one live coefficient-carrying total B+K echelon and one boundary echelon;
+- independent insertion only after reduction;
+- fully scaled stable raw `B:`/`K:` ancestry under every row operation;
+- direct raw-row replay of every exported coefficient map;
+- checker algorithm genuinely independent from producer;
+- explicit producer/checker change of basis modulo independently rebuilt
+  boundaries, with two-way span equality; and
+- no cross-basis coordinate-dictionary equality.
+
+Audit persistent ancestry DAG sharing, explicit conjugator convention,
+depth-two noncommuting canary, direct ten-context source-word evaluation,
+boundary-only difference receipt, and every v247 H2/inverse/powered-word/
+coarse/successor/context replay. Reject vector tautologies or producer flags
+used as checker proof.
+
+## 5. Mutation, terminals, and performance
+
+Trace all 20 mutation owners individually. Every mutation must canonically
+change its owned object, reach the intended independent semantic gate, and be
+rejected; wrong-seal/no-op/broad-catch/wrong-owner rejection is a blocker.
+Check the positive and every nonpositive envelope, typed resource reason,
+last replayable state, `RANK_ZERO_RESTART`, and exact status/terminal rules.
+
+Independently enumerate all loops, data growth, serialization, parsing, and
+subprocess work. Verify live wall/RSS and every declared cap is charged in
+authentication, closure, ancestry, sealing, and output. Reject repeated
+parsing, repeated rank/echelon reconstruction, pairwise tautology loops,
+flattened ancestry growth, duplicate serialization, retry/sleep/poll/lock,
+unnecessary subprocess work, or any other avoidable slowdown. Give concrete
+upper bounds and state whether the claimed `2*n+9*t+t0+2+b`, dense
+`O(4*t^3)`, and zero global-roster construction follow from code.
+
+## 6. Final accounting
+
+Report separate verdicts for F1--F13, authority/path semantics, actual
+positive-branch reachability, independent replay, mutation reachability,
+and performance. Keep SELFTEST and production `UNEXECUTED`, actual A4 at
+0/3, and lift/fake/Ihara at NONE.
+
+## 7. Newly staged direct-task198 authority bundle (separate verdict)
+
+Also audit, read-only and independently from the A4/v2 implementation verdict,
+the exact four-file authority bundle now staged under `ci/in/`:
+
+- `ci/in/d972_r07_seven_context_roof_presentation_v1.json`
+- `ci/in/d972_r07_seven_context_roof_presentation_v1.acceptance.json`
+- `ci/in/d972_r07_seven_context_roof_presentation_v1.producer.attestation.txt`
+- `ci/in/d972_r07_seven_context_roof_presentation_v1.checker.attestation.txt`
+
+This is the direct producer-plus-checker run `33155710862`, not the older
+producer-only capture used by task317.  Recompute all four byte counts and
+SHA-256 values, the receipt self digest, and the acceptance-manifest self
+digest.  Check canonical JSON encoding, exact run/head/artifact/archive/member
+binding, producer and checker terminals, source pins, attestation contents,
+receipt row digest, and `accepted=true` plus `independent=true`.  Compare all
+load-bearing mathematical fields against the independently preserved
+producer-only capture only if that can be done read-only; resource-field
+differences must not be mistaken for semantic differences.
+
+Return a separate `AUTHORITY_BUNDLE: PASS` or `AUTHORITY_BUNDLE: REJECT`
+verdict.  A bundle PASS may satisfy only the first A4 input-authority
+milestone.  It does not cure any A4/v2 code blocker, does not make the
+positive branch reachable, and does not authorize SELFTEST, production,
+closure/K/anchor, lift, fake, or Ihara claims.

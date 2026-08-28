@@ -3017,3 +3017,89 @@ the no-producer-repeat A1 failover.  It changes no actual witness numerator.
 Delta68 replaces a subtly overstrong pointed statement by the exact
 ancestry-bearing recurrence and records v10 only at the pre-audit boundary.
 It changes no actual witness numerator.
+
+#### v220-delta69 - 2026-08-28 (after delta68)
+
+**Individual progress**:
+
+- Task198 direct production run `33155710862` succeeded at immutable head
+  `bed1d5e6b41477b8799f2a33a24e46f7800f9510`.  Artifact `9686477718`
+  has archive digest
+  `8e1d218cb3d0e09e7a633d2c7d4481f232b33e76eaafc51223c307a2c62e0854`.
+- The 31,017,244-byte actual receipt has SHA-256
+  `82f7955580039f2a0271896c928515d26996f636d8e73231331da6a37f6b19f5`
+  and self-digest
+  `c8f7e65f6ec7553ab31928c911575de45fc0e3d70cd6e1d678bbebfee7502b9f`.
+  The producer emitted `ROOF_BRIDGE_ISOMORPHISM`; the independent checker
+  emitted PASS on all 6,441 rows, and its verdict has
+  `accepted=true, independent=true`.
+- Canonical top-level comparison with producer-only capture `33155653989`
+  shows every mathematical field identical.  Only elapsed time, peak RSS,
+  and therefore the receipt self-digest differ.  The repeated production is
+  semantically deterministic at the complete presentation/bridge/evaluator
+  boundary.
+- Luna task315 returned the versioned A4/v2 lightweight rewrite.  It remains
+  unexecuted and production-static-blocked; its report is not an A4
+  milestone and a new independent correctness/performance audit is required.
+
+**v220 mapping**:
+
+- A1 advances from **3/4 RUNNING** to **4/4 CROSS-CHECKED**.  The fourth
+  milestone is the combined actual producer plus independent-checker
+  production acceptance specified at delta38/delta40.
+- A4 remains **0/3 actual**.  A1 now supplies its upstream presentation
+  authority, but no authenticated authority bundle has yet been staged into
+  an audited A4 consumer and no actual closure or K/anchor exists.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, A2 remains **2/3**, and A3,
+  A5--A9 actual, B, C, W, and F retain their delta68 values.
+
+Delta69 closes the complete word-independent roof presentation/evaluator
+gate without conflating it with an actual successor kernel or witness.
+
+#### v220-delta70 - 2026-08-28 (after delta69)
+
+**Individual progress**:
+
+- The exact direct-run task198 authority candidate is now staged as four
+  versioned `ci/in/` objects: the 31,017,244-byte receipt, a canonical
+  acceptance manifest, and separate producer/checker attestations.  The
+  bundle binds run `33155710862`, immutable head
+  `bed1d5e6b41477b8799f2a33a24e46f7800f9510`, artifact `9686477718`,
+  archive digest, exact member digest, receipt self digest, both terminals,
+  and the accepted/independent flags.  Sol(max) task323 is independently
+  auditing this bundle separately from the A4/v2 consumer.
+- Staging is not acceptance.  Until task323 returns
+  `AUTHORITY_BUNDLE: PASS`, the first A4 input-authority milestone is not
+  counted.  Moreover the current A4/v2 producer contains the later
+  fail-closed stop `LOCAL_AUTHENTICATED_EVALUATOR_NOT_STAGED`; therefore a
+  manifest-pin refresh alone cannot make its actual positive branch
+  reachable.
+- Luna task321 returned `BLOCKED / UNEXECUTED` for the proposed A0
+  persistent-parallel adapter.  The authenticated cached-v3 owner does not
+  retain `boundary_epoch_history` with epoch identity, descriptor and typed
+  support rosters, interval cover, merged accumulator, winner provenance,
+  and direct scalar.  The current snapshot cannot reconstruct roughly 2,896
+  historical dual epochs, so no truthful independent replay certificate can
+  be retrofitted.  No GHA execution is authorized for that adapter.
+- The original serial A0 production remains the only live actual route and
+  continues on GHA run `33163964747`.  A future parallel route must first
+  version the owner/checkpoint ABI and record epoch history prospectively;
+  it cannot claim acceleration of the already elapsed history.
+- Luna task317 completed an unexecuted checker-only task198 failover driver.
+  Since the direct producer-plus-checker run has already closed A1 at 4/4,
+  this older producer-only-capture route is retained as engineering fallback
+  and will not receive a redundant GHA run.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  The serial production is
+  still running; the blocked parallel adapter supplies no numerator.
+- A4 remains **0/3 actual pending independent bundle audit**.  The staged
+  authority candidate and an unreachable consumer are not actual closure or
+  K/anchor milestones.
+- A1 remains **4/4 CROSS-CHECKED**, A2 remains **2/3**, and A3 and A5--A9
+  actual, B, C, W, and F retain their delta69 values.
+
+Delta70 fixes the exact A0 information deficit and separates A4 input
+authentication from actual positive-branch reachability.  It changes no
+actual witness numerator.
