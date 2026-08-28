@@ -194,4 +194,3 @@ independent bounded checker schedule.  They do not close the remaining A0
 gates: the ordinary baseline, all physical mutation owners, acyclic P0/R/V
 transport, complete checkpoint/process accounting, and a fresh Sol(max)
 code/performance audit are still required.  Therefore A0 remains `0/1`.
-
