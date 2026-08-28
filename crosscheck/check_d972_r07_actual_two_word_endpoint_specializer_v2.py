@@ -70,7 +70,7 @@ PB4={(0,1):(1,0,0,0),(0,3):(-1,0,0,0),(1,3):(1,0,0,0),(0,2):(0,1,0,0),(0,4):(0,-
 def br(i,j,d):
  if i==j:return (0,)*(1 if d==3 else 4)
  if i>j:return tuple(-v%9 for v in br(j,i,d))
- return (PB3 if d==3 else PB4).get((i,j),(0,)*(1 if d==3 else 4))
+ return tuple(v%9 for v in (PB3 if d==3 else PB4).get((i,j),(0,)*(1 if d==3 else 4)))
 def mul(a,b,d):
  z=[(a[d+k]+b[d+k])%9 for k in range(len(a)-d)]; q=[(a[i]+b[i])%9 for i in range(d)]
  for i in range(d):
@@ -98,6 +98,8 @@ def class2_facts(d):
  for i in range(d):
   for j in range(i+1,d):
    h=mul(mul(mul(inv(gs[i],d),inv(gs[j],d),d),gs[i],d),gs[j],d);q=br(i,j,d);require(h==tuple([0]*d+list(q)),"Q commutator")
+ if d==3:require(br(0,2,d)==(8,),"Q negative PB3 canonical")
+ if d==6:require(br(0,3,d)==(8,0,0,0),"Q negative PB4 canonical")
  return {"degree":d,"width":len(one),"generator_count":d,"brackets_checked":d*(d-1)//2}
 def exhaustive_arithmetic_oracle():
  vals=[tuple(a)+tuple(z) for a in __import__("itertools").product(range(3),repeat=3) for z in __import__("itertools").product(range(3),repeat=1)];one=(0,0,0,0)
