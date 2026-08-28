@@ -1,0 +1,73 @@
+Sol(max) task 318 — task316/v9 independent literal-shape, code, and performance audit
+
+You are Sol(max), the independent adversarial auditor.  Read AGENTS.md,
+`sol/luna_task_316_r07_task307_all_case_fixture_repair_v9.md`,
+`sol/audit_r07_task307_v8_gha_all_case_fixture_failure_v261.md`, and the five
+v9 outputs in full.  The earlier task314 audit incorrectly asserted that all
+five v8 cases were 11x11.  Do not inherit any dimension or identity from the
+Luna reply or task314.  Recompute every claim from the literal current bytes.
+
+Write exactly one file:
+
+`sol/sol_reply_318_r07_task316_v9_shape_code_performance_audit_v1.md`
+
+Do not edit code, fixture, v220, workflow, or any other file.  Do not run
+Python, Node, GAP, GHA, git, or a network command.  Read-only byte/SHA and
+literal JSON/source inspection are allowed.  If using a parser to enumerate
+JSON shapes, use a read-only independent mechanism and record the exact
+command; do not import either v9 program.
+
+1. Independently give bytes/SHA-256 for all five commissioned v9 files.
+   Check the driver's exact pins, ASCII-only property, schemas, paths,
+   terminal strings, fixture seal, and stale-output/exact-one gates.
+
+2. Enumerate all five cases separately.  For each case, list the row count
+   and all eleven row lengths of both `A_E` and `A_E_binding`.  Also list
+   dimensions for both sides of every other pair: `A_theta`, `A_Z`, `D`,
+   `O`, and `C`.  Check literal equality of every one of the 30 base/binding
+   pairs.  A summary such as “5x6 pass” without the casewise actual table is
+   forbidden.
+
+3. Diff v8 to v9 semantically and bytewise.  The only fixture-data changes
+   allowed are the sixteen appended zeros: two rows, two matrices, four
+   named cases.  All five expected tuples, targets, action names, other
+   matrices, mutation roster, and case order must be unchanged.  Source and
+   driver changes must be version/path/schema/pin changes only.  Report any
+   extra change as REJECT.
+
+4. Manually reconstruct all five expected tuples from the literal v9 data.
+   Check closure rank, coefficient-kernel dimension, nonzero enumeration,
+   post-C rank, MEMBER ancestry, and NONMEMBER dual.  Do not rely on task314's
+   arithmetic table.
+
+5. Audit producer and checker preflight reachability: it must run over all
+   five cases and six pairs before any compile/replay.  Audit both complete
+   19-owner mutation rosters, semantic reachability, canonical change,
+   resealing, fail-closed rejection, wrong-nonempty-seal canaries, production
+   `STATIC_BLOCKED`, and driver exact-one markers.
+
+6. Performance is load-bearing.  Give exact fixed call counts and maximum
+   dimensions/enumerations.  Reject redundant second baseline passes,
+   repeated file parses, rebuilding an echelon unnecessarily, any accidental
+   `3^11` enumeration, unbounded closure/retry, process pools, background
+   subprocesses, sleep, polling, locks, or duplicate producer/checker work
+   beyond the prescribed independent replay.
+
+7. This is static and unexecuted.  If every item passes, the verdict is
+   `PASS / UNEXECUTED`, authorizing only one bounded synthetic GHA SELFTEST.
+   A PASS does not increment v220 A5/A6.  If anything is not literally
+   established, REJECT and name the first exact blocker.
+
+End with exact accounting:
+
+TASK318/V9 LITERAL SHAPE AUDIT:             PASS or REJECT
+V8->V9 EXACT REPAIR SCOPE:                  PASS or REJECT
+EXPECTED TUPLES:                            5/5 STATIC or first failure
+PRODUCER MUTATIONS ACTUAL:                  0/19
+CHECKER MUTATIONS ACTUAL:                   0/19
+PERFORMANCE / FIXED BOUNDS:                 PASS or REJECT
+EXECUTION:                                  UNEXECUTED
+ACTUAL A5 / ACTUAL A6:                      0/3 / 0/3
+LIFT / FAKE / IHARA:                        NONE
+
+TASK318_R07_TASK316_V9_SHAPE_CODE_PERFORMANCE_AUDIT_COMMISSION

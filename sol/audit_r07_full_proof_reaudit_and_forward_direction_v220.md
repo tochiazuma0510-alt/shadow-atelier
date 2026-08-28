@@ -2895,3 +2895,40 @@ actual witness numerator.
 
 Delta65 converts the executed v8 stop into one exact all-case fixture repair
 and fixes the dispatch transport.  It changes no actual witness numerator.
+
+#### v220-delta66 - 2026-08-28 (after delta65)
+
+**Individual progress**:
+
+- Sol(max) task318 independently rejected v9 before execution.  Although all
+  thirty base/binding pairs and all five advertised arithmetic tuples are
+  statically correct, the driver has a 63-digit fixture SHA pin and all five
+  cases have a ragged `m/eta_matrix`; the first compilation would stop.
+- The same audit found repeated reconstruction of an echelon whose stored
+  rows are already known independent.  Task320 commissions v10 with the
+  twelve exact trailing-zero action-row repairs, complete action-matrix
+  preflight, a full pin, and live incremental producer/checker echelons.  No
+  v9 GHA run is authorized.
+- V262 proves that on a cofinal Zassenhaus refinement the associated-graded
+  H1/H2/A.18 Jacobian is fixed by the roof and exact word-product errors gain
+  a depth.  It also isolates the load-bearing first nonlinear term
+  `q2`: after the first Neumann correction the next residual is
+  `mu*beta + q2`, not merely `mu*beta`.
+- A single actual-class homotopy completes the relative pro-3 nonlinear lift
+  if all such exact remainders return to its closed actual class (NLSAT).
+  The first finite canary is `q2 in Xi*beta`; neither this membership nor the
+  symbolic all-depth return identity has been established for R07.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3 actual**.  Static fixture arithmetic and a rejected
+  implementation are not actual milestones.
+- A9 remains **0/3 actual**.  V262 removes state-dependent Jacobian rebuilding
+  on the chosen pro-3 refinement and replaces the vague nonlinear clause by
+  the exact NLSAT/first-`q2` gate, but supplies no actual `q2` or membership.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, A1 **3/4 RUNNING**, A2 **2/3**;
+  A3/A4 and A7/A8 actual, B, C, W, and F retain their delta65 values.
+
+Delta66 prevents another deterministically blocked synthetic run and gives
+the first falsifiable nonlinear return gate after the Neumann correction.
+It changes no actual witness numerator.
