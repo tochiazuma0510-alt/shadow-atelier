@@ -745,3 +745,26 @@ negative evidence ではない。
 これは task176 の status/terminal 型の取り違えによる入力認証 STOP であり、actual roof
 presentation、successor kernel、compatible lift、または witness に対する negative evidence
 ではない。
+
+#### v220-Δ7 — 2026-08-28 11:40 JST
+
+**個別進捗**:
+
+- task220c 修理後 SELFTEST run `33136555325`、immutable head
+  `9d5df3c2e6e7cac50d2a1f1682215539c84f3a62` は success。
+- producer は 9 presentation rows、independent checker は 44/44 mutation rejection を
+  再現した。artifact id は `9672254073`、ZIP digest は
+  `sha256:5f6debced315136f3c2f7ff333681488877977bfd39062191659f2c6a4667384`。
+- ダウンロード再読で receipt は 37,832 bytes / SHA-256
+  `23b1e1d7ed6bc484f319e6192da004e82834e1e45cb3d8e31a675ebb7acc5f91`、
+  verdict は 455 bytes / SHA-256
+  `b43d0e748caaefbb1ec64000016c257bcffe602f46ec7a3057136c5572758326`。
+
+**v220 内進捗**:
+
+- A1 は **3/4** のまま。ただし task220c 修理後にも driver、producer SELFTEST、checker
+  SELFTEST の三 milestone が保たれることを再照合した。残るのは actual production
+  acceptance の一段だけ。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は **0**。
+
+SELFTEST の再成功を actual gate と数えず、production positive の時だけ A1 を 4/4 にする。

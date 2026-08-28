@@ -424,3 +424,30 @@ V220-A1:                                 3/4
 MATHEMATICAL NEGATIVE:                   NONE
 
 `TASK220C_TASK198_TASK176_TERMINAL_BINDING_COMMISSIONED`
+
+## 16. Parent post-task220c SELFTEST acceptance (2026-08-28)
+
+Parent Sol committed and pushed the exact task220c repair as
+`9d5df3c2e6e7cac50d2a1f1682215539c84f3a62`, then dispatched GHA run
+`33136555325`. The run completed successfully at that immutable head.
+
+The producer emitted one SELFTEST pass marker with nine presentation rows. The
+independent checker emitted one pass marker with 44 attempted and 44 rejected
+mutations. Parent Sol downloaded and reread artifact id `9672254073`, ZIP digest
+`sha256:5f6debced315136f3c2f7ff333681488877977bfd39062191659f2c6a4667384`:
+
+```text
+selftest receipt  37832  23b1e1d7ed6bc484f319e6192da004e82834e1e45cb3d8e31a675ebb7acc5f91
+selftest verdict    455  b43d0e748caaefbb1ec64000016c257bcffe602f46ec7a3057136c5572758326
+run.log              532  51cbf9debe4d09e1fcb17918f69f753ef0fe8f027a1f72d65b25f5218c116073
+```
+
+The receipt has `status=COMPLETE` and `terminal=SELFTEST_COMPLETE`. The verdict
+has `accepted=true`, `independent=true`, and 44/44 mutation rejection. Thus the
+status/terminal repair preserves the already completed SELFTEST milestones. It
+does not itself complete actual production.
+
+TASK198 POST-TASK220C SELFTEST: GHA PASS / CROSS-CHECKED IMPLEMENTATION
+TASK198 ACTUAL 6,441-ROW PRODUCTION: NOT YET ACCEPTED
+V220-A1: 3/4
+COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
