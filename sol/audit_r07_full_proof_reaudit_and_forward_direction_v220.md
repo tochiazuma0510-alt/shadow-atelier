@@ -4933,3 +4933,42 @@ phase or paying a million-state rescan for each mutation.
 
 Delta115 turns both active mutation tasks into auditable ordinary-pipeline
 experiments rather than self-reported rejection tables.
+
+### Delta 116 (2026-08-29): A4-v6 blocker matrix and tranche split
+
+- Luna task355 returned the five authorized v6 files as `BLOCKED /
+  UNEXECUTED`.  V6 changes only version/pin/fail-closed framing around the
+  frozen v5 core; it does not implement the requested physical mutation
+  layer.  Its fixture still has empty producer/checker expected-rejection
+  maps, so SELFTEST stops before route construction.
+- The useful new artifact is the complete 48-row producer/checker owner
+  classification in reply355.  Eighteen rows currently require a physical
+  owner but are wired to in-memory substitutes; the remaining thirty are
+  potentially legitimate ephemeral algebraic owners but still lack v297
+  baseline, event and first-rejection evidence.  Repeated live slots are not
+  counted as distinct owner proofs.
+- The exact v6 physical identities are producer `219,187` bytes /
+  `aaa8a60960698eeeab0c300f7fb65bb902bbae7e5507e4bef933cdff26263a6a`,
+  checker `258,847` bytes /
+  `432bcaadfa1dcfd9526749c40fb3d56c1bdb5671a1959d571a8076c20ba29ccf`,
+  driver `13,775` bytes /
+  `a12c9267d050fe8ae9155cc9c42dd35dc5f1a66452c54f6a2cc7246f9a009fb0`,
+  and fixture `5,026` bytes /
+  `f04d8ef01d5b9c1cc9e05f674e6868dae67d7c60b1f51573c5b90c80ca365545`.
+- To avoid a third all-or-nothing rewrite, task356 isolates the first
+  independently auditable tranche: the v297 event/identity substrate plus
+  mutation rows 1--7 against actual task198 physical authority owners.  It
+  cannot claim A4 or execute the full SELFTEST; later tranches consume its
+  audited API.
+
+**v220 mapping**:
+
+- A4 remains **1/3; V6 BLOCKED / V6A AUTHORITY-TRACE TRANCHE
+  COMMISSIONED**.  No Sol(max) or GHA execution is authorized.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**.  A1 is **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, and A5/A6 plus every later
+  witness/fake gate remain unchanged.  No compatible lift, fake certificate,
+  Ihara counterexample or cofinal witness has been constructed.
+
+Delta116 replaces the oversized 96-route implementation loop by a monotone
+first physical-owner tranche without counting a blocker table as A4 closure.
