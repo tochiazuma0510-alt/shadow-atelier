@@ -3691,3 +3691,41 @@ side of the resume boundary.
 Delta84 reduces the prospective exact resume certificate from two arbitrary
 span maps to one checked invertible triangular ancestry, without trusting an
 old pivot digest.
+
+#### v220-delta85 - 2026-08-29 (after delta84)
+
+**Individual progress**:
+
+- V277 separates the A0 resume runtime into a light boundary layer and the
+  heavy Q0 candidate-section layer.  Target reconstruction, direct replay of
+  all retained boundary/correction columns, v276 basis reconstruction,
+  target reduction, exact dual formation, and complete PB3/PB4
+  support-inversion correlation use no Q0 section census.
+- The 1,469,664-state Q0 enumeration, ten coordinate stores, membership
+  scans, adjusted-L construction, and singleton-fibre coarse indices are
+  needed only when a full boundary correlation is zero and the positive
+  correction oracle is first called.  V277 proves that instantiating this
+  heavy layer at that point preserves every accepted history-free COMMON
+  certificate because final authority is direct word/Fox and typed-boundary
+  replay, not the discovery state id.
+- A future v7 may therefore avoid the entire heavy Q0 prelude on every
+  boundary-only resume.  It must split light/heavy input digests, discard old
+  dual-bound correction progress, and treat a zero boundary correlation only
+  as transfer to the positive correction dovetail.  A cap remains UNKNOWN.
+- This phase theorem complements, but does not yet execute, v276's triangular
+  fast basis reconstruction.  The light quotient/roster construction and
+  exact raw-column replay remain mandatory and metered.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  V277 removes a provably
+  unnecessary pre-boundary computation from the prospective v7 contract but
+  is not an implementation or run result.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A4 **1/3**,
+  A5/A6 **0/3 actual**, A7/A8 **0/3 actual**, A9 **0/3 actual**, and B/C/W/F
+  remain zero.  No compatible lift, fake certificate, or Ihara counterexample
+  has been constructed.
+
+Delta85 proves that the next A0 acceleration can postpone the billion-byte
+Q0 candidate layer until it is mathematically needed, rather than merely
+parallelizing work before the boundary phase.
