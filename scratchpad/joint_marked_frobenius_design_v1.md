@@ -197,3 +197,115 @@ K5  検算: もう一方では Psi + K3 が恒等的に 0 になること(両立
 1. **$\Psi$ の評価器**が census 内でどう実装されているか(規約 D 準拠か)— **未確認**。K3 の前に 1 回見ること。
 2. §6.3 K2 の「各 162 元」は ORIENT §7.1 からの**予測値**。**実測で確認すること**(ずれたら $X^0$ の取り方が違う)。
 3. **$\kappa(m)$ 偶数不変条件**の canary 登録(§6.2)。
+
+---
+
+# §7 ★ Ψ(π) 評価器の構成(2026-08-28・裁定 1734)
+
+**契機**: implementer B が pre-check (a) で正当に停止 — 「π 列だけで回る Ψ 評価器」は repo に無く、既存 Ψ は全て S1–S9 の Frobenius/離散対数鎖経由(= §6 が置換しようとした経路そのもの)。cert = `search/certs/d972_local3_select_k15_v1_20260828.json`。
+
+## 7.0 ⚠⚠ まず §6.3 の自己訂正 — **私は過大に書いた**
+
+> **§6.3 の記述(訂正対象)**: 「$\mathcal K_3$ 側は正典が固定 ✓ / **$\Psi$ 側は規約 D + アンカーが固定 ✓** ⟹ 両方とも工房が握っている対象で固定済。」
+> **誤り**: 規約 D + アンカーが固定したのは**幾何的な $u$ どうしの比**であって、**窓の指標 $\Psi:X^0\to\mathbb F_3$ の $\mathbb F_3$ 同一視ではない**。両者を繋ぐには**比較写像(P5′ の marked 同型)**が要る — これは私自身が §7.2 NO-CANON で「欠品の正体は正規化の欠如ではなく**比較写像の欠如**」と書いた当のものである。
+> ⟹ **§6.3 の「両方固定済」は撤回。**正しくは **§7.2(Ψ 側は本節で固定できる)+ §7.4($\mathcal K_3$ 側の $r$ 選択が残る)**。
+> ⟹ **implementer B の停止は正当**であり、**K1–K5 は本節の評価器を入れて初めて回る。**
+
+## 7.1 Ψ(π) 評価器は構成可能 — **純群論・Frobenius が正準生成元**
+
+```
+gate: scratchpad/math_psi_pi_v1.g
+  |PSL(2,8)| = 504   |PGL(2,8)| = 504   |PGammaL(2,8)| = 1512
+  PGL = PSL (q even) ? true          [PGammaL : PSL] = 3
+  PSL normal in PGammaL ? true       quotient = C3  order 3  cyclic ? true
+  Frobenius (order 3, outside PSL) exists ? true ; its image generates C3 ? true
+  Psi(id)=0  Psi(frob)=1  Psi(frob^2)=2 ; homomorphism on 200 random pairs ? true
+```
+
+```gap
+S   := PSL(2,8);;  G := PGammaL(2,8);;
+S2  := First(NormalSubgroups(G), N -> Size(N) = 504);;
+nat := NaturalHomomorphismByNormalSubgroup(G, S2);;          # G ->> C3
+frob:= First(Elements(G), g -> Order(g) = 3 and not g in S2);;   # Frobenius t -> t^2
+PsiPi := function(g)                                          # π 列 -> F_3
+  local t, im; im := Image(nat, g);
+  for t in [0,1,2] do if im = Image(nat, frob)^t then return t; fi; od;
+  return fail; end;;
+```
+
+> ### ★ 正準性(これが Ψ 側の D-12 を埋める)
+> $P\Gamma L(2,8)/PSL(2,8)\cong C_3$ の生成元は **$\mathbb F_8$ の Frobenius $\phi:t\mapsto t^2$**。これは**体の構造から一意に決まる**(選択でない)。
+> $$\boxed{\ \Psi(\phi):=1\ \ \text{— 規約でなく正準。}\ }$$
+> ⟹ **π 列だけで $\mathbb F_3$ 値が返る評価器が立つ。**離散対数も素数も要らない。
+
+⚠ **実装注意(私の script の誤りを記録)**: PSL(2,8) の**次数 9 の作用**は $\mathbb P^1(\mathbb F_8)$ 上の作用で、点固定化群は**位数 56 の Borel**($504/9=56$)。私は Sylow-3(位数 9)を取って **degree 56** を作ってしまった(`transitive false` の出力はこれが原因で、Ψ の構成には無関係)。**9T27 を作るときは `FactorCosetAction(S, Borel)` を使うこと。**
+
+## 7.2 算術との橋(P5′)— **今は使える**
+
+$\sigma\in G_{\mathbb Q}$ に対し、$\mathrm{Ih}(\sigma)$ の π 列は $P\Gamma L/PSL$ のどのクラスか。橋は
+$$\mathrm{Frob}_p\ \longmapsto\ \phi^{\,\psi_p},\qquad \psi_p:=\log_\omega\bigl(u_0^{(p-1)/3}\bmod p\bigr),\ \ \omega=g^{(p-1)/3}$$
+すなわち **$P\Gamma L/PSL$ 層の体が $\mathbb Q(\zeta_3,\sqrt[3]{u_0})$ の 3 次部分体である(P5′)** という言明を、**marked** な形で使う。
+
+**この橋が使える根拠 2 点**:
+1. **$\iota_C$ は一意**(正本 §7.3.1): 被覆は degree 9・モノドロミー PSL(2,8)(9T27・原始的)ゆえ **deck 群自明・$\mathrm{Aut}(C,t)=1$**、かつ passport 内で rigid ⟹ **marked 同型は一意**。
+2. **P5($u_0=u_{S4}$)は実質確認済**: falsifier が producer code L118/L120 の明示宣言 + $T=1/t$ 代数で判読(裁定 1719)。cert の `unconfirmed` 自己申告は**この判読より前のもの**。
+⟹ **Ψ 側は正準生成元(§7.1)+ 一意な比較写像(1)+ 確認済の同定(2)で完全に pin される。**
+
+## 7.3 ★ 二経路相互検算(DC 級・**これが本節の実用価値**)
+
+| 経路 | 入力 | 出力 |
+|---|---|---|
+| **経路 A(既存・S1–S9)** | $p$、$u_0$、$\zeta_9/\omega$ | $\psi_p=2$($p=19,37,73$ で実測済) |
+| **経路 B(新・π 列)** | D972 key の π 列のみ | $\Psi_\pi\in\{0,1,2\}$ |
+
+**整合すべき点(明示)**:
+$$\boxed{\ \text{任意の }\sigma\ \text{に対し}\quad \Psi_\pi\bigl(\pi\text{-column of }\mathrm{Ih}_M(\sigma)\bigr)\ =\ \psi_\sigma\ \ (\text{経路 A の値})\ }$$
+とくに **$p=19,37,73$ で経路 A が $\psi=2$ を返している**ので、**$\mathrm{Ih}_M(\mathrm{Frob}_p)$ の π 列は $\phi^2$-クラスでなければならない**。
+⟹ **経路 B で $\Psi_\pi=2$ を返す key の集合**が、$A=\mathrm{Im}(\mathrm{Ih}_M)$ の $\mathrm{Frob}_p$ 像を含む集合である。
+**両経路一致 = DC 級の相互検算**(片方だけの実装ミスを検出する)。⚠ ただし**これ自体は SELECT を決めない**(§7.4)。
+
+## 7.4 ★ 残る 1 ビットの正確な所在 — **$\mathcal K_3$ 側の $r$ 選択**
+
+$\mathcal K_3$ は 2405 Thm 4.3 の $k\bmod3$ だが、**$k$ は $D_n$ の生成元 $r$ の選択に相対**である:
+$$r\mapsto r^a\ (a\in(\mathbb Z/9)^\times)\ \Longrightarrow\ k\mapsto a^{-1}k\ \Longrightarrow\ \mathcal K_3\mapsto (a\bmod 3)^{-1}\mathcal K_3 .$$
+$a\equiv2\ (3)$ で**符号反転**。⟹ **$r$ の選択が残りの 1 ビット。**
+
+**閉じ手の候補(未実行)**: 二面体側の被覆(Chebyshev $T_9$・$u_{\rm dih}=\pm2^{-7}$)でも **$\mathrm{Aut}(\text{cover})=1$**(`math_udih_v1.g` で機械確認済)なので、**PSL 側と同型の rigidity 論法で $r$ が正準に決まる可能性がある**。
+⚠ ただし **Galois 閉包の $C_9$ には $\mathrm{Out}$ が作用する**ので、「被覆の $\mathrm{Aut}$ が自明」から直ちに「$r$ が一意」は**出ない**。**私は verify していない。**⟹ **UNKNOWN(名前つき標的)**。
+
+> **⟹ 正直な現状**: K1–K5 は **§7.1 の評価器を入れれば回る**が、**SELECT の最終ビットは $\mathcal K_3$ 側の $r$ 選択に移った**。$c$(所在不明の外部定数)ではなく、**幾何側の明示された選択**である点は前進。
+
+## 7.5 それでも今すぐ走る価値がある検査(**SELECT なしでも一級**)
+
+$r$ の選択を**任意に固定**して(どちらでもよい)次を回す:
+
+```
+V1  X^0 := ker(chi mod 3)      |X^0| = 486        (実測済)
+V2  各 roster R について R ∩ X^0 を取る            (各 162 — 実測済・ORIENT 予測一致)
+V3  Psi_pi と K3 を X^0 の全 486 元で評価
+V4  ★ 検査: 一方の roster ∩ X^0 上で Psi_pi - K3 ≡ 0、
+            もう一方で Psi_pi + K3 ≡ 0 になるか
+```
+> **V4 が通れば、ORIENT §7.1 の構造($A_{c'}\cap X^0=\ker(\Psi-c'\mathcal K_3)$)が実データで初めて検証される。**
+> **通らなければ、ORIENT の型付けか roster か評価器のどれかが誤り** ⟹ **一級の否定結果**。
+> ⚠ **V4 は $r$ の選択に依らない**(選択を変えると 2 つの roster の役割が入れ替わるだけで、「片方が $-$、他方が $+$」という構造は不変)。⟹ **今すぐ回せて、しかも決定的。**
+
+## 7.6 較正必達値
+
+| 量 | 値 | 出所 |
+|---|---|---|
+| $\lvert PSL(2,8)\rvert=\lvert PGL(2,8)\rvert$ | **504** | §7.1 `gate:` |
+| $\lvert P\Gamma L(2,8)\rvert$ | **1512** | 同 |
+| $[P\Gamma L:PSL]$ | **3**、商 $\cong C_3$ | 同 |
+| $\Psi_\pi(\phi)=1$、$\Psi_\pi(\phi^2)=2$、$\Psi_\pi(1)=0$ | — | 同 |
+| $\lvert X^0\rvert$ | **486** | implementer B 実測 |
+| 各 roster $\cap X^0$ | **162 / 162** | implementer B 実測(ORIENT 予測一致) |
+| $\lvert X_2\rvert$、$X_2^{\rm ab}$ | **54**、$C_6$ | d972 §6.6 P-c(既測) |
+| 経路 A の値 | $\psi=2$($p=19,37,73$) | 既存 S1–S9 |
+
+## 7.7 UNKNOWN
+
+1. ★ **$\mathcal K_3$ 側の $r$ 選択**(§7.4)— **SELECT の最終ビット**。rigidity で閉じる可能性はあるが**未検証**。
+2. **π 列の実体**: D972 key から $P\Gamma L(2,8)$ の元(またはそのクラス)をどう取り出すかの**データ経路**を私は確認していない(census が π 列をどう格納しているか)。**§7.1 の評価器は「$P\Gamma L$ の元が与えられたら」の部分**であり、**key → π 列の抽出は implementer 側で 1 回確認が要る**。
+3. **V4 が通るか**(§7.5)— 未実行。**通らなければ ORIENT の型付けを見直す**。
+4. §6.5 の残項(census 内 Ψ 評価器の規約 D 準拠確認)は **本節で「存在しない」と確定**したので、**新規に §7.1 を実装する**のが正しい対応。
