@@ -1,0 +1,224 @@
+# Sol(max) task 347 - task342 A0/v7 full code, soundness, and performance audit
+
+Role: Sol(max), adversarial mathematical/code auditor.  Read every numbered
+section first to last before judging.  Do not edit any producer/checker/
+driver/fixture, proof, workflow, v220, input, or artifact.  Do not run Python,
+Node, GAP, GHA, a workflow, git, or network.  Create only
+
+`sol/sol_reply_347_r07_task342_a0_v7_code_performance_audit_v1.md`.
+
+The required verdict is `PASS / UNEXECUTED` only if every literal route below
+is statically sound.  Otherwise return `REJECT / UNEXECUTED`, name the first
+deterministic stop, continue the audit under the smallest explicitly labelled
+hypothetical repairs, and give one bounded v8 prescription.  SELFTEST and
+PRODUCTION are not authorized by this mail.
+
+## 1. Frozen candidate and prerequisite order
+
+Read in full, in this order:
+
+1. `sol/luna_task_342_r07_a0_v7_fast_positive_resume.md`;
+2. `sol/luna_reply_342_r07_a0_v7_fast_positive_resume.md`;
+3. all four v7 machine outputs listed below;
+4. `sol/sol_reply_337_r07_task325_v6_code_performance_audit_v1.md`;
+5. v265, v275, v276, v277, v278, and v279;
+6. the complete v6 and cached-v3/live-v1 files named by task342;
+7. task175/task176 sources and pinned actual inputs; and
+8. the staged checkpoint manifest and, read-only, its exact sole raw member
+   schema/provenance as needed for static trace.
+
+The candidate identities are:
+
+```text
+search/d972_r07_history_free_positive_fast_resume_v7.py
+  122132 bytes
+  cddef2abe41aaad9b2c0dd81d6fcc67b603bbf70359888fdfd34bf1d9f069ef9
+crosscheck/check_d972_r07_history_free_positive_fast_resume_v7.py
+  96334 bytes
+  8afcf5653eefedfb1639ea9a0d30e6d7ba5fc3f337406295b4522c31ae61423c
+search/d972_r07_history_free_positive_fast_resume_gha_driver_v7.g
+  10156 bytes
+  232f67106d5d21c87e01b5889112c48c687186ddd6b3539f0664973b50e4d558
+search/certs/d972_r07_history_free_positive_fast_resume_selftest_v7_20260829.json
+  2783 bytes
+  5f6628d8413ebcc78a87196fa999b4f73122d4bca2c22efc0a9f637e59f483c6
+sol/luna_reply_342_r07_a0_v7_fast_positive_resume.md
+  16542 bytes
+  6403d8c1d182ddb476ef0f16dbd891d4d1935b392aeb7ea38c356729e5464249
+```
+
+Recompute these identities read-only before using the files.  A mismatch is
+the first stop.
+
+## 2. Literal reachability and exact first-stop audit
+
+Trace the production driver literally through ZIP extraction, source pins,
+single raw open/parse, light runtime, triangular P build, target/dual,
+production boundary owner, ACTIVE and zero branches, Q0-LATE construction,
+correction search, COMMON, UNKNOWN_INPUT, UNKNOWN_RESOURCE, checker, terminal
+comparison, sidecars, and sentinel.  Also trace resume from every advertised
+checkpoint phase.
+
+Find the first deterministic exception/schema/path/pin/attribute/terminal-
+regex/exit-code/driver stop on the actual frozen inputs.  Do not stop the
+audit after finding one.  Under the minimal hypothetical fix, find the next
+independent failures until the full route has been covered.  Distinguish:
+
+- hard implementation STOP;
+- typed input/resource transport;
+- finite COMMON candidate;
+- independent COMMON acceptance; and
+- forbidden separator/negative/fake/cofinal/Ihara claims.
+
+No producer-only line, checkpoint, static count, or typed UNKNOWN may count
+as A0.
+
+## 3. Mathematical soundness
+
+Audit every premise of v276--v278 in the literal implementation:
+
+1. old schema/seal/source pins, canonical sparse codecs, column ids,
+   provenance types, pivot order, and the exact 2,896-row inventory;
+2. every independent equation `P_j=sum_i a_ji*C_i`, nonzero diagonal,
+   registered pivot coefficient one, earlier-pivot zeros, least live key,
+   and direct reducer injection;
+3. formal ancestry propagation through every reduction, ACTIVE insertion,
+   correction insertion, checkpoint, restore, and final zero reduction;
+4. target reconstruction and fresh dual correctness without trusting the old
+   cached dual or historical trajectory;
+5. complete typed boundary correlation, `t=g*h^-1`, `t*h=g`, F3
+   accumulation, lexicographic winner, parent reconstruction, and atomic
+   epoch commit;
+6. zero correlation as transition only, never NONMEMBER/exhaustion;
+7. Q0-LATE construction and all correction schedule/fibre/joint-kernel/
+   eleven-occurrence/direct-all-seven gates; and
+8. final selected-support equality, coefficient two as inverse, typed PB3/
+   PB4 preimage, corrected word, exponents, and all frozen side gates.
+
+Decide whether a false/unreplayed unselected old row can influence an
+accepted COMMON despite v278.  Check that the formal selected set after
+direct replay is exactly the one used for the final equality and sealing.
+
+## 4. Checker independence and transport
+
+Establish the complete import/call graph.  The checker may authenticate but
+must not import producer code, producer helpers, old full checker, producer
+echelon, dual, candidate Boolean, word, scalar, or digest as authority.
+Trace which public mathematical modules are shared and whether their use
+preserves helper non-sharing.
+
+For COMMON, confirm independent reconstruction of target, every selected old
+and new row, word product, joint kernel, all eleven/direct-all-seven equality,
+and final residual.  For nonpositive terminals, confirm the checker performs
+only bounded physical transport and cannot accidentally invoke light/Q0 or
+positive mathematics.
+
+Audit no-follow/link-count/handle identity/TOCTOU logic on the Linux GHA
+route, receipt/checkpoint sibling binding, atomic output, stale output,
+terminal exactness, and portable bytes/SHA fields.  Device/inode values must
+not be misused as portable artifact identities.
+
+## 5. Checkpoint and resume truth
+
+For each possible cap location, determine whether a complete, bounded,
+terminal checkpoint is actually writable.  Pay special attention to caps or
+exceptions before `Search` exists, during source parse/build_light/P build,
+during child startup/IPC, before and during heavy construction, and during
+serialization itself.
+
+Check that restore reconstructs, rather than merely labels:
+
+- all P/live rows and pivot order;
+- complete formal ancestry and new-row provenance;
+- target, remainder, exact next dual/epoch;
+- boundary cleanup and a fresh persistent owner;
+- heavy owner/digest and all correction cursors when applicable; and
+- counters/source/code identities and next-state canary.
+
+No stale dual-bound progress, partial worker result, missing heavy state, or
+unbounded 4 GB promise may be called replayable.  A checkpoint which would
+recompute the rejected serial history or Q0 prematurely fails its advertised
+acceleration.
+
+## 6. Process, mutation, and failure-owner audit
+
+Trace the W=2/W=4 normal and fault cases and the production persistent owner.
+Audit nonblocking sockets, framing, deadlines, child death/partial/blocked
+send, complete interval cover, cleanup, terminate/join/kill/close, and
+process survival.  Check actual fork/spawn assumptions on Linux.
+
+For every fixture mutation, name:
+
+- the physical/live owner changed before validation;
+- the normal validator reached;
+- the narrow exception caught;
+- whether the mutation is semantic rather than a digest/flag/name branch;
+- whether resealing improperly launders the changed owner; and
+- whether the baseline route itself is reachable.
+
+Reject post-hoc shaped dictionaries, copied expected-failure flags, arbitrary
+exception catches, mutation-name rejection, and a synthetic owner map.  Check
+producer and checker mutation independence separately.
+
+## 7. Mandatory performance and unnecessary-work audit
+
+This section is load-bearing.  The researcher explicitly requires detection
+of code which is needlessly slow.  Give literal static counts or defensible
+bounds, not adjectives, for:
+
+- every read/hash/parse/canonicalization of the 86,368,039-byte source;
+- source-module compilation and repeated registry loads;
+- all `A*C` products and any hidden serial pivot scans;
+- target/dual creation and support decoding;
+- first 4,752 boundary pairs, per-worker transmitted bytes, accumulator size,
+  and parent second passes;
+- process construction and IPC per epoch;
+- unconditional SELFTEST/mutation work performed inside PRODUCTION;
+- Q0 state/store/membership/coarse-index construction and exact trigger;
+- ancestry-map copying/flattening and checkpoint canonicalization;
+- COMMON selected replay and all checker mutation replays;
+- UNKNOWN checker work; and
+- final/checkpoint serialized bytes and peak live copies.
+
+Specifically decide whether `run_real_owner_selftest` belongs on every
+PRODUCTION path, how many fork/fault cases it adds before the first real
+boundary pair, and whether it should instead be a separately accepted
+SELFTEST artifact.  Find any repeated full source/roster/P-row replay,
+quadratic sparse-map merge, whole-document clone, busy loop, per-pair hash,
+per-epoch pool, unused descriptor scan, eager Q0 object, or repeated positive
+validation.  Include work which is correct but unnecessary.
+
+Give a conservative six-hour feasibility decomposition into producer,
+checker, and upload reserve.  Do not claim measured runtime.  If the driver
+allows the producer to consume three hours and COMMON checker/mutations can
+also approach three hours, determine whether the terminal can still be
+uploaded.  Prescribe the smallest sound removal/reordering for every
+avoidable cost.
+
+## 8. Verdict and successor
+
+A PASS must state why one GHA SELFTEST/PRODUCTION dispatch is authorized and
+give the exact driver command/workflow entry without dispatching it.  A
+REJECT must forbid execution and specify one bounded v8 repair, preserving
+the sound v7 pieces and deleting each failed or unnecessarily slow owner.
+
+Map the result to v220.  Static PASS remains A0 `0/1`; only an actual COMMON
+producer plus independent checker acceptance changes it to `1/1`.
+
+End exactly with:
+
+```text
+AUDIT VERDICT:                         PASS or REJECT / UNEXECUTED
+FIRST LITERAL STOP:                    <exact owner or NONE>
+MATHEMATICAL POSITIVE PATH:            PASS or REJECT
+CHECKER INDEPENDENCE:                  PASS or REJECT
+CHECKPOINT / RESUME:                   PASS or REJECT
+PHYSICAL MUTATIONS:                    PASS or REJECT
+UNNECESSARY SLOW WORK:                 NONE or <exact owners>
+SELFTEST / PRODUCTION AUTHORIZATION:   YES or NO
+ACTUAL A0 COMMON + CHECKER:            0/1
+SEPARATOR / NEGATIVE CLAIM:            FORBIDDEN
+LIFT / FAKE / IHARA:                   NONE
+```
+
+`TASK347_R07_TASK342_A0_V7_CODE_PERFORMANCE_AUDIT`
