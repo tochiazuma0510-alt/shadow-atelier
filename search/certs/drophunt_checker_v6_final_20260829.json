@@ -1,0 +1,59 @@
+{
+  "schema": "drophunt-checker-v6-final/v1",
+  "status": "PGL_ROUNDTRIP_COMPLETE_K2_CHECKER_ROUNDTRIP_PERFORMANCE_LIMITED",
+  "verified": false,
+  "authority": "implementer task 2026-08-29, per 裁定1751 (final 2-item completion before falsifier第3便)",
+  "note": "v5 cert (search/certs/drophunt_checker_v5_item5_20260829.json) を supersede しない・追記として本 v6 を発行。2 項目のうち PGammaL(2,8) は完全往復 PASS。K2 は GAP 側の receipt 発行(48/2 の producer 結果を保持したまま)は完走したが、Python checker の往復が degree=23340 で 10 分規律を超過し完了未確認 -- 正直に性能限界として報告する(正しさの疑義ではない)。",
+
+  "item1_K2_receipt_roundtrip": {
+    "status": "PARTIAL -- GAP-side receipt emission CONFIRMED COMPLETE, Python checker round-trip PERFORMANCE-LIMITED (not confirmed complete within 10-minute chunking budget)",
+    "gap_side": {
+      "script": "search/drophunt_k2_producer_v3.g (modified with DCP3EmitReceipt call, per the prior pass)",
+      "result": "COMPLETED this pass: DK3_VALID_COUNT=2 (unchanged from the already-confirmed 48/2 raw-fib/valid result), receipt written to search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json (6,583,771 bytes)",
+      "wall_time_ms": 399166,
+      "note_on_timing": "this run took ~6.65 minutes, notably longer than the prior (non-instrumented) K2 run's ~42 seconds. The added work is receipt-JSON construction/serialization for a window with F3=48 rows at degree 23340 (each row's 23,340-entry permutation array serialized to JSON text) -- plausible explanation for the slowdown, not diagnosed further in this pass since the GAP-side numeric result itself (48/2) is unchanged and was the load-bearing output."
+    },
+    "python_checker_side": {
+      "script": "search/drophunt_checker_v3.py",
+      "status": "LAUNCHED, DID NOT COMPLETE WITHIN THIS PASS'S ACTIVE WORK WINDOW (well over 10 minutes of wall-clock, no output produced)",
+      "diagnosis_not_performed": "not root-caused in this pass (could be: pure-Python stabilizer-chain orbit BFS over a 23,340-point domain being genuinely slow at this scale without any C-level acceleration; could be the derived_subgroup_chain's bounded-round conjugation-closure search generating an unexpectedly large generating set before convergence; could be something else). This is reported as an OPEN PERFORMANCE QUESTION, not asserted to have a specific cause without evidence.",
+      "distinction_from_prior_bugs": "this is explicitly NOT a repeat of the WDICT-5 or apply_hom order-convention bug class -- those were CORRECTNESS bugs (wrong answer, fast). This is a SPEED/SCALING limitation (no answer yet, still computing or stalled) on a much larger window (degree 23,340) than anything previously round-tripped through this checker (the largest prior CONFIRMED checker run was the 5 small windows, degree <=192, all completing in seconds)."
+    },
+    "recommendation": "either (a) let this specific checker run continue in a dedicated, unconstrained background session (outside a single 10-minute reporting chunk) and report its result whenever it lands, or (b) accept that K2's receipt+checker discipline is CONFIRMED WORKING at the scale already demonstrated (5 windows + PGammaL, degrees <=192) and that K2's specific degree (23,340) is an outlier requiring either a faster checker implementation (e.g. a compiled/vectorized permutation library) or GAP-side-only verification for windows at that scale, as a scope decision for 司令塔/数学者 rather than this implementer to make unilaterally."
+  },
+
+  "item2_PGammaL28_v3_receipt_pipeline": {
+    "status": "COMPLETE -- full round trip PASS",
+    "producer": {
+      "script": "search/drophunt_pgl_producer_v3.g",
+      "method": "reuses the validated E=PGammaL(2,8) self-contained construction (marking search for s,t; component computation for m in {0,2,3,5,6,8} mod 9 over DerivedSubgroup(E)'s 504 elements) from the prior pass's search/drophunt_pgl_producer_v1.g, now emitting a v3-schema receipt via a NEW self-contained-window variant (self_contained_E:true field) since this window's structure (E's own self-contained GT(E)-style check, joined to the 972 M-targets purely by m mod 9 matching, per the correction discovered in the prior pass) does not fit the K=M cap L shape DCP3EmitReceipt/DCP3BuildWindow assume for the usual windows.",
+      "schema_adaptation": "the receipt sets self_contained_E:true and describes E directly (E_order, derived_E_order, degree=9, charming_m_mod9, and the 4 marked generators Ex/Ey/Es/Et as raw permutations) rather than the usual K<=M window fields (F1_m_factor, F2_ratio in the M-relative sense, reduction_match) which do not apply here -- SS4's other 7 fields (predicate_rule, c_in_K, tau_descends, F4_isolated, positive_recordability, node_id, seed_key, wcp5d_ref) are still emitted per the standard discipline.",
+      "result": "3024 rows (6 charming m x 504 derived-subgroup candidates), valid_count=54 (9 per charming m, matching the expected value exactly), total_elapsed_ms=1061"
+    },
+    "checker": {
+      "path": "search/drophunt_checker_v3.py (new check_self_contained_E function, dispatched when self_contained_E:true)",
+      "method": "theta=Ad(s), tau=Ad(t) are re-derived here as DIRECT conjugation by the raw permutations Es/Et read from the receipt (pmul(pmul(pinv(Es),p),Es) etc.) -- simpler than the M-window case's homomorphism-tracked chain, because conjugation by a FIXED, EXPLICITLY GIVEN element is always a genuine automorphism of the WHOLE group computable directly on any element, with no factorization/chain machinery needed at all. Independently recomputed: E's order (1512), DerivedSubgroup(E)'s order (504), every row's hex310/hex311/onto/verdict, and the per-m pass-count uniformity (all 6 charming m give exactly 9).",
+      "result": "PASS, 0 errors, recomputed_valid_count=54 matches declared, pass_count_per_m all 9 for m in {0,2,3,5,6,8}",
+      "raw_output": "printed to console this turn (see transcript); receipt at search/certs/drophunt_checker_v3_receipt_PGammaL28_selfcontained_20260829.json"
+    }
+  },
+
+  "overall_picture_final": {
+    "calibration": {
+      "K2_raw48_valid2": "COMPLETE at GAP level (multiple confirmations across this whole repair line); receipt+checker round-trip GAP-side complete, Python-checker-side performance-limited/unconfirmed this pass",
+      "PGammaL28_valid9": "COMPLETE end-to-end: GAP-level result + v3 receipt + independent Python checker, all confirmed PASS this pass"
+    },
+    "positive_control": "COMPLETE (prior pass)",
+    "mutants": "MU1 superseded (documented), MU2/MU3/MU9/MU8 COMPLETE at GAP level AND receipt+checker level (prior pass)",
+    "CK_group_and_SS4_fields": "COMPLETE, including the new self-contained-window variant exercised this pass",
+    "venue": "413ms/window (small-scale finding, unchanged); K2's own 6.65-minute GAP-side wall time at degree 23,340 is a NEW data point suggesting the true largest-window cost may be higher than the 413ms/idx192 sample implied -- flagged as relevant new venue evidence, not yet reconciled with the earlier estimate in this pass.",
+    "single_remaining_gap": "K2's Python-checker round-trip specifically. Every other piece the coordinator listed across items 1-8 of this whole repair campaign (WDICT-5 predicate repair, positive control, MU-1/2/3/8/9, CK-1..4, SS4 8-field enforcement, venue re-check, and now PGammaL's full round-trip) is confirmed complete and PASSING."
+  },
+
+  "deviations_and_open_questions": [
+    "(1) K2's checker performance at degree 23,340 is unresolved -- flagged as requiring either patience (let it run to completion outside this turn's time budget), a faster checker implementation, or a scope decision to accept GAP-side-only verification for windows at this scale.",
+    "(2) The K2 GAP-side run itself took ~6.65 minutes this pass vs ~42 seconds previously -- the receipt-serialization overhead is a plausible but not confirmed explanation.",
+    "(3) As throughout this whole repair line, c-in-M grounding remains an explicit unresolved framework assumption (carried in every v3 receipt's c_in_M_grounding field where applicable).",
+    "(4) The new venue data point (K2's 6.65-minute wall time at |G|~35M, degree 23,340) has not been reconciled with the earlier 413ms/|G|~1.4e8-but-degree-228 finding -- these are not directly comparable (different degree scaling, different operation mix: K2's construction involves the 23,328-element G36 closure and regular-representation build, which item 8's export-direct idx192 window did not need at all). This distinction should be made explicit before any final venue decision, not glossed over as a contradiction."
+  ]
+}

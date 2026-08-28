@@ -279,6 +279,90 @@ def digest_of(v: object) -> str:
     return sha256_bytes(canonical(v))
 
 
+def check_self_contained_E(receipt: dict, path: str, receipt_sha256: str, errors: list, require) -> dict:
+    """item 2 (裁定1751): PGammaL(2,8) self-contained window. theta=Ad(s),
+    tau=Ad(t) here are GENUINE INNER AUTOMORPHISMS of the whole group E,
+    computable DIRECTLY as conjugation by s (resp. t) for ANY element --
+    no factorization/chain-tracking is needed at all (unlike the M-window
+    case, where Delta/delta themselves are not directly available, only
+    their closed-form ACTION on generators). This is independently
+    re-derived here from raw Ex/Ey/Es/Et permutations in the receipt."""
+    window = receipt.get("window", {})
+    require(window.get("E_order") == 1512, "PGL_E_ORDER_WRONG", str(window.get("E_order")))
+    deg = window.get("degree")
+    require(deg == 9, "PGL_DEGREE_WRONG", str(deg))
+    Ex = load_perm_1indexed(window["Ex_one_line"])
+    Ey = load_perm_1indexed(window["Ey_one_line"])
+    Es = load_perm_1indexed(window["Es_one_line"])
+    Et = load_perm_1indexed(window["Et_one_line"])
+
+    E_chain = build_stabilizer_chain([Ex, Ey], deg)
+    E_order = chain_order(E_chain)
+    require(E_order == 1512, "PGL_E_ORDER_RECOMPUTE_MISMATCH", f"computed={E_order}")
+
+    derived_chain = derived_subgroup_chain(Ex, Ey, deg)
+    derived_order = chain_order(derived_chain)
+    require(derived_order == 504, "PGL_DERIVED_E_ORDER_MISMATCH", f"computed={derived_order}")
+
+    charming_expected = set(window.get("charming_m_mod9", []))
+    require(charming_expected == {0, 2, 3, 5, 6, 8} or charming_expected == {"0", "2", "3", "5", "6", "8"}, "PGL_CHARMING_SET_WRONG", str(charming_expected))
+
+    rows = receipt.get("rows", [])
+    cc1 = receipt.get("cc1_candidate_coverage", {})
+    require(len(rows) == 6 * 504, "PGL_ROW_COUNT_WRONG", f"{len(rows)}")
+    require(cc1.get("evaluated_count") == 6 * 504 and cc1.get("match") is True, "PGL_CC1_MISMATCH", "")
+
+    recomputed_valid = 0
+    seen_pairs = set()
+    pass_count_per_m: dict[int, int] = {}
+    for row in rows:
+        m = row["m"]
+        p = load_perm_1indexed(row["perm_one_line"])
+        key = (m, tuple(p))
+        require(key not in seen_pairs, "PGL_DUPLICATE_CANDIDATE", str(key))
+        seen_pairs.add(key)
+
+        theta_p = pmul(pmul(pinv(Es), p), Es)
+        hex310_recomputed = (pmul(theta_p, p) == pid(deg))
+        require(hex310_recomputed == row["hex310"], "PGL_HEX310_MISMATCH", f"m={m}: recomputed={hex310_recomputed} producer={row['hex310']}")
+
+        hex311_recomputed = None
+        onto_recomputed = None
+        if hex310_recomputed:
+            u = 2 * m + 1
+            ymf = pmul(p, ppow(Ey, m))
+            tau_ymf = pmul(pmul(pinv(Et), ymf), Et)
+            tau2_ymf = pmul(pmul(pinv(Et), tau_ymf), Et)
+            hex311_recomputed = (pmul(pmul(ymf, tau_ymf), tau2_ymf) == pid(deg))
+            require(hex311_recomputed == row["hex311"], "PGL_HEX311_MISMATCH", f"m={m}: recomputed={hex311_recomputed} producer={row['hex311']}")
+            if hex311_recomputed:
+                genA = ppow(Ex, u)
+                genB = pmul(pmul(p, ppow(Ey, u)), pinv(p))
+                onto_order = group_order([genA, genB], deg)
+                onto_recomputed = (onto_order == 1512)
+                require(onto_recomputed == row["onto"], "PGL_ONTO_MISMATCH", f"m={m}")
+
+        verdict_recomputed = bool(hex310_recomputed) and bool(hex311_recomputed) and bool(onto_recomputed)
+        require(verdict_recomputed == row["verdict"], "PGL_VERDICT_MISMATCH", f"m={m}")
+        if row["verdict"]:
+            recomputed_valid += 1
+            pass_count_per_m[m] = pass_count_per_m.get(m, 0) + 1
+
+    require(recomputed_valid == receipt.get("valid_count"), "PGL_VALID_COUNT_MISMATCH", f"recomputed={recomputed_valid} declared={receipt.get('valid_count')}")
+    require(receipt.get("valid_count") == 54, "PGL_VALID_COUNT_NOT_54", str(receipt.get("valid_count")))
+    all_nine = all(pass_count_per_m.get(m) == 9 for m in (0, 2, 3, 5, 6, 8))
+    require(all_nine, "PGL_NOT_ALL_M_GIVE_9", str(pass_count_per_m))
+
+    status = "PASS" if not errors else "FAIL"
+    return {
+        "schema": "drophunt-checker-v3-verdict/v1", "receipt_path": path, "receipt_sha256": receipt_sha256,
+        "status": status, "errors": errors, "self_contained_E": True,
+        "recomputed_E_order": E_order, "recomputed_derived_E_order": derived_order,
+        "recomputed_valid_count": recomputed_valid, "declared_valid_count": receipt.get("valid_count"),
+        "pass_count_per_m": pass_count_per_m,
+    }
+
+
 REQUIRED_SS4_FIELDS = ["predicate_rule", "c_in_K", "tau_descends", "F4_isolated",
                         "positive_recordability", "node_id", "seed_key", "wcp5d_ref"]
 
@@ -311,6 +395,7 @@ def check_receipt(path: str) -> dict:
     KNOWN_SEED_WORDS = {
         "row36": [-2, -2, -1, -1, 2, 2, 1, -2, -1, -1, 2, 2, 2, -1, -2, -2, 1, 1, 1, 1],
         "row71": [-1, -1, 2, 2, -1, -2, -1, -1, 2, 1, -2, 1, 1, 2],
+        "self_contained_E_all_charming_m": [],
     }
     if "seed_key" in receipt:
         sk = receipt["seed_key"]
@@ -325,6 +410,9 @@ def check_receipt(path: str) -> dict:
         require(isinstance(receipt["c_in_K"], bool), "SS4_C_IN_K_TYPE", str(receipt.get("c_in_K")))
     if "tau_descends" in receipt:
         require(receipt["tau_descends"] == receipt.get("c_in_K"), "SS4_TAU_DESCENDS_NOT_CONSERVATIVE_WITH_C_IN_K", f"tau_descends={receipt.get('tau_descends')} c_in_K={receipt.get('c_in_K')}")
+
+    if receipt.get("self_contained_E"):
+        return check_self_contained_E(receipt, path, receipt_sha256, errors, require)
 
     window = receipt.get("window", {})
     K_ord = window.get("K_ord")
