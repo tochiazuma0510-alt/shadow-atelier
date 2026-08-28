@@ -330,6 +330,12 @@ S1  assert p % 9 == 1                      # mu_9 subset F_p^*
 S2  assert p does not divide num/den of u0inv, beta, disc(model)
 S3  cube(z) := Mod(z, p)^((p-1)/3)         # in mu_3(F_p)
 S4  Su    := cube(u_S4)    where u_S4 = u0inv^{sgn}   # sgn = +1 or -1 per 規約 D
+    # ⚠⚠ 配線罠(2026-08-28・裁定 1720): 規約 D の正解は u_S4 = u0 なので、
+    #    この行の u0inv を基準にすると sgn = -1 でなければならない。
+    #    ところが cert の見出しは /input_u0_inverse・/d1_input_tamper_check/u0_inverse_read で
+    #    「u0inv」を第一級の量として提示するため、素直に実装すると sgn=+1 を取り
+    #    ★ ビットが反転する。cert に anchor_source と sgn を明記すること(規約台帳 D-5/D-10)。
+    Sanc  := cube(u_dih)   # u_dih = ±2^-7  ← β は使わない(規約台帳 D-2)
     Sbeta := cube(beta)
 S5  assert Su != 1 and Sbeta != 1          # 両側非自明(素数選択条件)
 S6  cprime := 1 if Su == Sbeta else 2      # Su = Sbeta^{c'} in mu_3 ;  2 == -1
@@ -347,12 +353,28 @@ S10 REPEAT S1-S9 for two more primes; SELECT must agree (安定性検査)
 **条件**: (i) $p\equiv1\pmod 9$、(ii) $p\nmid 2\cdot3\cdot5$($u_0$ の素因子)、(iii) $\left(\frac{\beta}{p}\right)_3\ne1$ かつ $\left(\frac{u_0}{p}\right)_3\ne1$(両側非自明 — これが**判別力の条件**)。
 $p\equiv1\ (9)$ の最小列: $19,\ 37,\ 73,\ 109,\ 127,\ 163,\ 181,\ 199,\dots$
 
-**予言表**($\beta=2$ 前提・$[u_0]_3=[2]^2$、$[u_0^{-1}]_3=[2]$ は §6.4 で確定)
+> ### ⚠⚠ 本予言表は **stale — 全面訂正**(2026-08-28・裁定 1717/1720)
+> 下の表は **$\beta=2$ をアンカーに使う**前提で書かれているが、**$\beta$ を使うのは誤り**である(`scratchpad/local3_udih_anchor_and_s9_conventions_v1.md` §A.3 訂正 C-A3):
+> $\beta$ の向きは幾何の規約 D ではなく Kummer marking + 正規化定数 $c\in(\mathbb Z/9)^\times$(**§6.6 P-a で未固定**)で決まるため、アンカーで消すはずの自由度が再流入する。
+> **正しいアンカーは二面体側 cover を規約 D で計算した $u_{\rm dih}=\pm2^{-7}$**(passport $(9;2^41;2^41)$・種数 0・$\mathrm{Aut}=1$ ⟹ 捻りなしで一意・Chebyshev $T_9$)。
+> $[u_{\rm dih}]_3=[2]^{-1}=[2]^2=[\beta]_3^{-1}$ なので、**下表の $c'$ 列は真逆である。**
+>
+> **訂正後の予言表**(アンカー $S_{\rm anc}=\mathrm{cube}(u_{\rm dih})$・$S_u=S_{\rm anc}^{c'}$):
+>
+> | 規約 D が採る量 | $S_u$ vs $S_{\rm anc}$ | **$c'$(正)** | 旧表の値(誤) |
+> |---|---|---|---|
+> | $u_{S4}=u_0$($[2]^2$) | $S_u=S_{\rm anc}^{1}$ | **$+1$** | $-1$ |
+> | $u_{S4}=u_0^{-1}$($[2]^1$) | $S_u=S_{\rm anc}^{2}$ | **$-1$** | $+1$ |
+>
+> **さらに(裁定 1719/1720)**: falsifier の producer code 判読により **$u_{S4}=u_0$ が確定**(L118/L120 の明示宣言 + $T=1/t$ 代数)⟹ **$c'=+1$**。
+> **かつ(2026-08-28・本ノート §7.3.6)**: 規約 D の「両窓同一レシピ」を S4 側でも完全に実行(3 点 Möbius 正規化)しても、**正規化因子 $\tau_k-\tau_j=\pm3\sqrt{-3}=(\mp\sqrt{-3})^3$ は完全立方**ゆえ $[u_{S4}]_3$ は不変 ⟹ **$c'=+1$ は正規化を入れても不変**(8/8 素数で機械確認)。
 
-| 規約 D が採る量 | $\left(\frac{\cdot}{p}\right)_3$ の関係 | **$c'$** | 選ばれる候補 |
+~~**予言表**($\beta=2$ 前提・$[u_0]_3=[2]^2$、$[u_0^{-1}]_3=[2]$ は §6.4 で確定)~~ ⟹ **上の訂正表で置換。以下は歴史的記録。**
+
+| ~~規約 D が採る量~~ | ~~$\left(\frac{\cdot}{p}\right)_3$ の関係~~ | ~~**$c'$**~~ | ~~選ばれる候補~~ |
 |---|---|---|---|
-| $u_{S4}=u_0$ | $S_u=S_\beta^{2}$ | $c'=-1$ | 一方(census 符号規約で NN-09 or NN-12) |
-| $u_{S4}=u_0^{-1}$ | $S_u=S_\beta^{1}$ | $c'=+1$ | もう一方 |
+| ~~$u_{S4}=u_0$~~ | ~~$S_u=S_\beta^{2}$~~ | ~~$c'=-1$~~ | ~~一方~~ |
+| ~~$u_{S4}=u_0^{-1}$~~ | ~~$S_u=S_\beta^{1}$~~ | ~~$c'=+1$~~ | ~~もう一方~~ |
 
 > ★ **重要**: この表は「**$c'$ は規約 D の 1 ビットと等価**」を示している。$\beta=2$ が正しければ、**$c'$ を決める作業 = 規約 D を幾何的に確定する作業**であり、素数計算そのものは $\beta=2$ の**検定**(下記)として働く。
 > **$\beta$ の検定(副産物・同じ素数で無料)**: $\left(\frac{u_0}{p}\right)_3$ と $\left(\frac{2}{p}\right)_3$ が**すべての選んだ素数で同じ巡回部分群を張る**こと。張らない素数が 1 つでも出れば $\beta\ne2$ か linkage(P5′)自体が偽 ⟹ **STOP**。12 素数で $\beta{=}2$ と $\beta{=}3$ は実質分離($2/3$ が mod $p$ の立方になる密度 $\sim1/3$ ゆえ 12 素数で $3^{-12}$)。
@@ -372,7 +394,38 @@ $p\equiv1\ (9)$ の最小列: $19,\ 37,\ 73,\ 109,\ 127,\ 163,\ 181,\ 199,\dots$
 - この 1 row が閉じるのは **NN-09 / NN-12 の選択のみ**。
 - **自動昇格しないもの**: $|A|=324$ の値そのもの(前件 = P1 発効・裁定 970 の S4 算術飽和・isolated 性)/ 648 の genuine-fake 判定 / $\mathrm{Im}(\mathrm{Ih}_M)=A$ の等号 / IDX3 の他の pin。
 - 格 = **candidate**。cross-checked にするには (i) 独立実装の第二系統、(ii) DC-1〜DC-5 全通過、(iii) 432-key canary(§7.1)PASS が要る。
-- **最大文**: 「規約 D を宣言したうえで、3 素点の 3 次冪剰余記号が $c'=\pm1$ を一意に返し、D972 census の NN-09/NN-12 の一方を選んだ。**規約 D の幾何的確定($u_{\rm dih}$ の同一レシピ計算)が済むまで、選択は規約相対**。」
+- ~~**最大文**: 「… **規約 D の幾何的確定($u_{\rm dih}$ の同一レシピ計算)が済むまで、選択は規約相対**。」~~ ⟹ **§7.3.6 で更新**(アンカー計算済・S4 側正規化も解消)。
+
+### 7.3.6 ★ S4 側正規化の解消(2026-08-28・裁定 1717①/1720)
+
+**falsifier の重大所見**: 規約 D の「両窓同一レシピ」は**不成立だった** — 二面体側は 3 点 Möbius 完全正規化済みだが、**S4 側はモデル所与の $t$ をそのまま使っていた**。しかも S4 側の $3^3$ 分岐点対は
+$$\tau_{1,2}=\tfrac32\pm\tfrac32\sqrt{-3}\qquad(\tau_1+\tau_2=3,\ \tau_1\tau_2=9,\ \text{min.\ poly }x^2-3x+9)$$
+という **ℚ 上共役な無理数対**で、3 点正規化 $(\infty,\tau_1,\tau_2)\to(0,1,\infty)$ は ℚ-有理でない。スカラーは mod 3 で load-bearing(falsifier 実測: $u_{\rm dih}=2^{-7}\Rightarrow c'=+1$ / $2^{-8}\Rightarrow c'=-1$ が全素数で反転)。
+
+> ### ★ 解決 = 候補 (ii)(不変性の証明)。**正規化因子は完全立方ゆえ mod 3 で無害。**
+> index-9 cusp は $t=\infty$ 上(cert は $u_0=-1/\lim(t\,s^9)$ を計算)。3 点正規化の Möbius は
+> $$\mu(w)=\frac{\tau_k-\tau_j}{w-\tau_j}\quad(\{j,k\}=\{1,2\}),\qquad t'=\mu(t)$$
+> で、cusp 近傍 $t\to\infty$ より
+> $$u_{S4}^{\rm norm}=\lim_{s\to0}\frac{t'}{s^9}=\frac{\tau_k-\tau_j}{\Lambda},\qquad \Lambda:=\lim_{s\to0}t\,s^9=-\frac1{u_0}.$$
+> ここで $\tau_2-\tau_1=-3\sqrt{-3}$ であり、$\lambda:=\sqrt{-3}$ とおくと $\lambda^2=-3$ ゆえ
+> $$\boxed{\ 3\sqrt{-3}=3\lambda=(-\lambda^2)\lambda\cdot(-1)=-\lambda^3=(-\lambda)^3\ }$$
+> すなわち **$\pm3\sqrt{-3}$ は $\mathbb Q(\zeta_3)^\times$ の完全立方**($-1=(-1)^3$ も立方)。$1/\Lambda=-u_0$ も $-1$ 倍だけ。
+> $$\Longrightarrow\ [u_{S4}^{\rm norm}]_3=[u_0]_3\ \ \text{in}\ \mathbb Q(\zeta_3)^\times/(\mathbb Q(\zeta_3)^\times)^3 .$$
+> ⟹ **3 点正規化を入れても $c'$ は変わらない。$u_{S4}=u_0$ を使ってよい。**
+> **どちらの $\tau$ を 1 に送るかも無害**($\tau_k-\tau_j$ の符号だけ変わり $-1$ は立方)。
+
+**機械確認**($p\equiv1\ (9)$・`scratchpad/math_s4norm_v1.py`):
+```
+gate: (-sqrt(-3))^3 == 3*sqrt(-3) ?  True      tau1+tau2 = 3 ; tau1*tau2 = 9
+gate: p=19,37,73,163,181,199,271,373  (109/127/307/397 は判別力条件で degenerate)
+      cube(3*sqrt(-3)) == 1 : 8/8
+      c'(u_S4=u0) == c'(u_S4=normalised) : 8/8      [ 全て c' = +1 ]
+gate: falsifier の感度検査の再現 — u_dih=2^-7 -> c'=+1 / 2^-8 -> c'=-1 : 全素数で反転 True
+```
+⚠ **$2^{-8}$ は「3 点正規化を完了していない」場合の値**($\mu(w)=1/w$ は第 3 分岐点を $\infty$ に送らない)。⟹ **falsifier の感度検査は「3 点正規化こそが値を pin する」ことの確認になっている。**
+
+**格の更新**: SELECT の上限は ~~candidate(S4 側正規化相対)~~ ⟹ **candidate(正規化解消済・census ラベル D-6 相対)**。
+**新・最大文**: 「規約 D を両窓で完全に実行し(S4 側の 3 点正規化因子は完全立方ゆえ mod 3 で無害)、アンカー $u_{\rm dih}=\pm2^{-7}$ に対し $c'=+1$ を得た。残るは census ラベル写像 D-6 のみ。」
 
 ---
 
