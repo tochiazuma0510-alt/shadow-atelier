@@ -4829,3 +4829,48 @@ case, and memory ceiling which the v12a implementation must now realize.
 - v220 task effect: the mathematical selected-K0 subgate of A0 is closed as
   a contract, but actual A0 remains `0/1` until v12a implements ordinary
   baseline/mutations and P0/R/V, then passes fresh Sol(max) audit and GHA.
+
+### Delta 113 (2026-08-29): A4-v5 core frozen at the physical-mutation frontier
+
+- Luna task345 returned the five authorized A4-v5 files as `BLOCKED /
+  UNEXECUTED`.  The exact frozen machine identities are producer
+  `218,912` bytes / `e78537a5e5dcb7b897cf7398bea2f72d467d881c534d1118a9f0e93a99a0e0ac`,
+  checker `258,659` bytes /
+  `49fead3263aba57a9058b9c0b2ed0f893cf45287ec18e772a0068a6ccd7ab3a5`,
+  driver `13,360` bytes /
+  `2099bab7ae7de8d3e31fb15380283bebbf33ecc886895602a43e11209fbe0676`,
+  and fixture `5,026` bytes /
+  `696386deb6b093abac2748ae6a7adc0c72aa9e9b8b2da8f065da6f75ac5d626f`.
+- The static candidate now contains the authenticated task198/task176
+  adapters, producer forward and checker reverse row DAGs, one-pass bridge
+  assembly, mixed B/K closure, exact action columns, word/ledger ancestry,
+  v280 anchor reconstruction, typed checkpoint state, resource-accounting
+  maps, and the acyclic driver pin graph.  None of these claims has been run
+  or independently accepted; they are a frozen implementation base only.
+- The first literal stop is fixture
+  `expected_rejections={"producer":{},"checker":{}}`.  Both SELFTEST owners
+  require all 48 names and exact `(normal_validator,first_rejection)` rows
+  before constructing any route, so the candidate fails closed.  Moreover,
+  most current routes mutate live Python slots rather than exercising the
+  required physical authority/path/no-follow, row/chunk/bridge/ABI,
+  checkpoint, atomic/stale/sentinel, and TOCTOU transports.  Therefore no
+  SELFTEST, positive branch, A4 closure, or Sol(max) execution authorization
+  follows from task345.
+- The unique next A4 step is task355: preserve the v5 algebra/DAG core and
+  complete only the producer/checker-separated actual-owner mutation layer,
+  including physical before/after identities and exact first reasons.  A
+  fresh Sol(max) correctness/performance/avoidable-work audit is deferred
+  until that implementation is complete.
+
+**v220 mapping**:
+
+- A4 remains **1/3; V5 BLOCKED / V6 PHYSICAL-MUTATION REPAIR
+  COMMISSIONED**.  Authenticated task198 input remains the sole numerator.
+- A5/A6 remain **0/3 actual / 0/3 actual** and wait for an accepted A4 basis.
+  A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, and every later witness/fake gate
+  is unchanged.  No compatible lift, fake certificate, Ihara counterexample,
+  or cofinal witness has been constructed.
+
+Delta113 freezes the useful A4 implementation without mistaking a deliberate
+SELFTEST stop or an in-memory mutation roster for physical evidence.
