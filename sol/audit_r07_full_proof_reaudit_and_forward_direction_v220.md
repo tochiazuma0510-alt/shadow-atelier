@@ -4320,3 +4320,7 @@ authorizing another six-hour run or counting static acceleration claims.
 Delta99 closes the rejected A0-v7 audit, restores one exact A4 authority
 owner, and fixes the mixed-echelon/action proof boundary without counting any
 unexecuted implementation or paper theorem in the actual numerator.
+
+Durable branch record: commit `961fa54993c581282b0c2fcbab12afb06e423641`
+was pushed to `origin/sol/r07-explicit-lift-20260825`.  No workflow was
+dispatched in delta99.
