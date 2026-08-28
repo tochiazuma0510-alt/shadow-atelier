@@ -4377,3 +4377,41 @@ dispatched in delta99.
 Delta100 converts both current implementation blockers into explicit bounded
 successor contracts without increasing any actual milestone numerator.  No
 workflow was dispatched in delta100.
+
+#### v220-delta101 - 2026-08-29 (after delta100)
+
+**Individual progress**:
+
+- Luna task350 returned A0-v9 as `BLOCKED / UNEXECUTED`.  The useful static
+  repairs are preserved: actual rank rises now carry DAG node ids instead of
+  flat pivot expressions, the output checkpoint has one owned sidecar, and
+  bounded task176 payload decoding is present.  The selected semantic replay
+  is still incomplete, so no COMMON path is accepted.
+- The first v9 authority stop exposed a precise older provenance defect.
+  Recovery-v1 is internally self-sealed, but its
+  `accepted_receipt.self_digest_sha256` contains `...b34f...`; the physical
+  13,649,089-byte receipt, reply348, and task176 accepted reply all contain
+  `...b34b...`.  The receipt/verdict bytes and mathematical task176
+  `CROSS_CHECKED` grade are unchanged; only the recovery transcription owner
+  is inconsistent.
+- Task351 commissions a versioned recovery-v2 which preserves and supersedes
+  v1, followed by A0-v10.  V10 must replay the exact 10-by-2 marked-generator
+  owner (widths 40/154), the 26-record Gamma parent grammar and 970-byte
+  selected state, the nonzero-K cursor product, and the zero-K one-coordinate
+  least-base/kernel fibre.  It must also re-audit every v9 DAG/checkpoint
+  claim before any future Sol(max) audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V9 BLOCKED / RECOVERY-V2 + V10 IMPLEMENTATION ACTIVE**.
+  The v9 source is not counted and no run is authorized.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  Its direct task176
+  receipt/verdict authority remains mathematically available, but its final
+  provenance adapter must bind recovery-v2 or explicitly reject the known v1
+  cross-owner typo.
+- All other counts remain those of delta100.  No compatible lift, fake
+  certificate, or Ihara counterexample has been constructed.
+
+Durable branch record: commit `f70121fa` was pushed to
+`origin/sol/r07-explicit-lift-20260825`.  No workflow was dispatched in
+delta100--101.

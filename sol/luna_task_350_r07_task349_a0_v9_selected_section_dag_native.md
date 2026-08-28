@@ -72,12 +72,13 @@ checks before semantic use:
   1,469,664 records, 36 bytes each, 52,907,904 raw bytes;
 - its `parent_states_u32le`: 5,878,656 raw bytes;
 - its `parent_letters_u8`: 1,469,664 raw bytes;
-- its ten literal marked-generator coordinate blobs;
+- its ten rows of literal x/y marked-generator coordinate blobs (40 bytes per
+  blob in coordinates 0--4 and 154 bytes per blob in coordinates 5--9);
 - `result.Gamma.ten_coordinate_states`: 243 records, 970 bytes each,
   235,710 raw bytes;
 - its `section_parent_states_u16le`: 486 raw bytes;
 - its `section_parent_record_u8`: 243 raw bytes; and
-- its literal `record_words`.
+- its literal 26-entry `record_words` roster.
 
 Enforce raw limits before allocation.  Reject duplicate keys, noncanonical
 base64, malformed zlib, wrong length, trailing compressed data, bad SHA,

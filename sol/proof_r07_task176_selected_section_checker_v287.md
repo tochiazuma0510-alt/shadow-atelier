@@ -26,11 +26,14 @@ sealed owners rather than merely their cardinalities or digests.
    length, and both SHA-256 values.
 2. A \(Q_0\) parent state array of \(4N=5,878,656\) raw bytes and a parent
    letter array of \(N=1,469,664\) raw bytes.
-3. The ten marked-generator coordinate blobs needed to replay every parent
-   edge.
+3. Ten marked-generator rows, each containing the literal \(x\)- and
+   \(y\)-blob needed to replay every parent edge.  Coordinates zero through
+   four have width 40 bytes and coordinates five through nine have width
+   154 bytes.
 4. The complete \(\Gamma\) ten-coordinate table: \(G\) records of 970 bytes,
    hence 235,710 raw bytes, together with a \(2G=486\)-byte parent array, a
-   \(G=243\)-byte parent-record array, and the literal record-word roster.
+   \(G=243\)-byte parent-record array, and the literal roster of 26
+   correction-record words.
 
 For every one of the ten coordinates, task176's accepted singleton-bucket
 owner records
@@ -72,11 +75,12 @@ this decoding cannot inherit a producer's unbounded decompression behavior.
 
 Fix a selected identifier \(q\in\{1,\ldots,N\}\).  Random access to record
 \(q\) of the 36-byte roster gives its accepted underlying state.  Starting at
-\(q\), follow the accepted parent-state and parent-letter entries using the
-pinned task176 root convention.  Require at every step that the indices and
-letter are in range, that the parent relation has the accepted chronological
-orientation, and that the walk reaches the root within \(N\) steps.  Reverse
-the collected letters to obtain the literal section word \(w_q\).
+\(q\), follow the accepted one-based parent-state and parent-letter entries.
+The unique root record has parent/letter \((0,0)\); every other record has an
+earlier nonzero parent and letter 1 or 2, meaning \(x\) or \(y\).  Require
+these conditions and termination within \(N\) steps.  Reverse the collected
+letters to obtain the literal section word \(w_q\).  The q3 owner's two
+36-byte marked permutations independently replay the underlying Q0 state.
 
 Let \(s_{q,j}\) be the result of replaying \(w_q\) in coordinate \(j\) with
 the independently decoded marked-generator blobs.
@@ -110,9 +114,13 @@ nor materializes ten \(N\)-entry indices.
 ## 4. One selected Gamma section
 
 For \(g\in\{1,\ldots,G\}\), use the accepted \(\Gamma\) parent and
-parent-record arrays and literal record-word roster in the same bounded
-fashion.  Replay the resulting word independently and compare all ten
-coordinates with record \(g\) of the decoded 970-byte table.
+parent-record arrays and the 26 literal record words in the same bounded
+fashion.  The root has parent/record \((0,0)\); otherwise the parent is an
+earlier one-based state and the record lies in \(\{1,\ldots,26\}\).  Reverse
+the parent walk and concatenate the indexed record words in that order,
+applying the pinned free reduction.  Replay the resulting word independently
+and compare all ten coordinates, split as five 40-byte and five 154-byte
+blobs, with record \(g\) of the decoded 970-byte table.
 
 ### Lemma 4.1 (SELECTED GAMMA RECONSTRUCTION)
 
@@ -134,7 +142,7 @@ For the nonzero-kernel schedule, let the authenticated global cursor be
 \(c\), with
 
 \[
- 0\leq c<NG,qquad
+ 0\leq c<NG,\qquad
  q=\left\lfloor c/G\right\rfloor+1,qquad
  g=(c\bmod G)+1.
 \tag{5.1}
@@ -172,8 +180,10 @@ Reconstruct the 243 \(\Gamma\) values in coordinate \(j\).  For every
 one-coordinate Gamma value \(a\) and requested target \(t\), look up the
 unique section candidate with coarse key belonging to \(a^{-1}t\), compare
 the complete typed blob rather than only its coarse prefix, and retain it
-exactly when \(a\,s_j(q)=t\).  Order the retained base pairs \((q,g)\) by the
-pinned task176 order.  The accepted task176 `A_families`, `families`, and
+exactly when \(a\,s_j(q)=t\).  Its literal base word is the reduced
+concatenation of the Gamma word followed by the Q0 section word.  Order the
+retained base pairs \((q,g)\) by the pinned task176 order.  The accepted
+task176 `A_families`, `families`, and
 `word_generators` owners supply the literal Gamma labels and word-bearing
 kernel generators; copied A-map or kernel data from the A0 producer do not.
 
@@ -190,8 +200,9 @@ and require its order to equal the appropriate accepted value in
 
 The procedure above proves both membership of the claimed zero-K base pair
 and that it is the canonical least \((q,g)\) base representative.  The
-separate bounded kernel BFS then binds the claimed kernel cursor, word, and
-complete ten-coordinate candidate.  It materializes neither the other nine
+separate bounded kernel BFS then binds the claimed kernel cursor, word
+(kernel word followed by base word), and complete ten-coordinate candidate.
+It materializes neither the other nine
 \(Q_0\) coarse indices nor all ten section-state tables.
 
 #### Proof
