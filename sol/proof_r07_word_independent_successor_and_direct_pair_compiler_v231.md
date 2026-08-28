@@ -198,6 +198,12 @@ v184 coefficient is
 
 The order in (3.5) is noncommutative and is never reversed.
 
+If the simultaneous v214 gate has already absorbed the residual into the
+joint target, use the specialization \(\alpha=\kappa\), \(\beta=0\).  The
+more general notation in (3.4)--(3.5) is retained for the v184/v188 ancestry
+route; these are two presentations of the same downstream compiler, not two
+additional hypotheses.
+
 ## 4. Direct word-pair compiler without a successor roster
 
 Let (widetilde\alpha,widetilde\beta\in k[F]) be the literal source-word
@@ -205,7 +211,7 @@ sums supplied by the A5 ancestry and define
 
 \[
  \boxed{
- M=\left(\sum_{r=0}^{2t}\widetilde\beta^{,r}\right)
+ M=\left(\sum_{r=0}^{2t}\widetilde\beta^r\right)
        \widetilde\alpha\in k[F].}
 \tag{4.1}
 \]

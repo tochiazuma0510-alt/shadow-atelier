@@ -963,3 +963,65 @@ presentation や witness に対する negative evidence ではない。
   B, C, W, F は全て **0**。
 
 task232はA1が閉じた直後にA2/A3と並行発進できる準備であり、それ自体をactual gateとは数えない。
+
+#### v220-delta15 — 2026-08-28 12:38 JST
+
+**Individual progress**:
+
+- An independent Sol audit of
+  `proof_r07_word_independent_successor_and_direct_pair_compiler_v231.md`
+  returned paper-level **GO**. It independently checked all ten typed
+  substitutions, the equality
+  `K = F3[Delta0]<rho1(r_j)>`, task192-independence, and the direct ordered
+  roof-fibre compiler.
+- The two non-load-bearing audit edits were applied: the exponent typo in
+  (4.1) was corrected, and the simultaneous-v214 specialization
+  `alpha=kappa, beta=0` was made explicit. The noncommutative multiplication
+  order remains unchanged.
+
+**v220 mapping**:
+
+- A4 remains **0/3**. The dependency theorem is now independently audited,
+  but no actual task198 presentation input, closure, or word-bearing K has
+  been accepted.
+- A6 remains **0/3**. The compiler theorem is audited, but no actual A5
+  ancestry, expansion, roof-fibre replay, or M exists.
+- A0 is **0/1 RUNNING**, A1 is **3/4 RUNNING**, A2 is **1/3**, A3 is **0/3**;
+  A5, A7--A9, B, C, W, and F remain zero.
+
+#### v220-delta16 — 2026-08-28 12:45 JST
+
+**Individual progress**:
+
+- Parent static audit **rejected the task229 task226 revision before
+  execution**. The load-bearing defect is that its eleven factors are fixed
+  commutator words and its `r_o` evaluates bare `g760`; it never substitutes
+  `g760` and `g760*c_exact` into the eleven A.18 contexts. The corrected word
+  is absent from all Fox chains. The ledger field names also cannot match the
+  actual task198 ledger, the paper-product order and Fox boundary are wrong,
+  H1/H2 are untagged, and the checker/mutations do not reconstruct the claimed
+  equalities. Repair is specified in
+  `luna_task_233_r07_task226_second_static_repair_v1.md`.
+- Parent static audit **rejected the task230 task227 revision before
+  execution**. Its echelon ancestry loses coefficients on shared keys; block
+  recovery reads only one ancestor; `kappa` has the reversed sign; the
+  `kappa odot w` equality is not replayed; and the independent checker neither
+  compares the 486/729 spans nor reconstructs the member/dual certificate.
+  Repair is specified in
+  `luna_task_234_r07_task227_second_static_repair_v1.md`.
+- At 12:38 JST, task192 run `33129456772` and task198 run `33136789684`
+  were both still in the GAP-script step. Elapsed running time is not a
+  milestone.
+
+**v220 mapping**:
+
+- A2 remains **1/3**: paper contract only; the second implementation revision
+  is rejected and no SELFTEST is dispatched.
+- A3 remains **0/3**: no accepted actual package, no independently equal
+  orbit/486 span, and no accepted member-or-dual terminal.
+- A0 remains **0/1 RUNNING**, A1 remains **3/4 RUNNING**. A4--A9, B, C, W,
+  and F remain unchanged from delta15.
+
+This delta removes no mathematical gate and adds no witness gate. It prevents
+two syntactically plausible but word-independent/shallow implementations from
+being counted as progress.
