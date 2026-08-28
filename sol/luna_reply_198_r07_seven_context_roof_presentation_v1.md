@@ -312,3 +312,43 @@ TASK198 CHECKER SELFTEST:        NOT YET PASSED
 TASK198 PRODUCTION / MATHEMATICS: NOT DECLARED
 
 `TASK220B_TASK198_CHECKER_ROUND_SEMANTICS_COMMISSIONED`
+
+## 12. Parent GHA SELFTEST acceptance (2026-08-28)
+
+Parent Sol committed and pushed the task220b repair at immutable head
+`4b9a575618c6ea762f04039f30c9049e5446f6ec`, then dispatched JSON-bound GHA
+SELFTEST run `33135595754`. The run completed successfully. The producer and
+independent checker markers each occurred once; the checker independently
+rejected all 44 attempted mutations.
+
+GHA artifact:
+
+```text
+artifact id       9671905417
+artifact name     gap-run-out
+artifact size     18739 bytes
+ZIP digest        sha256:92c6f17655237cd94ec2d1164a06a113ce74ec86fbeafdce01c92f7e24ccf72f
+```
+
+Parent Sol downloaded and reread the artifact outside the repository:
+
+```text
+selftest receipt  37832  44e9fd741b96c84bc05dcb0e3071f97d90e208f73450afc859132cf09cd1c207
+selftest verdict    455  4c128e404a5686b89fa6ebe2f5f08808780ebc8c6033bfc122319ab728503ddd
+run.log              532  51cbf9debe4d09e1fcb17918f69f753ef0fe8f027a1f72d65b25f5218c116073
+```
+
+The receipt has `terminal=SELFTEST_COMPLETE`, `status=COMPLETE`, and nine
+presentation rows. The verdict has `accepted=true`, `independent=true`, and
+`mutation_attempted=44`, `mutation_rejected=44`.
+
+The preceding CLI-dispatched run `33135060343` lost the quotes around the GAP
+string `"SELFTEST"` and stopped before reading the task198 driver. Run
+`33135147622` used the correct JSON preamble, passed the producer, and exposed
+the independently repaired `[2]` versus `[2,2]` checker transcript mismatch.
+Neither failed run is mathematical negative evidence.
+
+TASK198 DRIVER / PRODUCER / CHECKER SELFTEST: GHA PASS / CROSS-CHECKED IMPLEMENTATION
+TASK198 ACTUAL 6,441-ROW PRODUCTION:          NOT RUN
+ACTUAL SUCCESSOR K / POINTED MU1:             NOT COMPUTED
+COMPATIBLE COFINAL LIFT / FAKE / IHARA:       NOT DECLARED

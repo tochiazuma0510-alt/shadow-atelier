@@ -623,7 +623,7 @@ TYPE-M と complete fibre coverage を明示した accepted-set tree として�
 | v220 ID | 固定 task | 完了 milestone |
 |---|---|---|
 | A0 | task192 actual exact word | positive terminal + independent acceptance: 0/1 |
-| A1 | task198 complete roof interface | driver / producer SELFTEST / checker SELFTEST / production acceptance: 2/4 |
+| A1 | task198 complete roof interface | driver / producer SELFTEST / checker SELFTEST / production acceptance: 3/4 |
 | A2 | actual two-input specializer | paper contract / implementation SELFTEST / actual specialization: 1/3 |
 | A3 | v216 single-seed pre-gate | actual package / orbit closure / membership-or-dual: 0/3 |
 | A4 | v188 actual successor kernel | presentation input / invariant closure / accepted word-bearing \(K\): 0/3 |
@@ -658,3 +658,29 @@ TYPE-M と complete fibre coverage を明示した accepted-set tree として�
 
 従って actual witness 主鎖の complete gate はまだ 0 件であるが、A1 の実装検収は
 半分、A2 の設計は三分の一まで進んだ、というのが v220-Δ2 の正確な報告である。
+
+#### v220-Δ3 — 2026-08-28 11:22 JST
+
+**個別進捗**:
+
+- task198 GHA SELFTEST run `33135595754`、immutable head
+  `4b9a575618c6ea762f04039f30c9049e5446f6ec` は success。
+- producer marker は `presentation_rows=9` で一回、independent checker marker は
+  `mutation_attempted=44 mutation_rejected=44` で一回出現した。
+- artifact id `9671905417`、ZIP digest
+  `sha256:92c6f17655237cd94ec2d1164a06a113ce74ec86fbeafdce01c92f7e24ccf72f`。
+- ダウンロード再読で receipt は 37,832 bytes / SHA-256
+  `44e9fd741b96c84bc05dcb0e3071f97d90e208f73450afc859132cf09cd1c207`、
+  `SELFTEST_COMPLETE`, `presentation_rows=9`。verdict は 455 bytes / SHA-256
+  `4c128e404a5686b89fa6ebe2f5f08808780ebc8c6033bfc122319ab728503ddd`、
+  `accepted=true`, `independent=true`, 44/44 rejection。
+
+**v220 内進捗**:
+
+- A1 は **2/4 → 3/4**。driver、producer SELFTEST、independent checker SELFTEST が
+  完了。残る milestone は actual 6,441-row production acceptance の 1 件。
+- A0 は **0/1 RUNNING**、A2 は **1/3** のまま。
+- A3--A9, B, C, W, F は全て **0 のまま**。
+
+この success は task198 実装の production-shaped SELFTEST 検収であり、actual roof
+presentation、actual \(K\)、single-seed membership、または witness の positive ではない。
