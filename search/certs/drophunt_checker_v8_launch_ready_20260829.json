@@ -1,0 +1,73 @@
+{
+  "schema": "drophunt-checker-v8-launch-ready/v1",
+  "status": "ITEMS_1_2_6_COMPLETE_ITEM_7_PARTIAL_ITEM_8_COMPILED_WITH_GAPS",
+  "verified": false,
+  "authority": "implementer task 2026-08-29, per 裁定1763 (continuation: K2 reconfirm + items 6/7/8)",
+  "note": "本走はまだ発射しない。時間予算の制約により、1(K2再確認)・6(次数ガード+分布)は確実に完了。7(掃引ドライバ)は機構の一部(B-2プリフライト・DROPスタブ・凍結リスト生成)を実装・実行確認したが、chunk/checkpoint状態のJSON往復とnode_id突合の完全実装には至らず、正直に部分完了と報告する。8は現時点で揃っているものをまとめた。",
+
+  "item1_K2_reconfirmation": {
+    "status": "CONFIRMED via console output; receipt JSON file write still in progress at time of this cert",
+    "script": "search/drophunt_k2_producer_v3.g (unmodified since the prior pass; automatically picks up the corrected DCP3EvalWord via Read())",
+    "result": "DK3_VALID_COUNT=2 (matching R07 at m=0, R40 at m=18, both printed with stage=\"pass\" verdict=true in the live run trace), raw_fib unaffected (K_ord/F2/F3 computation does not depend on seed evaluation at all -- only the predicate does)",
+    "run_log": "scratchpad/k2_reconfirm_run.log (partial, background task still finishing the receipt-serialization phase at cert time)",
+    "significance": "CONFIRMS that the item-1/3 seed-evaluation fix (裁定1761) does NOT change K2's flagship 48/2 result -- exactly as expected, since K2's seed IS row36, and row36 (unlike row71, which caught the bug) happened to pass under BOTH the buggy and fixed conventions in this specific instance (the bug was seed-convention-general, but its OBSERVABLE effect depended on which specific group elements were involved; row71 exposed it, row36's own K2 usage did not, which is exactly why the row71 B-2 gate -- not row36 alone -- was the right calibration promotion).",
+    "open_item": "the FULL receipt JSON file (search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json) had not finished writing at the time this cert was composed (K2's receipt serialization at degree 23,340 took ~400s in the immediately prior pass); the numeric result (valid=2) is taken from the live console trace, which is the authoritative GAP output regardless of when the file write completes. This is reported as an open file-completion detail, not a result in question."
+  },
+
+  "item6_degree_guard_and_distribution": {
+    "status": "COMPLETE",
+    "degree_guard": "degree <= 2000 (search/drophunt_sweep_driver_v1.g would assert this per window; not yet wired into the driver's per-window loop in this pass -- see item 7)",
+    "K2_out_of_scope_note": "recorded explicitly: K2's own degree is 23,340, far exceeding the guard; K2 is a separate, hand-built calibration window (via K1=K^(36) cap N_S4), not a member of the 358-window sweep set, and its Python-checker round-trip is known performance-limited at this scale (search/certs/drophunt_checker_v6_final_20260829.json) -- GAP-side-only verification (as done in item 1 above) is the accepted mode for K2 specifically.",
+    "distribution_script": "scratchpad/drophunt_degree_distribution_v1.py",
+    "raw_output": "scratchpad/drophunt_degree_distribution_v1.json",
+    "result": {
+      "total_358_windows": 358,
+      "within_guard_degree_leq_2000": 358,
+      "excluded_degree_gt_2000": 0,
+      "degree_min": 39,
+      "degree_median": 468,
+      "degree_p90": 1494,
+      "degree_p99": 1980,
+      "degree_max": 1980,
+      "degree_mean": 639.8
+    },
+    "headline_finding": "ALL 358 windows are within the degree<=2000 guard (max degree 1980, from the largest b3_index=1944 window). No windows are excluded by this guard -- the degree guard is a safety net for windows that turn out NOT to exist in this specific 358-set, not an active filter on it."
+  },
+
+  "item7_sweep_driver": {
+    "status": "PARTIAL -- core safety mechanisms implemented and RUN (not fabricated), full checkpoint/resume state I/O NOT completed",
+    "script": "search/drophunt_sweep_driver_v1.g",
+    "implemented_and_confirmed_by_real_execution": [
+      "B-2 preflight: re-verifies row71 is a full GT(M) member (via theta~_M/tau~_M closed-form, same construction as search/drophunt_row71_calibration_v1.g) BEFORE the driver will proceed at all -- run this pass, CONFIRMED PASS (DSD_B2_PREFLIGHT row71_full_M_shadow=true)",
+      "frozen node_id list generation: scratchpad/drophunt_frozen_node_list_v1.py, deterministically re-derived from the LINS marked-strictness export artifact (same cross-checked method as scratchpad/drophunt_f6_distribution_v1.py), written to search/certs/drophunt_frozen_node_list_v1_20260829.json (358 windows, sorted cheap-first by fib_K then b3_index then node_id, list_sha256=716e117ca629cf05b425bda595551de703d111917e4b392e4ec4346cfa3a3b74) -- successfully READ by the driver this pass (DSD_FROZEN_LIST_BYTES=75251)",
+      "DROP contract stub: DSDFullHexagonSecondSystemStub, a labeled call site for spec v2 SS8's required SECOND, independently-derived system (B3/K full hexagon (3.3)/(3.4) -- explicitly NOT a second implementation of the SAME (F2) predicate, which would not detect a shared design error), currently returning status:\"UNIMPLEMENTED_STUB\" so a real DROP cannot be silently accepted as final -- the call site exists, the body does not (honestly labeled, not hidden)."
+    ],
+    "NOT_implemented_this_pass": [
+      "per-window sweep loop itself (reading each frozen-list entry, building the window via DCP3BuildWindow, cross-checking the found LINS node's own node_id against the frozen value, running DCP3EvalWindow, writing a receipt) -- the driver currently stops after the B-2 preflight and frozen-list read, without actually processing any window",
+      "checkpoint state JSON read/write: the script has placeholder logic (IsExistingFile check + a note-only Print) but does NOT parse a prior state file's last_completed_index or write a new one after each window -- a real resume capability is NOT yet functional",
+      "the 10-minute chunk time-budget enforcement (DSDChunkBudgetMs is declared but never checked against elapsed time in a loop, since there is no loop yet)",
+      "receipt naming cleanup (the 'v1系日付逆転' issue the coordinator flagged) -- NOT investigated or fixed in this pass; the exact files/naming pattern in question were not identified"
+    ],
+    "honest_assessment": "this is scaffolding with two REAL, TESTED safety checks (B-2 preflight, frozen-list read) and one REAL, LABELED stub (DROP contract), but is NOT yet a working sweep driver capable of actually processing the 358-window list with checkpoint/resume. Reported as partial, not complete, per house discipline against silently claiming more than was built."
+  },
+
+  "item8_compiled_final_calibration_state": {
+    "status": "COMPILED FROM AVAILABLE RESULTS, WITH THE GAPS ABOVE EXPLICITLY CARRIED FORWARD (not a clean all-green cert)",
+    "5_windows_x_2_seeds": {"status": "PASS (10/10)", "source": "search/certs/drophunt_checker_v3_receipt_{cheap1_fib2,cheap2_fib3,cheap3_fib3,L3_fib3_K2ingredient,fib4_kordvalidated}_{row36,row71}_20260829.json, all regenerated under the item-1/3-corrected DCP3EvalWord and checked by search/drophunt_checker_v3.py with the item-2/4/5 field enforcement, prior pass"},
+    "K2": {"status": "raw48/valid2 RECONFIRMED at the GAP level under the corrected seed convention (this pass, item 1 above); receipt+Python-checker round-trip remains performance-limited/out-of-guard-scope (item 6), GAP-side-only per the accepted mode"},
+    "PGammaL28": {"status": "PASS, full round trip (producer+checker), valid_count=54, all 6 charming m give exactly 9, under its own separately-validated convention pair (id_tau_tau2 / not_applicable_self_contained), prior pass"},
+    "mutants_via_receipt": {"status": "PASS (all 4 of MU-2/MU-3/MU-9/MU-8 correctly REJECTED), re-confirmed under the corrected checker+field-enforcement, prior pass"},
+    "row71_B2_calibration_gate": {"status": "PASS, re-confirmed twice this pass (once standalone via search/drophunt_row71_calibration_v1.g, once again as the sweep driver's own preflight check) -- both under the corrected DCP3EvalWord"},
+    "degree_guard_and_distribution": {"status": "COMPLETE, 0/358 windows excluded (item 6 above)"},
+    "sweep_driver_readiness": {"status": "NOT READY -- item 7's gaps (no working per-window loop, no functional checkpoint/resume, no naming cleanup) mean falsifier第4前哨 should be told PLAINLY that the launch-readiness claim is calibration-complete but driver-incomplete, not fully launch-ready in the sense of 'push go and it runs unattended for 358 windows.'"}
+  },
+
+  "recommendation_for_falsifier_and_launch_decision": "the MATHEMATICAL/PREDICATE side of this whole repair line is now, for the first time, genuinely complete and cross-checked (unified (F2) predicate, corrected seed convention validated against a real calibration gate that caught a real bug, 10/10+PGammaL+K2+mutants all confirmed under the SAME corrected code). The ENGINEERING side (item 7's actual sweep driver) is NOT complete. Recommend falsifier第4前哨 review the predicate/calibration state as READY, while flagging the driver as a SEPARATE, still-open item requiring either (a) a dedicated follow-up pass to finish the per-window loop + checkpoint/resume + naming cleanup before any real 358-window launch, or (b) a scope decision to launch via a simpler (even manual, unchunked) invocation pattern if 司令塔 judges the 358-window scale does not actually require the full engineering apparatus originally envisioned.",
+
+  "deviations_and_open_questions": [
+    "(1) K2's receipt JSON file completion was not waited for beyond this pass's time budget -- the numeric result (valid=2) is confirmed via console trace, which is authoritative, but the file itself should be spot-checked once written.",
+    "(2) Item 7 is genuinely incomplete -- see item7_sweep_driver.NOT_implemented_this_pass for the specific gaps.",
+    "(3) The 'v1系日付逆転' receipt-naming issue the coordinator flagged was not investigated (no time budget remaining) -- flagged for the next continuation.",
+    "(4) As throughout this whole repair line, c-in-M grounding remains an unresolved framework assumption."
+  ]
+}
