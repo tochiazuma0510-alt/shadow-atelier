@@ -2449,3 +2449,42 @@ dispatchable.  It changes no actual witness numerator.
 
 Delta52 starts an exact A0 continuation while preserving the independent A0
 parallel, A1, and A5/A6 lines.  It changes no actual witness numerator.
+
+#### v220-delta53 - 2026-08-28 (after delta52)
+
+**Individual progress**:
+
+- Independent task300 statically rejected task297/v4 before execution.  Its
+  claimed cross-shard active baseline has a winner contributed by only one
+  pair, producer mutation rejection is circular through a still-zero summary,
+  the checker inspects shard digests only for its final worker count, one
+  scalar mutation is a no-op, producer/driver SELFTEST terminal suffixes
+  disagree, and production has no authenticated v3 resume adapter.  No A0
+  result or accepted speed SELFTEST comes from v4.
+- Task303 commissions a versioned v5 repair of the frozen-dual map/reduce
+  kernel.  It requires direct per-shard recomputation for worker counts 2, 3,
+  and 4, an actual cross-cut winner/cancellation, non-circular 20/20 mutations,
+  direct scalar replay, exact terminal equality, and explicit separation from
+  the later production adapter.
+- Independent task301 statically rejected task299/v5 before execution.  Its
+  producer changes a NONMEMBER fixture terminal to the untyped string
+  `MUTATED`, then interprets every non-`MEMBER` string as expected
+  nonmembership; the mutation therefore survives and the 19/19 producer gate
+  cannot pass.  Task304 commissions the narrow v6 enum repair plus an
+  independent wrong-seal canary and terminal equality.
+- Exact A0 resume run 33163964747 remains in the GHA script step.  The two A1
+  production runs remain independent and were not stopped by either repair.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-RESUME**.  The rejected task297 package supplies
+  neither an implementation SELFTEST nor an actual acceleration result.
+- A1 remains **3/4 RUNNING**; A2 **2/3**; A3/A4 **0/3 actual**.
+- A5 and A6 remain **0/3 actual** and still have no accepted generalized
+  kernel SELFTEST.  A7 remains **0/3 actual**, with its already cross-checked
+  synthetic implementation SELFTEST separate.
+- A8, A9, B, C, W, and F remain zero; witness/fake/Ihara status is unchanged.
+
+Delta53 converts two deterministic false-positive paths into narrowly typed
+repairs without interrupting A0 or A1.  It changes no actual witness
+numerator.
