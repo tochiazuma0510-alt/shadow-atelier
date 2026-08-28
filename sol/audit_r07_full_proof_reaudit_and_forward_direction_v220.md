@@ -4564,3 +4564,35 @@ keeping GHA execution forbidden.
 
 Delta105 advances the A4 proof boundary and records the first A0-v10 audit
 stop without mistaking either for an actual witness milestone.
+
+#### v220-delta106 - 2026-08-29 (correction to delta105)
+
+**Adversarial correction**:
+
+- Delta105's preliminary A0-v10 old-checkpoint self-seal stop is withdrawn.
+  The physical 86,368,039-byte ZIP member ends in LF.  Removing the literal
+  top-level `self_digest` property while retaining that transport LF gives an
+  86,367,958-byte string with SHA-256 `f438ce78...bb43da`; that is not the
+  validator's operand.  The actual validator parses JSON and canonically
+  re-encodes the body, thereby dropping the transport LF.  Its
+  86,367,957-byte canonical operand has SHA-256
+  `29bb74f3bd8048913a0365bc4c599f3731d32ba56967f3a238c7468b7fcfd123`,
+  exactly the declared self seal.  The physical member itself remains
+  86,368,039 bytes with SHA-256 beginning `c261` and is a distinct owner.
+- Sol(max) task352 continues the complete route audit and will replace the
+  withdrawn preliminary stop by the first reproducible literal stop for each
+  SELFTEST/production path.  The Q0 permutation-order and JointGroup/element
+  codec findings remain under full downstream audit; neither is promoted to
+  a final verdict before the complete reply.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V10 SOL(MAX) AUDIT ACTIVE**.  Delta105 did not authorize
+  execution, and this correction does not do so either.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V291 is unaffected.
+- Every other count remains delta105.  No compatible lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta106 preserves the audit trail while removing the false self-seal stop;
+the next A0 state change waits for task352's completed, internally checked
+verdict.
