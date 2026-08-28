@@ -2791,3 +2791,37 @@ three-hour duplicate-work boundary without prematurely increasing A1 or A4.
 Delta62 sharpens the uniform-explicit-lift frontier from “choose coherent
 edge sections” to the single substantive recurrence “prove every actual
 next residual is solvable.”  It changes no actual witness numerator.
+
+#### v220-delta63 - 2026-08-28 (after delta62)
+
+**Individual progress**:
+
+- Task312 produced versioned v8 load-bearing sources after the v7 synthetic
+  fixture failure.  The two malformed `A_E_binding` rows now have the required
+  eleven entries, and producer and independent checker both run a literal
+  five-case by six-pair binding and dimension preflight before compilation or
+  replay.
+- Sol(max) task314 independently audited v8 and returned `PASS / UNEXECUTED`.
+  It manually reconstructed all five expected tuples, checked both complete
+  19-owner fail-closed mutation rosters, exact-one driver pins, and the typed
+  production `STATIC_BLOCKED` route.
+- The performance audit found only fixed bounded work: the preflight scans 30
+  pairs, closure and coefficient enumeration are bounded by dimension two,
+  and there is no retry, sleep, lock, process pool, subprocess, or unintended
+  unbounded enumeration.  The Luna reply's self-reported byte count is short
+  by five bytes, but that reply is neither a pinned input nor load-bearing.
+- No v8 source has yet been executed.  The next admissible action is the
+  pinned synthetic GHA SELFTEST; actual matrices are still absent.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3 actual**.  Static acceptance of a generalized-kernel
+  SELFTEST implementation is a prerequisite and not an actual witness
+  milestone.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; A1 remains **3/4 RUNNING**;
+  A2 remains **2/3**.  A3/A4 and A7--A9 actual, B, C, W, and F retain their
+  delta62 values.
+
+Delta63 closes the v7 fixture defect at the static-audit boundary and
+authorizes one bounded synthetic execution.  It changes no actual witness
+numerator.
