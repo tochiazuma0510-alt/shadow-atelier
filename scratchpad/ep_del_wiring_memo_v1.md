@@ -205,3 +205,59 @@ gate: A4 /context_registry/contexts : 31 rows, keys = {context_id, left_hex, rig
 2. **§3.2 の pentagon 順序の食い違い**(registry 順 vs task176 順)— 40 検査には無影響、evaluator には load-bearing。
 3. **$\pi$(v191 $\Delta_0$)の定義**未読 ⟹ §4.3 M2 は**代用条件**で走る(cert に宣言)。
 4. $E_4$ の `IsAbelian` 実測は未実行(§4.2 は**削除後の像**を問うので、これは不要)。
+
+---
+
+# §9 ★ pentagon_part 順の裁定(2026-08-28・裁定 1731(b) ②)
+
+## 9.1 裁定
+
+$$\boxed{\ \textbf{registry の }(21,\,1,\,26,\,27,\,28)\ \text{が正。v189 (1.6) の E4 タプル }(1,27,21,26,28)\ \text{は転記誤り。}\ }$$
+
+$P_o/\sigma_o$ の実装は **registry の `pentagon_part_0..4` をそのまま位置対応で使う**。
+
+## 9.2 根拠(上流の同定)
+
+**上流は「生成コード」である。**`pentagon_part_j` を書いた実体を特定した:
+
+```python
+# search/check_d972_b345_relfrat3_fixed_candidate_v5.py  L804-812
+    g = e4.generators
+    pentagon = [
+        (g[0], g[3]), (g[3], g[5]),
+        (q_paper_product(e4, [g[1], g[3]]), g[5]),
+        (q_paper_product(e4, [g[0], g[1]]),
+         q_paper_product(e4, [g[4], g[5]])),
+        (g[0], q_paper_product(e4, [g[3], g[4]])),
+    ]
+    for index, pair in enumerate(pentagon):
+        register(f"pentagon_part_{index}", *pair)
+```
+(同一ブロックが `_v6.py` L837・`_pivot_surgery_v7.py` L856・`_v4.py` L806 にも在り、**4 世代で不変**。)
+
+**決め手 3 点**:
+
+| # | 根拠 | 効き方 |
+|---|---|---|
+| **R-1** | `pentagon` リストは **`q_paper_product`(= 論文の積規約)** で組まれ、`enumerate` で 0-based に登録される ⟹ **リストの並びは論文の印字順そのもの** | registry は印字順の**忠実な記録** |
+| **R-2** | ★ **E3 側は registry と v189 (1.6) が完全一致**($\rho_{xy},\rho_{xz},\rho_{yz},\rho_{ux},\rho_{uy}\leftrightarrow21,22,23,24,25$;registry の `hexagon_1_fxy_4`=21 … `hexagon_2_fuy_4`=25)⟹ **v189 (1.6) は同一 registry を読んでいる**。ゆえに E4 側だけが食い違うのは**転記の問題**であって別 registry ではない | 食い違いの型を「版ずれ」から「転記誤り」へ確定 |
+| **R-3** | 位置対応の突合: v194 (1.7) の印字順は $b_1,b_2,b_3,b_5^{-1},b_4^{-1}$、v189 (1.5) の並びは $(p_1,p_2,p_3,p_5,p_4)$ ⟹ **両者は同じ位置列**。registry も 0-based 位置列。⟹ **3 者は同じ位置規約**のはずで、値だけが v189 でずれている | 「順序規約の違い」ではないことを排除 |
+| — | 両者は $p_4=28$ **のみ一致**、残り 4 本が置換 $(0{\to}1,1{\to}3,2{\to}0,3{\to}2)$ | 系統的な再ラベルではない = 転記 |
+
+**v189 は散文の証明ノートで生成コードを持たない。registry は生成コードを持つ artifact。⟹ コードが上流。**
+
+## 9.3 実装への指示
+
+- **$P_o$(prefix)と $\sigma_o$(符号)は registry の位置順で読む。**
+- **$\sigma_o=-1$ となるのは `pentagon_part_3` と `pentagon_part_4`**(印字順 $b_5^{-1},b_4^{-1}$ の 2 本が逆元 ⟹ 位置 3,4)。
+- cert 必須欄: `pentagon_order_source: "registry/pentagon_part_j (q_paper_product enumerate)"` と `sigma_negative_positions: [3,4]`。
+- **mutant EP-G4**(印字順を崩す)は、**v189 (1.6) の順序 $(1,27,21,26,28)$ を注入する形**で実装せよ ⟹ 判定が変わることを確認できれば、本裁定が実測で裏づく。
+
+## 9.4 具申(v189 側の訂正)
+
+**v189 (1.6) の E4 タプルは `(21, 1, 26, 27, 28)` へ訂正されるべき**(E3 タプル $(21,22,23,24,25)$ は正しい)。
+⚠ ただし **v189 は Sol 側の文書**であり、**本便では触らない**(不介入)。**司令塔経由での申し送りを具申する。**
+
+## 9.5 40 検査への影響 — **なし**
+
+§4.2 の 40 検査は $\{$10 本の $\rho_o\}\times\{$4 本の $d_i\}$ の**集合上の走査**で、$P_o/\sigma_o$ を使わない ⟹ **順序非依存**。**implementer A の並行走行はそのまま続行してよい。**
