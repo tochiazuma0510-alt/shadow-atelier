@@ -2596,3 +2596,37 @@ numerator unchanged.
 Delta56 removes another false implementation acceptance and closes two
 mathematical state-size/provenance gaps needed by the forthcoming A0
 production adapter.  It changes no actual witness numerator.
+
+#### v220-delta57 - 2026-08-28 (after delta56)
+
+**Individual progress**:
+
+- Independent Sol(max) task308 passed the task303/v5 static code audit.  The
+  four fixed-dual cases, worker counts 2/3/4, two epochs, exact shard replay,
+  v3 winner order, direct scalar, and independent non-circular 20/20 controls
+  are all present.  Execution remains pending GHA; production intentionally
+  remains fail-closed.
+- V256 corrected the scale of the task192 restart.  The monitor's 3,145,728
+  boundary pairs are cumulative across 2,896 retained-rank epochs.  The
+  stored current-epoch start is 3,145,088, so only 640 current-dual pairs are
+  discarded by `restart_pair_cursor=0`.  The restart classification remains
+  true, but it is not a three-million-pair current-epoch restart.
+- This changes the acceleration design: the actual path has thousands of
+  short, serially dependent dual epochs.  A production adapter must keep a
+  persistent worker pool and partition the expanded descriptor-support pair
+  roster; repeatedly creating a process pool per rank epoch can erase the
+  speedup.  V254/V255 mid-epoch cursor state remains the fallback, not the
+  first explanation of the observed wall.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  Task303 has passed static
+  audit but has not yet passed its implementation SELFTEST, and no production
+  adapter exists.
+- A1 remains **3/4 RUNNING**; A2 **2/3**; A3/A4 **0/3 actual**.  A5/A6 remain
+  **0/3 actual** with their v7 repair in progress; A7 remains **0/3 actual**
+  with its synthetic SELFTEST separate.  A8, A9, B, C, W, and F remain zero.
+
+Delta57 replaces an overstated restart-cost model by the exact cumulative
+counter semantics and identifies persistent workers as the relevant A0 speed
+boundary.  It changes no actual witness numerator.
