@@ -24,9 +24,9 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 ```
 
 ```text
-producer  89086  b2e9187f1efba6c55621ba3bacd24d4918701af289ce1037974135f7019165b0
+producer  89162  795ea643a5f9fadb8335db5e25b543182501f7c267dec52bd58796cfb8e82d95
 checker   55032  68e86ac49c9a1adf76c26d046ab2bbd52376130ccdc007b8295d89c35cc32020
-driver     4242  649cfc550b3b0c3f313910ec317abace16b4b9d5352e06799a95289af55aa8db
+driver     4242  188e13558a85bd7c621c96516a607f2d117adc2f91726748d11bcb5145c95a27
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -134,6 +134,9 @@ context roster `(index, type, context_id, tag)` and exact `unused` values for
 Task271 maps `affine_multiplication` and `affine_inverse` directly to the
 extant `affine_checks.multiplication` and `.inverse` owners, while retaining
 the explicit `crossed_derivation` mapping.
+Task273 seals the complete plain SELFTEST receipt by computing
+`self_digest_sha256` over all fields before adding the seal, matching the
+checker’s existing envelope rule.
 
 ## 10. Resources, driver, and ledger
 

@@ -809,10 +809,12 @@ def selftest(fixture: dict[str, Any] | None = None) -> dict[str, Any]:
         expected = fixture.get("expected", {})
         input_require(expected.get("min_rank", 2) <= toy["rank"], "fixture rank")
         input_require(expected.get("contexts", 10) == len(toy["contexts"]), "fixture contexts")
-    return {"schema": SELFTEST_SCHEMA, "status": "PASS", "terminal": ISO,
-            "toy": toy, "mutation_controls": {"attempted": len(MUTATIONS),
-            "rejected": rejected, "names": list(MUTATIONS),
-            "pivot_scale_ancestry": ancestry}}
+    result = {"schema": SELFTEST_SCHEMA, "status": "PASS", "terminal": ISO,
+              "toy": toy, "mutation_controls": {"attempted": len(MUTATIONS),
+              "rejected": rejected, "names": list(MUTATIONS),
+              "pivot_scale_ancestry": ancestry}}
+    result["self_digest_sha256"] = digest(result)
+    return result
 
 
 def checked_pin(path: str, size: int, expected: str) -> dict[str, Any]:
