@@ -1,0 +1,109 @@
+# Sol(max) task 329 - task324 A5/A6 v11 independent code and performance audit
+
+Role: Sol(max), independent adversarial auditor.  Read this entire mail,
+sections 1 through 8, before acting.  Do not run Python, Node, GAP, GHA,
+workflows, git, or network.  Do not edit implementation files.  Create only
+`sol/sol_reply_329_r07_task324_v11_code_performance_audit_v1.md`.
+
+## 1. Scope and mandatory inputs
+
+Read in full:
+
+- `sol/luna_task_324_r07_task320_v11_ancestry_independent_incremental_repair.md`;
+- `sol/luna_reply_324_r07_task320_v11_ancestry_independent_incremental_repair.md`;
+- `sol/sol_task_322_r07_task320_v10_code_performance_audit.txt`;
+- `sol/sol_reply_322_r07_task320_v10_code_performance_audit_v1.md`;
+- the complete v10 and v11 producer, checker, driver, and fixture quartets;
+- v242 and every paper/task pinned by task324.
+
+Audit the literal files, not Luna's prose.  Recompute read-only byte counts,
+SHA-256 values, ASCII/CR/final-LF facts, embedded driver pins, fixture seal,
+and v10 immutability.  No executable result is authorized or inferred.
+
+## 2. Mathematical semantics
+
+Trace all five cases and all 30 base/binding pairs.  Check dimensions,
+row/column conventions, F3 normalization, action shapes and invertibility,
+closure order, post-closure C application, left-kernel orientation, Hd1,
+target sign, MEMBER coefficients, NONMEMBER duals, and all five expected
+tuples.  Look for fixture-only tautologies or code paths that cannot carry
+the actual A2/A3/A4/task193 matrices later.
+
+## 3. Coefficient ancestry
+
+Adversarially prove or refute the claimed invariant of `RetainedF3Basis`.
+For accepted and dependent candidates, follow every swap/scale/add operation
+on both rows and coefficient transforms.  Check roster growth, zero padding,
+old-pivot elimination, normalized versus raw rows, direct reconstruction,
+and composition of closure -> left-kernel -> Hd1 -> MEMBER ancestry.
+Require coordinates to reconstruct immutable accepted raw rows, not pivot
+coordinates.  Check that dropped/equality branches bind every rank and
+ancestry field they later use.
+
+## 4. Checker independence
+
+Decide whether the checker is genuinely helper-nonshared and algorithmically
+independent.  Inspect exhaustive coefficient containment, reverse traversal,
+bottom-pivot dense augmented tableau, kernel enumeration, Hd1 selection,
+receipt replay, and two-way span comparisons.  Reject any comparison of
+coordinates from unrelated bases, any producer transform trusted without
+literal replay, and any producer algorithm merely respelled in the checker.
+
+## 5. Mutation ownership and sealing
+
+Inspect all 19 producer and all 19 checker mutations individually.  Each
+must alter canonical bytes of its named real owner, be correctly resealed,
+reach the exact semantic gate, and be rejected only by the narrow registered
+exception/stage/code/reason.  Runtime, key, index, type, or broad exceptions
+must not count as successful rejection.  Check especially the seven v10
+wrong-owner defects, `parent`, `left_kernel`, `Hd1`, member ancestry, dual,
+terminal, complete receipt/verdict seals, and the driver's exact-one terminal
+and sentinel-last rules.
+
+## 6. Performance and needless work
+
+Independently count all producer and checker elimination/tableau/RREF,
+enumeration, serialization, parsing, copy, replay, and mutation-oracle work.
+Explicitly search for processing that is unnecessary and makes a future
+actual run slower: repeated reconstruction of known bases, duplicate
+canonicalization, repeated fixture/receipt parsing, JSON round trips,
+hidden `3^11` enumeration, recursive ancestry expansion, duplicated
+mutation recomputation, sleeps/retries/polls/locks/pools/subprocesses, or
+unbounded queues.  Distinguish genuinely necessary fixed action gates from
+avoidable basis rebuilds.  Give exact counts or defensible symbolic bounds;
+do not accept the reply's performance table without source trace.
+
+## 7. Static reachability and verdict
+
+Trace SELFTEST and PRODUCTION from CLI entry through final sealed outputs.
+SELFTEST must be statically capable of reaching all five terminals and all
+38 mutation gates.  PRODUCTION must remain exactly the declared static
+block until actual typed matrices are staged; this is not an A5/A6 result.
+Return one of:
+
+- `PASS / UNEXECUTED`: all v10 blockers are closed and one bounded synthetic
+  GHA SELFTEST may be commissioned;
+- `REJECT / UNEXECUTED`: list every load-bearing defect and the smallest
+  versioned repair;
+- `BLOCKED / UNEXECUTED`: only for an exact missing input that prevents code
+  audit.
+
+No partial PASS.  A PASS authorizes only synthetic SELFTEST, never actual
+production or any A5/A6 numerator.
+
+## 8. Reply contract
+
+In the sole reply include: verdict first; file identities; mathematical
+trace; coefficient-invariant proof/counterexample; checker-independence
+decision; a 19x2 mutation ledger; independently derived performance counts;
+needless-work findings; static reachability; smallest repairs if any; and:
+
+```text
+AUDIT:                         PASS, REJECT, or BLOCKED
+EXECUTION:                     UNEXECUTED
+SYNTHETIC SELFTEST AUTHORIZED: YES only on PASS
+ACTUAL A5 / ACTUAL A6:         0/3 / 0/3
+LIFT / FAKE / IHARA:           NONE
+```
+
+End with `TASK329_R07_TASK324_V11_CODE_PERFORMANCE_AUDIT_COMPLETE`.
