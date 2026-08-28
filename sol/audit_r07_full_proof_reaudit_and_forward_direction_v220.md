@@ -4972,3 +4972,30 @@ experiments rather than self-reported rejection tables.
 
 Delta116 replaces the oversized 96-route implementation loop by a monotone
 first physical-owner tranche without counting a blocker table as A4 closure.
+
+### Delta 117 (2026-08-29): deterministic projection of physical traces
+
+- Added `sol/proof_r07_deterministic_physical_trace_projection_v298.md`.
+  V297's raw one-handle device/inode/mtime observations remain mandatory for
+  the runtime decision, but v298 removes host-instance identifiers, PIDs and
+  random temporary paths from load-bearing R/V bytes.
+- The receipt/verdict ledger retains a deterministic projection: logical case
+  path, type/link facts, stable content length/SHA when readable, handle/path
+  equality or substitution predicates, ordinary event trace and first typed
+  rejection.  An unreadable path gets a typed marker, never SHA256 of empty
+  bytes.  Producer and checker construct this projection separately.
+- This closes a concrete v12a preregistration blocker: serializing the current
+  low-level `open_physical` identity dictionary would put inode and mtime in V,
+  while serializing raw mutation path identities would put random temp paths
+  in R.  Such artifacts cannot have stable hashes for v12b.
+
+**v220 mapping**:
+
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**.  Deterministic physical-trace
+  serialization is fixed on paper but not yet implemented or audited.
+- A4 remains **1/3 V6A AUTHORITY-TRACE TRANCHE ACTIVE**.  All other counts
+  remain Delta116.  No compatible lift, fake certificate, Ihara
+  counterexample or cofinal witness has been constructed.
+
+Delta117 permits strong physical evidence without sacrificing deterministic
+R/V identities.
