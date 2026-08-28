@@ -1,8 +1,8 @@
-# Luna reply 270 - task226 unsigned-xi checker repair
+# Luna reply 274 - task226 checker JSON-native rebuild repair
 
 Status: **UNEXECUTED**. No Python, Node, GAP, git, GHA, or network command was
-run. Edits were confined to the authorized task226 five-file set; the fixture
-was inspected and retained byte-for-byte.
+run. Edits were confined to the authorized checker, driver pin, and existing
+reply; the producer and fixture were inspected and retained byte-for-byte.
 
 ## Static repair
 
@@ -103,12 +103,34 @@ in `w_o`. Words, prefix/orientation handling, quotient rosters, Fox data,
 mutation owners, typed UNKNOWN gates, and false conclusions are unchanged.
 This Luna pass did not execute the checker or full serial driver.
 
+## JSON-native checker reconstruction repair
+
+Parent run `33148423786` at immutable head
+`97de2a2943f178a29ab6c774d521ce7f0bf7bc12` reached the producer SELFTEST
+success terminal before the checker returned `UNKNOWN_INPUT reason=fresh
+complete ABI rebuild`. Recursive first-difference run `33148795778` then
+localized the mismatch to
+`$.literals.substitutions.PB3.H1[0].<type>`: the independently rebuilt object
+contained a Python tuple while the decoded receipt necessarily contained a
+JSON list. Both canonical ABI digests were already
+`dd27a839adaa951652d10c5e3ca2af7d11c7cad95f7e03dac570f473c5475245`.
+
+The checker now round-trips its independently reconstructed, still-unsealed
+ABI through its own canonical JSON serializer and decoder. This recursively
+normalizes the rebuilt value to JSON-native dictionaries, lists, strings,
+integers, booleans, and null before computing `self_digest_sha256`; it consumes
+no producer-carried ABI field. The existing exact `rebuilt == abi` object
+equality remains in force after normalization. It was not replaced by a
+digest-only test, and no word, Fox, quotient, occurrence, ancestry, mutation,
+predecessor, terminal, or forbidden-conclusion gate was weakened. This Luna
+pass did not execute the checker or full serial driver.
+
 ## Final identities
 
 ```text
 producer  40556  a1532740a7343bd8166c17947f6bd95203a4abdaaafd8e0d9607d3cdf202e6fb
-checker   35436  b81de8d7701995c5022dc2e97099599b18dafa6030233f29c37e60dfb70084eb
-driver     5167  866469da9629c6218cf40012e36fdbabf5d1a6a20d726a7d9581fc75eafc19d6
+checker   35463  e49e4ee24b56e35f8c8120bad7579865e497d94f57b2af51664d562f50ffaa44
+driver     5167  bfe55cd2e7b341e40669de247876335f62700c1ccb290f73cbadae01cefe0bc9
 fixture     1187  91c62b70b3275e9e3bee9689bd677049adc172cb0519a2ccf2808d17d6cabef3
 reply     reported out of band after final close (self-referential digest avoided)
 ```
@@ -125,4 +147,4 @@ A2 ACTUAL SPECIALIZATION:          0/1 AWAITING A0/A1
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
-`TASK270_TASK226_UNSIGNED_XI_CHECKER_REPAIR_UNEXECUTED`
+`TASK274_TASK226_CHECKER_JSON_NATIVE_REBUILD_UNEXECUTED`
