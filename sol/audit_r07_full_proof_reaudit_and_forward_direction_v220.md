@@ -3927,3 +3927,41 @@ places where static declarations must not be confused with actual owners.
 Delta90 stages A5/A6-v13 only as an audit candidate and fixes the actual
 anchor replay, rather than a Boolean-shaped receipt, as the next admissible
 production boundary.
+
+#### v220-delta91 - 2026-08-29 (after delta90)
+
+**Individual progress**:
+
+- V280 replaces a downstream-provided A4 anchor by a deterministic consumer
+  computation from the accepted ordered word-bearing A4 basis.  The consumer
+  evaluates every basis word, computes each exponent
+  `q(k_i)=z0^a_i`, selects the least nonzero index, forms
+  `u_*=red(u_j^a_j^-1)`, and replays rho0, rho1, and q.  No copied replay
+  Boolean has evidentiary content.
+- The same calculation gives an invertible word-bearing area-adapted basis:
+  `k_*` maps to z0 and every other
+  `k_i k_*^-a_i` maps to the identity.  Therefore the exact v242 joint span
+  is unchanged, but only one initial seed can carry a matching exponent-nine
+  endpoint; all remaining seeds affect only the pointed coordinate.
+- V280 also removes a supplied `base_pairs` roster from the A5 trust
+  boundary.  A5 derives each Heisenberg normal-form section from the accepted
+  A3 coefficient key and locally constructs and replays
+  `s(g)u_*-s(g)`.  The extra pre-closure work is linear in the A4 basis size
+  plus the support of the A3 coefficient, with no 729-element or second
+  relative-ideal enumeration.
+- This is a paper theorem and a binding successor contract, not an actual
+  A4 anchor or A5 terminal.  Task344 remains responsible for determining all
+  independent v13 failures before any v14 implementation is commissioned.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNDER V4 AUDIT** and A5/A6 remain **0/3 actual / 0/3
+  actual**.  V280 reduces the future A5 input ambiguity and endpoint work but
+  does not change a numerator.
+- A0 remains **0/1 V7 IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, A7/A8 **0/3 actual**, A9 **0/3 actual**, and B/C/W/F
+  remain zero.  No compatible lift, fake certificate, or Ihara counterexample
+  has been constructed.
+
+Delta91 turns the A4-to-A5 handoff into a recomputed proof-carrying
+transformation and simultaneously proves the one-endpoint-seed normal form.
