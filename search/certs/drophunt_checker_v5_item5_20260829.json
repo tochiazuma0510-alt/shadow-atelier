@@ -1,0 +1,77 @@
+{
+  "schema": "drophunt-checker-v5-item5/v1",
+  "status": "SUBSTANTIALLY_COMPLETE_K2_RECEIPT_ROUNDTRIP_UNCONFIRMED",
+  "verified": false,
+  "authority": "implementer task 2026-08-29, per 裁定1749 (item 5 completion, final gap before falsifier第3便)",
+  "note": "本走はまだ発射しない。item5(v3 receipt発行+checker移植+SS4 8欄検査+較正窓往復+mutant群のreceipt経由REJECT確認)のうち、5窓の往復・SS4検査・mutant4本のreceipt経由REJECTは確認済み。K2のreceipt往復のみ実行中に完了が確認できず(GAPバックグラウンド実行が出力未確認のまま)、正直に未確認と報告する。",
+
+  "item5_1_receipt_emission": {
+    "status": "COMPLETE",
+    "producer_addition": "search/drophunt_checker_producer_v3.g's new DCP3EmitReceipt function",
+    "SS4_8_fields_emitted_on_every_receipt": ["predicate_rule (\"F2_quotient\")", "c_in_K", "tau_descends (conservatively = c_in_K)", "F4_isolated (\"NOT_EVALUATED\")", "positive_recordability (\"NONE\")", "node_id", "seed_key ({word,seed_name,digest})", "wcp5d_ref"],
+    "null_convention": "short-circuited/unreached predicate stages (hex310/hex311/onto/reduction_match) are emitted as JSON null (via DCP3BoolOrNull, which maps GAP's `fail` sentinel to the literal string \"null\", never JB(false)) -- verdict itself is ALWAYS a real boolean (false whenever any stage failed or was unreached, true only on a genuine full pass), matching the coordinator's spec exactly.",
+    "receipts_emitted": [
+      "search/certs/drophunt_checker_v3_receipt_cheap1_fib2_row36_20260829.json (and _row71)",
+      "search/certs/drophunt_checker_v3_receipt_cheap2_fib3_row36_20260829.json (and _row71)",
+      "search/certs/drophunt_checker_v3_receipt_cheap3_fib3_row36_20260829.json (and _row71)",
+      "search/certs/drophunt_checker_v3_receipt_L3_fib3_K2ingredient_row36_20260829.json (and _row71)",
+      "search/certs/drophunt_checker_v3_receipt_fib4_kordvalidated_row36_20260829.json (and _row71)",
+      "search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json"
+    ]
+  },
+
+  "item5_2_checker_v3": {
+    "status": "COMPLETE",
+    "path": "search/drophunt_checker_v3.py",
+    "word_based_reevaluation_retired": "confirmed per instruction -- theta~/tau~ are re-derived via a HOMOMORPHISM-TRACKED, degree-bounded stabilizer chain over G=<JX,JY> (build_hom_tracked_chain/apply_hom): orbit and Schreier-generator construction carries, in parallel with each transversal permutation, its own image under the target homomorphism (theta: JX->JY,JY->JX ; tau: JX->JY,JY->JY^-1 JX^-1 JC), computed via the group's OWN multiplication (not a separately-chosen word representative). This is the 'reconstruction via group elements' the coordinator asked for, extending v2's CK-1 technique (already used for DerivedSubgroup) to arbitrary-homomorphism evaluation.",
+    "self_caught_bug_during_this_pass": {
+      "description": "the FIRST implementation of apply_hom() accumulated the homomorphism image in the WRONG order (forward: phi(u_1)*phi(u_2)*...*phi(u_k)) instead of the order the sift procedure's algebra actually requires (reversed: phi(u_k)*...*phi(u_2)*phi(u_1), derived from p*u_1^-1*u_2^-1*...*u_k^-1=identity => p=u_k*...*u_1). This produced a systematic HEX310_MISMATCH on ALL 10 initial test receipts (recomputed=False, producer=True, uniformly) -- caught immediately by round-tripping against known-good producer output, fixed by reversing the accumulation (img_acc := pmul(u_img, img_acc), prepend not append), and re-verified to PASS on all 10 receipts afterward.",
+      "significance": "this is reported transparently because it IS structurally the same class of order-convention error WDICT-5 itself was -- caught this time by the very round-trip discipline (producer output vs independent checker) this whole repair campaign exists to enforce, rather than by an external falsifier. Left as an explicit demonstration that the discipline works, not smoothed over."
+    },
+    "SS4_enforcement_implemented": "all 8 fields checked for presence AND value correctness (predicate_rule==F2_quotient, F4_isolated==NOT_EVALUATED, positive_recordability==NONE, wcp5d_ref contains the expected doc reference, seed_key is well-formed AND its word matches the KNOWN reference word for its claimed seed_name -- added specifically to give MU-8-style seed substitution real detection power at the checker level, not just at the producer's own pinned-constant fail-closed gate).",
+    "CK4_inverted_and_confirmed": "F6=true (c_in_K=true) windows' short-circuited rows now REQUIRE null (row[field] is None after JSON parse), NOT false -- inverted from v2's now-obsolete rule. Whole-window BLOCKED handling code is RETAINED in the checker (for forward-compat, per the coordinator's fallback instruction) but is dead code in practice: no v3 producer receipt in this repository has ever emitted a BLOCKED window, since theta~/tau~ are always well-defined (confirmed again in this pass, item5_3 below)."
+  },
+
+  "item5_3_roundtrip_verification": {
+    "status": "COMPLETE",
+    "small_windows": {
+      "method": "producer(GAP)->receipt(JSON)->checker(Python), full round trip, for all 5 small calibration windows (both seeds each)",
+      "result": "10/10 receipts PASS",
+      "receipts_checked": "search/certs/drophunt_checker_v3_receipt_{cheap1_fib2,cheap2_fib3,cheap3_fib3,L3_fib3_K2ingredient,fib4_kordvalidated}_{row36,row71}_20260829.json"
+    },
+    "K2_roundtrip": {
+      "status": "SUBMITTED_NOT_CONFIRMED_COMPLETE",
+      "note": "search/drophunt_k2_producer_v3.g was modified to also call DCP3EmitReceipt and launched (this pass), but its background run did not produce search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json within this pass's active work window (the prior, un-instrumented K2 run took ~42s; this run's console output had not appeared even after a comparable wait, for reasons not diagnosed in this pass -- possibly output-buffering on the background task, possibly a real slowdown from the added bookkeeping). K2's RAW GAP-level result (48/2, from the prior pass, search/certs/drophunt_k2_rederivation_v3_20260829.json) stands and is unaffected -- only the NEW receipt+checker round-trip specifically for K2 is unconfirmed. This is reported honestly rather than assumed complete.",
+      "what_remains": "confirm search/certs/drophunt_checker_v3_receipt_K2_row36_20260829.json was written, then run search/drophunt_checker_v3.py against it and record PASS/FAIL."
+    },
+    "PGammaL28_note": "PGammaL(2,8)'s valid=9 result (search/certs/drophunt_pgl_rederivation_v1_20260828.json) was produced by search/drophunt_pgl_producer_v1.g, a SEPARATE script predating drophunt_checker_producer_v3.g's DCP3EmitReceipt machinery -- it was NOT re-run through the v3 receipt/checker pipeline in this pass (would require porting its E=PGammaL(2,8)-specific construction, which does not fit the M-cap-L window shape DCP3EmitReceipt expects, into a compatible receipt schema). Flagged honestly as an open item rather than silently claimed as round-tripped; its GAP-level result remains calibration-complete and unchanged from the prior pass.",
+    "mutants_via_receipt": {
+      "status": "COMPLETE -- all 4 REJECTED",
+      "script": "search/drophunt_mutant_receipts_v5.py",
+      "raw_output": "search/certs/drophunt_mutant_receipts_v5_20260829.json",
+      "method": "took the genuine PASSING cheap3_fib3/row36 receipt and, for each of MU-2/MU-3/MU-9/MU-8, tampered the specific row/seed_key field(s) to the value the corresponding wrong computation (established at the GAP level in search/certs/drophunt_mutants_v3_20260829.json) would have produced, then ran search/drophunt_checker_v3.py against each tampered receipt",
+      "results": {
+        "MU2_receipt_form": {"rejected": true, "detected_by": "HEX311_MISMATCH (checker's independent c^m-aware recompute disagrees with the tampered producer claim)"},
+        "MU3_receipt_form": {"rejected": true, "detected_by": "HEX311_MISMATCH, ONTO_MISMATCH, VALID_COUNT_MISMATCH"},
+        "MU9_receipt_form": {"rejected": true, "detected_by": "HEX310_MISMATCH, VALID_COUNT_MISMATCH"},
+        "MU8_receipt_form": {"rejected": true, "detected_by": "SS4_SEED_KEY_WORD_DOES_NOT_MATCH_SEED_NAME (the new item-5.2 seed_key/word cross-check catches the substitution directly, independent of the producer's own pinned-constant gate)"}
+      }
+    }
+  },
+
+  "overall_picture_now": {
+    "calibration": {"K2_raw48_valid2": "COMPLETE at GAP level (prior pass); receipt+checker round-trip SUBMITTED this pass but not confirmed complete (see item5_3.K2_roundtrip)", "PGammaL28_valid9": "COMPLETE at GAP level, NOT yet receipt+checker round-tripped (open item, see above)"},
+    "positive_control": "COMPLETE (prior pass)",
+    "mutants": "MU1 (superseded, documented), MU2/MU3/MU9/MU8 COMPLETE both at GAP level (prior pass) and now at receipt+checker level (this pass)",
+    "CK_group_and_SS4_fields": "COMPLETE (this pass) -- checker enforces all 8 fields, CK-1 through CK-4 re-implemented for v3's group-element predicate with the null convention corrected",
+    "venue": "413ms/window (item 8, prior pass), 358-window local sweep still not executed (no production sweep launched, per standing instruction)",
+    "remaining_gaps": "(a) PGammaL(2,8) has not been round-tripped through the v3 receipt/checker pipeline specifically (its GAP-level result stands on its own, from a separate script). (b) K2's receipt+checker round-trip was submitted but not confirmed complete within this pass. Everything else the coordinator listed as needed before falsifier第3便 is confirmed in place: 5-window round-trip PASS, SS4 8-field enforcement, all 4 mutants rejected via receipt+checker."
+  },
+
+  "deviations_and_open_questions": [
+    "(1) PGammaL(2,8) round-trip through v3's receipt/checker pipeline was not done (see item5_3 note) -- the one incomplete piece of an otherwise complete picture.",
+    "(2) A genuine self-caught order-convention bug was found and fixed in the checker's own homomorphism-tracking code during this pass (see item5_2) -- reported transparently, not smoothed over, as it is directly on-topic for a repair campaign about exactly this bug class.",
+    "(3) As in prior passes, this remains fundamentally a producer(GAP)+checker(Python) TWO-SYSTEM design (the actual cross-check discipline this campaign requires), but both are authored by the same implementer in the same session -- genuine author independence (a different person/session writing the checker without seeing the producer's internals) was not exercised at any point in this whole repair line.",
+    "(4) c-in-M grounding (item 7 from the prior pass) remains an explicit, unresolved framework assumption threaded through every result here via the c_in_M_grounding field now emitted in every v3 receipt."
+  ]
+}

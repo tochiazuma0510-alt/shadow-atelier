@@ -230,4 +230,80 @@ DCP3EvalWindow := function(qrec, seed)
     valid_count:=validCount, rows:=rows);;
 end;;
 
+#############################################################################
+## ITEM 5.1: v3 receipt emission with the SS4 8 required fields, all on
+## every row/window. Short-circuited/not-applicable values are JSON null
+## (GAP `fail` -> JStr-free direct "null" literal), never false, per the
+## coordinator's explicit inversion of v2's (wrong) CK-4 rule.
+#############################################################################
+DCP3PermToJsonList := function(p, deg)
+  return JArr(List([1..deg], j -> String(j^p)));;
+end;;
+
+DCP3BoolOrNull := function(v)
+  if v = fail then return "null"; fi;;
+  return JB(v);;
+end;;
+
+DCP3EmitReceipt := function(pathOut, nodeId, b3Index, qrec, seedName, seedCodes, evalResult, totalMs)
+  local rowsJson, out, deg, seedKeyDigest;
+  deg := DCP3MDegree + qrec.degL;;
+  seedKeyDigest := HexSHA256(Concatenation(
+    "word=", String(seedCodes), "\n", "seed_name=", seedName, "\n"));;
+
+  rowsJson := JoinC(List(evalResult.rows, r -> Concatenation(
+    "{\"m\":", String(r.m),
+    ",\"perm_one_line\":", DCP3PermToJsonList(r.perm, deg),
+    ",\"charming\":", DCP3BoolOrNull(r.charming),
+    ",\"hex310\":", DCP3BoolOrNull(r.hex310),
+    ",\"hex311\":", DCP3BoolOrNull(r.hex311),
+    ",\"onto\":", DCP3BoolOrNull(r.onto),
+    ",\"reduction_match\":", DCP3BoolOrNull(r.reduction_match),
+    ",\"verdict\":", JB(r.verdict),   # verdict is always a real boolean (false if any stage failed/unreached)
+    ",\"stage\":", JStr(r.stage), "}")), ",\n");;
+
+  out := Concatenation(
+    "{\n",
+    "  \"schema\":\"drophunt-checker-producer/v3\",\n",
+    "  \"status\":\"CANDIDATE_GAP_PRODUCER\",\n",
+    "  \"verified\":false,\n",
+    ## SS4 8 required top-level fields:
+    "  \"predicate_rule\":\"F2_quotient\",\n",
+    "  \"c_in_K\":", JB(qrec.c_in_K), ",\n",
+    "  \"tau_descends\":", JB(qrec.c_in_K), ",\n",   # conservative: = c_in_K per spec v2 SS10.4
+    "  \"F4_isolated\":\"NOT_EVALUATED\",\n",
+    "  \"positive_recordability\":\"NONE\",\n",
+    "  \"node_id\":", JStr(nodeId), ",\n",
+    "  \"seed_key\":{\"word\":", JArr(List(seedCodes, String)), ",\"seed_name\":", JStr(seedName),
+      ",\"digest\":", JStr(seedKeyDigest), "},\n",
+    "  \"wcp5d_ref\":\"docs/notes/wcp5d_resolution_v1.md (裁定164/165)\",\n",
+    "  \"reduction_index_order\":\"source_first\",\n",
+    "  \"c_in_M_grounding\":\"", DCP3CinMGrounding, "\",\n",
+    "  \"window\":{",
+      "\"node_id\":", JStr(nodeId),
+      ",\"b3_index_of_L\":", String(b3Index),
+      ",\"c_in_K\":", JB(qrec.c_in_K),
+      ",\"K_ord\":", String(qrec.K_ord),
+      ",\"M_ord\":", String(qrec.M_ord),
+      ",\"F1_m_factor\":", String(qrec.K_ord/qrec.M_ord),
+      ",\"F2_ratio\":", String(qrec.F2),
+      ",\"F3_fib\":", String(qrec.F3),
+      ",\"F5_size_G\":", String(Size(qrec.G)),
+      ",\"degree\":", String(deg),
+      ",\"JX_one_line\":", DCP3PermToJsonList(qrec.JX, deg),
+      ",\"JY_one_line\":", DCP3PermToJsonList(qrec.JY, deg),
+      ",\"JC_one_line\":", DCP3PermToJsonList(qrec.JC, deg), "},\n",
+    "  \"seed\":", JStr(seedName), ",\n",
+    "  \"cc1_candidate_coverage\":{",
+      "\"evaluated_count\":", String(evalResult.evaluated_count),
+      ",\"expected_count\":", String(evalResult.expected_count),
+      ",\"match\":", JB(evalResult.evaluated_count = evalResult.expected_count), "},\n",
+    "  \"valid_count\":", String(evalResult.valid_count), ",\n",
+    "  \"total_elapsed_ms\":", String(totalMs), ",\n",
+    "  \"rows\":[\n", rowsJson, "\n  ]\n",
+    "}\n");;
+  WriteFile(pathOut, out);;
+  return rec(path:=pathOut, bytes:=Length(out), sha256:=HexSHA256(out));;
+end;;
+
 Print("DCP3_LOADED\n");;
