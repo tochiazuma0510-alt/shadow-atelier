@@ -104,20 +104,13 @@ for DSDW in DLBWindows do
   DSDBatchByNodeId.(DSDW.node_id) := DSDW;;
 od;;
 
-## item 3/1774: F1' is PURE ARITHMETIC from K_ord (M_ord=18, seed.m_seed=0
-## for both seeds) -- computed here from batch data (could equally have been
-## stored in the batch file itself; recomputing it from K_ord alone, with no
-## reference to any run's own valid_count, keeps it a genuine pre-registered
-## prediction rather than a post-hoc fit either way).
-DSDF1Prime := function(K_ord)
-  local mCands, m, cnt;
-  mCands := List([0..(K_ord/18)-1], t -> 18*t);;
-  cnt := 0;;
-  for m in mCands do
-    if Gcd(2*m+1, K_ord) = 1 then cnt := cnt + 1; fi;;
-  od;;
-  return cnt;;
-end;;
+## NOTE: item3/1774's implementer-side "F1'" (pure-arithmetic gcd count) is
+## now superseded by 裁定1776's DCP3ComputeMultAnalysis (defined in
+## drophunt_checker_producer_v3.g and Read() above), which computes the
+## SAME quantity under the mathematician-assigned name F1_double_prime,
+## alongside per_m/lift_m/mult_set/verdict. The standalone DSDF1Prime
+## function that used to live here has been removed to avoid two
+## differently-named copies of the same arithmetic drifting apart.
 
 #############################################################################
 ## Rebuild qrec from stored JX/JY/JC one-line data ONLY (no LINS, no L) --
@@ -143,7 +136,7 @@ end;;
 ## item 5: checkpoint read (resume) -- fail-closed on partial/corrupt state.
 #############################################################################
 DSDResumeFrom := 1;;
-DSDPriorSummary := rec(processed:=0, valid36_total:=0, valid71_total:=0, drops:=0, anomalies:=0, unknown:=0);;
+DSDPriorSummary := rec(processed:=0, valid36_total:=0, valid71_total:=0, drops:=0, anomalies:=0, unknown:=0, bugs:=0);;
 if IsExistingFile(DSDDropLockPath) then
   Error("DSD: DROP/ANOMALY POISON LOCK present (", DSDDropLockPath, ") -- refusing to resume until a human clears it (item 5)");
 fi;;
@@ -173,7 +166,8 @@ DSDWriteCheckpoint := function(lastIndex, summary)
       ", valid71_total:=", String(summary.valid71_total),
       ", drops:=", String(summary.drops),
       ", anomalies:=", String(summary.anomalies),
-      ", unknown:=", String(summary.unknown), ");;\n",
+      ", unknown:=", String(summary.unknown),
+      ", bugs:=", String(summary.bugs), ");;\n",
     "DSDCheckpointLastIndex := ", String(lastIndex), ";;\n");;
   WriteFile(DSDCheckpointPath, out);;
 end;;
@@ -201,7 +195,7 @@ DSDFullHexagonSecondSystemStub := function(nodeId, seedName)
   return rec(status:="UNIMPLEMENTED_STUB", cross_checked:=false);;
 end;;
 
-DSDWriteHaltCheckpoint := function(win, seedName, evalResult, f1prime, kind)
+DSDWriteHaltCheckpoint := function(win, seedName, evalResult, mult, kind)
   local rowsJson, out, prefix;
   rowsJson := JoinC(List(evalResult.rows, r -> Concatenation(
     "{\"m\":", String(r.m), ",\"charming\":", DCP3BoolOrNull(r.charming),
@@ -209,16 +203,23 @@ DSDWriteHaltCheckpoint := function(win, seedName, evalResult, f1prime, kind)
     ",\"onto\":", DCP3BoolOrNull(r.onto), ",\"verdict\":", JB(r.verdict),
     ",\"stage\":", JStr(r.stage), "}")), ",\n");;
   prefix := "search/certs/drophunt_sweep_";;
-  if kind = "DROP" then prefix := Concatenation(prefix, "drop_"); else prefix := Concatenation(prefix, "anomaly_"); fi;;
+  if kind = "DROP" then prefix := Concatenation(prefix, "drop_");
+  elif kind = "BUG" then prefix := Concatenation(prefix, "bug_");
+  else prefix := Concatenation(prefix, "anomaly_"); fi;;
   out := Concatenation(
     "{\n  \"schema\":\"drophunt-sweep-halt-checkpoint/v3\",\n",
     "  \"status\":\"", kind, "_DETECTED_SWEEP_HALTED\",\n",
+    "  \"verdict\":\"", kind, "\",\n",
     "  \"node_id\":\"", win.node_id, "\",\n",
     "  \"b3_index\":", String(win.b3_index), ",\n",
     "  \"fib_K\":", String(win.fib_K), ",\n",
     "  \"seed\":\"", seedName, "\",\n",
-    "  \"F1_prime\":", String(f1prime), ",\n",
-    "  \"valid_count\":", String(evalResult.valid_count), ",\n",
+    "  \"F1_prime\":", String(mult.F1_prime), ",\n",
+    "  \"F1_double_prime\":", String(mult.F1_double_prime), ",\n",
+    "  \"per_m\":[", JoinC(List(mult.per_m, DCP3IntOrNullStr), ","), "],\n",
+    "  \"lift_m\":", String(mult.lift_m), ",\n",
+    "  \"mult_set\":[", JoinC(List(mult.mult_set, String), ","), "],\n",
+    "  \"valid_total\":", String(mult.valid_total), ",\n",
     "  \"cc1_candidate_coverage\":{\"evaluated_count\":", String(evalResult.evaluated_count),
       ",\"expected_count\":", String(evalResult.expected_count), "},\n",
     "  \"cc2_no_early_stop\":true,\n",
@@ -244,7 +245,7 @@ Print("DSD_RUN_BOUNDED_TO index ", DSDResumeFrom, "..", DSDEndIndex,
 ## object), silently corrupting the denominator check below (it would
 ## always read attempted-vs-itself = 0, discovered exactly this way during
 ## this pass's own 20-window dry run). ShallowCopy breaks the aliasing.
-DSDPriorTotal := DSDPriorSummary.processed + DSDPriorSummary.drops + DSDPriorSummary.anomalies + DSDPriorSummary.unknown;;
+DSDPriorTotal := DSDPriorSummary.processed + DSDPriorSummary.drops + DSDPriorSummary.anomalies + DSDPriorSummary.unknown + DSDPriorSummary.bugs;;
 DSDSummary := ShallowCopy(DSDPriorSummary);;
 DSDStopFlag := false;;
 DSDIdx := DSDResumeFrom;;
@@ -289,57 +290,58 @@ while DSDIdx <= DSDEndIndex and not DSDStopFlag do
   ## it honestly for receipt purposes via the same F2-quotient definition
   ## the producer uses (JC = identity in the M/L-joint quotient).
   DSDQrec.c_in_K := (DSDQrec.JC = Identity(DSDQrec.A));;
-  DSDF1P := DSDF1Prime(DSDWin.K_ord);;
 
-  ## Mode A (row36) and Mode B (row71) -- SYMMETRIC (item 3): both are
-  ## checked against {0, F1'} and either can trigger the halt, in the order
-  ## A-then-B (arbitrary tie-break; both are evaluated for the SAME window
-  ## regardless of which one halts, since both use the freshly-rebuilt qrec
-  ## and neither is privileged as "the" drop-hunt target here).
+  ## 裁定1776: final stop lattice. Mode A (row36) and Mode B (row71) are
+  ## evaluated SYMMETRICALLY; each gets its own DCP3ComputeMultAnalysis
+  ## verdict in {BUG,DROP,ANOMALY,PASS} (exclusive priority order: BUG >
+  ## DROP > ANOMALY > PASS -- see DCP3ComputeMultAnalysis's own header for
+  ## the exact lattice). BUG (lift_m>F1'' or |mult_set|>1, i.e. a MULT-COSET
+  ## theorem violation) and DROP (valid_total=0) and ANOMALY (0<lift_m<F1'')
+  ## ALL halt immediately with a poison lock; only PASS on BOTH modes lets
+  ## the loop continue to the next window.
   DSDResultA := DCP3EvalWindow(DSDQrec, DCP3Seeds[1]);;
-  Print("DSD_MODE_A index=", DSDIdx, " valid=", DSDResultA.valid_count,
-    " F1_prime=", DSDF1P, " evaluated=", DSDResultA.evaluated_count, "\n");;
+  DSDMultA := DCP3ComputeMultAnalysis(DSDQrec, DSDResultA);;
+  Print("DSD_MODE_A index=", DSDIdx, " valid_total=", DSDMultA.valid_total,
+    " F1_double_prime=", DSDMultA.F1_double_prime, " lift_m=", DSDMultA.lift_m,
+    " mult_set=", DSDMultA.mult_set, " verdict=", DSDMultA.verdict, "\n");;
 
-  DSDAKind := fail;;
-  if DSDResultA.valid_count = 0 then DSDAKind := "DROP";
-  elif DSDResultA.valid_count <> DSDF1P then DSDAKind := "ANOMALY"; fi;;
-  if DSDAKind <> fail then
-    Print("DSD_", DSDAKind, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
-      " seed=row36 valid=", DSDResultA.valid_count, " F1_prime=", DSDF1P, " -- HALTING IMMEDIATELY\n");;
+  if DSDMultA.verdict <> "PASS" then
+    Print("DSD_", DSDMultA.verdict, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
+      " seed=row36 -- HALTING IMMEDIATELY\n");;
     DSDStubResult := DSDFullHexagonSecondSystemStub(DSDWin.node_id, "row36");;
-    DSDWriteHaltCheckpoint(DSDWin, "row36", DSDResultA, DSDF1P, DSDAKind);;
-    if DSDAKind = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;;
+    DSDWriteHaltCheckpoint(DSDWin, "row36", DSDResultA, DSDMultA, DSDMultA.verdict);;
+    if DSDMultA.verdict = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;
+    elif DSDMultA.verdict = "BUG" then DSDSummary.bugs := DSDSummary.bugs + 1;
     else DSDSummary.anomalies := DSDSummary.anomalies + 1;; fi;;
     DSDWriteCheckpoint(DSDIdx - 1, DSDSummary);;
-    DSDWritePoisonLock(DSDAKind, DSDIdx, DSDWin.node_id);;
-    Print("DSD_STATUS=", DSDAKind, "_HALT\n");;
+    DSDWritePoisonLock(DSDMultA.verdict, DSDIdx, DSDWin.node_id);;
+    Print("DSD_STATUS=", DSDMultA.verdict, "_HALT\n");;
     DSDStopFlag := true;;
     continue;;
   fi;;
 
   DSDResultB := DCP3EvalWindow(DSDQrec, DCP3Seeds[2]);;
-  Print("DSD_MODE_B index=", DSDIdx, " valid=", DSDResultB.valid_count,
-    " F1_prime=", DSDF1P, " evaluated=", DSDResultB.evaluated_count, "\n");;
+  DSDMultB := DCP3ComputeMultAnalysis(DSDQrec, DSDResultB);;
+  Print("DSD_MODE_B index=", DSDIdx, " valid_total=", DSDMultB.valid_total,
+    " F1_double_prime=", DSDMultB.F1_double_prime, " lift_m=", DSDMultB.lift_m,
+    " mult_set=", DSDMultB.mult_set, " verdict=", DSDMultB.verdict, "\n");;
 
-  DSDBKind := fail;;
-  if DSDResultB.valid_count = 0 then DSDBKind := "DROP";
-  elif DSDResultB.valid_count <> DSDF1P then DSDBKind := "ANOMALY"; fi;;
-  if DSDBKind <> fail then
-    Print("DSD_", DSDBKind, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
-      " seed=row71 valid=", DSDResultB.valid_count, " F1_prime=", DSDF1P, " -- HALTING IMMEDIATELY\n");;
+  if DSDMultB.verdict <> "PASS" then
+    Print("DSD_", DSDMultB.verdict, "_DETECTED index=", DSDIdx, " node_id=", DSDWin.node_id,
+      " seed=row71 -- HALTING IMMEDIATELY\n");;
     DSDStubResult := DSDFullHexagonSecondSystemStub(DSDWin.node_id, "row71");;
-    DSDWriteHaltCheckpoint(DSDWin, "row71", DSDResultB, DSDF1P, DSDBKind);;
-    if DSDBKind = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;;
+    DSDWriteHaltCheckpoint(DSDWin, "row71", DSDResultB, DSDMultB, DSDMultB.verdict);;
+    if DSDMultB.verdict = "DROP" then DSDSummary.drops := DSDSummary.drops + 1;
+    elif DSDMultB.verdict = "BUG" then DSDSummary.bugs := DSDSummary.bugs + 1;
     else DSDSummary.anomalies := DSDSummary.anomalies + 1;; fi;;
     DSDWriteCheckpoint(DSDIdx - 1, DSDSummary);;
-    DSDWritePoisonLock(DSDBKind, DSDIdx, DSDWin.node_id);;
-    Print("DSD_STATUS=", DSDBKind, "_HALT\n");;
+    DSDWritePoisonLock(DSDMultB.verdict, DSDIdx, DSDWin.node_id);;
+    Print("DSD_STATUS=", DSDMultB.verdict, "_HALT\n");;
     DSDStopFlag := true;;
     continue;;
   fi;;
 
-  ## Both modes normal (valid=F1') -- receipt emission, item-4-naming (v2) ->
-  ## v3 naming continued (single date, node_id-prefix label).
+  ## Both modes PASS -- receipt emission (single date, node_id-prefix label).
   DSDLabel := DSDWin.node_id{[1..16]};;
   DSDPathA := Concatenation("search/certs/drophunt_sweep_receipt_", DSDLabel, "_row36_v3_20260829.json");;
   DSDPathB := Concatenation("search/certs/drophunt_sweep_receipt_", DSDLabel, "_row71_v3_20260829.json");;
@@ -348,8 +350,8 @@ while DSDIdx <= DSDEndIndex and not DSDStopFlag do
   Print("DSD_RECEIPTS_EMITTED index=", DSDIdx, " pathA=", DSDEmitA.path, " pathB=", DSDEmitB.path, "\n");;
 
   DSDSummary.processed := DSDSummary.processed + 1;;
-  DSDSummary.valid36_total := DSDSummary.valid36_total + DSDResultA.valid_count;;
-  DSDSummary.valid71_total := DSDSummary.valid71_total + DSDResultB.valid_count;;
+  DSDSummary.valid36_total := DSDSummary.valid36_total + DSDMultA.valid_total;;
+  DSDSummary.valid71_total := DSDSummary.valid71_total + DSDMultB.valid_total;;
   DSDWriteCheckpoint(DSDIdx, DSDSummary);;
   Print("DSD_CHECKPOINT_WRITTEN last_completed=", DSDIdx, "\n");;
 
@@ -360,7 +362,7 @@ if not DSDStopFlag then
   Print("DSD_RUN_COMPLETE_THIS_INVOCATION processed_this_run=", DSDSummary.processed,
     " cumulative_summary=", DSDSummary, "\n");;
   Print("DSD_DENOMINATOR_CHECK attempted=", DSDEndIndex - DSDResumeFrom + 1,
-    " accounted=", (DSDSummary.processed + DSDSummary.drops + DSDSummary.anomalies + DSDSummary.unknown) - DSDPriorTotal, "\n");;
+    " accounted=", (DSDSummary.processed + DSDSummary.drops + DSDSummary.anomalies + DSDSummary.unknown + DSDSummary.bugs) - DSDPriorTotal, "\n");;
   Print("DSD_STATUS=RUN_COMPLETE\n");;
 fi;;
 Print("ALL_DONE\n");;

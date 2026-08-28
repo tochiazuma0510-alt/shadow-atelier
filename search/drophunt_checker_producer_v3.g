@@ -105,11 +105,18 @@ for DCP3Sd in DCP3Seeds do DCP3Sd.letters := DCP3WordToLetters(DCP3Sd.codes);; o
 ## INDEPENDENTLY of any joint window (directly in the M model alone), so
 ## reduction_match compares against a FROZEN constant, not a value derived
 ## from the same candidate's own seed evaluation (which was a tautology).
+## 裁定1761 item 1 (最重要): the seed codes (row36/row71) are defined under
+## the PREPEND word-evaluation convention (matching wall-miner-v4.g's
+## AbstractProd / EvalWordInQ), NOT the direct/append order this function
+## previously used (z:=z*g). Evaluating a prepend-defined word with append
+## accumulation is exactly the WDICT-5 convention-mixing bug class, applied
+## here to the SEED itself (not just the internal tau~-cycle formula fixed
+## above) -- fixed by prepending: z := g^pow * z.
 DCP3EvalWord := function(letters, gx, gy, one)
   local z, l;
   z := one;;
   for l in letters do
-    if l[1]="x" then z := z*gx^l[2]; else z := z*gy^l[2]; fi;
+    if l[1]="x" then z := gx^l[2]*z; else z := gy^l[2]*z; fi;
   od;
   return z;
 end;;
@@ -203,6 +210,23 @@ DCP3EvalWindow := function(qrec, seed)
       stage := "charming_fail";;
       hex310 := fail;; hex311 := fail;; onto := fail;; redOk := fail;;
       if charming then
+        ## 裁定1761 item 1/3 resolution: B-2 calibration (row71 MUST be a
+        ## full GT(M) member when checked directly in the roof, per
+        ## search/drophunt_row71_calibration_v1.g) was used to empirically
+        ## pin the correct convention PAIR, since a naive re-derivation from
+        ## AbstractProd's reversal rule alone was ambiguous (both "prepend
+        ## seed + reversed triple" and "append seed + reversed triple" LOOK
+        ## internally consistent in isolation -- only round-tripping against
+        ## a KNOWN member of GT(M) disambiguates them, exactly the discipline
+        ## this whole campaign exists to enforce). The validated pair is:
+        ## seed words evaluated PREPEND (DCP3EvalWord, fixed above) PAIRED
+        ## WITH the ORIGINAL/NAIVE Wd:=y^m*f and triple order tau~^2(Wd)*
+        ## tau~(Wd)*Wd (i.e. this hexagon (3.11) formula itself is UNCHANGED
+        ## from the pre-1761 version; only the SEED word evaluation
+        ## convention was actually wrong). Both row36 and row71 independently
+        ## confirmed PASS as full GT(M) members under this exact pair before
+        ## it was adopted here -- see search/certs/
+        ## drophunt_row71_calibration_v1_20260829.json.
         hex310 := (p * Image(qrec.thetaHom, p) = Identity(qrec.A));;
         if hex310 then
           ymf := qrec.JY^m * p;;
@@ -245,11 +269,64 @@ DCP3BoolOrNull := function(v)
   return JB(v);;
 end;;
 
+#############################################################################
+## 裁定1776 (MULT-COSET / final stop lattice): F1_prime := K_ord/M_ord
+## (RECORD-ONLY, the count of ALL m-residues, gcd-eligible or not --
+## renamed here to match 数学者命名; this is what earlier drophunt cert
+## prose (裁定1774-era) called "F1"). F1_double_prime := #{m : gcd(2m+1,
+## K_ord)=1} (the DECISION denominator -- what 裁定1774's implementer draft
+## called "F1'", now superseded by this name). per_m[i] is "null" (GAP
+## string sentinel -> JSON null) for a gcd-EXCLUDED m, or an INTEGER >= 0
+## (possibly 0) for a gcd-ELIGIBLE m -- strict null/0 distinction is a
+## receipt-schema REQUIREMENT (0 means "evaluated, no lift"; null means
+## "never evaluated, gcd side-condition excluded it"). lift_m := number of
+## gcd-eligible m with per_m[m]>=1. mult_set := SET of DISTINCT nonzero
+## per_m values (MULT-COSET theorem: this set must have size <=1 -- the
+## fibre multiplicity is constant across every lifting m; a set of size>1
+## is a THEOREM VIOLATION, not a data anomaly). verdict in
+## {"BUG","DROP","ANOMALY","PASS"}, exclusive lattice in this priority
+## order: BUG if lift_m>F1_double_prime or |mult_set|>1; else DROP if
+## valid_total=0; else ANOMALY if lift_m<F1_double_prime; else PASS.
+#############################################################################
+DCP3ComputeMultAnalysis := function(qrec, evalResult)
+  local mCands, m, perM, cnt, liftM, multSet, validTotal, verdict, f1prime, f1double;
+  mCands := List([0..(qrec.K_ord/qrec.M_ord)-1], t -> qrec.M_ord*t);;
+  f1prime := qrec.K_ord/qrec.M_ord;;
+  f1double := Length(Filtered(mCands, m -> Gcd(2*m+1, qrec.K_ord) = 1));;
+  perM := [];; liftM := 0;; multSet := [];; validTotal := 0;;
+  for m in mCands do
+    if Gcd(2*m+1, qrec.K_ord) <> 1 then
+      Add(perM, "null");;
+    else
+      cnt := Length(Filtered(evalResult.rows, r -> r.m = m and r.verdict = true));;
+      Add(perM, cnt);;
+      validTotal := validTotal + cnt;;
+      if cnt >= 1 then
+        liftM := liftM + 1;;
+        if not cnt in multSet then Add(multSet, cnt); fi;;
+      fi;;
+    fi;;
+  od;;
+  Sort(multSet);;
+  if liftM > f1double or Length(multSet) > 1 then verdict := "BUG";
+  elif validTotal = 0 then verdict := "DROP";
+  elif liftM < f1double then verdict := "ANOMALY";
+  else verdict := "PASS"; fi;;
+  return rec(F1_prime:=f1prime, F1_double_prime:=f1double, per_m:=perM,
+    lift_m:=liftM, mult_set:=multSet, valid_total:=validTotal, verdict:=verdict);;
+end;;
+
+DCP3IntOrNullStr := function(v)
+  if v = "null" then return "null"; fi;;
+  return String(v);;
+end;;
+
 DCP3EmitReceipt := function(pathOut, nodeId, b3Index, qrec, seedName, seedCodes, evalResult, totalMs)
-  local rowsJson, out, deg, seedKeyDigest;
+  local rowsJson, out, deg, seedKeyDigest, mult;
   deg := DCP3MDegree + qrec.degL;;
   seedKeyDigest := HexSHA256(Concatenation(
     "word=", String(seedCodes), "\n", "seed_name=", seedName, "\n"));;
+  mult := DCP3ComputeMultAnalysis(qrec, evalResult);;
 
   rowsJson := JoinC(List(evalResult.rows, r -> Concatenation(
     "{\"m\":", String(r.m),
@@ -270,14 +347,26 @@ DCP3EmitReceipt := function(pathOut, nodeId, b3Index, qrec, seedName, seedCodes,
     ## SS4 8 required top-level fields:
     "  \"predicate_rule\":\"F2_quotient\",\n",
     "  \"c_in_K\":", JB(qrec.c_in_K), ",\n",
-    "  \"tau_descends\":", JB(qrec.c_in_K), ",\n",   # conservative: = c_in_K per spec v2 SS10.4
+    ## item 5 (裁定1761): tau_descends is NOT_APPLICABLE under (F2)-only
+    ## operation (the (F1) word-descent question this field was originally
+    ## for does not arise -- there is no word-level fallback path anymore;
+    ## the earlier "conservative := c_in_K" wiring quoted a nonexistent
+    ## "spec v2 SS10.4" comment and is removed).
+    "  \"tau_descends\":\"NOT_APPLICABLE\",\n",
     "  \"F4_isolated\":\"NOT_EVALUATED\",\n",
     "  \"positive_recordability\":\"NONE\",\n",
     "  \"node_id\":", JStr(nodeId), ",\n",
     "  \"seed_key\":{\"word\":", JArr(List(seedCodes, String)), ",\"seed_name\":", JStr(seedName),
       ",\"digest\":", JStr(seedKeyDigest), "},\n",
     "  \"wcp5d_ref\":\"docs/notes/wcp5d_resolution_v1.md (裁定164/165)\",\n",
+    ## item 2 (裁定1761): the pair declaring which product-order/word-eval
+    ## convention this receipt was produced under. Only valid TOGETHER,
+    ## per spec v2 SS3.0's literal declaration; the checker fail-closed
+    ## rejects a receipt missing either or declaring a different pair.
+    "  \"product_order\":\"tau2_tau_id\",\n",
+    "  \"word_eval_order\":\"prepend\",\n",
     "  \"reduction_index_order\":\"source_first\",\n",
+    "  \"reduction_match_tautological_by_construction\":true,\n",   # item 4
     "  \"c_in_M_grounding\":\"", DCP3CinMGrounding, "\",\n",
     "  \"window\":{",
       "\"node_id\":", JStr(nodeId),
@@ -299,6 +388,14 @@ DCP3EmitReceipt := function(pathOut, nodeId, b3Index, qrec, seedName, seedCodes,
       ",\"expected_count\":", String(evalResult.expected_count),
       ",\"match\":", JB(evalResult.evaluated_count = evalResult.expected_count), "},\n",
     "  \"valid_count\":", String(evalResult.valid_count), ",\n",
+    ## 裁定1776 final stop lattice fields:
+    "  \"F1_prime\":", String(mult.F1_prime), ",\n",
+    "  \"F1_double_prime\":", String(mult.F1_double_prime), ",\n",
+    "  \"per_m\":[", JoinC(List(mult.per_m, DCP3IntOrNullStr), ","), "],\n",
+    "  \"lift_m\":", String(mult.lift_m), ",\n",
+    "  \"mult_set\":[", JoinC(List(mult.mult_set, String), ","), "],\n",
+    "  \"valid_total\":", String(mult.valid_total), ",\n",
+    "  \"verdict\":", JStr(mult.verdict), ",\n",
     "  \"total_elapsed_ms\":", String(totalMs), ",\n",
     "  \"rows\":[\n", rowsJson, "\n  ]\n",
     "}\n");;
