@@ -684,3 +684,22 @@ TYPE-M と complete fibre coverage を明示した accepted-set tree として�
 
 この success は task198 実装の production-shaped SELFTEST 検収であり、actual roof
 presentation、actual \(K\)、single-seed membership、または witness の positive ではない。
+
+#### v220-Δ4 — 2026-08-28 11:27 JST
+
+**個別進捗**:
+
+- v222 で task176 cross-checked artifact run `33044121344` の payload を再取得・再hashし、
+  task198 が要求する production-only `ci/in` receipt と artifact manifest を commit
+  `3d8063d0c96165141347849fdae758dcf9371f26` に固定した。
+- task198 actual PRODUCTION を GHA run `33135921512` として開始した。workflow hard
+  timeout は 300 分、driver の registered wall cap は 14,400 秒、process は一つ。
+
+**v220 内進捗**:
+
+- A1 は **3/4 RUNNING**。production input availability は閉じたが、6,441-row producer
+  と independent checker の acceptance がまだないので 4/4 には上げない。
+- A0 は **0/1 RUNNING**、A2 は **1/3**、A3--A9, B, C, W, F は全て **0**。
+
+従って v220-Δ4 は A1 最終 milestone の実行開始であり、actual witness gate の完了数は
+まだ 0 件である。
