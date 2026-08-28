@@ -4735,3 +4735,82 @@ verdict and fixes the exact bounded successor without authorizing execution.
 Delta109 fixes the A0 bootstrap direction without re-entering the rejected
 single-version cryptographic cycle and keeps all execution gated by a fresh
 Sol(max) audit.
+
+#### v220-delta110 - 2026-08-29 (after delta109)
+
+**Individual progress**:
+
+- V293 fixes the physical attestation graph used by both active branches.
+  Runtime physical-hash dependencies must form a DAG.  A driver cannot carry
+  the SHA-256 of its own final bytes; its identity is rooted by the immutable
+  commit/run and reported in the reply.  With a manifest the construction is
+  `producer/checker/fixture -> manifest -> driver -> candidate receipt ->
+  independent verdict`; without one the driver pins the three earlier files
+  but never itself.  Canonical-body self seals are explicitly separated from
+  full physical-file SHA identities.
+- Static inspection of the live A4-v5 draft found that its driver still
+  attempted the forbidden self-pin.  The bounded repair is to remove only
+  that row, retain exact producer/checker/fixture and authority pins, and bind
+  the driver externally as in V293.  More importantly, the checker currently
+  loads the authority before the producer terminal, so a pre-authority
+  `UNKNOWN_INPUT` cannot reach the claimed independent terminal validator;
+  resource exhaustion can also turn an existing checkpoint into a false
+  `missing_checkpoint` by reusing the exhausted ordinary input-byte channel.
+  Both findings were returned to the active implementation before audit.
+- The first live A0-v12a draft was rejected during implementation review: it
+  built a detached miniature model instead of the physical v10 owners and
+  ordinary validators.  The draft was withdrawn rather than frozen.  The
+  active repair is now anchored at the literal v10 selected-K0 owner, with a
+  deterministic packed-state/open-address lookup, retained full-state
+  equality, chronological one-coordinate Gamma recurrence, trivial-kernel
+  handling, canonical kernel blobs and no cursor fallback.  Absence of a
+  local validator is implementation work, not a mathematical or physical
+  blocker.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V12A SELFTEST-BOOTSTRAP IMPLEMENTATION ACTIVE**.  No
+  candidate R/V exists and no run is authorized.
+- A4 remains **1/3; V5 IMPLEMENTATION ACTIVE**.  V293 removes the provenance
+  cycle only; the ordinary positive/nonpositive routes and actual-owner
+  mutations still require completion and a fresh Sol(max) PASS.
+- A2 remains **2/3** and every other count remains delta109.  No compatible
+  lift, fake certificate, Ihara counterexample or cofinal witness has been
+  constructed.
+
+Delta110 makes the new work monotone: neither branch may return to a
+self-hashed driver or a detached SELFTEST model.
+
+#### v220-delta111 - 2026-08-29 (after delta110)
+
+**Individual progress**:
+
+- V294 supplies the missing ordinary selected-K0 fibre-index contract rather
+  than treating it as an external blocker.  For one selected coordinate it
+  builds the 1,469,664 chronological states once in a fixed-width byte store
+  and indexes them by a deterministic 4,194,304-slot `array('I')`
+  open-address table.  Hash/coarse collisions only change probe length;
+  acceptance always compares the retained complete 40/154-byte state.
+- The exact E4 persistent payload is 226,328,256 state bytes plus 16,777,216
+  slot bytes, 243,105,472 bytes total, leaving 25,329,984 bytes under the
+  256-MiB payload cap for separately capped fixed framing.  No per-state
+  Python bytes key, integer object, sorted million-tuple digest, or second
+  coordinate store is permitted.
+- V294 proves that a chronological one-coordinate Gamma recurrence plus the
+  first gid of each distinct state and skip-on-Q0-miss gives the complete
+  lexicographically least `(qid,gid)` base.  It also replaces full-word kernel
+  replays by an incremental full-ten-state BFS, accepts an empty generator
+  roster exactly for the registered order-one kernels S5--S7, and binds the
+  selected cursor to both its canonical word and complete state blob.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V12A SELFTEST-BOOTSTRAP IMPLEMENTATION ACTIVE**.  V294
+  closes one paper/API gap but no ordinary validator, mutation receipt, R/V,
+  or GHA terminal has yet been accepted.
+- A4 remains **1/3**, A2 remains **2/3**, and all other counts remain
+  delta110.  No compatible lift, fake certificate, Ihara counterexample or
+  cofinal witness has been constructed.
+
+Delta111 fixes the exact K0 algorithm, leastness theorem, trivial-kernel
+case, and memory ceiling which the v12a implementation must now realize.
