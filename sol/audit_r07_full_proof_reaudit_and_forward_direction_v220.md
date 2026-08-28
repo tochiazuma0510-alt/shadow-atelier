@@ -3532,3 +3532,37 @@ implementation contract.  It changes no actual witness numerator.
 
 Delta79 turns both returned candidates into explicit audit/repair branches
 without counting implementation or elapsed runtime as mathematical progress.
+
+#### v220-delta80 - 2026-08-29 (after delta79)
+
+**Individual progress**:
+
+- V273 finds and closes a missing state in v272's word-bearing K recurrence.
+  A normalized K representative `k` and its literal word `W` generally obey
+  `defect(W)=k+boundary`, not exact equality in the raw Fox module.  The
+  boundary discrepancy must therefore be retained and propagated through
+  every later source conjugation and prior-K combination.
+- With reduction convention
+  `r=v-Psi(Q)-sum(c_l k_l)` and `k_new=s r`, the exact recurrence is
+  `E_new=s(E_v+Q-sum(c_l E_l))`.  V273 proves by the affine/Fox laws that
+  `defect(W_new)=k_new+Psi(E_new)` for
+  `W_new=(W_v product W_l^(-c_l))^s`.  Initial words have `E_v=0`; a source
+  conjugate transports the prior ledger by the actual ten context actions.
+- V273 also proves the chronological invariant of the persistent lazy oracle:
+  each accepted K row has a dual annihilating the whole D, so boundary columns
+  discovered by later queries cannot retroactively make it dependent.  Raw
+  discrepancy keys remain `(coordinate,base relator,translation)` and do not
+  depend on a mutable discovered-B basis.
+- Task339 binds this correction into the active A4/v4 task336, including
+  independent exact raw replay and seven new discrepancy-owner mutations.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  V273 strengthens the paper proof and prevents a false
+  literal-word certificate, but no actual K row, discrepancy ledger, or
+  anchor has been computed.
+- All other A0--A9 and B/C/W/F counts remain exactly as in delta79; no
+  compatible cofinal lift, fake certificate, or Ihara counterexample exists.
+
+Delta80 closes the recursive word-to-representative gap before implementation
+can freeze it into a certificate.  It changes no actual witness numerator.
