@@ -3145,3 +3145,41 @@ actual witness numerator.
 Delta71 removes an overstrong A0 search-history requirement without weakening
 positive verification or authorizing a negative claim, and prevents an
 ancestry-free A5/A6 execution.  It changes no actual witness numerator.
+
+#### v220-delta72 - 2026-08-28 (after delta71)
+
+**Individual progress**:
+
+- V266 proves an exact class-two compiler for the first nonlinear remainder.
+  For each printed relation block, if the transported correction occurrences
+  have class-two logarithms `ell_i+tau_i`, then
+  `q2=sum(tau_i)+(1/2)sum_{i<j}[ell_i,ell_j]`, with the literal hexagon/A.18
+  factor order retained.  Thus actual `q2` needs only the first two
+  Zassenhaus layers and the ordered word ancestry of the A5/A6 correction,
+  not a deeper successor or an all-rung search.
+- The same note proves that for a newly applied depth-`r` correction with
+  `r>=2`, terms containing it twice lie in depth at least `2r>=r+2` and skip
+  the immediately following layer.  Linear interaction with the accumulated
+  depth-one base and the old residual tail remains open; this is a reduction
+  of the later NLSAT problem, not its solution.
+- Task325 fixes the implementation contract for the v265 positive-only A0
+  route.  It retains one persistent worker pool and the serial v3 owner, uses
+  the old checkpoint only as discovery state, forbids every negative claim,
+  and requires the pinned helper-nonshared v3 checker to accept the final
+  literal word and boundary preimage.  It is queued behind task324 and is
+  unimplemented/unexecuted at this delta.
+- Commit `ec6e1997e73627c5393ccf874065c18de9cf1a81` records v265, the v10
+  rejection, task324, and delta71 on the work branch.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**.  Its first canary is now a finite class-two
+  calculation with a precise word-bearing formula, but the actual input
+  correction `a`, numerical `q2`, and coefficient `nu2` are still absent.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; task325 is preparation only.
+- A1 **4/4**, A2 **2/3**, A4 **0/3 pending audit**, A5/A6 **0/3 actual**, and
+  A3, A7/A8 actual, B, C, W, and F retain their delta71 values.
+
+Delta72 replaces the vague instruction to replay a full nonlinear successor
+by one exact two-layer formula and one later-depth simplification.  It changes
+no actual witness numerator.
