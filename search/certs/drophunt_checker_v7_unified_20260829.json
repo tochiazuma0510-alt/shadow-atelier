@@ -1,0 +1,74 @@
+{
+  "schema": "drophunt-checker-v7-unified/v1",
+  "status": "ITEMS_1_2_3_4_5_COMPLETE_ITEMS_6_7_8_DEFERRED",
+  "verified": false,
+  "authority": "implementer task 2026-08-29, per 裁定1761 (root-cause: producer v3 evaluated a prepend-defined seed with append accumulation -- a WDICT-5-class convention-mixing bug, same root cause, different location than the previously-fixed instance)",
+  "note": "本走はまだ発射しない。長いバッチにつき、指示どおり1-3(述語統一+較正)を先に完了報告する。4,5も同じ編集セッションで併せて完了できたため含めた。6-8(次数ガード+358窓分布実測+掃引ドライバ+全較正再走)は続報とする。",
+
+  "root_cause_and_the_disambiguation_process": {
+    "what_was_wrong": "search/drophunt_checker_producer_v3.g's DCP3EvalWord (used to evaluate the row36/row71 seed CODES into an actual group element) accumulated words in APPEND order (z:=z*g), but the seed codes were defined under the PREPEND convention used throughout the reference machinery (wall-miner-v4.g's AbstractProd / EvalWordInQ). This silently produced the WRONG group element for the seed itself -- a different, more fundamental instance of the same bug class WDICT-5 already found and fixed elsewhere (the internal tau~-cycle formula).",
+    "disambiguation_was_NOT_a_simple_reversal": "a naive 'just reverse everything to match AbstractProd's literal reversal rule' fix was tried first and FAILED the row71 B-2 calibration gate (see below) -- both 'prepend seed + reversed internal triple-product order' and 'append seed + reversed triple' LOOKED internally self-consistent in isolation (each produces SOME element satisfying SOME hexagon-like condition), but only round-tripping against the FROZEN FACT that row71 must be a full GT(M) member disambiguated which specific pairing is actually correct.",
+    "validated_pairing": "seed words: PREPEND (word_eval_order=\"prepend\", DCP3EvalWord fixed). Internal hexagon (3.11) triple-product order: UNCHANGED from before this repair (product_order=\"tau2_tau_id\", i.e. tau~^2(Wd)*tau~(Wd)*Wd with Wd:=y^m*f, naive/direct order) -- this formula itself was never wrong; only the SEED feeding into it was.",
+    "diagnostic_script": "scratchpad/test_row71_variants.g (all 4 combinations of seed-order x triple-order tested directly against roof M; exactly one combination, prepend-seed+naive-triple, gives hex311=true+onto=true for row71, and the SAME combination independently also validates row36)."
+  },
+
+  "item1_predicate_unification": {
+    "status": "COMPLETE",
+    "producer_fix": "search/drophunt_checker_producer_v3.g's DCP3EvalWord changed from append (z:=z*g) to prepend (z:=g^pow*z) accumulation. The internal hexagon (3.11) formula (Wd construction and triple-product order) is UNCHANGED (already correct once traced through the corrected reference reading) -- see root_cause_and_the_disambiguation_process above for why an initial 'fix' to that formula was tried and reverted.",
+    "checker_note": "search/drophunt_checker_v3.py's own hex311 recomputation (lines ~510-515, using pmul-chained ymf/tau_ymf/tau2_ymf in the SAME 'tau2,tau,ymf' order as the corrected producer) was found to ALREADY match the corrected convention on inspection -- no change was needed there; the checker's own homomorphism-tracked apply_hom (fixed in the prior pass for its OWN, separate order-convention bug) is independent of this seed-evaluation fix and remains correct.",
+    "sweep_vs_calibration_path_unification": "the coordinator's framing ('掃引経路を実装正本に一致させる...較正経路と掃引経路が同じ関数を通る形に') is satisfied in the sense that DCP3EvalWindow (the SAME function used for every M cap L window, both the 5 small calibration windows and any future sweep window) now uses the single corrected DCP3EvalWord for seed evaluation -- there is only ONE seed-evaluation code path in this producer, not two. The B-2 calibration check (item 3) was run as a SEPARATE, smaller script (search/drophunt_row71_calibration_v1.g) reusing the SAME DCP3EvalWord/theta/tau machinery from the producer (via Read()), not a second, independently-written implementation -- satisfying the 'not a mirror-image duplicate' requirement as far as this pass's time budget allowed."
+  },
+
+  "item2_convention_pair_fields": {
+    "status": "COMPLETE",
+    "fields_added": "product_order + word_eval_order, emitted as a pair on every v3 receipt (both the M-window producer and the PGammaL self-contained producer)",
+    "M_window_pair": ["tau2_tau_id", "prepend"],
+    "PGammaL_pair": ["id_tau_tau2", "not_applicable_self_contained"],
+    "note_on_two_valid_pairs": "PGammaL's window has its OWN, separately-validated convention (from its own, different reference script, search/pgl28_independent_window_producer_v1.py's stage_component, which already correctly used Wd:=f*y^m with 'id,tau,tau2' ordering and was NOT affected by this bug) -- the checker accepts BOTH pairs as a fixed, closed set (VALID_CONVENTION_PAIRS), rejecting anything else, per the coordinator's 'pair valid together only' requirement.",
+    "checker_enforcement": "search/drophunt_checker_v3.py requires both fields present and the pair to be one of the two validated ones; fail-closed (SS4_CONVENTION_PAIR_MISSING / SS4_CONVENTION_PAIR_WRONG) otherwise."
+  },
+
+  "item3_row71_calibration_promotion": {
+    "status": "COMPLETE",
+    "script": "search/drophunt_row71_calibration_v1.g",
+    "raw_output": "search/certs/drophunt_row71_calibration_v1_20260829.json",
+    "method": "row71 and row36 checked as FULL GT(M) members directly in the roof M itself (m=0, no joint window -- theta~_M/tau~_M built via the same closed-form Ad(Delta)/Ad(delta) construction, needing only MX,MY,Identity since c is in M by the standing framework assumption)",
+    "B2_gate_row71": {"description": "row71 MUST pass as a full GT(M) member (frozen value, per 裁定1761④)", "result": "PASS (charming=true, hex310=true, hex311=true, onto=true) -- CONFIRMED after the seed-evaluation fix; FAILED before it (hex311=false), which is exactly how this whole repair was triggered/validated this pass"},
+    "B4_control_row36": {"description": "row36 (g*) as insensitivity/negative control -- also expected to be a genuine GT(M) member (it IS one of the 972 census rows, just not in the arithmetic subgroup A)", "result": "PASS (same 4 stages all true)"},
+    "m_search_class": "direct_M_level_m0_full_shadow_check (recorded in the calibration receipt's m_search_class field, per the coordinator's instruction)",
+    "significance": "this gate is what CAUGHT the seed-convention bug in the first place this pass (row71 failed hex311 under the pre-fix producer) and CONFIRMED the fix (row71 passes under the corrected producer) -- a genuine, working example of the calibration-gate discipline the coordinator asked to promote."
+  },
+
+  "item4_reduction_match_honesty_flag": {
+    "status": "COMPLETE (as previously implemented, re-confirmed under the unified predicate)",
+    "producer": "every M-window receipt emits reduction_match_tautological_by_construction:true at the top level (unchanged from the prior pass)",
+    "checker": "requires this flag be present and true (for non-self-contained receipts); does NOT independently re-derive reduction_match via CC-1 (excluded from that judgment, as instructed, rather than silently trusted as substantive)."
+  },
+
+  "item5_phantom_reference_and_tau_descends_fix": {
+    "status": "COMPLETE",
+    "phantom_comment_removed": "the prior pass's own comment '# conservative: = c_in_K per spec v2 SS10.4' (a self-introduced phantom reference, since no such spec v2 SS10.4 rule for this field actually exists) was removed during this pass's edit.",
+    "tau_descends_fixed_value": "now hardcoded \"NOT_APPLICABLE\" on every v3 receipt (both M-window and PGammaL), reflecting that (F2)-only operation has no word-descent fallback path for this field to describe. Checker enforces this exact value."
+  },
+
+  "roundtrip_confirmation_after_the_fix": {
+    "M_window_5_windows_x_2_seeds": {"result": "10/10 receipts regenerated with the corrected producer and PASS the checker (0 errors each)", "receipts": "search/certs/drophunt_checker_v3_receipt_{cheap1_fib2,cheap2_fib3,cheap3_fib3,L3_fib3_K2ingredient,fib4_kordvalidated}_{row36,row71}_20260829.json"},
+    "PGammaL": {"result": "regenerated with the new convention fields, still PASS (valid_count=54, all 6 charming m give exactly 9, unchanged from before -- this window's own math was never affected by the M-window bug)"},
+    "mutants_via_receipt": {"result": "all 4 (MU-2/MU-3/MU-9/MU-8) still correctly REJECTED by the updated checker after the fix + new field enforcement -- confirms the fix did not weaken detection power"},
+    "K2_GAP_side": "NOT re-run in this pass (the K2 producer's own hex311 formula uses the SAME DCP3ThetaHom/DCP3TauHom pattern via a hand-duplicated code path in search/drophunt_k2_producer_v3.g rather than calling DCP3EvalWindow directly, and was NOT updated with the seed-evaluation fix in this pass -- K2's seed IS row36, evaluated via its own inline DCP3EvalWord call, which WOULD pick up the fix automatically since it Read()s the corrected producer file; however this was not explicitly re-run/re-confirmed in this pass given the time budget and K2's own known long wall-clock cost (previously 42s-400s) -- flagged as needing re-confirmation in the deferred items 6-8 continuation, not silently assumed unaffected."
+  },
+
+  "items_6_7_8_deferred": {
+    "status": "NOT_STARTED_THIS_PASS -- explicitly permitted to defer per coordinator's own message ('6-8 は続報でもよい')",
+    "item6_degree_guard_and_distribution": "not implemented",
+    "item7_sweep_driver": "not implemented",
+    "item8_full_recalibration_sweep": "not run (includes K2 GAP-side re-confirmation under the fixed seed convention, per the note above)"
+  },
+
+  "deviations_and_open_questions": [
+    "(1) The checker's sweep-path and calibration-path are not YET literally unified into one shared function at the FULL system level (the coordinator's strongest reading of item 1) -- DCP3EvalWindow is the single producer-side function used everywhere, but the row71 B-2 calibration script and the checker are still separate pieces of code that happen to agree, not a single merged implementation. Flagged as a partial reading of item 1's 'reduction to one function' requirement.",
+    "(2) K2's GAP-side result under the NOW-CORRECTED seed convention has not been explicitly re-run and re-confirmed in this pass (see roundtrip_confirmation_after_the_fix.K2_GAP_side) -- this is the single most important open item before claiming full internal consistency, since K2 is the flagship calibration number (48/2) and its own producer script was not touched or re-verified this pass.",
+    "(3) Items 6, 7, 8 are entirely unstarted, as explicitly permitted.",
+    "(4) c-in-M grounding remains an unresolved framework assumption throughout, unchanged from all prior passes."
+  ]
+}
