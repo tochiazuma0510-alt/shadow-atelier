@@ -825,8 +825,15 @@ def check_selftest(receipt: dict[str, Any], fixture: dict[str, Any] | None) -> N
     require(claimed == digest(body), "producer self digest")
     independent = replay_toy(); toy = receipt.get("toy", {})
     require(toy.get("rank") == independent["rank"] and toy.get("order") == independent["order"], "producer/checker rank span")
-    require(receipt.get("pivot_scale_ancestry", {}).get("replayed") is True and
-            receipt["pivot_scale_ancestry"].get("scale") == 2,
+    mutation_controls = receipt.get("mutation_controls", {})
+    require(type(mutation_controls) is dict and
+            mutation_controls.get("attempted") == MUTATION_COUNT and
+            mutation_controls.get("rejected") == MUTATION_COUNT and
+            type(mutation_controls.get("names")) is list and
+            len(mutation_controls["names"]) == MUTATION_COUNT,
+            "mutation controls envelope")
+    require(mutation_controls.get("pivot_scale_ancestry", {}).get("replayed") is True and
+            mutation_controls.get("pivot_scale_ancestry", {}).get("scale") == 2,
             "producer pivot-scale ancestry")
     require(toy.get("nilpotence_bound") == independent["nilpotence_bound"], "nilpotence bound")
     require(toy.get("basis_digest") == independent["basis_digest"], "independent basis digest")
@@ -850,9 +857,7 @@ def check_selftest(receipt: dict[str, Any], fixture: dict[str, Any] | None) -> N
             all(in_span(row, producer_rows + independent["boundary"])
                 for row in independent["rows"]),
             "bidirectional quotient K span")
-    require(receipt.get("mutation_controls", {}).get("attempted") == MUTATION_COUNT and
-            receipt.get("mutation_controls", {}).get("rejected") == MUTATION_COUNT, "mutation terminal")
-    names = receipt.get("mutation_controls", {}).get("names", [])
+    names = mutation_controls["names"]
     validate_fixture(toy)
     rejected = 0
     for name in names:

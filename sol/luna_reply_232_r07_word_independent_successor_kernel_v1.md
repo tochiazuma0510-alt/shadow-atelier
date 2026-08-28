@@ -25,8 +25,8 @@ sol/luna_reply_232_r07_word_independent_successor_kernel_v1.md
 
 ```text
 producer  89162  795ea643a5f9fadb8335db5e25b543182501f7c267dec52bd58796cfb8e82d95
-checker   55168  142e1310d25cf646f0b0759f24077a11bc8b2463d7b391360d775fed0a77a3a0
-driver     4242  2fe50602c62fff2a4b4d521f774594a0e3ffe9204f9022be348d28469ff6a222
+checker   55388  157c61927884eeb3d7a01d1f6e8df6755e52dc708353fdb38eb7ad57239333d2
+driver     4242  99e288548148ae06120a9b7aa0046c92361957fb599ba06bff7516cc1236e092
 fixture     720  302c31244a43a86dd46d4a54e41756f067044f251db78b749c7bf70025fc85e7
 ```
 
@@ -141,6 +141,9 @@ Task276 repairs the independent checker’s maximum-pivot echelon traversal:
 `reduce` and `reduce_with_coeff` now eliminate in stored descending pivot
 order, while `dual` retains ascending construction for annihilation. The
 initial/translate span and coefficient-replay gates remain intact.
+Task277 points checker ancestry validation to the authenticated
+`mutation_controls.pivot_scale_ancestry` owner and retains the `replayed is
+True` and `scale == 2` gates, with the mutation-control envelope checked first.
 
 ## 10. Resources, driver, and ledger
 
