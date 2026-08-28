@@ -2695,3 +2695,35 @@ no actual witness numerator.
 
 Delta59 removes the v6 false-acceptance paths and authorizes the v7 GHA
 SELFTEST without changing any actual witness, fake, or Ihara conclusion.
+
+#### v220-delta60 - 2026-08-28 (after delta59)
+
+**Individual progress**:
+
+- Task307/v7 GHA SELFTEST run 33167156710 at immutable head
+  66e63e7f3cf398ae826599715e35eb5f515a442a failed in the pinned producer
+  before any case terminal.  The exact exception was `RuntimeError: action
+  owner`.
+- V257 isolates the defect to the first synthetic fixture case: exactly rows
+  6 and 7 of `A_E_binding` have ten entries while the corresponding `A_E`
+  rows have eleven.  All other owner bindings agree.  The producer rejected
+  the malformed fixture correctly; task309's earlier static PASS missed this
+  literal mismatch and no longer authorizes v7 execution acceptance.
+- Task312 commissions a versioned v8 fixture repair with an explicit all-case
+  literal binding/dimension preflight.  Its subsequent Sol(max) audit must
+  also reject unnecessary slow paths, including redundant recompilation,
+  repeated parsing, unintended exhaustive growth, and serial subprocess
+  overhead.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3 actual** and still have no accepted generalized-
+  kernel implementation SELFTEST.  A failed synthetic fixture is neither a
+  NONMEMBER terminal nor an actual witness gate.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**; A1 remains **3/4 RUNNING**;
+  A2 remains **2/3**.  A3/A4 and A7--A9 actual, B, C, W, and F retain their
+  delta59 values.
+
+Delta60 converts the observed GHA failure into one exact, bounded v8 repair
+and strengthens future code audits with a performance criterion.  It changes
+no actual witness numerator.
