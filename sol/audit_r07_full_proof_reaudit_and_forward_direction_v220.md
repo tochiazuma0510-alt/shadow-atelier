@@ -940,3 +940,26 @@ presentation や witness に対する negative evidence ではない。
 
 これは分子の増加ではなく、A4をA0待ちから外し、A6から巨大successor enumerationを除去した
 依存鎖の短縮である。actual witness 主鎖のcomplete gateは引き続き0件である。
+
+#### v220-Δ14 — 2026-08-28 12:29 JST
+
+**個別進捗**:
+
+- v231 のA4短縮を実装へ渡す commission
+  `luna_task_232_r07_word_independent_successor_kernel_v1.md` を固定した。
+- production kernel はtask198の6,441 relator defectsを10 typed first-successor座標で評価し、
+  complete PB boundaryを法とするrank queueを \(x^{\pm1},y^{\pm1}\) で枯渇させる。
+  positive membershipにはboundary係数とK-row係数、negative independenceにはcomplete
+  boundaryと既存K rowsを全て殺すdualを要求した。
+- terminal certificateは6,441 initial defects全部と全basis rowの4 generator translatesを
+  再還元する。この有限closure certificateにより、旧task196の \(\Delta_1\) 全状態BFSを
+  使わずに完全性を照合する。
+
+**v220 内進捗**:
+
+- A4 は **0/3** のまま。実装仕様は固定したが、task198 actual presentation input、actual
+  queue exhaustion、accepted word-bearing \(K\) はまだ無い。
+- A0 **0/1 RUNNING**、A1 **3/4 RUNNING**、A2 **1/3**、A3 **0/3**。A5--A9,
+  B, C, W, F は全て **0**。
+
+task232はA1が閉じた直後にA2/A3と並行発進できる準備であり、それ自体をactual gateとは数えない。
