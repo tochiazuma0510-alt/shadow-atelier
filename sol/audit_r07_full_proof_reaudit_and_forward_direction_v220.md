@@ -2825,3 +2825,73 @@ next residual is solvable.”  It changes no actual witness numerator.
 Delta63 closes the v7 fixture defect at the static-audit boundary and
 authorizes one bounded synthetic execution.  It changes no actual witness
 numerator.
+
+#### v220-delta64 - 2026-08-28 (after delta63)
+
+**Individual progress**:
+
+- Sol(max) task313 returned a load-bearing correctness-and-performance
+  `REJECT` for the current A4 v1 bundle.  The actual task198 per-layer
+  ordinals are rejected as global ordinals, the positive terminal is
+  unreachable, no accepted producer+checker authority is pinned, and the
+  independent checker does not replay the required boundary, ancestry,
+  dual, action, or v247-anchor certificates.
+- The same audit found prohibited work in both processes: reconstruction of
+  1,469,664 Q0 states and 2,939,328 edges with at least 1,425,574,080 raw
+  section bytes, a duplicate 6,441-row roster, rank/echelon reconstruction
+  from zero on every membership query, unbounded flattened ancestry, and
+  mostly inert resource caps.  These are execution blockers, not optional
+  optimization notes.
+- Task315 commissions a versioned semantic and performance rewrite with a
+  lightweight runtime, live incremental coefficient echelons, shared
+  ancestry DAG, complete independent replay, and live caps.  Production is
+  statically blocked until an exact accepted task198 authority exists.
+- V260 proves a separate paper interface: once a Neumann value is certified
+  in the actual common-word image, compatible finite values have one
+  profinite commutator-word realization.  On the marked pro-3 Frattini lane,
+  the coarse mark, exact exponent-zero condition, and onto gate then persist
+  automatically.  This does not prove literal nonlinear H1/H2/P recurrence.
+
+**v220 mapping**:
+
+- A4 remains **0/3 actual** and is execution-blocked pending both task198
+  authority and a new audited implementation.  No A4 milestone is inferred
+  from the rejected code.
+- A9 remains **0/3 actual**.  V260 removes three repeated pro-3 side checks
+  after actual typing, but supplies no pointed Neumann data or nonlinear
+  all-rung relation proof.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**, A1 **3/4 RUNNING**, A2 **2/3**;
+  A3 and A5--A8 actual, B, C, W, and F retain their delta63 values.
+
+Delta64 prevents a deterministically invalid and prohibitively redundant A4
+run, and narrows A9 to the genuine nonlinear recurrence.  It changes no
+actual witness numerator.
+
+#### v220-delta65 - 2026-08-28 (after delta64)
+
+**Individual progress**:
+
+- V8 GHA runs `33168665097` and `33168864708` stopped before Python because
+  command-line dispatch stripped the string quotes from `D307Mode`; JSON API
+  dispatch is now the fixed method for quoted GAP preambles.
+- Correctly dispatched run `33168987097`, immutable head
+  `048edd18d098c5aa48fbf828d78edfd952a4c5da`, entered the v8 producer and
+  failed closed at `fixture preflight dimensions A_E` before any case
+  compilation.
+- Literal enumeration shows only `nonzero-member` has 11x11 `A_E` and
+  `A_E_binding`.  In each of the other four cases, rows 6 and 7 of both
+  matrices have ten entries.  Task314's all-five-case shape assertion is
+  superseded; the failure is synthetic input, not NONMEMBER.
+- Task316 commissions the exact sixteen-row-array trailing-zero repair as
+  v9, leaving all five expected tuples and semantic logic fixed.  V9 requires
+  a fresh independent audit before execution.
+
+**v220 mapping**:
+
+- A5 and A6 remain **0/3 actual** and still have no accepted generalized-
+  kernel SELFTEST.  A failed preflight changes neither actual milestone.
+- A0 **0/1 RUNNING-BOUNDARY-RESTART**, A1 **3/4 RUNNING**, A2 **2/3**;
+  A3/A4 and A7--A9 actual, B, C, W, and F retain their delta64 values.
+
+Delta65 converts the executed v8 stop into one exact all-case fixture repair
+and fixes the dispatch transport.  It changes no actual witness numerator.
