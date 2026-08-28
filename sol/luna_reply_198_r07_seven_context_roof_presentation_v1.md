@@ -279,3 +279,36 @@ Luna ran no Python, Node, GAP, git, GHA, or network command. Parent Sol must
 rerun the GHA SELFTEST.
 
 TASK220A NATIVE GAP DIRECTORY CORRECTION: STATICALLY REPAIRED / GHA NOT RUN BY LUNA
+
+## 11. Task220b — checker toy normal-closure round semantics (2026-08-28)
+
+Static comparison of the producer `normal_closure_order` and independent
+checker `checker_toy_normal` confirms the run-33135147622 diagnosis. The toy
+seed closure has order two, and the independent traversal adds nothing, so
+the producer's strict-growth transcript is `[2]`. The checker previously
+unconditionally appended the terminal size and produced `[2,2]`.
+
+The checker alone was repaired at lines 2097 and 2104–2105: it snapshots
+`sweep_start = set(current)` before its existing independently ordered sweep,
+then appends the terminal size only when `current != sweep_start`. Full
+dictionary presentation equality and all 44 mutation controls remain intact;
+no producer helper was copied or imported. The task220a native
+`IsDirectoryPath`/`CreateDir` repair remains unchanged.
+
+Updated static identities:
+
+```text
+checker  153337  fe645cdc94919b20942aa1d0497b29ec954feeb3054b959d666ebe6db84cb920
+driver   19266   129ef2c3fd818dbe9e687b7dfb287f436c4a56adb6a696e067b138d8f0cd2d8f
+reply    reported out-of-band after this append (self-referential digest avoided)
+```
+
+No Python, Node, GAP, git, GHA, network, producer, or checker execution was
+performed by Luna. Parent Sol must dispatch a fresh GHA SELFTEST.
+
+TASK198 CHECKER ROUND SEMANTICS: STATICALLY REPAIRED / GHA NOT RUN BY LUNA
+TASK198 PRODUCER SELFTEST:       PASS ONLY IN RUN 33135147622
+TASK198 CHECKER SELFTEST:        NOT YET PASSED
+TASK198 PRODUCTION / MATHEMATICS: NOT DECLARED
+
+`TASK220B_TASK198_CHECKER_ROUND_SEMANTICS_COMMISSIONED`

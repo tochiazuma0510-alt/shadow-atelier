@@ -608,3 +608,53 @@ TYPE-M と complete fibre coverage を明示した accepted-set tree として�
 
 従って v220-Δ1 の証人距離の変化は「二入力 ABI の数学的曖昧さを一つ除去した」まで
 であり、actual gate の positive はまだ 0 件である。
+
+### 進捗報告形式の補正 — 研究者指示 2026-08-28 11:14 JST
+
+以後は CLOSED/ADVANCED/UNCHANGED だけでなく、必ず次の二層を同時に報告する。
+
+1. **個別進捗**: run、証明、修理、計算が具体的に何を返したか。
+2. **v220 内進捗**: その結果が下の固定 task のどの小段階を完了し、現在
+   何段階中の何段階か。
+
+曖昧な総合 percentage は使わず、認証可能な milestone の分数を使う。実行中は
+分子に入れず `RUNNING` を添える。紙上定理と actual positive は別 milestone とする。
+
+| v220 ID | 固定 task | 完了 milestone |
+|---|---|---|
+| A0 | task192 actual exact word | positive terminal + independent acceptance: 0/1 |
+| A1 | task198 complete roof interface | driver / producer SELFTEST / checker SELFTEST / production acceptance: 2/4 |
+| A2 | actual two-input specializer | paper contract / implementation SELFTEST / actual specialization: 1/3 |
+| A3 | v216 single-seed pre-gate | actual package / orbit closure / membership-or-dual: 0/3 |
+| A4 | v188 actual successor kernel | presentation input / invariant closure / accepted word-bearing \(K\): 0/3 |
+| A5 | v214 simultaneous pointed gate | joint rows / membership / accepted \(\mu_1\) ancestry: 0/3 |
+| A6 | v191 word-pair | ancestry expansion / roof-fibre check / accepted \(M\): 0/3 |
+| A7 | v198 exact PB endpoints | H1 / H2 / P exact endpoint zero: 0/3 |
+| A8 | v197 boundary certificate | \(q_{H1}\) / \(q_{H2}\) / \(q_P\) extracted and replayed: 0/3 |
+| A9 | v174 relative pro-3 lift | pointed Neumann / side gates / all-rung descent: 0/3 |
+| B | mixed-prime actual membership | formation target / selector membership / solvable-cofinal descent: 0/3 |
+| C | perfect-core actual gate | actual class / field-outer gate / coupled PB4 acceptance: 0/3 |
+| W | compatible witness | compatible finite shadows / nonarithmetic roof binding / Ihara conclusion: 0/3 |
+| F | fake fallback | TYPE-M / full fibre coverage / condition (iv): 0/3 |
+
+#### v220-Δ2 — 2026-08-28 11:14 JST
+
+**個別進捗**:
+
+- task198 GHA run `33135147622` は修正済み driver を通過し、producer SELFTEST marker
+  まで到達した。
+- independent checker は `checker toy presentation semantics` で receipt を拒否した。
+  従って checker の独立意味論差分を特定・修理する必要がある。
+- 先行 run `33135060343` は JSON でない CLI dispatch が `"SELFTEST"` の引用符を
+  落とした pre-driver STOP であり、task198 の milestone に数えない。
+
+**v220 内進捗**:
+
+- A1 は旧 0/4 から **2/4** へ前進。driver と producer SELFTEST は完了したが、
+  checker SELFTEST と production acceptance は未完。
+- A2 は v221 により **1/3**。paper contract のみ完了。
+- A0 は **0/1 RUNNING**。run `33129456772` に positive terminal はまだない。
+- A3--A9, B, C, W, F は全て **0 のまま**。
+
+従って actual witness 主鎖の complete gate はまだ 0 件であるが、A1 の実装検収は
+半分、A2 の設計は三分の一まで進んだ、というのが v220-Δ2 の正確な報告である。

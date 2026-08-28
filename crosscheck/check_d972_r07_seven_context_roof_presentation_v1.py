@@ -2094,13 +2094,15 @@ def checker_toy_normal(group: CheckerToyGroup,
                        budget: Budget) -> tuple[int, list[int]]:
     seeds = [group.ids[group.key(group.eval(word))] for word in relators]
     current, rounds = group.closure(seeds), [len(group.closure(seeds))]
+    sweep_start = set(current)
     for outer in reversed((group.eval([1]), group.eval([2]))):
         for state_id in sorted(current, reverse=True):
             value = group.mul(group.mul(outer, group.states[state_id]),
                               group.inverse(outer))
             current |= group.closure([group.ids[group.key(value)]])
             budget.bump("gamma_operations", 1, "checker toy normal closure")
-    rounds.append(len(current))
+    if current != sweep_start:
+        rounds.append(len(current))
     return len(current), rounds
 
 
