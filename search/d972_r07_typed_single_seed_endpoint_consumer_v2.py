@@ -224,7 +224,7 @@ def validate_resource(value,phase):
 def encode_case(abi,run):
     case=encode_gate(run); case["specialization_v216_abi"]=abi; case["terminal"]=MEMBER if run["member"] else NONMEMBER; case["resource"]=resource_canary("selftest"); case.update({"boundary_membership":False,"pointed_mu1":False,"exact_pb_endpoint_zero":False,"cofinal_lift":False,"fake":False,"Ihara_witness":False}); return case
 def certificate(terminal,result=None,reason=None):
-    out={"schema":SCHEMA,"status":terminal,"terminal":terminal,"reason":reason,"result":result,"boundary_membership":False,"pointed_mu1":False,"exact_pb_endpoint_zero":False,"cofinal_lift":False,"fake":False,"Ihara_witness":False}; out["self_digest_sha256"]=digest_obj(out); return out
+    schema=SELFTEST_SCHEMA if terminal==SELFTEST else SCHEMA; out={"schema":schema,"status":terminal,"terminal":terminal,"reason":reason,"result":result,"boundary_membership":False,"pointed_mu1":False,"exact_pb_endpoint_zero":False,"cofinal_lift":False,"fake":False,"Ihara_witness":False}; out["self_digest_sha256"]=digest_obj(out); return out
 def seal(v): claimed=v.get("self_digest_sha256"); body=dict(v); body.pop("self_digest_sha256",None); require(type(claimed) is str and claimed==digest_obj(body),"SEAL")
 def guarded_json(path_text,expected,budget):
     path=Path(path_text); require(not path.is_absolute() and path.as_posix()==expected and expected.startswith("ci/in/"),"INPUT_PATH"); raw=(ROOT/path).read_bytes(); budget.bump("input_bytes",len(raw),"input"); value=json.loads(raw); require(raw==canonical(value),"NONCANONICAL_INPUT"); return value

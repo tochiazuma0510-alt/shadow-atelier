@@ -1,4 +1,4 @@
-# Luna reply 272 - task227 u0 owner-object repair
+# Luna reply 275 - task227 SELFTEST envelope schema repair
 
 UNEXECUTED: no Python, Node, GAP, git, GHA, or network command was run. Only
 the five authorized task227 files were changed; task226/task233, task229,
@@ -36,15 +36,18 @@ predecessors, proofs, and workflows were not changed.
 - Fixed the producer expected-row comparison to read the typed ABI owner
   `abi["u0"][i]`, preserving the encoded occurrence-vector check and roster
   equality.
+- Fixed the envelope schema owner: SELFTEST certificates now use
+  `SELFTEST_SCHEMA`, while production and UNKNOWN certificates retain
+  `SCHEMA`; the digest is sealed after schema selection.
 
 ## Identities
 
 ```text
-producer  43975  ef09c7c262d8096c7070766edea3521968144a2cd1ef9ccc5a0d6d1cd4511924
+producer  44033  658c773df56f4f4271aa1ddfb347db03562f73b124e06f9e602ca2b231347763
 checker   30232  196b2bf96b39d6a9f63ae2d5a83c9e981f2cab0f67b78395800ebe6c0dbad661
-driver     5216  e35d54bbd9eb6939e827bd1fcf768b59b92f5644e4e11229e617b9fdcb8dfba5
+driver     5216  d5a402c2e352442085934085ac47eca7c3411115a1d7f04f8a4b3e08be373c1c
 fixture     594  d4130b99d62eb7f2dd0a5ee887881e68798637cb4945747f47f883f4961bf911
-reply     3257  (self-referential SHA intentionally omitted; final SHA reported to parent)
+reply     3467  (self-referential SHA intentionally omitted; final SHA reported to parent)
 ```
 
 No accepted task226 production package or production MEMBER/NONMEMBER terminal
@@ -58,4 +61,4 @@ A4 AND LATER:                  UNCHANGED
 COMPATIBLE COFINAL LIFT / FAKE / IHARA: NOT DECLARED
 ```
 
-`TASK272_TASK227_U0_OWNER_OBJECT_UNEXECUTED`
+`TASK275_TASK227_SELFTEST_ENVELOPE_SCHEMA_UNEXECUTED`
