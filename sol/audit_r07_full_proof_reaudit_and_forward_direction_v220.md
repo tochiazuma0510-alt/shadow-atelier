@@ -3599,3 +3599,29 @@ can freeze it into a certificate.  It changes no actual witness numerator.
 
 Delta81 proves that the exact A4 quotient decision is genuinely on-demand,
 not a disguised enumeration of the huge marked quotients.
+
+#### v220-delta82 - 2026-08-29 (after delta81)
+
+**Individual progress**:
+
+- The active A5/A6-v13 contract was rechecked against v247.  V242's old base
+  pairs `s(g)[x,y]^3-s(g)` are superseded because the literal cube is
+  nonidentity in all ten actual roof coordinates and is not an A4 kernel word.
+- Task341 now requires actual production to consume the independently accepted
+  A4 least-index anchor `u_z`, replay `rho0(u_z)=1` and `q(rho1(u_z))=z0`,
+  and construct the base point only from `s(g)u_z-s(g)`.  The five frozen v13
+  SELFTEST cases remain synthetic tests of joint closure/kernel/Hd1 arithmetic
+  and cannot stand in for that anchor.
+- Nine anchor/package/pair owner mutations are added on both sides.  A
+  production path may remain blocked on absent actual typed inputs, but it
+  must already reject the obsolete literal-cube ABI.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 actual**.  This is a contract correction, not a computed
+  joint row, MEMBER ancestry, or pair polynomial.
+- A0--A4, A7--A9, and B/C/W/F remain as in delta81.  No compatible lift,
+  fake certificate, or Ihara counterexample has been constructed.
+
+Delta82 prevents the v13 repair from reviving an already disproved explicit
+lift while preserving its finite arithmetic test suite.
