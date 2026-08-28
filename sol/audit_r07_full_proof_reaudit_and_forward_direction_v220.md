@@ -2412,3 +2412,40 @@ actual witness gate.  It changes no actual witness numerator.
 Delta51 prevents two deterministic false executions, opens a faithful A0
 resume plus a parallel acceleration path, and makes the A5 kernel SELFTEST
 dispatchable.  It changes no actual witness numerator.
+
+#### v220-delta52 - 2026-08-28 (after delta51)
+
+**Individual progress**:
+
+- Task298 v2 passed parent static transport audit, was committed at
+  f723f58fee9c587fded73114151abec193bc9d5e, and exact checkpoint resume run
+  33163964747 is now in progress with the original authenticated
+  `wall_seconds=10800.0` limit and a fresh process clock.  This continues the
+  task192 A0 prefix from 3,145,728/8,000,000 boundary pairs and 2,896 retained
+  columns; no COMMON or checker terminal exists yet.
+- Task297 returned a process-parallel implementation for only frozen-dual
+  boundary correlation.  It claims exact disjoint shards, F3 merge, v3 lex
+  winner replay, and serial parity, but remains unexecuted and is under an
+  independent static audit.  Adaptive dual epochs remain serial by design.
+- Task296 v4 did not pass SELFTEST.  JSON dispatch 33163594826 reached its
+  producer, but fixture parsing passed a nonempty seal string to a guard that
+  accepts only the Boolean singleton `True`; it stopped before compiling any
+  mathematical case and uploaded no artifact.  A versioned v5 Boolean-typing
+  repair is in progress.
+- At 19:36 JST A1 capture run 33155653989 and direct production run
+  33155710862 both remained in the GAP-script step.  They were not stopped or
+  replaced by the A0 work.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING-RESUME** on 33163964747.  Task297 is a separate
+  unexecuted speed implementation and contributes no numerator.
+- A1 remains **3/4 RUNNING**.  A2 remains **2/3**.  A3 and A4 remain **0/3
+  actual**, with implementation SELFTESTs separate.
+- A5 and A6 remain **0/3 actual**; v4 contributes no accepted implementation
+  SELFTEST because it failed before the case suite.  A7 remains **0/3 actual**
+  with its cross-checked synthetic SELFTEST separate.
+- A8, A9, B, C, W, and F remain zero.  No witness or fake conclusion changes.
+
+Delta52 starts an exact A0 continuation while preserving the independent A0
+parallel, A1, and A5/A6 lines.  It changes no actual witness numerator.

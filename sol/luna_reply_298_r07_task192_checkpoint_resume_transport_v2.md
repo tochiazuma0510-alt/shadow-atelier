@@ -198,3 +198,22 @@ FAKE / IHARA:           FALSE / NOT DECLARED
 ```
 
 `TASK298_R07_TASK192_CHECKPOINT_RESUME_TRANSPORT_V2_UNEXECUTED`
+
+## Parent Sol dispatch
+
+After an independent static comparison with the authenticated checkpoint and
+the pinned v3 resume firewall, parent Sol committed and pushed the unchanged
+generic-workflow input, then dispatched it through the JSON API:
+
+```text
+run id       33163964747
+commit sha   f723f58fee9c587fded73114151abec193bc9d5e
+script       search/d972_r07_normalized_exact_common_word_cached_resume_gha_driver_v2.g
+preamble     empty
+out_dir      ci/out
+timeout      360 minutes
+status       IN_PROGRESS (2026-08-28 19:36 JST)
+```
+
+This records transport execution only.  A0 remains zero unless the run emits
+COMMON and the pinned helper-nonshared checker accepts the identical terminal.
