@@ -3286,3 +3286,56 @@ blocker.  It changes no actual witness numerator.
 Delta74 is the first post-v220 increase in A4: it closes only authenticated
 input authority.  It also replaces A4's repeated long-word hot path by two
 exact ancestry-DAG replays without weakening the all-row semantic check.
+
+#### v220-delta75 - 2026-08-29 (after delta74)
+
+**Individual progress**:
+
+- V269's invariant-rank-closure idea is sound, but v270 finds and repairs a
+  load-bearing type/count error in its seed roster.  A4 is the direct sum of
+  ten independently tagged affine/Fox coordinate modules, so its complete
+  base roster has `5*2 + 5*11 = 65` rows.  The distinct H1/H2/P occurrence
+  module of v163 has `2+2+11 = 15` rows.  The number 13 counts only untagged
+  PB3/PB4 relation forms and cannot certify either tagged module.
+- With the corrected 65 seeds, the same queue proof gives the complete A4
+  boundary space: insert the tagged seeds, close every rank raise under
+  `x,x^-1,y,y^-1`, and stop at queue exhaustion.  If the terminal rank is
+  `b`, there are exactly `b` rank raises, at most `4b` post-seed action
+  candidates, and at most `65+4b` insertions.  The independent checker must
+  retain the coordinate in every support-inversion accumulator key.
+- Luna task328 returned an A4/v3 candidate and claimed static reachability,
+  but it is unexecuted and not accepted.  Parent inspection found placeholder
+  quotient/action objects, a hash-shaped substitute for the actual affine/Fox
+  defect, and a hard-coded 13-seed boundary path.  Sol(max) task333 is now
+  performing the independent full code/performance audit against v270.  No
+  A4 SELFTEST or production run is authorized meanwhile.
+- Sol(max) task329 independently rejected A5/A6 v11 without execution.  The
+  retained coefficient invariant and five frozen cases are sound, but the
+  checker fails to bind the complete closure transcript, accepts noncanonical
+  F3 representatives, equates two nonunique MEMBER witnesses, leaves an
+  exponential `3^r` actual path, repeats owner/kernel work, and does not have
+  an independent complete verdict-seal consumer.  Task334 commissions the
+  smallest v12 polynomial-linear-algebra and receipt repair; actual A5/A6
+  remain untouched.
+- A0 serial production run `33163964747` remains in progress.  The restarted
+  positive-only task325 adapter is still implementation work and supplies no
+  numerator.
+- Commit `a6eb9274` records the v11 audit, unaccepted A4/v3 candidate, and the
+  task333/task334 audit-repair commissions.  V270 and this delta are the next
+  parent-owned mathematical correction.
+
+**v220 mapping**:
+
+- A4 remains **1/3**: accepted task198 input authority only.  V268 and the
+  corrected v270 reduce the future work, but no actual boundary rank, K
+  closure, word-bearing basis, or v247 anchor has been computed.
+- A5 and A6 remain **0/3 actual**; v11 is `REJECT / UNEXECUTED` and v12 is
+  under implementation.
+- A0 remains **0/1 RUNNING-BOUNDARY-RESTART**.  A1 remains **4/4
+  CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A7/A8 **0/3 actual**, and A9
+  **0/3 actual**.
+- B, C, W, and F remain zero.  No compatible cofinal lift, fake certificate,
+  or Ihara counterexample has been constructed.
+
+Delta75 prevents a fast but wrongly typed boundary quotient from being
+promoted.  It changes no actual witness numerator.
