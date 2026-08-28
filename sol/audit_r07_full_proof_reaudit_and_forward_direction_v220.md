@@ -3764,3 +3764,41 @@ parallelizing work before the boundary phase.
 Delta86 removes another unnecessary startup proof obligation while making
 the final explicit witness, rather than its heuristic discovery history, the
 sole authority.
+
+#### v220-delta87 - 2026-08-29 (after delta86)
+
+**Individual progress**:
+
+- A0 GHA run `33163964747` at head
+  `f723f58fee9c587fded73114151abec193bc9d5e` ended `cancelled` at the hosted
+  six-hour job limit.  The GAP step ran from 10:36:51Z to 16:36:12Z; artifact
+  upload was skipped and the artifact API reports zero artifacts.
+- At 13:37:07Z the log authenticated the original 86,368,039-byte checkpoint
+  and printed a producer candidate
+  `UNKNOWN_RESOURCE:phase=positive_boundary_correlation` with
+  `value=10803.370851337, limit=10800.0`.  Task298 then launched its mandatory
+  independent checker, but no checker PASS, sidecar PASS, driver PASS, or
+  sentinel appeared before cancellation.  The runner killed the remaining
+  Python process.
+- Therefore this run is neither COMMON nor a cross-checked UNKNOWN.  Its new
+  receipt/checkpoint is unrecoverable; the old staged checkpoint remains the
+  last usable state.  Elapsed runtime contributes no numerator and no
+  nonexistence claim.
+- V279 records the exact boundary.  The three-hour producer followed by an
+  almost three-hour unfinished checker confirms that the old serial branch
+  cannot fit the six-hour envelope.  The v276 triangular basis, v277 Q0-LATE,
+  v278 selected-support replay, and a cheap nonpositive transport checker are
+  now requirements of the next A0 implementation, not optional tuning.
+
+**v220 mapping**:
+
+- A0 is now **0/1 OLD RUN CANCELLED / V7 REPAIR PENDING**, no longer RUNNING.
+  No actual producer+checker terminal was accepted.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A3 **0/3**, A4 **1/3**,
+  A5/A6 **0/3 actual**, A7/A8 **0/3 actual**, A9 **0/3 actual**, and B/C/W/F
+  remain zero.  No compatible lift, fake certificate, or Ihara counterexample
+  has been constructed.
+
+Delta87 closes the old six-hour branch without laundering its producer-only
+line into evidence and fixes the next executable frontier at the bounded v7
+positive path.
