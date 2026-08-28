@@ -121,19 +121,21 @@ linear identity
 \tag{3.1}
 \]
 
-Let \(c_1\) be the ordered word materialization of \(-a\).  Lemma 2.2 gives
-at the first unsettled successor
+Let \(c_1\) be the ordered word materialization of \(-a\).  Collect the
+first unsettled successor in its elementary-abelian residual factor.  Lemma
+2.2 gives there
 
 \[
  \boxed{
- \Phi(Fc_1)=\mu\beta+q_2,
- \qquad q_2:=Q_F(c_1)\in\mathcal F^2\mathcal Z.}
+ [\Phi(Fc_1)]_2=[\mu\beta]_2+q_2,
+ \qquad q_2:=[Q_F(c_1)]_2\in
+ \mathcal F^2\mathcal Z/\mathcal F^3\mathcal Z.}
 \tag{3.2}
 \]
 
 The term \(q_2\) is not part of (3.1).  In general it has the same depth as
 \(\mu\beta\).  Consequently the next Neumann value \(-\mu a\) cancels the
-displayed linear part but need not cancel \(q_2\).
+displayed linear class but need not cancel \(q_2\).
 
 ### Proposition 3.1 (FIRST NONLINEAR OBSTRUCTION)
 
@@ -183,27 +185,30 @@ with the actual-even Neumann homotopy gives a continuous filtered map
 \tag{4.2}
 \]
 
-Assume every value of \(h\) has the v260 word-bearing materialization in the
+Write \(h_r\) for the induced map on the degree-\(r\) quotients.  Assume
+every value of \(h_r\) has the v260 word-bearing materialization in the
 corresponding \(P_{(r)}\).  The remaining condition is
 
 \[
  \boxed{
  \text{(NLSAT)}\quad
- Q_F(\operatorname{Mat}(-h(z)))\in
-       \mathcal F^{r+1}L}
+ \Phi\!\left(F\operatorname{Mat}(-h_r(\bar z))\right)
+       \in\mathcal F^{r+1}L}
 \tag{4.3}
 \]
 
-for every reachable \(F\) and every actual leading residual
-\(z\in\mathcal F^rL\).
+for every reachable \(F\) with \(z=\Phi(F)\in\mathcal F^rL\), where
+\(\bar z=[z]_r\).  Since the old residual tail is already in \(L\), (4.3)
+is equivalently the assertion that the exact nonlinear remainder after the
+degree-\(r\) cancellation returns to \(\mathcal F^{r+1}L\).
 
 ### Theorem 4.1 (ACTUAL-CLASS NONLINEAR COMPLETION)
 
 Under (4.2)--(4.3), define recursively
 
 \[
- z_r=[\Phi(F_r)]_r,qquad
- c_r=\operatorname{Mat}(-h(z_r)),qquad
+ z_r=[\Phi(F_r)]_r,\qquad
+ c_r=\operatorname{Mat}(-h_r(z_r)),\qquad
  F_{r+1}=F_rc_r.
 \tag{4.4}
 
@@ -217,7 +222,7 @@ Assume \(\Phi(F_r)\in\mathcal F^rL\).  Lemma 2.1 makes the active
 Jacobian the fixed \(B_r\), and (4.2) gives
 
 \[
- [\Phi(F_rc_r)]_r=z_r-B_rh(z_r)=0.
+ [\Phi(F_rc_r)]_r=z_r-B_rh_r(z_r)=0.
 \tag{4.5}
 \]
 
