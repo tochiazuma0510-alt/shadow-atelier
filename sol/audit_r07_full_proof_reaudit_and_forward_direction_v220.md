@@ -910,7 +910,7 @@ presentation や witness に対する negative evidence ではない。
 この監査により、A3で必要な positive certificate は単なる `member=true` でなく、block target
 を作る明示的な \(\kappa\in I(R_0)\) と、その quotient-zero・action replay までであると固定した。
 
-#### v220-Δ13 — 2026-08-28 12:36 JST
+#### v220-Δ13 — 2026-08-28 12:25 JST
 
 **個別進捗**:
 
