@@ -1,0 +1,69 @@
+{
+  "schema": "d972-local3-cprime/v3",
+  "generated_by": {
+    "note": "v3 is a DECLARATION cert closing D-5/D-6 on top of v2's already-computed, two-system-agreed raw values. No new S1-S9 computation was performed; this cert selects and labels the correct branch from search/certs/d972_local3_cprime_v2_20260829.json (sha16 cb3ba50f672d2c18) per falsifier ruling 1719.",
+    "producer_v2_reference": "scratchpad/d972_local3_producer_v2.py (sha16 a50532d6b6c01415)",
+    "checker_v2_reference": "scratchpad/d972_local3_checker_v2.g (sha16 4e32499ad5583bea)",
+    "v2_cert_reference": "search/certs/d972_local3_cprime_v2_20260829.json (sha16 cb3ba50f672d2c18)"
+  },
+  "task": "v3 declaration per ruling 1719 (falsifier decision on D-5): close u_S4 orientation, apply the frozen S9 SELECT rule, cap the grade for the newly-discovered S4-side normalization gap",
+
+  "D5_resolved": {
+    "falsifier_ruling": "cert's u0 (search/certs/ds4_receipt_v1_20260812.json) IS the same orientation as sec.7.2's u(P_0) -- confirmed via producer code lines L118/L120 plus T=1/t algebra; sign difference is trivial mod cubes",
+    "selected_branch": "B  (u_S4 = u0, i.e. the mathematician's own candidate reading in sec.A.4)",
+    "WIRING_WARNING_falsifier_flagged": "cert's stored field is named 'input_u0_inverse' and HOLDS u0^-1 numerically (-1423828125/256). Branch B (u_S4=u0) therefore requires u_S4 := 1/u0inv_stored, i.e. sgn=-1 in this implementer's v2 code convention. A naive reading of sec.7.3.2's pseudocode line 'u_S4 = u0inv_stored ^ sgn' with sgn=+1 (the 'obvious'/first-glance choice) silently picks the WRONG branch (Branch A, u_S4=u0^-1) -- this is exactly the trap the falsifier caught. Anyone re-implementing this protocol from the frozen spec alone, without this v3 declaration, is at risk of the same sign-flip mistake.",
+    "anchor_cprime_selected_branch": 1,
+    "raw_values_selected_branch_from_v2": {
+      "sgn_used": -1,
+      "primes": [19, 37, 73],
+      "Su": [7, 26, 64],
+      "Sanc": "not stored per-prime in v2's compact branch record beyond the first-prime debug fields; cprime/k3_anchor/psi ARE recorded per-prime below and were 2-system-agreed in v2",
+      "cprime_per_prime": [1, 1, 1],
+      "k3_anchor_per_prime": [2, 2, 2],
+      "psi_per_prime": [2, 2, 2],
+      "psi_eq_k3_per_prime": [true, true, true],
+      "agree_3_primes_DC5": true,
+      "two_system_agreement_producer_vs_checker": true
+    }
+  },
+
+  "S9_SELECT_declared": {
+    "instruction_compliance": "Applied the frozen S9 mapping verbatim, per instruction point 2 ('S10 の凍結写像に従い')",
+    "frozen_rule_verbatim": "S9  SELECT := NN-09 if (psi == +k3) else NN-12   (scratchpad/d972_idx3_arith_datum_independent_v1.md sec.7.3.2, S9, unmodified by the v1.2/anchor correction -- only the VALUES feeding k3/psi changed from beta-derived to anchor-derived, per sec.B.1 of local3_udih_anchor_and_s9_conventions_v1.md; the SELECT formula itself was never revised)",
+    "psi_vs_k3_at_all_3_primes": "psi == k3 == 2 at p=19,37,73 (exact match, all three)",
+    "SELECT": "NN-09",
+    "declaration": "c' = +1  =>  SELECT = IDX3-NN-09  (search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json candidate_id IDX3-NN-09, canonical_keys_sha256 994df2d1bd03d97426e2257322e6c9fb2a101bfe5c4a5db8be10177c17f23364)"
+  },
+
+  "D6_note": {
+    "status": "Not independently re-derived by this implementer as a formal proof; instruction point 3 directs noting that the tag-7 10/10 hash cross-check (v2 cert's tag7_324key_hash_crosscheck_sol_reply_253 section) is CONSISTENT WITH (not a proof of) the census label mapping's integrity -- all 5 named sets (A_9=NN-09, A_12=NN-12, O, symdiff, C) reproduced byte-identically from independently fixed serialization, so there is no evidence of a labeling corruption between the census cert and Sol's independently-pinned artifact.",
+    "formal_confirmation_owner": "mathematician (per instruction point 3, '正式確認は数学者')",
+    "this_cert_treats_D6_as": "supported-but-not-formally-closed-by-this-implementer; the SELECT declaration above relies on the frozen S9 formula (psi/k3 comparison) applied directly, which does not itself require D-6's census-label question to be separately re-proven -- D-6 was about whether NN-09/NN-12's OWN construction used a consistent sign convention when the census was built, which is a question about the census producer's history, not about this LOCAL-3 computation's correctness"
+  },
+
+  "grade_CAPPED": {
+    "grade": "candidate (S4-side-normalization-relative)",
+    "instruction_compliance": "Explicit cap per instruction point 3 -- falsifier's major finding",
+    "falsifier_finding_verbatim_transcribed": "S4-side t is UNNORMALIZED: the 3-point normalization does NOT exist over Q for the S4 window (the tau-pair are conjugate irrationals), and the normalization constant is load-bearing mod 3.",
+    "dependency_note_required_by_instruction": "The resolution of the S4-side t scalar normalization (mathematician委嘱中 -- work in progress, owned by the mathematician, not this implementer) may PROMOTE this declaration (if the normalization is shown compatible with the current SELECT) or REVERSE it (if not). This c'=+1 / SELECT=NN-09 declaration is NOT final pending that resolution.",
+    "what_this_cert_does_NOT_claim": "cross_checked status is NOT claimed for the final SELECT (only for the raw S1-S10 computation itself, which remains 2-system-agreed per v2). The grade ceiling is candidate until the S4-side normalization work closes."
+  },
+
+  "conclusion_pending_u0_orientation": false,
+  "conclusion_pending_u0_orientation_note": "RESOLVED by falsifier ruling 1719 (D-5 closed): u_S4 = u0 (Branch B), confirmed via ds4 producer code L118/L120 + T=1/t algebra.",
+  "conclusion_pending_s4_normalization": true,
+  "conclusion_pending_s4_normalization_note": "NEW pending item (this cert), per falsifier's discovery that the S4-side t has no Q-rational 3-point normalization and the normalization constant is load-bearing mod 3. This is the ONLY remaining blocker to a non-conditional c'/SELECT declaration.",
+
+  "minor_repair_input_u0_inverse_field_note": {
+    "instruction_compliance": "Forwarding note per instruction point 4 ('/input_u0_inverse 同名異値(符号)問題を forwarding 注記')",
+    "issue": "search/certs/ds4_receipt_v1_20260812.json's field 'input_u0_inverse' is used across this LOCAL-3 lineage (v1/v2/v3 certs) as THE stored numeric value (-1423828125/256), but its NAME asserts an orientation claim ('this is u0's inverse') that this v3 cert's D-5 resolution now says is the WRONG orientation to use directly (Branch B needs 1/this_value, not this_value itself). Different certs/scripts in this lineage refer to 'u0inv' as either 'the stored field, taken literally' (v1's sgn=+1 default) or, after v3, 'the value requiring an extra inversion to reach u_S4'. This same-name-different-effective-value risk is flagged here for forwarding to whoever maintains ds4_receipt_v1_20260812.json or writes future consumers of it -- the field name itself invites the exact sign-flip trap the falsifier caught in this session's implementation.",
+    "recommended_fix_not_performed_here": "Consider renaming or adding a companion field in a future ds4 receipt revision that states explicitly which of {u0, u0^-1} equals sec.7.2's u(P_0), removing the need for every downstream consumer to re-derive D-5 independently. Not performed in this cert (out of scope for implementer; a documentation/data hygiene recommendation only)."
+  },
+
+  "summary_for_report": {
+    "SELECT": "NN-09",
+    "cprime": 1,
+    "grade": "candidate (S4-side-normalization-relative, capped)",
+    "remaining_pending": ["conclusion_pending_s4_normalization=true (mathematician work in progress)"]
+  }
+}
