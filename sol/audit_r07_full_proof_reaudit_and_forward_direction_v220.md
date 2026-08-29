@@ -7545,13 +7545,20 @@ against the active heavy run, not against the earlier infrastructure audits.
   consumes all 6,441 authenticated presentation rows, constructs the complete
   invariant closure and returns a word-bearing ordered K roster.  The later
   48-route work was mutation/transport hardening around that core, not the A4
-  mathematics itself.  Parent/root therefore dispatched v6 directly with
-  `D345Mode:="PRODUCTION"` as GHA run `33243525369` at the same immutable
-  head.  No SELFTEST or rows-1--7 fixture is selected.  A producer/checker PASS
-  can close the two remaining A4 entries; an UNKNOWN or failed replay cannot.
+  mathematics itself.  Parent/root therefore dispatched v6 directly.  The
+  first run `33243525369` stopped before execution because workflow transport
+  stripped the quotes from the mode string.  It was immediately replaced by
+  quote-free production run `33243603412` at immutable head
+  `a78be16795665f31cc0dd01645be6fd767a6c31f`.  No SELFTEST or rows-1--7
+  fixture is selected.  A producer/checker PASS can close the two remaining
+  A4 entries; an UNKNOWN or failed replay cannot.
 - A3 remains an actual-production repair: run `33241671037` returned
-  `UNKNOWN_INPUT`, and the current bounded repair is locating that concrete
-  input stop while preserving the actual closure/member-or-dual route.
+  `UNKNOWN_INPUT`.  Static replay has now localized the first stop: task226
+  emits sparse terms as `{key,coefficient}` records, while task227 decodes that
+  form but canonically re-encodes list pairs before demanding exact equality;
+  the first deterministic rejection is `bar_epsilon_1.H1 / TARGET_H1_CANONICAL`.
+  The bounded repair converts this projection codec while preserving the
+  actual closure/member-or-dual route.
 - Fresh inventory gives no additional currently dispatchable numerator-moving
   run.  A1 is already 4/4; A2 awaits an A0 carrier; A5--A9 await positive
   A3/A4 and later actual inputs; B/C/W/F likewise lack their upstream actual
@@ -7562,7 +7569,7 @@ against the active heavy run, not against the earlier infrastructure audits.
 
 - A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
 - A3 remains **0/3; ACTUAL UNKNOWN_INPUT REPAIR ACTIVE**.
-- A4 remains **1/3 while ACTUAL PRODUCTION RUN 33243525369 is queued/running**;
+- A4 remains **1/3 while ACTUAL PRODUCTION RUN 33243603412 is queued/running**;
   only an independently agreeing full positive result may change it to 3/3.
 - A1 stays **4/4**, A2 **2/3**, and A5--A9, B, C, W, F remain unchanged.
   No common word, compatible lift, fake certificate or Ihara witness is yet
