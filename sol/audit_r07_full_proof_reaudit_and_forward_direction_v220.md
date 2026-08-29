@@ -5364,3 +5364,37 @@ counting the new joint selector before implementation and accepted execution.
 
 Delta128 prevents the rejected seven-row infrastructure from entering GHA
 and fixes its complete repair boundary before extending to rows 8--48.
+
+### Delta 129 (2026-08-29): v306 linear joint selector retracted; nonlinear state retained
+
+- Added `sol/proof_r07_joint_a0_a5_nonlinear_erratum_v307.md`.  V306
+  incorrectly applied v168's rung-`n` affine change map while varying the
+  preceding coarse A0 base word.  Equal first-successor values can retain
+  different next-rung Fox classes; the task193 crossed derivative also
+  depends on the changing affine prefix.  V239 explicitly warned that its
+  two-word direct change was not a homomorphism in the correction word.
+- Therefore v306 Lemma 1.1, its factorization through a linear map on `K`,
+  the one joint vector-space membership, and the associated positive-only
+  rank-termination claim are **REJECTED / SUPERSEDED**.
+- The valid pointwise theorem remains: for one literal A0 word `c`, compute
+  its actual task193 direct change `B(c)`; then A5 passes exactly when
+  `r_*-B(c)` lies in the fixed slice `H*d1`.  A simultaneous selector must
+  retain the complete affine-prefix/Fox state and is a finite-state
+  accepted-set search, not the A0 linear nullspace alone.
+- The active standalone A0 route remains useful: its first positive word is
+  tested directly.  Only after a pointwise A5 failure is a homogeneous-fibre
+  state search needed.  Bounded failure there remains UNKNOWN.
+
+**v220 mapping**:
+
+- The paper dependency shortcut announced in Delta127 is withdrawn.  A5's
+  current dependency remains positive A3 + accepted A4 + one literal
+  A0/task193 row package.  V305's removal of A2 from the endpoint-base input
+  is unaffected.
+- No numerator changes: A0 **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4**,
+  A2 **2/3**, A3 **0/3**, A4 **1/3**, and A5--A9, B, C, W, F remain as before.
+- No compatible lift, fake certificate, cofinal witness or Ihara
+  counterexample is added.
+
+Delta129 restores the rung typing and prevents a nonlinear task193 state
+from being collapsed to an invalid coarse linear coordinate.
