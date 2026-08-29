@@ -8596,3 +8596,42 @@ advance, not an endpoint result or a runtime bound.
 Delta219 advances the certificate path after endpoint zero while deliberately
 waiting for the final endpoint-owner pin before creating the A8 executable
 wrapper.
+
+### Delta 220 (2026-08-29): representative-complete A5--A7 owner is executable
+
+- The production-first lift-null v5 owner is frozen at commit
+  `618673718c7564cd4bc55cc392155ae354b15b77`.  It preserves the complete A5
+  NONMEMBER and canonical-endpoint-ZERO terminals from v4.  Only a canonical
+  nonzero endpoint enters the new positive dovetail.
+- The dovetail streams the marked Cayley graph of the exact ten-affine
+  task198 successor, retaining all ten roofs and sparse gradients as its
+  equality key.  Every resulting Schreier seed is interleaved fairly with
+  all freely reduced translating words.  Each finite selected column carries
+  literal ancestry, and a span hit is accepted only after one final task292
+  replay gives ZERO in H1, H2 and P.
+- The independent checker does not import the v5 producer.  It reconstructs
+  the selected lift-null identities with task198-v14 and replays the final
+  literal through the checker-side task292 owner.  Static Python, frozen-owner,
+  GAP parse, ASCII and exact-pin checks passed; no actual production input was
+  run.
+- A bounded miss is `UNKNOWN_RESOURCE`, never an A7 negative.  The physical
+  checkpoint binds the accepted A5 result, canonical endpoint, Cayley words,
+  seed/translation cursors, sparse echelon and finite ancestry.  Exact resume
+  uses an all-or-none path/bytes/SHA input and reconstructs affine states from
+  literal words.
+- A0 run `33251157582` and A4 run `33250865356` were still active at this
+  recording point.  V5 therefore has no accepted task193 word to consume yet.
+
+**v220 mapping**:
+
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual**, but their fixed-word positive
+  route is now paper-complete and physically executable for both the canonical
+  ZERO fast path and the representative-complete lift-null branch.
+- A0 remains **0/1 active**, A2 **2/3**, A3 **3/3**, and A4 **1/3 active**.
+- A8 remains **0/3 actual** with the deterministic v354 compiler proved but
+  not yet implemented.  A9, B/C, compatible-lift, fake and Ihara numerators
+  remain unchanged.
+
+Delta220 closes the final static implementation gap between a future accepted
+A0/task193 word and an exact A7 endpoint-zero certificate.  It does not claim
+that the positive dovetail terminates within any fixed resource budget.
