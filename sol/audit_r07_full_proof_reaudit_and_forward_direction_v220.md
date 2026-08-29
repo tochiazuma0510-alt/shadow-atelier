@@ -6634,3 +6634,38 @@ calculation is strong enough to drive one uniform nonlinear lift.
 
 Delta165 turns the two-day A3 implementation work into a fixed auditable
 object without prematurely counting an execution result.
+
+### Delta 166 (2026-08-29): the two explicit cores yield closed dihedral rung columns
+
+- Added `sol/proof_r07_explicit_core_comparator_rung_columns_v335.md`.  With
+  `h=[x,y]` and `n=chi07^-1 chi40`, the exact free-group identity is
+  `n=chi07^-1 h^9 chi07`.  The comparator itself has nontrivial order two
+  in the \(Q=36\) pure-dihedral R07 roof, so \(\chi_{40}\) is not an R07
+  roof-fibre correction.
+- On the standard \(Q_j=36\cdot3^j\) tower, the closed words
+  `c_j=n^(2*3^j)=chi07^-1 h^(18*3^j) chi07` are trivial at rung \(j\),
+  have explicit order-three image at rung \(j+1\), and satisfy
+  `c_(j+1)=c_j^3`.  Thus the two cores do provide a closed-form
+  pure-dihedral candidate column at every refinement; the first is the
+  square-relative comparator from \(\chi_{07}\) to \(\chi_{19}\).
+- The exponent-nine A3 quotient kills \(h^9\), hence kills \(n\) and every
+  \(c_j\).  These words give the zero A3 score column and cannot explain or
+  repair the pending pre-A0 A3 target.  This also gives a concrete canary
+  separating projected exponent-nine equality from actual roof-fibre
+  legality.
+- A full field-even homotopy still requires proof that each candidate lies
+  in the actual common-word/side-gate domain and a complete score-column
+  pairing.  Only after those tests can v332--v334 propagate the roster and
+  drive the nonlinear Newton construction.
+
+**v220 mapping**:
+
+- This is **CLOSED at the pure-dihedral paper interface** and **ADVANCED but
+  not CLOSED** for the actual A4/field-even gate.  No milestone numerator
+  changes: A0 is **0/1 V12B SEAL ACTIVE**, A3 **0/3 V3 FRESH REAUDIT
+  ACTIVE**, A4 **1/3 V7 SEAL ACTIVE**, and A5--A7 **0/3**.
+- No common word, compatible lift, fake certificate or Ihara witness is
+  added.
+
+Delta166 turns the explicit R40/R07 comparison into an all-rung formula and,
+equally importantly, proves why that formula alone cannot repair A3.
