@@ -8635,3 +8635,42 @@ wrapper.
 Delta220 closes the final static implementation gap between a future accepted
 A0/task193 word and an exact A7 endpoint-zero certificate.  It does not claim
 that the positive dovetail terminates within any fixed resource budget.
+
+### Delta 221 (2026-08-29): the first nonlinear `q2` is separated from A5
+
+- `proof_r07_actual_a0_to_class_two_q2_compiler_v355.md`, frozen at commit
+  `4da0f69692fa5bda96c8f41359e149cb93237674`, corrects the physical input
+  boundary of v266.  The word creating the first nonlinear remainder is the
+  literal A0 `correction_word` which task193 actually multiplies onto
+  `g760`.  The A5 coefficient terms instead encode the multiplier `mu1` and
+  its word-pair polynomial `M`; they must not be materialized as the A0 word.
+- For PB3 and PB4, the maximal exponent-three class-two quotient is computed
+  directly as `V plus wedge^2(V)/R`, where `R` is the span of the degree-two
+  initial forms of task292's complete two/eleven-relator roster.  Sparse BCH
+  collection therefore computes the first two Zassenhaus coordinates without
+  a p-quotient search or PB element enumeration.
+- The task198 occurrence prefix already used by v4/v5 gives the exact factor
+  `d_o=P_hat_o rho_o(c)^sigma_o P_hat_o^-1`.  Their printed-order product is
+  literally `R_B(g760*c) R_B(g760)^-1`.  Hence
+  `q2_B=sum(tau_o)+2 sum_(o<o') ell_o wedge ell_o'` is a finite computation
+  from an accepted task193 word alone.
+- A5 remains necessary to compare this `q2` with the actual diagonal cyclic
+  or localized return module and to form the next Neumann coefficient.  Thus
+  v355 removes an input dependency from numerical `q2`; it does not prove its
+  return or the all-depth nonlinear recurrence.
+- Task379 now implements this finite compiler in parallel with task378's A8
+  annotated-boundary compiler.  Both are static implementation work and have
+  no actual parent output yet.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but its first numerical canary no longer waits on
+  A5/A7/A8: it can run immediately after the accepted A0/task193 word exists.
+- A0 remains **0/1 active**, A2 **2/3**, A3 **3/3**, A4 **1/3 active**,
+  A5/A6/A7 **0/3 / 0/3 / 0/3 actual**, and A8 **0/3 actual**.
+- Compatible lift, fake, Ihara, mixed-prime and perfect-core numerators remain
+  unchanged.
+
+Delta221 fixes a load-bearing word/multiplier type error and creates an
+independent parallel path to the first nonlinear datum, while making no
+claim about its value or return membership.
