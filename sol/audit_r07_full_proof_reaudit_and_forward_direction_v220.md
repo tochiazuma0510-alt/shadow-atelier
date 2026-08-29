@@ -9490,3 +9490,58 @@ discarding the independently resumable baseline or enlarging any claim.
 
 Delta241 removes an unnecessary pure-kernel-algebra assumption and catches
 the next live A0 handoff failure before a positive artifact can be stranded.
+
+### Delta 242 (2026-08-30): base change reduces to relative-kernel freeness and the live A0 handoff is closed
+
+- `proof_r07_relative_kernel_free_base_change_v365.md`, independently
+  audited PASS by Sol(max), sharpens v361--v364.  With
+  `R=F_p[K]`, `J^r=a_K^r F_p[Delta1]`, and an `R`-free source, it proves
+  `S_r(f)=Tor_1^R(R/a_K^r,N)`.  Leading onto already makes `f` onto and
+  kills every `T_r`.  For finite `N`, the single test
+  `S_1=H_1(K,N)=0` is equivalent to `R`-freeness and then kills all
+  `S_r,T_r` simultaneously.  The explicit `R`-linear section is the same
+  finite Neumann polynomial of degree at most `2t` at the R07 edge.
+- Therefore full projectivity over `F_3[Delta1]` is not the actual minimum
+  base-change gate.  If the physical `G` or `H` packaging retains source and
+  codomain as finite sums of raw full-action coordinates, relative-kernel
+  freeness is automatic and only leading onto remains.  For an image,
+  quotient or localized codomain, the exact fallback is one finite
+  `H_1(K,N)` calculation, provided the source remains `R`-free and the
+  leading map is onto.
+- Task391 is physically complete and root-audited at commit `4172a9e1`.
+  Adapter-v5 exact-pins A0-v22, and task193-v4 exact-pins adapter-v5; the
+  generated owners differ from their accepted predecessors only in the
+  registered schemas, terminals and physical pins.  Thus a positive result
+  of active A0 run `33259268996` now has a nonempty ABI path into unchanged
+  task193 mathematics.  No production result is inferred from this static
+  closure.
+- The A0-v22 hotpath audit found no mathematical blocker for the active run.
+  Its dominant memory risk is the replacement worker fork occurring after
+  parent-only heavy construction, causing shared pages to be counted roughly
+  three times by the current RSS meter.  Task392 prepares the single-change
+  v23 emergency owner which forks the light workers before `build_heavy`;
+  it is not dispatched unless the active v22 run needs replacement.
+- Tasks393 and 394 are mechanical live-pin successors now active in parallel:
+  task393 carries task193-v4 into zero-base A5/A6 and representative-complete
+  A5/A7 fusion, moving task193 authentication before the 6,441-row task198
+  owner; task394 carries the same owner into the actual class-two `q2`
+  consumer.  Neither changes a milestone before root audit and physical
+  production.
+
+**v220 mapping**:
+
+- A0 remains **0/1; v22 run 33259268996 RUNNING**.  Its direct task193 ABI
+  obstruction is closed, and one bounded memory fallback is being prepared.
+- A2 remains **2/3**, but its live A0-v22 consumer is now frozen rather than
+  merely commissioned.  A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual** while
+  their task193-v4 consumers are active implementations.
+- A4 remains **1/3 RUNNING** under baseline `33262485779` and bounded batch
+  `33263899806`; both were still inside their GAP calculation steps at
+  2026-08-30 02:18 JST.
+- A9 remains **0/3 actual**, but its base-change type gate is reduced from
+  full crossed-ring projectivity to relative-kernel freeness/group homology.
+  Compatible lift, fake and Ihara witness numerators are unchanged.
+
+Delta242 closes one real live-data break and replaces a strong structural
+assumption by an exact finite relative-kernel criterion without inflating any
+actual witness count.
