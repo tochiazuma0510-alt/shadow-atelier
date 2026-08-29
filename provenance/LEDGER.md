@@ -3408,3 +3408,7 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - 実行環境: GAP **4.16.0**(`C:\Program Files\GAP-4.16.0`・`gap.ps1` 経由・`-o 2g`)。
 - LINS パッケージ: **Version := "0.9"**(`.../pkg/lins/PackageInfo.g` 実測)。
 - 動機: DROP-HUNT-DOUBLE の node_id は `LowIndexNormalSubgroupsSearch`/`LowIndexNormalSubgroupsSearchForIndex` が返す生成元表示(`GeneratorsOfGroup`→`String`)に依存するハッシュ(`HexSHA256("index=...\n"+生成元語...)`)であり、**GAP/LINS のバージョンが変われば生成元の表示形式が変わり node_id が別物になり得る**(値そのものは変わらないが識別子が変わる)。凍結 358 窓リスト(`search/certs/drophunt_frozen_node_list_v1_20260829.json`)・LINS バッチ(`search/certs/drophunt_lins_batch_v1_20260829.g`)・掃引ドライバの node_id 交差確認はすべて上記バージョンの組で生成・再現されたものである旨、ここに固定記載する。
+
+## 2026-08-29 文献取得(PILOT-1 延長・裁定 1792)
+- papers/voight-willis-1205.0045-power-series-expansions.pdf(316,408B・sha256 141e6555ced67e9f040e20c167caae2fc58eec0274cb868a1c4f35a1f09f1386・arXiv v2)— KMSV [60] = 冪級数展開法の原典(cocompact Fuchsian 群上の modular form を FD+線形代数で数値計算)。PILOT-1 L5 の正本。
+- KMSV [28] = Michael Klug 修士論文(Vermont 大 2013)は **取得不能のまま記録のみ要請 PILOT-L28 として凍結**(UVM ScholarWorks は JS 描画で直接取得失敗・本人サイトに不掲載)。引用実体は「echelonized basis [28,§4.4]」の 1 文のみ = 展開係数行列の階段化(標準線形代数)。L5 実装で規約曖昧が出た場合のみ再執行。
