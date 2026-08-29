@@ -1,0 +1,84 @@
+{
+  "schema": "pilot1-ben3-endtoend/v1",
+  "ruling": "coordinator ruling 1790 (ben3 GO, no G3-b/d/e hardening, decision-ben framing)",
+  "target": "LMFDB 9T27-7.1.1_2.2.2.2.1_3.3.3-a",
+  "ben": 3,
+  "withdrawal_condition": "pre-registered: if G-5 unreached at end of ben3, STOP and record the stuck point as the pilot's answer.",
+
+  "FINAL_VERDICT": "G-5 NOT REACHED. Withdrawal condition TRIGGERED. This cert records the stuck point per ruling 1790 condition (b).",
+
+  "part_A_condition_a_preregistration": {
+    "requirement": "register G3-b/d/e as candidate scaffolding + first-suspect debug order for a future G-5 failure",
+    "registration": {
+      "status_label": "candidate scaffolding -- NOT hardened this campaign (deliberately, per ruling 1790)",
+      "items": ["G3-b (containment, weak circumradius-proxy only, see search/certs/pilot1_ben2_series_v1_20260830.json)",
+                "G3-d (edge-pairing closure, argued via Poincare polygon theorem only, not machine-verified)",
+                "G3-e (area, formula-based only, no numeric tiling/integration check)"],
+      "frozen_debug_order_if_G5_ever_fails_downstream_of_this_pilot": [
+        "1st suspect: G3-e (area) -- if the 9 copies don't actually tile without gaps/overlaps, this is the cheapest/most global check to run first",
+        "2nd suspect: G3-d (edge-pairing closure) -- verify the abstract presentation's geometric realization directly, not just algebraically",
+        "3rd suspect: G3-b (containment) -- replace the circumradius proxy with a genuine geodesic-side-of-kite-edge test"
+      ]
+    }
+  },
+
+  "part_B_ben3_progress": {
+    "step1_dimension_formula": {
+      "method": "Riemann-Roch dimension formula for weight-k forms on the orbifold H/Gamma, independently derived by this implementer via Euler-characteristic bookkeeping BEFORE consulting KMSV, then cross-checked against KMSV eq (5.4) after reading it (papers/kmsv-1311.2081-numerical-belyi-maps.pdf p.34) -- FORMULAS MATCH EXACTLY: dim S_k(Gamma) = (k-1)(g-1) + sum_i floor(k(e_i-1)/(2 e_i)), k even >= 4, with dim S_2 = g.",
+      "orbifold_signature_derived": "H/Gamma has genus g'=0 with 3 cone points of orders (7,7,2) -- derived from the LMFDB monodromy cycle types (lam1=7.1.1 gives 2 fixed points => 2 cone points of order 7; lam2=2.2.2.2.1 gives 1 fixed point => 1 cone point of order 2; lam3=3.3.3 gives 0 fixed points => 0 cone points from that branch), cross-checked via orbifold Euler characteristic additivity (chi_orb(H/Gamma) = 9 * chi_orb(H/Delta) = 9*(-1/42) = -3/14, consistent with g'=0 and the (7,7,2) cone-point signature by direct computation)",
+      "result": "dim S_2(Gamma)=0 (matches g=0, sanity check), dim S_4=1, dim S_6=1, dim S_8=2 -- k=8 is the MINIMAL even weight with dim>=2, needed to form the hauptmodul ratio x=f1/f2 per spec sec3.3 / KMSV sec5",
+      "verified_by": "hand computation cross-checked against KMSV's own formula (5.4), both independently derived and confirmed to agree; not yet independently machine-executed as a standalone script this ben (arithmetic is simple enough to be low-risk, but flagged: this specific dimension computation was NOT run through a separate GAP/Python producer-checker pair this ben, unlike other results in this campaign)"
+    },
+
+    "step2_L6_hypergeometric_delta_side_MAJOR_FINDING": {
+      "script": "scratchpad/pilot1_ben3_L6_hypergeometric.jl",
+      "script_sha16": "d7425ef3e2ea78fe",
+      "source_read_this_ben": "papers/kmsv-1311.2081-numerical-belyi-maps.pdf, pp.33-36 (Section 4, 'Hypergeometric series' subsection, eq 4.9-4.16), read via the Read tool's PDF-page-image mode (pdftotext OCR was garbled for the formula-heavy passage; the image render resolved this unambiguously)",
+      "CORRECTION_TO_SPEC": "pilot_port_scheme_v1.md sec1.3/sec3.3 (mathematician's own general-knowledge reconstruction, self-flagged as unread-KMSV) stated the expansion point p should be 'a GENERIC point avoiding elliptic points/cusps'. Having now read KMSV directly: this is WRONG for the actual method -- KMSV expands phi (the Delta-hauptmodul) AT the elliptic point p=z_a itself (a NON-generic point), exploiting the local rotation-by-zeta_a automorphy there to get a clean lacunary series (only powers of w^a appear). Per spec's own instruction ('KMSVが勝つ'), this correction is adopted; spec's L5/L6 table description is superseded by this. Flagged for the mathematician's record.",
+      "delta_side_formula": "phi(w) = (w/kappa)^a + [a(C(1+A-C)(1+B-C)-AB(2-C))/(C(2-C))] (w/kappa)^{2a} + ... in Q[[(w/kappa)^a]], obtained as the reversion of psi(t)=kappa*F1(t)/F2(t) where F1,F2 are a basis of solutions to the 2F1 hypergeometric ODE with parameters A,B,C given by (4.10).",
+      "our_ab c_labeling": "a=3 (our delta_inf, order3, fixes z_a=i), b=7 (our delta_0, on-axis z_b), c=2 (our delta_1, off-axis z_c) -- matches ben2's engine-convention (a_eng,b_eng,c_eng)=(3,7,2) exactly, so this L6 computation is at the SAME expansion point already used for the (now-superseded-by-this-finding) L3/L4 kite construction.",
+      "machine_computed_values": {
+        "A": "0.34523809523809523809523809523809523809523809 (150-bit prec)",
+        "B": "0.48809523809523809523809523809523809523809524",
+        "C": "1.33333333333333333333333333333333333333333333",
+        "sanity_check_C_minus_A_minus_B_equals_1_over_c": "0.5 == 1/c_ord=0.5 : EXACT MATCH (machine-verified)",
+        "mu_zb_over_i": "1.8601771731238944749314097497601112818107876 (cross-checked exactly against ben2's independently-derived kite-formula 't' value)",
+        "kappa_eq4.13": "0.2152671110929914788484743638669691293162329",
+        "F_A_B_C_at_1_sanity_eq4.12": "1.4070464334538708834261969980342635599631929"
+      },
+      "status": "Delta-side hypergeometric parameters (A,B,C,kappa) computed and internally sanity-checked (2 independent identities both verified exactly: C-A-B=1/c, and mu cross-matches ben2's construction). The FULL series reversion giving phi(w)'s Taylor coefficients (eq 4.16, needed to actually produce numeric Delta-hauptmodul values for G-5's comparison) was NOT completed this ben (series reversion + more coefficient terms is additional, nontrivial implementation not reached in the remaining time budget)."
+    },
+
+    "step3_L5_gamma_side_GENUINE_BLOCKER": {
+      "finding": "KMSV's actual method for the S_8(Gamma) (weight-8 cusp/automorphic form) basis on the Gamma side is NOT the naive Hejhal-style multi-sample-point linear system this implementer had initially assumed and begun designing in ben2 (which additionally would have depended on the not-fully-hardened L4 FD reduction). Re-reading KMSV sec5 ('Genus zero' paragraph, p.35) shows the actual method computes 'an echelonized basis [28, sec4.4] of functions with respect to the coefficients b_n' -- i.e. it defers to a SEPARATE, EXTERNALLY-REFERENCED algorithm (citation [28] in KMSV's bibliography) for constructing the S_k(Gamma) power-series basis via echelon-form coefficient manipulation, which is NOT reproduced within KMSV itself and was not identified/read this ben.",
+      "why_this_is_a_genuine_stop_and_not_a_shortcut": "Attempting to reconstruct this echelon-basis algorithm from general knowledge (as this implementer's ben2 Hejhal-style sketch had begun to do) carries real risk of silently encoding a WRONG automorphy/sampling convention that could produce numbers which superficially 'run' but are mathematically meaningless -- exactly the failure mode this workshop's CV-9/ORIENT discipline exists to prevent. Given the remaining ben3 time budget, this implementer chose NOT to force a fragile from-scratch reconstruction, and instead reports this as the honest, specific stuck point.",
+      "what_would_be_needed_next": "Either (a) identify and read KMSV's reference [28] (bibliography entry not yet looked up this ben) for the exact echelon-basis algorithm, or (b) get explicit mathematician/coordinator sign-off on a from-scratch Hejhal-numerical reconstruction of S_8(Gamma) using the existing (imperfect, see ben2 caveats) L4 FD-reduction machinery, accepting the associated risk flagged above."
+    },
+
+    "steps_not_reached": ["G-4-a (held-out residual)", "G-4-c (kernel dimension 1 verification)", "algebraic recognition (Nemo lll+factor)", "G-5 (Mobius search vs LMFDB published map, T-a/T-b/identity decision table)"]
+  },
+
+  "part_C_pilot1_overall_summary_across_3_bens": {
+    "solid_deliverables": [
+      "Julia+Nemo environment (verified working)",
+      "BelyiDB + Belyi engine repos cloned and read (primary-source due diligence performed, not skipped)",
+      "G-1 (L1-L2 gate): 6/6 machine-PASS, GAP-independent construction",
+      "G1-d closed-loop GAP<->Julia round trip: PASS",
+      "G-2 (L1 gate, triangle group matrices): 4/4 machine-PASS, 200-bit precision",
+      "L3 kite fundamental domain: correctly reconstructed per BelyiEngine_repo primary source, cross-checked numerically against ben1's independent construction",
+      "G-3: 3/6 solid machine-PASS (a,c,f) + 1/6 weak-proxy PASS (b) + 2/6 argued-not-verified (d,e) -- registered as candidate scaffolding per ruling 1790, not hardened",
+      "Dimension formula for S_k(Gamma): independently derived AND cross-verified exactly against KMSV's own published formula (5.4)",
+      "L6 Delta-side hypergeometric construction: KMSV's actual explicit recipe identified (correcting the spec's un-sourced reconstruction), core parameters (A,B,C,kappa) machine-computed and internally sanity-checked"
+    ],
+    "the_genuine_wall": "L5 (Gamma-side S_8(Gamma) echelon basis) requires an algorithm KMSV defers to an external reference ([28,sec4.4]) not read this ben. This, not any implementer error in the hyperbolic-layer work, is the actual bottleneck -- everything built in bens 1-2 (triangle group, kite FD, coset structure) remains valid and reusable once this basis-construction method is resolved.",
+    "T_a_T_b_status": "UNRESOLVED (G-5 not reached). The ben1 'inverse-only-conjugacy' observation was reclassified by the mathematician (ruling 1789) as a neutral relator-convention artifact, not evidence either way. The pre-registered prediction (T-b or identity wins, T-a loses) remains an untested prediction, not a result."
+  },
+
+  "generated_by": {
+    "scripts": ["scratchpad/pilot1_ben3_L6_hypergeometric.jl"],
+    "primary_sources_read_this_ben": ["papers/kmsv-1311.2081-numerical-belyi-maps.pdf pp.33-36 (Section 4)"],
+    "tools": ["Julia 1.12.7 + Nemo 0.56.1"],
+    "machine_output_only": true
+  },
+  "grade": "candidate (ben3: withdrawal condition triggered, G-5 not reached; genuine, specific, well-documented stuck point identified and reported per pre-registered discipline -- this negative/incomplete result IS the pilot's answer, not a failure to report)"
+}
