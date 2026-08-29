@@ -8333,3 +8333,39 @@ assumption that v18 had repaired either of those two paths.
 Delta212 is an execution delta, not a numerator increase: it restores two
 parallel GHA production lanes while keeping the A0 repair restricted to the
 measured RSS/checkpoint failures.
+
+### Delta 213 (2026-08-29): checkpoint preservation is distinguished from actual restart
+
+- A direct source audit after launching A0 v20 found that v20 preserves and
+  cross-checks a resource checkpoint, but does **not** yet consume that
+  checkpoint on a later invocation.  The frozen owner contains a complete
+  `restore_checkpoint(search,path)` routine, including source/basis/monitor/
+  clean-worker/DAG/current-dual binding, but its parser has no `--resume`
+  option and the routine has no call site.  Therefore Delta212 must not be
+  read as claiming actual restart from a future v20 sidecar.
+- The upstream artifact `9681838782` remains a real saved input and is used
+  by every fresh v20 run.  By contrast, if run `33251157582` terminates at a
+  resource guard, its new sidecar will be preserved but requires the minimal
+  v21 CLI/call-site successor before work beyond that sidecar can continue.
+  V21 is restricted to an optional exact-pinned resume path and one call to
+  the existing restoration routine immediately after `Search` construction;
+  all v20 arithmetic, two-worker ownership and resource limits remain fixed.
+- The task193 live pin successor is frozen at commit
+  `7bad12cf032812b9d31690996f3226bbd4b2cd6b`: adapter v4 accepts only the
+  exact A0-v20 producer/checker/driver family, and task193 v3 accepts only
+  adapter v4.  This repairs the earlier empty live-input set without changing
+  the affine-prefix formulas.  It remains dormant until A0 returns an actual
+  positive receipt.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V20 RUN ACTIVE, ACTUAL-RESUME V21 IMPLEMENTATION
+  ACTIVE**.  A preserved v20 checkpoint alone is not counted as resumability.
+- A2 remains **2/3; V20-PIN SUCCESSOR FROZEN, ACTUAL POSITIVE INPUT ABSENT**.
+- A4 remains **1/3; V21 RUN ACTIVE**; A3 remains **3/3**; all later
+  witness/fake/Ihara numerators are unchanged.
+
+Delta213 corrects the operational contract before the current run reaches a
+resource frontier: save/check is one property, restart/continue is a separate
+property, and only the latter will be claimed after the v21 call site is
+physically present.
