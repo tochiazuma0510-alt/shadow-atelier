@@ -7000,3 +7000,38 @@ A4 resource design and keeps execution behind a small independent audit.
 
 Delta176 replaces the vague “field-outer/full-P0 component” by the explicit
 translated augmentation ideal of the kernel of the A4 projected map.
+
+### Delta 177 (2026-08-29): A3/v4 bounded repair is frozen for fresh audit
+
+- Froze the task377 v4 tranche: canonical P0 16,417 bytes /
+  `14ea6de8efac73e71854f6566a9202eb89164ab6b7b5940954e87b3af21ee8ae`,
+  producer 104,369 /
+  `171e73dab2bd27f638021ceea43d8fb96ec4623a13d45873f364114e4290badd`,
+  checker 115,675 /
+  `eb07e34164f27b6676b97c722fb0fb2ef87b1e971baaab3d18c26770f17b7804`,
+  and ASCII driver 20,111 /
+  `78ee39b6f8926c267cb24d6b15bdc3a961906cdb8ddf9de8f7668222a5113f91`.
+  P0 body self seal is
+  `f1991fa0c232e1d7ea95a211498b4d1741c2104b22271fb90ec1a7ee3af98be7`.
+- The 15,911-byte task377 reply has SHA-256
+  `7c8c3692ea9e8dc508f59c72014479ac897a3247aa3cdf91d48d748d8e19fde4`.
+  It reports all five task374 defects repaired: live checker budget API,
+  authenticate-once small-manifest mutation, owner-local COW, complete
+  elapsed-adjusted deadline envelope and durable pre/post-rename rollback.
+- Task374's canonical authority graph, v303 projection, single closure/
+  verifier, complete evidence and twelve mutation meanings are retained
+  source-statically.  Candidate code remains unexecuted.
+- Added `sol/sol_task_381_r07_pre_a0_a3_v4_code_performance_reaudit.txt`.
+  A fresh Sol(max) must independently reconstruct the complete v4 routes and
+  resource bounds before the first serial pre-A0 A3 candidate.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V4 REPAIR FROZEN / FRESH STATIC REAUDIT ACTIVE**.
+  A0 is **0/1 V12C REPAIR ACTIVE**, A4 **1/3 V8 FRESH REAUDIT ACTIVE**, and
+  A5--A7 **0/3**.
+- No GHA authorization, actual A3 numerator, common word, compatible lift,
+  fake certificate or Ihara witness is added.
+
+Delta177 closes the known v3 implementation defects without counting an
+unexecuted repair as mathematical progress.

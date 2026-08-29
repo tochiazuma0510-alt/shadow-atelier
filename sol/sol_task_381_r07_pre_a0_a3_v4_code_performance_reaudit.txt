@@ -1,0 +1,140 @@
+Sol(max) task 381 - independent pre-A0 A3/v4 code/performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task377 implementer must not audit this tranche.
+Do not edit frozen owners or run any candidate. Write only the designated
+reply.
+
+1. Frozen subject and execution boundary
+
+Audit these exact physical owners:
+
+- ci/in/d972_r07_pre_a0_single_target_a3_v4.prereg.v1.json
+  16417 bytes
+  14ea6de8efac73e71854f6566a9202eb89164ab6b7b5940954e87b3af21ee8ae
+- search/d972_r07_pre_a0_single_target_a3_v4.py
+  104369 bytes
+  171e73dab2bd27f638021ceea43d8fb96ec4623a13d45873f364114e4290badd
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v4.py
+  115675 bytes
+  eb07e34164f27b6676b97c722fb0fb2ef87b1e971baaab3d18c26770f17b7804
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v4.g
+  20111 bytes
+  78ee39b6f8926c267cb24d6b15bdc3a961906cdb8ddf9de8f7668222a5113f91
+- sol/sol_reply_377_r07_pre_a0_a3_v4_bounded_repair.md
+  15911 bytes
+  7c8c3692ea9e8dc508f59c72014479ac897a3247aa3cdf91d48d748d8e19fde4
+
+The P0 body self seal is
+f1991fa0c232e1d7ea95a211498b4d1741c2104b22271fb90ec1a7ee3af98be7.
+Reject on any mismatch. Read task363, task369/reply369, task370/reply370,
+task374/reply374, task377/reply377, v302/v303, accepted task198 authority/
+evaluator owners and exact pinned task226/task227 owners. Even STATIC PASS
+authorizes at most one bounded serial pre-A0 A3/v4 GHA candidate; it is not an
+A3 numerator, A0 word, lift, fake or Ihara witness.
+
+2. Canonical P0 and complete one-way graph
+
+Independently reconstruct compact canonical ASCII P0 bytes, no BOM/CR/LF,
+root body seal, exact terminator, and every recursive ordinary authority row.
+Rebuild the unique 23-owner/33,121,619-byte inventory from source. Require
+
+  immutable authorities -> P0 -> producer/checker -> driver.
+
+Reject duplicate/extra/missing owners, aliases, retained v3 hashes, skipped
+keyed records, partial digests or cycles. Independently hash every driver pin.
+
+3. F1 and retained evaluator semantics
+
+Trace checker ordinary reachability from process entry through frozen task176
+sid=0 budget checks, evaluator construction, all live calls and the sole
+verify_gate. Require EvaluatorBudget to call an existing Meter method, with no
+broad catch or UNKNOWN conversion. Reconstruct producer/checker direct and
+transitive eval/multiply/inverse/source/action/cocycle counts, ten-coordinate
+values, widths, signs, orientations and all eleven occurrence bindings.
+Checker must use checker-side authority, not producer summary evidence.
+
+4. F2 authenticate-once snapshot and small real mutation
+
+Prove each process performs exactly one 31,017,244-byte receipt parse, full
+canonical comparison, body-seal traversal and physical raw hash. Reconstruct
+the immutable authenticated snapshot and every binding it carries. Confirm
+the raw-manifest mutation changes the extant 2,722-byte manifest, returns
+through the same ordinary authority validator, proves physical digest
+inequality and reaches exact first reason before any second large parse,
+canonical pass, seal traversal or raw hash. Reject a detached test predicate,
+mutable snapshot, cached acceptance Boolean or hidden large-owner reread.
+
+5. F3 owner-local mutations and retained mathematical gates
+
+Audit untouched baseline plus all twelve mutations on both sides. Inventory
+every allocated list/dict/vector and prove there is no full-reference,
+task226-ABI, interface, consumer, P0 or receipt deepcopy/canonical clone.
+Each case must alter only a real smallest owner, use the ordinary validator,
+require before/after inequality and exact first reason, narrowly catch only
+the expected rejection, and hard-fail MutationAccepted/wrong reason. Require
+all eight conclusion flags, especially actual_a3_numerator, false.
+
+Independently retain v303-only projection sufficiency, presence-only
+rword_f/rword_g semantics, exactly one producer task227 closure and one
+checker verify_gate, complete 486/729 ancestry/rank/echelon/replay-or-dual
+evidence and no wrapper reverse/second closure route.
+
+6. F4 deadlines and avoidable-work audit
+
+Trace the elapsed-adjusted outer signal envelope on producer and checker.
+Require it to cover output preflight, P0/authority, snapshot, imports,
+evaluator, all task226 builds, projection/sealing, every mutation copy and
+validator, closure/verifier and publication. Check emergency publication,
+timer restoration after real elapsed time, Linux signal/RLIMIT/renameat2
+fail-closed behavior and exact strict wall ordering 1800 < 2100 and serial
+4200 < 21600. Search for untimed work, duplicate full owners, repeated task226
+builds, nested closures, per-item full copies, quadratic scans or unbounded
+logs/sets.
+
+7. F5 publication and accepting-only driver
+
+Audit both bound writers line by line: no-follow same-dirfd temp creation,
+complete write, file fsync, RENAME_NOREPLACE, directory fsync, and rollback on
+every typed/untyped pre- and post-rename failure. Temp or final unlink must be
+followed by fsync on the same bound directory fd; rollback failure remains
+nonaccepting.
+
+For the driver require exact receipt injection, validated verdict digest,
+post-validation physical rehash, terminal equality, every cross-binding,
+exact-one terminals, exclusive/no-follow accepted sentinel and durable
+rollback. UNKNOWN, stale names, mismatch, timeout or fsync failure must not
+accept.
+
+8. Resource formulas and decisive verdict
+
+Recompute from source all authority/input/output/allocation/wall formulas,
+including 23 owners, producer/checker source imports, maximum receipt,
+fixed-point transients, checker Q0 construction, RLIMIT_AS and serial walls.
+These are component bounds plus a hard address-space ceiling, not observed
+RSS. Give a decisive finding on simultaneous objects and avoidable work.
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, syntax/import
+compilation, mutations, RSS or candidates. Read-only PowerShell/hashing are
+allowed. On REJECT list every load-bearing defect together. Write only:
+
+sol/sol_reply_381_r07_pre_a0_a3_v4_code_performance_reaudit_v1.md
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+P0 / ACYCLIC AUTHORITY GRAPH:          PASS or REJECT
+TASK198 AUTHORITY / LIVE EVALUATOR:    PASS or REJECT
+V303-ONLY PROJECTION SUFFICIENCY:      PASS or REJECT
+ONE PRODUCER CLOSURE ROUTE:            PASS or REJECT
+INDEPENDENT CHECKER ROUTE:             PASS or REJECT
+BASELINE + TWELVE MUTATIONS:           PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+BOUND PUBLICATION / SERIAL DRIVER:     PASS or REJECT
+PRE-A0 A3/V4 GHA:                      AUTHORIZED or FORBIDDEN
+ACTUAL A3 NUMERATOR:                   remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:      NONE
+
+TASK381_R07_PRE_A0_A3_V4_CODE_PERFORMANCE_REAUDIT_V1
