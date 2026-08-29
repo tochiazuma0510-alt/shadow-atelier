@@ -10249,3 +10249,135 @@ leading-image hypothesis without assuming the two remaining finite decisions.
 Delta255 records only the immutable execution identity and the two passed
 fail-fast boundaries.  It does not infer a positive basis, complete negative,
 compatible lift, fake numerator, or Ihara witness from a live job.
+
+### Delta 256 (2026-08-30): one-defect leading onto is repaired with the intrinsic saturation tower
+
+- `proof_r07_reachable_class_leading_onto_from_one_defect_v380.md`, 12,213
+  bytes, SHA-256
+  `98ff510609f89e1db865c09ff4ec318d7ed161dd43e44c5ad5c4df2d1ddaf131`,
+  is a rejected intermediate draft.  It transferred an ambient
+  `J`-adic quotient to the intrinsic filtration on the reachable image without
+  proving
+
+  \[
+   L_{\rm reach}\cap \widehat J^n\mathcal L
+    =\widehat J^nL_{\rm reach}.
+  \]
+
+  Nothing from that transfer is promoted.
+- `proof_r07_reachable_class_one_defect_with_saturation_v381.md`, 13,017
+  bytes, SHA-256
+  `0b873f6f74b05a62e6c3c5f248e50d9966e0661ffc1d319b6cc3883b65463b62`,
+  exposed the correct saturation obstruction but is also rejected: its final
+  recursion cited v369 Theorem 4.1, whose finite-free cover/right-lift
+  hypotheses had not been supplied.
+- The repaired
+  `proof_r07_reachable_class_one_defect_with_saturation_v382.md`, 14,049
+  bytes, SHA-256
+  `f4ab1232f399653a404c9e19d64c358d3f43d5c219e1c402bdcd7daabbe83b31`,
+  received an independent Sol(max) PASS.  For
+
+  \[
+   L_{\rm reach}=\overline{\Lambda B_C(P_C)+\Lambda\Phi(W_C)},
+  \]
+
+  the exact new obstruction is recorded as
+
+  \[
+   \operatorname {Sat}_n=
+   (L_{\rm reach}\cap\widehat J^n\mathcal L)/
+   \widehat J^nL_{\rm reach}.
+  \]
+
+  Generator increments in the intrinsic leading image, the direct
+  `q_loc^reach` square, one full path-bearing initial membership, and vanishing
+  of this saturation tower give leading onto.  Delta251/v377 then gives
+  `B_C(P_C)=L_reach` and
+  `B_C(J-hat^n P_C)=J-hat^n L_reach` at every depth.
+- The nonlinear recursion is now section-free.  If the depth-`d` residual is
+  `z_d`, strict depthwise onto supplies one requested
+  `t_d in J-hat^d P_C` with `B_C(t_d)=-z_d`; v369 materializes that value, and
+  the fixed Fox error estimate puts the next residual in
+  `J-hat^(d+1)L_reach`.  Cauchy convergence, continuity, and separation make
+  the limiting residual zero.  No global continuous section, finite-free
+  cover, or based right lift is assumed.
+- This remains a conditional theorem.  Actual full-path membership, the
+  physical task395 ABI/full leading image, positive-depth Fox equality, and
+  intrinsic saturation vanishing are not yet proved for `chi_07`.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the abstract all-depth recursion no longer
+  needs a family of arbitrary sections.  Its open algebraic obstruction is
+  now the named intrinsic saturation tower plus the actual-class input.
+- A0 and A4 computations do not prove this theorem's physical hypotheses.
+  No compatible lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 257 (2026-08-30): A0 terminates UNKNOWN with the first durable 1.66 GB frontier
+
+- A0 run `33267817818` at immutable head
+  `8227ecd4cb12f7efc8e2419306b847e228a78f36` stopped its producer at
+  2026-08-30 06:18:42 JST with the exact typed terminal
+
+  `UNKNOWN_RESOURCE:phase=positive_boundary_correlation_cap=wall_seconds_value=10800.554579397001_limit=10800.0`.
+
+  The checker reproduced the same terminal and emitted
+  `R07_HISTORY_FREE_POSITIVE_FAST_RESUME_V24_DRIVER_PASS` at 06:19:18 JST.
+  Artifact upload completed at 06:19:53 JST.  This PASS authenticates
+  transport, checkpoint, receipt, and terminal consistency; it is not a
+  mathematical positive or negative.
+- Artifact id/name are `9721440597` / `gap-run-out`; the final compressed
+  artifact size is 102,998,914 bytes with archive SHA-256
+  `9dc2f030684d8243119315603becf9a7abbca962a5fc86d87f1d9cd3c97130b0`.
+  The terminal checkpoint is 1,663,424,241 bytes with SHA-256
+  `55c463335e89fb7e67a04ec9c0405a8216f6f909b2ce67a0fe7a8a4afaf2014d`.
+- Its authenticated frontier is:
+
+  \[
+  \begin{array}{c|r}
+  \text{counter}&\text{value}\\ \hline
+  \text{boundary pairs}&22,912,880\\
+  \text{retained columns}&8,727\\
+  \text{DAG nodes}&29,336\\
+  \text{candidate words}&0
+  \end{array}
+  \]
+
+  The configured boundary-pair resource ceiling was 500,000,000; the run
+  stopped on the internal three-hour wall clock, not that counter.  The
+  sampled parent RSS peak was 4,613,431,296 bytes and the sampled child-RSS
+  peak sum was 829,956,096 bytes.  Cleanup was complete and no worker process
+  survived.
+- A0 itself is finite.  The complete translated-boundary roster has
+
+  \[
+   4\cdot81+11\cdot583{,}152{,}628{,}325{,}845{,}597{,}028{,}352
+   =6{,}414{,}678{,}911{,}584{,}301{,}567{,}312{,}196
+  \]
+
+  columns.  The naive correction row--group roster has
+  `6,441 * 357,128,352 = 2,300,263,715,232` indices.  The
+  `boundary_pairs` counter does not enumerate that roster once from beginning
+  to end: it counts the descriptor/support correlations recomputed for each
+  changing exact separating dual.  Thus the 500-million cap is not the size
+  of the finite A0 universe, and 22,912,880 is not a completion percentage.
+- Relative to the lost v22 frontier, the durable state advances 91,428
+  boundary pairs, 58 retained columns, and 174 DAG nodes, still with zero
+  candidate words.  It proves neither exhaustion nor nonexistence.
+- The logical v21--v23 `--resume` contract accepts this terminal checkpoint,
+  but its current reader builds whole-file byte, decoded-string, and JSON-DOM
+  copies.  Applying that reader unchanged to 1.66 GB would introduce a new
+  OOM risk.  The next run must therefore preserve the exact restore semantics
+  while streaming the large record array; it must not start fresh and repeat
+  this deterministic frontier.
+
+**v220 mapping**:
+
+- A0 changes from **0/1 RUNNING** to **0/1 UNKNOWN_RESOURCE, DURABLE
+  RESUME**.  It has no finite common word and no negative certificate.
+- A4 remains **1/3 RUNNING** under `33274918945`.  A9 remains **0/3 actual**.
+  No compatible lift, fake numerator, or Ihara witness is promoted.
+
+Delta257 records the exact progress that survived the resource stop and the
+single transport repair required before continuation; it does not count the
+500-million resource ceiling as a finite universe.
