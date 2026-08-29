@@ -5259,3 +5259,36 @@ unknown full corrected lift while preserving the one-run A3 shortcut.
 Delta125 makes a future positive pre-A0 A3 certificate immediately
 word-bearing for A5 without confusing the projected interface with the full
 unknown corrected-word package.
+
+### Delta 126 (2026-08-29): v304 literal-cube regression repaired by the A4 anchor
+
+- Added `sol/proof_r07_pre_a0_member_to_a4_anchored_literal_seed_v305.md`.
+  The projected transfer in v304 survives, but its literal formula
+  `s(g)[x,y]^3-s(g)` does not: v247 already cross-checked that the literal
+  cube `[x,y]^3` is nonidentity in all ten actual roof coordinates.  The
+  implication `q([x,y]^3)=z0 => [x,y]^3 in K` was invalid.
+- V305 therefore supersedes v304 Lemma 2.1 and its literalization.  After an
+  accepted A4 word-bearing basis is available, choose its deterministic
+  least-index anchor `u_*` with actual roof value one and projected value
+  `z0`.  The corrected polynomial is
+  `sum lambda_g*(s(g)u_*-s(g))`; every term is now an actual roof-fibre pair.
+- V303 still makes the task359 MEMBER coefficient and target independent of
+  the A0 word.  Hence the corrected A4-anchored seed works for every
+  registered A0 correction and actual A2 remains unnecessary for the A5
+  endpoint base.  The load-bearing order is now explicit: task359 may run
+  pre-A0, but A4 must precede literalization.
+
+**v220 mapping**:
+
+- No numerator changes.  A3 remains **0/3 ACTUAL; TASK359 IMPLEMENTATION
+  ACTIVE** and A4 remains **1/3; V6B STATIC AUDIT ACTIVE**.
+- A5 remains **0/3 ACTUAL**.  Its corrected dependency cone is positive A3
+  MEMBER ancestry + accepted A4 word-bearing basis/anchor + actual
+  A0/task193 rows.  A2 remains **2/3** and is still required for its full
+  package and exact-PB duties.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**;
+  A6--A9, B, C, W and F remain unchanged.  No compatible lift, fake
+  certificate, cofinal witness, or Ihara counterexample is claimed.
+
+Delta126 removes a false literal shortcut while preserving the genuine
+pre-A0 projected transfer and the A2 dependency reduction.
