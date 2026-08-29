@@ -9404,3 +9404,46 @@ canonical-word construction.
 Delta239 replaces the last abstract residual-action generator with two
 durable, independently replayed finite words while preserving the missing-A4
 boundary exactly.
+
+### Delta 240 (2026-08-30): the A4 batch hotpath is now bounded by examined candidates and running
+
+- Task385's v15 producer / v17 independent checker / v24 driver package is
+  frozen at commit `d353f0b9`.  It repairs the exact performance defect in
+  Delta237: each completed correlation sets
+  `examined_limit=min(64,len(private_candidates))` and indexes only that
+  canonical prefix.  A dependent current-basis reduction consumes one
+  examined position without increasing the accepted count; no candidate 65
+  or later is decoded, translated, reduced or inserted in that correlation.
+- Root reconstruction of the generated sources gives producer SHA-256
+  `fe3c23ffb4c5c952f99eceba73cb8594885dbadd9d2c4bd50d8b28c173e46940`
+  and checker SHA-256
+  `78409970ed60b7e5d97335592275716adb298ed85e65b49829c66bacc98f1d92`.
+  AST inspection finds exactly one candidate-index loop in each source,
+  both over `range(examined_limit)`, exactly one indexed roster access inside
+  that loop and no direct loop/comprehension over the full private roster.
+  Each loop contains the decode, translate, current-combined reduction and
+  rank-rise insertion chain.  Both sides require the first canonical
+  candidate to remain independent and finally require
+  `0 < accepted <= examined <= 64`.
+- The public receipt/checkpoint/event ABI, early completed-row checkpoints,
+  14,400-second internal cap, 14,520-second shell timeout and 8 GB registered
+  RSS cap are unchanged.  Fresh v24-owned paths and physical code pins
+  deliberately reject v13/v14 checkpoints.
+- Fresh production run `33263899806` was dispatched through `gap-run.yml` at
+  immutable head `d353f0b927cb453802ba2b91e021936a2dc3228b`, with literal preamble
+  `D385Mode:="PRODUCTION";;` and no optional p-quotient packages.  It was in
+  progress when this delta was written.  The resumable singleton baseline
+  run `33262485779` continues independently.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING**, now with the valid bounded-batch run
+  `33263899806` alongside durable baseline `33262485779`.  This delta closes
+  the task385 implementation/performance-bound milestone but does not claim
+  an accepted word-bearing `K` before artifact inspection.
+- A0 remains **0/1 with v22 run 33259268996 active**.  A9 remains **0/3
+  actual**; its canonical residual words are already closed by Delta239.
+- Compatible lift, fake and Ihara witness numerators are unchanged.
+
+Delta240 puts the corrected finite-work A4 successor into production without
+discarding the independently resumable baseline or enlarging any claim.
