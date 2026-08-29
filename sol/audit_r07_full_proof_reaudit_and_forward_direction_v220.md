@@ -7035,3 +7035,32 @@ translated augmentation ideal of the kernel of the A4 projected map.
 
 Delta177 closes the known v3 implementation defects without counting an
 unexecuted repair as mathematical progress.
+
+### Delta 178 (2026-08-29): A4/v8 source tranche passes; pinned driver is commissioned
+
+- Froze `sol/sol_reply_379_r07_a4_v8_one_function_reaudit_v1.md`
+  (13,924 bytes; SHA-256
+  `1139b43a4dadb4f06c9a27414e07d4b919a4d7db1bdc5c8e3d1a759bf4cc8c8f`).
+  Its verdict is **STATIC PASS**.  No candidate, compiler, runtime, mutation,
+  GAP, GHA, workflow or network command was run.
+- The auditor independently recovered the exact frozen v5 producer after
+  reversing only the v6 `admit_path` repair and truthful local labels.  The
+  producer definition and both ordinary-route uses are reachable; all task375
+  authority, evaluator, mutation, resource, cleanup and scope PASS clauses are
+  retained.  The seven covered rows remain candidate-only.
+- Added `sol/sol_task_382_r07_a4_v8_pinned_rows1_7_driver.txt`.  It commissions
+  the missing ASCII GHA driver, with exact producer-v6/checker-v5/fixture-v5
+  pins, independent canonical result admission, bounded serial execution and
+  fail-closed durable publication.  A fresh driver audit remains mandatory
+  before any rows-1--7 execution.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V8 SOURCE STATIC PASS / PINNED DRIVER ACTIVE**.
+  A0 is **0/1 V12C BOUNDED COMPLETE REPAIR ACTIVE**, A3 **0/3 V4 FRESH
+  STATIC REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- No GHA authorization, full 48x2 result, actual A4 basis, common word,
+  compatible lift, fake certificate or Ihara witness is added.
+
+Delta178 closes the source-reachability audit and moves A4 to its last static
+pre-execution component without inflating the witness numerator.

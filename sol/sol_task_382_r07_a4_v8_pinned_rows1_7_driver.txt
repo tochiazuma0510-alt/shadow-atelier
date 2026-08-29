@@ -1,0 +1,153 @@
+Sol(max) task 382 - A4/v8 pinned rows-1--7 GHA driver
+
+Role: researcher-authorized bounded implementationer. Read every numbered
+section, first to last, before editing. The task379 auditor may implement this
+driver, but the resulting driver must receive a later fresh independent audit.
+Do not execute Python, Node, GAP, the candidates, mutations, GHA, workflows,
+git or the network in this task.
+
+1. Binding authority and exact scope
+
+Read task373/reply373, task375 and its full STATIC REJECT, task378/reply378,
+task379 and its full STATIC PASS, and every frozen owner named below. Preserve
+all task379 PASS findings. This tranche only constructs the previously missing
+GHA driver for the already-frozen candidate-only rows 1--7 selftest. It does
+not cover rows 8--48, execute a candidate, increase the A4 numerator, produce
+an A4 basis, construct a lift, prove fake, or produce an Ihara witness.
+
+2. Frozen owners and mandatory pins
+
+The driver must pin and physically authenticate these exact owners before any
+candidate process or material parse:
+
+- `search/d972_r07_a4_actual_owner_trace_producer_v6.py`
+  - bytes 102151
+  - SHA-256 `6bbae63e284e055bba2097696f0202645bc38ec9856815af9c1857ecd2131a58`
+- `crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v5.py`
+  - bytes 99782
+  - SHA-256 `33b7905fb1f00b23b8e30c8b90b57a793cabf62ed272fb258790d3c88ba34165`
+- `search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json`
+  - bytes 8489
+  - SHA-256 `474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481`
+  - root body seal `c674491a2f50b200a70349780f0e7a80c21cc0fc3cecd44432dc6e70c51f63fb`
+
+The fixture in turn pins the immutable task198 receipt and manifest. Require
+their exact paths, bytes, SHA-256 and body seals from the fixture; do not copy
+those authorities, substitute an alias, trust a semantic-only decode, or make
+the producer result an input to the checker. Reject duplicate physical paths,
+path escape, symlink components, nonregular files, mutation during use, or a
+changed retained-fd identity.
+
+3. Sole permitted task outputs
+
+Create exactly these two source/reply files and edit no other file:
+
+- `search/d972_r07_a4_actual_owner_trace_gha_driver_v8.g`
+- `sol/sol_reply_382_r07_a4_v8_pinned_rows1_7_driver.md`
+
+The driver may name invocation-specific candidate artifacts that a later GHA
+run will create under bound `ci/out` and `search/certs`, but this task must not
+create them. Use versioned v8 names; reject every stale final, temp, raw, log,
+alias and accepted-sentinel name before heavy work. Do not remove stale names.
+
+4. Native platform and command boundary
+
+Write an ASCII GAP driver with no BOM, no CR and exactly one final LF. Require
+Linux x86_64, GAP 4.16.0, the needed GAP JSON package, `python3`, and the exact
+fixed quoted repository-relative commands. Use native GAP directory creation;
+do not obtain directory creation, hashing, canonicalization, file identity or
+publication by importing an unpinned repository helper.
+
+Run producer and checker serially, each exactly once, with `python3 -B`, the
+fixed `--fixture` path and no `--output`. Give each a bounded external timeout
+strictly larger than its internal timeout and preserve a documented cleanup
+margin. Require exact zero exit and exact-one complete stdout JSON line; stderr
+is a separate nonaccepting log and may never be mixed into JSON. Timeout,
+signal, partial output, extra line, nonzero exit or unknown status is terminal.
+
+5. Independent result admission
+
+The checker must read only the frozen fixture/authorities through its own code;
+never inject producer output, producer-normalized data or producer decisions
+into it. Independently admit both stdout files as exact physical canonical JSON
+(`sort_keys`, ASCII, compact separators) plus one LF, with no BOM/CR/indent or
+extra bytes. Recompute each result root self seal by deleting only its root
+`self_digest_sha256` member and canonically re-encoding the remaining root.
+
+Require each result's own exact schema/version, physical-owner identities,
+immutable task198 pins, baseline evidence, seven ordered mutation IDs, exact
+first validator/stage/narrow-reason meanings, physical identities/digests,
+event traces, revalidation counts, resource formulas and false conclusion
+flags. Require exactly:
+
+```text
+candidate_only=true
+synthetic=false
+covered_rows=[1,2,3,4,5,6,7]
+remaining_rows=[8,9,...,48]
+full_a4_selftest=false
+actual_a4_numerator=false
+```
+
+Cross-compare every common mathematical/authority/mutation/resource field.
+Producer and checker role prefixes and their truthful v6/v5 schema labels may
+be normalized only where task379 preregisters that difference. Do not compare
+whole unequal schemas, silently drop executed evidence, or accept a fixture-
+shaped summary in place of the two actual results.
+
+6. Resource, deadline and parse discipline
+
+Install and read back a hard Linux address-space limit before material reads or
+subprocesses. Bound every stdout, stderr, log and JSON parse before allocation;
+stream SHA-256 and physical-size checks. Run the two candidates serially and
+release the producer DOM before constructing the checker DOM unless the driver
+uses a bounded streaming comparison. State the maximum simultaneous live-byte
+formula and show that no producer-plus-checker-plus-two-copies combination is
+held. Check the external deadline during hashing, canonical admission,
+cross-comparison, cleanup and publication, not only around subprocess waits.
+
+7. Fail-closed durable publication
+
+Bind `ci/out` and `search/certs` by checked directory descriptors. For every
+raw result, admitted result, log and final sentinel use same-directory
+exclusive temporary creation followed by a no-replace publication primitive,
+or retain the temporary name until all post-link checks succeed. Fsync the file
+and directory before acceptance. If any failure occurs after a final name is
+visible, unlink that exact final relative to the retained dirfd, fsync the
+directory after rollback, remove/fsync any temp, and return nonaccepting even
+when rollback itself fails. No UNKNOWN, partial log, alias, unaccepted result
+or stale sentinel may survive as an accepting artifact.
+
+Publish the accepted sentinel only after both actual results are independently
+admitted, cross-compared, physically rehashed through retained descriptors and
+all preceding directory fsyncs succeed. The sentinel must pin the driver,
+producer, checker, fixture and both admitted result identities, declare the
+rows-1--7-only boundary, and leave every A4/lift/fake/Ihara conclusion false.
+Emit exactly one canonical terminal JSON object on stdout after the sentinel is
+durable; diagnostics go to stderr.
+
+8. Static closure and reply contract
+
+Do not execute or compile anything. Read-only PowerShell inspection and
+SHA-256 hashing are allowed. In the designated reply give exact driver/reply
+bytes and hashes, line-numbered evidence for sections 2--7, all fixed commands
+and future artifact names, timeout/RLIMIT/simultaneous-memory formulas, every
+command class not run, and the remaining independent-audit gate. End exactly:
+
+```text
+A4/V8 PINNED ROWS1-7 DRIVER:             COMPLETE or INCOMPLETE
+FROZEN OWNER AUTHENTICATION:             COMPLETE or OPEN
+INDEPENDENT PRODUCER/CHECKER ROUTES:      COMPLETE or OPEN
+CANONICAL RESULT/SELF-SEAL ADMISSION:     COMPLETE or OPEN
+RESOURCE / DEADLINE BOUNDS:               COMPLETE or OPEN
+DURABLE FAIL-CLOSED PUBLICATION:          COMPLETE or OPEN
+TASK379 PASS CLAUSES:                     RETAINED or REGRESSED
+DRIVER EXECUTION:                         UNEXECUTED
+FRESH INDEPENDENT DRIVER AUDIT:           REQUIRED
+ROWS1-7 GHA:                              FORBIDDEN
+FULL 48x2 SELFTEST:                       INCOMPLETE
+ACTUAL A4:                                remains 1/3
+LIFT / FAKE / IHARA:                      NONE
+```
+
+TASK382_R07_A4_V8_PINNED_ROWS1_7_DRIVER
