@@ -5292,3 +5292,44 @@ unknown corrected-word package.
 
 Delta126 removes a false literal shortcut while preserving the genuine
 pre-A0 projected transfer and the A2 dependency reduction.
+
+### Delta 127 (2026-08-29): A0 and A5 combined into one preselection membership
+
+- Added `sol/proof_r07_pre_a0_joint_common_word_pointed_selector_v306.md`.
+  A registered A0 coefficient has two finite linear images at the first
+  relative Frattini edge: its exact A0 defect `B0*a` and its task193 affine
+  direct change `L_g*p(a)`.  The latter is well-defined modulo the complete
+  boundary because the relative Magnus kernel identifies equal upper-shadow
+  values, and it is linear on the elementary-abelian kernel.
+- After positive A3 and accepted A4, the A4 joint closure constructs the
+  fixed slice `S=H*d1` before choosing an A0 word.  With
+  `r_*=(1-kappa0)*d1`, an A0 coefficient passes A5 exactly when
+  `r_*-L_g*p(a)` belongs to `S`.
+- Consequently the two sequential questions are one membership:
+  `(tau0,r_*)` lies in the span of joint A0 columns
+  `(B0*a_j,L_g*p(a_j))`, A0 boundary columns `(d,0)`, and slice columns
+  `(0,h_i)`.  Positive ancestry constructs both the literal A0 word and
+  `mu1=kappa0+theta`; task193 becomes an independent replay of that word,
+  not a prerequisite for choosing it.
+- The same positive-only/fair column-generation theorem applies in the
+  enlarged finite ambient space.  Bounded failure remains UNKNOWN, while a
+  complete dual would obstruct every registered A0 correction for this
+  fixed branch.  The currently active standalone A0 search remains useful as
+  a candidate and replay route and is not discarded.
+
+**v220 mapping**:
+
+- No actual numerator changes: A0 is **0/1 V12A IMPLEMENTATION ACTIVE**, A3
+  **0/3 TASK359 IMPLEMENTATION ACTIVE**, A4 **1/3 V6B STATIC AUDIT ACTIVE**,
+  and A5/A6 remain **0/3 actual**.
+- The paper dependency graph advances: the blind arrow
+  `arbitrary A0 word -> later A5 test` is replaced by a joint A0/A5 selector
+  once positive A3 and accepted A4 inputs exist.  A positive joint run can
+  close A0, A5, and the A6 ancestry handoff together, but no such run or
+  implementation exists yet.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**; A7--A9, B, C, W and F are
+  unchanged.  No exact PB zero, compatible lift, fake certificate, cofinal
+  witness, or Ihara counterexample is claimed.
+
+Delta127 removes the arbitrary-A0 selection bottleneck on paper without
+counting the new joint selector before implementation and accepted execution.
