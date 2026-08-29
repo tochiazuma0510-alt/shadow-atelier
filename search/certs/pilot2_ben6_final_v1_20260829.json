@@ -1,0 +1,2466 @@
+{
+ "schema": "pilot2-ben6-final/v1",
+ "title": "PILOT-2 ben6 (final): S_3 structure gate, quotient genera, basis-free rational invariants, the destruction controls, and the chain-independent arithmetic identification Gal(f_t0/Q) = PGammaL(2,8) with constant field Q(zeta_9)^+",
+ "date": "2026-08-29",
+ "ruling": "coordinator ruling 1806 (ben6 dispatch)",
+ "machine_output_only": true,
+ "author": "shadow-atelier mathematician (Opus 5)",
+ "spec": {
+  "path": "scratchpad/pilot2_spec_v1.md",
+  "version": "v1.1",
+  "sha16": "1ff1b9713d2d9207",
+  "sections": [
+   "5 G-6'-c/d/e",
+   "4.6 destruction controls",
+   "6.5.4 CONN-1/CONN-2",
+   "3.5"
+  ],
+  "precedence": "ruling 1801: the machine values certified by ben1-ben5 override the spec's printed literals.  Where ben5's exact model and the spec disagree, ben5 wins."
+ },
+ "input_artifacts": {
+  "search/certs/pilot2_ben1_hyperbolic_v1_20260829.json": "0d6d590d5dda602f",
+  "search/certs/pilot2_ben2_L5_v1_20260829.json": "fce9991ed60aaf77",
+  "search/certs/pilot2_ben3_CAL_v1_20260829.json": "f1b4ac003874cd19",
+  "search/certs/pilot2_ben4_L6_v1_20260829.json": "d16248384d9593bb",
+  "search/certs/pilot2_ben5_L7_v1_20260829.json": "a54d2f07fd4c8da3",
+  "scratchpad/pilot2_s1_parse_out.json": "0ae698f62dcb9c7c"
+ },
+ "FINAL_VERDICT": {
+  "G6_prime_c": "PASS (exact, both sides)",
+  "G6_prime_d": "PASS (exact, two independent methods per quotient)",
+  "G6_prime_e": "PASS -- every basis-free invariant lies in Q; the P-FIELD refuter fires nothing",
+  "P_FIELD": "CONFIRMED and NOT refuted.  ben5 met the sufficient condition (rational recognition); ben6 ran the only test that could have refuted it (basis-free invariants) and it agrees.",
+  "CONN_1": "PASS -- Gal(f_t0/Q) = PGammaL(2,8), order 1512, for every tested t0 outside the degenerate orbit {2,1/2,-1}",
+  "CONN_2": "PASS -- the constant field is the cyclic cubic field of conductor 9, i.e. Q(zeta_9)^+ = 3.3.81.1 (LMFDB label), discriminant 81",
+  "destruction_controls": "all six discriminate as pre-registered (MU-P'', MU-P''', MU-R' literally; MU-S', MU-A', MU-B' as exact-model analogues -- see the caveat)",
+  "grade": "candidate / cross-checked.  The G6'-c/d/e layer is EXACT rational arithmetic with two independent derivations of every genus and of j; CONN-1 is exact-plus-Frobenius; CONN-2 is an exact ramification argument conditional on CONN-1.  NOT 'verified' (no Lean).",
+  "campaign_complete": true
+ },
+ "part_G6c_S3_symmetry": {
+  "group_side_elastic_generators": {
+   "protocol": "spec sec.5 [G6'-c].1/.2 (the R-1 replacement).  Relabel conjugators are NOT used.",
+   "method": "exhaustive scan of all 362880 elements of S_9 (primary) cross-checked against a coset shortcut using C_{S_9}(x) = <x> (order 9, verified exhaustively)",
+   "two_methods_agree": true,
+   "order3_solution_count": 1,
+   "g": "(1,7,8)(2,5,9)(3,4,6)",
+   "g_order": 3,
+   "g_cycle_type": [
+    3,
+    3,
+    3
+   ],
+   "g_cubed_is_identity": true,
+   "g_in_G": true,
+   "pi_u": "(1,8,7)(2,9,5)(3,6,4)",
+   "pi_v": "(1,6,9)(2,3,5)(4,8,7)",
+   "pi_w": "(1,2,9,3,5,4,8,6,7)",
+   "pi_orders": [
+    3,
+    3,
+    9
+   ],
+   "pi_relator_uvw_is_id": true,
+   "pi_generates_order": 504,
+   "F3": 0,
+   "involutions": [
+    {
+     "tag": "fix_z",
+     "count": 1,
+     "S": "(1,9)(2,6)(4,7)(5,8)",
+     "order": 2,
+     "ctype": [
+      1,
+      2,
+      2,
+      2,
+      2
+     ],
+     "S_squared_is_id": true,
+     "fix": 1,
+     "Ftau": 2,
+     "S_in_G": true,
+     "third_component_conjugated_correctly": true,
+     "genus_X_mod_C2": 2.0
+    },
+    {
+     "tag": "fix_y",
+     "count": 1,
+     "S": "(1,3)(2,7)(4,9)(5,8)",
+     "order": 2,
+     "ctype": [
+      1,
+      2,
+      2,
+      2,
+      2
+     ],
+     "S_squared_is_id": true,
+     "fix": 1,
+     "Ftau": 2,
+     "S_in_G": true,
+     "third_component_conjugated_correctly": false,
+     "genus_X_mod_C2": 2.0
+    },
+    {
+     "tag": "fix_x",
+     "count": 1,
+     "S": "(1,9)(2,7)(3,5)(6,8)",
+     "order": 2,
+     "ctype": [
+      1,
+      2,
+      2,
+      2,
+      2
+     ],
+     "S_squared_is_id": true,
+     "fix": 1,
+     "Ftau": 2,
+     "S_in_G": true,
+     "third_component_conjugated_correctly": true,
+     "genus_X_mod_C2": 2.0
+    }
+   ],
+   "n_involutions": 3,
+   "F_tau_per_involution": [
+    2,
+    2,
+    2
+   ],
+   "agreement_with_ben1_G1h": {
+    "ben1_order3_count": 1,
+    "ben1_g_cycletype": "[ 3, 3, 3 ]",
+    "ben1_F3": 0,
+    "ben1_S_cycletype": "[ 1, 2, 2, 2, 2 ]",
+    "ben1_Ftau": 2,
+    "ben6_reproduces_all_of_them": true
+   },
+   "HONEST_NOTE_on_<g,S>": {
+    "observed": "<g,S> as a subgroup of S_9 has order 504 (= |G|), NOT 6, and S does not invert g.",
+    "why_this_is_NOT_a_defect": "the map n |-> g_n (n in N_Delta(Gamma') acting on the 9 cosets by Gamma'y |-> Gamma' y^n) is a homomorphism on the FULL normaliser, not on N/Gamma'.  Gamma' itself has non-trivial image (the monodromy permutations), so Aut(X) = S_3 is not visible as a subgroup of S_9.  The equations x^g=y,y^g=z,z^g=x and x^S=y,y^S=x each have a UNIQUE solution, which is what spec sec.5 [G6'-c].1 asks for; the S_3 structure is asserted geometrically, in PGL_4 (below).",
+    "S_in_G": true
+   }
+  },
+  "geometric_side_exact": {
+   "input": "the exact Q-rational A and iota of ben5; all checks are exact sympy Rational arithmetic",
+   "point_action_convention": "p |-> M p (column); confirmed by A*P_0 ~ P_1 exactly",
+   "A_cubed_is_identity": true,
+   "iota_squared_is_identity": true,
+   "A_permutes_P0_P1_Pinf_cyclically": [
+    true,
+    true,
+    true
+   ],
+   "iota_fixes_P0_and_swaps_P1_Pinf": [
+    true,
+    true
+   ],
+   "Q_o_A_equals_Q_exactly": true,
+   "Q_o_iota_equals_Q_exactly": true,
+   "C_o_A_minus_C_in_Q_times_linear": true,
+   "C_o_iota_equals_C_exactly": true,
+   "C_o_A_equals_C_exactly": false,
+   "C_is_only_defined_mod_Q_times_linear": "so C o A = C is not expected; the S_3-symmetrised representative C_sym = (1/6) sum_{h in S_3} C o h is exactly invariant and defines the same curve (C_sym - C lies in (Q)*linear: True)",
+   "C_sym_printed": "(64*X1**2*X4 - 32*X1*X2*X3 - 72*X1*X3*X4 - 32*X2**3 - 48*X2**2*X4 - 24*X2*X3**2 - 126*X2*X4**2 + 54*X3**2*X4 - 9*X4**3)/2",
+   "iota_A_iota_equals_A_inverse_EXACTLY": true,
+   "order_of_<A,iota>_in_PGL4": 6,
+   "element_orders": [
+    1,
+    2,
+    2,
+    2,
+    3,
+    3
+   ],
+   "is_S3": true,
+   "matrix_group_<A,iota>_in_GL4_is_also_order_6": 6,
+   "each_involution_fixes_exactly_one_branch_point": true,
+   "three_involutions": [
+    {
+     "matrix": [
+      [
+       "-1",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "1",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "-1",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "1"
+      ]
+     ],
+     "fixes_P0": true,
+     "fixes_P1": false,
+     "fixes_Pinf": false
+    },
+    {
+     "matrix": [
+      [
+       "1/8",
+       "9/16",
+       "-27/32",
+       "81/64"
+      ],
+      [
+       "1/4",
+       "5/8",
+       "-3/16",
+       "-27/32"
+      ],
+      [
+       "-1/2",
+       "-1/4",
+       "-5/8",
+       "-9/16"
+      ],
+      [
+       "1/3",
+       "-1/2",
+       "-1/4",
+       "-1/8"
+      ]
+     ],
+     "fixes_P0": false,
+     "fixes_P1": false,
+     "fixes_Pinf": true
+    },
+    {
+     "matrix": [
+      [
+       "1/8",
+       "-9/16",
+       "-27/32",
+       "-81/64"
+      ],
+      [
+       "-1/4",
+       "5/8",
+       "3/16",
+       "-27/32"
+      ],
+      [
+       "-1/2",
+       "1/4",
+       "-5/8",
+       "9/16"
+      ],
+      [
+       "-1/3",
+       "-1/2",
+       "1/4",
+       "-1/8"
+      ]
+     ],
+     "fixes_P0": false,
+     "fixes_P1": true,
+     "fixes_Pinf": false
+    }
+   ]
+  },
+  "eigenvalue_multiplicities_exact": {
+   "char_poly_of_A": "(t - 1)**2*(t**2 + t + 1)",
+   "is_(t-1)^2(t^2+t+1)": true,
+   "dim_ker(A-I)": 2,
+   "dim_ker(A^2+A+I)": 2,
+   "multiplicities_(triv,chi,chi2)": [
+    2,
+    1,
+    1
+   ],
+   "matches_Chevalley_Weil_(2,1,1)": true,
+   "trace_A": "1",
+   "trace_iota": "0",
+   "S3_character_of_H0(K)": [
+    4,
+    1,
+    0
+   ],
+   "S3_decomposition_(triv,sign,std)": [
+    1,
+    1,
+    1
+   ],
+   "H0(K) = triv + sign + std": true
+  },
+  "VERDICT": "PASS"
+ },
+ "part_G6d_quotient_genera": {
+  "method_1_fixed_points_and_Riemann_Hurwitz": {
+   "Fix(A) in P^3": "the line P(ker(A-I)) plus the two conjugate eigenpoints of the omega-eigenspace",
+   "X_meets_the_A_fixed_line": {
+    "kind": "line",
+    "Q_on_line": "3*(4*s**2 - 21*u**2)",
+    "C_on_line": "18*u*(4*s**2 + 11*u**2)",
+    "gcd": "3",
+    "n_common_points": 0
+   },
+   "omega_eigenpoint_on_X": false,
+   "Q_at_omega_eigenpoint": "0",
+   "C_at_omega_eigenpoint": "-288",
+   "F3_geometric": 0,
+   "C3_action_is_free_hence_the_cover_is_UNRAMIFIED": true,
+   "F_tau_per_involution": [
+    2,
+    2,
+    2
+   ],
+   "total_involution_fixed_points": 6,
+   "genus_X_mod_C3_by_RH": "2",
+   "genus_X_mod_C2_by_RH": "2",
+   "genus_X_mod_S3_by_RH": "1",
+   "fixed_locus_detail": [
+    {
+     "involution": [
+      [
+       "-1",
+       "0",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "1",
+       "0",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "-1",
+       "0"
+      ],
+      [
+       "0",
+       "0",
+       "0",
+       "1"
+      ]
+     ],
+     "dim_plus": 2,
+     "dim_minus": 2,
+     "plus_line": {
+      "tag": "+1 eigenline",
+      "Q_on_line": "-8*s**2 + 6*s*u - 9*u**2",
+      "C_on_line": "-32*s**3 - 48*s**2*u - 54*s*u**2 - 45*u**3",
+      "gcd_of_the_two_restrictions": "1",
+      "n_intersection_points_with_multiplicity": 0,
+      "gcd_squarefree": true
+     },
+     "minus_line": {
+      "tag": "-1 eigenline",
+      "Q_on_line": "2*u*(4*s + 3*u)",
+      "C_on_line": "0",
+      "gcd_of_the_two_restrictions": "2*u*(4*s + 3*u)",
+      "n_intersection_points_with_multiplicity": 2,
+      "gcd_squarefree": true
+     },
+     "F_tau": 2
+    },
+    {
+     "involution": [
+      [
+       "1/8",
+       "9/16",
+       "-27/32",
+       "81/64"
+      ],
+      [
+       "1/4",
+       "5/8",
+       "-3/16",
+       "-27/32"
+      ],
+      [
+       "-1/2",
+       "-1/4",
+       "-5/8",
+       "-9/16"
+      ],
+      [
+       "1/3",
+       "-1/2",
+       "-1/4",
+       "-1/8"
+      ]
+     ],
+     "dim_plus": 2,
+     "dim_minus": 2,
+     "plus_line": {
+      "tag": "+1 eigenline",
+      "Q_on_line": "-44*s**2 - 84*s*u - 63*u**2",
+      "C_on_line": "2*(128*s**3 + 444*s**2*u + 324*s*u**2 + 99*u**3)",
+      "gcd_of_the_two_restrictions": "1",
+      "n_intersection_points_with_multiplicity": 0,
+      "gcd_squarefree": true
+     },
+     "minus_line": {
+      "tag": "-1 eigenline",
+      "Q_on_line": "3*(2*s - 3*u)*(2*s + u)",
+      "C_on_line": "18*u*(2*s - 3*u)*(2*s + u)",
+      "gcd_of_the_two_restrictions": "3*(2*s - 3*u)*(2*s + u)",
+      "n_intersection_points_with_multiplicity": 2,
+      "gcd_squarefree": true
+     },
+     "F_tau": 2
+    },
+    {
+     "involution": [
+      [
+       "1/8",
+       "-9/16",
+       "-27/32",
+       "-81/64"
+      ],
+      [
+       "-1/4",
+       "5/8",
+       "3/16",
+       "-27/32"
+      ],
+      [
+       "-1/2",
+       "1/4",
+       "-5/8",
+       "9/16"
+      ],
+      [
+       "-1/3",
+       "-1/2",
+       "1/4",
+       "-1/8"
+      ]
+     ],
+     "dim_plus": 2,
+     "dim_minus": 2,
+     "plus_line": {
+      "tag": "+1 eigenline",
+      "Q_on_line": "-44*s**2 + 84*s*u - 63*u**2",
+      "C_on_line": "-2*(128*s**3 - 444*s**2*u + 324*s*u**2 - 99*u**3)",
+      "gcd_of_the_two_restrictions": "1",
+      "n_intersection_points_with_multiplicity": 0,
+      "gcd_squarefree": true
+     },
+     "minus_line": {
+      "tag": "-1 eigenline",
+      "Q_on_line": "3*(2*s - u)*(2*s + 3*u)",
+      "C_on_line": "18*u*(2*s - u)*(2*s + 3*u)",
+      "gcd_of_the_two_restrictions": "3*(2*s - u)*(2*s + 3*u)",
+      "n_intersection_points_with_multiplicity": 2,
+      "gcd_squarefree": true
+     },
+     "F_tau": 2
+    }
+   ]
+  },
+  "method_2_invariant_differentials": {
+   "principle": "H^0(Omega_{X/G}) = H^0(Omega_X)^G",
+   "dim_H0K_fixed_by_C3": 2,
+   "dim_H0K_fixed_by_C2": 2,
+   "dim_H0K_fixed_by_S3": 1
+  },
+  "method_3_explicit_models": {
+   "genus_of_X_mod_C2_from_the_sextic": "2 (degree 6, squarefree: True)",
+   "genus_of_X_mod_C3_from_the_sextic": "2 (degree 6, squarefree: True)",
+   "genus_of_X_mod_S3_from_the_quartic": "1 (degree 4, squarefree: True)"
+  },
+  "group_side_comparison": {
+   "F3_group": 0,
+   "F3_geometric": 0,
+   "Ftau_group": 2,
+   "Ftau_geometric": 2,
+   "agree": true
+  },
+  "PREDICTION_vs_MEASUREMENT": {
+   "predicted_in_spec_sec_3_5_and_5": {
+    "g(X/C_3)": 2,
+    "unramified": true,
+    "g(X/C_2)": 2,
+    "g(X/S_3)": 1
+   },
+   "measured": {
+    "g(X/C_3)": 2,
+    "unramified": true,
+    "g(X/C_2)": 2,
+    "g(X/S_3)": 1
+   },
+   "match": true
+  },
+  "VERDICT": "PASS"
+ },
+ "part_G6e_basis_free_invariants": {
+  "quotient_models_over_Q": {
+   "X_mod_C2": {
+    "model": "y^2 = f6(v),  v = X_2/X_4",
+    "f6": "(32*v**3 + 90*v - 9)*(32*v**3 + 192*v**2 - 54*v + 207)/1024",
+    "f6_expanded": "v**6 + 6*v**5 + 9*v**4/8 + 369*v**3/16 - 1647*v**2/256 + 4779*v/256 - 1863/1024",
+    "degree": 6,
+    "squarefree": true,
+    "proved_by_ideal_membership": true,
+    "proof": "(2*alpha*b^2+beta)^2 - disc(v) reduces to 0 modulo <Q_aff, C_aff>"
+   },
+   "X_mod_C3": {
+    "model": "X/C_3 :  V^2 = h(s) with h(s) = Psi_num(s^2)*Psi_den (even in s)",
+    "h": "27*(432*s**6 - 1080*s**4 + 675*s**2 - 128)",
+    "degree_in_s": 6,
+    "proved_by_ideal_membership": true,
+    "s": "s = Y_2/Y_1 with Y_1 the trivial and Y_2 the sign summand of H^0(K); V = Psi_den * L(W)/Y_1^3 with L the alternating cubic on the std summand"
+   },
+   "X_mod_S3": {
+    "model": "X/S_3 :  U^2 = sigma * Psi_num(sigma) * Psi_den,  sigma = s^2, U = s*V",
+    "quartic": "27*sigma*(432*sigma**3 - 1080*sigma**2 + 675*sigma - 128)",
+    "degree": 4,
+    "note": "sigma = s^2, U = s*V; sigma = 0 is a Q-rational branch point, which is what makes the genus-1 curve a Weierstrass curve over Q by inspection"
+   },
+   "S3_adapted_normal_form": {
+    "Q": "-(4*W1**2 + 27*W2**2 + 21*Y1**2 - 36*Y2**2)/432",
+    "C_sym": "W1**2*W2/54 + W1**2*Y1/216 - W2**3/24 + W2**2*Y1/32 + 11*Y1**3/2592 + Y1*Y2**2/72",
+    "N": "4*W1**2 + 27*W2**2",
+    "K": "-4*W1**2*W2 + 9*W2**3",
+    "L": "-4*W1**3 + 81*W1*W2**2",
+    "relation_L2": {
+     "mu": "1/4",
+     "nu": "-243/4",
+     "verified": true
+    },
+    "c5_is_zero": true,
+    "why_c5_must_vanish": "a non-zero Y_2*L term would make h(s) of degree 8 and X/C_3 of genus 3, contradicting the proved genus 2.  The machine finds c5 = 0."
+   }
+  },
+  "invariant_definitions": "PILOT-2 ben6 [G6'-e]: exact basis-free invariants of the quotient curves + MU-Q'.\n\nIgusa-Clebsch invariants are computed from their CLASSICAL root-difference definitions,\nevaluated EXACTLY (no floating point) via Newton power sums + the augmented-monomial\nsymmetric-function recursion.  Definitions used (a0 = leading coefficient of the sextic,\n(ij) := alpha_i - alpha_j):\n\n  I2  = a0^2  * sum over the 15 partitions of {1..6} into 3 pairs   of (12)^2(34)^2(56)^2\n  I4  = a0^4  * sum over the 10 partitions into 2 triples           of prod of the 6 inner (ij)^2\n  I6  = a0^6  * sum over the 60 (partition into 2 triples + bijection) of those 6 and the 3 cross (ij)^2\n  I10 = a0^10 * prod_{i<j} (ij)^2          [ = discriminant of the sextic ]\n\nAbsolute (weight-0) invariants: i1 = I2^5/I10 , i2 = I2^3 I4/I10 , i3 = I2^2 I6/I10.",
+  "implementation_unit_test": {
+   "I2_ok": true,
+   "I4_ok": true,
+   "I6_ok": true,
+   "I10_ok": true,
+   "values": [
+    "3110",
+    "165952",
+    "159056000",
+    "1194393600"
+   ]
+  },
+  "X_mod_C2_IgusaClebsch_[I2,I4,I6,I10]": [
+   "137976348672",
+   "461236771305962864640",
+   "21073696775042041580087131766784",
+   "1126239740181307235267405206605698833543927431168"
+  ],
+  "X_mod_C2_absolute": {
+   "i1_I2^5/I10": "1489849100645643/33554432",
+   "i2_I2^3I4/I10": "577533118091355/536870912",
+   "i3_I2^2I6/I10": "764978167197891/2147483648"
+  },
+  "X_mod_C3_IgusaClebsch_[I2,I4,I6,I10]": [
+   "18177644160",
+   "467392012301214720",
+   "2677792159284917585437163520",
+   "2727949311443578704670596151540809990144"
+  ],
+  "X_mod_C3_absolute": {
+   "i1_I2^5/I10": "80459143207503125/110592",
+   "i2_I2^3I4/I10": "202329387918125/196608",
+   "i3_I2^2I6/I10": "765240938642375/2359296"
+  },
+  "X_mod_S3_quartic_invariants_I_J": [
+   "29819745",
+   "661570706142"
+  ],
+  "j_Jac_X_mod_S3": "-1159088625/2097152",
+  "j_factorisation": {
+   "value": "-1159088625/2097152",
+   "numerator_factorisation": "{3: 2, 5: 3, 101: 3, -1: 1}",
+   "denominator_factorisation": "{2: 21}"
+  },
+  "j_computed_by_two_independent_routes": {
+   "route_1": "the classical quartic invariants I, J with j = 6912 I^3/(4I^3 - J^2)",
+   "route_2": "sigma -> 1/x turns the quartic (which has the rational root sigma=0) into a cubic u^2 = D x^3 + C x^2 + B x + A, then the standard Weierstrass j = c4^3/Delta",
+   "agree": true
+  },
+  "ALL_INVARIANTS_LIE_IN_Q": true,
+  "MU_Q_prime": {
+   "what": "the whole pipeline (S_3-adapted basis, three quotient models, all invariants) re-run after two random GL_4(Q) changes of the basis of H^0(K)",
+   "matrices": [
+    "[[1,2,0,-1],[0,1,3,1],[2,0,1,0],[-1,1,1,2]]",
+    "[[0,1,1,0],[3,-1,0,2],[1,1,-2,1],[0,0,1,5]]"
+   ],
+   "sextic_coefficients_changed": true,
+   "C2_absolute_invariants_unchanged": true,
+   "C3_absolute_invariants_unchanged": true,
+   "j_unchanged": true,
+   "transformed_C2_sextics": [
+    "2401490025*(60277*vv**3 + 21876*vv**2 - 29184*vv - 16384)*(475549*vv**3 + 785364*vv**2 + 503040*vv + 118784)",
+    "-3243773898304*(18032*vv**3 - 122940*vv**2 - 56160*vv - 119907)*(214288*vv**3 + 52956*vv**2 + 400896*vv + 235899)"
+   ]
+  },
+  "REFUTER_READING": "spec sec.4.4 L7'-d(d5) item 5 makes the basis-free invariants THE refuter of P-FIELD = Q.  Every one of them is rational, so the refuter is silent; combined with ben5's positive recognition (a sufficient condition), P-FIELD = Q stands.",
+  "VERDICT": "PASS"
+ },
+ "part_CONN1": {
+  "question": "is Gal(f_t0/Q) = PGammaL(2,8) (order 1512)?",
+  "why_it_matters": "f_t0 is built from the ben5 EQUATIONS alone (Q, C, B, k) by Groebner elimination; its Galois group is therefore an arithmetic fingerprint of (X,phi) that does not pass through the ben1-ben4 hyperbolic/series chain.",
+  "group_theory": {
+   "PSL(2,8)_cycle_types_on_9_points": {
+    "[1, 1, 1, 1, 1, 1, 1, 1, 1]": 1,
+    "[2, 2, 2, 2, 1]": 63,
+    "[3, 3, 3]": 56,
+    "[7, 1, 1]": 216,
+    "[9]": 168
+   },
+   "PGammaL_minus_PSL_cycle_types": {
+    "[3, 3, 1, 1, 1]": 168,
+    "[6, 2, 1]": 504,
+    "[9]": 336
+   },
+   "types_only_in_PSL": [
+    [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    [
+     2,
+     2,
+     2,
+     2,
+     1
+    ],
+    [
+     3,
+     3,
+     3
+    ],
+    [
+     7,
+     1,
+     1
+    ]
+   ],
+   "types_only_outside_PSL": [
+    [
+     3,
+     3,
+     1,
+     1,
+     1
+    ],
+    [
+     6,
+     2,
+     1
+    ]
+   ],
+   "ambiguous_types": [
+    [
+     9
+    ]
+   ],
+   "element_orders_PSL": [
+    1,
+    2,
+    3,
+    7,
+    9
+   ],
+   "element_orders_PGammaL": [
+    1,
+    2,
+    3,
+    6,
+    7,
+    9
+   ],
+   "PGammaL_inside_A9": true,
+   "GAP_identification": "PSL(2,8) order 504   PGammaL(2,8) order 1512\n--- degree-9 transitive groups with 7 dividing the order ---\n  9T27 order 504  isoPSL28=true  isoPGammaL28=false\n  9T32 order 1512  isoPSL28=false  isoPGammaL28=true\n  9T33 order 181440  isoPSL28=false  isoPGammaL28=false\n  9T34 order 362880  isoPSL28=false  isoPGammaL28=false\ntarget G  order 504  9T id 27\nN_S9(G)   order 1512  9T id 32\nN is PGammaL(2,8): true\nN inside A9: true\ncycle types in G: [ [  ], [ ,,,,,,, 1 ], [ ,,,,, 1 ], [ , 3 ], [ 4 ] ]\nDONE\n",
+   "GAP_subgroup_enumeration": "N order 1512  G order 504\nunique normal 504 inside N: true  n normal subgroups: 3\nn conjugacy classes of subgroups of N: 25\n--- transitive (on 9 points) subgroups H of N with H not contained in S ---\n  order 9  7 divides order: false  index in N: 168  class size 56\n  order 27  7 divides order: false  index in N: 56  class size 28\n  order 54  7 divides order: false  index in N: 28  class size 28\n  order 1512  7 divides order: true  index in N: 1  class size 1\n--- same, restricted to 7 | |H| ---\n  order 1512  equals N: true\nDONE\n",
+   "KEY_LEMMA": "the ONLY transitive (degree 9) subgroup of PGammaL(2,8) that is not contained in PSL(2,8) and whose order is divisible by 7 is PGammaL(2,8) itself (GAP, exhaustive over the 25 conjugacy classes of subgroups)."
+  },
+  "fibre_polynomial_construction": {
+   "chart": "X_4 = 1 ; (a,v,b) = (X1,X2,X3)/X4  -- the hyperplane X_4=0 meets X only in {P_0,R}",
+   "Q_aff": "8*a*b + 6*b**2 - 8*v**2 + 6*v - 9",
+   "C_aff": "32*a**2 + 54*b**2 - 32*v**3 - 48*v**2 - 54*v - 45",
+   "B_aff": "256*a**3 + 1152*a*v**2 + 432*a*v + 540*a + 108*b**3 + 432*b*v**2 - 648*b*v + 1539*b - 1728",
+   "k": "-3456",
+   "fibre_ideal": "< Q_aff , C_aff , k - t0*B_aff >  (= phi^{-1}(t0) in this chart)"
+  },
+  "fibre_polynomials": {
+   "3": {
+    "t0": "3",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": true,
+    "degree": 9,
+    "coeffs_desc": [
+     262144,
+     -44236800,
+     -79626240,
+     -338411520,
+     -323979264,
+     -661768704,
+     -279749376,
+     -427882176,
+     -68628060,
+     -77635179
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 304, 3: 50, 5: 2, 37: 2, 263: 2, 503: 2}",
+    "seconds": 0.12
+   },
+   "5": {
+    "t0": "5",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": true,
+    "degree": 9,
+    "coeffs_desc": [
+     6553600,
+     -280166400,
+     -339148800,
+     -2060697600,
+     -1596672000,
+     -3828902400,
+     -1477958400,
+     -2401617600,
+     -376674300,
+     -299568699
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 312, 3: 54, 5: 16, 19: 2, 503: 2, 743: 2}",
+    "seconds": 0.09
+   },
+   "7": {
+    "t0": "7",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": true,
+    "degree": 9,
+    "coeffs_desc": [
+     321126400,
+     -8410300416,
+     -5982584832,
+     -59760820224,
+     -36358834176,
+     -105729587712,
+     -36898364160,
+     -64256649408,
+     -9833705532,
+     -5827902291
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 304, 3: 74, 5: 10, 7: 16, 47: 2, 541: 2, 1373147: 2}",
+    "seconds": 0.1
+   },
+   "1/5": {
+    "t0": "1/5",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": true,
+    "degree": 9,
+    "coeffs_desc": [
+     262144,
+     3473408,
+     15794176,
+     31342592,
+     51738624,
+     72893952,
+     38939904,
+     51409728,
+     8737956,
+     -944641683
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 312, 3: 30, 5: 8, 743: 2, 1997: 2}",
+    "seconds": 0.1
+   },
+   "-2": {
+    "t0": "-2",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": true,
+    "degree": 9,
+    "coeffs_desc": [
+     1048576,
+     8847360,
+     53084160,
+     86261760,
+     167215104,
+     213871104,
+     122052096,
+     154944576,
+     26768880,
+     -110318841
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 264, 3: 74, 5: 2, 263: 2, 1601: 2}",
+    "seconds": 0.09
+   },
+   "2": {
+    "t0": "2",
+    "n_gens": 3,
+    "gen_var_sets": [
+     [
+      "a",
+      "b",
+      "v"
+     ],
+     [
+      "b",
+      "v"
+     ],
+     [
+      "v"
+     ]
+    ],
+    "shape_position": false,
+    "degree": 4,
+    "coeffs_desc": [
+     256,
+     256,
+     864,
+     144,
+     369
+    ],
+    "irreducible_over_Q": true,
+    "squarefree": true,
+    "disc_is_square": true,
+    "disc_factorisation": "{2: 48, 3: 6}",
+    "seconds": 0.02
+   }
+  },
+  "reduced_monic_models": {
+   "3": {
+    "t0": "3",
+    "coord": "b",
+    "scaling_c": "2",
+    "monic_coeffs_desc": [
+     1,
+     -2997,
+     2052,
+     15228,
+     67230,
+     -373734,
+     398196,
+     -411156,
+     478953,
+     -648909
+    ],
+    "primitive_coeffs_desc": [
+     512,
+     -767232,
+     262656,
+     974592,
+     2151360,
+     -5979744,
+     3185568,
+     -1644624,
+     957906,
+     -648909
+    ],
+    "irreducible_over_Q": true,
+    "factor_degrees": [
+     "9"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 88,
+     "3": 34,
+     "5": 2,
+     "2473": 2,
+     "9833": 2,
+     "1026536100911": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     2473,
+     9833,
+     1026536100911
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     2473
+    ]
+   },
+   "4": {
+    "t0": "4",
+    "coord": "b",
+    "scaling_c": "2",
+    "monic_coeffs_desc": [
+     1,
+     -783,
+     972,
+     972,
+     31590,
+     -131706,
+     187596,
+     -201204,
+     216513,
+     -183951
+    ],
+    "primitive_coeffs_desc": [
+     512,
+     -200448,
+     124416,
+     62208,
+     1010880,
+     -2107296,
+     1500768,
+     -804816,
+     433026,
+     -183951
+    ],
+    "irreducible_over_Q": true,
+    "factor_degrees": [
+     "9"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 60,
+     "3": 58,
+     "5": 6,
+     "61": 2,
+     "1093": 2,
+     "5411863": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     61,
+     1093,
+     5411863
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     61,
+     1093,
+     5411863
+    ]
+   },
+   "5": {
+    "t0": "5",
+    "coord": "b",
+    "scaling_c": "11529215046068469760",
+    "monic_coeffs_desc": [
+     1,
+     -2334666046828865126400,
+     23527335525393010950397384966962098995200,
+     -203055659164730273732480981097415966829482933689327288320000,
+     25263704467499922932629175138747806128188235370450256577441316670732847022080000,
+     -546371243277465439951314666988052898634523538213585338725312296150270459245897467161628114944000000,
+     4994909721825673181990695951759021856535443841050076055018650279391846307226563170164138326002205887217107206144000000,
+     -32327223408168253085386143159541782498104577168192465897945609246027101765354591958081732844607132745730844486932502277138048614400000000,
+     185794035497927692330285756065826801371157094380694402154707817783391118554030589705917952409709648522610309004917435340223964461903141577168624025600000000,
+     -724596461659688004164334960341187890058884314654056162276155536510979001942193796233544167604107068918459121216919448343823649333481054249880364270191137310871702732800000000
+    ],
+    "primitive_coeffs_desc": [
+     2560,
+     -518400,
+     453120,
+     -339200,
+     3660480,
+     -6866400,
+     5444640,
+     -3056400,
+     1523610,
+     -515393
+    ],
+    "irreducible_over_Q": true,
+    "factor_degrees": [
+     "9"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 4416,
+     "3": 16,
+     "5": 64,
+     "13": 2,
+     "43": 2,
+     "383": 2,
+     "14692096248421": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     13,
+     43,
+     383,
+     14692096248421
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     13,
+     43,
+     14692096248421
+    ]
+   },
+   "7": {
+    "t0": "7",
+    "coord": "b",
+    "scaling_c": "70000000000000000000000000000000000000000000000000000000000000",
+    "monic_coeffs_desc": [
+     1,
+     -7038360000000000000000000000000000000000000000000000000000000000,
+     650916000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     -83237868000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     25583975550000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     -3080433179250000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     186898672012500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     -7722167119537500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     246439568024015625000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000,
+     -4629207172937484375000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+    ],
+    "primitive_coeffs_desc": [
+     448000,
+     -45045504,
+     59512320,
+     -108718848,
+     477368640,
+     -821106720,
+     711698400,
+     -420078960,
+     191515590,
+     -51392799
+    ],
+    "irreducible_over_Q": true,
+    "factor_degrees": [
+     "9"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 4408,
+     "3": 58,
+     "5": 4344,
+     "7": 64,
+     "2592406253": 2,
+     "519349695983791": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     7,
+     2592406253,
+     519349695983791
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     7,
+     519349695983791
+    ]
+   },
+   "1/5": {
+    "t0": "1/5",
+    "coord": "b",
+    "scaling_c": "6917529027641081856",
+    "monic_coeffs_desc": [
+     1,
+     -35740566642812256256,
+     1323911083801776209412191832039223197696,
+     14595487531206725487004897086579544664784871399676627124224,
+     453100862374157547784318310875518481709894935418164979334453423896687171076096,
+     1045989455344089922493639102758577954405674299589946941594149214777183836090276711911287985012736,
+     33618550991247955172608786087946902542901149944635187587300898461897706728102679067576978085034539006243869812588544,
+     47065732304730059798919178702236234789291306348452390073230491330671481648201502863625775546717030165051180575102873274333060164222976,
+     147653240248234829241952399792467398427707326352705329071152969806443779220260240422089648018916706061418312985086139679957999320224921461199954010701824,
+     2137133923823473140427467082058040224539574285639572968811274055840862154441914131542670690037916198841558496436234177538398986788685245822785724713775469956219465331900416
+    ],
+    "primitive_coeffs_desc": [
+     13824,
+     -71424,
+     382464,
+     609536,
+     2735424,
+     912864,
+     4241376,
+     858384,
+     389286,
+     814529
+    ],
+    "irreducible_over_Q": true,
+    "factor_degrees": [
+     "9"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 4416,
+     "3": 38,
+     "5": 8,
+     "31": 2,
+     "15384767": 2,
+     "13691579617": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     31,
+     15384767,
+     13691579617
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     31,
+     13691579617
+    ]
+   },
+   "-1": {
+    "t0": "-1",
+    "coord": "b",
+    "scaling_c": "2",
+    "monic_coeffs_desc": [
+     1,
+     27,
+     132,
+     -1028,
+     3870,
+     -6726,
+     23796,
+     -24084,
+     12393,
+     -8381
+    ],
+    "primitive_coeffs_desc": [
+     512,
+     6912,
+     16896,
+     -65792,
+     123840,
+     -107616,
+     190368,
+     -96336,
+     24786,
+     -8381
+    ],
+    "irreducible_over_Q": false,
+    "factor_degrees": [
+     "8",
+     "1"
+    ],
+    "disc_is_perfect_square": true,
+    "disc_factorisation": {
+     "2": 88,
+     "3": 14,
+     "5": 2,
+     "17": 2,
+     "31": 2,
+     "233": 2,
+     "307": 2,
+     "829": 2
+    },
+    "disc_primes": [
+     2,
+     3,
+     5,
+     17,
+     31,
+     233,
+     307,
+     829
+    ],
+    "disc_primes_congruent_1_mod_3": [
+     31,
+     307,
+     829
+    ]
+   },
+   "2": {
+    "t0": "2",
+    "coord": "b",
+    "degree_9_shape_position": false
+   }
+  },
+  "coordinate_crosscheck_b_vs_v": {
+   "reason": "b = X_3/X_4 and v = X_2/X_4 are two different primitive elements of the SAME degree-9 field Q(fibre point); their Frobenius factorisation patterns must coincide at every prime of good reduction for both.",
+   "per_t0": {
+    "3": {
+     "primes_compared": 776,
+     "agree": 776,
+     "disagree": 0,
+     "examples": []
+    },
+    "5": {
+     "primes_compared": 774,
+     "agree": 774,
+     "disagree": 0,
+     "examples": []
+    },
+    "7": {
+     "primes_compared": 777,
+     "agree": 777,
+     "disagree": 0,
+     "examples": []
+    },
+    "1/5": {
+     "primes_compared": 777,
+     "agree": 777,
+     "disagree": 0,
+     "examples": []
+    }
+   }
+  },
+  "orbit_consistency": {
+   "reason": "-2 = 1/(1-3) lies in the S_3-orbit of 3, and the S_3-action on X is Q-rational (lemma RAT), so the two fibre polynomials must generate the SAME splitting field",
+   "primes_compared": 543,
+   "agree": 543,
+   "disagree": 0,
+   "examples": []
+  },
+  "frobenius_census": {
+   "3": {
+    "prime_bound": 20000,
+    "good_primes": 2256,
+    "observed_patterns": {
+     "[2, 2, 2, 2, 1]": 101,
+     "[3, 3, 1, 1, 1]": 251,
+     "[3, 3, 3]": 84,
+     "[6, 2, 1]": 742,
+     "[7, 1, 1]": 326,
+     "[9]": 752
+    },
+    "all_observed_lie_in_PGammaL": true,
+    "n_alien": 0,
+    "alien_primes": [],
+    "n_psl_only": 511,
+    "n_outside_only": 993,
+    "n_ambiguous": 752,
+    "patterns_outside_PSL_observed": [
+     [
+      3,
+      3,
+      1,
+      1,
+      1
+     ],
+     [
+      6,
+      2,
+      1
+     ]
+    ],
+    "patterns_in_PSL_not_observed": [
+     [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ]
+    ],
+    "example_primes_outside_only": [
+     13,
+     29,
+     31,
+     43,
+     47,
+     59,
+     67,
+     79,
+     103,
+     131,
+     137,
+     139,
+     149,
+     151,
+     173
+    ],
+    "example_primes_psl_only": [
+     17,
+     53,
+     73,
+     109,
+     127,
+     163,
+     181,
+     197,
+     199,
+     251,
+     307,
+     379,
+     397,
+     449,
+     467
+    ],
+    "CONN2_unambiguous_primes": 1504,
+    "CONN2_consistent": 1504,
+    "CONN2_violations": 0,
+    "CONN2_violation_examples": [],
+    "CONN2_rule": "Frob_p in PSL(2,8)  <=>  p = +-1 mod 9  (i.e. p splits completely in Q(zeta_9)^+)",
+    "CONN2_rival_conductors_match_rate": {
+     "7": "854/1504",
+     "9": "1504/1504",
+     "13": "814/1503",
+     "19": "825/1504",
+     "31": "852/1503",
+     "37": "831/1504",
+     "43": "839/1503",
+     "61": "807/1504",
+     "63": "1178/1504",
+     "67": "834/1503",
+     "73": "823/1503",
+     "79": "847/1503",
+     "91": "0/0",
+     "97": "826/1504",
+     "103": "831/1503",
+     "109": "842/1503",
+     "117": "0/0",
+     "127": "829/1503"
+    }
+   },
+   "5": {
+    "prime_bound": 20000,
+    "good_primes": 2256,
+    "observed_patterns": {
+     "[1, 1, 1, 1, 1, 1, 1, 1, 1]": 1,
+     "[2, 2, 2, 2, 1]": 81,
+     "[3, 3, 1, 1, 1]": 228,
+     "[3, 3, 3]": 85,
+     "[6, 2, 1]": 780,
+     "[7, 1, 1]": 319,
+     "[9]": 762
+    },
+    "all_observed_lie_in_PGammaL": true,
+    "n_alien": 0,
+    "alien_primes": [],
+    "n_psl_only": 486,
+    "n_outside_only": 1008,
+    "n_ambiguous": 762,
+    "patterns_outside_PSL_observed": [
+     [
+      3,
+      3,
+      1,
+      1,
+      1
+     ],
+     [
+      6,
+      2,
+      1
+     ]
+    ],
+    "patterns_in_PSL_not_observed": [],
+    "example_primes_outside_only": [
+     13,
+     23,
+     29,
+     31,
+     43,
+     67,
+     79,
+     83,
+     97,
+     101,
+     103,
+     113,
+     131,
+     149,
+     157
+    ],
+    "example_primes_psl_only": [
+     37,
+     73,
+     89,
+     107,
+     109,
+     181,
+     233,
+     251,
+     271,
+     307,
+     359,
+     379,
+     397,
+     431,
+     433
+    ],
+    "CONN2_unambiguous_primes": 1494,
+    "CONN2_consistent": 1494,
+    "CONN2_violations": 0,
+    "CONN2_violation_examples": [],
+    "CONN2_rule": "Frob_p in PSL(2,8)  <=>  p = +-1 mod 9  (i.e. p splits completely in Q(zeta_9)^+)",
+    "CONN2_rival_conductors_match_rate": {
+     "7": "830/1494",
+     "9": "1494/1494",
+     "13": "835/1493",
+     "19": "805/1494",
+     "31": "861/1493",
+     "37": "847/1493",
+     "43": "839/1493",
+     "61": "832/1494",
+     "63": "1177/1494",
+     "67": "835/1493",
+     "73": "816/1493",
+     "79": "832/1493",
+     "91": "0/0",
+     "97": "842/1493",
+     "103": "826/1493",
+     "109": "828/1493",
+     "117": "0/0",
+     "127": "835/1494"
+    }
+   },
+   "7": {
+    "prime_bound": 20000,
+    "good_primes": 2256,
+    "observed_patterns": {
+     "[1, 1, 1, 1, 1, 1, 1, 1, 1]": 2,
+     "[2, 2, 2, 2, 1]": 94,
+     "[3, 3, 1, 1, 1]": 252,
+     "[3, 3, 3]": 94,
+     "[6, 2, 1]": 773,
+     "[7, 1, 1]": 301,
+     "[9]": 740
+    },
+    "all_observed_lie_in_PGammaL": true,
+    "n_alien": 0,
+    "alien_primes": [],
+    "n_psl_only": 491,
+    "n_outside_only": 1025,
+    "n_ambiguous": 740,
+    "patterns_outside_PSL_observed": [
+     [
+      3,
+      3,
+      1,
+      1,
+      1
+     ],
+     [
+      6,
+      2,
+      1
+     ]
+    ],
+    "patterns_in_PSL_not_observed": [],
+    "example_primes_outside_only": [
+     13,
+     23,
+     29,
+     31,
+     41,
+     43,
+     59,
+     97,
+     103,
+     113,
+     137,
+     139,
+     151,
+     157,
+     167
+    ],
+    "example_primes_psl_only": [
+     37,
+     53,
+     71,
+     89,
+     107,
+     109,
+     127,
+     163,
+     179,
+     181,
+     233,
+     251,
+     271,
+     359,
+     431
+    ],
+    "CONN2_unambiguous_primes": 1516,
+    "CONN2_consistent": 1516,
+    "CONN2_violations": 0,
+    "CONN2_violation_examples": [],
+    "CONN2_rule": "Frob_p in PSL(2,8)  <=>  p = +-1 mod 9  (i.e. p splits completely in Q(zeta_9)^+)",
+    "CONN2_rival_conductors_match_rate": {
+     "7": "830/1516",
+     "9": "1516/1516",
+     "13": "819/1515",
+     "19": "847/1516",
+     "31": "859/1515",
+     "37": "862/1515",
+     "43": "838/1515",
+     "61": "847/1516",
+     "63": "1195/1516",
+     "67": "846/1516",
+     "73": "821/1516",
+     "79": "840/1516",
+     "91": "0/0",
+     "97": "832/1515",
+     "103": "841/1515",
+     "109": "851/1515",
+     "117": "0/0",
+     "127": "829/1515"
+    }
+   },
+   "1/5": {
+    "prime_bound": 20000,
+    "good_primes": 2257,
+    "observed_patterns": {
+     "[1, 1, 1, 1, 1, 1, 1, 1, 1]": 1,
+     "[2, 2, 2, 2, 1]": 81,
+     "[3, 3, 1, 1, 1]": 228,
+     "[3, 3, 3]": 85,
+     "[6, 2, 1]": 780,
+     "[7, 1, 1]": 320,
+     "[9]": 762
+    },
+    "all_observed_lie_in_PGammaL": true,
+    "n_alien": 0,
+    "alien_primes": [],
+    "n_psl_only": 487,
+    "n_outside_only": 1008,
+    "n_ambiguous": 762,
+    "patterns_outside_PSL_observed": [
+     [
+      3,
+      3,
+      1,
+      1,
+      1
+     ],
+     [
+      6,
+      2,
+      1
+     ]
+    ],
+    "patterns_in_PSL_not_observed": [],
+    "example_primes_outside_only": [
+     13,
+     23,
+     29,
+     31,
+     43,
+     67,
+     79,
+     83,
+     97,
+     101,
+     103,
+     113,
+     131,
+     149,
+     157
+    ],
+    "example_primes_psl_only": [
+     19,
+     37,
+     73,
+     89,
+     107,
+     109,
+     181,
+     233,
+     251,
+     271,
+     307,
+     359,
+     379,
+     397,
+     431
+    ],
+    "CONN2_unambiguous_primes": 1495,
+    "CONN2_consistent": 1495,
+    "CONN2_violations": 0,
+    "CONN2_violation_examples": [],
+    "CONN2_rule": "Frob_p in PSL(2,8)  <=>  p = +-1 mod 9  (i.e. p splits completely in Q(zeta_9)^+)",
+    "CONN2_rival_conductors_match_rate": {
+     "7": "831/1495",
+     "9": "1495/1495",
+     "13": "834/1494",
+     "19": "805/1494",
+     "31": "861/1494",
+     "37": "846/1494",
+     "43": "839/1494",
+     "61": "832/1495",
+     "63": "1178/1495",
+     "67": "835/1494",
+     "73": "817/1494",
+     "79": "831/1494",
+     "91": "0/0",
+     "97": "844/1494",
+     "103": "826/1494",
+     "109": "829/1494",
+     "117": "0/0",
+     "127": "837/1495"
+    }
+   }
+  },
+  "modular_factorisation_implementation": {
+   "own_distinct_degree_factorisation": "scratchpad/pilot2_ben6_e_conn.py ddf_pattern (own poly arithmetic mod p, x^{p^d} by square-and-multiply, gcd)",
+   "cross_validated_against": "sympy factor_list(..., modulus=p) on 240 randomly chosen primes across the four t0, 0 mismatches"
+  },
+  "eliminant_is_really_the_fibre_polynomial": {
+   "schema": "pilot2-ben6-j-fibrecheck/v1",
+   "working_digits": 70,
+   "rows": [
+    {
+     "t0": "3",
+     "shape_position": true,
+     "n_roots": 9,
+     "n_distinct_roots": 9,
+     "max_abs_Q_aff": "2.14e-62",
+     "max_abs_C_aff": "1.28e-60",
+     "max_abs_phi_minus_t0": "4.51e-60"
+    },
+    {
+     "t0": "5",
+     "shape_position": true,
+     "n_roots": 9,
+     "n_distinct_roots": 9,
+     "max_abs_Q_aff": "3.24e-66",
+     "max_abs_C_aff": "2.59e-65",
+     "max_abs_phi_minus_t0": "1.90e-64"
+    },
+    {
+     "t0": "7",
+     "shape_position": true,
+     "n_roots": 9,
+     "n_distinct_roots": 9,
+     "max_abs_Q_aff": "4.28e-67",
+     "max_abs_C_aff": "9.73e-67",
+     "max_abs_phi_minus_t0": "5.35e-65"
+    }
+   ],
+   "reading": "for every tested t0 the 9 roots of the eliminant reconstruct to 9 DISTINCT points that lie on X (Q = C = 0) and satisfy phi = t0, to 60+ digits.  The eliminant is therefore the fibre polynomial and nothing else."
+  },
+  "GAP_GaloisType": {
+   "status": "NOT OBTAINED for our polynomials",
+   "what_happened": "two runs of GAP 4.16 GaloisType on the fibre polynomial (first on the v-model with coefficients ~1e11, then on the reduced b-model for t0=4 with coefficients ~2e5) both ended by exhausting the GAP heap.  The workshop runner gap.ps1 caps the heap at -o 2g by standing directive (8 GB machine, 2026-07-18); that cap was NOT overridden.",
+   "partial_output": "t0=4 irreducible = true",
+   "feasibility_probe": "probe x^9-x-1 irreducible = true\nprobe x^9-x-1 GaloisType = 9T34 order 362880\nprobe C9 (subfield of Q(zeta_19)) irreducible = true\nprobe C9 GaloisType = 9T1 order 9\nDONE",
+   "probe_reading": "GaloisType IS functional in degree 9 in this installation: it returns 9T34 for x^9-x-1 and descends all the way to 9T1 for the cyclic-C_9 subfield of Q(zeta_19).  The failure is specific to the Stauduhar descent for OUR polynomial inside the 2g heap, not a missing capability.",
+   "consequence": "step (6) of the argument chain below stays a Chebotarev likelihood rather than a deterministic resolvent computation.  Raising the GAP heap above the standing 2g cap is a directive-level decision and was left to the coordinator."
+  },
+  "ARGUMENT_CHAIN": [
+   "(1) f_t0 is irreducible over Q (exact factorisation) => Gal is transitive of degree 9.",
+   "(2) disc(f_t0) is a perfect square (exact) => Gal <= A_9.",
+   "(3) some prime has Frobenius of cycle type [7,1,1] => 7 divides |Gal|.",
+   "(4) the transitive subgroups of S_9 with 7 | order are exactly 9T27 = PSL(2,8), 9T32 = PGammaL(2,8), 9T33 = A_9, 9T34 = S_9 (GAP).  With (2), S_9 is out.",
+   "(5) some prime has Frobenius of cycle type [3,3,1,1,1] (and others [6,2,1]); neither occurs in PSL(2,8) => Gal is not PSL(2,8).  So Gal is PGammaL(2,8) or A_9.",
+   "(6) A_9 is excluded by the census: over 2256 good primes < 20000 for each of four independent t0 (about 9000 Frobenius samples), EVERY factorisation pattern lies in the 7-element PGammaL(2,8) cycle-type set, and the seven observed frequencies match the PGammaL class densities.  Only 2453/4320 = 0.5678 of A_9 has such a cycle type, so the probability of this under Gal = A_9 is about 10^(-2212).",
+   "(7) hence Gal(f_t0/Q) = PGammaL(2,8), order 1512."
+  ],
+  "STEP_6_IS_STATISTICAL": "steps (1)-(5) are exact; step (6) is a Chebotarev likelihood, not a proof. GAP's GaloisType is the independent deterministic determination.",
+  "OBSERVED_vs_PREDICTED_DENSITIES": {
+   "note": "expected count = 2256 * |class|/1512",
+   "table": [
+    {
+     "cycle_type": "[1, 1, 1, 1, 1, 1, 1, 1, 1]",
+     "class_size_in_PSL": 1,
+     "class_size_outside_PSL": 0,
+     "total_class_size_in_PGammaL": 1,
+     "expected_count_out_of_2256": 1.5,
+     "observed_t0_3": 0,
+     "observed_t0_5": 1,
+     "observed_t0_7": 2,
+     "observed_t0_1over5": 1
+    },
+    {
+     "cycle_type": "[2, 2, 2, 2, 1]",
+     "class_size_in_PSL": 63,
+     "class_size_outside_PSL": 0,
+     "total_class_size_in_PGammaL": 63,
+     "expected_count_out_of_2256": 94.0,
+     "observed_t0_3": 101,
+     "observed_t0_5": 81,
+     "observed_t0_7": 94,
+     "observed_t0_1over5": 81
+    },
+    {
+     "cycle_type": "[3, 3, 1, 1, 1]",
+     "class_size_in_PSL": 0,
+     "class_size_outside_PSL": 168,
+     "total_class_size_in_PGammaL": 168,
+     "expected_count_out_of_2256": 250.7,
+     "observed_t0_3": 251,
+     "observed_t0_5": 228,
+     "observed_t0_7": 252,
+     "observed_t0_1over5": 228
+    },
+    {
+     "cycle_type": "[3, 3, 3]",
+     "class_size_in_PSL": 56,
+     "class_size_outside_PSL": 0,
+     "total_class_size_in_PGammaL": 56,
+     "expected_count_out_of_2256": 83.6,
+     "observed_t0_3": 84,
+     "observed_t0_5": 85,
+     "observed_t0_7": 94,
+     "observed_t0_1over5": 85
+    },
+    {
+     "cycle_type": "[6, 2, 1]",
+     "class_size_in_PSL": 0,
+     "class_size_outside_PSL": 504,
+     "total_class_size_in_PGammaL": 504,
+     "expected_count_out_of_2256": 752.0,
+     "observed_t0_3": 742,
+     "observed_t0_5": 780,
+     "observed_t0_7": 773,
+     "observed_t0_1over5": 780
+    },
+    {
+     "cycle_type": "[7, 1, 1]",
+     "class_size_in_PSL": 216,
+     "class_size_outside_PSL": 0,
+     "total_class_size_in_PGammaL": 216,
+     "expected_count_out_of_2256": 322.3,
+     "observed_t0_3": 326,
+     "observed_t0_5": 319,
+     "observed_t0_7": 301,
+     "observed_t0_1over5": 320
+    },
+    {
+     "cycle_type": "[9]",
+     "class_size_in_PSL": 168,
+     "class_size_outside_PSL": 336,
+     "total_class_size_in_PGammaL": 504,
+     "expected_count_out_of_2256": 752.0,
+     "observed_t0_3": 752,
+     "observed_t0_5": 762,
+     "observed_t0_7": 740,
+     "observed_t0_1over5": 762
+    }
+   ]
+  },
+  "VERDICT": "PASS -- Gal(f_t0/Q) = PGammaL(2,8) = N_{S_9}(PSL(2,8)), order 1512, exactly as predicted",
+  "WHAT_IT_BUYS": {
+   "established": "Gal(f_t0/Q) = PGammaL(2,8) for four independent t0.  By the specialisation theorem Gal(f_t0/Q) is a subgroup of the ARITHMETIC monodromy group Ahat = Gal(f_t/Q(t)), so Ahat contains PGammaL(2,8).",
+   "not_established": "Ahat = PGammaL(2,8) exactly.  Hilbert irreducibility says Gal(f_t0/Q) = Ahat for a density-1 set of t0, so getting 1512 (and never more) at every tested t0 is strong evidence, not proof.",
+   "conditional_corollary": "IF Ahat = PGammaL(2,8) then the geometric monodromy G_geom is a transitive normal subgroup of PGammaL(2,8); GAP says the only normal subgroups are 1, PSL(2,8) and PGammaL(2,8), and CONN-2's non-trivial constant field rules out G_geom = Ahat.  Hence G_geom = PSL(2,8), which is exactly what the ben1-frozen passport asserts.",
+   "what_it_is_NOT": "this does not discriminate the dessin among the six passport members -- member discrimination is [G1'-f] on the group side.  What it is, is an arithmetic fingerprint of the EQUATIONS: the number 1512 = |N_{S_9}(PSL(2,8))| falls out of a Groebner elimination on (Q, C, B, k) and 2256 prime factorisations, with no reference to the ben1-ben4 hyperbolic/series chain."
+  }
+ },
+ "part_CONN2": {
+  "question": "is the constant field of the Galois closure equal to Q(zeta_9)^+ = 3.3.81.1?",
+  "ramification_argument": {
+   "step0": "'constant field' here means the fixed field of the geometric monodromy inside L.  What the argument below actually pins is the unique cubic subfield of L that is Galois over Q; that subfield IS the constant field provided G_geom = PSL(2,8) (see CONN-1's conditional corollary).",
+   "step1": "given CONN-1, Gal(L/Q) = PGammaL(2,8) has the unique normal subgroup PSL(2,8) of index 3 (GAP: exactly 3 normal subgroups, one of order 504).  Its fixed field k_L is a CYCLIC CUBIC field.",
+   "step2": "L is the Galois closure of K = Q[x]/(f_t0), so a prime ramifies in L iff it ramifies in K, and every such prime divides disc(g) for EVERY monic integral g defining K.",
+   "step3": "three different affine coordinates a = X_1/X_4, b = X_3/X_4, v = X_2/X_4 are each primitive elements of K (the eliminant is in shape position in each of the three variable orders, degree 9, irreducible).  Intersecting their discriminant prime sets:",
+   "per_t0_intersections": {
+    "t0=3": [
+     2,
+     3,
+     5
+    ],
+    "t0=4": [
+     2,
+     3,
+     5
+    ],
+    "t0=5": [
+     2,
+     3,
+     5
+    ],
+    "t0=1/5": [
+     2,
+     3,
+     5
+    ],
+    "t0=1/3": [
+     2,
+     3,
+     5
+    ],
+    "t0=6": [
+     2,
+     3,
+     5
+    ],
+    "t0=7": [
+     2,
+     3,
+     5,
+     7
+    ],
+    "t0=11": [
+     2,
+     3,
+     5,
+     11
+    ]
+   },
+   "step4": "hence the primes ramifying in k_L lie in {2,3,5} (from t0 = 3, say).",
+   "step5": "the conductor of a cyclic cubic field is 9^e * (product of distinct primes = 1 mod 3).  Neither 2 nor 5 is = 1 mod 3, so the conductor is 9^e; k_L != Q forces e = 1.",
+   "conclusion": "the conductor is 9 => k_L = Q(zeta_9)^+ = Q[x]/(x^3-3x+1), discriminant 81, LMFDB label 3.3.81.1.",
+   "status": "EXACT, conditional on CONN-1 (which supplies the C_3 quotient)."
+  },
+  "independent_frobenius_confirmation": {
+   "rule_tested": "Frob_p in PSL(2,8)  <=>  p = +-1 mod 9  (i.e. p splits completely in Q(zeta_9)^+)",
+   "per_t0": {
+    "3": {
+     "unambiguous_primes": 1504,
+     "consistent": 1504,
+     "violations": 0
+    },
+    "5": {
+     "unambiguous_primes": 1494,
+     "consistent": 1494,
+     "violations": 0
+    },
+    "7": {
+     "unambiguous_primes": 1516,
+     "consistent": 1516,
+     "violations": 0
+    },
+    "1/5": {
+     "unambiguous_primes": 1495,
+     "consistent": 1495,
+     "violations": 0
+    }
+   },
+   "total_unambiguous_prime_tests": 6009,
+   "total_violations": 0,
+   "ambiguity_note": "the cycle type [9] occurs both inside and outside PSL(2,8), so those primes are excluded from the test; all other types are unambiguous.",
+   "rival_conductors": {
+    "3": {
+     "7": "854/1504",
+     "9": "1504/1504",
+     "13": "814/1503",
+     "19": "825/1504",
+     "31": "852/1503",
+     "37": "831/1504",
+     "43": "839/1503",
+     "61": "807/1504",
+     "63": "1178/1504",
+     "67": "834/1503",
+     "73": "823/1503",
+     "79": "847/1503",
+     "91": "0/0",
+     "97": "826/1504",
+     "103": "831/1503",
+     "109": "842/1503",
+     "117": "0/0",
+     "127": "829/1503"
+    },
+    "5": {
+     "7": "830/1494",
+     "9": "1494/1494",
+     "13": "835/1493",
+     "19": "805/1494",
+     "31": "861/1493",
+     "37": "847/1493",
+     "43": "839/1493",
+     "61": "832/1494",
+     "63": "1177/1494",
+     "67": "835/1493",
+     "73": "816/1493",
+     "79": "832/1493",
+     "91": "0/0",
+     "97": "842/1493",
+     "103": "826/1493",
+     "109": "828/1493",
+     "117": "0/0",
+     "127": "835/1494"
+    },
+    "7": {
+     "7": "830/1516",
+     "9": "1516/1516",
+     "13": "819/1515",
+     "19": "847/1516",
+     "31": "859/1515",
+     "37": "862/1515",
+     "43": "838/1515",
+     "61": "847/1516",
+     "63": "1195/1516",
+     "67": "846/1516",
+     "73": "821/1516",
+     "79": "840/1516",
+     "91": "0/0",
+     "97": "832/1515",
+     "103": "841/1515",
+     "109": "851/1515",
+     "117": "0/0",
+     "127": "829/1515"
+    },
+    "1/5": {
+     "7": "831/1495",
+     "9": "1495/1495",
+     "13": "834/1494",
+     "19": "805/1494",
+     "31": "861/1494",
+     "37": "846/1494",
+     "43": "839/1494",
+     "61": "832/1495",
+     "63": "1178/1495",
+     "67": "835/1494",
+     "73": "817/1494",
+     "79": "831/1494",
+     "91": "0/0",
+     "97": "844/1494",
+     "103": "826/1494",
+     "109": "829/1494",
+     "117": "0/0",
+     "127": "837/1495"
+    }
+   },
+   "rival_reading": "every rival cyclic-cubic conductor matches at about 5/9 = 0.5556, exactly the chance rate for two independent cubic characters; conductor 9 matches 100%."
+  },
+  "VERDICT": "PASS -- constant field = Q(zeta_9)^+ = 3.3.81.1",
+  "WHAT_IT_BUYS": "spec sec.3.3 predicted TWO different fields: Q for the mere cover (the field of definition, P-FIELD) and Q(zeta_9)^+ for the G-cover (the field of moduli of the Galois closure).  Both now stand, and they stand SIMULTANEOUSLY on the same explicit object: the model is Q-rational while the arithmetic monodromy is three times the geometric one, the constant field being exactly Q(zeta_9)^+."
+ },
+ "part_destruction_controls": {
+  "MU_P_doubleprime": {
+   "design": "spec sec.4.6: put passport member #4 (spares #5/#6) through the [G6'-c] order-3 gate.",
+   "expected_before_running": "the equation x^g=y, y^g=z, z^g=x has NO solution in S_9",
+   "member_4": {
+    "order3_solution_count": 0,
+    "n_involutions": 1
+   },
+   "member_5": {
+    "order3_solution_count": 0,
+    "n_involutions": 1
+   },
+   "member_6": {
+    "order3_solution_count": 0,
+    "n_involutions": 1
+   },
+   "member_4_scanned_exhaustively": true,
+   "RESULT": "as pre-registered: no order-3 solution for #4/#5/#6, so no order-3 A in PGL_4 either; each has exactly one involution.  The gate discriminates."
+  },
+  "MU_P_tripleprime": {
+   "design": "spec sec.4.6 (v1.1, new): put member #1 through the same gate.",
+   "expected_before_running": "the order-3 solution EXISTS but (a) g is not in G, (b) F_3 = 6 so the C_3 action is not free and g(X/C_3) = 0, (c) there is no involution at all, so no full S_3",
+   "member_1": {
+    "order3_solution_count": 1,
+    "g_cycle_type": [
+     1,
+     1,
+     1,
+     3,
+     3
+    ],
+    "g_in_G": false,
+    "F3": 6,
+    "genus_X_mod_C3": 0.0,
+    "n_involutions": 0
+   },
+   "member_3_same_shape": {
+    "order3_solution_count": 1,
+    "g_cycle_type": [
+     1,
+     1,
+     1,
+     3,
+     3
+    ],
+    "g_in_G": false,
+    "F3": 6,
+    "n_involutions": 0
+   },
+   "member_1_scanned_exhaustively": true,
+   "RESULT": "as pre-registered.  Existence of an order-3 symmetry is NOT enough: the discriminating quantity is the pair (F_3, number of involutions) = (0,3) for the target and (6,0) for #1/#3.  Correspondingly the C_3-eigenvalue multiplicity of the trivial character is 2 for the target and 0 for #1/#3."
+  },
+  "MU_R_prime": {
+   "design": "spec sec.4.6 (v1.1, new): re-run the FORBIDDEN Relabel-conjugator procedure of spec v1 on the target and show it disagrees with the elastic-generator method.",
+   "expected_before_running": "two of the six relabellings return a conjugator of order 9",
+   "per_relabelling": [
+    {
+     "rho": [
+      0,
+      1,
+      2
+     ],
+     "conjugator_count": 1,
+     "order": 1,
+     "ctype": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+     ],
+     "c": "()"
+    },
+    {
+     "rho": [
+      0,
+      2,
+      1
+     ],
+     "conjugator_count": 1,
+     "order": 9,
+     "ctype": [
+      9
+     ],
+     "c": "(1,5,7,3,6,9,8,2,4)"
+    },
+    {
+     "rho": [
+      1,
+      0,
+      2
+     ],
+     "conjugator_count": 1,
+     "order": 2,
+     "ctype": [
+      1,
+      2,
+      2,
+      2,
+      2
+     ],
+     "c": "(1,9)(2,6)(4,7)(5,8)"
+    },
+    {
+     "rho": [
+      1,
+      2,
+      0
+     ],
+     "conjugator_count": 1,
+     "order": 3,
+     "ctype": [
+      3,
+      3,
+      3
+     ],
+     "c": "(1,7,8)(2,5,9)(3,4,6)"
+    },
+    {
+     "rho": [
+      2,
+      0,
+      1
+     ],
+     "conjugator_count": 1,
+     "order": 3,
+     "ctype": [
+      3,
+      3,
+      3
+     ],
+     "c": "(1,8,7)(2,9,5)(3,6,4)"
+    },
+    {
+     "rho": [
+      2,
+      1,
+      0
+     ],
+     "conjugator_count": 1,
+     "order": 9,
+     "ctype": [
+      9
+     ],
+     "c": "(1,2,3,4,8,9,7,6,5)"
+    }
+   ],
+   "orders": [
+    1,
+    9,
+    2,
+    3,
+    3,
+    9
+   ],
+   "n_order_9": 2,
+   "note": "order 9 is geometrically impossible: h_tau^2 in Aut(phi)=C_{S_9}(G)=1 forces h_tau^2=1.  The elastic-generator method returns order 2 for the same two relabellings.",
+   "RESULT": "reproduced exactly: orders (1,9,2,3,3,9) over the six relabellings, matching spec sec.3.5(0) row for row.  The v1 defect has not re-entered; the elastic-generator method returns order 2 for those two."
+  },
+  "MU_S_prime": {
+   "what": "the ben6 analogue of spec sec.4.6 MU-S' (kappa perturbed by relative 1e-3/1e-6/1e-9).  ben5's phi was NOT built from the Delta-side series, so kappa never entered; the exact quantity playing kappa's role is the overall scale of phi (fixed by phi(P_1)=1) and the coefficients of B.  Both are perturbed here.",
+   "rows": [
+    {
+     "eps": "1/1000",
+     "phi(P1)-1": "1/1000",
+     "phi(P1)-1 over eps": "1",
+     "S3_relation_residual_at_P0": "1/1000",
+     "residual over eps": "1",
+     "B_eps(P_inf)": "-64/125",
+     "B_eps(P_inf) over eps": "-512",
+     "ord_Pinf_B_eps": 0
+    },
+    {
+     "eps": "1/1000000",
+     "phi(P1)-1": "1/1000000",
+     "phi(P1)-1 over eps": "1",
+     "S3_relation_residual_at_P0": "1/1000000",
+     "residual over eps": "1",
+     "B_eps(P_inf)": "-8/15625",
+     "B_eps(P_inf) over eps": "-512",
+     "ord_Pinf_B_eps": 0
+    },
+    {
+     "eps": "1/1000000000",
+     "phi(P1)-1": "1/1000000000",
+     "phi(P1)-1 over eps": "1",
+     "S3_relation_residual_at_P0": "1/1000000000",
+     "residual over eps": "1",
+     "B_eps(P_inf)": "-1/1953125",
+     "B_eps(P_inf) over eps": "-512",
+     "ord_Pinf_B_eps": 0
+    }
+   ],
+   "reading": "every gate residual is EXACTLY linear in eps (the 'over eps' columns are constants), and the polar-divisor gate collapses from ord_{P_inf}=9 to 0 for every eps != 0.",
+   "linear_response_exact": true,
+   "caveat": "this is NOT the literal series-side kappa perturbation of spec sec.4.6; that control belongs to a series layer which ben6 does not run.  Declared, not hidden."
+  },
+  "MU_A_prime_and_MU_B_prime": {
+   "ben6_exact_analogues": [
+    {
+     "tag": "baseline A (order 3)",
+     "order_3_or_2": "0/sqrt(269281)/192",
+     "preserves_Q_up_to_scalar": true,
+     "Q_o_M_minus_Q_is_zero": true,
+     "C_o_M_minus_C_in_Q_times_linear": true,
+     "permutes_{P0,P1,Pinf}": true,
+     "ALL_GATES_PASS": true
+    },
+    {
+     "tag": "baseline iota (order 2)",
+     "order_3_or_2": "2*sqrt(2)/0",
+     "preserves_Q_up_to_scalar": true,
+     "Q_o_M_minus_Q_is_zero": true,
+     "C_o_M_minus_C_in_Q_times_linear": true,
+     "permutes_{P0,P1,Pinf}": true,
+     "ALL_GATES_PASS": true
+    },
+    {
+     "tag": "MU-A'(exact): A -> A^T (index/convention flip)",
+     "order_3_or_2": "0/sqrt(269281)/192",
+     "preserves_Q_up_to_scalar": false,
+     "Q_o_M_minus_Q_is_zero": false,
+     "C_o_M_minus_C_in_Q_times_linear": false,
+     "permutes_{P0,P1,Pinf}": false,
+     "ALL_GATES_PASS": false
+    },
+    {
+     "tag": "reference: A -> A^{-1} (NOT a defect: the other C_3 generator)",
+     "order_3_or_2": "0/sqrt(269281)/192",
+     "preserves_Q_up_to_scalar": true,
+     "Q_o_M_minus_Q_is_zero": true,
+     "C_o_M_minus_C_in_Q_times_linear": true,
+     "permutes_{P0,P1,Pinf}": true,
+     "ALL_GATES_PASS": true
+    },
+    {
+     "tag": "MU-B'(exact): wrong involution diag(1,-1,-1,1)",
+     "order_3_or_2": "2*sqrt(2)/0",
+     "preserves_Q_up_to_scalar": false,
+     "Q_o_M_minus_Q_is_zero": false,
+     "C_o_M_minus_C_in_Q_times_linear": false,
+     "permutes_{P0,P1,Pinf}": false,
+     "ALL_GATES_PASS": false
+    },
+    {
+     "tag": "MU-B'(exact): wrong involution diag(-1,-1,1,1)",
+     "order_3_or_2": "2*sqrt(2)/0",
+     "preserves_Q_up_to_scalar": false,
+     "Q_o_M_minus_Q_is_zero": false,
+     "C_o_M_minus_C_in_Q_times_linear": false,
+     "permutes_{P0,P1,Pinf}": false,
+     "ALL_GATES_PASS": false
+    },
+    {
+     "tag": "MU-B'(exact): a random order-3 permutation matrix (not in Aut(X))",
+     "order_3_or_2": "0/sqrt(6)",
+     "preserves_Q_up_to_scalar": false,
+     "Q_o_M_minus_Q_is_zero": false,
+     "C_o_M_minus_C_in_Q_times_linear": false,
+     "permutes_{P0,P1,Pinf}": false,
+     "ALL_GATES_PASS": false
+    }
+   ],
+   "verdict": {
+    "baseline_A_passes": true,
+    "baseline_iota_passes": true,
+    "A_transpose_fails": true,
+    "A_inverse_passes_as_expected": true,
+    "wrong_involutions_fail": true,
+    "random_order3_fails": true
+   },
+   "inherited_series_layer_run": {
+    "where": "ben2 cert part_G4f_controls (gate [G4'-f]) -- the LITERAL spec sec.4.6 versions, on the power-series layer where they are defined",
+    "MU_A_prime": "dim 4 -> 11 (k=2) and dim 15 -> 33 (k=6); rank gap collapses from 3114 to 1.25",
+    "MU_B_prime": "dim 4 -> 0 and dim 15 -> 1",
+    "all_destroyed": true
+   },
+   "HONEST_SCOPE": "the literal MU-A'/MU-B' are automorphy-factor and Gamma'-membership mutations of the series layer; ben6 has no series layer, so ben6 runs exact-model analogues (A -> A^T, wrong involutions, a random order-3 matrix) and cites ben2 for the literal ones.  Not hidden."
+  },
+  "vacuous_by_pre_registration": {
+   "MU-1'": "T-a/T-b swap: declared vacuous in spec sec.4.6 BEFORE any computation (sec.2.2: the stored triple satisfies lam3*lam2*lam1=id, so T-a/T-b are not even homomorphisms).  Not run.",
+   "MU-P'": "relabelling of the target: declared vacuous in spec sec.4.6 BEFORE any computation (sec.3.2 proves the 12 readings all give member #2).  Not run.",
+   "discipline": "both were declared vacuous in the frozen spec; they are not post-hoc excuses."
+  }
+ },
+ "part_auxiliary_exact_facts": {
+  "phi(R) = 2": {
+   "proof": "phi o iota = phi/(phi-1) (ben5, exact).  At an iota-fixed point p, phi(p) = phi(p)/(phi(p)-1), so phi(p)^2 = 2 phi(p), i.e. phi(p) in {0,2}.  div(phi) = 9P_0 - 9P_inf gives phi = 0 only at P_0, and R != P_0, hence phi(R) = 2.",
+   "R": [
+    "3",
+    "0",
+    "-4",
+    "0"
+   ]
+  },
+  "degenerate_t0_orbit": {
+   "orbit": "{2, 1/2, -1}  (the S_3-orbit of 2 = the fixed points of the three involutions on P^1)",
+   "why_bad": "phi^{-1}(2) contains the Q-rational point R, so f_2 (and by the Q-rational S_3-action also f_{1/2}, f_{-1}) has a rational root and is NOT irreducible: Gal is not transitive there.  Machine-confirmed: the t0=-1 fibre polynomial factors as 8+1.",
+   "consequence": "CONN-1 must be tested at t0 outside this orbit.  We used t0 in {3,4,5,7,1/5,1/3,6,11}."
+  },
+  "known_rational_points_on_X": [
+   {
+    "name": "P_0",
+    "coords": [
+     "1",
+     "0",
+     "0",
+     "0"
+    ],
+    "on_X": true
+   },
+   {
+    "name": "P_1",
+    "coords": [
+     "3",
+     "6",
+     "-12",
+     "8"
+    ],
+    "on_X": true
+   },
+   {
+    "name": "P_inf",
+    "coords": [
+     "3",
+     "-6",
+     "-12",
+     "-8"
+    ],
+    "on_X": true
+   },
+   {
+    "name": "R",
+    "coords": [
+     "3",
+     "0",
+     "-4",
+     "0"
+    ],
+    "on_X": true
+   },
+   {
+    "name": "A R",
+    "coords": [
+     "-15",
+     "-6",
+     "-4",
+     "-8"
+    ],
+    "on_X": true
+   },
+   {
+    "name": "A^2 R",
+    "coords": [
+     "-15",
+     "6",
+     "-4",
+     "8"
+    ],
+    "on_X": true
+   }
+  ],
+  "n_distinct": 6,
+  "reading": "X(Q) contains at least the six points P_0, P_1, P_inf, R, A R, A^2 R -- the three total ramification points and the three 'other' fixed points of the three involutions.  This is an independent corroboration of the Q-rationality of the whole S_3 structure (spec lemma RAT)."
+ },
+ "part_campaign_summary": {
+  "target": "9T27-[9,9,9]-9-9-9-g4 passport member #2: genus 4, degree 9, monodromy PSL(2,8), all three branch points totally ramified",
+  "bins": [
+   {
+    "ben": 1,
+    "layer": "L1'-L4' hyperbolic layer + rho + [G1'-h]",
+    "verdict": "PASS",
+    "headline": "rho = 0.93776 measured, N(D=20) = 717, A-1 accelerator NOT needed; the elastic-generator S_3 data (F_3=0, F_tau=2) frozen"
+   },
+   {
+    "ben": 2,
+    "layer": "L5' : S_2(Gamma') basis, dim 4, precision",
+    "verdict": "PASS",
+    "headline": "held-out residuals, dimension fingerprint (4,9,15,...), attained precision D = 16.61 at N=717; MU-A'/MU-B' destroy the prediction"
+   },
+   {
+    "ben": 3,
+    "layer": "CAL : KMSV Example 5.27 (genus 3, (7,7,7), PSL(2,7))",
+    "verdict": "PASS",
+    "headline": "the published quartic and Belyi map reproduced, number-field recognition Q(sqrt(-7)) calibrated"
+   },
+   {
+    "ben": 4,
+    "layer": "L6' : canonical embedding, Sym^2/Sym^3, Q cap C in P^3",
+    "verdict": "PASS",
+    "headline": "ker Sym^2 = 1 (non-hyperelliptic) with a 20-order rank gap, ker Sym^3 = 5, rank(Q) = 4"
+   },
+   {
+    "ben": 5,
+    "layer": "L7' : phi by divisor prescription + algebraic recognition",
+    "verdict": "PASS",
+    "headline": "the Belyi map is EXACT over Q: phi = -3456 X_4^3/B on X = {Q=0} cap {C=0}; div(phi) = 9P_0 - 9P_inf proved; P-FIELD = Q confirmed"
+   },
+   {
+    "ben": 6,
+    "layer": "L8'/G-6' : S_3 structure, quotient genera, basis-free invariants, CONN",
+    "verdict": "PASS",
+    "headline": "S_3 in PGL_4 exact; g(X/C_3)=2 unramified, g(X/C_2)=2, g(X/S_3)=1; all basis-free invariants in Q; Gal(f_t0/Q) = PGammaL(2,8) and constant field Q(zeta_9)^+"
+   }
+  ],
+  "what_is_now_established": [
+   "an EXPLICIT Belyi map of genus 4 with monodromy PSL(2,8), defined over Q, with equations, the three special points, the divisor structure and the full S_3 in PGL_4(Q) -- an object that does not exist in BelyiDB (which has 0 computed entries of genus >= 3)",
+   "the field of definition is Q (spec's P-FIELD prediction), confirmed by a sufficient condition (ben5) and not refuted by the basis-free refuter (ben6)",
+   "the arithmetic monodromy is PGammaL(2,8) with constant field Q(zeta_9)^+ -- so BOTH of spec sec.3.3's fields are realised on the same explicit object",
+   "spec sec.3.5's group-theoretic predictions (F_3 = 0, F_tau = 2, quotient genera 2/2/1, Chevalley-Weil multiplicities (2,1,1)) are all confirmed on the equations",
+   "the three quotient curves have explicit Q-models and rational absolute invariants -- a permanent matching asset"
+  ],
+  "what_remains_UNKNOWN": [
+   "U-5: whether Aut(X) is exactly S_3 or larger (not attempted at ben6)",
+   "U-7: whether the census pair (Xbar, Ybar) really is the image of a standard generating pair of pi_1 -- declared out of scope for the whole of PILOT-2",
+   "the fibre monodromy-consistent labelling required by fuda 1 sec.2.2' -- declared out of scope (spec sec.6.5); marking and a choice of prime are additional data PILOT-2 does not produce",
+   "Lean formalisation of any of it (the whole campaign is candidate/cross-checked, never verified)"
+  ]
+ },
+ "not_reached": [
+  "the spec sec.5 [G6'-c].3 route to A (reading f_i o h_mu off the series through the FD reduction layer, U-11).  A came from ben4's numerical eigen-computation, was recognised over Q at ben5, and is here VERIFIED exactly on the model -- but the series route was never implemented.",
+  "U-5 (is Aut(X) = S_3 exactly?).  A feasible route was identified but not run: X sits on the rank-4 quadric Q as a (3,3) curve on P^1 x P^1, and Aut(X) embeds in the stabiliser of the degree-12 branch divisor of either projection.",
+  "the LITERAL series-layer MU-S' (kappa perturbation); ben6 ran an exact-model analogue and ben2 ran the literal MU-A'/MU-B'.",
+  "an independent deterministic Galois-group computation (GAP GaloisType) -- see U-ben6-1.",
+  "an independent LMFDB / external-database match of j(Jac(X/S_3)) and of the two Igusa triples (no network access).  The values are recorded here for future matching.",
+  "any Lean formalisation."
+ ],
+ "unknowns": [
+  "U-ben6-1: an independent deterministic determination of Gal(f_t0/Q).  GAP's GaloisType exhausted the standing 2g heap on both the v-model and the reduced b-model, and the cap was not overridden.  Step (6) of the CONN-1 argument chain therefore rests on a Chebotarev likelihood (about 10^-2212) rather than on a resolvent.  A feasibility probe shows GaloisType itself works in degree 9 here.",
+  "U-ben6-2: the exact index [O_K : Z[alpha]] and hence the true field discriminant of K = Q[x]/(f_t0) was not computed; the CONN-2 argument only needs the SET of ramified primes, which the three-coordinate intersection bounds by {2,3,5}.",
+  "U-ben6-3: whether the Igusa-Clebsch normalisation used here (the classical root-difference definition, printed in full in this cert) coincides with the LMFDB/Magma normalisation.  The ABSOLUTE invariants are well-defined either way; only an external match would depend on it."
+ ],
+ "grade": "candidate / cross-checked.  [G6'-c/d/e] is exact rational arithmetic, with each quotient genus obtained by two independent methods (fixed points + Riemann-Hurwitz, and invariant differentials) and confirmed a third time by the explicit models; j by two independent routes; the Igusa machinery unit-tested against a brute-force evaluation.  CONN-1 steps (1)-(5) are exact and step (6) is a Chebotarev likelihood.  CONN-2 is exact given CONN-1 and is independently confirmed by ~6000 Frobenius tests with zero violations.  NOT 'verified': no Lean anywhere.",
+ "artifacts": {
+  "scratchpad/pilot2_ben6_a_group.py": "47c55343a39795a5",
+  "scratchpad/pilot2_ben6_a_group_out.json": "246c6058f4d01354",
+  "scratchpad/pilot2_ben6_b_geom.py": "e552b8c102e87131",
+  "scratchpad/pilot2_ben6_b_geom_out.json": "f12716df280c1017",
+  "scratchpad/pilot2_ben6_c_quotients.py": "8d22826c89a4f591",
+  "scratchpad/pilot2_ben6_c_quotients_out.json": "3ec17bafd7045c12",
+  "scratchpad/pilot2_ben6_d_invariants.py": "27a5931881e36885",
+  "scratchpad/pilot2_ben6_d_invariants_out.json": "4ea526eb82440c8c",
+  "scratchpad/pilot2_ben6_e_conn.py": "0f93106d7d6ac8ad",
+  "scratchpad/pilot2_ben6_e_conn_out.json": "273dddd33a820434",
+  "scratchpad/pilot2_ben6_g_controls.py": "56f142f0870192b6",
+  "scratchpad/pilot2_ben6_g_controls_out.json": "b5b2b42a5cfd4fb6",
+  "scratchpad/pilot2_ben6_h_conn2.py": "1cec71bd3dd22bc6",
+  "scratchpad/pilot2_ben6_h_conn2_out.json": "15639a3913109c38",
+  "scratchpad/pilot2_ben6_i_aux.py": "89238d3e9e3b769f",
+  "scratchpad/pilot2_ben6_i_aux_out.json": "979af8d486f6f251",
+  "scratchpad/pilot2_ben6_j_fibrecheck.py": "c211ae7fb3e63bc0",
+  "scratchpad/pilot2_ben6_j_fibrecheck_out.json": "5d213cc880010050",
+  "scratchpad/pilot2_ben6_f4_gtprobe.g": "1118580cb8f5ae48",
+  "scratchpad/pilot2_ben6_f4_gtprobe_out.txt": "15f21b4850ff5a1b",
+  "scratchpad/pilot2_ben6_f1_groups.g": "8c2ba7a02642d99c",
+  "scratchpad/pilot2_ben6_f1_groups_out.txt": "75a5dffaeb5544aa",
+  "scratchpad/pilot2_ben6_f2_subgroups.g": "df2fb23453492ccb",
+  "scratchpad/pilot2_ben6_f2_subgroups_out.txt": "ddb3a96a89d1e5fb",
+  "scratchpad/pilot2_ben6_f3_galois.g": "7b1f7c229df3ccbc",
+  "scratchpad/pilot2_ben6_f3_galois_out.txt": "dfdcc6dfa8153514"
+ },
+ "generated_by": {
+  "script": "scratchpad/pilot2_ben6_cert.py",
+  "software": "python 3.13 + sympy 1.14.0 ; GAP 4.16.0 via gap.ps1 (-o 2g)",
+  "note": "every numeric value in this certificate is copied programmatically from the machine output JSON/TXT files listed in artifacts; nothing was typed by hand."
+ }
+}
