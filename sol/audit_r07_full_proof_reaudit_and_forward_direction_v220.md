@@ -9898,3 +9898,71 @@ inspected in this delta are `33263899806`, `33262485779`, and `33267817818`.
 Delta248 replaces an untyped occurrence heuristic by the exact finite
 first-successor correction test, while leaving the all-rung and physical
 input obligations explicit.
+
+### Delta 249 (2026-08-30): A4 has a durable row-25 frontier and an audited compact resume owner
+
+- The original A4 baseline run `33262485779` completed its workflow at
+  immutable head `181df8547d390f69960265c03c9ec2e64f0e408c`, but its
+  mathematical terminal is `UNKNOWN_RESOURCE`, not PASS.  It stopped at the
+  registered wall cap
+  `14401.32254573 > 14400` seconds after completing row 26 and entering row
+  27.  At the stop, combined rank and boundary rank were both 27,910,
+  `K_rank=0`, 30,542,352 correlation pairs had been examined, and recorded
+  RSS was 3,890,982,912 bytes.  Its checkpoint has `next_row=25` and
+  producer bytes/hash
+  `25591 / fb9d3a09a62ce51233e97c4d2abf24fea50f598641e16a99bc5a84e7c084db42`.
+  The receipt and checker checkpoint hashes are respectively
+  `e5dd98338273f31c485b020e8e915205394761eb136fabf0e9380290fa31810c`
+  and
+  `0d7a65bcac01aceb69c965997863233d1927db33ca647ecc760fe9b30d54f673`.
+  The old checker propagated this as
+  `UNKNOWN_INPUT:checker:producer_terminal_identity`; this is not an A4
+  negative.  Artifact id `9720668592` has ZIP digest
+  `136b53279cee5da88e82786cffc4676d8b7ded24b950b89e532412d40c706e96`.
+- The bounded run `33263899806` remains the selected resume frontier because
+  its sealed checkpoint completed the same first 24 rows and has
+  `next_row=25`.  Its producer checkpoint is 25,581 bytes with SHA-256
+  `595213bab8936ef10e94ce90ccf526c105d02d871c4dc5d02b6c76cb51593445`;
+  its frozen checker checkpoint is 8,991 bytes with SHA-256
+  `b96919b38272d87a6885da98a18603065d1c2ccf805cd2c4f65dd22e32ed7af2`.
+  No completed row is discarded by the resume owner.
+- The compact producer
+  `d972_r07_word_independent_successor_kernel_v16.py`, 15,991 bytes,
+  SHA-256
+  `bbd2c2093da3f18d2ea298c5d6955d987d4acbfc6eeb2dc9665abdad556bb2a7`,
+  replaces the large sparse Python-object state by a packed sparse pool.  Its
+  generated source is 232,872 bytes with SHA-256
+  `01aaff4b64d39b8f56569d079b10df2dc12657a6a7c4a7cefb7449241d303863`.
+  Canonical pivots, mathematical row order, and the examined-64 rule are
+  unchanged.
+- The final identity-paired checker v22 and RESUME driver v29 received an
+  independent Sol(max) implementation audit PASS.  Their bytes/hashes are
+  `6579 / 91ae327d9a983136cc5a1ac9188dc1ea11f9e553aef606e8bc4bf45cb9bd819a`
+  and
+  `76245 / 5227f5e916790ad004db237c7cd3df400c3629251b79ae4bccfcb39371a5473e`.
+  Generated checker source is 268,101 bytes with SHA-256
+  `28cba6455e249edac835babb63b099940d91965d4e7c0f1d6a5310c57d569d18`.
+  The gate accepts exactly two non-Cartesian pairs: current authority with
+  the runtime v22 source hash, or the exact legacy authority (no
+  `receipt_bytes` and all five `ci/in/` task198 paths restored) with the
+  frozen v17 source hash.  Schema, owner, self-seal, checkpoint bytes, and
+  replay order are retained.  Luna report bytes/hash are
+  `1752 / cfa3f016336e5c05d3df54d47a12310c7464e0b4d4418e558c691279ebf8db9b`.
+- Intermediate identity-repair candidates are rejected implementation
+  drafts and are not promoted.  The compact final owner is ready for one GHA
+  `RESUME` run from the exact row-25 checkpoint; no heavy local calculation
+  was performed.
+
+**v220 mapping**:
+
+- A4 remains **1/3** until the compact resume artifact is inspected.  The
+  implementation/resource blocker is reduced to one audited GHA resume; no
+  positive action basis and no complete negative exists yet.
+- A0 remains **0/1 RUNNING** under replacement run `33267817818` at immutable
+  head `8227ecd4cb12f7efc8e2419306b847e228a78f36`.
+- A9 remains **0/3 actual**.  Its first-edge mathematics from Delta248 is
+  unchanged; it still awaits a positive A4/task382 physical owner.
+
+Delta249 records the durable computation frontier and the exact compact
+owner.  The dispatch run id and its immutable commit SHA are recorded in the
+next delta after parent-broker publication.
