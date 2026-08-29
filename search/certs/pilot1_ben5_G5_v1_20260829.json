@@ -1,0 +1,236 @@
+{
+  "schema": "pilot1-ben5-G5/v1",
+  "ruling": "coordinator ruling 1793 (ben5 dispatch)",
+  "target": "LMFDB 9T27-7.1.1_2.2.2.2.1_3.3.3-a",
+  "ben": 5,
+  "author": "mathematician (Opus 5)",
+  "machine_output_only": true,
+
+  "FINAL_VERDICT": "G-5 REACHED AND PASSED. [G5-a] existence and [G5-b] uniqueness both hold: exactly one of the 9 candidate source branches reproduces the published Belyi map, with residual 7.44e-25 against a runner-up of 4.04e-01 (23.7 orders of magnitude of separation), and the residual converges monotonically 1.07e-10 -> 8.31e-14 -> 7.27e-18 -> 8.34e-21 -> 7.44e-25 as the Gamma-side truncation N goes 45 -> 60 -> 75 -> 90 -> 105. A SECOND, INDEPENDENT route (canonical normal form from ramification alone + LLL recognition, no Mobius search and no target data used to produce the numbers) recovers ALL 20 canonical coefficients as the exact LMFDB rationals. G-6 PASS (3/3 ramification multisets). The withdrawal condition registered in ruling 1792 (close if G-5 unreached by end of ben6) is NOT triggered: PILOT-1's primary objective is met one ben early.",
+
+  "ONE_BIT_VERDICT_T_a_T_b_identity": {
+    "answer": "IDENTITY. The correct translation is (sigma_0, sigma_1, sigma_inf) := (lam1, lam2, lam3) with branch_assignment [1,2,3] and perm_compose = left_to_right, i.e. the published triple as stored is ALREADY in KMSV's sigma_inf sigma_1 sigma_0 = 1 order. T-a and T-b are both REFUTED.",
+    "level_1_group_theoretic_exact": {
+      "fact": "the stored triple satisfies lam3*lam2*lam1 = id (TRUE) and lam1*lam2*lam3 = id (FALSE) -- machine-checked by integer permutation arithmetic, script pilot1_ben5_target.jl",
+      "consequence_T_b": "T-b := (sigma_0,sigma_1,sigma_inf) = (lam1^-1, lam2^-1, lam3^-1) forces sigma_inf sigma_1 sigma_0 = (lam1 lam2 lam3)^-1, which is NOT the identity. T-b does not even define a homomorphism Delta(7,2,3) -> S_9 for this data. REFUTED without numerics.",
+      "consequence_T_a": "T-a := (sigma_0,sigma_1,sigma_inf) = (lam3, lam2, lam1) likewise requires lam1 lam2 lam3 = id (FALSE); and additionally it would send delta_0 (order 7) to lam3 (order 3). REFUTED without numerics.",
+      "transferable_rule_for_the_production_run": "do NOT assume the source's advertised relator order. Read the stored triple, TEST which of sigma_0 sigma_1 sigma_inf = 1 / sigma_inf sigma_1 sigma_0 = 1 it actually satisfies, and only then pick the reading that ALSO matches cycle types to branch labels. For the genus-4 (9,9,9) production target the cycle types are identical, so the relator test is the ONLY discriminator available and must be run first."
+    },
+    "level_2_geometric_G5": "the full pipeline built on the identity reading reproduces the published map. This is the substantive half of the bit: it certifies that the orientation choice (ben1's L1 variant (1,-1,1,-1)), the kite fundamental domain, the coset labelling g_j, the Gamma-reduction, and the target labelling are all mutually consistent, none of which the relator test can see.",
+    "preregistered_prediction_check": "ben2 registered (before ben3's G-5) 'T-b or an identity-like reading wins; T-a loses'. VERDICT: CORRECT as stated -- the identity-like reading wins and T-a loses. The T-b disjunct is falsified.",
+    "ruling_1789_confirmed": "ben1's G1-f observation (only the INVERTED independently-generated triple is S9-conjugate to (lam1,lam2,lam3)) was ruled a neutral relator-convention artifact. CONFIRMED: ben1 built its own triple with a*b*c = 1 while the stored lam's satisfy lam3 lam2 lam1 = 1; the inversion was pure plumbing, and the identity reading is geometrically correct.",
+    "HONEST_LIMIT_on_discriminating_power": "the spec's MU-1 in its literal form ('swap T-a <-> T-b and G-5 must fall') is VACUOUS in this pilot -- not because the gate is weak, but because neither T-a nor T-b defines a homomorphism for this stored triple, so there is nothing to run. Discriminating power was therefore measured on two OTHER mutants that do run (see destructive_controls): the target-labelling mutant (residual 2.58e-01, FAIL) and the kappa mutants (up to 2.05e+01, FAIL). Both fail decisively, so the G-5 gate is demonstrably not a tautology."
+  },
+
+  "part_A_the_target_is_IN_REPO_no_download_needed": {
+    "finding": "the published map was already in the working tree: ben1 cloned Voight's BelyiDB (the upstream source of LMFDB's Belyi-map data) into scratchpad/BelyiDB_repo. No WebFetch was performed this ben.",
+    "file": "scratchpad/BelyiDB_repo/belyi_db/9/9T27-[7,2,3]-711-22221-333-g0.m",
+    "file_sha16": "69a2118d5b792b65",
+    "provenance": "cloned ben1, HEAD aa663d2..., depth 1 (recorded in pilot1_ben1_hyperbolic_v1_20260830.json)",
+    "identity_check": "the triple stored in that file, [2,6,5,4,1,9,7,3,8] / [6,4,7,2,8,1,3,5,9] / [8,6,5,2,7,4,3,9,1], is byte-for-byte the (lam1,lam2,lam3) ben1 hard-coded -- machine-verified by substring search, so the whole pilot has been calibrated against this exact object all along.",
+    "map_parsed_not_transcribed": "pilot1_ben5_target.jl parses the Magma source with a regex + term parser and rebuilds N(Y), D(Y) in QQ[Y]. No coefficient was typed by hand.",
+    "phi_LMFDB": "N/D with N = (-16384/103823) Y^7 (88 Y^2 + 225 Y + 5625),  D = (1/103823) (47 Y^3 - 1875 Y^2 - 1875 Y - 140625)^3,  N - D = (-135/103823) (Y - 15) (107 Y^4 + 500 Y^3 + 26250 Y^2 + 62500 Y + 1171875)^2",
+    "passport_verified_exactly": "over t=0 : 7.1.1 ; over t=1 : 2.2.2.2.1 ; over t=inf : 3.3.3 -- by exact factorisation in QQ[Y] (Nemo), matching the LMFDB label"
+  },
+
+  "part_B_frozen_target_label_hypothesis_MACHINE_CONFIRMED": {
+    "ben4_hypothesis": "t_LMFDB = (phi - 1)/phi = 1 - 1/phi, derived by hand from KMSV's normalisation sentence and carried into ben5 as an UNCONFIRMED hypothesis",
+    "independent_re_derivation_this_ben": "engine (a,b,c) = (3,7,2) puts phi = 0 at the order-3 point (fibre cycle type of sigma_inf = 3.3.3), phi = 1 at the order-7 point (sigma_0 = 7.1.1), phi = inf at the order-2 point (sigma_1 = 2.2.2.2.1). LMFDB puts 7.1.1 over 0, 2.2.2.2.1 over 1, 3.3.3 over inf. The Mobius mu with mu(0)=inf, mu(1)=0, mu(inf)=1 is mu(z) = (z-1)/z. Re-derived from scratch, agreeing with ben4.",
+    "machine_confirmation": "all 6 Mobius relabellings of {0,1,inf} were applied to phi_LMFDB and their ramification multisets over (0,1,inf) computed by EXACT factorisation. Exactly ONE carries the engine's passport (3.3.3 / 7.1.1 / 2.2.2.2.1): sigma(z) = 1/(1-z), i.e. phi_ours = 1/(1 - t_LMFDB), i.e. t_LMFDB = (phi_ours - 1)/phi_ours. UNIQUE HIT -> the frozen hypothesis is CONFIRMED, not assumed.",
+    "table": [
+      {"sigma": "z",        "over0": [7,1,1],       "over1": [2,2,2,2,1], "overinf": [3,3,3],       "engine_passport": false},
+      {"sigma": "1-z",      "over0": [2,2,2,2,1],   "over1": [7,1,1],     "overinf": [3,3,3],       "engine_passport": false},
+      {"sigma": "1/z",      "over0": [3,3,3],       "over1": [2,2,2,2,1], "overinf": [7,1,1],       "engine_passport": false},
+      {"sigma": "1/(1-z)",  "over0": [3,3,3],       "over1": [7,1,1],     "overinf": [2,2,2,2,1],   "engine_passport": true},
+      {"sigma": "(z-1)/z",  "over0": [2,2,2,2,1],   "over1": [3,3,3],     "overinf": [7,1,1],       "engine_passport": false},
+      {"sigma": "z/(z-1)",  "over0": [7,1,1],       "over1": [3,3,3],     "overinf": [2,2,2,2,1],   "engine_passport": false}
+    ],
+    "target_side_object_used_downstream": "Phi_L := D/(D-N) = 1/(1 - phi_LMFDB), the published map put in the ENGINE's target labelling"
+  },
+
+  "part_C_MATERIAL_CORRECTION_to_ben3_and_a_KMSV_TYPO": {
+    "primary_source_finding": {
+      "where": "papers/kmsv-1311.2081-numerical-belyi-maps.pdf (sha16 4b253e737b38b724), printed page 34, the displayed line immediately after (4.12), read from a 150dpi page-image render",
+      "printed": "2 - C - (1 + A - C) = C - A - B = (1 + 1/a) - (1 + 1/a + 1/b) = 1/c > 0",
+      "why_it_is_a_typo": "from (4.10), A + B = (1/2)[(1+1/a-1/b-1/c) + (1+1/a-1/b+1/c)] = 1 + 1/a - 1/b EXACTLY, so C - A - B = 1/b, NOT 1/c. (The exponent difference at t = infinity is B - A = 1/c.) The local-exponent bookkeeping of (4.9) independently forces this: differences 1/a at t=0, 1/b at t=1, 1/c at t=inf.",
+      "status": "this is a defect in the printed paper, not in our reading of it. (4.10), (4.12), (4.13), (4.16) themselves are correct and are used verbatim."
+    },
+    "what_ben3_did": "ben3's cert declares '(a,b,c) = (3,7,2)' in prose and reports the sanity check 'C - A - B = 0.5 == 1/c_ord = 0.5'. That check is the printed typo. Trusting it forced ben3 to feed (b,c) = (2,7) into (4.10) -- its published B = 0.48809... = 41/84 is the (3,2,7) value, while its published mu = 1.86017... is the (3,7,2) kite value. The two are MIXED.",
+    "numerical_consequence": "ben3's published kappa = 0.2152671110929914788484743638669691293162329 is reproduced to 3.27e-44 by recomputing with mu(3,7,2) and A,B,C from (3,2,7) -- which identifies the exact branch of the error. The CORRECT value, for either self-consistent ordering, is kappa = 0.100657957340304632072331286789496581996451368.",
+    "how_bad_it_would_have_been": "destructive control MU-K: substituting ben3's published kappa into the otherwise-correct pipeline gives a G-5 residual of 2.05e+01 instead of 7.44e-25. G-5 would have failed catastrophically and the failure would have been misattributed to the ben3-frozen suspects [G3-e, G3-d, G3-b].",
+    "which_ordering_is_right_and_why": "(a,b,c) = (3,7,2). KMSV (4.13) is derived with z_a = i and z_b = mu*i ON THE IMAGINARY AXIS (Prop 2.5), and the BelyiEngine kite formula ben2 implemented puts the b-vertex on the axis at t*i. In ben2's frozen kite the on-axis vertex is the ORDER-7 point. Hence b = 7, c = 2. A,B,C = 29/84, 71/84, 4/3."
+  },
+
+  "part_D_new_positive_cross_checks_established_this_ben": {
+    "D1_kappa_is_independent_of_the_b_c_ordering": {
+      "claim": "kappa(3,7,2) = kappa(3,2,7) when each is computed SELF-CONSISTENTLY (its own kite mu and its own A,B,C)",
+      "measured": "|difference| = 4.66e-155 at 512-bit working precision (both = 0.100657957340304632072331286789496581996451368)",
+      "why_it_must_hold": "phi_(3,2,7) = nu(phi_(3,7,2)) with nu(z) = z/(z-1), the Mobius fixing 0 and swapping 1 <-> inf; nu'(0) = -1, so the leading coefficient (w/kappa)^a is unchanged in modulus, forcing |kappa| to be an invariant of the pair {b,c}.",
+      "value": "two completely different (mu, A, B, C) inputs, one number to 154 digits -- an independent validation of the (4.13) Gamma-function implementation that uses no external data"
+    },
+    "D2_KMSV_4_16_second_coefficient_exact": {
+      "method": "the Puiseux reversion was done in EXACT rationals by successive substitution, giving phi(w) = sum_m c_m (w/kappa)^{3m}",
+      "c_m_exact": {"c_1": "1", "c_2": "-1973/3136", "c_3": "22635309/68841472", "c_4": "-33810110641/215886856192", "c_5": "544060993231207/7701115934081024"},
+      "kmsv_4_16_closed_form": "a(C(1+A-C)(1+B-C) - AB(2-C))/(C(2-C)) = -1973/3136",
+      "agreement": "EXACT (equality of rationals), so the hypergeometric coefficients, the series division and the reversion are all confirmed against the paper's own closed form",
+      "kmsv_rationality_claim_confirmed": "every reverted coefficient is rational and every coefficient off the a-lattice (n not divisible by 3) is exactly 0"
+    },
+    "D3_the_7_fold_point_sits_at_x_infinity": {
+      "observation": "the L6 fit produced deg(P) = deg(R) = 9 with p_j = r_j for j = 3..9 to ~1e-18 relative, i.e. deg(P - R) = 2, i.e. phi - 1 has a zero of order 9 - 2 = 7 at x = infinity",
+      "nothing_was_imposed": "the fit had all 20 coefficients free; the degree drop is an output",
+      "why_this_confirms_ben4_part_D": "x = f_2/f_1 has its pole where f_1 vanishes. ben4 identified f_1 (numerically lacunary in w^3 to 1e-19) with the unique weight-12 form of Delta(7,2,3). The valence formula for Delta(7,2,3) gives total order 6*(1/42) = 1/7 for a weight-12 form, i.e. a single simple zero at the ORDER-7 point z_b and nowhere else. Of the three points of X(Gamma) over z_b (cycle type 7.1.1) only the 7-cycle point is Gamma-regular and carries an integral zero, so it is the pole of the degree-1 function x. That point is exactly the 7-fold ramification point over phi = 1. Independent structural confirmation of ben4's unplanned finding, from a completely different computation.",
+      "also_recovered": "p_0 = p_1 = p_2 = 0 to 1.0e-23 (the triple zero of phi at x = 0, likewise not imposed)"
+    }
+  },
+
+  "part_E_method_the_s_parametrisation": {
+    "what_changed_vs_the_spec": "the spec's L6 asks to invert x(w) to w(x) and then substitute. That reversion is UNNECESSARY. Parametrise both sides by s := phi^{1/a} = t^{1/3}: then w = psi(s) = kappa*s*G(s^3) (KMSV 4.14), x = x(psi(s)) =: X(s), and phi_ours = s^3 BY CONSTRUCTION. No series reversion of x(w) appears anywhere in the G-5 test or the L6 fit.",
+    "the_G5_test_becomes": "Phi_L( Y_0 + a1*X(s)/(1 + e*X(s)) ) == s^3 as a power series in s, where Y_0 is one of the 3 triple zeros of Phi_L (the roots of 47Y^3 - 1875Y^2 - 1875Y - 140625) and a1 is one of 3 cube roots. a1 is fixed by the s^3 coefficient and e by the s^4 coefficient; EVERY coefficient from s^5 up is a free check.",
+    "candidate_count": "3 roots x 3 cube roots = 9 branches -- exactly the spec's 'convention N' post-hoc Mobius search, with the 3-fold source ambiguity over phi = 0 made explicit"
+  },
+
+  "part_F_G5_result": {
+    "G5_a_existence": "PASS",
+    "G5_b_uniqueness": "PASS",
+    "best_branch": {"root_index": 1, "cuberoot_branch": 0,
+      "Y_0": "42.489794058905178995610903900973795402644122405864170690701872487477073086523 (the real root of 47Y^3 - 1875Y^2 - 1875Y - 140625; the other two are -1.298088518814291625465026418572 +- 8.290499191565182624379562956796 i)",
+      "a1": "532.44492733147237332882288619344290970711306354025405253756121831188252186898",
+      "e": "-12.5311251589811003278255128229619095115469224619219190795283478949957376226129",
+      "imaginary_parts": "all three are real to 1e-307 (Y_0), 1e-307 (a1), 2.3e-24 (e) -- consistent with the map being defined over Q and our normalisation being real"},
+    "residual_table_all_9_branches_max_over_s5_to_s20": [
+      {"root": 1, "branch": 0, "resid": 7.4441372052861835e-25},
+      {"root": 1, "branch": 1, "resid": 0.4038828220807319},
+      {"root": 1, "branch": 2, "resid": 0.4038828220807319},
+      {"root": 3, "branch": 1, "resid": 1.0086836918159499},
+      {"root": 2, "branch": 2, "resid": 1.0086836918159499},
+      {"root": 3, "branch": 2, "resid": 4.210880668584212},
+      {"root": 2, "branch": 1, "resid": 4.210880668584212},
+      {"root": 2, "branch": 0, "resid": 4.216523984891395},
+      {"root": 3, "branch": 0, "resid": 4.216523984891395}
+    ],
+    "separation": "23.73 orders of magnitude between the winner and the runner-up",
+    "residual_by_order_j_of_the_winner": {"3": 5.07e-153, "4": 1.31e-152, "5": 7.44e-25, "10": 6.05e-26, "20": 1.53e-26, "30": 1.28e-26, "40": 1.18e-26, "50": 1.71e-27,
+      "note": "j = 3 and j = 4 are 0 by construction (they define a1 and e). j = 5 .. 50 -- 46 coefficients -- are free checks and all vanish."},
+    "convergence_in_the_Gamma_truncation_N": {
+      "45": 1.0657157365924398e-10, "60": 8.30775261372279e-14, "75": 7.273393124621764e-18,
+      "90": 8.341628977252789e-21, "105": 7.4441372052861835e-25,
+      "reading": "monotone decrease by 15 orders as N goes 45 -> 105 while the runner-up stays pinned at 4.0388e-01. This is the signature of a TRUE identity being approached, not of a fit absorbing error.",
+      "winning_branch_is_the_same_at_every_N": true
+    },
+    "Gamma_side_basis_used": "ben4's echelon basis of S_12(Gamma), regenerated this ben by the UNCHANGED ben4 scripts (pilot1_ben4_L5_core.jl sha16 dfcfe647e45bb36b, pilot1_ben4_L5_linalg.jl sha16 dd004ac6e101bb91) because ben4's JSON stored only the first 12 of 91 coefficients. Regeneration reproduced ben4's published rank-gap ratios exactly at N = 45/60/75/90 (4.997e6, 4.714e9, 6.682e12, 1.694e16) and added N = 105 (5.608e19); pivots (0,1) at every N."
+  },
+
+  "part_G_destructive_controls": {
+    "MU_K_ben3_published_kappa": {"resid": 20.510667753765553, "verdict": "FAIL as required -- ben3's kappa would have sunk the pilot"},
+    "MU_P_target_relabelling": {"desc": "(a,b,c) = (3,2,7) hypergeometric parameters, i.e. phi -> phi/(phi-1) on the target", "resid": 0.2582908163265306, "verdict": "FAIL as required -- the gate DOES discriminate target labellings"},
+    "MU_S_kappa_sensitivity": {"kappa_x1.01": 0.005439510687113661, "kappa_x1.000001": 5.385481792640007e-7, "kappa_x1.000000001": 5.385476412547274e-10,
+      "reading": "the residual is exactly LINEAR in the relative perturbation of kappa (slope 5.385e-1). Since the achieved residual is 7.44e-25, the G-5 test PINS kappa to a relative accuracy of 1.4e-24, i.e. it independently determines 24 digits of the KMSV (4.13) constant."},
+    "MU_M_source_mobius_must_still_pass": {"desc": "replace x = f_2/f_1 by x' = f_2/(f_1+f_2), a genuine Mobius of the source", "resid": 7.4441372052861835e-25, "verdict": "PASSES with the identical residual, as required -- the source-Mobius freedom really is absorbed by the branch search (this is the control on 'convention N' itself)"},
+    "kappa_ordering_identity": {"absdiff": 4.661462957000129e-155, "verdict": "positive cross-check, see part_D_D1"},
+    "MU_1_literal_form": "vacuous in this pilot, see ONE_BIT_VERDICT / HONEST_LIMIT"
+  },
+
+  "part_H_L6_the_fitted_equation": {
+    "method": "the 20 unknowns of phi = P(x)/R(x) (deg P, deg R <= 9) from the linear system s^3 R(X(s)) - P(X(s)) = O(s^51), solved by rank-revealing column-pivoted MGS in Complex{BigFloat} at 512 bits. NO LMFDB data enters this fit.",
+    "rank": 19, "kernel_dim": 1, "expected_kernel_dim": 1,
+    "pivot_gap": "1.329e-10 (last kept) vs 8.276e-28 (first dropped)",
+    "max_row_residual": 9.909e-29,
+    "max_abs_imaginary_part_of_the_20_coefficients": 2.852e-14,
+    "coefficients_normalised_R0_equals_1": {
+      "p": ["0", "-6.038343e-24", "9.530334e-24",
+            "172.194684916033898341601968633712", "-818.565702395669763268446494229876",
+            "4173.136116536101039563923801068039", "-9799.759687666272609588123748361158",
+            "23233.744666979383774240917420746673", "-25372.710690335162444893336726778774",
+            "29715.957425761702662610365985718829"],
+      "r": ["1", "-1.498201517149557992056174392891", "5.074654699960609440098770527840",
+            "172.194684916033898341529170603665", "-818.565702395669763268928657173700",
+            "4173.136116536101039563613003468831", "-9799.759687666272609587001187994658",
+            "23233.744666979383774242813726291481", "-25372.710690335162444894215776343416",
+            "29715.957425761702662605979345858810"]
+    },
+    "cross_check_against_the_exact_transport_Phi_L_o_m": {
+      "max_abs_coefficient_difference": 8.156e-14, "coefficient_scale": 2.972e4, "relative": 2.745e-18,
+      "honest_note": "this compares two routes (series fit vs Mobius transport) that share the same Gamma-side input, so it certifies the fit machinery, not the input. The genuinely independent check is part_I."
+    }
+  },
+
+  "part_I_L7_canonical_form_and_recognition_INDEPENDENT_SECOND_G5": {
+    "why_this_is_independent": "no Mobius search, no root of the target's cubic, and no LMFDB coefficient enters the production of these numbers. The canonical coordinate is built from OUR fitted map's own ramification data.",
+    "canonical_normalisation": "xi sends p1 -> 0 and p2 -> infinity, then xi' = xi/e_1 where e_1 is the sum of the three triple-zero coordinates in xi. Here p1 = the unique 7-fold point over phi = 1 (found to be x = INFINITY, deg(P-R) = 2), p2 = the unique simple point over phi = infinity (the isolated root of R, |R(p2)| = 2.98e-154). Three conditions, so the normalisation is unique.",
+    "our_canonical_map_numerically": "phi = Pc(xi')/Rc(xi'), coefficients agreeing with the exact LMFDB values to between 1.7e-22 and 4.0e-19 absolute",
+    "LLL_recognition": {
+      "lattice": "rows (1, round(K*alpha)) and (0, K), Nemo lll on ZZMatrix, K scanned over 10^8 .. 10^30",
+      "acceptance_rule": "smallest denominator whose reconstruction reproduces alpha to within a 1e-17 noise floor (the floor is set from the L6 fit diagnostics, NOT from the answer)",
+      "result": "20 of 20 coefficients recognised over Q; every one equals the exact LMFDB value",
+      "largest_denominator_needed": 15625000,
+      "smallest_sufficient_K": "10^8 for 14 of the coefficients, 10^12 for 4, 10^16 for the two with denominator 15625000"
+    },
+    "THE_RECOGNISED_EQUATION": {
+      "coordinate": "xi' (canonical: 7-fold point over phi=1 at xi'=0, simple point over phi=inf at xi'=inf, sum of the three triple zeros = 1)",
+      "phi": "Pc(xi')/Rc(xi')",
+      "Pc": "xi'^9 - 3 xi'^8 + (93/25) xi'^7 - (637/250) xi'^6 + (693/625) xi'^5 - (2079/6250) xi'^4 + (4347/62500) xi'^3 - (3159/312500) xi'^2 + (729/781250) xi' - 729/15625000",
+      "Rc": "-(441/160) xi'^8 + (147/40) xi'^7 - (637/250) xi'^6 + (693/625) xi'^5 - (2079/6250) xi'^4 + (4347/62500) xi'^3 - (3159/312500) xi'^2 + (729/781250) xi' - 729/15625000",
+      "sanity": "Pc - Rc = xi'^7 (xi'^2 - (39/160) xi' + 9/200) : the 7-fold zero over phi = 1 at xi' = 0, as required",
+      "exact_LMFDB_side": "the same two polynomials, computed exactly in QQ[Y] from the BelyiDB map by the identical canonical construction (p1 = 0, p2 = 15, E_1 = 25/12). IDENTICAL.",
+      "relation_to_the_Mobius_route": "Y_LMFDB = m(x) with m(x) = Y_0 + a1 x/(1 + e x), values in part_F; and t_LMFDB = (phi_ours - 1)/phi_ours"
+    }
+  },
+
+  "part_J_G6": {
+    "on_the_target_side_EXACT": {"over_0": [3,3,3], "over_1": [7,1,1], "over_inf": [2,2,2,2,1], "method": "factorisation in QQ[Y] of Phi_L's numerator, numerator-minus-denominator, and denominator", "verdict": "PASS"},
+    "on_OUR_fitted_map_NUMERICAL": {"over_0": [3,3,3], "over_1": [7,1,1], "over_inf": [2,2,2,2,1], "method": "Durand-Kerner roots of the fitted P, P-R, R at 512 bits with degree trimming at 1e-9 relative and root clustering at 1e-6, plus the point at infinity to make each fibre sum to 9", "verdict": "PASS (3/3)"},
+    "note": "the [7,1,1] entry for the fitted map is carried by the point x = infinity (deg(P-R) = 2); the first run of this check reported [1x9] because the trimming tolerance was 1e-60 and the 7 numerically-zero leading coefficients (~1e-14 relative) were not recognised as a degree drop. Recorded for transparency."
+  },
+
+  "part_K_what_the_pilot_now_certifies_for_the_production_run": [
+    "the whole KMSV numerical-Belyi chain has been ported to Julia+Nemo and CALIBRATED end to end against a published answer: triangle group -> kite -> coset reduction -> VW echelon basis of S_k(Gamma) -> hypergeometric Delta-hauptmodul -> composite series -> degree-d equation -> recognition over Q",
+    "the s = phi^{1/a} parametrisation removes the x(w) reversion from the pipeline entirely",
+    "the target-label question is decided by an EXACT integer computation (which of the 6 relabellings of {0,1,inf} carries the passport), not by numerics -- but only when the three cycle types differ. For the production passport (9,9,9) they do NOT differ, so this discriminator is unavailable and the label must be fixed some other way. FLAGGED as the first production-side gap.",
+    "the T-a/T-b question must be decided by testing which relator the SOURCE's stored triple actually satisfies (part ONE_BIT_VERDICT level_1). For (9,9,9) this is the only cheap discriminator left, and it works.",
+    "kappa must be computed with (a,b,c) self-consistent between (4.10) and the kite; KMSV p.34's inline identity is a typo and must not be used as a check. Use instead C - A - B = 1/b and B - A = 1/c.",
+    "quantified precision budget: with rho = 0.56 and 256-bit VW arithmetic, Gamma-truncation N = 45/60/75/90/105 buys G-5 residuals 1e-10 / 8e-14 / 7e-18 / 8e-21 / 7e-25. Recognition of rationals with denominators ~1.6e7 needed N >= 90."
+  ],
+
+  "not_reached": [
+    "no Lean formalisation. Nothing here is 'verified' in the workshop's sense; this is cross-checked-within-one-implementer at best.",
+    "no independent SECOND-implementer cross-check. Every ben5 script is by this mathematician. The two G-5 routes (Mobius branch search; canonical form + LLL) are algorithmically independent of each other and the target side is exact primary-source arithmetic, but they share the ben4 Gamma-side numerics and this author.",
+    "the G-5 identity is established as a matching of 46 free power-series coefficients for a 19-parameter rational function, plus an exact recognition of the 20 canonical coefficients. That is overwhelming evidence but not a PROOF that the germ equals the rational function globally.",
+    "rho = 0.56 is still empirical, not a theorem (ben4's open item, unchanged).",
+    "no proof that the 36-element Gamma pool generates Gamma (ben4's open item, unchanged).",
+    "G3-b (containment proxy), G3-d (edge-pairing closure), G3-e (area) remain candidate scaffolding, never hardened. ben4's part_E argued they are not prerequisites for L5; the G-5 PASS is now empirical evidence that they were not a problem, but they are still not machine-verified.",
+    "the reversion of phi(w) was carried in exact rationals only to u-order 16 (c_1..c_5); the radius-of-convergence diagnostic from those 5 coefficients trends toward |w_c|/kappa = 1.397 (values 1.080, 1.132, 1.167, 1.193) but does not converge within 5 terms. The G-5 pass supersedes it as a kappa check.",
+    "phi(w_b) = 1 could NOT be used as a kappa check: |w_b| = 0.30074 exceeds the radius of convergence |w_c| = 0.14063, so the series diverges there. (KMSV Figure 18's '|w| < |w_b|' describes psi's image, not phi's Taylor radius.)",
+    "the production target (genus 4, passport [9,9,9]) is untouched. In particular the target-label discriminator used here (distinct cycle types) does NOT transfer.",
+    "no G-7 MU-3 (deliberately wrong edge pairing) and no MU-5 (different expansion point p) were run; MU-1's literal form is vacuous here (see ONE_BIT_VERDICT)."
+  ],
+
+  "generated_by": {
+    "scripts": [
+      {"path": "scratchpad/pilot1_ben5_target.jl", "sha16": "9de48c3ffea06df6", "role": "parse the BelyiDB map, verify the passport exactly, check the triple's relator convention"},
+      {"path": "scratchpad/pilot1_ben5_delta.jl",  "sha16": "7659a86177104e78", "role": "KMSV (4.10)-(4.16): exact A,B,C, exact reversion, (4.16) cross-check, kappa, kite, ben3 diagnosis"},
+      {"path": "scratchpad/pilot1_ben5_gamma.jl",  "sha16": "1e907d57eccd25b1", "role": "regenerate ben4's S_12(Gamma) echelon basis with ALL coefficients, N = 45..105"},
+      {"path": "scratchpad/pilot1_ben5_G5.jl",     "sha16": "5751d198fe62f6ef", "role": "target-relabelling scan, s-parametrised composite, 9-branch G-5 search, destructive controls, N-stability"},
+      {"path": "scratchpad/pilot1_ben5_L6L7.jl",   "sha16": "fd5383f127d01b0a", "role": "L6 equation fit, G-6, canonical normal form, LLL recognition, comparison with the exact LMFDB canonical form"}
+    ],
+    "reused_unchanged_from_ben4": [
+      {"path": "scratchpad/pilot1_ben4_L5_core.jl",   "sha16": "dfcfe647e45bb36b"},
+      {"path": "scratchpad/pilot1_ben4_L5_linalg.jl", "sha16": "dd004ac6e101bb91"}
+    ],
+    "outputs": [
+      {"path": "scratchpad/pilot1_ben5_target_out.json", "sha16": "010ef118db6ff954"},
+      {"path": "scratchpad/pilot1_ben5_delta_out.json",  "sha16": "957ecbb5be5f7180"},
+      {"path": "scratchpad/pilot1_ben5_gamma_out.json",  "sha16": "130041910eb4d30e"},
+      {"path": "scratchpad/pilot1_ben5_G5_out.json",     "sha16": "b5316dddbdecbbce"},
+      {"path": "scratchpad/pilot1_ben5_L6L7_out.json",   "sha16": "1c6f172d9bd37430"}
+    ],
+    "primary_sources": [
+      {"path": "papers/kmsv-1311.2081-numerical-belyi-maps.pdf", "sha16": "4b253e737b38b724", "read_this_ben": "printed p.34 as a 150dpi page image (eq 4.9-4.13 and the typo line); pp.33-36 as text"},
+      {"path": "scratchpad/BelyiDB_repo/belyi_db/9/9T27-[7,2,3]-711-22221-333-g0.m", "sha16": "69a2118d5b792b65", "read_this_ben": "parsed in full"}
+    ],
+    "tools": ["Julia 1.12.7", "Nemo 0.56.1 (QQ[X] factorisation, ArbField gamma at 600 bits, ZZMatrix lll)", "JSON3.jl", "poppler pdftotext / pdftocairo"],
+    "working_precision": "512 bits for all series and linear algebra this ben (ben4's Gamma-side basis is itself 256-bit); ArbField(600) for the Gamma-function evaluation of kappa",
+    "network_access_used": "none -- the target was already in the working tree from ben1's clone"
+  },
+
+  "grade": "candidate (ben5: G-5 PASS with existence AND uniqueness, confirmed by a second independent route and by exact LLL recognition of all 20 canonical coefficients; G-6 PASS; the frozen target-label hypothesis machine-confirmed; the T-a/T-b/identity bit decided (IDENTITY, both alternatives refuted) with an honest statement of where the pilot's discriminating power does and does not lie; one material correction to ben3 traced to a typo in the printed source. NOT cross-checked in the workshop's two-implementer sense and NOT verified.)"
+}
