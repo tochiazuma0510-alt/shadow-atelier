@@ -9999,3 +9999,85 @@ next delta after parent-broker publication.
 
 Delta250 is the immutable launch record required to reproduce the current A4
 frontier; it does not promote a computation that has not finished.
+
+### Delta 251 (2026-08-30): leading onto now gives every linear depth without a section
+
+- `proof_r07_compact_separated_leading_onto_lift_v376.md` is a rejected
+  intermediate draft, 12,389 bytes, SHA-256
+  `3a68285bdec75c44f62e18d76db3fc60050fc31ba9ecddff783f8afb2ae8f2d5`.
+  Its abstract compactness argument is retained, but it omitted the physical
+  equality between task395's closure and the leading image of `B_C` and
+  misstated the final dependency order.  Nothing from v376 is promoted.
+- The corrected
+  `proof_r07_compact_separated_leading_onto_lift_v377.md`, 12,924 bytes,
+  SHA-256
+  `28cea0a0bff23bc84469e151f54946565d7236ecadb374555232abaa18894785`,
+  received an independent Sol(max) PASS.  For a continuous map of compact
+  modules, onto modulo a closed ideal plus separation of the target implies
+  full onto and the exact strict identities
+
+  \[
+   f(J^nM)=J^nN\qquad(n\geq0).
+  \]
+
+  The proof uses finite-sum approximation inside `JN`, closedness of compact
+  images, and nested compact fibres.  It needs neither finite generation nor
+  projectivity of the target and constructs no global continuous section.
+  Finite relative pro-`p` images give the required separation because the
+  actual image `P_i` is a finite normal `p`-group and
+  `I(P_i) F_p[Gamma_i]` is nilpotent coordinatewise.
+- The R07 specialization is now correctly typed.  Its source is
+  `P_C=Xi-hat^r`; `A_C` is only the cumulative actual-value image used by
+  v369.  The target is the closed reachable coarse-loop correction module
+  `L_corr`, not every non-loop path in v372's broad `L_loc`.  Conditional on
+  one physical enriched action ABI and the v369 materialization square,
+  leading onto
+
+  \[
+   P_C/\widehat J P_C\twoheadrightarrow
+   L_{\rm corr}/\widehat J L_{\rm corr}
+  \]
+
+  gives
+  `B_C(J-hat^n P_C)=J-hat^n L_corr` at every depth.  V369 then materializes
+  each requested preimage by an actual registered-lane commutator value; no
+  independently chosen cofinal family of linear sections is needed.
+- Task395's one-rung calculation is not relabelled as this leading onto.
+  The physical package must prove the comparison in the canonical direction
+
+  \[
+   L_{\rm corr}/\widehat J L_{\rm corr}
+   \longrightarrow Z_0^{\rm loc}
+  \]
+
+  is an isomorphism, must prove
+  `im D_0^act=Z_0^loc`, and must authenticate the load-bearing equality
+
+  \[
+   \bar\lambda_0(\operatorname{im}\bar B_C)
+    =\lambda_0(W_C)=\operatorname{im}D_0^{\rm act}.
+  \]
+
+  Direct membership of one `-beta_0` proves only one rung.
+- Once the common action/materialization ABI, this leading quotient, and
+  v372 residual descent/localized stability are all tied to the same
+  `L_corr`, the remaining analytic Newton gate on the pro-`3` route is the
+  exact one-depth nonlinear return into
+  `J-hat^(n+1) L_corr`.  Proving that gate closes the registered pro-`3`
+  recurrence; mixed-prime, perfect-core and settlement remain subsequent
+  gates.  Direct all-rung nonemptiness remains a separate alternative route.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the former finite-free/projective/global
+  section requirement is removed.  The positive uniform-lift chain is now:
+  physical `L_corr` ABI and task395/`B_C` equality, leading quotient
+  isomorphism plus onto, and the intrinsic nonlinear one-depth return.
+- A4 remains **1/3 RUNNING** under `33274131676`; A0 remains **0/1 RUNNING**
+  under `33267817818`.  Their artifacts are inputs to the physical leading
+  calculation, not premises of the abstract theorem.
+- No compatible lift, fake numerator, or Ihara witness numerator is promoted.
+
+Delta251 replaces an all-depth family of linear choices by one exact leading
+quotient problem and keeps the genuinely nonlinear and physical obligations
+visible.
