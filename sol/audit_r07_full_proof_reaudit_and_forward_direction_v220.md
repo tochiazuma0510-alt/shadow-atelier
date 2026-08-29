@@ -6265,3 +6265,32 @@ same-depth gap in the localized Newton recursion.
 
 Delta154 converts the A4 repair into an immutable audit subject without
 promoting its source-static claims.
+
+### Delta 155 (2026-08-29): Brunnian saturation reduced to one normalized split extension
+
+- Added sol/proof_r07_normalized_brunnian_filtered_retract_v327.md.  V72's
+  simplicial normalization already projects onto
+  N_n=intersection_(i=1..n) ker d_i.  The full linear Brunnian space is the
+  kernel of the one remaining map d_0:N_n->im d_0.
+- A module-linear section s of that map gives the explicit idempotent
+  (1-s*d_0)P_n onto the full Brunnian space.  V326 then makes its ambient and
+  intrinsic J-adic filtrations equal at every depth.
+- If the actual action is through a prime-to-three finite group, Reynolds
+  averaging turns any vector-space section into the required module section.
+  In general the exact residual gate is the splitting class in
+  Ext^1_Lambda(im d_0,B_n).
+- A commuting formation idempotent then projects onto the
+  Brunnian/formation intersection.  Neither the actual three-primary split,
+  the formation projector, nor their compatible group-level lift is claimed.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 V3 REPAIR
+  ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- The Brunnian part of v321's saturation problem is reduced to one finite
+  normalized extension split plus compatibility; the formation retract and
+  actual class-two ancestry remain open.
+- The compatible lift, fake certificate and Ihara witness remain open.
+
+Delta155 turns a broad Brunnian strictness question into one precise module
+extension and one formation-intersection gate.
