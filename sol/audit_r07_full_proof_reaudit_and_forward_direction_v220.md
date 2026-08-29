@@ -7099,3 +7099,38 @@ pre-execution component without inflating the witness numerator.
 Delta179 replaces the last unnamed first-edge projected-kernel component by
 an exact finite word roster without claiming the still-missing score/member
 calculation.
+
+### Delta 180 (2026-08-29): A4 row-4 trace contradiction supersedes the v8 pass
+
+- Froze `sol/sol_reply_382_r07_a4_v8_pinned_rows1_7_driver.md`
+  (8,766 bytes; SHA-256
+  `8a1bc939d2197c80db238128913c8bc5b90c5d14f0b57e8b86dbe3289d545076`).
+  The commissioned v8 driver was deliberately not created; no candidate,
+  compiler, runtime, mutation, GAP, GHA, workflow or network command ran.
+- Static control-flow inspection found one narrow contradiction missed by
+  task379.  Row 4 calls the same path-containment validator first for the
+  valid manifest and then for the rejecting receipt, so both producer and
+  checker record that validator twice.  Their acceptance gates require its
+  whole-trace count to be one and deterministically convert the intended
+  rejection into an input stop.  Rows 5--7 and a complete stdout result are
+  unreachable in the frozen v6/v5 pair.
+- Task379's identity, authority, allocation, streaming, RLIMIT, stdout and
+  scope findings remain useful, but its aggregate seven-row STATIC PASS is
+  superseded.  Building a driver which masked the nonzero exits or omitted
+  row 4 was rejected.
+- Added `sol/sol_task_383_r07_a4_v9_trace_repair_and_pinned_driver.txt`.
+  The bounded tranche versions both sources, requires the exact ordered
+  manifest/receipt row-4 trace while preserving unique rejection traces for
+  the other six rows, and constructs the pinned fail-closed driver at once.
+  One fresh independent combined audit remains mandatory before GHA.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V8 STATIC BLOCKER / V9 TRACE REPAIR + PINNED
+  DRIVER ACTIVE**.  A0 remains **0/1 V12C REPAIR ACTIVE**, A3 **0/3 V4
+  REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- No rows-1--7 execution, full 48x2 result, actual A4 basis, common word,
+  compatible lift, fake certificate or Ihara witness is added.
+
+Delta180 prevents a second impossible A4 run while combining the two-line
+source correction and the already-needed driver into one bounded repair.

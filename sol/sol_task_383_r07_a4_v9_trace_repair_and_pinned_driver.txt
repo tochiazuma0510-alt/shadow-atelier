@@ -1,0 +1,175 @@
+Sol(max) task 383 - A4/v9 exact trace repair plus pinned rows-1--7 driver
+
+Role: researcher-authorized bounded implementer. Read every numbered section
+first to last before editing. This task supersedes the unusable driver-only
+commission in task382 after its independent reading exposed one source-static
+row-4 contradiction missed by task379. Repair exactly that contradiction and
+construct the pinned driver in the same tranche. Do not execute or compile any
+candidate or driver.
+
+1. Binding history and scope
+
+Read task373/reply373, task375/reply375, task378/reply378, task379/reply379,
+task382 and its completed blocker reply, and all frozen v6/v5/fixture owners.
+Preserve every task379 PASS clause except its now-superseded conclusion that
+all seven mutation traces are reachable. Coverage remains candidate-only
+rows 1--7. Rows 8--48, actual A4, a basis, lift, fake and Ihara remain false.
+
+The independently confirmed contradiction is exact:
+
+- producer `admit_path` enters
+  `producer.transport.path_containment` once for `manifest.path` and once for
+  `receipt.path` on every route;
+- checker `admit` does the analogous two entries;
+- row 4 mutates the receipt path, so rejection occurs on the second call;
+- producer v6 line 862 and checker v5 line 664 nevertheless require the
+  rejection validator to occur exactly once.
+
+Thus row 4 necessarily reaches the intended rejection and is then converted
+to `*:fixture:trace:resolved_path_traversal`. No v8 driver can make the frozen
+sources positive.
+
+2. Sole permitted outputs and version boundary
+
+Create exactly:
+
+- `search/d972_r07_a4_actual_owner_trace_producer_v7.py`
+- `crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v6.py`
+- `search/d972_r07_a4_actual_owner_trace_gha_driver_v9.g`
+- `sol/sol_reply_383_r07_a4_v9_trace_repair_and_pinned_driver.md`
+
+Do not edit the v6 producer, v5 checker, v5 fixture, any task198 authority or
+any other file. New source headers and result schemas must truthfully say
+Task383/v7 and Task383/v6 respectively. The frozen fixture schema remains v5;
+do not reseal or relabel it merely because downstream programs are versioned.
+
+3. Exact bounded row-4 repair
+
+In each new source, replace only the false generic `count == 1` trace test by
+an explicit role-aware first-rejection trace predicate:
+
+- for `resolved_path_traversal`, the subsequence of entries having the
+  rejection validator must be exactly
+  `[('transport','manifest.path'),('transport','receipt.path')]` using that
+  program's own role strings, in that order;
+- the final entered event must be the rejection validator, rejection stage
+  and `receipt.path` owner;
+- for each of the other six mutations, the rejection validator must still
+  occur exactly once and the final entered event must carry its validator and
+  stage; and
+- the existing exact fixture owner, identity kind, logical path, ordinary
+  validator, stage, first rejection, allowed reseals, terminal count, owner
+  change, cleanup and post-revalidation checks remain unchanged.
+
+Do not weaken the test to `>=1`, special-case acceptance by a result Boolean,
+drop the manifest admission event, change the registered validator/reason, or
+catch the later fixture-trace failure. Producer and checker own separately
+written predicates and event lists; neither imports or copies runtime evidence
+from the other.
+
+Apart from truthful version/schema labels and this predicate, reverse-delta
+comparison must recover the exact frozen sources:
+
+- producer v6: 102151 bytes,
+  `6bbae63e284e055bba2097696f0202645bc38ec9856815af9c1857ecd2131a58`;
+- checker v5: 99782 bytes,
+  `33b7905fb1f00b23b8e30c8b90b57a793cabf62ed272fb258790d3c88ba34165`.
+
+4. Frozen authority and fixture pins
+
+The driver must pin the final physical v7 producer and v6 checker identities
+computed in this task and the unchanged fixture:
+
+- `search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json`
+- bytes 8489
+- SHA-256 `474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481`
+- root body seal `c674491a2f50b200a70349780f0e7a80c21cc0fc3cecd44432dc6e70c51f63fb`
+
+Through the fixture require the exact task198 receipt/manifest paths, sizes,
+SHA-256 values and body seals. Reject aliasing, duplicate physical paths,
+escape, symlink components, nonregular owners, mutation during use and
+retained-fd mismatch before candidate work.
+
+5. Pinned serial execution contract
+
+Implement every task382 Sections 3--7 driver clause against the repaired
+owners. The driver is ASCII, no BOM/CR, one final LF, Linux x86_64/GAP 4.16.0,
+native GAP directory creation, fixed quoted paths and no unpinned repository
+helper. Run producer and checker serially exactly once with `python3 -B`, the
+fixed `--fixture`, no `--output`, bounded external timeouts and a strict
+cleanup margin. Exact zero exit and exact-one complete stdout JSON line are
+mandatory; stderr stays separate and nonaccepting.
+
+Independently admit both result files as compact ASCII canonical JSON plus one
+LF and recompute their root self seals. Require all seven ordered mutations,
+including row 4's truthful two path-validator entries, exact first rejection,
+physical identities/digests, event traces, revalidation, resource formulas,
+false conclusion flags and exact scope:
+
+```text
+candidate_only=true
+synthetic=false
+covered_rows=[1,2,3,4,5,6,7]
+remaining_rows=[8,9,...,48]
+full_a4_selftest=false
+actual_a4_numerator=false
+```
+
+Cross-compare every common field after only the preregistered producer/checker
+role-prefix and truthful v7/v6 schema normalization. The checker reads only
+the frozen fixture/authorities through its own implementation. Never inject
+producer output or normalized producer evidence into the checker.
+
+6. Resource, stale-name and durable-publication contract
+
+Retain the task382 resource/deadline requirements in full: hard Linux
+address-space limit before material work; bounds before stdout/stderr/log/JSON
+allocation; streaming hashes; serial DOM lifetimes; deadline checks during
+subprocesses, parsing, comparison, cleanup and publication; and an explicit
+maximum simultaneous-live-byte formula.
+
+Use versioned v9 invocation-specific names under bound `ci/out` and
+`search/certs`. Reject, do not delete, every stale final/temp/raw/log/alias/
+sentinel name before heavy work. Use checked directory descriptors,
+same-directory exclusive temps and no-replace publication (or retained temp
+until all post-link checks pass). Fsync files and directories. On every
+post-visible failure unlink the exact final via retained dirfd, fsync after
+rollback, remove/fsync temps, and remain nonaccepting even if rollback fails.
+
+Publish an accepted sentinel only after independent admission, cross-
+comparison, retained-fd rehash and all prior fsyncs. It pins driver, repaired
+sources, fixture and admitted results and keeps every full-A4/lift/fake/Ihara
+flag false. Emit one canonical terminal JSON object on stdout only after the
+sentinel is durable; diagnostics go to stderr.
+
+7. Static-only closure
+
+Do not run Python, Node, GAP, either source, mutations, GHA/workflows, git,
+network, imports, syntax compilation or subprocess tests. Read-only
+PowerShell and hashing are allowed. A fresh independent source+driver audit is
+required before GHA.
+
+In the designated reply give exact bytes/SHA-256 for all four outputs, exact
+forward and reverse deltas, line-numbered proof of the two row-4 trace
+sequences and all task382 driver gates, future artifact names, timeout/RLIMIT/
+memory formulas, and all command classes not run. End exactly:
+
+```text
+A4/V9 VERSIONED REPAIRED OWNERS:          COMPLETE or INCOMPLETE
+ROW4 TWO-ADMISSION TRACE:                 REPAIRED or OPEN
+OTHER SIX FIRST-REJECTION TRACES:         RETAINED or REGRESSED
+TASK379 NON-TRACE PASS CLAUSES:            RETAINED or REGRESSED
+PINNED ROWS1-7 DRIVER:                     COMPLETE or INCOMPLETE
+INDEPENDENT PRODUCER/CHECKER ROUTES:       COMPLETE or OPEN
+CANONICAL RESULT/SELF-SEAL ADMISSION:      COMPLETE or OPEN
+RESOURCE / DEADLINE BOUNDS:                COMPLETE or OPEN
+DURABLE FAIL-CLOSED PUBLICATION:           COMPLETE or OPEN
+CANDIDATE / DRIVER EXECUTION:              UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:            REQUIRED
+ROWS1-7 GHA:                               FORBIDDEN
+FULL 48x2 SELFTEST:                        INCOMPLETE
+ACTUAL A4:                                 remains 1/3
+LIFT / FAKE / IHARA:                       NONE
+```
+
+TASK383_R07_A4_V9_TRACE_REPAIR_AND_PINNED_DRIVER
