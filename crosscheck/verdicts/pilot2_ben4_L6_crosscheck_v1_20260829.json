@@ -1,0 +1,33 @@
+{
+ "checker": "crosscheck/check_pilot2_ben4_L6_v1.py (Python/mpmath 256-bit; independent of the Julia producer)",
+ "cert": "search/certs/pilot2_ben4_L6_v1_20260829.json",
+ "sample_points": "83 points on radii 0.31, 0.47, 0.61 rho with fresh angular offsets -- disjoint from every shell used by the producer",
+ "Q_max_relative_residual_on_X": 2.8403908823106822e-21,
+ "C_max_relative_residual_on_X": 2.639407202583266e-21,
+ "Xl_Q_max_relative_residual_on_X": 2.8403908823106822e-21,
+ "abs_det_of_normalised_Q_matrix": 0.020862610599179713,
+ "singular_values_of_normalised_Q_matrix": [
+  0.7502116232174664,
+  0.5365635839126115,
+  0.3582661199885598,
+  0.1446631538319661
+ ],
+ "rank_Q_by_absolute_floor": 4,
+ "rank_Q_in_cert": 4,
+ "iota_parity_basis_wrong_parity_max": [
+  2.7325787029664728e-73,
+  1.4883597875759173e-72,
+  3.445997619975838e-73,
+  1.5301987536349458e-72
+ ],
+ "q11": 7.65069011471822e-24,
+ "q12": 1.8173277773355891e-25,
+ "q13_plus_q22": 7.80619599894485e-23,
+ "q14_plus_q23": 1.0887255135567403e-25,
+ "q24_minus_q33": 2.2467025004116138e-21,
+ "iota_odd_quadratic_monomials_max": 1.8173277773355891e-25,
+ "iota_odd_cubic_monomials_max": 1.106866562953287e-24,
+ "iota_even_cubic_monomials_max": 0.5624668923531557,
+ "absolute_floor": 4.960656696933604e-09,
+ "VERDICT": "AGREES"
+}

@@ -1,0 +1,1118 @@
+{
+ "schema": "pilot2-ben4-L6/v1",
+ "title": "PILOT-2 ben4 -- L6' standard embedding of the genus-4 target: ker Sym^2 = 1 (non-hyperelliptic), rank Q = 4 (two g^1_3), ker Sym^3 = 5, essential cubic C extracted; + KMSV Example 5.26 second calibration point",
+ "date": "2026-08-29",
+ "ruling": "coordinator ruling 1803 (ben4 dispatch); step 0 graded by coordinator ruling 1804",
+ "machine_output_only": true,
+ "author": "mathematician (Opus 5)",
+ "spec": {
+  "path": "scratchpad/pilot2_spec_v1.md",
+  "version": "v1.1",
+  "sha16": "1ff1b9713d2d9207",
+  "section": "sec.4.3 (L6'), sec.4.5 G-5'-c, sec.4.6 (mutation controls), sec.5 G-5'/G-6', sec.6 W3",
+  "precedence": "ruling 1801: the certified machine values of ben1/ben2/ben3 OVERRIDE the spec's printed literals"
+ },
+ "input_certs": [
+  {
+   "path": "search/certs/pilot2_ben1_hyperbolic_v1_20260829.json",
+   "sha16": "0d6d590d5dda602f",
+   "used": "L1'-L4' hyperbolic core (gamma_reduce, rho, FD inradius) reused verbatim; [G1'-h] S_3 group layer is the input to the S_3 derivation"
+  },
+  {
+   "path": "search/certs/pilot2_ben2_L5_v1_20260829.json",
+   "sha16": "fce9991ed60aaf77",
+   "used": "the S_2(Gamma') echelon basis (N=717, attained D=16.609) and its held-out certification; ben2 exported only n<=19, so ben4 re-ran the identical production code with a full export -- see reproduction_gate"
+  },
+  {
+   "path": "search/certs/pilot2_ben3_CAL_v1_20260829.json",
+   "sha16": "f1b4ac003874cd19",
+   "used": "handover: U-D3 (build linear algebra from EVALUATIONS, not high-index coefficients), U-D4 (the hyperelliptic positive control was synthetic), U-D5 (CAL does not calibrate L6'), and the DETECTOR_NOTE that led to ruling 1803(a)"
+  }
+ ],
+ "FINAL_VERDICT": {
+  "L6_prime": "PASS",
+  "ker_Sym2": 1,
+  "ker_Sym2_predicted": 1,
+  "non_hyperelliptic": true,
+  "lemma_NONHYP": "CONFIRMED numerically (spec sec.3.5 predicted 1, measured 1 by all three detectors)",
+  "rank_Q": 4,
+  "number_of_g13": 2,
+  "ker_Sym3": 5,
+  "ker_Sym3_predicted": 5,
+  "dim_span_Xl_Q": 4,
+  "essential_cubic_C_extracted": true,
+  "W3_fires": false,
+  "S3_equivariance_of_the_standard_model": "CONFIRMED (unique order-3 A found; <A, iota> = S_3 in PGL_4; Q and C both S_3-invariant, as derived on paper before the search)",
+  "step0_second_calibration_Ex526": "PASS-with-errata (coordinator ruling 1804)",
+  "independent_crosscheck": "AGREES",
+  "attained_D_digits": 16.608921654690498,
+  "ben5_may_proceed": true
+ },
+ "part_step0_calibration_KMSV_Example_5_26": {
+  "why": "ruling 1803(b): a SECOND calibration point, hyperelliptic and of genus 2, to close ben3's U-D4 (its hyperelliptic positive control was synthetic, not a second uniformisation) and to exercise the whole ben1-ben3 machinery on a third parameter set.",
+  "target": {
+   "triple": "sigma_0 = sigma_1 = (1 2 3 4 5), sigma_inf = (1 4 2 5 3)",
+   "printed_at": "KMSV arXiv:1311.2081 p.49-50 (read from 200 dpi page images this session; pdftotext NOT trusted, per ben3)",
+   "group": "Z/5Z",
+   "genus": 2,
+   "triangle_group": "Delta(5,5,5)",
+   "published_answer": "y^2 = x^6 - x/6 ; phi(x,y) printed as (y+1)/(2x^3) -- see the forensics below"
+  },
+  "group_layer": {
+   "relator_cba": true,
+   "galois_dessin": true,
+   "C_S5_of_G": 5,
+   "order": 5,
+   "genus_RH": 2,
+   "relator_abc": true
+  },
+  "hyperbolic_layer": {
+   "relator_dcdbda": true,
+   "delta_a_pow5_is_pm_I": true,
+   "inradius_over_rho": 0.8564357370493666,
+   "rho": 0.7861513777574233
+  },
+  "rho_closed_form": "sqrt(2 cos(pi/5) - 1)",
+  "L5": {
+   "heldout_n": 122,
+   "runner_up": 2.819539930687559,
+   "dim_largest_gap": 2,
+   "rows": 230,
+   "dim_predicted": 2,
+   "pivots": [
+    0,
+    1
+   ],
+   "attained_D": 16.568278428770103,
+   "gap_ratio": 4.22035763951887e+19,
+   "heldout_defect_max": 2.702225395919722e-17,
+   "kernel_dim_absolute_floor": 2
+  },
+  "lacunarity_mod5": {
+   "g_ratio": 1.3470818867864072e-76,
+   "f_on": 1.5318619281981705,
+   "f_off": 2.002867491455222e-76,
+   "f_ratio": 1.3074725956608012e-76,
+   "phi_off": 8.717509682087164e-73,
+   "phi_leading_u0_u4_max": 1.901308500969599e-76,
+   "phi_ratio": 6.319400615835621e-76,
+   "g_off": 1.3470818867864072e-76,
+   "g_on": 1,
+   "phi_on": 1379.4836270139583
+  },
+  "reading_lacunarity": "the dessin is Galois (C_{S_5}(G) = 5), so delta_a acts on the disc by w -> zeta_5 w and every form is lacunary mod 5.  Measured off-class/on-class ratio 1.3e-76 for f and g: a structural confirmation with NO fitted input.",
+  "s_free_invariants": {
+   "what": "our echelon basis is in u = w/rho, KMSV's in v = Theta w, so a_n = f_n s^n and g_n = g_n s^(n-1) with s = Theta*rho UNKNOWN.  The eleven ratios below are s-free: ZERO fitted parameters.",
+   "n_invariants": 11,
+   "worst_relative_residual": 1.07153777382973e-21,
+   "table": [
+    {
+     "ours_re": "0.08333333333333333333334522785094538473698978487629669939156805756677337987812302",
+     "name": "a10 / a5^2",
+     "ours_im": "-1.01533957764605147211743286056405221282508329248701338394754689066731041218033e-23",
+     "rel_residual": 1.8766518931977236e-22,
+     "printed": "0.08333333333333333333333333333333333333333333333333333333333333333333333333333477"
+    },
+    {
+     "ours_re": "-0.06060606060606060606062291032160229543092226208575524465803981335076572054593925",
+     "name": "a15 / a5^3",
+     "ours_im": "1.672258243580125728386318947604438159643772201158269942712340489815099554515078e-23",
+     "rel_residual": 3.916996012332284e-22,
+     "printed": "-0.06060606060606060606060606060606060606060606060606060606060606060606060606060711"
+    },
+    {
+     "ours_re": "0.02023524720893141945774402220734843254005160068767512449813583025801388556553206",
+     "name": "a20 / a5^4",
+     "ours_im": "-1.9827874201657317987766125578258689689558735308825275066785843504954718352662e-23",
+     "rel_residual": 1.07153777382973e-21,
+     "printed": "0.02023524720893141945773524720893141945773524720893141945773524720893141945773574"
+    },
+    {
+     "ours_re": "-0.4999999999999999999999994204161304395936597812770662041616068020876139612153496",
+     "name": "g6  / a5",
+     "ours_im": "-2.600717991914567446736247245338384475360376641872194662200817752942272845599264e-25",
+     "rel_residual": 1.2705192679991839e-24,
+     "printed": "-0.5000000000000000000000000000000000000000000000000000000000000000000000000000086"
+    },
+    {
+     "ours_re": "-0.04545454545454545454545522459171605494215968303146208233462932500509357063671242",
+     "name": "g11 / a5^2",
+     "ours_im": "3.484171334710707674229639086926044129735573540283276923141377889813452554184249e-24",
+     "rel_residual": 7.809435164003654e-23,
+     "printed": "-0.04545454545454545454545454545454545454545454545454545454545454545454545454545479"
+    },
+    {
+     "ours_re": "-0.0303030303030303030302943857460787621153166313197121418967602323406313755746525",
+     "name": "g16 / a5^3",
+     "ours_im": "-2.500038656145416199228566497902469808889898896509870612519612898245182579717872e-24",
+     "rel_residual": 2.9696068737771353e-22,
+     "printed": "-0.03030303030303030303030303030303030303030303030303030303030303030303030303030355"
+    },
+    {
+     "ours_re": "1.499999999999999999999999420416130439593659781277066204161606802087613961215363",
+     "name": "x_4 / a5",
+     "ours_im": "2.600717991914567446736247245338384475360376641872194662200817752942272845599264e-25",
+     "rel_residual": 4.235064226663947e-25,
+     "printed": "1.500000000000000000000000000000000000000000000000000000000000000000000000000017"
+    },
+    {
+     "ours_re": "0.8787878787878787878787992932749223188664690304621594701705309194570885615151272",
+     "name": "x_9 / a5^2",
+     "ours_im": "-1.311742351278830890605671854496572884075724514291389296409549479724456149709211e-23",
+     "rel_residual": 1.978682812434395e-23,
+     "printed": "0.8787878787878787878787878787878787878787878787878787878787878787878787878788031"
+    },
+    {
+     "ours_re": "4.999999999999999999999998261248391318780979343831198612484820406262841883646001",
+     "name": "phi_5  / a5",
+     "ours_im": "7.802153975743702340208741736015153426081129925616583986602453258826818536801505e-25",
+     "rel_residual": 3.8115578039975514e-25,
+     "printed": "5.000000000000000000000000000000000000000000000000000000000000000000000000000069"
+    },
+    {
+     "ours_re": "-12.49999999999999999999991997117699812594229117492424108618378818481606375255975",
+     "name": "phi_10 / a5^2",
+     "ours_im": "-8.229392729279936286503479677047400228710697216637019157700108692401354569759483e-23",
+     "rel_residual": 9.183255363658474e-24,
+     "printed": "-12.50000000000000000000000000000000000000000000000000000000000000000000000000014"
+    },
+    {
+     "ours_re": "21.7803030303030303030297037210189029341950530290199092894462718978228794280938",
+     "name": "phi_15 / a5^3",
+     "ours_im": "5.279866275797447274030005101753706652627006129210619490040156775119499784818749e-22",
+     "rel_residual": 3.667131711996171e-23,
+     "printed": "21.78030303030303030303030303030303030303030303030303030303030303030303030303056"
+    }
+   ]
+  },
+  "hyperelliptic_discriminator": {
+   "what": "KMSV's own test (their sec.5): x = f/g, y = (dx/du)/g, look for y^2 + u(x) y = v(x) with deg u <= g+1 = 3, deg v <= 2g+2 = 6.  Built from EVALUATION rows (U-D3), 111 fit points on three shells inside the FD.",
+   "answer": "POSITIVE (as it must be: every genus-2 curve is hyperelliptic)",
+   "detail": {
+    "heldout_radius_over_rho": 0.72,
+    "B_measured_im": "-2.054657983146389649818764097578782612062549252350947616548431787032633117809545e-22",
+    "kernel_im": [
+     "0.0",
+     "7.564807053720778305702297867746683206484592427944128926494245708058634029794633e-28",
+     "1.150957898058379120447299654334489672366209780230388669814012042264353728403554e-25",
+     "-1.98123039397677664103702211862208071381857379716600010138100169227109978291476e-29",
+     "-3.250750050269499409690326703671418892586824291588264953270565601101198062777159e-24",
+     "3.414574842221735253565922569770108399012551387078898286465984304947494180789995e-28",
+     "2.054657983146389649818764097578782612062549252350947616548431787032633117809545e-22",
+     "3.071992197844875986510858927145611747453890201277712695193531249651206176766188e-27",
+     "-5.27999551568444311182068334873220700092534517388142273445458154303249258398714e-28",
+     "8.819586307614877357900691948258408266542624518620492365320552748842720092175951e-25",
+     "3.465508650946393363666361851982218869455435033896945442738718816183104148765982e-29",
+     "-3.265756759976544205407472145638782576762289765638380028916740250268106482586239e-24"
+    ],
+    "n_fit_points": 69,
+    "fit_radii_over_rho": [
+     0.5,
+     0.58,
+     0.66
+    ],
+    "heldout_max_relative_residual": 2.1441505238940572e-23,
+    "heldout_npts": 19,
+    "kernel_re": [
+     "1.0",
+     "3.272112536267304268754330427465698143941910338176701886028303381343319171151237e-27",
+     "3.167065247799803752529180496465454522366839949176054018203173539154511884117739e-25",
+     "1.488184566371557453523976955305395577797190037499159836265366873723114905882386e-30",
+     "2.350940269697664497822178266515323868019795167369971667046877646020537042516676e-24",
+     "4.836951057102034314358042031738348159100247725942647888242675823184528707641249e-29",
+     "30.63723856396341032240764105804656363680417803808172468904060183495341916135466",
+     "-9.061150009483207913584161383484848327684720076552185153104451226801949485263111e-27",
+     "1.969882902694574404423696979157621763415872092568758567507801266604036362958119e-27",
+     "4.76126398794800210717664584306498804135941024693414003260221183071560303123209e-26",
+     "2.715172542049473593583065793352001286935756186383336691350462191096875942920494e-30",
+     "-0.9999999999999999999999976329810826859032296286572403793749078639349309489094273"
+    ],
+    "kernel_dim_largest_gap": 1,
+    "B_measured_re": "-30.63723856396341032240764105804656363680417803808172468904060183495341916135466",
+    "largest_absent_coefficient": 4.011769689428006e-24,
+    "kernel_dim_absolute_floor": 1,
+    "x6_coeff_residual": 4.033354158793311e-24,
+    "pivnorms_over_s1": [
+     1,
+     0.9999999997281622,
+     0.9999998048668773,
+     0.9999760382771706,
+     0.9999704380115634,
+     0.9855439803374421,
+     0.9652898006425744,
+     0.9014319592624097,
+     0.8987587854839577,
+     0.6201868098443775,
+     0.5554425585844108,
+     5.151957441128009e-24
+    ],
+    "B_predicted_minus_s5_over_6_rel": 2.0826369506174356e-24,
+    "kernel_dim_predicted": 1,
+    "columns": [
+     "y^2",
+     "y",
+     "y*x",
+     "y*x^2",
+     "y*x^3",
+     "1",
+     "x",
+     "x^2",
+     "x^3",
+     "x^4",
+     "x^5",
+     "x^6"
+    ]
+   },
+   "closes": "ben3 U-D4: this is a REAL hyperelliptic curve reached through the full L1'-L5' pipeline, not a synthetic canonical image."
+  },
+  "sym2_in_genus2": {
+   "pivnorms_over_s1": [
+    1,
+    1,
+    0.9999999998892105
+   ],
+   "note": "h^0(2K)=3g-3=3 equals the number of degree-2 monomials, so the Sym^2 kernel is 0 for EVERY genus-2 curve; this is NOT a hyperellipticity discriminator in genus 2",
+   "kernel_dim_absolute_floor": 0
+  },
+  "coordinator_grade": "PASS-with-errata (ruling 1804): both printed-value findings accepted as KMSV errata candidates and recorded in the LEDGER; W2 does NOT re-fire, because its trigger is the failure of the PRE-REGISTERED CAL (Example 5.27), which passed in ben3, and because the Example 5.26 misprints are established by the internal exact consistency of the printed page alone -- against the corrected values the calibration succeeds.",
+  "verdict": "PASS -- all eleven parameter-free invariants agree with the printed KMSV values to <= 1.072e-21; the hyperelliptic relation is recovered with 9 of its 12 coefficients absent at the 4e-24 level and the two present ones matching the parameter-free predictions x^6 coefficient = 1 and B = -s^5/6 = -20 a_5."
+ },
+ "part_printed_forensics_Example_5_26": {
+  "discipline": "spec sec.5 'printed-value quarantine': a disagreement with printed values is NOT declared a FAIL unilaterally.  Both findings below are established from the PRINTED DATA ALONE (no input from our computation), and both are reported to the coordinator (ops/express/) rather than adjudicated here.",
+  "finding_1_f5_numerator": {
+   "printed": "f/(1-w)^2 = 1 + (120/5!)(Theta w)^5 + (21/10!)(Theta w)^10 - (45864/15!)(Theta w)^15 + (237414996/20!)(Theta w)^20 + O(w^25)",
+   "internal_inconsistency": "the same page pair prints x = f/g = (Theta w)^-1 + (3/(10*4!))(Theta w)^4 + ... and g/(1-w)^2 = (Theta w) - (3/6!)(Theta w)^6 - ... .  Expanding x = f/g gives x_4 = f_5 - g_6, hence f_5 = x_4 + g_6 = 1/80 - 1/240 = 1/120 = 1/5!.",
+   "displayed_f5": 1,
+   "f5_forced_by_printed_x_and_g": 0.008333333333333333,
+   "ratio": 120,
+   "conclusion": "the displayed numerator 120 must be 1.  With f_5 = 1/5! all eleven of our parameter-free invariants match the printed f, g, x and phi coefficients to <= 1.072e-21; with the displayed 120 they miss by factors of exactly (5!)^m.",
+   "independent_confirmation": "our own computation, which never used the printed f_5, agrees with the corrected value."
+  },
+  "finding_2_phi_formula": {
+   "printed": "phi(x,y) = (y+1)/(2x^3)   (KMSV p.50)",
+   "objection": "on y^2 = x^6 - x/6 the point (0,0) is a Weierstrass point at which x vanishes to order 2, so x^3 vanishes to order 6 while y+1 -> 1.  Hence (y+1)/(2x^3) has degree 6 and cannot be the degree-5 Belyi map.",
+   "repair": "(y+x^3)/(2x^3) has divisor 5*inf_- - 5*(0,0) and (phi-1) has divisor 5*inf_+ - 5*(0,0); its expansion at w = 0 begins (1/24)(Theta w)^5, exactly the printed phi(w).  The displayed 1 should be x^3.",
+   "machine_confirmation": {
+    "phi_vanishes_to_order_exactly_5_max_coeff_u0_u4": 1.901308500969599e-76,
+    "phi_lacunary_mod5_offclass_over_onclass": 6.319400615835621e-76,
+    "phi5_over_a5_vs_printed_1_over_24": {
+     "ours_re": "4.999999999999999999999998261248391318780979343831198612484820406262841883646001",
+     "name": "phi_5  / a5",
+     "ours_im": "7.802153975743702340208741736015153426081129925616583986602453258826818536801505e-25",
+     "rel_residual": 3.8115578039975514e-25,
+     "printed": "5.000000000000000000000000000000000000000000000000000000000000000000000000000069"
+    },
+    "reading": "(y+x^3)/(2x^3) built from OUR series is lacunary mod 5 to 6.3e-76 -- i.e. it is Delta-invariant, as a Galois Belyi map must be -- and its three leading coefficients reproduce the printed phi(w) parameter-free.  (y+1)/(2x^3) is neither."
+   },
+   "escalation": "ops/express note filed 2026-08-29; collected and archived by the coordinator as ops/express/archive/20260829_math_fable_kmsv_ex526_printed_values.md."
+  },
+  "ADJUDICATED": {
+   "ruling": "coordinator ruling 1804",
+   "decision": "both findings accepted as KMSV erratum candidates and recorded in the LEDGER (third such entry; publication-hold applies).  W2 does not re-fire.  Step 0 is graded PASS-with-errata.",
+   "note": "the judgment that was held open in the first issue of this certificate is now closed by 1804; the findings themselves are unchanged."
+  }
+ },
+ "part_paper_derivation_S3": {
+  "status": "PRE-REGISTERED: written and recorded before the Sym^3 kernel was computed and before the order-3 search was coded.  Derived from spec sec.3.5 (ben1 [G1'-h] group layer), not fitted.",
+  "step_1_H0K_as_S3_rep": {
+   "inputs": "dim V^{C_3} = g(X/C_3) = 2, dim V^{S_3} = g(X/S_3) = 1, dim V^{tau} = g(X/C_2) = 2  (spec sec.3.5, machine-certified in ben1)",
+   "conclusion": "V := H^0(X,K) = triv + sgn + std  (dims 1+1+2 = 4); C_3-eigenvalue multiplicities (2,1,1), which is exactly the Chevalley-Weil statement of spec sec.3.5"
+  },
+  "step_2_Sym2": {
+   "character_of_Sym2V": "(10, 2, 1) on the classes (e, transposition, 3-cycle)",
+   "Sym2V": "3 triv + 1 sgn + 3 std",
+   "H0_2K": {
+    "method": "H^0(2K)^{C_3} = H^0(Y, 2K_Y) + twists (unramified C_3, Y = X/C_3 of genus 2, all three of degree 4 > 2g_Y-2) = 3+3+3 ; H^0(2K)^{tau} = H^0(Y', 2K_{Y'} + B) with deg 6 > 2, dim 5",
+    "result": "2 triv + 1 sgn + 3 std  (dim 9 = h^0(2K))"
+   },
+   "conclusion": "ker(Sym^2 V -> H^0(2K)) = triv, dimension 1  ==>  Q EXISTS, IS UNIQUE, AND IS S_3-INVARIANT"
+  },
+  "step_3_Sym3": {
+   "character_of_Sym3V": "(20, 0, 2)",
+   "Sym3V": "4 triv + 4 sgn + 6 std",
+   "H0_3K": "2 triv + 3 sgn + 5 std (dim 15); from H^0(3K)^{C_3} = 5 and H^0(3K)^{tau} = h^0(Y', 3K_{Y'} + B) = 7",
+   "kernel": "2 triv + 1 sgn + 1 std, dimension 2+1+2 = 5   ==> MATCHES the pre-registered ker Sym^3 = 5",
+   "V_times_Q": "V (x) triv = triv + sgn + std, dimension 4   ==> MATCHES the pre-registered dim span{X_l Q} = 4",
+   "quotient": "triv, dimension 1  ==>  the essential cubic C EXISTS, IS UNIQUE mod V*Q, AND IS S_3-INVARIANT",
+   "remark": "the isotypic bookkeeping reproduces the three dimensions 1, 5, 4 of spec sec.4.3 independently of Riemann-Roch, and adds the invariance statements, which are new."
+  },
+  "step_4_shape_of_Q_and_C": {
+   "eigenbasis": "e_1 in triv, e_2 in sgn, (e_3,e_4) the C_3-eigenvectors in std with tau: e_1 -> e_1, e_2 -> -e_2, e_3 <-> e_4",
+   "invariant_quadrics": "(Sym^2 V)^{S_3} = <e_1^2, e_2^2, e_3 e_4>, dimension 3",
+   "prediction_Q": "Q = alpha e_1^2 + gamma e_2^2 + delta e_3 e_4 ; the (1,2),(1,3),(1,4),(2,3),(2,4),(3,3),(4,4) entries of the 4x4 symmetric matrix all VANISH.  delta != 0 (else Q has rank <= 2 = a pair of planes, impossible for a canonical curve).  rank Q = 2 + #{alpha != 0} + #{gamma != 0}: rank 4 iff both nonzero (two g^1_3), rank 3 iff exactly one vanishes (one g^1_3).",
+   "invariant_cubics": "(Sym^3 V)^{S_3} = <e_1^3, e_1 e_2^2, e_1 e_3 e_4, e_3^3 + e_4^3>, dimension 4; e_1*Q lies in the span of the first three",
+   "prediction_C": "modulo V*Q, C is a combination of those four, with coefficient(e_3^3) = coefficient(e_4^3); the other 15 cubic monomials VANISH",
+   "honest_caveat": "the EXISTENCE of an order-3 isometry of Q alone is not a constraint on Q (every smooth quadric has many).  The content of the test is the JOINT condition A*Q = Q and A*C = C mod V*Q, which is what part_S3_numerical measures."
+  },
+  "step_5_the_involution_iota": {
+   "status": "POST-HOC -- this derivation was made AFTER the Sym^2 kernel was first printed, when the sparsity of Q was noticed.  It is a derivation from pre-registered inputs, not a fitted parameter, and it is reported as post-hoc.",
+   "statement": "the transposition of S_3 that fixes the branch point 0 fixes the point P_0 (sigma_0 is a 9-cycle, so the fibre over 0 is a single point).  An automorphism of X fixing P_0 lifts to an isometry of H fixing z_a, i.e. a rotation, i.e. w -> lambda w with |lambda| = 1; for an involution lambda = -1.  Since omega = f dz = 2i S(w) dw for weight 2 (the VW factor (1-w)^2 is exactly dz/dw), the pullback acts on the series by S(u) -> -S(-u), i.e. btilde_n -> (-1)^(n+1) btilde_n.",
+   "consequences": "f_1, f_3 are EVEN series and f_2, f_4 are ODD series; the echelon basis is automatically an eigenbasis with iota = diag(-1,+1,-1,+1); the (+1)-eigenspace <f_2,f_4> has dimension 2 = g(X/C_2), an independent confirmation of spec sec.3.5's F_tau = 2; and Q, being S_3-invariant, must have vanishing coefficients on X1X2, X1X4, X2X3, X3X4.",
+   "measured": {
+    "basis_wrong_parity_max": [
+     2.7325787029664728e-73,
+     1.4883597875759173e-72,
+     3.445997619975838e-73,
+     1.5301987536349458e-72
+    ],
+    "max_iota_odd_monomial": 1.8173277773355891e-25,
+    "basis_right_parity_max": [
+     1.3768001389882931,
+     1.3314650841994087,
+     1.7944284964015018,
+     1.4066504144394905
+    ],
+    "q11": 7.65069011471822e-24,
+    "q14_plus_q23": 1.0887255135567403e-25,
+    "q12": 1.8173277773355891e-25,
+    "q24_minus_q33": 2.2467025004116138e-21,
+    "q13_plus_q22": 7.80619599894485e-23
+   }
+  }
+ },
+ "part_L6_step1_Sym2": {
+  "method": "10 degree-2 monomials in the echelon basis, EVALUATION rows at 111 points on three shells at 0.42, 0.55, 0.68 times rho, all strictly inside the fundamental domain (ben1 inradius/rho = 0.8845), so distinct parameters give distinct points of X.  Column-equilibrated, then the ben2 BigFloat column-pivoted modified Gram-Schmidt.",
+  "why_evaluations": "ben3 U-D3.  The contribution of btilde_n to f(u) is btilde_n (|u|/rho)^n, so |u| <= 0.68 rho suppresses the least accurate tail; the coefficient-truncation scan below shows the answer is already converged at n_max = 240.",
+  "kernel_dim_absolute_floor": 1,
+  "kernel_dim_largest_gap": 1,
+  "kernel_dim_float64_svd": 1,
+  "kernel_dim_predicted": 1,
+  "absolute_floor_value": 4.960656696933604e-09,
+  "criterion": "ruling 1803(a): kernel dim = #(pivot norms below 10^(-D/2) x the leading one).  The drop detector is reported only as a second opinion; it is not the verdict.",
+  "pivnorms_over_sigma1": [
+   1,
+   0.9999999999999886,
+   0.9999959511692647,
+   0.9988327189783165,
+   0.9941292181840278,
+   0.9838548685175696,
+   0.9298164976260624,
+   0.9158170934266344,
+   0.4866857299346792,
+   4.224448605906258e-21
+  ],
+  "W3_thresholds": {
+   "theta4_caveat": "ruling 1803(a): theta4 presupposes a jump exists; the verdict here rests on the ABSOLUTE FLOOR, not on theta4",
+   "theta3_ok": true,
+   "theta1": 1.1520692410702722e+20,
+   "theta2_ok": true,
+   "theta3": 2.054714035141765,
+   "theta1_ok": true,
+   "theta2": 4.224448605906258e-21,
+   "theta4_jump_indices": [
+    9
+   ],
+   "theta4_ok": true
+  },
+  "verdict": "ker Sym^2 = 1  ==>  X IS NOT HYPERELLIPTIC; spec lemma NONHYP is confirmed numerically.  The hyperelliptic branch (kernel 3) is excluded by 20 orders of magnitude.",
+  "Q_monomials": [
+   "X1X1",
+   "X1X2",
+   "X1X3",
+   "X1X4",
+   "X2X2",
+   "X2X3",
+   "X2X4",
+   "X3X3",
+   "X3X4",
+   "X4X4"
+  ],
+  "Q_re": [
+   "-7.203804216470566087183888057592953378091974028367264482515856994122690471221784e-25",
+   "-5.527340078407619047205974037710938763147979996845263692993950853882165640267012e-27",
+   "0.5020050038313899473213006718443925071980696050979101085441573787307537602897407",
+   "5.603920073048714061967497091663005529718690737948895930183610004066459610742702e-26",
+   "-0.5020050038313899473212254174749296692740496089523523327957357436733350062968325",
+   "5.0891759852824228533205214918681718235620569046906923275082409483618548614261e-26",
+   "0.06131044367517904126617957095646191067794621726598267353072991610195718933590872",
+   "0.06131044367517904126649703611982687923244455511098144069634751186118465722240566",
+   "-7.447446469035520987564147293057096019131430127341067601158040882824215733215664e-26",
+   "0.466698305300651807242382985793642280451967814729956150877849052226794101530999"
+  ],
+  "Q_im": [
+   "-7.616699500410574161342405822918633068444498555717168136904820468987156657726512e-24",
+   "-1.816487022095471927405639689105939933280560529126369294682385230497244796072729e-25",
+   "0.0",
+   "-1.761959929883106022382068826183285795965685485507402716138387376780545804111685e-26",
+   "-2.074727630666118678241493358778726554860644692520264875550006981211437307107916e-23",
+   "-2.849941668767346142624491381309950894598666120085168718722390028029190741666045e-27",
+   "0.3477088045677384837097607681705149132755445195178769476652192606899271811554223",
+   "0.3477088045677384837119849282356643286687650465688200561146339288150459539275357",
+   "-1.275038639485570775303435699700731952797024102759581541709482210706929881108435e-25",
+   "-0.1698642915119178695440605771050128017991582719116319598527219538401053505540978"
+  ],
+  "Q_normalisation": "unit 2-norm over the 10 monomial coefficients; global phase fixed by making the largest-modulus coefficient real positive",
+  "Q_structure": {
+   "basis_wrong_parity_max": [
+    2.7325787029664728e-73,
+    1.4883597875759173e-72,
+    3.445997619975838e-73,
+    1.5301987536349458e-72
+   ],
+   "max_iota_odd_monomial": 1.8173277773355891e-25,
+   "basis_right_parity_max": [
+    1.3768001389882931,
+    1.3314650841994087,
+    1.7944284964015018,
+    1.4066504144394905
+   ],
+   "q11": 7.65069011471822e-24,
+   "q14_plus_q23": 1.0887255135567403e-25,
+   "q12": 1.8173277773355891e-25,
+   "q24_minus_q33": 2.2467025004116138e-21,
+   "q13_plus_q22": 7.80619599894485e-23
+  },
+  "exact_linear_conditions_on_Q": {
+   "from_the_pivot_structure": "f_i = u^(i-1) + O(u^4), so the u^0, u^1, u^2, u^3 coefficients of Q(P(u)) give q11 = 0, q12 = 0, q13 + q22 = 0, q14 + q23 = 0",
+   "from_iota": "q12 = q14 = q23 = q34 = 0",
+   "observed_and_NOT_implied_by_either": "q24 = q33 exactly (|q24 - q33| = 2.2467e-21).  This is a consequence of the S_3-invariance: the S_3-invariant quadrics form a 3-dimensional space, and part_S3_numerical exhibits the eigenbasis in which the statement becomes 'the (3,3) and (4,4) entries vanish'."
+  }
+ },
+ "part_L6_step2_rank_of_Q": {
+  "matrix_convention": "M_ii = q_ii, M_ij = q_ij/2 ; then normalised to unit Frobenius norm",
+  "singular_values": [
+   0.7502116232174662,
+   0.5365635839126115,
+   0.3582661199885596,
+   0.1446631538319661
+  ],
+  "rank": 4,
+  "abs_det": 0.020862610599179713,
+  "max_3x3_minor_abs": 0.10533319776317153,
+  "floor": 4.960656696933604e-09,
+  "reading": "RANK 4: the quadric is a SMOOTH quadric surface (P^1 x P^1), so X has bidegree (3,3) on it and carries TWO distinct g^1_3 (two trigonal pencils).  The smallest singular value is 0.1447 -- there is no near-degeneracy: the rank-3 (cone, one g^1_3) alternative is excluded by seven orders of magnitude relative to the floor.",
+  "spec_status": "spec sec.4.3 L6'-c/d lists the rank and the number of g^1_3 as MEASUREMENTS with no prediction.  They are now measured.",
+  "S3_refinement": "in the S_3 eigenbasis Q = alpha e_1^2 + gamma e_2^2 + delta e_3 e_4 with |alpha| = 0.547031, |gamma| = 1.000000, |delta| = 0.007810 (max-normalised); all three nonzero, which is precisely the rank-4 case of the paper derivation.",
+  "N_stability": {
+   "singular_values_N538": [
+    0.7502116232174664,
+    0.5365635839126116,
+    0.35826611998855995,
+    0.14466315383196615
+   ],
+   "rank_N538": 4,
+   "abs_det_N538": 0.020862610599179713
+  }
+ },
+ "part_L6_step3_Sym3_and_C": {
+  "kernel_dim_absolute_floor": 5,
+  "kernel_dim_largest_gap": 5,
+  "kernel_dim_float64_svd": 5,
+  "kernel_dim_predicted": 5,
+  "pivnorms_over_sigma1": [
+   1,
+   0.9999999999920614,
+   0.9996970189499848,
+   0.9994564709547743,
+   0.9993496020771446,
+   0.9990087900290038,
+   0.9979573353127218,
+   0.9539505845576373,
+   0.9437071976696059,
+   0.8832638540021447,
+   0.8182688695520396,
+   0.7803482036288777,
+   0.463557621864139,
+   0.41084980848937336,
+   0.2722468906160639,
+   3.0542097715190017e-21,
+   2.1973373403344334e-21,
+   1.3425115995692662e-22,
+   1.8240014438428435e-24,
+   1.47366255374148e-25
+  ],
+  "W3_thresholds": {
+   "theta3_ok": true,
+   "theta1": 8.913824228931817e+19,
+   "theta2_ok": true,
+   "theta3": 3.6731365333029635,
+   "theta1_ok": true,
+   "theta2": 3.0542097715190017e-21,
+   "theta4_jump_indices": [
+    15
+   ],
+   "theta4_ok": true
+  },
+  "dim_span_Xl_Q": 4,
+  "max_component_of_Xl_Q_outside_ker_Sym3": 2.799163683976079e-20,
+  "reading_containment": "each of the four cubics X_l*Q lies inside ker(Sym^3) to a relative 2.7992e-20 -- an independent check that the SAME Q found in Sym^2 generates the degree-3 part of the ideal.",
+  "kernel_projected_onto_complement_of_XlQ": [
+   1.5087052244254633,
+   4.067603135371183e-20,
+   2.9283053633175803e-20,
+   2.83720593792466e-20,
+   2.5047486741173033e-20
+  ],
+  "dim_ker_mod_XlQ": 1,
+  "reading_quotient": "the five kernel vectors project onto span{X_l Q}^perp with norms 1.509, 4.1e-20, 2.9e-20, 2.8e-20, 2.5e-20: the quotient is EXACTLY one-dimensional, so the essential cubic C is uniquely determined modulo V*Q.",
+  "C_monomials": [
+   "X1X1X1",
+   "X1X1X2",
+   "X1X1X3",
+   "X1X1X4",
+   "X1X2X2",
+   "X1X2X3",
+   "X1X2X4",
+   "X1X3X3",
+   "X1X3X4",
+   "X1X4X4",
+   "X2X2X2",
+   "X2X2X3",
+   "X2X2X4",
+   "X2X3X3",
+   "X2X3X4",
+   "X2X4X4",
+   "X3X3X3",
+   "X3X3X4",
+   "X3X4X4",
+   "X4X4X4"
+  ],
+  "C_re": [
+   "-1.156944769450360493998448430905244716139528408977097151810750799865085081503573e-25",
+   "-1.206924585193429007772781539747801881798093390313788098999778570986451638445422e-24",
+   "-1.194833594673096089673263304901291069861798875854099192155447974699332030192756e-25",
+   "0.3698604600921887127910574066769142758964718682705441275593272484283520713052212",
+   "-3.141580171499315078468980489138070550622728877706555936692350810403311908521707e-25",
+   "-0.2532633305535354605491954249717629534245935172728316616422884872750283680504499",
+   "-1.059006349691695921379655897999167353621467912582391634468362914798948690871704e-24",
+   "-1.381030790931114650225530604468960066876478977364902040139398324953691263662718e-25",
+   "0.06049225710043449525311355340431289320484667642760119179252457987704590522199858",
+   "-1.232032727302532687362688242021780305656550151182654587275339186594376756949556e-26",
+   "-0.1165971295386532522419178724829971592123811796968267267267877242592172175844614",
+   "1.35410635764287022459736607348141976358650730336575998661183848307504782450712e-26",
+   "0.06856515635500987168585008820715128668809618483892224802112698856872038894413679",
+   "0.03291644388122070787033873127163272695263667039459957299493543239317576254148719",
+   "-5.131656904436148076906641875391720055429175261069612698655124599166382999310759e-26",
+   "0.5624668923531557307199867314390966837122706921992751508146094313732193994964589",
+   "-2.272643789764774890540858473136569464649658346376531815339974827261537339754286e-26",
+   "-0.3390868971555432841225024040466814114084079671812069849146489555593217707449836",
+   "-1.602582284679499124865235181562497503164740220684197878988972264805688951117808e-25",
+   "0.01941586934823037855171038838098010602999047738976520947601849178812265831162686"
+  ],
+  "C_im": [
+   "-8.893326129897908464385774970035510436152096637622294165899572272592119786809661e-26",
+   "4.354860475376756204481380190752967543974458088141805214445149710183721377107171e-24",
+   "1.369279358584725505596821663286501425947147244510912638282769632348533009098319e-25",
+   "0.1346181983055593152130568784471774025280988464145166022917316956360632689879419",
+   "7.24541186435621047782081501188806890965458727133860704138536547107337557447248e-25",
+   "-0.09218031375260894773962669683976788010027791113069544757511893888967498498362426",
+   "-3.219613944197230171699796422669001444717682259959612631383573227470920287997271e-25",
+   "-8.222969244301335616887764320650275611706516775194920698445055273191351191205348e-27",
+   "-0.3430686379213344537084389132422313253653468552296060392663170521186977967381711",
+   "-3.017681789914495423398207973847586223720007171274074046837233295331906349581256e-25",
+   "-0.04243788455295036747343620123530629620881356937376255369606953073230842596445437",
+   "-7.765627886496332241502472811640209017138327837236028370183478422531142944275324e-26",
+   "-0.388852324695413145425501379649835057099808637125961895573833357541243296129029",
+   "-0.1866784297500335971842083303680966895761734204395520074826451271218210963461272",
+   "4.67869428004051859333741150663265916158466415733525671674342229223720010305235e-25",
+   "0.0",
+   "-1.149250406636116818271841260986511897515035902532462061834841567253417742899113e-25",
+   "-1.350422345353423558356340737029025982008583254017513198782991263549203348766685e-21",
+   "1.313012244645109555187310216577231072727630542111578199901759455600344370474933e-25",
+   "0.1101128668466916932243652061406972234396755949554865382743820889228193755940675"
+  ],
+  "C_normalisation": "the component of ker(Sym^3) orthogonal (standard Hermitian form on the 20 monomial coordinates) to span{X_l*Q}; unit norm; phase fixed as for Q.  C is only defined modulo span{X_l*Q}; this fixes the representative.",
+  "C_structure": {
+   "iota_odd_monomials": [
+    "X1X1X1",
+    "X1X1X3",
+    "X1X2X2",
+    "X1X2X4",
+    "X1X3X3",
+    "X1X4X4",
+    "X2X2X3",
+    "X2X3X4",
+    "X3X3X3",
+    "X3X4X4"
+   ],
+   "max_iota_odd_monomial": 1.106866562953287e-24,
+   "c_X1sqX2": 4.519012803073587e-24,
+   "max_iota_even_monomial": 0.5624668923531557,
+   "c_X1cubed": 1.4592579265112104e-25
+  },
+  "C_prediction_registered_before_computing_C": "C is S_3-invariant hence iota-invariant, so its coefficient vanishes on every cubic monomial with an ODD number of indices from {1,3}; in addition the pivot structure forces coeff(X1^3) = coeff(X1^2 X2) = 0.  Measured: the ten iota-odd monomials are all below 1.1069e-24 against an iota-even maximum of 5.6247e-01.",
+  "standard_model": "X = {Q = 0} cap {C = 0} in P^3, a complete intersection of degree 6 and genus 4 (spec sec.4.3 L6'-c)"
+ },
+ "part_L6_step4_verification": {
+  "held_out_design": "41 points on a shell at 0.72 rho with a different angular offset, disjoint from the three fit shells as exact BigFloat radii; a WIDE variant at 0.78/0.86/0.93 rho probes radius sensitivity.",
+  "residuals_N717": {
+   "Q_residual_fit": 6.048229656539974e-21,
+   "C_residual_fit": 7.776185408172948e-21,
+   "C_residual_heldout": 1.5325469062175977e-20,
+   "Q_residual_heldout": 9.40342592974571e-21,
+   "Q_residual_wide": 8.660252021568086e-20,
+   "C_residual_wide": 2.658011450045639e-19
+  },
+  "residuals_N538": {
+   "Q_residual_fit": 2.118026374336644e-17,
+   "C_residual_fit": 2.364273591161693e-17,
+   "C_residual_heldout": 3.744688730534524e-17,
+   "Q_residual_heldout": 3.2929391474454524e-17,
+   "Q_residual_wide": 3.841811703914665e-16,
+   "C_residual_wide": 3.795983904619974e-16
+  },
+  "reading": "Q and C vanish on held-out points of X to 9.4e-21 and 1.5e-20 at N = 717 (attained D = 16.61) and to 3.3e-17 and 3.7e-17 at N = 538 (attained D = 12.53): the residual falls by about four orders of magnitude when D rises by about four digits, as it must if the objects are exact and the error is the series truncation.",
+  "coefficient_truncation_scan": [
+   {
+    "ker_sym2": 1,
+    "dQ": 1.0123001214972975e-12,
+    "n_max": 60
+   },
+   {
+    "ker_sym2": 1,
+    "dQ": 2.145342363178606e-23,
+    "n_max": 120
+   },
+   {
+    "ker_sym2": 1,
+    "dQ": 0,
+    "n_max": 240
+   },
+   {
+    "ker_sym2": 1,
+    "dQ": 5.877471754111438e-39,
+    "n_max": 480
+   },
+   {
+    "ker_sym2": 1,
+    "dQ": 5.877471754111438e-39,
+    "n_max": 718
+   }
+  ],
+  "reading_truncation": "using only the first n_max series coefficients to EVALUATE: the kernel dimension is 1 already at n_max = 60, and Q is converged (to 2.1e-23) by n_max = 120 and exactly by n_max = 240.  The answer therefore does not depend on the least accurate part of the series -- the practical content of U-D3.",
+  "N_stability_of_Q_and_C": {
+   "sin_angle_Q_N538_vs_N717": 6.238766557530878e-17,
+   "sin_angle_C_N538_vs_N717": 1.699271700755184e-16,
+   "note": "computed as |u - <v,u>v| from the full BigFloat coefficient strings, avoiding the 1-|<u,v>|^2 cancellation"
+  },
+  "reproduction_gate": {
+   "what": "ben2 exported only the first 20 coefficients of each basis vector, so ben4 re-ran ben2's production driver with a full export.  The first 20 coefficients must reproduce the ben2 cert exactly.",
+   "max_abs_difference_over_4x20_complex_coefficients": 0.0,
+   "heldout_defect_ben2_cert": 16.608921654690498,
+   "heldout_defect_ben4_rerun": 16.608921654690498,
+   "identical": true
+  }
+ },
+ "part_independent_crosscheck": {
+  "what": "a second implementation in a second language (Python/mpmath at 256 bits) that reads ONLY the certificate's published Q and C and the exported basis, and recomputes the geometry on 83 sample points lying on radii 0.31, 0.47, 0.61 rho -- shells used by NEITHER the fit, the held-out, nor the wide design of the Julia producer.",
+  "checker": "crosscheck/check_pilot2_ben4_L6_v1.py (Python/mpmath 256-bit; independent of the Julia producer)",
+  "sample_points": "83 points on radii 0.31, 0.47, 0.61 rho with fresh angular offsets -- disjoint from every shell used by the producer",
+  "Q_max_relative_residual": 2.8403908823106822e-21,
+  "C_max_relative_residual": 2.639407202583266e-21,
+  "Xl_Q_max_relative_residual": 2.8403908823106822e-21,
+  "singular_values_of_Q": [
+   0.7502116232174664,
+   0.5365635839126115,
+   0.3582661199885598,
+   0.1446631538319661
+  ],
+  "abs_det_of_Q": 0.020862610599179713,
+  "rank_Q": 4,
+  "iota_parity_basis_wrong_parity_max": [
+   2.7325787029664728e-73,
+   1.4883597875759173e-72,
+   3.445997619975838e-73,
+   1.5301987536349458e-72
+  ],
+  "iota_odd_quadratic_monomials_max": 1.8173277773355891e-25,
+  "iota_odd_cubic_monomials_max": 1.106866562953287e-24,
+  "structure_q11_q12_q13q22_q14q23_q24q33": [
+   7.65069011471822e-24,
+   1.8173277773355891e-25,
+   7.80619599894485e-23,
+   1.0887255135567403e-25,
+   2.2467025004116138e-21
+  ],
+  "VERDICT": "AGREES",
+  "reading": "the four singular values of Q agree with the Julia producer to every printed digit; Q, C and the four cubics X_l*Q all vanish on the fresh points to 2.8e-21.  This is the workshop's 'searcher / checker separation': the checker recomputes the geometry from the published certificate alone."
+ },
+ "part_controls": {
+  "MU_H_doubleprime_hyperelliptic_positive_control": {
+   "what": "the canonical map of a HYPERELLIPTIC genus-4 curve is 2:1 onto the rational normal cubic (1:t:t^2:t^3) in P^3.  Feeding the discriminator that image calibrates the branch we are predicting AGAINST.",
+   "ker_Sym2": 3,
+   "ker_Sym2_predicted": 3,
+   "ker_Sym3": 10,
+   "ker_Sym3_predicted": 10,
+   "reading": "the discriminator returns 3 on a hyperelliptic genus-4 canonical image and 1 on ours: it discriminates.  Together with the Example 5.26 run (a REAL hyperelliptic curve through the full pipeline) this closes ben3's U-D4 for the genus-4 setting, with the honest caveat that this particular control is synthetic (it is the image, not a second uniformisation).",
+   "scope_caveat": "SYNTHETIC. It exercises the linear algebra and the absolute-floor criterion, not L1'-L5'."
+  },
+  "MU_Qprime_random_GL4": {
+   "seed": 20260829,
+   "prediction_registered_in_spec_sec_4_6": "the coefficients of Q and C change but the kernel dimensions, the rank of Q and the quotient structure do not",
+   "ker_Sym2": 1,
+   "ker_Sym3": 5,
+   "rank_Q": 4,
+   "algebraic_check_sin_angle_between_Qprime_of_RX_and_Q": 1.4695408497582232e-20,
+   "reading": "all three invariants are unchanged, and the substituted quadric Q'(RX) is proportional to Q to 1.4695e-20: the objects transform exactly as a quadric must under a change of basis of H^0(K)."
+  },
+  "MU_N_destruction_and_sensitivity": {
+   "what": "f_4 -> f_4 * (1 + eps*u).  The 4-tuple then leaves S_2(Gamma') and is no longer the canonical map of a curve, so the quadric must DISAPPEAR.  The eps at which it disappears is the detector's sensitivity.",
+   "prediction": "ker Sym^2 = 0 for eps well above the floor 10^(-D/2), and 1 below it (the perturbation is then invisible)",
+   "N717_floor": 4.960656696933604e-09,
+   "N717": [
+    {
+     "eps": 0.01,
+     "ker_sym2": 0
+    },
+    {
+     "eps": 0.0001,
+     "ker_sym2": 0
+    },
+    {
+     "eps": 1e-06,
+     "ker_sym2": 0
+    },
+    {
+     "eps": 1e-08,
+     "ker_sym2": 1
+    },
+    {
+     "eps": 1e-10,
+     "ker_sym2": 1
+    },
+    {
+     "eps": 1e-12,
+     "ker_sym2": 1
+    }
+   ],
+   "N538_floor": 5.439295907088959e-07,
+   "N538": [
+    {
+     "eps": 0.01,
+     "ker_sym2": 0
+    },
+    {
+     "eps": 0.0001,
+     "ker_sym2": 0
+    },
+    {
+     "eps": 1e-06,
+     "ker_sym2": 1
+    },
+    {
+     "eps": 1e-08,
+     "ker_sym2": 1
+    },
+    {
+     "eps": 1e-10,
+     "ker_sym2": 1
+    },
+    {
+     "eps": 1e-12,
+     "ker_sym2": 1
+    }
+   ],
+   "reading": "at D = 16.61 the quadric survives eps = 1e-8 and dies at eps = 1e-6; at D = 12.53 it survives 1e-6 and dies at 1e-4.  The threshold tracks the attained precision, exactly as a real (not artefactual) kernel must."
+  },
+  "different_member_control_MU_P_family": {
+   "status": "NOT RUN -- prediction registered instead, per the dispatch's instruction to say so honestly in advance",
+   "prediction": "NO BREAK.  Every member of the passport is a non-hyperelliptic genus-4 curve, so ker Sym^2 = 1, ker Sym^3 = 5, dim span{X_l Q} = 4 and rank Q in {3,4} hold for ALL SIX members.  The L6' structure therefore does NOT discriminate members, exactly as the dimension fingerprint does not (ben2 part_G4b).",
+   "what_WOULD_discriminate": "the S_3 layer: members 4,5,6 have no order-3 symmetry at all (spec sec.3.5(2)), so no order-3 A in PGL_4 preserving their Q and C can exist -- this is spec's MU-P'' and it belongs to [G6'-c] in ben6.  Members 1 and 3 have an order-3 symmetry but with F_3 = 6 and g(X/C_3) = 0, so their C_3-eigenvalue multiplicities on H^0(K) are NOT (2,1,1) -- this is MU-P'''.",
+   "cost": "a new member requires a fresh N=717 MGS run (about 14 minutes of BigFloat work); deferred to ben6 where it is the point of the exercise rather than a control"
+  },
+  "MU_Aprime_MU_Bprime": {
+   "status": "already discharged at the L5' layer by ben2 [G4'-f] (both mutations destroy the dimension prediction); not repeated here because they destroy the basis, not the L6' construction"
+  }
+ },
+ "part_S3_numerical": {
+  "what": "the numerical counterpart of part_paper_derivation_S3, and the geometric half of spec [G6'-c] item 3 (formally ben6's task; delivered here as a by-product because iota made it cheap)",
+  "reduction": "A has eigenvalues (1,1,omega,omega^2) and A*Q = Q, so its omega- and omega^2-eigenlines are Q-ISOTROPIC and its 1-eigenplane is their Q-orthogonal complement.  Conversely ANY pair of lines <v_-> in <f_1,f_3>, <v_+> in <f_2,f_4> determines such an A with A*Q = Q automatically.  The entire test therefore reduces to TWO complex parameters and the single question: is C o A equal to C modulo V*Q?  That is 16 complex equations in 2 complex unknowns.",
+  "search": {
+   "n_random_starts": 600,
+   "n_distinct_solutions": 1,
+   "residual": 5.812862625619724e-16,
+   "alpha": [
+    0.24689599616849214,
+    -1.4002167744067746
+   ],
+   "beta": [
+    -0.08229866538949744,
+    0.46673892480225826
+   ],
+   "alpha_N538": [
+    0.2468959961684924,
+    -1.4002167744067744
+   ],
+   "beta_N538": [
+    -0.08229866538949746,
+    0.4667389248022582
+   ]
+  },
+  "A_properties": {
+   "eigenvalues_re": [
+    -0.5,
+    1.0000000000000002,
+    0.9999999999999996,
+    -0.49999999999999994
+   ],
+   "eigenvalues_im": [
+    -0.8660254037844382,
+    -1.1102230246251565e-16,
+    -5.551115123125783e-17,
+    0.8660254037844384
+   ],
+   "eigenvalue_multiplicities": [
+    2,
+    1,
+    1
+   ],
+   "eigenvalue_multiplicities_predicted": [
+    2,
+    1,
+    1
+   ],
+   "A_cubed_is_scalar_relative_residual": 6.112932431157919e-16,
+   "sin_angle_QoA_vs_Q": 0,
+   "mu_such_that_CoA_equals_mu_C_mod_VQ": [
+    1,
+    -9.367506770274758e-17
+   ],
+   "abs_mu": 1,
+   "iota_A_iota_equals_A_inverse_relative": 3.649584617786099e-16
+  },
+  "verdict": "a UNIQUE order-3 A exists (one solution from 600 random starts), its eigenvalue multiplicities are (2,1,1) as Chevalley-Weil predicts, it satisfies iota A iota = A^(-1) to 3.65e-16 so <A, iota> is a genuine S_3 inside PGL_4 preserving the standard model, and C o A = 1 * C modulo V*Q -- i.e. BOTH Q AND C ARE S_3-INVARIANT, exactly as the paper derivation predicted before the search was written.",
+  "Q_in_the_S3_eigenbasis": {
+   "predicted_support": "(1,1), (2,2), (3,4), (4,3) only",
+   "largest_entry_outside_the_predicted_support": 2.8447144326165653e-17,
+   "alpha_abs": 0.5470307167264686,
+   "gamma_abs": 1,
+   "delta_abs": 0.007809648741539501,
+   "matrix_re": [
+    -0.5470307167264686,
+    -3.8925918524846836e-27,
+    1.2152017797616766e-18,
+    1.2152017797616766e-18,
+    -3.892591852484688e-27,
+    0.17364817766693008,
+    2.6734439154756886e-17,
+    -2.6734439154756886e-17,
+    6.076008898808383e-19,
+    2.4304035595233532e-17,
+    -6.076008898808383e-19,
+    0.007723239827071068,
+    6.076008898808383e-19,
+    -2.4304035595233532e-17,
+    0.007723239827071068,
+    -6.076008898808383e-19
+   ],
+   "matrix_im": [
+    1.9443228476186826e-17,
+    -1.1345135867432404e-25,
+    0.0,
+    0.0,
+    -1.1345135867432402e-25,
+    -0.9848077530122081,
+    9.721614238093413e-18,
+    -9.721614238093413e-18,
+    9.721614238093413e-18,
+    4.8608071190467065e-18,
+    3.7975055617552393e-19,
+    -0.0011585249413684487,
+    9.721614238093413e-18,
+    -4.8608071190467065e-18,
+    -0.0011585249413684487,
+    3.7975055617552393e-19
+   ]
+  },
+  "C_in_the_S3_eigenbasis": {
+   "predicted_support": "X1^3, X1 X2^2, X1 X3 X4, X3^3, X4^3 with coeff(X3^3) = coeff(X4^3); the other 15 monomials vanish",
+   "largest_coefficient_outside_the_predicted_support_before_reduction": 0.004544377043801775,
+   "reduction_lambdas_abs": [
+    7.453482400170305e-20,
+    2.9228775387354156e-25,
+    0.0045443770438017735,
+    0.0045443770438017735
+   ],
+   "largest_coefficient_outside_after_reducing_mod_VQ_relative": 3.4725971701358893e-17,
+   "coeff_X3cubed_minus_coeff_X4cubed_relative": 0,
+   "coefficients_re": [
+    -0.046289126870728774,
+    -3.49357313191821e-25,
+    6.505213034913027e-19,
+    6.505213034913027e-19,
+    -0.4999999999999998,
+    -3.3261448422400125e-17,
+    3.3261448479533e-17,
+    -8.141382299773314e-19,
+    0.028492927028591068,
+    -8.141382299773314e-19,
+    3.1222465746248856e-25,
+    -8.673617379884035e-19,
+    -8.673617379884035e-19,
+    -2.597033681856678e-18,
+    1.556593926912216e-27,
+    2.5970336838007586e-18,
+    0.00041757216969849983,
+    -7.623296525288703e-20,
+    -6.945670167485263e-20,
+    0.00041757216969849983
+   ],
+   "coefficients_im": [
+    -0.01684786435111712,
+    6.412237839308705e-25,
+    3.903127820947816e-18,
+    3.903127820947816e-18,
+    0.8660254037844387,
+    -9.97843454170968e-18,
+    9.978434528870257e-18,
+    8.25883651259325e-19,
+    0.005780873986426925,
+    8.25883651259325e-19,
+    2.491319009721097e-25,
+    -1.3010426069826053e-18,
+    -1.3010426069826053e-18,
+    1.8637083161253796e-18,
+    1.4848343275009327e-27,
+    -1.86370831009169e-18,
+    -0.0033038346253409325,
+    -1.0164395367051604e-18,
+    -1.0706496453294356e-18,
+    -0.0033038346253409325
+   ],
+   "note": "C is defined only modulo V*Q; the representative computed in the monomial basis is orthogonal to V*Q there, which is not preserved by the (non-unitary) change to the eigenbasis, so it is reduced again inside the eigenbasis.  The reduction needs only e_3*Q and e_4*Q, with equal coefficients -- itself a consequence of iota swapping e_3 and e_4."
+  },
+  "N_stability": "the two parameters agree between N = 538 and N = 717 to 15 decimal digits; both runs give one solution, residual 5.56e-16 and 5.81e-16"
+ },
+ "handover_to_ben5": {
+  "what_ben5_receives": [
+   "Q: the unique quadric, 10 coefficients at full BigFloat precision, in the ben2 echelon basis (f_1,f_2,f_3,f_4) with pivots (0,1,2,3).  Normalisation: unit 2-norm, phase fixed so the largest-modulus coefficient is real positive.",
+   "C: the essential cubic, 20 coefficients, orthogonal to span{X_l Q} in the monomial coordinates.  C is defined only modulo the 4-dimensional V*Q; that representative is a CHOICE and ben5 may re-reduce.",
+   "the standard model X = {Q = 0} cap {C = 0} in P^3, verified on held-out points of X to 9.4e-21 (Q) and 1.5e-20 (C)",
+   "rank Q = 4: X lies on a smooth quadric, has bidegree (3,3), and carries TWO g^1_3",
+   "the involution iota = diag(-1,+1,-1,+1): the echelon basis is already an eigenbasis of the S_3 transposition fixing the branch point 0, and f_1,f_3 are even series while f_2,f_4 are odd (to 1e-73).  This will halve ben5's phi ansatz.",
+   "the order-3 A (4x4 matrix, exported in the S_3 output json) with <A,iota> = S_3 acting on the standard model",
+   "P_0 = (1:0:0:0) exactly (the pivot structure), which is phi^{-1}(0) with multiplicity 9",
+   "the full N=717 and N=538 basis vectors (.jls and .json), which ben2 did not export"
+  ],
+  "what_ben5_must_NOT_assume": [
+   "nothing about the field of definition: L6' produces PGL_4-basis-dependent complex numbers only.  Q and C as given are NOT claimed to be rational or to lie in any number field; recognising them is L7'-d and is explicitly out of ben4's scope.",
+   "the phase and scale conventions above are arbitrary; every downstream statement must be invariant under Q -> lambda Q, C -> mu C + (linear)*Q, and under GL_4 on the basis (which is what MU-Q' measures)",
+   "P_1 and P_infty: NOT computed.  They sit at |w| approximately equal to rho, where the series converges only marginally (spec [G-2'-e]); ben5 must handle that."
+  ],
+  "cheap_predictions_for_ben5": [
+   "phi has divisor 9 P_0 - 9 P_infty with P_0 = (1:0:0:0); since A cycles {P_0, P_1, P_infty}, P_1 = A P_0 and P_infty = A^2 P_0 (or the inverse assignment).  A is exported, so P_1 and P_infty can be obtained from the FIRST COLUMN OF A without evaluating any series near |w| = rho.  This is the cheapest route and ben4 recommends it.",
+   "iota fixes P_0 and swaps P_1 and P_infty, so phi o iota = 1/phi (up to the S_3 labelling); ben5 can use this to halve the linear system for phi",
+   "h^0(3K - 9 P_infty) = 6 (spec L7'-b); with the 5 relations of Sym^3 present in the 20-monomial representation the observed kernel is 6 + 5 + 5 = 16 -- declare the representation, as spec sec.4.4 requires"
+  ]
+ },
+ "not_reached": [
+  "L7': the Belyi map phi itself -- its divisor prescription, the linear system, and coefficient recognition (ben5).  ben4 produced NO statement about the field of definition of anything.",
+  "P_1 and P_infty as points of P^3 (see the handover note: A gives them cheaply, but ben4 did not compute them)",
+  "[G6'-d] the quotient genera measured ON the standard model (the fixed loci of A and iota intersected with X); only the group-theoretic side (ben1 [G1'-h]) and the representation-theoretic consequences are used here",
+  "[G6'-e] the basis-free invariants j(Jac(X/S_3)) and the Igusa invariants of X/C_3, X/C_2 -- the actual P-FIELD falsifier (ben6)",
+  "MU-P'' and MU-P''' (wrong member): predicted NO BREAK at the L6' level and deferred to ben6, where the S_3 layer is what discriminates",
+  "an exact-arithmetic or interval-arithmetic certificate: everything here is 256-bit floating point with a declared attained precision, not a proof"
+ ],
+ "unknowns": [
+  {
+   "id": "U-E1",
+   "text": "The iota-symmetry (part_paper_derivation_S3 step 5) was derived AFTER the Sym^2 kernel was printed.  It is a derivation from pre-registered inputs (spec sec.3.5 + the echelon pivots), and it is confirmed independently by the 1e-73 parity of the ben2 basis coefficients, which were fixed before ben4 began.  But it was not pre-registered, and it is labelled post-hoc throughout."
+  },
+  {
+   "id": "U-E2",
+   "text": "rank Q = 4 rests on the smallest singular value of the normalised 4x4 matrix being 0.1447, seven orders above the floor, and being identical at N = 538 and N = 717.  That is strong, but the rank of a numerically computed matrix is not a proved statement; a rank-3 curve whose quadric is within 1e-16 of rank 4 is not excluded by this evidence alone (it is excluded by the S_3 eigenbasis, where alpha, gamma, delta are all O(1) after normalisation -- but that too is numerical)."
+  },
+  {
+   "id": "U-E3",
+   "text": "The essential cubic C is unique only modulo V*Q, and the representative reported is fixed by an orthogonality convention in the monomial coordinates.  Any downstream statement about the COEFFICIENTS of C must either quotient by V*Q or declare the same convention.  The reduction inside the S_3 eigenbasis (part_S3_numerical) shows how much the representative moves: two of the four reduction coefficients are 4.5e-3, not negligible."
+  },
+  {
+   "id": "U-E4",
+   "text": "The order-3 A was found by multi-start Gauss-Newton in ComplexF64, not by an exhaustive argument.  600 starts produced exactly one solution, and the parametrisation misses the measure-zero charts v_- proportional to f_3 and v_+ proportional to f_4, so 'unique' means 'unique in the chart searched, with 600 starts'.  The paper derivation says an order-3 A exists; the search confirms it and measures it; the two together do not constitute a proof of uniqueness."
+  },
+  {
+   "id": "U-E5",
+   "text": "The two printed-value findings against KMSV Example 5.26 are established from the printed data alone and are internally consistent with our computation, but Example 5.26 was NOT part of the pre-registered CAL (that was Example 5.27, ben3).  It is a second calibration point added by ruling 1803(b), and the quarantine rule is applied by analogy, not by the letter of spec sec.5."
+  },
+  {
+   "id": "U-E6",
+   "text": "L6' remains an UNCALIBRATED layer in the sense of ben3's U-D5: no public genus-4 solution exists (BelyiDB has 6 genus-4 entries, none with a computed Belyi map).  What ben4 adds is (a) a second uniformisation calibration at genus 2 that exercises L1'-L5' end to end against a published answer, (b) a synthetic positive control for the genus-4 discriminator, (c) five structure predictions derived on paper and confirmed, and (d) a destruction control that locates the detector's sensitivity.  It is not the same as a public genus-4 solution."
+  }
+ ],
+ "grade": "cross-checked (an independent second implementation in Python/mpmath, reading only the published Q and C, reproduces the four singular values of Q digit for digit and finds Q, C and X_l*Q vanishing to 2.8e-21 on sample shells the producer never used -- crosscheck/verdicts/pilot2_ben4_L6_crosscheck_v1_20260829.json, verdict AGREES; two independent detectors -- BigFloat rank-revealing QR under the absolute-floor criterion of ruling 1803(a), and a Float64 SVD -- agree on every kernel dimension; two truncations N = 538 and N = 717 agree on Q exactly and on C to 5.7e-17; the re-run of ben2's production reproduces the ben2 cert's first 20 coefficients to 0.00e+00).  NOT verified: nothing here is Lean-checked, and 'rank 4' and 'kernel dimension 1' are numerical statements with a declared floor, not proofs.  The five structural predictions of part_paper_derivation_S3 were derived from spec sec.3.5 before the corresponding measurements (with the single post-hoc exception U-E1) and all five hold.",
+ "artifacts": [
+  {
+   "path": "scratchpad/pilot2_ben4_a_basis.jl",
+   "sha16": "8892c11e640bfbf9"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_a_basis_k2N717_out.json",
+   "sha16": "61d9c07e37c24606"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_a_basis_k2N538_out.json",
+   "sha16": "bf89cd427825f579"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_b_ex526_core.jl",
+   "sha16": "b7744dd673dbc9eb"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_c_ex526_lib.jl",
+   "sha16": "e9cece1ea8f7b474"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_d_ex526.jl",
+   "sha16": "3c8118de7f82a817"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_d_ex526_N191_out.json",
+   "sha16": "19de862bf505ab10"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_e_L6.jl",
+   "sha16": "34bb0bfbf6b7af63"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_e_L6_k2N717_out.json",
+   "sha16": "c60cf9c422833324"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_e_L6_k2N538_out.json",
+   "sha16": "8b91bc38a20b4234"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_f_S3.jl",
+   "sha16": "d591faf372a4f8cb"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_f_S3_k2N717_out.json",
+   "sha16": "cd33d9b2a8f90f07"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_f_S3_k2N538_out.json",
+   "sha16": "92661927797f4654"
+  },
+  {
+   "path": "scratchpad/pilot2_ben4_cert.py",
+   "sha16": "ed862bc993d017c2"
+  },
+  {
+   "path": "scratchpad/pilot2_ben2_lib.jl",
+   "sha16": "18fe0cca160022af"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_core.jl",
+   "sha16": "d0dff03d89d89ba3"
+  },
+  {
+   "path": "crosscheck/check_pilot2_ben4_L6_v1.py",
+   "sha16": "46a9a8707aacf3a2"
+  },
+  {
+   "path": "crosscheck/verdicts/pilot2_ben4_L6_crosscheck_v1_20260829.json",
+   "sha16": "cde309ad42db231c"
+  },
+  {
+   "path": "ops/express/archive/20260829_math_fable_kmsv_ex526_printed_values.md",
+   "sha16": "f40874807a243dfc"
+  }
+ ],
+ "generated_by": {
+  "cert_script": "scratchpad/pilot2_ben4_cert.py",
+  "julia": "julia version 1.12.7 (Complex{BigFloat}, 256 bits) + JSON3",
+  "python": "CPython 3.13 (stdlib only)",
+  "prec_bits": 256,
+  "generated_at": "2026-08-29T19:37:58"
+ }
+}
