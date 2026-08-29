@@ -9358,3 +9358,49 @@ four-hour A4 budget; it does not retract v14's mathematical batching rule.
 Delta238 moves v360 from a paper algorithm to an actual bounded certificate
 run without confusing the expected missing-A4 terminal with failure of the
 canonical-word construction.
+
+### Delta 239 (2026-08-30): two canonical residual values now have cross-checked literal words
+
+- Task382 run `33263377923` completed in 16 seconds.  Artifact `gap-run-out`
+  is id `9717909682`, 8,838 compressed bytes, with digest
+  `sha256:ce57749e7e00d067ea874bf10ae7f7316bfaf0e8385cb8cf285a627faf19ae69`.
+  The producer receipt is 17,923 bytes / SHA-256
+  `3b83126efe64e83bb149a82d58094e2784ada0684bbf733e25ca60a65a245cda`;
+  the independent verdict is 5,496 bytes / SHA-256
+  `4038626a4e8b98460f2d392f845ca85df94ad6dfc036416e611907cfc4e13fe9`.
+  Both canonical JSON self-digests replay.
+- As expected with no A4 pins, both terminals are `UNKNOWN_INPUT` with exact
+  reason `A4_POSITIVE_AMBIENT_K_NOT_AVAILABLE`.  Inside that typed result the
+  checker independently accepts the canonical residual-action subclaim.
+  It confirms Gamma order 243, inner-solution counts `[27,27]`, center order
+  27, all 729 central pairs, one passing pair, subgroup order 504 and trivial
+  Gamma intersection.
+- `audit_r07_canonical_residual_generators_run33263377923_v363.md` records a
+  lossless compact form.  If `w_i` is the pinned task176 state word and
+  `p_1,p_2` are the pure-S split words, the producer representatives are
+  `red(w_114 w_4^-1 p_1)` and `red(w_172 w_4^-1 p_2)`.  Their reduced lengths
+  are 538 and 328 and their canonical-list SHA-256 values are respectively
+  `ac1c47a75b8327c89aca45e4ebd1782b89cedd4cafec2b60bba6ecd647e920d4`
+  and
+  `eb49b2897dec1ad014789da1f232ae9f0bce3ff05d867339ff3b0aba2e3e7ea4`.
+  Independent reconstruction from the parent recurrence reproduces both
+  full receipt words exactly.
+- The canonical **values** now have cross-checked word representatives; the
+  literal spelling itself is not asserted unique.  The checker deliberately
+  uses a different preliminary representative and reaches the same ten
+  coordinates.
+
+**v220 mapping**:
+
+- The post-A4 residual-generator materialization milestone is complete:
+  `R_S(Delta0)=tilde-S` has two cross-checked word-bearing generators.  This
+  is a genuine closed dependency of A9, but not one of its three actual
+  numerator milestones.
+- A4 remains **1/3** and must still provide positive `K`/action data before
+  task382 can compute the rank and basis of `[tilde-S,K]`.
+- A0 remains **0/1**, A9 remains **0/3 actual**, and compatible lift, fake and
+  Ihara witness numerators remain unchanged.
+
+Delta239 replaces the last abstract residual-action generator with two
+durable, independently replayed finite words while preserving the missing-A4
+boundary exactly.
