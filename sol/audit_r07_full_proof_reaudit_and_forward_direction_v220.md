@@ -9234,3 +9234,48 @@ batch implementation without promoting either calculation.
 
 Delta235 removes avoidable defect work on any physically free/projective
 packaged codomain while retaining v361 as the exact nonsplit fallback.
+
+### Delta 236 (2026-08-30): exact 64-column A4 batching is dispatched without delaying the durable baseline
+
+- The v14 producer / v16 independent checker / v23 driver package is frozen
+  at commit `9803fa08`.  One complete dual correlation still enumerates the
+  same nonzero translated-boundary candidates in ascending
+  `(context,relation,token)` order, but its private roster may now supply up
+  to 64 actual boundary rank rises before the next full correlation.
+- Every candidate is reduced against the **current combined basis** after
+  all preceding insertions in that batch.  Dependent candidates are skipped;
+  every accepted candidate raises combined rank by exactly one and retains
+  its ordinary `BOUNDARY_RANK_RISE` record, raw-column digest, boundary
+  ledger and chronological rank.  There is still exactly one public dual
+  event per complete correlation.
+- The public correlation/checkpoint schema is unchanged and the private
+  roster is never serialized.  Producer and checker independently rebuild
+  the complete accumulator, candidates, translated columns and current-basis
+  reductions.  Root reconstruction gives generated producer SHA-256
+  `952e559d363ae6c5261a057438ad3bfdfb1d85cc9f4417d714b85ed66fa9239c`
+  and generated checker SHA-256
+  `60973559b2f139dad471059b99746902a17b5ad5e52fba81288564303b8b05ec`;
+  both parse and load without entering production.
+- Fresh batch production run `33263049698` was dispatched at immutable head
+  `9803fa088e9873cf6e07d3c4d5c89acb14b4b6ae`, with a 14,400-second internal
+  cap, 8 GB registered RSS cap and no optional p-quotient packages.  A v13
+  checkpoint is intentionally not fed to v14 because the code-owner pin and
+  chronological algorithm changed.  The resumable v13 baseline run
+  `33262485779` continues independently, so this speed trial does not erase
+  its durable frontier.
+- A separate read-only Sol audit of semantic preservation and avoidable slow
+  paths is running concurrently; it was not allowed to delay dispatch.  No
+  production speedup or accepted mathematical terminal is claimed before
+  the physical artifact is inspected.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, with durable singleton baseline `33262485779` and
+  fresh canonical-batch run `33263049698` both running.  No numerator rises.
+- A0 remains **0/1 with v22 run 33259268996 active**.  A9 remains **0/3
+  actual**; task382 is still building the exact post-A4 legal-source owner.
+- Compatible lift, fake and Ihara witness numerators are unchanged.
+
+Delta236 moves the needed A4 performance change into actual production while
+preserving the independent resumable baseline and all mathematical claim
+boundaries.
