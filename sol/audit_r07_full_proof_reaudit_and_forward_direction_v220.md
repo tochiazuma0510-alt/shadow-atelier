@@ -6390,3 +6390,39 @@ presentation.
 
 Delta158 removes the need to build the full cumulative ambiguity basis when
 the dual local-score system is smaller.
+
+### Delta 159 (2026-08-29): local-score identities admit a complete recursive Goursat classifier
+
+- Added `sol/proof_r07_goursat_recursive_score_classifier_v330.md`.  On one
+  fibre product `A x_D B`, an additive score `F(a)+f(b)` vanishes everywhere
+  exactly when both scores are invariant on their quotient fibres and their
+  values cancel on one chosen pair over every `d in D`.  Kernel invariance is
+  genuinely certified from kernel generators because this property, unlike
+  an arbitrary score sum, is stable under multiplication.
+- Iterating that criterion down the cumulative Goursat chain gives a finite
+  recursive zero-identity certificate.  A left-kernel generator produces a
+  new additive score tuple of coordinate differences, which is checked at
+  the preceding prefix.  Hence the newly formed, potentially huge fibre
+  product never has to be exhaustively traversed.
+- Combining the recursive rows with v315's prefix-twisted orbit equations and
+  normalizing the target pairing to one gives a complete finite NONMEMBER
+  system.  Its inconsistency proves MEMBER by v329 finite duality, after
+  which v324--v325 recover literal primal ancestry.  V329's warning against
+  checking only joint generators is retained: complete kernel generation,
+  recursive invariance and quotient-section rows are all load-bearing.
+- The same classifier applies to v329's cumulative overlap equation by
+  adjoining the graph of the Goursat quotient map.  This removes exhaustive
+  `H_i` traversal from the finite score-dual stopping rule, but actual R07
+  quotient authority and target solving remain pending.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- The finite common-source field-even gate now has a complete dual identity
+  classifier in addition to the sparse primal recurrence; a bounded row
+  prefix is no longer mistaken for a global separator.
+- The compatible lift, fake certificate and Ihara witness remain open.
+
+Delta159 closes the finite identity-classification caveat in Delta158 while
+leaving the actual authenticated score system as the next computation.
