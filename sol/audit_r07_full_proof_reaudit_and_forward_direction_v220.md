@@ -6006,3 +6006,33 @@ stronger but finite leading-generator surjectivity target.
 Delta146 separates and finitely solves the linear perturbation part of the
 post-q2 recurrence, leaving only actual nonlinear localization and the
 non-pro-3 gates.
+
+### Delta 147 (2026-08-29): ambient localization and intrinsic correction depth separated
+
+- Added sol/proof_r07_localized_filtration_saturation_v321.md.  For a closed
+  localized submodule L inside the ambient residual module Z, the exact gap
+  at depth r is (L intersect J^r Z)/J^r L, equivalently the kernel of
+  L/J^rL -> Z/J^rZ.
+- A v252 remainder in L intersect J^(r+1)Z has the depth-(r+1) free-cover
+  coefficient required by v319 if and only if its class in this quotient is
+  zero.  Full equality at every depth is a structural sufficient condition;
+  one actual MEMBER ancestry at every encountered remainder is the weaker
+  pointed route.
+- A finite MEMBER ancestry or complete separating dual decides the actual
+  class.  Closedness, finite generation or an Artin--Rees bounded lag does
+  not by itself justify the same-depth nonlinear induction.
+- The first class-two remainder q2 is therefore two different canaries:
+  membership in Xi beta for the narrow cyclic route, or same-depth
+  saturation in the larger localized free cover for the v319 route.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 AUDIT ACTIVE**,
+  A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The localized nonlinear route now has no hidden filtration identification:
+  its remaining finite gates are leading based surjectivity, transport
+  matrix K and actual same-depth saturation.
+- No compatible lift, fake certificate or Ihara witness is added.
+
+Delta147 repairs the only implicit filtration jump in the v319 synthesis and
+turns it into an exact pointed or structural certificate.
