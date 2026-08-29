@@ -7170,3 +7170,36 @@ source correction and the already-needed driver into one bounded repair.
 Delta181 preserves the accepted A3 mathematical implementation and reduces
 the remaining repair to one driver safety gate plus enumerated redundant
 full-owner passes.
+
+### Delta 182 (2026-08-29): 714-million prefix collisions compress to 488 literal seeds
+
+- Added `sol/proof_r07_compact_full_projection_kernel_generators_v341.md`.
+  At the actual first edge, `|Delta0|=357,128,352`, `|D1/R|=243` and
+  `|R|=3`; v340's prefix-collision summand therefore has exact dimension
+  `714,256,218`.  This proves that the local A4 `K0` augmentation alone is
+  not the full projected kernel.
+- The 243-sheeted source map has a prefix-closed Schreier basis of size 244.
+  Adjusting each Schreier word by the A4 anchor makes its full projected value
+  trivial without changing its coarse kernel value.  Multiplying each
+  adjusted difference by the two `C3` augmentation basis elements gives 488
+  explicit four-word collision seeds.
+- V341 proves that the left `F3[Delta1]`-span of those 488 seeds together
+  with the primitive A4 `K0` differences is the complete `ker Q`.  Hence the
+  714-million-dimensional basis never has to be materialized: one finite
+  invariant closure from the compact roster computes its complete image and
+  retains the domain dependencies needed by v338.
+- The A5/field-even score calculation must include these collision seeds or
+  prove their images redundant.  Their target rank and actual MEMBER/dual
+  outcome remain uncomputed.
+
+**v220 mapping**:
+
+- This is **CLOSED at the compact full-kernel generator paper interface** and
+  materially reduces the future A5 calculation.  Numerators remain A0 **0/1**,
+  A3 **0/3**, A4 **1/3**, and A5--A7 **0/3**.
+- No actual A4 words, A5 closure, common word, compatible lift, fake
+  certificate or Ihara witness is added.
+
+Delta182 converts the newly exposed huge correction component into a fixed
+488-seed exact compiler rather than retreating to enumeration or an unnamed
+field-even homotopy.
