@@ -5738,3 +5738,41 @@ constructs the next compatible correction when it does.
 
 Delta138 gives a human- and machine-checkable description of exactly what a
 field-outer return-even survivor would be at the next refinement.
+
+### Delta 139 (2026-08-29): the marginal obstruction split into two exact base-change defects
+
+- Added `sol/proof_r07_marginal_dual_basechange_decomposition_v316.md`.
+  The dual of v314's vertical cokernel sits in a short exact sequence whose
+  first term is the quotient of new upper target relations by descended lower
+  relations, and whose second term is the quotient of fibre-constant upper
+  scores by scores represented by the lower target.
+- Therefore full vertical correction is equivalent to two finite identities:
+  `ker(T')*=v*(ker T*)` and
+  `im(T')* intersect im(u*)=u*(im T*)`.  The first is a no-new-relation gate;
+  the second is the exact score-intersection/base-change gate.  Their defect
+  dimensions add to the vertical cokernel dimension.
+- If both identities hold uniformly at every matched refinement, every
+  marginal solution has an explicit successor and one initial success does
+  propagate through all refinements by the v314 formula.  For the one actual
+  branch this remains stronger than necessary: it is enough that an adapted
+  basis of the total dual extension (relation classes plus chosen lifts of
+  score-intersection classes) pair trivially with the named residual.
+- This is not v185 pair-flatness in new notation.  V185 concerns a
+  two-generator submodule of the full Fox cokernel; v316 concerns the
+  prefix-corrected common-source marginal map.  A comparison requires an
+  authenticated square and is not assumed.
+
+**v220 mapping**:
+
+- The theorem changes no numerator.  A0 is now **0/1 V12A P0 FROZEN / FINAL
+  DRIVER+REPLY ACTIVE**; A3 is **0/3 V2 FINAL CAPS+P0+DRIVER+REPLY ACTIVE**;
+  A4 is **1/3 V6C FROZEN / INDEPENDENT SOL(MAX) AUDIT ACTIVE**; A5--A7 remain
+  **0/3**.
+- The uniform linear-lift target is reduced from one opaque homotopy to two
+  exact base-change equalities, but their actual matrices await A0/A3/A4.
+- No nonlinear recurrence, mixed-prime formation, perfect-core accepted set,
+  cofinal lift, fake certificate or Ihara witness is added.
+
+Delta139 states exactly what extra theorem would make one marginal success
+propagate to every relative refinement, while retaining the weaker pointed
+route if either structural equality fails.
