@@ -6594,3 +6594,43 @@ column rank and a weaker target-specific span test.
 
 Delta164 states exactly when the finite relative-dihedral/field-even score
 calculation is strong enough to drive one uniform nonlinear lift.
+
+### Delta 165 (2026-08-29): pre-A0 A3/v3 repair is frozen for fresh audit
+
+- Froze the task370 v3 tranche:
+  `ci/in/d972_r07_pre_a0_single_target_a3_v3.prereg.v1.json`
+  (16,417 bytes; SHA-256
+  `2660c8e1dce475d19f4d8a40f43626df401d3ca299f34b0f1dd067db896d2ce6`),
+  `search/d972_r07_pre_a0_single_target_a3_v3.py`
+  (95,172 bytes; SHA-256
+  `436e7c06acff9cf2087277a12067371518c2ce033effaf85bff6b04585c0f9cf`),
+  `crosscheck/check_d972_r07_pre_a0_single_target_a3_v3.py`
+  (106,148 bytes; SHA-256
+  `eaaa9d602da22921991f25229eed559c50a920a30c3c56495b0954b40af03485`),
+  and the ASCII driver
+  `search/d972_r07_pre_a0_single_target_a3_gha_driver_v3.g`
+  (20,110 bytes; SHA-256
+  `63126f5c0c1c2278656a5a2a77fab4d1562af0566e9bca54a85b090cbcc3783e`).
+- The implementation reply is
+  `sol/sol_reply_370_r07_pre_a0_a3_v3_complete_finite_repair.md`
+  (18,965 bytes; SHA-256
+  `619c1bb857cdb5c5b4633594bccc7b5ef447f7e19ee3adc683607b1404a43645`).
+  It reports task369 F1/F2/F5/F6/F7 repaired while preserving the v303-only
+  projection and single producer/checker closure routes.  Parent-side
+  physical inspection confirmed exact identities, canonical ASCII P0 with no
+  BOM/CR/LF and an ASCII driver; candidate code remains unexecuted.
+- Added `sol/sol_task_374_r07_pre_a0_a3_v3_code_performance_reaudit.txt`.
+  A fresh Sol(max) must independently reconstruct every authority, live
+  evaluator call, mutation route, allocation/wall bound, avoidable-work path
+  and bound publication route before any GHA execution.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V3 REPAIR FROZEN / FRESH STATIC REAUDIT ACTIVE**.
+  A0 remains **0/1 V12B REPAIR ACTIVE**, A4 **1/3 V7 REPAIR ACTIVE**, and
+  A5--A7 **0/3**.
+- No numerator changes and no GHA authorization yet.  No common word,
+  compatible lift, fake certificate or Ihara witness is added.
+
+Delta165 turns the two-day A3 implementation work into a fixed auditable
+object without prematurely counting an execution result.

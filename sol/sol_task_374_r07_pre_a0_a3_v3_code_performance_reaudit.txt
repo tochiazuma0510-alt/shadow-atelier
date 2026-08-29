@@ -1,0 +1,167 @@
+Sol(max) task 374 - independent pre-A0 A3/v3 code and performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last before reaching a verdict. The task370 implementer must
+not audit this tranche. Do not edit any frozen owner. Do not run Python,
+Node, GAP, GHA, workflows, git, network, syntax compilation, or any candidate
+command. Read-only PowerShell inspection and hashing are allowed. Write only
+the designated reply.
+
+1. Frozen subject and claim boundary
+
+Audit these exact physical owners:
+
+- ci/in/d972_r07_pre_a0_single_target_a3_v3.prereg.v1.json
+  16417 bytes
+  2660c8e1dce475d19f4d8a40f43626df401d3ca299f34b0f1dd067db896d2ce6
+- search/d972_r07_pre_a0_single_target_a3_v3.py
+  95172 bytes
+  436e7c06acff9cf2087277a12067371518c2ce033effaf85bff6b04585c0f9cf
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v3.py
+  106148 bytes
+  eaaa9d602da22921991f25229eed559c50a920a30c3c56495b0954b40af03485
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v3.g
+  20110 bytes
+  63126f5c0c1c2278656a5a2a77fab4d1562af0566e9bca54a85b090cbcc3783e
+- sol/sol_reply_370_r07_pre_a0_a3_v3_complete_finite_repair.md
+  18965 bytes
+  619c1bb857cdb5c5b4633594bccc7b5ef447f7e19ee3adc683607b1404a43645
+
+Reject immediately on any mismatch. Read task363, task369, task370 and their
+full replies, v302/v303, the accepted task198 authority/evaluator owners, and
+the exact pinned task226/task227 producer/checker owners. This is pre-A0:
+even STATIC PASS authorizes only one bounded A3/v3 candidate run and asserts
+neither an A3 numerator nor A0, a compatible lift, fake, or Ihara.
+
+2. Canonical P0 and complete acyclic authority graph
+
+Independently reconstruct the canonical compact-ASCII P0 bytes and body self
+seal. Check no BOM, no CR/LF, exact terminator, declared self digest, and
+every recursive ordinary {path,bytes,sha256} authority record. Rebuild the
+complete unique inventory from source rather than trusting the reply's
+23-owner / 33,121,619-byte totals.
+
+Require the one-way graph
+
+  immutable authorities -> canonical P0 -> producer/checker -> driver.
+
+Each Python owner must pin the exact P0; the driver must pin P0 and the final
+physical identities of both Python owners. Reject aliases, missing ancestry,
+duplicate or extra paths, keyed records silently skipped, retained v2 hashes,
+partial digests, symlinks, or a post-freeze cycle.
+
+3. Accepted task198 authority and live evaluator semantics
+
+Trace the untouched ordinary producer and checker routes independently.
+Confirm every receipt/manifest/member/attestation/verdict/source binding and
+the complete eleven-row evaluator ABI. Do not accept dictionary equality as
+execution evidence.
+
+On each side locate the ordinary calls to roof_eval, roof_multiply,
+roof_inverse, roof_source_section, roof_action and roof_section_cocycle.
+Reconstruct their exact direct and transitive call counts, ten-coordinate
+values, occurrence bindings, widths, signs and orientations. Confirm the
+checker builds the semantics from checker-side authority and does not consume
+the producer summary as evidence.
+
+4. V303-only projection and one closure/verifier
+
+Enumerate every field read by the pinned task227 producer and checker. Prove
+or reject that the projected v303 interface and derived consumer ABI contain
+every semantic input and no full-package-only value. Adjudicate the
+presence-only rword_f/rword_g marker against the exact frozen code.
+
+Require exactly one producer call to the load-bearing task227 closure and
+exactly one checker-side independent verify_gate call. Retain the full
+486/729 objects, ancestry, rank/echelon and replay-or-dual evidence. Count
+the frozen verifier's internal span comparisons separately from wrapper
+work; reject reverse wrapper comparisons, Boolean-only replacement, hidden
+second closure/build, or producer evidence copied into the checker.
+
+5. Untouched baseline and twelve ordinary mutation routes
+
+Audit the untouched baseline before mutation handling. For all twelve
+preregistered mutations on both sides, prove that an extant independently
+built owner is changed and then passed through the same ordinary validator.
+In particular trace raw task198 authority, ledger, g760, computational base,
+forbidden task192, H1/H2/P central replay, projected area target, ABI seal
+target, and false-conclusion owners.
+
+Require exact first-reason equality and narrow expected catches. A
+MutationAccepted event or a wrong first reason must be a hard failure.
+Confirm all forbidden conclusion flags are false before an accepting
+terminal, especially actual_a3_numerator.
+
+6. Truthful resource and avoidable-work audit
+
+Recompute from source every authority/input/output/allocation/wall formula.
+Check whether all material reads are reserved before use and whether
+authenticated bytes are executed without hidden rereads. Independently
+adjudicate the claimed bounds:
+
+- 23 immutable owners / 33,121,619 bytes;
+- authority plus P0 = 33,138,036 bytes;
+- producer input = 34,926,302 < 60,000,000 bytes;
+- checker input plus maximum receipt = 55,038,540 < 60,000,000 bytes;
+- producer fixed-point transient = 57,327,680 bytes;
+- checker verdict transient = 3,065,536 bytes;
+- checker private-Q0 construction peak = 14,696,640 bytes;
+- RLIMIT_AS = 4,294,967,296 bytes;
+- internal/external/serial walls = 1800 / 2100 / 4200 seconds.
+
+Token/payload arithmetic is not an allocation proof. Confirm RLIMIT_AS and
+the elapsed-adjusted signal deadline cover every expensive import, build,
+closure, verifier, mutation and publication step. Audit simultaneous Python
+objects, strings and bytes, fixed-point serialization, emergency reserve,
+timer restoration and narrow UNKNOWN handling. Search specifically for
+avoidable duplicate 31-MB reads/DOMs, repeated task226 construction,
+deep-copy projection, duplicate 486/729 closures, duplicate span passes,
+quadratic scans, per-item full-object copying, material receipt rehashes,
+unbounded logs/sets, and work that would make the GHA route needlessly slow.
+
+7. Bound publication and serial accepting-only driver
+
+Audit the dirfd-relative openat/no-follow/exclusive-temp/renameat2
+RENAME_NOREPLACE/unlinkat/fsync route line by line. Require source and
+destination to use the same already-checked bound directory fd. Check stale
+temp/final handling, rollback under every typed and untyped failure,
+directory fsync, no accepting sentinel on UNKNOWN, and explicit platform
+assumptions.
+
+For the driver check producer receipt injection, digest of the exact
+validated verdict bytes, post-validation physical rehash, terminal equality,
+physical cross-bindings, exact-one terminal lines, exclusive/no-follow
+accepted-sentinel publication and directory fsync. Any substitution,
+rollback failure, stale path, timeout, digest mismatch or terminal mismatch
+must be nonaccepting.
+
+8. Decisive verdict and output
+
+Write only:
+
+sol/sol_reply_374_r07_pre_a0_a3_v3_code_performance_reaudit_v1.md
+
+Give a decisive STATIC PASS or STATIC REJECT, exact frozen identities,
+line-numbered findings, independently derived resource formulas, and all
+avoidable-work findings. STATIC PASS authorizes one serial pre-A0 A3/v3 GHA
+run only. On REJECT, list every load-bearing defect together so one bounded
+repair can close them.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+P0 / ACYCLIC AUTHORITY GRAPH:          PASS or REJECT
+TASK198 AUTHORITY / LIVE EVALUATOR:    PASS or REJECT
+V303-ONLY PROJECTION SUFFICIENCY:      PASS or REJECT
+ONE PRODUCER CLOSURE ROUTE:            PASS or REJECT
+INDEPENDENT CHECKER ROUTE:             PASS or REJECT
+BASELINE + TWELVE MUTATIONS:           PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+BOUND PUBLICATION / SERIAL DRIVER:     PASS or REJECT
+PRE-A0 A3/V3 GHA:                      AUTHORIZED or FORBIDDEN
+ACTUAL A3 NUMERATOR:                   remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:      NONE
+
+TASK374_R07_PRE_A0_A3_V3_CODE_PERFORMANCE_REAUDIT_V1
