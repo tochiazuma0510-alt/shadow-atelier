@@ -8524,3 +8524,42 @@ Delta217 closes the direct-relator-to-literal-endpoint executable ABI without
 turning a single canonical representative into an unjustified completeness
 claim.  It also makes the next branch data-dependent: lift-null machinery is
 needed only after an actual canonical nonzero receipt.
+
+### Delta 218 (2026-08-29): lift-null completion has an executable streaming theorem
+
+- `proof_r07_streaming_schreier_endpoint_dovetail_v353.md`, frozen at commit
+  `77944abce2cac1667c715682fae38ccbeb3e4fa3`, identifies the complete tuple
+  of task198's ten affine roofs and sparse gradients with exact equality in
+  the finite first successor `Delta1`.  A roof-only tuple or a digest is not
+  an equality key.
+- A marked Cayley BFS can therefore stream the literal Schreier edge words
+  `s(q)t s(qt)^-1` directly from the already accepted task198 runtime.  It
+  does not need an A4 basis or a pre-materialized `Delta1` roster.  Fairly
+  interleaving those edges with all literal translating words is
+  positive-complete for every finite-support element of the lift-null
+  kernel.
+- Compiling one translated lift-null pair with v352's occurrences and zero
+  epsilon gives its exact incremental H1/H2/P endpoint column.  A finite
+  echelon hit preserves the canonical `mu1`; a final complete task292 replay
+  fixes signs and returns one literal `M` with all three exact endpoints
+  zero.  A bounded miss remains `UNKNOWN_RESOURCE`.
+- The theorem also proves an exact restart contract: store literal section
+  and seed words, integer cursors, and the finite column ancestry, then
+  recompute every affine key and echelon row from the authenticated owners.
+  Serialized Python group objects are never trusted.  Task377 is implementing
+  this production-first v5 path; no production run has been made.
+- A0 run `33251157582` and A4 run `33250865356` remain active with no
+  mathematical terminal at this recording point.
+
+**v220 mapping**:
+
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual**.  Their representative-complete
+  positive path is now both paper-complete and assigned to a physical v5
+  implementation; it has not received the actual A0/task193 input.
+- A0 remains **0/1 with v20 run active and v21 restart frozen**; A2 remains
+  **2/3**, A3 **3/3**, and A4 **1/3 with v21 run active**.
+- A8/A9, B/C, compatible-lift, fake and Ihara numerators remain unchanged.
+
+Delta218 removes the need to finish an enormous `Delta1` roster before the
+lift-null search can start.  It is a positive-completeness and restart
+advance, not an endpoint result or a runtime bound.
