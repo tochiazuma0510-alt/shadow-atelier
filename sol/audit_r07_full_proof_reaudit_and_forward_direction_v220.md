@@ -6235,3 +6235,33 @@ recurrence by literal four-term word-bearing columns.
 
 Delta153 identifies a finite idempotent certificate which would remove the
 same-depth gap in the localized Newton recursion.
+
+### Delta 154 (2026-08-29): A4/v6d repair frozen and sent to an independent reaudit
+
+- Froze the task367 producer, checker, fixture and reply at respectively
+  102,525 / 99,978 / 8,457 / 13,295 bytes with SHA-256 identities
+  4c32f9f9... / e0f27444... / 9bf92d19... / bcc85c36....
+  Read-only parent hashing agrees.
+- The implementation reports all task366 defects repaired: literal row-11
+  context_id=28, concrete case-file parent binding, row-4 path identity,
+  removal of full-buffer duplicates and false live tokens, a
+  532,017,754-byte worst modeled peak, truthful logical-open labeling and a
+  stage-fd/final-parent-fd optional publication transaction.
+- The owners remain **UNEXECUTED**: no syntax, runtime, seven-row mutation,
+  RSS, rollback or GHA result exists.  Rows 8--48 remain out of scope and A4
+  stays 1/3.
+- Added sol/sol_task_371_r07_a4_v6d_code_performance_reaudit.txt for a fresh
+  Sol(max) to independently reconstruct every task366 gate, resource
+  lifetime, avoidable-work boundary and publication edge before execution is
+  considered.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V6D FROZEN / INDEPENDENT REAUDIT ACTIVE**.
+- A0 remains **0/1 AUDIT ACTIVE**, A3 **0/3 V3 REPAIR ACTIVE**, and A5--A7
+  **0/3**.
+- No common word, compatible lift, fake certificate or Ihara witness is
+  added.
+
+Delta154 converts the A4 repair into an immutable audit subject without
+promoting its source-static claims.

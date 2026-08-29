@@ -1,0 +1,135 @@
+Sol(max) task 371 - independent A4/v6d code and performance reaudit
+
+Role: independent mathematical/code auditor.  Read every numbered section
+first to last.  You must be different from the task367 implementation
+author.  Do not edit any frozen owner.  Do not run Python, Node, GAP, GHA,
+workflows, git, network, syntax compilation, or candidate commands.
+Read-only PowerShell inspection and hashing are allowed.  Write only the
+designated reply.
+
+1. Frozen subject
+
+Audit these exact task367 owners:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v4.py
+  102525 bytes
+  4c32f9f9d80664c8f5ce962152f0f4f697d272f8ee77c102dda29b2b6578bde0
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v4.py
+  99978 bytes
+  e0f27444aefffeb55f2d06637d0e1feb0f366239600262aeca9ce4e5c24c25c7
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v4_20260829.json
+  8457 bytes
+  9bf92d19c8ebcabb8cb6a342508af60689e3c689979b065a7733052b499172b3
+- sol/sol_reply_367_r07_a4_v6d_complete_finite_repair.md
+  13295 bytes
+  bcc85c3612c4ddc60d943b33ddd2eedb98e0d17987d757696755ae414ee49f66
+
+Reject immediately on physical mismatch.  Read task362, task366, task367,
+all frozen v3/v4 owners and every immutable task198 owner they cite.
+V4 is UNEXECUTED candidate code and covers rows 1--7 only.
+
+2. Fixture, authority and baseline semantics
+
+Independently recompute canonical fixture raw equality, self seal, exact
+receipt/manifest identities and acyclicity.  Trace both ordinary authority
+loads from stat-before-open through retained-fd revalidation and final close.
+Audit the complete receipt/manifest seal DAG and exact type/ABI validation.
+
+Reconstruct the checker eleven-row ledger independently.  Require exactly
+twelve keys per row, literal row-11 context_id=28, the correct ledger digest,
+complete canary/ABI fields and a reachable untouched baseline before the
+mutation loop.  Reject a static literal which only appears correct but is
+later transformed incorrectly.
+
+3. Seven physical mutation routes
+
+For producer and checker separately trace rows 1--7 from constructor through
+the same ordinary validator and exact preregistered first reason.  Require
+independent helpers/evidence, no producer import on the checker, exact
+MutationAccepted scope, and complete cleanup.
+
+Audit every case writer fd/leaf pair.  The retained fd must bind the concrete
+case file's actual parent, all operations must be relative to it, and row 4
+must use path identity before and after.  Check invocation-unique
+outside-parent creation, no sibling damage, before/after absence, owner_kind
+agreement, no-follow handling and disposal after every failure edge.
+
+4. Truthful resource and performance audit
+
+Recompute from source, not task367 prose:
+
+- opened, temporary, parsed, DOM and revalidated totals;
+- logical-open semantics;
+- exact live-token lifetime for the worst row;
+- every reserve-before-allocation edge;
+- serialization/canonicalization simultaneous objects;
+- traceback and exception retention;
+- cache eviction and fd lifetime;
+- optional-output overhead; and
+- all stated caps.
+
+Confirm or reject the claimed 532,017,754-byte modeled peak.  Look for
+allocator/object overhead hidden behind exact byte lengths, memoryview
+operations which still copy, repeated 31-MB reads or canonicalizations,
+200-MB deep copies retained across validation, repeated 6,441-row traversal,
+unbounded structures, and counters which do not measure their advertised
+work.  Distinguish modeled allocation tokens from actual RSS; neither may be
+called observed.  Identify any avoidable processing which would materially
+slow a GHA run.
+
+5. Optional publication transaction
+
+Trace every normal and exceptional edge.  Require the retained final-parent
+fd to be ci/out for a target ci/out/result.json; rewalked identity; exclusive
+stage directory/file; no-follow regular-file validation; fsync; exclusive
+final link; exact final bytes/SHA/identity; correct stage-fd cleanup; correct
+parent-fd cleanup; namespace fsync; absence assertions; stale-final policy;
+and no published output on typed non-PASS.
+
+Adjudicate whether any remaining pathname operation permits parent
+substitution after the retained-fd check, and whether POSIX/platform
+assumptions are fail-closed.  The absence of a driver is expected; this
+tranche is a program/fixture selftest owner only.
+
+6. Scope and conclusions
+
+Require exact:
+
+covered_rows=[1,2,3,4,5,6,7]
+remaining_rows=[8,...,48]
+candidate_only=true
+full_a4_selftest=false
+actual_a4_numerator=false
+
+No source-static result may be promoted to syntax/runtime/mutation/RSS/GHA
+success.  STATIC PASS authorizes only the next separately preregistered
+execution step for this rows-1--7 tranche; it does not change A4=1/3.
+STATIC REJECT must list all load-bearing defects for one bounded versioned
+repair and keep execution forbidden.
+
+7. Reply
+
+Write only:
+
+sol/sol_reply_371_r07_a4_v6d_code_performance_reaudit_v1.md
+
+Give exact identities, line-numbered findings, independent resource
+formulas, avoidable-work findings and a decisive verdict.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+FIXTURE / AUTHORITY / SEAL DAG:        PASS or REJECT
+CHECKER BASELINE / ROW 11:             PASS or REJECT
+ROWS 1--7 ORDINARY MUTATION ROUTES:    PASS or REJECT
+CASE WRITER / ROW-4 IDENTITY:          PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+OPTIONAL ATOMIC PUBLICATION:           PASS or REJECT
+A4/V6D EXECUTION:                      AUTHORIZED or FORBIDDEN
+FULL 48x2 SELFTEST:                    INCOMPLETE
+ACTUAL A4:                             remains 1/3
+LIFT / FAKE / IHARA:                   NONE
+
+TASK371_R07_A4_V6D_CODE_PERFORMANCE_REAUDIT_V1
