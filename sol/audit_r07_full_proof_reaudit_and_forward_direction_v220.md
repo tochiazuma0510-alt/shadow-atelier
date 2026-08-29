@@ -9088,3 +9088,44 @@ a fake-resume loop before spending another run on the same prefrontier state.
 
 Delta231 removes the last abstract residual-generator oracle from the legal
 source formula without promoting an unrun compiler or a missing A4 input.
+
+### Delta 232 (2026-08-30): both leading source and target type gaps are four finite defect modules
+
+- `proof_r07_kernel_base_change_five_term_gate_v361.md`, frozen at commit
+  `59dadcbf`, proves the natural exact sequence for every module map
+  `f:M->N`, `L=ker(f)` and every depth `r`:
+
+  `0 -> (L cap J^r M)/J^r L -> L/J^r L -> ker(f mod J^r)
+     -> (im(f) cap J^r N)/f(J^r M) -> 0`.
+
+  The left term is the v321 saturation defect; the right term is the distinct
+  obstruction to lifting a reduced kernel vector to an actual kernel vector.
+  A reduced kernel equals the intrinsic quotient exactly when both vanish.
+- Applying the sequence to v169's finite-free augmented common-word side map
+  replaces the formerly vague `A_legal/JA_legal = I_adm` gate by two named
+  finite source modules `S_1(G),T_1(G)`.  Applying it to the packaged
+  formation--Brunnian localization map does the same for `L_loc/JL_loc`,
+  with target modules `S_1(H),T_1(H)`.
+- These four modules are ordinary exact finite linear algebra at a physical
+  successor edge.  A split epimorphism kills both corresponding defects;
+  otherwise a producer must retain their bases and the connecting-map
+  ancestry.  Equality of dimensions or a raw finite intersection is not
+  enough.
+- Combining v360 and v361 makes the post-A4 decision completely finite and
+  typed: compute `[tilde-S,K]`, impose registered source gates, compute the
+  two source and two target base-change defects, and only then compare the
+  induced actual leading Jacobian by primal ancestry or a dual cokernel row.
+
+**v220 mapping**:
+
+- A4 remains **1/3**; task382 and task383 remain active.  The work following
+  a positive A4 result no longer contains an unnamed source/target
+  identification, but none of the four actual defects has yet been computed.
+- A9 remains **0/3 actual**.  Its leading-onto gate is now a bounded sequence
+  of authenticated finite calculations rather than an assumption that raw
+  kernels are the completed leading quotients.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts, compatible lift, fake and Ihara numerators are unchanged.
+
+Delta232 closes the specification gap between finite side-gate kernels and
+the exact Newton source/target while making no zero-defect assumption.
