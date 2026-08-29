@@ -5083,3 +5083,42 @@ finite nonrepeating repair contract without increasing an actual numerator.
 
 Delta120 removes a post-A0 ABI and repeated-heavy-work loop without counting
 a paper splice as an actual witness milestone.
+
+### Delta 121 (2026-08-29): three-area-class A0/A3 retarget
+
+- Added `sol/proof_r07_three_area_class_a0_a3_retarget_v301.md`.  V210--v211
+  imply that every roof-kernel correction has one of only three
+  exponent-nine images `z^t`, `t in F3`.  The v225/v216 occurrence seed and
+  its rank-at-most-486 closure depend only on fixed `g760`; the corrected
+  residual target is constant on each of the three area classes.
+- Therefore the complete projected A3 pre-gate for every possible A0 common
+  correction reduces to one occurrence closure and three target membership
+  tests.  This can be computed from accepted task198 plus fixed `g760` before
+  selecting a literal A0 word.
+- V301 appends the signed-area homomorphism as one scalar coordinate to the
+  v140 A0 linear certificate.  For each passing class `t`, membership of the
+  augmented target `(-T,t)` constructs a literal A0 common word of exactly
+  that class.  The relevant finite decision is the intersection of attainable
+  and projected-passing area classes, rather than the projected test of one
+  arbitrary first word.
+- Empty intersection, if completely cross-checked, obstructs every registered
+  A0 common correction for this fixed `g760` branch; nonempty intersection
+  lets A0 search directly for a word guaranteed to pass the necessary A3
+  projected gate.  Neither outcome settles the later pointed, exact-endpoint,
+  mixed-prime, perfect-core, fake or Ihara gates.
+
+**v220 mapping**:
+
+- A3 remains **0/3 actual** because the three literal targets and their
+  memberships have not been computed.  Its dependency is nevertheless
+  shortened: the projected pre-gate no longer waits for an arbitrary A0
+  correction word.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**; its current bootstrap scope
+  is unchanged.  The one-row area augmentation belongs to the future v12b
+  production search after v12a is accepted.
+- A1 remains **4/4 CROSS-CHECKED**, A2 **2/3**, A4 **1/3 V6B FINITE REPAIR
+  ACTIVE**, and all later witness/fake/Ihara numerators are unchanged.
+
+Delta121 replaces a potentially unbounded sequence of A0-word/A3 failures by
+one finite three-class selector on paper, without counting an unexecuted
+selector as a witness result.
