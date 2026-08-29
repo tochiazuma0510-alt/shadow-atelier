@@ -9310,3 +9310,51 @@ boundaries.
 
 Delta237 prevents an uncapped dependency scan from consuming another
 four-hour A4 budget; it does not retract v14's mathematical batching rule.
+
+### Delta 238 (2026-08-30): the canonical residual generators now have a physical compiler in production
+
+- Task382's producer, independent checker and driver are frozen at commit
+  `527dcab5`.  They authenticate the pinned task157ee split presentation and
+  task176/task198 ten-coordinate owner, reconstruct all 243 `Gamma` states
+  with lossless source-word recurrence, and perform the complete v360
+  construction: two 243-state inner-action scans, 27 central states, all
+  `27^2=729` central pairs, and all five pinned `PSL(2,8)` relators.
+- A retained pair is required to be unique, to generate exactly 504 values,
+  to meet `Gamma` only in the identity, to centralize all of `Gamma`, and to
+  project to the two fixed pure-`PSL(2,8)` quotient generators.  The final
+  literal words are replayed in all ten coordinates.  These gates identify
+  the canonical `tilde-S`, not merely a convenient order-504 subgroup.
+- With no positive A4 pins, the sealed producer receipt retains those two
+  word/value owners and returns the exact typed terminal
+  `UNKNOWN_INPUT:A4_POSITIVE_AMBIENT_K_NOT_AVAILABLE`.  The checker scans
+  states and central pairs in reverse order, uses a different preliminary
+  inner representative and word-action route, and independently accepts
+  only the same final values.  With a future positive A4 owner, the same
+  package continues to the full block span
+  `C_rel=im(S_1-I)+im(S_2-I)`, with literal commutator and finite-value
+  ancestry; it does not claim an occurrence image, `A/JA` or `L/JL`.
+- Root static pin/AST checks and a separate read-only Sol audit passed.  The
+  latter found no mathematical or performance blocker: the no-A4 group work
+  is bounded by 243, 729 and 504 rather than any joint-group roster.  The
+  only nonblocking note is that an invalid future A4 artifact is rejected
+  after, rather than before, the small v360 construction.
+- Task176-only production run `33263377923` was dispatched at immutable head
+  `527dcab5c371316fccb17046e33d9136bfce35bd`, with no optional p-quotient
+  packages.  The actual two words and their hashes are not promoted until
+  the producer receipt and independent verdict are inspected.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, with v13 baseline `33262485779` running and task385
+  repairing the bounded batch successor.  Task382 does not need A4 to close
+  the residual-generator **materialization** milestone, but it does need a
+  positive A4 owner to compute the numerical `C_rel` basis/rank.
+- A9 remains **0/3 actual**.  Its first post-A4 arrow
+  `K -> [tilde-S,K]` now has an implemented, independently audited physical
+  owner path and an active task176-only word-materialization run.
+- A0 remains **0/1 with v22 run 33259268996 active**.  Compatible lift, fake
+  and Ihara witness numerators are unchanged.
+
+Delta238 moves v360 from a paper algorithm to an actual bounded certificate
+run without confusing the expected missing-A4 terminal with failure of the
+canonical-word construction.
