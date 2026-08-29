@@ -9545,3 +9545,50 @@ the next live A0 handoff failure before a positive artifact can be stranded.
 Delta242 closes one real live-data break and replaces a strong structural
 assumption by an exact finite relative-kernel criterion without inflating any
 actual witness count.
+
+### Delta 243 (2026-08-30): the relative-kernel test is executable and all current task193 consumers are live
+
+- `proof_r07_elementary_abelian_h1_matrix_certificate_v366.md`, commit
+  `052eb5a0`, gives the exact finite matrix promised by v365.  For marked
+  `K=(C_p)^t`, with `T_i=z_i-1`, it proves
+  `H_1(K,N)=ker(d1)/im(d2)`, where
+  `d1(n_i)=sum T_i n_i`, the unary columns of `d2` are `T_i^(p-1)`, and
+  pair columns are `T_j e_i-T_i e_j`.  At p=3 these use only `T_i,T_i^2`.
+  A primal orbit-monomial basis proves `F_3[K]`-freeness; a cycle plus a
+  dual functional annihilating `im(d2)` proves a genuine nonzero defect.
+- The A0 pre-heavy-fork v23 owner is root-audited and frozen at commit
+  `1837109c`.  Its generated producer differs from v22 by moving exactly the
+  replacement-owner construction/start before the sole `build_heavy` call;
+  its generated checker differs only in the exact producer pin.  It retains
+  the v22 checkpoint/resume ABI and is a dormant fallback: active v22 run
+  `33259268996` was not cancelled or duplicated.
+- The actual class-two `q2` consumer v2 is root-audited at commit
+  `ccb36ce6`.  Its producer/checker executable diff from v1 is restricted to
+  task193-v4 pins and registered schema/terminal/path/provenance literals.
+  It is ready for the future positive task193 artifact but has not run.
+- Zero-base A5/A6 v4 and representative-complete A5/A7 fusion v6 are
+  root-audited at commit `d1e37954`.  They exact-pin task193-v4.  Fusion v6
+  authenticates task193 before task198 authority/runtime/boundary
+  construction, while preserving `UNKNOWN_INPUT:<reason>` by translating the
+  zero-base exception type.  The streaming dovetail, candidate order and
+  mathematical predicates are unchanged; no full Schreier-by-translation
+  roster is pre-materialized.
+
+**v220 mapping**:
+
+- A0 remains **0/1; v22 run 33259268996 RUNNING**.  A memory-safer v23
+  replay/resume owner is now frozen, not yet dispatched.
+- A2 remains **2/3**, but every presently registered live consumer of its
+  future task193-v4 result is now physically connected: actual `q2`,
+  zero-base A5/A6 and full A5/A7 fusion.
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual** because no positive A0/task193
+  artifact exists.  Their earlier stale-pin and fail-slow implementation
+  blockers are closed.
+- A4 remains **1/3 RUNNING** under `33262485779` and `33263899806`.
+- A9 remains **0/3 actual**.  Once a positive A4 action owner materializes
+  the actual `G/H` modules, its relative-kernel freeness alternative now has
+  a complete finite primal/dual test.  Compatible lift, fake and Ihara
+  witness numerators are unchanged.
+
+Delta243 removes the remaining known task193 version splits and turns the
+new base-change theorem into a concrete post-A4 linear-algebra certificate.
