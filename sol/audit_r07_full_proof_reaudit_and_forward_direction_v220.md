@@ -7134,3 +7134,39 @@ calculation.
 
 Delta180 prevents a second impossible A4 run while combining the two-line
 source correction and the already-needed driver into one bounded repair.
+
+### Delta 181 (2026-08-29): A3/v4 semantic core passes but driver acceptance is unsafe
+
+- Froze `sol/sol_reply_381_r07_pre_a0_a3_v4_code_performance_reaudit_v1.md`
+  (25,481 bytes; SHA-256
+  `ed2da4d6f3221a927462e734d7bcc8d897c3b881f30cdcbfb7155df997cca124`).
+  Its verdict is **STATIC REJECT**; no candidate, compiler, runtime, mutation,
+  GAP, GHA, workflow or network command was run.
+- P0 and its 23-owner authority graph, accepted task198/evaluator routes,
+  v303 projection, one producer closure, one independent checker verifier,
+  exact 486/729 rosters and all twelve mutations pass.  The v3 mathematical
+  defects remain repaired.
+- The decisive rejection is in the serial driver.  Its sentinel rollback
+  swallows unlink/fsync failure, and GAP `Exec` discards the shell exit status;
+  exact sentinel bytes surviving a failed helper can therefore be accepted.
+  The audit also identifies only bounded duplicate work: repeated driver
+  receipt parse/canonical/seal passes, one intermediate receipt hash, one
+  checker receipt hash and duplicate hashes of already-authenticated dynamic
+  source bytes.
+- Added `sol/sol_task_384_r07_pre_a0_a3_v5_driver_performance_repair.txt`.
+  It keeps the accepted semantic core, removes only the enumerated duplicate
+  passes, requires GAP's status-bearing `Process` gate and makes every
+  sentinel rollback/close failure nonaccepting.  A fresh audit remains
+  mandatory before GHA.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V4 STATIC REJECT / V5 DRIVER+PERFORMANCE REPAIR
+  ACTIVE**.  A0 remains **0/1 V12C REPAIR ACTIVE**, A4 **1/3 V9 TRACE REPAIR
+  + PINNED DRIVER ACTIVE**, and A5--A7 **0/3**.
+- No actual A3 terminal, common word, compatible lift, fake certificate or
+  Ihara witness is added.
+
+Delta181 preserves the accepted A3 mathematical implementation and reduces
+the remaining repair to one driver safety gate plus enumerated redundant
+full-owner passes.

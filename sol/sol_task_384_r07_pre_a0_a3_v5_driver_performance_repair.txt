@@ -1,0 +1,177 @@
+Sol(max) task 384 - pre-A0 A3/v5 driver and duplicate-pass repair
+
+Role: fresh researcher-authorized bounded implementer. Read every numbered
+section first to last before editing. The task381 auditor must not implement
+this tranche. Preserve every task381 PASS clause and repair all of its
+performance/publication defects together. Do not execute or compile any
+candidate or driver.
+
+1. Binding history and exact scope
+
+Read task363, task369/reply369, task370/reply370, task374/reply374,
+task377/reply377, task381 and its complete STATIC REJECT. Read all four frozen
+v4 owners and their P0-pinned immutable authorities. This remains the
+`PRE_A0_COMPUTATIONAL_BASE_ONLY` single-target A3 candidate. It consumes no
+task192 word and does not construct A0, an actual correction, a lift, fake or
+Ihara witness.
+
+Retain without weakening:
+
+- compact canonical P0, body seal, 23-owner/33,121,619-byte unique inventory
+  and one-way authority graph;
+- accepted task198 authority, live producer/checker evaluator routes and
+  exact v303-only projected interface;
+- one producer closure, one independent checker verifier, exact 486/729
+  rosters and the checker-internal twelve directed span comparisons;
+- baseline plus all twelve owner-local mutations and exact narrow reasons;
+- one 31,017,244-byte task198 parse/canonical/seal route per process;
+- elapsed-adjusted 1800-second internal deadlines, 2100-second external
+  bounds, serial 4200-second sum, Linux RLIMIT_AS and false flags; and
+- producer/checker durable bound publication already passed by task381.
+
+2. Sole permitted outputs and graph
+
+Create exactly:
+
+- `search/d972_r07_pre_a0_single_target_a3_v5.py`
+- `crosscheck/check_d972_r07_pre_a0_single_target_a3_v5.py`
+- `search/d972_r07_pre_a0_single_target_a3_gha_driver_v5.g`
+- `sol/sol_reply_384_r07_pre_a0_a3_v5_driver_performance_repair.md`
+
+Do not edit the frozen v4 sources/driver, P0 or any authority. The unchanged
+P0 remains upstream and must not pin final programs. Both programs pin P0;
+only the v5 driver pins the final P0/producer/checker identities. Use truthful
+Task384/v5 source labels and receipt/verdict schemas.
+
+3. Producer duplicate source hashes
+
+In the new producer, retain each pre-import `read_bytes` call and its existing
+size/SHA validation. Retain the post-import physical reread through
+`read_bytes(..., authority=False)` as the drift boundary. Remove only the two
+immediately repeated `digest_bytes` calls on byte objects already validated
+by those `read_bytes` calls. Do not remove the post-import reread, pin check,
+fresh module name, compile/exec boundary, wall deadline or import counter.
+
+Reverse-delta comparison, after restoring truthful labels and these two
+deleted redundant checks, must recover the frozen 104,369-byte producer with
+SHA-256
+`171e73dab2bd27f638021ceea43d8fb96ec4623a13d45873f364114e4290badd`.
+
+4. Checker duplicate passes and digest transport
+
+Apply the analogous two-check deletion to every checker dynamic import while
+retaining its physical post-import reread. The frozen checker base is 115,675
+bytes with SHA-256
+`eb07e34164f27b6676b97c722fb0fb2ef87b1e971baaab3d18c26770f17b7804`.
+
+`read_receipt` already authenticates the retained production bytes against
+the driver-supplied exact SHA. Carry that authenticated digest forward as an
+explicit typed value into `verdict_document`; do not hash the same immutable
+receipt bytes again merely to populate `receipt_sha256`. Require equality
+with the pinned digest at the call boundary. Keep the retained bytes for the
+independent canonical/seal/result reconstruction and preserve every receipt/
+verdict cross-binding.
+
+5. Driver whole-owner pass consolidation
+
+Start from the frozen 20,111-byte ASCII v4 driver with SHA-256
+`78ee39b6f8926c267cb24d6b15bdc3a961906cdb8ddf9de8f7668222a5113f91`.
+Preserve its serial producer/checker commands, exact terminals, zero statuses,
+UNKNOWN handling, output bounds, injection of the producer receipt SHA into
+the checker, final independent receipt+verdict+P0/23-owner validator,
+post-validation physical rehashes, stale-name rejection and false flags.
+
+Remove the pre-checker helper which fully parses, canonically reconstructs and
+body-seal-checks the produced receipt. Before the checker, require only the
+bounded regular/non-symlink owner, size and one streaming physical SHA needed
+for injection. The pinned checker then independently performs the first full
+semantic receipt validation; the one final driver helper performs the sole
+driver parse/canonical/body-seal pass while binding the verdict. This removes
+two avoidable full receipt serializations without trusting the checker
+terminal alone.
+
+Delete the intermediate `rsha2` pass immediately before the final helper.
+Inside that helper retain the in-memory equality `sha(rraw)==rsha`, and after
+the helper retain the required physical receipt/verdict rehashes. Do not
+remove the initial injected hash, final semantic hash or post-validation drift
+rehashes.
+
+6. Status-bearing shell invocation
+
+Replace GAP `Exec`, whose process status is discarded, by the installed GAP
+4.16 `Process` API or another native status-bearing primitive. Use the exact
+resolved `/usr/bin/bash` or independently pinned system-program path, the
+fixed generated shell path and fixed arguments. Require returned status
+exactly zero before any sentinel read. A noninteger/unknown/signal/nonzero
+status is terminal and must not inspect or accept a surviving sentinel.
+
+Keep all candidate status checks inside the shell as defense in depth. The
+driver may print `D363_DRIVER_ACCEPTED` only after both the shell status gate
+and exact sentinel admission pass.
+
+7. Sentinel rollback and close failures
+
+Repair the sentinel helper so no rollback exception is swallowed. On every
+failure after creating the sentinel:
+
+1. retain the original error;
+2. attempt exact dirfd-relative unlink;
+3. fsync the same bound output directory after unlink or absent-name check;
+4. retain any unlink/fsync/close rollback error; and
+5. exit nonzero regardless, exposing both original and rollback failure as
+   diagnostics without turning either into success.
+
+Successful publication still requires no-follow bound root/`ci`/`out`,
+exclusive creation, exact complete bytes, file fsync, successful close and
+directory fsync. Directory-fd or root-fd close failure must make the helper
+nonzero; the status-bearing GAP gate then prevents acceptance even if exact
+sentinel bytes somehow remain. Do not pre-delete stale files or accept a
+surviving sentinel after any helper/bash failure.
+
+8. Static caps and exact accounting
+
+Update source identities, schemas, driver pins and disclosed pass counts. The
+large-owner inventory, task198 parsing, task226 builds, closure/verifier and
+mutation counts must remain unchanged. Recompute exact avoided bytes:
+
+- producer duplicate source hashes removed: `2*894133 = 1788266`;
+- checker duplicate source hashes removed: `2*1450252 = 2900504`;
+- one checker receipt digest removed: actual produced-receipt bytes;
+- two driver full receipt serializations removed; and
+- one intermediate driver receipt hash removed.
+
+State the remaining necessary full passes and maximum simultaneous live
+objects. Numeric payload accounting is not an RSS proof; retain and read back
+the 4-GiB Linux address-space ceiling. The repair must introduce no new full
+DOM/canonical buffer, module build, closure, verifier or receipt parse.
+
+9. Static-only closure and reply
+
+Do not run Python, Node, GAP, the candidate, mutations, GHA/workflows, git,
+network, imports, syntax compilation, subprocesses or RSS. Read-only
+PowerShell inspection and hashing are allowed. A fresh independent complete
+audit is required before one serial GHA candidate.
+
+In the designated reply give exact bytes/SHA-256 for all four outputs, exact
+forward/reverse deltas, line-numbered evidence for Sections 3--8, all
+remaining full-pass and memory formulas, the exact GAP Process signature
+verified from installed source, every command class not run and the new audit
+gate. End exactly:
+
+```text
+A3/V5 VERSIONED OWNERS:                 COMPLETE or INCOMPLETE
+TASK381 SEMANTIC / MUTATION PASSES:      RETAINED or REGRESSED
+PRODUCER DUPLICATE SOURCE HASHES:        REMOVED or OPEN
+CHECKER DIGEST / SOURCE DUPLICATES:      REMOVED or OPEN
+DRIVER RECEIPT PASS CONSOLIDATION:       COMPLETE or OPEN
+STATUS-BEARING SHELL GATE:               COMPLETE or OPEN
+SENTINEL FAIL-CLOSED ROLLBACK:           COMPLETE or OPEN
+STATIC CAPS / PERFORMANCE:               REPAIRED or OPEN
+CANDIDATE EXECUTION:                     UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:          REQUIRED
+PRE-A0 A3/V5 GHA:                        FORBIDDEN
+ACTUAL A3 NUMERATOR:                     remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:        NONE
+```
+
+TASK384_R07_PRE_A0_A3_V5_DRIVER_PERFORMANCE_REPAIR
