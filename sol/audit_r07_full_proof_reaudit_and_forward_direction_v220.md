@@ -8073,3 +8073,60 @@ arrive, while keeping unexecuted candidates outside every actual numerator.
 Delta207 prevents either fictional input fields or a compact-envelope label
 from being mistaken for witness progress, while preserving the short
 positive mathematics of v347 and v348.
+
+### Delta 208 (2026-08-29): A4's real resource frontier is captured and a visible hot-path run starts
+
+- A4 diagnostic run `33247161395` completed and uploaded artifact
+  `9713665715`.  The producer reached the actual arithmetic and stopped
+  honestly at
+  `UNKNOWN_RESOURCE:full_D_correlation:correlation_pairs:10001052>10000000`
+  after `2361.467...` seconds.  Its last exact counters are 27 assembled
+  source rows, 27 membership queries, 12,437 boundary rank rises,
+  9,998,456 completed correlation pairs, 4,922,206 membership reductions,
+  2,500,263 dual-support entries and 159,700 prefix-edge state products;
+  peak RSS was 3,571,527,680 bytes.  The available prefrontier checkpoint
+  still has `next_row=1`, so it is evidence for the resource boundary, not a
+  resumable A4 basis or a negative result.
+- The old checker then returned
+  `UNKNOWN_INPUT:checker:producer_terminal_identity`, confirming Delta205's
+  wrapper-pin defect.  Run `33248273650` used the repaired pin but was
+  cancelled before repeating the already determined producer cap; it
+  contributes no mathematical result.
+- The first v18 capture wrapper is source-statically rejected before
+  execution.  It read the v16 wrapper and rewrote v16's replacement strings
+  rather than the frozen v6 driver, so the inner replacement cardinality
+  would be zero.  No GHA time was spent on v18.  Versioned v19 instead reads
+  the frozen 13,775-byte v6 driver directly and applies one layer of exact
+  v12/v13/path/pin/diagnostic substitutions.
+- Producer v12 and independent checker v13 raise only the three artificial
+  cumulative counters, reuse the already computed quotient remainder,
+  perform sparse F3 AXPY in place, validate the invariant eleven-owner
+  layout once, print a throttled `A4_PROGRESS` line, and checkpoint at rows
+  32, 64, 128, 256, 512 and the previous later frontiers.  Physical RSS,
+  wall, input and checkpoint caps remain unchanged.  Commit
+  `9efcdca72c7692cb2cc28981d7bd6c56a1f7d33c` was pushed and actual GHA run
+  `33249768646` is active on that exact head with a six-hour outer envelope.
+- The first history-free adapter v2 is not a usable positive handoff: after
+  authenticating A0 it always returns
+  `UNKNOWN_INPUT:TASK193_D1_BUNDLE_UNAVAILABLE`, and its positive checker
+  branch is contradictory.  The corrected unique route is now split at the
+  actual owner boundary: adapter v3 emits only authenticated A0 literal
+  input (`c_exact`, corrected word, `g760` and direct sparse row), while
+  task193-v2 itself computes the corrected and uncorrected affine-prefix
+  values and the pointed signs
+  `d1_pt=-D1(g760)`, `beta1=D1(corrected)`, `e1_pt=-beta1`.  This is active
+  implementation work, not an A2/A5 promotion.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, with runs `33246619673` and `33247540982` active.
+- A4 remains **1/3; V19 ACTUAL RUN 33249768646 ACTIVE**.  The exact cap
+  receipt and faster code do not count as an accepted word-bearing kernel.
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.  A5/A6 remain
+  **0/3 / 0/3; REAL-OWNER V2 IMPLEMENTATION ACTIVE**, and A7 plus every
+  later lift/fake/Ihara numerator is unchanged.
+
+Delta208 converts A4's opaque thirty-minute behavior into a measured,
+visible production frontier and starts the bounded successor without
+mistaking a resource receipt, static wrapper, or adapter schema for witness
+progress.
