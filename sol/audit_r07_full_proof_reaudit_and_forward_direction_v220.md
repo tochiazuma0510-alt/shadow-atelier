@@ -8293,3 +8293,43 @@ direct A5/A6 compiler.
 Delta211 records that the A0 loss was a real memory-bound run plus a broken
 UNKNOWN transport, not an invisible hang.  It also removes the invalid
 assumption that v18 had repaired either of those two paths.
+
+### Delta 212 (2026-08-29): minimal A0 v20 and A4 v21 enter parallel production
+
+- A0 v20 is frozen at commit
+  `f012c1590fe91a83cef1e233a1143d495532589c`.  Relative to the rejected v19
+  attempt it uses a dedicated delete-once gate, fixes the worker roster at
+  two, installs no process-lifetime decode cache, recursively freezes JSON
+  DAG lists for producer/checker checkpoint replay, and exposes live
+  boundary/candidate/retained/DAG/parent-RSS/child-RSS counters.  Its driver
+  treats a cross-checked typed `UNKNOWN_RESOURCE` plus checkpoint as a normal
+  artifact-bearing terminal.  Production run `33251157582` was dispatched
+  from that exact head with a six-hour outer envelope.
+- The intact upstream saved input remains artifact `9681838782`: its
+  86,368,039-byte raw checkpoint records 3,145,728 boundary pairs and 2,896
+  retained columns.  V20 authenticates and consumes this physical input; it
+  does not claim recovery of the two later v16/v18 checkpoints, which were
+  lost when their workflows failed before upload.
+- A4 v21 is frozen at commit
+  `7d51d13b251061bca01acdcf5b5007d4a962dd63` and production run
+  `33250865356` is active in parallel.  V21 changes only the generated-inner
+  newline transport and versioned paths/labels over the already pinned
+  producer-v12/checker-v14 owners.
+- Independent audit of task193 adapter-v3/compiler-v2 returned **REJECT** at
+  the live input boundary: adapter v3 exact-pins A0 v18, whose two runs
+  yielded no accepted artifact, and necessarily rejects a future v20
+  positive receipt.  A minimal adapter-v4/task193-v3 source-pin successor is
+  active; no affine mathematics is being redesigned.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V20 ACTUAL RUN 33251157582 ACTIVE**.
+- A4 remains **1/3; V21 ACTUAL RUN 33250865356 ACTIVE**.
+- A2 remains **2/3; V3 STATIC REJECT, V20-PIN SUCCESSOR ACTIVE**.
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**; A5/A6 remain
+  **0/3 / 0/3** with direct-relator v3 implementation active.  No compatible
+  lift, fake, or Ihara witness is promoted.
+
+Delta212 is an execution delta, not a numerator increase: it restores two
+parallel GHA production lanes while keeping the A0 repair restricted to the
+measured RSS/checkpoint failures.
