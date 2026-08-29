@@ -5333,3 +5333,34 @@ pre-A0 projected transfer and the A2 dependency reduction.
 
 Delta127 removes the arbitrary-A0 selection bottleneck on paper without
 counting the new joint selector before implementation and accepted execution.
+
+### Delta 128 (2026-08-29): A4/v6b rejected before execution; complete finite repair commissioned
+
+- Sol(max) task360 statically audited commit `e7182efa` and returned
+  `REJECT / UNEXECUTED` in
+  `sol/sol_reply_360_r07_task358_a4_v6b_code_performance_audit_v1.md`.
+  No candidate Python or GHA was run.
+- The clean supported-POSIX trace reaches rows 1--4, but row 1 leaks a parsed
+  receipt DOM reservation.  At row 5 the exact live request is
+  `883,131,154 > 750,000,000`, so neither side can finish seven rows.
+- Independent blockers remain after that peak repair: rows 1/5/6/7 bind the
+  old nested receipt self seal, baseline revalidation omits mtime/content,
+  exact layer/evaluator ABI validation is incomplete, and optional output
+  can remain published after a later fsync/cleanup/identity failure.
+- Added `sol/luna_task_362_r07_a4_v6c_authority_trace_repair.md`, requiring
+  all task360 defects to be repaired together, exact single-pass validation,
+  invocation-long baseline handles, isolated row-4 ownership, corrected
+  resource formulas, and bound-parent rollback-safe publication.  Coverage
+  remains rows 1--7; rows 8--48 are not silently claimed.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  V6b did not close invariant closure or accepted
+  word-bearing `K`; v6c is a commissioned implementation repair only.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**,
+  A2 **2/3**, A3 **0/3**, and A5--A9, B, C, W, F remain unchanged.
+- No compatible lift, fake certificate, cofinal witness or Ihara
+  counterexample is added.
+
+Delta128 prevents the rejected seven-row infrastructure from entering GHA
+and fixes its complete repair boundary before extending to rows 8--48.
