@@ -1,0 +1,2987 @@
+{
+ "schema": "pilot2-ben5-L7/v1",
+ "title": "PILOT-2 ben5 (L7'): explicit Belyi map for the genus-4 target -- passport [9,9,9], 9T27 = PSL(2,8) -- and its rational recognition",
+ "date": "2026-08-29",
+ "ruling": "coordinator ruling 1805 (ben5 dispatch)",
+ "machine_output_only": true,
+ "author": "shadow-atelier mathematician (Opus 5)",
+ "spec": {
+  "path": "scratchpad/pilot2_spec_v1.md",
+  "version": "v1.1",
+  "sha16": "1ff1b9713d2d9207",
+  "sections": [
+   "4.4 L7'",
+   "4.5 G-5'-b",
+   "5 G-6'-a/b",
+   "6 bin 5"
+  ],
+  "precedence": "ruling 1801: the machine values certified by ben1-ben4 override the spec's printed literals"
+ },
+ "input_artifacts": {
+  "search/certs/pilot2_ben1_hyperbolic_v1_20260829.json": "0d6d590d5dda602f",
+  "search/certs/pilot2_ben2_L5_v1_20260829.json": "fce9991ed60aaf77",
+  "search/certs/pilot2_ben3_CAL_v1_20260829.json": "f1b4ac003874cd19",
+  "search/certs/pilot2_ben4_L6_v1_20260829.json": "d16248384d9593bb",
+  "scratchpad/pilot2_ben4_a_basis_k2N717_out.json": "61d9c07e37c24606",
+  "scratchpad/pilot2_ben4_a_basis_k2N538_out.json": "bf89cd427825f579",
+  "scratchpad/pilot2_ben4_e_L6_k2N717_out.json": "c60cf9c422833324",
+  "scratchpad/pilot2_ben4_e_L6_k2N538_out.json": "8b91bc38a20b4234",
+  "scratchpad/pilot2_ben4_f_S3_k2N717_out.json": "cd33d9b2a8f90f07",
+  "scratchpad/pilot2_ben4_f_S3_k2N538_out.json": "92661927797f4654",
+  "scratchpad/pilot2_spec_v1.md": "1ff1b9713d2d9207"
+ },
+ "FINAL_VERDICT": {
+  "L7_prime": "PASS",
+  "phi_constructed": true,
+  "both_routes_agree": true,
+  "rational_recognition": "SUCCEEDED -- over Q, exactly, with no number field needed",
+  "P_FIELD": "CONFIRMED (sufficient condition of spec sec.4.4 L7'-d met)",
+  "grade": "candidate / cross-checked (three independent systems: exact Q-arithmetic, the ben4-certified evaluation-row numerics at N=717 and at N=538). NOT 'verified' (no Lean).",
+  "kernel_dim_gate": {
+   "exact_over_Q": 1,
+   "numeric_N717_absolute_floor": 7,
+   "numeric_N538_absolute_floor": 7,
+   "representation_declared": "20 cubic monomials; the Delta-system kernel is 7 there (= 2 + the 5 Sym^3 relations) and drops to 6 (= 1 + 5) once ord_{P_inf} >= 9 is added, i.e. dimension 1 as functions"
+  },
+  "G6_prime_a": "PASS (exact): multiplicity multisets of phi, phi-1 and 1/phi are all {9}",
+  "G6_prime_b": "PASS (exact): Riemann-Hurwitz saturated, no branch point outside {0,1,infinity}",
+  "ben6_may_proceed": true
+ },
+ "part_series_recognition": {
+  "statement": "every echelon coefficient of the certified N=717 basis, weighted by mu^{wt/2}, is a small RATIONAL number.  This is stronger than spec sec.4.4 (d1) asserted and is what makes the whole of ben5 exact.",
+  "noise_floor": 1.913434788349995e-19,
+  "trustworthy_digits": 18.71818633435004,
+  "floor_provenance": "max of (i) the iota wrong-parity entries, which are structurally zero, and (ii) the structural zeros bt_{1,8}, bt_{3,8}; cross-validated against N=538. Never derived from a recognised answer.",
+  "n_nonzero_recognised": 60,
+  "worst_relative_residual": 1.6890835007146925e-21,
+  "worst_N538_deviation": 3.459566147292685e-17,
+  "normalisation": "mu = lambda^2 := 1/bt_{3,4} (declares c_{3,4} = 1), then twisted by nu (see part_exact_model)",
+  "entries": [
+   {
+    "i": 1,
+    "n": 0,
+    "wt": 0,
+    "num": 1,
+    "den": 1
+   },
+   {
+    "i": 1,
+    "n": 2,
+    "wt": 2,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 1,
+    "n": 4,
+    "wt": 4,
+    "num": 1,
+    "den": 4
+   },
+   {
+    "i": 1,
+    "n": 6,
+    "wt": 6,
+    "num": -1,
+    "den": 4
+   },
+   {
+    "i": 1,
+    "n": 8,
+    "wt": 8,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 1,
+    "n": 10,
+    "wt": 10,
+    "num": 1,
+    "den": 4
+   },
+   {
+    "i": 1,
+    "n": 12,
+    "wt": 12,
+    "num": 1,
+    "den": 16
+   },
+   {
+    "i": 1,
+    "n": 14,
+    "wt": 14,
+    "num": -1,
+    "den": 32
+   },
+   {
+    "i": 1,
+    "n": 16,
+    "wt": 16,
+    "num": 3,
+    "den": 64
+   },
+   {
+    "i": 1,
+    "n": 18,
+    "wt": 18,
+    "num": 191,
+    "den": 3264
+   },
+   {
+    "i": 1,
+    "n": 20,
+    "wt": 20,
+    "num": -41,
+    "den": 1536
+   },
+   {
+    "i": 1,
+    "n": 22,
+    "wt": 22,
+    "num": 1239,
+    "den": 330752
+   },
+   {
+    "i": 1,
+    "n": 24,
+    "wt": 24,
+    "num": -5353,
+    "den": 248064
+   },
+   {
+    "i": 1,
+    "n": 26,
+    "wt": 26,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 1,
+    "n": 28,
+    "wt": 28,
+    "num": 280969,
+    "den": 35721216
+   },
+   {
+    "i": 1,
+    "n": 30,
+    "wt": 30,
+    "num": 78787,
+    "den": 11907072
+   },
+   {
+    "i": 1,
+    "n": 32,
+    "wt": 32,
+    "num": -338591,
+    "den": 285769728
+   },
+   {
+    "i": 1,
+    "n": 34,
+    "wt": 34,
+    "num": 67717,
+    "den": 35721216
+   },
+   {
+    "i": 2,
+    "n": 1,
+    "wt": 0,
+    "num": 1,
+    "den": 1
+   },
+   {
+    "i": 2,
+    "n": 3,
+    "wt": 2,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 2,
+    "n": 5,
+    "wt": 4,
+    "num": -1,
+    "den": 4
+   },
+   {
+    "i": 2,
+    "n": 7,
+    "wt": 6,
+    "num": 1,
+    "den": 4
+   },
+   {
+    "i": 2,
+    "n": 9,
+    "wt": 8,
+    "num": -11,
+    "den": 48
+   },
+   {
+    "i": 2,
+    "n": 11,
+    "wt": 10,
+    "num": -5,
+    "den": 24
+   },
+   {
+    "i": 2,
+    "n": 13,
+    "wt": 12,
+    "num": -11,
+    "den": 64
+   },
+   {
+    "i": 2,
+    "n": 15,
+    "wt": 14,
+    "num": 1,
+    "den": 192
+   },
+   {
+    "i": 2,
+    "n": 17,
+    "wt": 16,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 2,
+    "n": 19,
+    "wt": 18,
+    "num": -1171,
+    "den": 186048
+   },
+   {
+    "i": 2,
+    "n": 21,
+    "wt": 20,
+    "num": 17,
+    "den": 1536
+   },
+   {
+    "i": 2,
+    "n": 23,
+    "wt": 22,
+    "num": -69509,
+    "den": 2976768
+   },
+   {
+    "i": 2,
+    "n": 25,
+    "wt": 24,
+    "num": 28601,
+    "den": 2976768
+   },
+   {
+    "i": 2,
+    "n": 27,
+    "wt": 26,
+    "num": -436313,
+    "den": 53581824
+   },
+   {
+    "i": 2,
+    "n": 29,
+    "wt": 28,
+    "num": -452155,
+    "den": 214327296
+   },
+   {
+    "i": 2,
+    "n": 31,
+    "wt": 30,
+    "num": -187249,
+    "den": 142884864
+   },
+   {
+    "i": 2,
+    "n": 33,
+    "wt": 32,
+    "num": 19681,
+    "den": 25214976
+   },
+   {
+    "i": 3,
+    "n": 2,
+    "wt": 0,
+    "num": 1,
+    "den": 1
+   },
+   {
+    "i": 3,
+    "n": 4,
+    "wt": 2,
+    "num": 1,
+    "den": 1
+   },
+   {
+    "i": 3,
+    "n": 6,
+    "wt": 4,
+    "num": 1,
+    "den": 4
+   },
+   {
+    "i": 3,
+    "n": 8,
+    "wt": 6,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 3,
+    "n": 10,
+    "wt": 8,
+    "num": 11,
+    "den": 24
+   },
+   {
+    "i": 3,
+    "n": 12,
+    "wt": 10,
+    "num": -1,
+    "den": 4
+   },
+   {
+    "i": 3,
+    "n": 14,
+    "wt": 12,
+    "num": 13,
+    "den": 96
+   },
+   {
+    "i": 3,
+    "n": 16,
+    "wt": 14,
+    "num": 1,
+    "den": 12
+   },
+   {
+    "i": 3,
+    "n": 18,
+    "wt": 16,
+    "num": -55,
+    "den": 2304
+   },
+   {
+    "i": 3,
+    "n": 20,
+    "wt": 18,
+    "num": -16445,
+    "den": 372096
+   },
+   {
+    "i": 3,
+    "n": 22,
+    "wt": 20,
+    "num": -10649,
+    "den": 992256
+   },
+   {
+    "i": 3,
+    "n": 24,
+    "wt": 22,
+    "num": 499,
+    "den": 46512
+   },
+   {
+    "i": 3,
+    "n": 26,
+    "wt": 24,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 3,
+    "n": 28,
+    "wt": 26,
+    "num": -45559,
+    "den": 26790912
+   },
+   {
+    "i": 3,
+    "n": 30,
+    "wt": 28,
+    "num": 145973,
+    "den": 35721216
+   },
+   {
+    "i": 3,
+    "n": 32,
+    "wt": 30,
+    "num": -88073,
+    "den": 26790912
+   },
+   {
+    "i": 3,
+    "n": 34,
+    "wt": 32,
+    "num": -1331813,
+    "den": 857309184
+   },
+   {
+    "i": 4,
+    "n": 3,
+    "wt": 0,
+    "num": 1,
+    "den": 1
+   },
+   {
+    "i": 4,
+    "n": 5,
+    "wt": 2,
+    "num": -1,
+    "den": 1
+   },
+   {
+    "i": 4,
+    "n": 7,
+    "wt": 4,
+    "num": -1,
+    "den": 4
+   },
+   {
+    "i": 4,
+    "n": 9,
+    "wt": 6,
+    "num": -1,
+    "den": 6
+   },
+   {
+    "i": 4,
+    "n": 11,
+    "wt": 8,
+    "num": 11,
+    "den": 48
+   },
+   {
+    "i": 4,
+    "n": 13,
+    "wt": 10,
+    "num": 3,
+    "den": 16
+   },
+   {
+    "i": 4,
+    "n": 15,
+    "wt": 12,
+    "num": 1,
+    "den": 192
+   },
+   {
+    "i": 4,
+    "n": 17,
+    "wt": 14,
+    "num": 0,
+    "den": 1
+   },
+   {
+    "i": 4,
+    "n": 19,
+    "wt": 16,
+    "num": 91,
+    "den": 2304
+   },
+   {
+    "i": 4,
+    "n": 21,
+    "wt": 18,
+    "num": -2969,
+    "den": 124032
+   },
+   {
+    "i": 4,
+    "n": 23,
+    "wt": 20,
+    "num": 5881,
+    "den": 2976768
+   },
+   {
+    "i": 4,
+    "n": 25,
+    "wt": 22,
+    "num": 745,
+    "den": 372096
+   },
+   {
+    "i": 4,
+    "n": 27,
+    "wt": 24,
+    "num": -562843,
+    "den": 107163648
+   },
+   {
+    "i": 4,
+    "n": 29,
+    "wt": 26,
+    "num": -320065,
+    "den": 53581824
+   },
+   {
+    "i": 4,
+    "n": 31,
+    "wt": 28,
+    "num": -446221,
+    "den": 142884864
+   },
+   {
+    "i": 4,
+    "n": 33,
+    "wt": 30,
+    "num": -1225,
+    "den": 787968
+   }
+  ],
+  "spec_d1_correction": "spec sec.4.4 (d1) states the weight rule for a_{i,n}; the derivation behind it is only valid for n <= i+16 (the disc coordinate is intrinsic up to lambda modulo an O(t^18) correction, because phi is v^9-sparse AND v is iota-odd). Measurement shows the correction is ABSENT out to the highest index tested, so the rule holds further than the derivation guarantees; the guarantee, not the measurement, is what is claimed."
+ },
+ "part_exact_model": {
+  "twist": {
+   "model_1_normalisation": "c_{3,4} = 1 (series side, mssv method 1)",
+   "t_squared": "-3/2",
+   "nu_squared": "-3/2",
+   "reason": "A|_W = -1/2 I + t J with t^2 = -3/4/kappa; A is rational over Q(nu) only"
+  },
+  "why_two_normalisations": "spec sec.4.4 (d3). Method 1 (series side, c_{3,4}=1) rationalises X but NOT phi: the order-3 A then lies in GL_4(Q(sqrt(-3/2))) and P_1, P_inf are a conjugate pair, while a Q-rational phi forces P_inf in X(Q) (its polar fibre is ONE point). Method 2 (Belyi side, mssv sec.4.4) applies the quadratic twist nu^2 = -3/2 and rationalises everything.  This is a sharp instance of mssv's remark that the Belyi-side normalisation is the one that recognises the map.",
+  "Q": {
+   "monomials": [
+    "X1X1",
+    "X1X2",
+    "X1X3",
+    "X1X4",
+    "X2X2",
+    "X2X3",
+    "X2X4",
+    "X3X3",
+    "X3X4",
+    "X4X4"
+   ],
+   "coeffs": [
+    0,
+    0,
+    8,
+    0,
+    -8,
+    0,
+    6,
+    6,
+    0,
+    -9
+   ],
+   "printed": "+8*X1X3 -8*X2X2 +6*X2X4 +6*X3X3 -9*X4X4",
+   "rank": 4
+  },
+  "C": {
+   "monomials": [
+    "X1X1X1",
+    "X1X1X2",
+    "X1X1X3",
+    "X1X1X4",
+    "X1X2X2",
+    "X1X2X3",
+    "X1X2X4",
+    "X1X3X3",
+    "X1X3X4",
+    "X1X4X4",
+    "X2X2X2",
+    "X2X2X3",
+    "X2X2X4",
+    "X2X3X3",
+    "X2X3X4",
+    "X2X4X4",
+    "X3X3X3",
+    "X3X3X4",
+    "X3X4X4",
+    "X4X4X4"
+   ],
+   "coeffs": [
+    0,
+    0,
+    0,
+    32,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    -32,
+    0,
+    -48,
+    0,
+    0,
+    -54,
+    0,
+    54,
+    0,
+    -45
+   ],
+   "printed": "+32*X1X1X4 -32*X2X2X2 -48*X2X2X4 -54*X2X4X4 +54*X3X3X4 -45*X4X4X4",
+   "representative": "reduced to zero on the rref pivot monomials of span{X_l Q}"
+  },
+  "X": "X = {Q = 0} cap {C = 0} in P^3_Q, genus 4, degree 6, canonically embedded",
+  "A": {
+   "matrix": [
+    [
+     "-1/8",
+     "9/16",
+     "27/32",
+     "81/64"
+    ],
+    [
+     "-1/4",
+     "5/8",
+     "3/16",
+     "-27/32"
+    ],
+    [
+     "1/2",
+     "-1/4",
+     "5/8",
+     "-9/16"
+    ],
+    [
+     "-1/3",
+     "-1/2",
+     "1/4",
+     "-1/8"
+    ]
+   ],
+   "A_cubed_is_I": true,
+   "Q_scalar": "1",
+   "C_scalar": "1",
+   "trace": "1",
+   "alpha_beta_recognised": {
+    "alpha_analytic_re": 0.24689599616849214,
+    "alpha_analytic_im": -1.4002167744067746,
+    "beta_analytic_re": -0.08229866538949744,
+    "beta_analytic_im": 0.46673892480225826,
+    "alpha_Q": [
+     -2,
+     1
+    ],
+    "beta_Q": [
+     2,
+     3
+    ],
+    "alpha_imag_residual": 3.537042414169432e-16,
+    "beta_imag_residual": 4.815398528796474e-17,
+    "note": "ben4's float64 solution, twisted by mu; recognised in Q; VERIFIED exactly below"
+   },
+   "note": "A is Q-rational ONLY after the twist; in the series normalisation t^2 = -3/2 is not a square"
+  },
+  "iota": "diag(-1,+1,-1,+1) (ben4 handover), Q-rational in both normalisations",
+  "agreement_with_ben4_numerics": {
+   "sin_angle_Q": 6.011031318513584e-21,
+   "sin_angle_C_mod_XlQ": 2.7791380736528204e-20,
+   "ben4_L6_json": "pilot2_ben4_e_L6_k2N717_out.json",
+   "sha16": "c60cf9c422833324"
+  }
+ },
+ "part_phi": {
+  "form": "phi = k * X_4^3 / B",
+  "k": "-3456",
+  "B_monomials": [
+   "X1X1X1",
+   "X1X1X2",
+   "X1X1X3",
+   "X1X1X4",
+   "X1X2X2",
+   "X1X2X3",
+   "X1X2X4",
+   "X1X3X3",
+   "X1X3X4",
+   "X1X4X4",
+   "X2X2X2",
+   "X2X2X3",
+   "X2X2X4",
+   "X2X3X3",
+   "X2X3X4",
+   "X2X4X4",
+   "X3X3X3",
+   "X3X3X4",
+   "X3X4X4",
+   "X4X4X4"
+  ],
+  "B_coeffs": [
+   256,
+   0,
+   0,
+   0,
+   1152,
+   0,
+   432,
+   0,
+   0,
+   540,
+   0,
+   432,
+   0,
+   0,
+   -648,
+   0,
+   108,
+   0,
+   1539,
+   -1728
+  ],
+  "B_printed": "+256*X1X1X1 +1152*X1X2X2 +432*X1X2X4 +540*X1X4X4 +432*X2X2X3 -648*X2X3X4 +108*X3X3X3 +1539*X3X4X4 -1728*X4X4X4",
+  "normalisation": "reduced modulo the 5-dimensional Sym^3 kernel (the exact ideal generators), then scaled so that phi(P_1)=1",
+  "points": {
+   "P_0": [
+    "1",
+    "0",
+    "0",
+    "0"
+   ],
+   "P_1": [
+    "3",
+    "6",
+    "-12",
+    "8"
+   ],
+   "P_inf": [
+    "3",
+    "-6",
+    "-12",
+    "-8"
+   ]
+  },
+  "divisors": {
+   "div_phi": "9 P_0 - 9 P_inf",
+   "div_phi_minus_1": "9 P_1 - 9 P_inf"
+  },
+  "route_a_divisor": {
+   "n_equations": 18,
+   "consistent": true,
+   "solution_space_dim": 5,
+   "predicted": 5,
+   "note": "an AFFINE system; the 5-dimensional homogeneous part is exactly the Sym^3 kernel"
+  },
+  "route_b_delta_invariance": {
+   "n_equations": 23,
+   "kernel_20mon": 7,
+   "kernel_mod_relations": 2,
+   "predicted_20mon": 7,
+   "predicted_mod_relations": 2,
+   "kernel_with_Pinf_20mon": 6,
+   "kernel_with_Pinf_mod_relations": 1
+  },
+  "routes_agree_exactly": true,
+  "routes_agreement_order": 34,
+  "routes_agreement_is_a_proof": "both routes give a rational function of degree 9; two such functions agreeing to order 34 > 2*9 at a point of an irreducible curve are equal",
+  "gates_exact": {
+   "ord_P0_phi": 9,
+   "ord_P1_phi_minus_1": 9,
+   "ord_Pinf_one_over_phi": 9,
+   "sparse_in_t9": true,
+   "phi_o_A_equals_1_over_1_minus_phi": true,
+   "phi_o_A_equals_1_minus_1_over_phi": false,
+   "phi_o_iota_equals_phi_over_phi_minus_1": true,
+   "B_plus_B_o_iota_is_multiple_of_X4cubed": true
+  },
+  "S3_action_on_0_1_infinity": {
+   "phi o A": "1/(1-phi)   = the 3-cycle (0 1 inf), so A P_0 = P_1 and A^2 P_0 = P_inf",
+   "phi o iota": "phi/(phi-1) = the transposition (1 inf) fixing 0",
+   "correction_to_ben4_handover": "the ben4 handover wrote 'phi o iota = 1/phi'. That is inconsistent with its own (correct) premise that iota FIXES P_0 and swaps P_1, P_inf: 1/phi is the transposition fixing 1, not 0. The correct relation is phi/(phi-1), now verified exactly.",
+   "which_A_did_ben4_export": {
+    "k2N717": "phi(A P_0) = 1, so ben4's N=717 A equals ours",
+    "k2N538": "phi(A^2 P_0) = 1, so ben4's N=538 A equals ours squared",
+    "note": "both are order-3 generators of the same C_3; the multistart picks one arbitrarily. Nothing downstream depends on the choice, which is exactly the labelling freedom of the branch points 1 and infinity."
+   }
+  }
+ },
+ "part_divisor_proof": {
+  "statement": "div(phi) = 9 P_0 - 9 P_inf and deg phi = 9, proved exactly (not measured)",
+  "R": [
+   "3",
+   "0",
+   "-4",
+   "0"
+  ],
+  "hyperplane_X4_section": "3 P_0 + 3 R with R = (3:0:-4:0)",
+  "ord_R_X4": 3,
+  "ord_R_B": 9,
+  "local_expansion_verified_to_order": 30,
+  "argument": "X_4 = 0 cuts X in 3P_0 + 3R, so div(X_4^3) = 9P_0 + 9R (degree 18). B vanishes to order 9 at P_inf and to order 9 at R, and deg div(B) = 18, hence div(B) = 9P_inf + 9R exactly. Therefore div(phi) = 9P_0 - 9P_inf and deg phi = 9.",
+  "G6_prime_a": {
+   "phi_zeros": [
+    9
+   ],
+   "phi_minus_1_zeros": [
+    9
+   ],
+   "phi_poles": [
+    9
+   ]
+  },
+  "G6_prime_b": "2g-2 = 6 = 9*(-2) + deg(Ramification) => deg R = 24 = 3 * (9-1), which is exactly saturated by the three total ramification points P_0, P_1, P_inf; hence phi is unramified outside {0,1,infinity}  [G6'-b]",
+  "passport": "the fibres over 0, 1 and infinity are single points of multiplicity 9 each: cycle types ([9],[9],[9]), i.e. the ben1-frozen passport of 9T27 = PSL(2,8)"
+ },
+ "part_numerical_confirmation": {
+  "discipline": "ben3's U-D3: every row is an EVALUATION of the certified ben4 basis at a sample point; no series-coefficient row is used.  This is an independent second (and third) system: its only shared input with the exact route is the ben4 basis itself.",
+  "sampling_design": "fit shells |v| = 0.40, 0.52, 0.64 with 11 points each and irrational offsets; HELD-OUT shell |v| = 0.71 with 13 points, strictly outside every fit radius; frozen before any ben5 number was read",
+  "runs": [
+   {
+    "tag": "k2N717",
+    "basis_sha16": "61d9c07e37c24606",
+    "attained_D": 16.608921654690498,
+    "branch_0": {
+     "Lambda_branch": 0,
+     "exact_B_residual_in_fit_rows": 3.1263290924930965e-21,
+     "exact_B_residual_in_HELDOUT_rows": 6.307832871064162e-21,
+     "heldout_fibre_constancy_max_relative_spread": 2.5923260145525213e-18,
+     "measured_vanishing_order_at_P_0": 9.000000007278743,
+     "phi_over_v9_stability": [
+      "(-10.1102269834 - 3.52068144778e-21j)",
+      "(-10.1102270344 - 3.75572831762e-21j)",
+      "(-10.1102531508 - 4.72940498882e-21j)"
+     ],
+     "phi_at_ben4_A_P0": "(1.0 - 6.50570859852604e-16j)",
+     "phi_at_ben4_A2_P0": "(-682010134891095.0 + 576372630731575.0j)"
+    },
+    "branch_1": {
+     "Lambda_branch": 1,
+     "exact_B_residual_in_fit_rows": 3.1263290924930965e-21,
+     "exact_B_residual_in_HELDOUT_rows": 6.307832871064162e-21,
+     "heldout_fibre_constancy_max_relative_spread": 2.5128742863258897e-18,
+     "measured_vanishing_order_at_P_0": 8.999999992721257,
+     "phi_over_v9_stability": [
+      "(10.1102269832 + 3.52068144764e-21j)",
+      "(10.1102269322 + 3.75572824167e-21j)",
+      "(10.1102008159 + 4.72935602614e-21j)"
+     ],
+     "phi_at_ben4_A_P0": "(-698549238127074.0 + 1.08903505675719e+15j)",
+     "phi_at_ben4_A2_P0": "(0.999999999999999 - 7.22866397404491e-16j)"
+    },
+    "ben4_A_layout": "col_major",
+    "ben4_A_QoA_sin_angle": 4.0321294850628247e-16,
+    "ben4_A_cubed_minus_I": 6.445571480014079e-16,
+    "ben4_A_sha16": "cd33d9b2a8f90f07",
+    "delta_system": {
+     "n_rows": 264,
+     "kernel_dim_absolute_floor": 7,
+     "kernel_dim_largest_gap": 7,
+     "gap": 1.1233205698224801e+20,
+     "runner_up": 62.47731054929038,
+     "predicted_20mon": 7,
+     "predicted_mod_relations": 2,
+     "pivnorms_over_s1": [
+      1.0,
+      0.9999979536183575,
+      0.9999176411795112,
+      0.9971850651073987,
+      0.9958662810596546,
+      0.9766352185648919,
+      0.9633542153814579,
+      0.925644650349199,
+      0.8624572730034848,
+      0.8539452261627667,
+      0.33833073659251806,
+      0.26586418961169134,
+      0.15083239624936987,
+      1.3427368847452525e-21,
+      9.209121975538547e-22,
+      3.219639030550995e-23,
+      5.15329325517448e-25,
+      5.854033363807593e-26,
+      1.0881198889850838e-26
+     ]
+    }
+   },
+   {
+    "tag": "k2N538",
+    "basis_sha16": "bf89cd427825f579",
+    "attained_D": 12.528914628344939,
+    "branch_0": {
+     "Lambda_branch": 0,
+     "exact_B_residual_in_fit_rows": 9.938072671858017e-18,
+     "exact_B_residual_in_HELDOUT_rows": 1.3037936507164951e-17,
+     "heldout_fibre_constancy_max_relative_spread": 5.443786826723523e-15,
+     "measured_vanishing_order_at_P_0": 9.000000007278743,
+     "phi_over_v9_stability": [
+      "(-10.1102269834 + 3.88783214199e-18j)",
+      "(-10.1102270344 - 1.59889685645e-18j)",
+      "(-10.1102531508 - 7.72362238452e-18j)"
+     ],
+     "phi_at_ben4_A_P0": "(596724434516278.0 + 2.23902518252e+15j)",
+     "phi_at_ben4_A2_P0": "(1.0 - 5.1620511000745e-16j)"
+    },
+    "branch_1": {
+     "Lambda_branch": 1,
+     "exact_B_residual_in_fit_rows": 9.938072671858017e-18,
+     "exact_B_residual_in_HELDOUT_rows": 1.3037936507164951e-17,
+     "heldout_fibre_constancy_max_relative_spread": 5.795608425630137e-15,
+     "measured_vanishing_order_at_P_0": 8.999999992721257,
+     "phi_over_v9_stability": [
+      "(10.1102269832 - 3.88783214183e-18j)",
+      "(10.1102269322 + 1.59889682412e-18j)",
+      "(10.1102008159 + 7.72354242326e-18j)"
+     ],
+     "phi_at_ben4_A_P0": "(1.0 - 4.1700397073438e-16j)",
+     "phi_at_ben4_A2_P0": "(797729827316482.0 + 1.51799514261232e+15j)"
+    },
+    "ben4_A_layout": "col_major",
+    "ben4_A_QoA_sin_angle": 3.187176511171409e-16,
+    "ben4_A_cubed_minus_I": 3.9038790868558127e-16,
+    "ben4_A_sha16": "92661927797f4654",
+    "delta_system": {
+     "n_rows": 264,
+     "kernel_dim_absolute_floor": 7,
+     "kernel_dim_largest_gap": 7,
+     "gap": 6.3047256793996696e+16,
+     "runner_up": 38.554275942023104,
+     "predicted_20mon": 7,
+     "predicted_mod_relations": 2,
+     "pivnorms_over_s1": [
+      1.0,
+      0.9999979536183575,
+      0.9999176411795112,
+      0.9971850651073987,
+      0.9958662810596546,
+      0.9766352185648919,
+      0.9633542153814579,
+      0.925644650349199,
+      0.8624572730034848,
+      0.8539452261627666,
+      0.33833073659251806,
+      0.26586418961169134,
+      0.15083239624936987,
+      2.392370483972143e-18,
+      8.873897760665371e-19,
+      4.590305431111449e-19,
+      1.00971305044469e-19,
+      2.88949221586715e-20,
+      7.494608951319153e-22
+     ]
+    }
+   }
+  ],
+  "reading": "at N=717 the exact B has residual 3.1e-21 on the fit rows and 6.3e-21 on the HELD-OUT rows; phi is constant on held-out delta_a-fibres to 2.6e-18; the measured vanishing order at P_0 is 9.000000; the Delta-system kernel is 7 in the 20-monomial representation at both N, with a 20-order-of-magnitude gap.  N=538 reproduces everything ~3 digits weaker, as its lower attained precision predicts."
+ },
+ "part_recognition_L7d": {
+  "d1_weight0_invariants": {
+   "n": 26,
+   "n_recognised": 26,
+   "max_denominator": 21774,
+   "worst_rel_residual": 2.9875157659090485e-20
+  },
+  "d1_table": [
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     5
+    ],
+    "den_index": [
+     3,
+     4
+    ],
+    "wt": 2,
+    "value_re": "-1.000000000000000000000777",
+    "value_im": "2.0398916044e-22",
+    "rational": "-1/1",
+    "rel_residual": 7.774567956592349e-22,
+    "N538_deviation": 7.856414434010128e-18,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     5
+    ],
+    "den_index": [
+     1,
+     4
+    ],
+    "wt": 4,
+    "value_re": "-1.000000000000000000006518",
+    "value_im": "4.82944884479e-22",
+    "rational": "-1/1",
+    "rel_residual": 6.517921668898823e-21,
+    "N538_deviation": 8.890234649999637e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     6
+    ],
+    "den_index": [
+     1,
+     4
+    ],
+    "wt": 4,
+    "value_re": "1.000000000000000000005553",
+    "value_im": "-1.00996390195e-21",
+    "rational": "1/1",
+    "rel_residual": 5.552703263826953e-21,
+    "N538_deviation": 6.165618128746198e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     7
+    ],
+    "den_index": [
+     1,
+     4
+    ],
+    "wt": 4,
+    "value_re": "-1.00000000000000000000691",
+    "value_im": "9.3442805117e-22",
+    "rational": "-1/1",
+    "rel_residual": 6.910337499646338e-21,
+    "N538_deviation": 5.790882896359637e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     7
+    ],
+    "den_index": [
+     1,
+     6
+    ],
+    "wt": 6,
+    "value_re": "-1.000000000000000000003155",
+    "value_im": "5.19910777812e-22",
+    "rational": "-1/1",
+    "rel_residual": 3.155265475581486e-21,
+    "N538_deviation": 4.891881283186285e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     9
+    ],
+    "den_index": [
+     1,
+     6
+    ],
+    "wt": 6,
+    "value_re": "0.6666666666666666666681358",
+    "value_im": "-2.18715800882e-22",
+    "rational": "2/3",
+    "rel_residual": 1.469149532227943e-21,
+    "N538_deviation": 1.3266797894281709e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     10
+    ],
+    "den_index": [
+     2,
+     9
+    ],
+    "wt": 8,
+    "value_re": "-2.000000000000000000000185",
+    "value_im": "-1.90322686007e-22",
+    "rational": "-2/1",
+    "rel_residual": 9.244960215260743e-23,
+    "N538_deviation": 5.392840947672679e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     11
+    ],
+    "den_index": [
+     2,
+     9
+    ],
+    "wt": 8,
+    "value_re": "-1.000000000000000000002013",
+    "value_im": "1.61349021534e-22",
+    "rational": "-1/1",
+    "rel_residual": 2.0126199185167904e-21,
+    "N538_deviation": 1.6196140226762075e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     11
+    ],
+    "den_index": [
+     1,
+     10
+    ],
+    "wt": 10,
+    "value_re": "-0.8333333333333333333341723",
+    "value_im": "2.66542182156e-22",
+    "rational": "-5/6",
+    "rel_residual": 8.389709135748105e-22,
+    "N538_deviation": 6.727447708363148e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     12
+    ],
+    "den_index": [
+     1,
+     10
+    ],
+    "wt": 10,
+    "value_re": "-1.000000000000000000001744",
+    "value_im": "-4.12621690392e-23",
+    "rational": "-1/1",
+    "rel_residual": 1.7444762894210627e-21,
+    "N538_deviation": 2.6002501078274717e-18,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     13
+    ],
+    "den_index": [
+     1,
+     10
+    ],
+    "wt": 10,
+    "value_re": "0.7499999999999999999997922",
+    "value_im": "9.67341578977e-24",
+    "rational": "3/4",
+    "rel_residual": 2.0784704073647063e-22,
+    "N538_deviation": 2.1153973572655335e-18,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     13
+    ],
+    "den_index": [
+     1,
+     12
+    ],
+    "wt": 12,
+    "value_re": "-2.749999999999999999959291",
+    "value_im": "-5.93835270811e-21",
+    "rational": "-11/4",
+    "rel_residual": 1.4803124348703944e-20,
+    "N538_deviation": 4.676255045829681e-16,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     14
+    ],
+    "den_index": [
+     1,
+     12
+    ],
+    "wt": 12,
+    "value_re": "2.166666666666666666632829",
+    "value_im": "4.0282734001e-21",
+    "rational": "13/6",
+    "rel_residual": 1.5617408201930367e-20,
+    "N538_deviation": 2.5072041554023653e-16,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     15
+    ],
+    "den_index": [
+     1,
+     12
+    ],
+    "wt": 12,
+    "value_re": "0.0833333333333333333356633",
+    "value_im": "-3.70529682219e-22",
+    "rational": "1/12",
+    "rel_residual": 2.3299642495849473e-21,
+    "N538_deviation": 1.2051268534403904e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     15
+    ],
+    "den_index": [
+     1,
+     14
+    ],
+    "wt": 14,
+    "value_re": "-0.16666666666666666666956",
+    "value_im": "-4.07898615642e-22",
+    "rational": "-1/6",
+    "rel_residual": 2.8932999973747276e-21,
+    "N538_deviation": 2.7483262162986137e-16,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     16
+    ],
+    "den_index": [
+     1,
+     14
+    ],
+    "wt": 14,
+    "value_re": "-2.666666666666666666707976",
+    "value_im": "5.8717102375e-21",
+    "rational": "-8/3",
+    "rel_residual": 1.5491131932700407e-20,
+    "N538_deviation": 3.477420951567035e-16,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     18
+    ],
+    "den_index": [
+     1,
+     16
+    ],
+    "wt": 16,
+    "value_re": "-0.5092592592592592592589668",
+    "value_im": "2.47136725631e-22",
+    "rational": "-55/108",
+    "rel_residual": 2.9241086461992517e-22,
+    "N538_deviation": 1.462928219909993e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     19
+    ],
+    "den_index": [
+     1,
+     16
+    ],
+    "wt": 16,
+    "value_re": "0.8425925925925925925943232",
+    "value_im": "-1.92646012117e-22",
+    "rational": "91/108",
+    "rel_residual": 1.730635620447429e-21,
+    "N538_deviation": 1.8283432680861856e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     19
+    ],
+    "den_index": [
+     1,
+     18
+    ],
+    "wt": 18,
+    "value_re": "-0.107559474602737209516294",
+    "value_im": "1.16172423311e-22",
+    "rational": "-1171/10887",
+    "rel_residual": 3.5754080880117155e-22,
+    "N538_deviation": 3.059866223938657e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     3,
+     20
+    ],
+    "den_index": [
+     1,
+     18
+    ],
+    "wt": 18,
+    "value_re": "-0.7552585652613208413729149",
+    "value_im": "5.09425873761e-22",
+    "rational": "-16445/21774",
+    "rel_residual": 2.4731272385528185e-21,
+    "N538_deviation": 2.5164967000703772e-17,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     4,
+     21
+    ],
+    "den_index": [
+     1,
+     18
+    ],
+    "wt": 18,
+    "value_re": "-0.409065858363185450536742",
+    "value_im": "-8.59002974857e-23",
+    "rational": "-2969/7258",
+    "rel_residual": 5.960788792299635e-22,
+    "N538_deviation": 2.8039644004269673e-18,
+    "recognised": true
+   },
+   {
+    "kind": "ratio",
+    "num_index": [
+     2,
+     21
+    ],
+    "den_index": [
+     1,
+     20
+    ],
+    "wt": 20,
+    "value_re": "-0.4146341463414634146309003",
+    "value_im": "-8.41783304063e-22",
+    "rational": "-17/41",
+    "rel_residual": 3.2460665750699874e-21,
+    "N538_deviation": 1.950675265949572e-16,
+    "recognised": true
+   },
+   {
+    "kind": "multiplicative",
+    "expr": "bt_{1,6}^2 / bt_{1,4}^3",
+    "value_re": "4.000000000000000000051513",
+    "value_im": "-6.52049374167e-21",
+    "rational": "4/1",
+    "rel_residual": 1.2878177494276572e-20,
+    "N538_deviation": 4.578317255577279e-16,
+    "recognised": true
+   },
+   {
+    "kind": "multiplicative",
+    "expr": "bt_{1,10}^2 / bt_{1,4}^5",
+    "value_re": "64.00000000000000000191201",
+    "value_im": "-2.53141309807e-19",
+    "rational": "64/1",
+    "rel_residual": 2.9875157659090485e-20,
+    "N538_deviation": 1.6242747724624144e-14,
+    "recognised": true
+   },
+   {
+    "kind": "multiplicative",
+    "expr": "bt_{2,9} / bt_{1,4}^2",
+    "value_re": "-3.66666666666666666671353",
+    "value_im": "6.46051093179e-21",
+    "rational": "-11/3",
+    "rel_residual": 1.2781027749744848e-20,
+    "N538_deviation": 4.942854150288522e-16,
+    "recognised": true
+   },
+   {
+    "kind": "multiplicative",
+    "expr": "bt_{1,4} / bt_{3,4}^2",
+    "value_re": "0.2499999999999999999983109",
+    "value_im": "1.73979342978e-22",
+    "rational": "1/4",
+    "rel_residual": 1.6890835007146925e-21,
+    "N538_deviation": 1.24500353460955e-17,
+    "recognised": true
+   }
+  ],
+  "d2_lambda": {
+   "mu_method_1": {
+    "rule": "mu = lambda^2 = 1/bt_{3,4}",
+    "mu_re": "-0.123447998084246203220443390771",
+    "mu_im": "0.700108387203387327643009231914",
+    "outcome": "X rational; A in GL_4(Q(sqrt(-3/2))); P_1,P_inf conjugate; phi NOT rational"
+   },
+   "Lambda_method_2": {
+    "rule": "Lambda^2 = mu * nu^2, nu^2 = -3/2 (the quadratic twist that rationalises A)",
+    "Lambda_squared_re": "0.185171997126369304830665086156",
+    "Lambda_squared_im": "-1.05016258080508099146451384787",
+    "outcome": "Q, C, A, P_0, P_1, P_inf, phi ALL rational"
+   }
+  },
+  "d3_both_normalisations_implemented": true,
+  "d3_finding": "the Belyi-side normalisation is strictly stronger here: method 1 cannot rationalise phi at ANY precision, because it is the wrong quadratic twist",
+  "d4_number_field_scan": {
+   "all_recognised_over_Q": true,
+   "max_denominator_over_Q": 21774,
+   "max_height_bits": 15,
+   "tolerance_used": 1.9134347883499906e-16,
+   "targets_are": "the MEASURED weight-0 invariants of (F1), read off the certified N=717 basis -- not exact-model quantities (that would be circular)",
+   "note": "the tolerance comes from the fit diagnostics (exact-zero probe and the N=538 vs N=717 refinement), never from the recognised answer",
+   "caveat": "the larger fields also report PASS because Q is contained in each of them; the verdict is minimality, not exclusivity of Q"
+  },
+  "d4_scan_table": {
+   "bt_{4,5}/bt_{3,4}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 8.037727581187698e-22,
+     "size_bits": 1
+    }
+   },
+   "bt_{2,5}/bt_{1,4}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 6.535789060499544e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{3,6}/bt_{1,4}": {
+    "Q": {
+     "coeffs": [
+      1
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 5.643805508640451e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{4,7}/bt_{1,4}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 6.973228817544342e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{2,7}/bt_{1,6}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 3.197812914834409e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{4,9}/bt_{1,6}": {
+    "Q": {
+     "coeffs": [
+      2
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    },
+    "Q(i)": {
+     "coeffs": [
+      2,
+      0
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      2,
+      0
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      2,
+      0
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      2,
+      0
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      2,
+      0,
+      0
+     ],
+     "den": 3,
+     "rel": 1.485340684691981e-21,
+     "size_bits": 2
+    }
+   },
+   "bt_{3,10}/bt_{2,9}": {
+    "Q": {
+     "coeffs": [
+      -2
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    },
+    "Q(i)": {
+     "coeffs": [
+      -2,
+      0
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -2,
+      0
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -2,
+      0
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -2,
+      0
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -2,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 1.3267482858626347e-22,
+     "size_bits": 2
+    }
+   },
+   "bt_{4,11}/bt_{2,9}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 2.019077126600272e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{2,11}/bt_{1,10}": {
+    "Q": {
+     "coeffs": [
+      -5
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    },
+    "Q(i)": {
+     "coeffs": [
+      -5,
+      0
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -5,
+      0
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -5,
+      0
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -5,
+      0
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -5,
+      0,
+      0
+     ],
+     "den": 6,
+     "rel": 8.802936604866173e-22,
+     "size_bits": 3
+    }
+   },
+   "bt_{3,12}/bt_{1,10}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 1.7449642090730973e-21,
+     "size_bits": 1
+    }
+   },
+   "bt_{4,13}/bt_{1,10}": {
+    "Q": {
+     "coeffs": [
+      3
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    },
+    "Q(i)": {
+     "coeffs": [
+      3,
+      0
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      3,
+      0
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      3,
+      0
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      3,
+      0
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      3,
+      0,
+      0
+     ],
+     "den": 4,
+     "rel": 2.080720243472194e-22,
+     "size_bits": 3
+    }
+   },
+   "bt_{2,13}/bt_{1,12}": {
+    "Q": {
+     "coeffs": [
+      -11
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    },
+    "Q(i)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -11,
+      0,
+      0
+     ],
+     "den": 4,
+     "rel": 1.4959796225089667e-20,
+     "size_bits": 4
+    }
+   },
+   "bt_{3,14}/bt_{1,12}": {
+    "Q": {
+     "coeffs": [
+      13
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    },
+    "Q(i)": {
+     "coeffs": [
+      13,
+      0
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      13,
+      0
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      13,
+      0
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      13,
+      0
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      13,
+      0,
+      0
+     ],
+     "den": 6,
+     "rel": 1.5727684989900387e-20,
+     "size_bits": 4
+    }
+   },
+   "bt_{4,15}/bt_{1,12}": {
+    "Q": {
+     "coeffs": [
+      1
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    },
+    "Q(i)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      1,
+      0,
+      0
+     ],
+     "den": 12,
+     "rel": 2.359242600867816e-21,
+     "size_bits": 4
+    }
+   },
+   "bt_{2,15}/bt_{1,14}": {
+    "Q": {
+     "coeffs": [
+      -1
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1,
+      0
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1,
+      0,
+      0
+     ],
+     "den": 6,
+     "rel": 2.921911387337319e-21,
+     "size_bits": 3
+    }
+   },
+   "bt_{3,16}/bt_{1,14}": {
+    "Q": {
+     "coeffs": [
+      -8
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    },
+    "Q(i)": {
+     "coeffs": [
+      -8,
+      0
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -8,
+      0
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -8,
+      0
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -8,
+      0
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -8,
+      0,
+      0
+     ],
+     "den": 3,
+     "rel": 1.5646836550094416e-20,
+     "size_bits": 4
+    }
+   },
+   "bt_{3,18}/bt_{1,16}": {
+    "Q": {
+     "coeffs": [
+      -55
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    },
+    "Q(i)": {
+     "coeffs": [
+      -55,
+      0
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -55,
+      0
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -55,
+      0
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -55,
+      0
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -55,
+      0,
+      0
+     ],
+     "den": 108,
+     "rel": 3.828585573074466e-22,
+     "size_bits": 7
+    }
+   },
+   "bt_{4,19}/bt_{1,16}": {
+    "Q": {
+     "coeffs": [
+      91
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    },
+    "Q(i)": {
+     "coeffs": [
+      91,
+      0
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      91,
+      0
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      91,
+      0
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      91,
+      0
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      91,
+      0,
+      0
+     ],
+     "den": 108,
+     "rel": 1.7413248222965057e-21,
+     "size_bits": 7
+    }
+   },
+   "bt_{2,19}/bt_{1,18}": {
+    "Q": {
+     "coeffs": [
+      -1171
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    },
+    "Q(i)": {
+     "coeffs": [
+      -1171,
+      0
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -1171,
+      0
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -1171,
+      0
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -1171,
+      0
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -1171,
+      0,
+      0
+     ],
+     "den": 10887,
+     "rel": 3.7594076913264802e-22,
+     "size_bits": 14
+    }
+   },
+   "bt_{3,20}/bt_{1,18}": {
+    "Q": {
+     "coeffs": [
+      -16445
+     ],
+     "den": 21774,
+     "rel": 2.5250491201023255e-21,
+     "size_bits": 15
+    },
+    "Q(i)": {
+     "coeffs": [
+      -16445,
+      0
+     ],
+     "den": 21774,
+     "rel": 2.5250491201023255e-21,
+     "size_bits": 15
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -16445,
+      0
+     ],
+     "den": 21774,
+     "rel": 2.5250491201023255e-21,
+     "size_bits": 15
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -16445,
+      0
+     ],
+     "den": 21774,
+     "rel": 2.5250491201023255e-21,
+     "size_bits": 15
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -16445,
+      0
+     ],
+     "den": 21774,
+     "rel": 2.5250491201023255e-21,
+     "size_bits": 15
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -9855,
+      -7256,
+      2527
+     ],
+     "den": 19914,
+     "rel": 1.439204580789892e-18,
+     "size_bits": 15
+    }
+   },
+   "bt_{4,21}/bt_{1,18}": {
+    "Q": {
+     "coeffs": [
+      -2969
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    },
+    "Q(i)": {
+     "coeffs": [
+      -2969,
+      0
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -2969,
+      0
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -2969,
+      0
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -2969,
+      0
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -2969,
+      0,
+      0
+     ],
+     "den": 7258,
+     "rel": 6.022365742564783e-22,
+     "size_bits": 13
+    }
+   },
+   "bt_{2,21}/bt_{1,20}": {
+    "Q": {
+     "coeffs": [
+      -17
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    },
+    "Q(i)": {
+     "coeffs": [
+      -17,
+      0
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -17,
+      0
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -17,
+      0
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -17,
+      0
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -17,
+      0,
+      0
+     ],
+     "den": 41,
+     "rel": 3.353438137313062e-21,
+     "size_bits": 6
+    }
+   },
+   "bt_{1,6}^2 / bt_{1,4}^3": {
+    "Q": {
+     "coeffs": [
+      4
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    },
+    "Q(i)": {
+     "coeffs": [
+      4,
+      0
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      4,
+      0
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      4,
+      0
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      4,
+      0
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      4,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 1.2981010187084723e-20,
+     "size_bits": 3
+    }
+   },
+   "bt_{1,10}^2 / bt_{1,4}^5": {
+    "Q": {
+     "coeffs": [
+      64
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    },
+    "Q(i)": {
+     "coeffs": [
+      64,
+      0
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      64,
+      0
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      64,
+      0
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      64,
+      0
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      64,
+      0,
+      0
+     ],
+     "den": 1,
+     "rel": 3.0135852731119774e-20,
+     "size_bits": 7
+    }
+   },
+   "bt_{2,9} / bt_{1,4}^2": {
+    "Q": {
+     "coeffs": [
+      -11
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    },
+    "Q(i)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      -11,
+      0
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      -11,
+      0,
+      0
+     ],
+     "den": 3,
+     "rel": 1.2901787919374292e-20,
+     "size_bits": 4
+    }
+   },
+   "bt_{1,4} / bt_{3,4}^2": {
+    "Q": {
+     "coeffs": [
+      1
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    },
+    "Q(i)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-3)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-7)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    },
+    "Q(sqrt-6)": {
+     "coeffs": [
+      1,
+      0
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    },
+    "3.3.81.1 = Q(zeta9)+": {
+     "coeffs": [
+      1,
+      0,
+      0
+     ],
+     "den": 4,
+     "rel": 1.6980364017838537e-21,
+     "size_bits": 3
+    }
+   }
+  },
+  "d5_refutation_branch": "vacuous -- (d5) items 3,4,5 are only reachable after a recognition FAILURE"
+ },
+ "part_independent_crosscheck": {
+  "checker": "crosscheck/check_pilot2_ben5_L7_v1.py",
+  "verdict_file": "crosscheck/verdicts/pilot2_ben5_L7_crosscheck_v1_20260829.json",
+  "separation": "the checker shares no code with the producer: it re-derives the exact model from the cert's own rationals, re-solves the local branch at R, re-verifies A, the points, the divisor and the S_3 identities, and independently re-fits Lambda from ONE coefficient before checking every other coefficient and phi against the ben4-certified basis",
+  "result": {
+   "verdict": "AGREES",
+   "n_pass": 43,
+   "n_fail": 0
+  },
+  "note": "the verdict file records the sha16 of the cert it checked; re-run the checker after any regeneration of this cert"
+ },
+ "not_reached": [
+  "[G6'-c] the full S_3 equivariance protocol of ben6 (the group-theory side [G1'-h] re-assert, the pi(u),pi(v),pi(w) construction, and the order-2 B of PGL_4 obtained from the FD reduction layer). ben5 obtained A and iota only through the standard model, which is ben4's route, not ben6's.",
+  "[G6'-d] the quotient genera g(X/C_3) = 2 (unramified), g(X/C_2) = 2, g(X/S_3) = 1 measured on the standard model against the group-theoretic F_3 = 0, F_tau = 2.",
+  "[G6'-e] j(Jac(X/S_3)) and the Igusa invariants of X/C_3, X/C_2, together with MU-Q'. ben5's positive recognition makes [G6'-e] unnecessary AS A REFUTER, but it remains a valuable basis-free cross-check.",
+  "MU-P'' / MU-P''' / MU-R' / MU-S' / MU-A' / MU-B' destruction controls (ben6).",
+  "the fibre monodromy labelling of spec sec.6.5 -- declared out of scope for the whole of PILOT-2.",
+  "predictions CONN-1 (Gal(f_t0/Q) = PGammaL(2,8), order 1512) and CONN-2 (constant field Q(zeta_9)^+): now cheaply testable because phi is explicit and rational, but not attempted here."
+ ],
+ "unknowns": [
+  "U-ben5-1: WHY the echelon coefficients are rational to all tested orders. The derivation in part_series_recognition guarantees it only for n <= i+16; beyond that it is an observation. A clean statement would be that the disc coordinate v is, up to scaling, a Q-rational coordinate -- equivalently that phi^{1/9} generates the same Q-power-series ring as v. Not proved here.",
+  "U-ben5-2: whether the residual rational torus X_i -> r^{i-1} X_i admits a normalisation with smaller coefficients than the one certified. No search was made; the model is primitive-integral but not proved minimal.",
+  "U-ben5-3: the arithmetic meaning of the twist nu^2 = -3/2. The quadratic form Q|_W of the standard representation has Gram diag(2,-1) in the series normalisation, whose SO is the norm-one torus of Q(sqrt 2) and therefore has no rational 3-torsion; that is the whole obstruction. Whether the class -3/2 (equivalently -6) has an independent modular interpretation is not investigated.",
+  "U-ben5-4: ben5 identifies (X, phi) with the ben1-frozen target only through the ben1-ben4 chain. No independent arithmetic confirmation (e.g. CONN-1) was run."
+ ],
+ "grade": "candidate (cross-checked across three independent systems; 'verified' remains reserved for Lean)",
+ "artifacts": [
+  {
+   "path": "scratchpad/pilot2_ben5_lib.py",
+   "sha16": "d082d9ffee826a73"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_a_series.py",
+   "sha16": "2ed36bcdf086479f"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_b_qmodel.py",
+   "sha16": "cf79929f93133fbc"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_c_A3.py",
+   "sha16": "cf1e777d5c797549"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_d_exact.py",
+   "sha16": "aeb701f59a8a052c"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_e_gates.py",
+   "sha16": "6cc663bc825cf5ae"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_f_recognise.py",
+   "sha16": "e996f5675ebacc69"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_cert.py",
+   "sha16": "780c75c799c93240"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_a_series_out.json",
+   "sha16": "441cf865a6f52750"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_b_qmodel_out.json",
+   "sha16": "c1905b446e10ee7e"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_c_A3_out.json",
+   "sha16": "323764ee6df4474d"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_d_exact_out.json",
+   "sha16": "6bdc7f5266c8a457"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_e_gates_out.json",
+   "sha16": "b45e418adc445a0d"
+  },
+  {
+   "path": "scratchpad/pilot2_ben5_f_recognise_out.json",
+   "sha16": "5edec768c10b33c9"
+  },
+  {
+   "path": "crosscheck/check_pilot2_ben5_L7_v1.py",
+   "sha16": "2e7bc8a107767cc3"
+  }
+ ],
+ "generated_by": {
+  "script": "scratchpad/pilot2_ben5_cert.py",
+  "python": "3.13.14",
+  "mpmath_dps": 60,
+  "note": "all values are read from the step outputs listed in artifacts; none is hand-typed"
+ }
+}
