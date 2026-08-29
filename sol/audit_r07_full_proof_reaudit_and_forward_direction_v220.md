@@ -5846,3 +5846,32 @@ while keeping the higher joint-image gate explicit.
 Delta141 prevents a statically unreachable and over-cap A4 selftest from
 consuming GHA time while keeping the repair bounded to the exact rejected
 owners.
+
+### Delta 142 (2026-08-29): A0/v12a bootstrap frozen and sent to an independent audit
+
+- Froze the six task354 outputs at commit 2cb97621.  The P0, producer,
+  checker, driver and fixture have respectively 10,058 / 304,762 / 237,150 /
+  24,621 / 22,094 bytes and the exact SHA-256 identities recorded in the
+  task354 reply.  Read-only parent hashing agrees.  P0 ends in exactly one LF,
+  and the final driver literally pins all four non-driver machine owners.
+- V12a remains a candidate-artifact SELFTEST bootstrap only.  It cannot enter
+  PRODUCTION or RESUME, and its prospective R/V identities deliberately
+  remain unfilled until execution.  No candidate program or GHA was run.
+- Added sol/sol_task_368_r07_a0_v12a_code_performance_audit.txt and assigned
+  a fresh Sol(max), distinct from the implementation author, to audit the
+  complete ordinary routes, all physical mutation suites, deterministic R/V
+  graph, actual peak lifetimes, avoidable duplicate work, and driver/platform
+  boundary.  GHA remains forbidden unless that audit returns STATIC PASS.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, with implementation state **V12A FROZEN / INDEPENDENT
+  SOL(MAX) CODE+PERFORMANCE AUDIT ACTIVE**.  This is a prerequisite advance,
+  not an A0 numerator.
+- A3 remains **0/3 V2 FINAL PYTHON+DRIVER+REPLY ACTIVE**.  A4 remains **1/3
+  V6C STATIC REJECT / V6D REPAIR ACTIVE**.  A5--A7 remain **0/3**.
+- No common word, compatible lift, fake certificate, or Ihara witness is
+  added.
+
+Delta142 replaces the two-day A0 implementation loop by one immutable audit
+subject and a single pass-or-repair gate.

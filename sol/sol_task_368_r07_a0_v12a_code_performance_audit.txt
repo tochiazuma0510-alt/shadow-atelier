@@ -1,0 +1,140 @@
+Sol(max) task 368 - independent A0/v12a code and performance audit
+
+Role: independent mathematical/code auditor.  Read every numbered section
+first to last.  Do not edit any frozen owner.  Do not run Python, Node, GAP,
+GHA, a workflow, git, network, or any candidate command.  Read-only
+PowerShell inspection and hashing are allowed.  Write only the designated
+reply.
+
+1. Frozen subject
+
+Audit commit 2cb97621 and these exact owners:
+
+- ci/in/d972_r07_history_free_positive_fast_resume_selftest_bootstrap_v12a.manifest.v1.json
+  10058 bytes
+  f127bac60d4fb41d984fcfdc57f77a32cc88e32905207009e6758ec913d1d52d
+- search/d972_r07_history_free_positive_fast_resume_v12a.py
+  304762 bytes
+  0e938caeb83b4e65440495b0f50952135d4bfca4309aef38f16c00f50d2905cf
+- crosscheck/check_d972_r07_history_free_positive_fast_resume_v12a.py
+  237150 bytes
+  b3d95ae7bb7c82878121a5a386e934b425259ef5ea00e80f31d7202d827750a0
+- search/d972_r07_history_free_positive_fast_resume_gha_driver_v12a.g
+  24621 bytes
+  816dfb705d38692393cce28675f90e6759065ebb47714ee8ef4c744a54807610
+- search/certs/d972_r07_history_free_positive_fast_resume_selftest_v12a_20260829.json
+  22094 bytes
+  6a87bf608bf0a392ff77d3aacbe813a0cc01f54d67bd5d346fb75ee1e7000ffc
+- sol/luna_reply_354_r07_a0_v12a_auditable_selftest_bootstrap.md
+  19508 bytes
+  f5c5e33588916193a4d7e30542a8e81feed17efa8ee904633a44c2044e53c715
+
+Reject immediately on physical mismatch.  Read task354 and its full binding
+prerequisites, especially task352 audit, task353/v11, the accepted task176
+chain, and v275--v290.  V12a is only a deterministic candidate R/V bootstrap;
+it cannot prove A0 or authorize production/resume.
+
+2. P0 and acyclic physical graph
+
+Independently recompute the P0 canonical bytes, one-final-LF rule, self seal,
+all source rows, every frozen owner pin, raw/checkpoint/archive binding, and
+the prospective R/V placeholders.  Check that producer/checker do not
+hard-code P0's physical SHA, the driver pins the final P0/Python/fixture
+identities, and neither R nor V binds the driver.  Reject any cycle, mutable
+post-execution manifest, stale owner, incomplete semantic field set, or
+acceptance-looking placeholder.
+
+3. Full task352/task353 semantic audit
+
+Trace the ordinary untouched producer and checker routes, not merely helper
+presence.  Audit every item in task354 Sections 3--5:
+
+- chronological triangular seen-pivot validation and real suite dispatch;
+- the three q3 gates, 1..36 to 0..35 conversion, and right[left[i]]
+  multiplication;
+- strict 970-byte projected Gamma versus 4,814-byte full diagnostic typing;
+- deterministic selected-coordinate K0 cache, full-state equality,
+  skip-on-miss/mismatch, trivial/nontrivial kernels, and incremental replay;
+- independently derived heavy identity and selected actual owner data;
+- recursive DAG normalization, externally pinned carrier, phase truth, and
+  v290 additive/max accounting;
+- bounded expansion, typed UNKNOWN, durable publication, and no hidden
+  production/resume/checkpoint retirement;
+- pre-heavy/persistent worker ownership, cumulative IPC/STOP, no known-
+  duplicate ten-coordinate work, shared bitsets, phase release, indexed
+  symbols, and O(1) meters; and
+- all physical mutation suites.  Every case must mutate a real owner, invoke
+  the same ordinary validator, and compare an independently preregistered
+  exact first reason.  Check that the fixture roster, producer execution
+  ledger and independent checker ledger match exactly and are all reachable.
+
+Reject copied ledgers, mutation-name branches, miniature substitutes,
+arbitrary-exception acceptance, imported v10 main/search/mutation helpers, or
+any Boolean that replaces physical replay.
+
+4. Deterministic R/V and independent checker
+
+Trace both constructors field by field.  Check sorted ASCII canonical JSON,
+self and semantic seals, absence of host telemetry/unordered iteration,
+bounded exclusive publication, fsync ordering, stale-output handling, and
+all false-claim fields.  The checker must reconstruct every load-bearing
+summary and mutation ledger independently, bind physical R bytes/SHA/seals,
+and import no producer helper.  Check that a failed producer or checker cannot
+leave a candidate which the driver later accepts.
+
+5. Performance and unnecessary processing
+
+Audit both the advertised caps and the actual peak lifetimes.  Look
+specifically for unnecessary or duplicated full checkpoint/raw/K0/Gamma/DAG
+passes, bytes/DOM copies, repeated validators, ten-coordinate work after a
+known duplicate, unbounded queues/pipes, excessive worker count, fictional
+counter charges, and resources retained across phases.  Recompute worst-case
+RSS/allocation/IPC/output formulas from source.  The 10,800/7,200/3,600/
+21,600-second envelopes must fit the known six-hour workflow and have strict
+internal/external margins.  Do not accept an estimate copied from the reply
+without a source trace.
+
+6. Driver and platform boundary
+
+Audit exact pins, mode rejection before heavy loading, stale outputs and temp
+aliases, raw archive extraction, shell quoting, exact-one full-line
+terminals, R/V byte binding, candidate-only semantics, and last neutral
+sentinel.  Check every filesystem operation for the actual GHA platform and
+for the task's stated portability contract.  In particular adjudicate the
+use of GAP Exec("mkdir -p ...") versus the available native directory API;
+do not waive it silently if it creates a real portability or command-scope
+defect.  Reject any PASS/COMMON/ACCEPTED/A0_COMPLETE sentinel or any route to
+PRODUCTION/RESUME.
+
+7. Verdict and output
+
+Write only:
+
+sol/sol_reply_368_r07_a0_v12a_code_performance_audit_v1.md
+
+Give a decisive STATIC PASS or STATIC REJECT, exact frozen identities,
+line-numbered findings, source-derived resource formulas, unnecessary-work
+findings, and the precise GHA authorization boundary.  STATIC PASS only
+authorizes one v12a SELFTEST_BOOTSTRAP run; it does not authorize v12b,
+production, resume, A0, a separator, a lift, fake, or Ihara.  On REJECT,
+enumerate all load-bearing defects so one finite repair can close them
+together.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+P0 / ACYCLIC CONSTRUCTOR GRAPH:        PASS or REJECT
+ORDINARY PRODUCER ROUTE:               PASS or REJECT
+INDEPENDENT CHECKER ROUTE:             PASS or REJECT
+ALL PHYSICAL MUTATION SUITES:          PASS or REJECT
+DETERMINISTIC R/V + ATOMICITY:         PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+DRIVER / PLATFORM BOUNDARY:            PASS or REJECT
+V12A SELFTEST_BOOTSTRAP GHA:           AUTHORIZED or FORBIDDEN
+PRODUCTION / RESUME / V12B:            FORBIDDEN
+ACTUAL A0 COMMON + CHECKER:             0/1
+LIFT / FAKE / IHARA:                   NONE
+
+TASK368_R07_A0_V12A_CODE_PERFORMANCE_AUDIT_V1
