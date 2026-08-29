@@ -8948,3 +8948,54 @@ Delta226, not a missing first nonlinear calculator.
 Delta228 removes the unknown source roster from the localized leading solve.
 What remains is the actual A4 output and the complete localized target map,
 not a search over arbitrary common-word columns.
+
+### Delta 229 (2026-08-30): Delta228 source promotion is retracted; the exact legal source has a finite residual-action formula
+
+- Delta228 over-promoted the A4 ambient kernel.  Its identity
+  `I_K=sum_i F3[Delta1](k_i-1)` remains correct for the A5 Fox coefficient
+  ideal, but it does **not** identify the nonlinear v319 correction source.
+  V260 requires the actual common-word image, and the registered relative
+  branch requires the still smaller exact image
+  `C_rel=R_S(Delta1) cap K`.  Therefore Delta228's statements that the full
+  A4 basis is a complete nonlinear primitive roster and that its full
+  occurrence closure is the v319 image are withdrawn.
+- `proof_r07_a4_occurrence_leading_image_compiler_v358.md` and task381 now
+  carry explicit STOP/retraction notices.  The corrective theorem
+  `proof_r07_a4_legal_actual_image_leading_gate_v359.md`, frozen at commit
+  `ab7e8541`, separates three types: the A5 ambient ideal `I_K`, the actual
+  common-word value image `C_com`, and the relative-formation value image
+  `C_rel`.
+- The correction does not return the source to an unstructured search.
+  Applying v151 to the actual elementary-abelian first edge gives
+  `C_rel=[R_S(Delta0),K]`.  After the task176/task198 type square is
+  authenticated, v149 identifies the coarse residual with the superperfect
+  canonical `tilde-S`.  Hence word-bearing residual generators and the A4
+  action matrices compute `C_rel` exactly as
+  `sum_a im(S_a-I)` by one finite block echelon.
+- Each generating row has literal common-word ancestry
+  `[s_a,u_i] -> s_a.k_i-k_i`; it is roof-trivial and has exact exponent sums
+  zero.  V37 separately supplies a `Pi_S cap ker(rho0)` preimage for the same
+  finite value.  The literal commutator is not silently relabelled as that
+  particular profinite preimage.
+- After intersecting only physically registered homogeneous side gates, a
+  basis `c_i` of `C_adm` gives the correct legal ideal
+  `I_adm=sum_i F3[Delta1](c_i-1)`.  Closing its raw occurrence columns is
+  complete **provided** the actual `A_legal/JA_legal = I_adm` type
+  identification is authenticated.  The localized target must likewise be
+  built as the actual `L/JL`; v252's subspace location is not automatically
+  a quotient projection from the raw occurrence space.
+
+**v220 mapping**:
+
+- A4 remains **1/3 with run 33250865356 active**.  A positive A4 output is
+  still load-bearing as the ambient coordinate/action owner, but it must be
+  followed by the finite residual-action extraction above.
+- A9 remains **0/3 actual**.  Its source side is now the explicit chain
+  `K -> [R_S(Delta0),K] -> C_adm -> legal occurrence image`, rather than the
+  false full-`K` shortcut or an arbitrary-word search.
+- A0 remains **0/1 with v22 run 33259268996 active**.  Every other actual
+  milestone count, compatible lift, fake and Ihara numerator is unchanged.
+
+Delta229 is a corrective advance: it removes a false source theorem while
+recovering a smaller, exact and mechanically computable source from the
+already-proved superperfect residual formula.
