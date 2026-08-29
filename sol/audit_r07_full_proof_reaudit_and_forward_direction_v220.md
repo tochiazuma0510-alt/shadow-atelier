@@ -7487,3 +7487,42 @@ reduces its remaining pre-GHA work to one bounded driver edge.
 
 Delta191 restores A0 to its role as a mathematical discovery gate and makes
 operational perfection a parallel concern instead of the critical path.
+
+### Delta 192 (2026-08-29): A0 crosses the startup boundary and enters the heavy route
+
+- The first two hotfix dispatches stopped before candidate execution: run
+  `33241458432` lacked the required mode binding, and run `33241570468` lost
+  the quoted GAP string in command transport.  A quote-free `CharInt` binding
+  fixed that dispatch surface.
+- Run `33241636082` then reached the generated shell but returned status 1
+  without retaining its temporary producer log.  Added bounded diagnostic-only
+  driver v12e (44,461 bytes /
+  `deee4829b07315614053e75819b6c01ec52e3c9a272fcb9ff577c785c26b8243`);
+  run `33241798687` exposed the exact next blocker: producer line 2869 had one
+  unmatched closing parenthesis before any mathematical work.
+- Versioned producer v12e 342,849 bytes /
+  `5d023748d2a840ca0d95109dc77d5410eebd47cb47a7d6ce8afe7910ceaf3c58`
+  by deleting exactly that one parenthesis, and driver v12f 44,461 /
+  `a7bf13224353e2a1e6cc168137447ecd9349b42b102d5bf7bf67202c8108683d`
+  by changing only its producer path/size/hash.  Commit
+  `e577aacb` was pushed and GHA run `33241920817` dispatched.
+- That run passed checkout, GAP setup, mode, physical pins, shell construction,
+  raw-checkpoint materialization and the prior syntax boundary.  At the latest
+  observation it remained inside `Run GAP script` beyond three minutes, so the
+  first actual A0 heavy route is now active rather than failing at startup.
+- Separately, A3/v6 run `33241671037` reached its producer and returned the
+  explicit `UNKNOWN_INPUT` terminal after 43 seconds.  A bounded reason-exposure
+  successor is prepared; this does not change A3's mathematical count.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **HEAVY GHA RUN 33241920817 ACTIVE**.  This is real
+  computational progress past all four observed startup blockers, not a new
+  mathematical result yet.
+- A3 remains **0/3 (FIRST V6 RUN = UNKNOWN_INPUT)**, A4 remains **1/3 V10 FINAL
+  STATIC FREEZE ACTIVE**, and A5--A7 remain **0/3**.
+- No common word, compatible lift, fake certificate or Ihara witness is yet
+  added.
+
+Delta192 is the new progress baseline for A0: subsequent reports compare
+against the active heavy run, not against the earlier infrastructure audits.
