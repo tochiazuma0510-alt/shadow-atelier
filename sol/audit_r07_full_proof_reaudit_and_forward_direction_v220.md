@@ -5025,3 +5025,31 @@ R/V identities.
 
 Delta118 removes a copied-authority route and an unnecessary second global
 heavy build without increasing any actual witness numerator.
+
+### Delta 119 (2026-08-29): A4-v6a independently rejected and v6b bounded
+
+- Luna task356 returned the three v6a machine files and reply as
+  `IMPLEMENTED / UNEXECUTED`, covering only authority rows 1--7.  Fresh
+  Sol(max) task357 checked those exact identities and returned **REJECT /
+  UNEXECUTED**.  The first supported-POSIX stop is the wrong top-level
+  manifest seal key; after that hypothetical repair the second stop is the
+  use of global rather than per-layer ordinals.  Hence literal mutation
+  terminals are producer `0/7`, checker `0/7`, total `0/14`.
+- The completed audit also rejects the foreign manifest reseal DAG, row-4
+  basename bypass, incomplete typed occurrence/ABI authority, missing checker
+  canonical-after evidence, post-close identity reconstruction, unpinned
+  fixture, post-allocation meter, and avoidable retained receipt cache of
+  186,103,472 bytes per side.  These are implementation stops, not an A4
+  mathematical negative.
+- Task358 commissions one versioned v6b repair for all nine findings.  It
+  retains the independently written seven-row tranche, uses actual manifest
+  and receipt codecs, one ordinary path route, fd-derived v297 evidence,
+  deterministic v298 projection, an acyclic pinned fixture, and a one-pass
+  bounded memory schedule.  It still cannot execute or claim rows 8--48.
+- A4 remains **1/3; V6A REJECTED / V6B FINITE REPAIR COMMISSIONED**.  A0
+  remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, A3 **0/3**, and A5/A6 plus every later lift/fake/Ihara gate remain
+  unchanged.
+
+Delta119 freezes a complete adversarial failure record and replaces it by one
+finite nonrepeating repair contract without increasing an actual numerator.
