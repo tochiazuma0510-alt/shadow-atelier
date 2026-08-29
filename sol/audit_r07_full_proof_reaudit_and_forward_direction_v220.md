@@ -9966,3 +9966,36 @@ input obligations explicit.
 Delta249 records the durable computation frontier and the exact compact
 owner.  The dispatch run id and its immutable commit SHA are recorded in the
 next delta after parent-broker publication.
+
+### Delta 250 (2026-08-30): the audited A4 compact resume is live on GHA
+
+- Delta248 and its task395/v374 first-successor package were frozen in
+  parent-broker commit
+  `0d1b09c035fb1191b27cf873562d5bd15391a1a3`.
+- The final compact A4 v16/v22/v29 owner and Delta249 were frozen in
+  parent-broker commit
+  `82161af8c6850cd3867cc68d6ba9c9f8847ae086` and pushed to working branch
+  `sol/r07-witness-v220-delta211` without any intermediate rejected owner.
+- GHA run `33274131676` was dispatched from that exact immutable head with
+  script
+  `search/d972_r07_word_independent_successor_kernel_gha_driver_v29.g`,
+  preamble `D386Mode:="RESUME";;`, output directory `ci/out`, a 250-minute
+  workflow limit, and optional p-quotient packages disabled.  The run entered
+  its job at 2026-08-30 05:41 JST.  Its workflow URL is
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33274131676`.
+  A green workflow will not be interpreted as a mathematical PASS; the
+  producer terminal, checkpoint, receipt and independent checker verdict
+  must all be inspected.
+- Replacement A0 run `33267817818` was still in its GAP step when A4 was
+  dispatched.  These independent GHA jobs run in parallel; neither blocks
+  the mathematical leading-onto work.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING**, now on the audited compact resume rather than a
+  repair candidate.  Its next promotion decision is entirely artifact based.
+- A0 remains **0/1 RUNNING**.  A9 remains **0/3 actual** pending positive
+  physical inputs and the all-depth correction argument.
+
+Delta250 is the immutable launch record required to reproduce the current A4
+frontier; it does not promote a computation that has not finished.
