@@ -27,6 +27,10 @@ on:
         type: boolean
         default: false
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   gap:
     runs-on: ubuntu-latest
@@ -176,6 +180,37 @@ jobs:
           QUIT_GAP(0);;
           GAP
           test "$(grep -c '^P2_PACKAGE_LOAD_PASS ' "$load_log")" -eq 1
+
+      - name: Bind exact prior A0 resume artifact
+        if: ${{ startsWith(inputs.script, 'search/d972_r07_history_free_positive_fast_resume_gha_driver_v') }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRIOR_RUN_ID: "33267817818"
+          PRIOR_ARTIFACT_ID: "9721440597"
+          PRIOR_ARTIFACT_NAME: gap-run-out
+          PRIOR_HEAD_SHA: 8227ecd4cb12f7efc8e2419306b847e228a78f36
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID" --jq .head_sha)" = "$PRIOR_HEAD_SHA"
+          artifact_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID/artifacts" --paginate --jq ".artifacts[] | select(.id == $PRIOR_ARTIFACT_ID) | .name")"
+          artifact_expired="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID/artifacts" --paginate --jq ".artifacts[] | select(.id == $PRIOR_ARTIFACT_ID) | .expired")"
+          test "$artifact_name" = "$PRIOR_ARTIFACT_NAME"
+          test "$artifact_expired" = false
+          mkdir -p ci/out
+          printf '%s\n' "{\"artifact_id\":$PRIOR_ARTIFACT_ID,\"artifact_name\":\"$PRIOR_ARTIFACT_NAME\",\"dispatched_head\":\"$GITHUB_SHA\",\"prior_head\":\"$PRIOR_HEAD_SHA\",\"prior_run\":$PRIOR_RUN_ID,\"schema\":\"d972-r07-a0/prior-artifact-binding/gap-run-v1\"}" > ci/out/d972-r07-a0-prior-artifact-binding-gap-run-v1.json
+
+      - name: Download exact prior A0 artifact
+        if: ${{ startsWith(inputs.script, 'search/d972_r07_history_free_positive_fast_resume_gha_driver_v') }}
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: gap-run-out
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33267817818
+          path: ci/in/prior
+
       - name: Run GAP script
         shell: bash
         env:
