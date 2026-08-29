@@ -9692,3 +9692,140 @@ nonlinear and non-pro-\(3\) obligation.
 Delta245 replaces the last source-side generic quotient problem by one
 finite seed-image test while keeping the genuinely nonlinear and completed
 word-realization hypotheses visible.
+
+### Delta 246 (2026-08-30): depthwise nonabelian materialization is proved in the joint lane
+
+- `proof_r07_free_seed_filtered_commutator_materialization_v369.md` received
+  a final independent PASS from Sol(max).  In the single joint quotient
+  `Fhat_2/ker(vartheta) = Delta_infty`, the closed normal seed subgroup
+  `Q_C` has the genuine simultaneous conjugation action.  Its filtration
+  `D_C^d=Q_C intersect P_(d+1)` is cofinal on the registered relative
+  pro-3 lane, and the identity
+  `partial_p(u)=[p,u]` realizes multiplication by `p-1` while raising this
+  depth once.
+- Consequently every completed value in `J^d P_C` has an existential
+  representative in `D_C^d`.  Finite support is spelled by iterated
+  commutators, and cumulative actual images plus nested compact fibres give
+  the completed value.  This is a depthwise selector for every value the
+  Newton recursion actually requests; it is not a continuous global group
+  section and does not assert a canonical compatible ordinary spelling.
+- V369 also proves that a global `Mat:P_C -> K_0` is unnecessary for the
+  recursion.  One depthwise choice at each step suffices provided the actual
+  localized residual descends continuously to the lane torsor, agrees with
+  the source residual on pullback, and obeys the one-depth affine/nonlinear
+  law.  This continuous residual descent is now an explicit physical gate,
+  rather than an implicit limit step.  Strict `L/JL`, leading onto,
+  localized stability and nonlinear depth gain remain open.
+- `proof_r07_crel_eleven_occurrence_chain_closure_v370.md` fixes the exact
+  post-task382 chain formula, signs, base prefixes and `hg` left action for
+  the raw `W_C` closure.  Its implementation task395 is still under code
+  repair/audit and is not promoted by this delta.
+- The former A0-v22 run `33259268996` reached its registered 10,800-second
+  resource stop after 22,821,452 boundary pairs, 8,669 retained columns and
+  29,162 DAG nodes (about 4.61 GB recorded RSS), with no candidate word.
+  Its checkpoint artifact was lost because the checker tested the Boolean
+  field by object identity instead of exact Boolean type.  The pin-only v24
+  checker/driver repair is frozen at commit `8227ecd4`; replacement run
+  `33267817818` is in the GAP step and must still produce an inspected
+  positive receipt or a durable checkpoint.  No old partial state is
+  claimed recoverable.
+- At 2026-08-30 03:53 JST, A4 baseline `33262485779`, bounded-batch A4
+  `33263899806`, and replacement A0 `33267817818` were all still in their
+  GAP calculation steps.  No elapsed computation is promoted before its
+  artifact and independent verdict are inspected.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the completed filtered materialization
+  problem from Delta245 is now closed on the registered joint lane.  Its
+  live remaining chain is: authenticate the physical eleven-occurrence
+  map and cumulative image, construct strict `L/JL`, prove leading onto,
+  authenticate continuous residual descent, and replay the nonlinear depth
+  laws.
+- A0 remains **0/1 RUNNING** on `33267817818`; the prior run is an honest
+  resource result, not a negative theorem.  A4 remains **1/3 RUNNING** on
+  the two listed runs.
+- Compatible lift, fake and Ihara witness numerators are unchanged.  In
+  particular, a `K_0` preimage of a lane value does not automatically carry
+  actual source depth, residual zero, settlement, mixed-prime or
+  perfect-core properties.
+
+Delta246 removes the global-section obstruction from the relative
+dihedral/Newton route without confusing a conditional joint-lane theorem
+with the still-missing physical compatible lift.
+
+### Delta 247 (2026-08-30): the missing Fox path fibre is retained and continuous residual descent closes
+
+- 'proof_r07_crel_eleven_occurrence_chain_closure_v370.md', 8,119 bytes,
+  SHA-256
+  'c1c5f0a3d27fbf7f9f44def116157f699caea7b3f02a5af98cf071a10cccbeae',
+  received an independent Sol(max) PASS.  It fixes the exact eleven
+  occurrence signs, prefixes, typed block embeddings, \(hg\) ancestry and
+  exhausted four-generator closure theorem for the raw first-edge image
+  \(W_C\).
+- The first continuous-descent draft v371 is **rejected**, not promoted.
+  Its attempted endpoint-to-path map is not well-defined: at
+  \(E_n=P/K_n\),
+  \(\ker(D_1)/\operatorname{im}(D_2)=H_1(K_n;\mathbf F_3)\) is generally the
+  active nonzero Frattini layer.  Two paths with the same endpoint can
+  therefore differ by exactly the obstruction that must be retained.
+- 'proof_r07_path_bearing_joint_residual_descent_v372.md' replaces each
+  of the ten group contexts by its finite Magnus state (Fox path modulo
+  complete PB boundaries, endpoint).  Semidirect multiplication then
+  reproduces the literal two hexagons and printed pentagon with all eleven
+  occurrence transports.  The enriched finite joint images have onto
+  matched transitions, and compactness gives one continuous inverse-limit
+  residual on the enriched lane.
+- Localization is now typed without choosing a path for an endpoint.  For a
+  supported endpoint subgroup \(N\), the exact path target is
+  \(\overline D_1^{-1}(I(N))\); it contains the whole active loop fibre.
+  V33/v37 and BRUN-DEF therefore put every reachable enriched-lane residual
+  in the formation/Brunnian target.  The final v372 file, after adding the
+  explicit endpoint projection, enriched pro-\(3\) kernel and completed
+  action ideal, is 13,211 bytes, SHA-256
+  '4fad4f58d34b4858fdf4dbcd706d0b0995366721b9465a66a318b534b8982da7'.
+  Sol(max) independently passed this final hash.
+- Thus v369's continuous residual-descent and localized-stability hypotheses
+  are paper-complete on the **enriched** joint lane.  They are not valid on
+  the endpoint-only lane.  The physical owner must now authenticate the
+  task198/task382 Magnus coordinates and occurrence maps; strict or weighted
+  \(L/JL\), leading onto and the one-depth nonlinear law remain open.
+- A4 bounded-batch run 33263899806 completed its workflow at immutable head
+  'd353f0b927cb453802ba2b91e021936a2dc3228b', but its mathematical
+  terminal is UNKNOWN_RESOURCE, not PASS.  It stopped in dual_pullback at
+  recorded RSS \(8,001,470,464>8,000,000,000\) bytes while processing row
+  27.  It completed 24 rows and emitted a sealed replayable producer
+  checkpoint with \(next\_row=25\), 25,581 bytes, SHA-256
+  '595213bab8936ef10e94ce90ccf526c105d02d871c4dc5d02b6c76cb51593445'.
+  At the stop, combined rank and boundary rank were both 182,624,
+  \(K\_rank=0\), with 1,439,636 active keys and 17,297,553 dual-support
+  entries.  The checker returned
+  UNKNOWN_INPUT:checker:producer_terminal_identity; this is a propagation
+  defect and no A4 negative.
+- Task397 is restricted to compacting the same sparse dual basis and
+  resuming from this exact checkpoint; it may not change canonical pivots,
+  the examined-64 rule or mathematical order.  The durable A4 baseline run
+  33262485779 and replacement A0 run 33267817818 were still active at
+  2026-08-30 04:31 JST.
+- Task395's final implementation pins and direct/forward/reverse replay
+  repairs are complete locally and are now under independent Sol(max) code
+  audit.  It still has no positive task382 input and therefore does not
+  increase a mathematical numerator.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but two items in Delta246's live chain are now
+  closed at paper level on the correct enriched lane: continuous residual
+  descent and formation/Brunnian localized stability.  The remaining
+  pro-\(3\) chain is the physical Magnus ABI, strict/weighted localized
+  target, leading onto and one-depth nonlinear replay.
+- A4 remains **1/3**.  Run 33263899806 advances its durable frontier from
+  the old prefrontier state to \(next\_row=25\), but supplies neither a
+  positive basis nor a complete negative.  A0 remains **0/1 RUNNING**.
+- Compatible lift, fake and Ihara witness numerators are unchanged.  The
+  enriched theorem removes an invalid information-losing descent; it does
+  not itself construct the correction.
+
+Delta247 prevents the active Frattini obstruction from being accidentally
+quotiented away and gives the exact finite state on which the uniform
+relative-dihedral/Newton lift must be completed.
