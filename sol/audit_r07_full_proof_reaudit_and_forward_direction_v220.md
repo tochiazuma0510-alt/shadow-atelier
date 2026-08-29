@@ -7969,3 +7969,62 @@ gate, not a numerical promotion.
 Delta204 preserves v309's all-pro-3 witness objective in the simplified
 zero-base implementation and prevents a locally valid but globally poor
 first A5 representative from ending the search.
+
+### Delta 205 (2026-08-29): A4's thirty-minute stop is traced to one checkpoint code pin
+
+- An independent Sol(max) performance/code audit found no production
+  SELFTEST, fixture mutation, retry, hidden worker fanout, or duplicate
+  producer/checker.  It isolated a deterministic resource-checkpoint ABI
+  error: the v11 producer records its actual wrapper `__file__`, while the
+  v11 checker still hashes the frozen v6 producer path.  Any producer
+  `UNKNOWN_RESOURCE` checkpoint is therefore rejected before the driver can
+  agree on a terminal.  This explains the observed missing-sentinel class
+  without changing the A4 mathematics.
+- Checker v12 changes only
+  `PRODUCER_CODE_PATH` from the frozen v6 path to the actual v11 wrapper;
+  all v11 arithmetic and bridge repairs are retained.  The diagnostic driver
+  pins the new checker and preserves bounded logs/artifacts.  Commit
+  `9ea2a842` is pushed, and actual run `33248273650` has entered the GHA
+  workflow while capture run `33247161395` continues to preserve the old
+  failure evidence.
+- The same audit identified later safe performance work -- passing an
+  already computed remainder to the dual constructor, in-place sparse F3
+  AXPY, and hoisting an invariant eleven-owner check -- but none was inserted
+  ahead of this one-line correctness repair.
+
+**v220 mapping**:
+
+- A4 remains **1/3; REPAIRED ACTUAL RUN 33248273650 ACTIVE**.  The code-pin
+  repair is not counted before an agreeing positive receipt/verdict.
+- A0 runs `33246619673` and `33247540982` remain active; A3 remains **3/3**.
+- A5--A9 and B/C/W/F remain unchanged; no fake or Ihara witness is claimed.
+
+### Delta 206 (2026-08-29): production-only zero-base downstream candidates are frozen
+
+- Commit `6d2b8d8e` freezes a production-only A0-COMMON to task193
+  compatibility adapter and a production-only zero-base A5/A6 streaming
+  compiler.  Missing or nonpositive actual inputs give typed
+  `UNKNOWN_INPUT`; neither implementation contains a SELFTEST, fixture,
+  mutation sweep, retry, or substitute positive object.
+- The first candidate authenticates the physical A0 receipt/verdict and
+  independently rebuilds the direct eleven-occurrence/seven-window replay
+  before emitting task193's literal compatibility fields.  A Sol(max) audit
+  is active, with special attention to whether the legacy task193 checker
+  accepts the compact compatibility envelope as well as the producer.
+- The second candidate implements v348's pre-`C` closure and streamed A5
+  joint target, retains A5 hits without stopping the v349 witness search,
+  and activates the augmented endpoint coordinate only when its exact owner
+  is authenticated.  It emits only factored A6 ancestry on MEMBER and never
+  calls a finite augmented miss an A7 negative.  A separate Sol(max) audit
+  of its actual ABI, signs, closure completeness, checker independence and
+  performance is active.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 / 0/3 actual; IMPLEMENTED CANDIDATES UNDER INDEPENDENT
+  AUDIT**.  A7 remains **0/3 actual**.
+- A0/A4/A3 and all later numerator values remain as in Delta205.  No
+  compatible cofinal lift, fake certificate or Ihara witness is claimed.
+
+Delta206 removes downstream coding latency after the running A0/A4 owners
+arrive, while keeping unexecuted candidates outside every actual numerator.
