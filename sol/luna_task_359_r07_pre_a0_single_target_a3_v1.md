@@ -20,9 +20,12 @@ Read in full, in this order:
 4. `sol/proof_r07_a18_area_invisibility_single_a3_target_v302.md`
    (7,340 bytes, SHA-256
    `ba508bbe96f34967ebe456c51285ecbe774861a864c369699bbf1dce2b9fc6c3`);
-5. the complete accepted task198 receipt, `acceptance_v2` manifest, producer
+5. `sol/proof_r07_pre_a0_computational_base_equivalence_v303.md`
+   (6,739 bytes, SHA-256
+   `9868aa26d630138da9b8b963b0f3968e8c2ee698ba4461d596a2b6f155d25cf2`);
+6. the complete accepted task198 receipt, `acceptance_v2` manifest, producer
    and checker attestations, checker verdict, and their three source owners;
-6. the current task226 producer/checker and task227 producer/checker/driver,
+7. the current task226 producer/checker and task227 producer/checker/driver,
    together with v220 delta38 and delta39.
 
 The accepted task227 SELFTEST run is `33153010409` at head
@@ -153,8 +156,14 @@ f_role = BASE_REFERENCE_EQUAL_TO_G760
 ```
 
 Require `f == g760`, `a == []`, `B_a == 0`, and every `rword_f/r_f` equal to
-its base counterpart.  Retain fields needed by the frozen v216 ABI, but never
-call this object an actual A0 correction, compatible lift, or fake.
+its base counterpart.  Retained full-package `f`, `rword_f`, `B_a` and PB
+chain fields are typed `BASE_REFERENCE_ONLY` and are not transfer evidence.
+Emit a separate explicit `projected_a3_interface` with the exact v303
+projection: authenticated ledger and quotient/action ABI, the eleven
+`p_o/xi_o/w_o/u0_o` rows, combined `w/u0`, and the three target blocks.  Bind
+its canonical digest.  Only this projection may feed the closure or be
+identified with the future actual-correction A3 data.  Never call the full
+base package an actual A0 correction, compatible lift, or fake.
 
 ## 6. Executable v302 area-invisibility replay
 
@@ -185,8 +194,9 @@ is an A0 roof correction.  Also require the base ABI target to be exactly
 
 ## 7. One actual closure and certificate
 
-The producer passes the base ABI to the pinned task227 producer closure once,
-then encodes exactly one production gate.  It must retain:
+The producer passes the v303 `projected_a3_interface` (encoded in the exact
+frozen v216 consumer shape) to the pinned task227 producer closure once, then
+encodes exactly one production gate.  It must retain:
 
 - the complete occurrence basis and ancestry;
 - all canonical 486 ideal rows and all 729 translates;

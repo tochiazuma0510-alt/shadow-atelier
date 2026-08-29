@@ -5192,3 +5192,34 @@ paper without treating the unexecuted test as an actual numerator.
 
 Delta123 converts v302's paper dependency shortcut into one finite actual
 certificate contract without advancing an unexecuted numerator.
+
+### Delta 124 (2026-08-29): computational-base equality restricted to the A3 projection
+
+- Added `sol/proof_r07_pre_a0_computational_base_equivalence_v303.md`.  At the
+  empty correction the v225 correction column is zero and the residual target
+  is exactly `1-R_B(g760)`.  V225 makes every occurrence component of `w` and
+  `u0` base-word-only, while v302 identifies that target with the target of
+  every registered A0 correction.
+- V303 packages these facts as equality of the exact v216 gate projection
+  `Pi_A3`: ledger, class-two/action ABI, eleven occurrence rows, `w`, `u0` and
+  the three residual blocks.  Hence coefficient ancestry or a separating dual
+  computed at the base point transfers to every A0 correction on this fixed
+  branch.
+- The full task226 packages are deliberately **not** identified.  A nontrivial
+  correction may change its literal corrected word, `rword_f`, correction
+  column and exact PB chains.  Task359 now requires a separately sealed
+  `projected_a3_interface`; full base-package diagnostics are
+  `BASE_REFERENCE_ONLY` and cannot support A0, exact-PB, lift, fake or Ihara
+  claims.
+
+**v220 mapping**:
+
+- A3 remains **0/3 ACTUAL; TASK359 COMMISSIONED / UNEXECUTED**.  The transfer
+  theorem closes a typing gap but no actual projection, closure or certificate
+  has been emitted.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2
+  **2/3**, and A4 **1/3 V6B FINITE REPAIR ACTIVE**.  Every later witness/fake
+  numerator remains unchanged.
+
+Delta124 prevents a computational base point from being mistaken for the
+unknown full corrected lift while preserving the one-run A3 shortcut.
