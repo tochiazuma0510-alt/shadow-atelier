@@ -7578,3 +7578,52 @@ against the active heavy run, not against the earlier infrastructure audits.
 Delta193 separates mathematical production from operational selftests and
 restores the already-implemented full A4 computation to the live critical
 path in parallel with A0.
+
+### Delta 194 (2026-08-29): A3 reaches an actual MEMBER candidate; independent replay and A4 recovery repair are live
+
+- A0 production run `33243151014` at immutable head
+  `dfda5e17eaa83293d76bb93e939dfb97954deeb1` remains inside the actual GAP
+  script.  It is still the production-only v13 route and contributes no
+  numerator until its producer/checker artifacts are available.
+- A3 run `33244031788` exposed the stale task226-to-task227 sparse codec and
+  run `33244399847` then passed the repaired projection and the producer's
+  full actual closure.  Its producer terminal is exactly
+  `R07_PRE_A0_A3_PROJECTED_MEMBER`.  The checker stopped later in its mutation
+  reason table: its validator emits
+  `checker task227 consumer ABI derived only from projection`, while the table
+  still registered the unprefixed form.  This is a checker-only naming defect,
+  so the MEMBER output is a candidate, not yet cross-checked and not yet an A3
+  numerator.  Commit `45c8ce68741325c00d98a050da8420d1b4008fa4`
+  changes that one checker reason-map key; actual replay run `33244676183` is
+  active.
+- A4 run `33243603412` first exposed a wrong top-level `terminal` lookup for
+  the accepted task176 checker result; the PASS field is physically at
+  `audit.terminal`.  After that correction, run `33244399784` authenticated
+  all 6,441 presentation rows but stopped at the historical recovery metadata.
+  Direct canonical recomputation gives body digests
+  `0c7f6b03de740a1bbae02b2a5c7aeb48071369c6cd1a5e08c79c05dbf9edd289`
+  for recovery v1 and
+  `fd949d8eb6a3b22891177f19d41af8e61c3f28aefe41a073cf3a72f8979cb1a2`
+  for recovery v2, whereas their embedded historical self-digest fields are
+  different.  Their physical bytes/SHA-256, exact contents, supersession edge,
+  accepted census receipt and independent checker result remain separately
+  pinned.  Commit `45c8ce68741325c00d98a050da8420d1b4008fa4`
+  therefore checks the two physical canonical body digests instead of assuming
+  those two supersession metadata seals are valid.  Full A4 production run
+  `33244676171` is active; no SELFTEST or 48-route fixture is selected.
+
+**v220 mapping**:
+
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
+- A3 remains **0/3**, but now has one actual producer-side **MEMBER candidate**;
+  independent checker run `33244676183` is the sole promotion gate.
+- A4 remains **1/3; FULL PRODUCTION RUN 33244676171 ACTIVE** after two
+  validation-only input repairs.  Only agreeing producer/checker PASS may move
+  it to 3/3.
+- A1 stays **4/4**, A2 **2/3**, and A5--A9, B, C, W and F are unchanged.
+  No common word, compatible lift, fake certificate or Ihara witness is yet
+  claimed.
+
+Delta194 records the first actual positive A3 terminal while keeping it below
+the cross-checked boundary, and replaces two false metadata assumptions on the
+A4 path without changing either mathematical engine.
