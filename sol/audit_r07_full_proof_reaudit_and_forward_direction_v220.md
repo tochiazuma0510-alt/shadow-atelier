@@ -9198,3 +9198,39 @@ frontiers while keeping the still-missing performance batch explicit.
 
 Delta234 replaces only a malformed dispatch and records the concurrent exact
 batch implementation without promoting either calculation.
+
+### Delta 235 (2026-08-30): leading onto can kill each pair of base-change defects at once
+
+- `proof_r07_leading_onto_split_base_change_v362.md` proves a conditional
+  shortcut for the four finite defect modules isolated in Delta232.  If the
+  actual codomain of a packaged map is finite free over the filtered action
+  ring, surjectivity modulo `J` gives leading preimages of a basis.  Their
+  error endomorphism has image in `J`, so a finite (nilpotent case) or
+  convergent (complete case) Neumann inverse corrects them to an explicit
+  module-linear section.
+- A section makes the map a split epimorphism.  V361 then gives
+  `S_r(f)=T_r(f)=0` at every depth, not just at the leading edge.  The same
+  conclusion holds for a finite projective codomain when `J` lies in the
+  Jacobson radical, by Nakayama followed by projectivity.
+- Applied to the actual source map `G` or localized target map `H`, this
+  changes the preferred post-A4 audit from four unconditional defect
+  computations to: authenticate the real codomain module type, check full
+  target rank of `bar-G` or `bar-H`, and replay the explicit section.  A
+  vector-space complement, a convenient larger raw codomain, or an
+  unauthenticated action ring is not enough.
+- If either codomain is nonprojective or either leading map is not onto, its
+  unresolved `S_1,T_1` pair remains exactly the finite calculation specified
+  by v361.  The theorem therefore shortens the positive branch without
+  assuming the actual R07 hypotheses.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING** under run `33262485779`; task382 and task384 are
+  active.  No positive word-bearing `K` owner exists yet.
+- A9 remains **0/3 actual**.  Its post-A4 type gate now has a two-rank-test
+  split branch before falling back to the four explicit defect modules.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts and compatible-lift/fake/Ihara numerators are unchanged.
+
+Delta235 removes avoidable defect work on any physically free/projective
+packaged codomain while retaining v361 as the exact nonsplit fallback.
