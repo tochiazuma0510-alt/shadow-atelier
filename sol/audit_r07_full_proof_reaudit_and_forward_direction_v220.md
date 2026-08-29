@@ -6705,3 +6705,36 @@ equally importantly, proves why that formula alone cannot repair A3.
 Delta167 turns the explicit rung words into directly evaluable tangent
 columns while preventing projected-value invisibility from being
 overinterpreted as a full no-go theorem.
+
+### Delta 168 (2026-08-29): the full two-commutator core family cannot supply the A4 anchor
+
+- Added `sol/proof_r07_two_commutator_roof_anchor_no_go_v337.md`.  For
+  `chi_(A,B)=[x,y]^A[y,z]^B`, equality with the pure-dihedral R07 roof is
+  exactly
+  `A-B=2 mod 18` and `A+B=0 mod 18`.
+- In the class-two exponent-nine quotient,
+  `q([y,z])=q([x,y])=hbar`, so `q(chi_(A,B))=hbar^(A+B)`.  The same-roof
+  congruence therefore forces the projected image to be trivial.  Hitting
+  the A4 anchor \(z_0=\bar h^3\) or its inverse would require
+  `A+B=3 or 6 mod 9`, which is incompatible.
+- This is a no-go only for the complete two-integer core family, not for the
+  actual roof kernel.  V247's nonzero projected anchor must genuinely be
+  extracted from the full word-bearing A4 basis; no alternative choice of
+  \(A,B\) can replace that step.
+- \(\chi_{40}\) sits exactly on the boundary: it is exponent-nine invisible
+  because \(A+B=9\), but its pure-dihedral roof is wrong.  Squaring the
+  relative comparator restores the base roof and remains projected-zero,
+  agreeing with v335--v336.
+
+**v220 mapping**:
+
+- This is **CLOSED as a two-commutator-family no-go theorem**.  It removes a
+  false shortcut but does not close A4: A0 remains **0/1 V12B SEAL ACTIVE**,
+  A3 **0/3 V3 FRESH REAUDIT ACTIVE**, A4 **1/3 V7 SEAL ACTIVE**, and
+  A5--A7 **0/3**.
+- The full actual-kernel anchor, field-even pairing, compatible lift, fake
+  certificate and Ihara witness remain open.
+
+Delta168 proves that the explicit dihedral core and the field-outer A4
+anchor are complementary components, not two parameterizations of the same
+missing word.
