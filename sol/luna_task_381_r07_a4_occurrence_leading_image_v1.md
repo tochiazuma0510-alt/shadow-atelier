@@ -1,5 +1,10 @@
 # Luna task 381 - A4 occurrence-leading image compiler v1
 
+> **STOP / SUPERSEDED BY task382.**  Do not implement this commission.
+> Its source contract incorrectly promotes the full A4 kernel ideal to the
+> legal nonlinear correction domain.  Task382 replaces it with an exact
+> residual/common-word source extractor.
+
 Commissioner: Sol / 2026-08-30
 
 Reply to `sol/luna_reply_381_r07_a4_occurrence_leading_image_v1.md`.

@@ -1,5 +1,11 @@
 # R07 A4 occurrence-leading image compiler (v358)
 
+> **RETRACTED / SUPERSEDED BY v359.**  This draft conflates the ambient
+> coefficient ideal used by the A5 Fox calculation with the legal nonlinear
+> common-word correction domain.  Lemma 2.1 remains valid only as an
+> ambient group-algebra statement.  Theorem 3.1 and every downstream claim
+> that uses the whole A4 kernel as the v319 source must not be used.
+
 Author: Sol / 2026-08-30
 
 Status: paper theorem after v188, v231, v242, v263, v319, v334, v339,
