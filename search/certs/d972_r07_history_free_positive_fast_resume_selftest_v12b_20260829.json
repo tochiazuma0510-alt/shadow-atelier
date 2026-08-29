@@ -1,0 +1,289 @@
+{
+  "schema": "d972-r07-history-free-positive-fast-resume/selftest-input/v12b",
+  "fixture_version": "v12b-20260829",
+  "mode": "SELFTEST_BOOTSTRAP",
+  "status": "COMPLETE",
+  "candidate_only": true,
+  "production_authorized": false,
+  "requires_v12b_physical_pin": true,
+  "worker_counts": [2, 4],
+  "owner_requirements": {
+    "literal_v10_owner_loading": true,
+    "externally_pinned_recovery_v2": true,
+    "physical_checkpoint_columns": 2896,
+    "physical_checkpoint_rank": 2896,
+    "physical_checkpoint_loaded_by_constructor": true,
+    "fabricated_rows_or_words": false,
+    "projected_gamma_bytes": 970,
+    "full_gamma_state_widths": [40, 154],
+    "k0_capacity": 4194304,
+    "k0_array_type": "uint32",
+    "k0_open_address_linear_probe": true,
+    "k0_lookup_miss": "skip",
+    "k0_coarse_mismatch": "skip",
+    "k0_full_state_equality": true,
+    "k0_least_base": true,
+    "trivial_kernel_order_one": true,
+    "linear_shared_dag_expansion": true,
+    "aggregate_live_entry_charge_before_insert": true,
+    "sequential_bounded_workers_and_stop": true
+  },
+  "fixture_policy": {
+    "group_source": "live task175/task176 E3/E4 owners",
+    "codec_source": "task176 canonical packed E3/E4 codecs",
+    "reducer_source": "v10 FormalReducer node-id DAG",
+    "process_source": "v10 PersistentBoundaryOwner using Linux fork",
+    "post_hoc_transcripts_forbidden": true,
+    "physical_mutation_before_validator": true
+  },
+  "process_cases": [
+    "empty_support",
+    "one_support",
+    "short_support",
+    "typed_present_shape_filter",
+    "f3_cancellation",
+    "active",
+    "zero",
+    "three_serial_duals",
+    "deadline_timeout",
+    "blocked_pipe",
+    "worker_death",
+    "partial_result",
+    "bounded_cleanup"
+  ],
+  "triangular_mutations": [
+    "future_ancestry_index",
+    "zero_diagonal",
+    "changed_raw_sparse_entry",
+    "changed_ancestry_coefficient",
+    "duplicate_pivot",
+    "wrong_pivot",
+    "hidden_smaller_pivot",
+    "skipped_P_equation"
+  ],
+  "boundary_mutations": [
+    "wrong_typed_support",
+    "missing_interval",
+    "overlapping_interval",
+    "wrong_t_orientation",
+    "changed_accumulator",
+    "changed_winner",
+    "changed_scalar",
+    "cross_epoch_frame",
+    "blocked_send",
+    "partial_worker",
+    "dead_worker",
+    "surviving_process",
+    "counter_reset"
+  ],
+  "phase_mutations": [
+    "heavy_call_before_heavy_digest",
+    "fabricated_heavy_digest",
+    "stale_correction_progress",
+    "zero_promoted_to_negative"
+  ],
+  "phase_positive_gates": [
+    "light_resource_checkpoint",
+    "heavy_transition"
+  ],
+  "selected_correction_mutations": [
+    "selected_q0_roster_state",
+    "selected_q0_parent",
+    "selected_q0_letter",
+    "selected_marked_generator",
+    "selected_gamma_state",
+    "selected_gamma_parent",
+    "selected_gamma_record",
+    "selected_qid",
+    "selected_gid",
+    "selected_cursor_quotient",
+    "selected_cursor_remainder",
+    "selected_schedule_kind",
+    "selected_k0_fibre_nonleast",
+    "selected_kernel_order",
+    "selected_heavy_input_identity",
+    "selected_section_word",
+    "selected_coefficient_two_inverse_word"
+    ,"recovery_v1_substitution"
+    ,"recovery_v2_corrected_field"
+    ,"recovery_v2_self_seal"
+    ,"q0_parent_letter_roster"
+    ,"q3_marked_permutation"
+    ,"one_coordinate_mark"
+    ,"gamma_parent_record_word"
+    ,"gamma_projected_970_byte_state"
+    ,"gamma_full_vs_projected_substitution"
+    ,"k0_coarse_key_full_blob_least_base"
+    ,"kernel_generator_order_cursor_word"
+    ,"product_order"
+    ,"heavy_identity_final_row"
+  ],
+  "positive_mutations": [
+    "omitted_selected_row",
+    "changed_selected_row",
+    "changed_selected_coefficient",
+    "wrong_coefficient_two_word",
+    "copied_sparse_equality_boolean",
+    "changed_target",
+    "changed_boundary_preimage"
+  ],
+  "physical_mutations": [
+    "symlink_candidate",
+    "hardlink_candidate",
+    "toctou_substitution",
+    "unbound_checkpoint",
+    "positive_claim_on_resource_exit",
+    "separator_flip",
+    "cofinal_flip",
+    "fake_flip",
+    "ihara_flip",
+    "terminal_reseal",
+    "stale_output"
+  ],
+  "mutation_contract": {
+    "triangular": [
+      {"id": "future_ancestry_index", "owner_path": "old.columns[2].pivot_ancestry", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest ancestry", "reseal": true},
+      {"id": "zero_diagonal", "owner_path": "old.columns[2].pivot_ancestry", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest ancestry", "reseal": true},
+      {"id": "changed_raw_sparse_entry", "owner_path": "old.columns[1].sparse_row", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest P equation", "reseal": true},
+      {"id": "changed_ancestry_coefficient", "owner_path": "old.columns[2].pivot_ancestry", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest P equation", "reseal": true},
+      {"id": "duplicate_pivot", "owner_path": "old.columns[2].pivot_hex", "validator": "_validate_triangular_subset", "stage": "pivot_identity", "first_reason": "triangular selftest pivot identity", "reseal": true},
+      {"id": "wrong_pivot", "owner_path": "old.columns[3].pivot_hex", "validator": "_validate_triangular_subset", "stage": "pivot_identity", "first_reason": "triangular selftest pivot identity", "reseal": true},
+      {"id": "hidden_smaller_pivot", "owner_path": "old.columns[3].pivot_hex", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest P equation", "reseal": true},
+      {"id": "skipped_P_equation", "owner_path": "old.columns[3].pivot_ancestry", "validator": "_validate_triangular_subset", "stage": "full_P_equation", "first_reason": "triangular selftest P equation", "reseal": true}
+    ],
+    "boundary": [
+      {"id": "wrong_typed_support", "owner_path": "boundary.dual", "validator": "validate_boundary_frame", "stage": "typed_support", "first_reason": "sparse item", "reseal": true},
+      {"id": "missing_interval", "owner_path": "boundary.outcome.intervals", "validator": "independent_boundary_outcome", "stage": "interval_partition", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "overlapping_interval", "owner_path": "boundary.outcome.intervals", "validator": "independent_boundary_outcome", "stage": "interval_partition", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "wrong_t_orientation", "owner_path": "boundary.orientation", "validator": "validate_boundary_frame", "stage": "orientation", "first_reason": "boundary selftest owner frame", "reseal": true},
+      {"id": "changed_accumulator", "owner_path": "boundary.outcome.worker_results", "validator": "independent_boundary_outcome", "stage": "result_digest", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "changed_winner", "owner_path": "boundary.outcome.selected", "validator": "independent_boundary_outcome", "stage": "winner", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "changed_scalar", "owner_path": "boundary.outcome.selected_scalar", "validator": "independent_boundary_outcome", "stage": "scalar", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "cross_epoch_frame", "owner_path": "boundary.outcome.epoch", "validator": "independent_boundary_outcome", "stage": "epoch", "first_reason": "boundary selftest immutable ordinary outcome", "reseal": true},
+      {"id": "blocked_send", "owner_path": "boundary.transport.owner", "validator": "validate_boundary_frame", "stage": "transport", "first_reason": "boundary selftest owner frame", "reseal": true},
+      {"id": "partial_worker", "owner_path": "boundary.transport.route", "validator": "validate_boundary_frame", "stage": "transport", "first_reason": "boundary selftest owner frame", "reseal": true},
+      {"id": "dead_worker", "owner_path": "boundary.transport.route", "validator": "validate_boundary_frame", "stage": "transport", "first_reason": "boundary selftest owner frame", "reseal": true},
+      {"id": "surviving_process", "owner_path": "boundary.transport.cleanup.live_pids_after_join", "validator": "validate_boundary_frame", "stage": "transport", "first_reason": "boundary selftest owner frame", "reseal": true},
+      {"id": "counter_reset", "owner_path": "boundary.counter_floor", "validator": "validate_boundary_frame", "stage": "counter", "first_reason": "boundary selftest owner frame", "reseal": true}
+    ],
+    "selected_correction": [
+      {"id": "selected_q0_roster_state", "owner_path": "selected.record.provenance.section_provenance.q0_state_hex", "validator": "validate_correction_provenance", "stage": "Q0_replay", "first_reason": "correction reconstructed Q0/Gamma identity", "reseal": true},
+      {"id": "selected_q0_parent", "owner_path": "selected.record.provenance.section_provenance.q0_parent_state_id", "validator": "validate_correction_provenance", "stage": "Q0_parent", "first_reason": "task176 selected independent Q0/Gamma replay", "reseal": true},
+      {"id": "selected_q0_letter", "owner_path": "selected.record.provenance.section_provenance.selected_q0_word", "validator": "validate_correction_provenance", "stage": "Q0_word", "first_reason": "task176 selected parent-word binding", "reseal": true},
+      {"id": "selected_marked_generator", "owner_path": "selected.record.provenance.section_provenance.selected_marked_generator_row", "validator": "validate_correction_provenance", "stage": "Q3_mark", "first_reason": "task176 selected typed marked-generator replay", "reseal": true},
+      {"id": "selected_gamma_state", "owner_path": "selected.record.provenance.section_provenance.gamma_projected_ten_state_hex", "validator": "validate_correction_provenance", "stage": "Gamma_replay", "first_reason": "task176 selected independent Q0/Gamma replay", "reseal": true},
+      {"id": "selected_gamma_parent", "owner_path": "selected.record.provenance.section_provenance.gamma_parent_state_id", "validator": "validate_correction_provenance", "stage": "Gamma_parent", "first_reason": "correction Gamma parent-record owner", "reseal": true},
+      {"id": "selected_gamma_record", "owner_path": "selected.record.provenance.section_provenance.selected_gamma_word", "validator": "validate_correction_provenance", "stage": "Gamma_word", "first_reason": "task176 selected parent-word binding", "reseal": true},
+      {"id": "selected_qid", "owner_path": "selected.record.provenance.section_provenance.q0_state_id", "validator": "validate_correction_provenance", "stage": "K0_owner", "first_reason": "task176 selected independent Q0/Gamma replay", "reseal": true},
+      {"id": "selected_gid", "owner_path": "selected.record.provenance.section_provenance.gamma_state_id", "validator": "validate_correction_provenance", "stage": "K0_owner", "first_reason": "task176 selected independent Q0/Gamma replay", "reseal": true},
+      {"id": "selected_cursor_quotient", "owner_path": "selected.record.provenance.section_provenance.kernel_cursor", "validator": "validate_correction_provenance", "stage": "kernel_cursor", "first_reason": "K0 exact kernel cursor state", "reseal": true},
+      {"id": "selected_cursor_remainder", "owner_path": "selected.record.provenance.section_provenance.support_fibre_cursor", "validator": "validate_correction_provenance", "stage": "fibre_cursor", "first_reason": "correction K0 support fibre", "reseal": true},
+      {"id": "selected_schedule_kind", "owner_path": "selected.record.provenance.schedule", "validator": "validate_correction_provenance", "stage": "schedule", "first_reason": "correction K0 support fibre", "reseal": true},
+      {"id": "selected_k0_fibre_nonleast", "owner_path": "selected.record.provenance.section_provenance.least_q0_state_id", "validator": "validate_correction_provenance", "stage": "least_base", "first_reason": "K0 lexicographically least base", "reseal": true},
+      {"id": "selected_kernel_order", "owner_path": "selected.record.provenance.section_provenance.kernel_order", "validator": "validate_correction_provenance", "stage": "kernel_BFS", "first_reason": "K0 exact incremental kernel BFS order", "reseal": true},
+      {"id": "selected_heavy_input_identity", "owner_path": "receipt.heavy_input_sha256", "validator": "validate_selected_frame", "stage": "heavy_identity", "first_reason": "selected-correction frame", "reseal": true},
+      {"id": "selected_section_word", "owner_path": "selected.record.provenance.section_provenance.selected_base_word", "validator": "validate_correction_provenance", "stage": "base_word", "first_reason": "selected Q0/Gamma/base word binding", "reseal": true},
+      {"id": "selected_coefficient_two_inverse_word", "owner_path": "selected.record.provenance.conjugate_word", "validator": "validate_correction_provenance", "stage": "coefficient_two_inverse", "first_reason": "correction replay field:conjugate_word", "reseal": true},
+      {"id": "recovery_v1_substitution", "owner_path": "selected.record.provenance.recovery_v1", "validator": "validate_correction_provenance", "stage": "recovery_v1", "first_reason": "correction recovery-v2 identity", "reseal": true},
+      {"id": "recovery_v2_corrected_field", "owner_path": "selected.record.provenance.recovery_v2.correction", "validator": "validate_correction_provenance", "stage": "recovery_v2", "first_reason": "correction recovery-v2 identity", "reseal": true},
+      {"id": "recovery_v2_self_seal", "owner_path": "selected.record.provenance.recovery_v2.self_digest_sha256", "validator": "validate_correction_provenance", "stage": "recovery_v2", "first_reason": "correction recovery-v2 identity", "reseal": true},
+      {"id": "q0_parent_letter_roster", "owner_path": "selected.record.provenance.section_provenance.q0_parent_letter_digest", "validator": "validate_correction_provenance", "stage": "Q0_parent_roster", "first_reason": "correction Q0 parent-letter owner", "reseal": true},
+      {"id": "q3_marked_permutation", "owner_path": "selected.record.provenance.section_provenance.q3_marked_permutation_rows", "validator": "validate_correction_provenance", "stage": "Q3_owner", "first_reason": "correction Q3 marked-permutation owner", "reseal": true},
+      {"id": "one_coordinate_mark", "owner_path": "selected.record.provenance.section_provenance.selected_coordinate_mark_hex", "validator": "validate_correction_provenance", "stage": "coordinate_mark", "first_reason": "correction coordinate mark owner", "reseal": true},
+      {"id": "gamma_parent_record_word", "owner_path": "selected.record.provenance.section_provenance.gamma_parent_record_id", "validator": "validate_correction_provenance", "stage": "Gamma_parent_record", "first_reason": "correction Gamma parent-record owner", "reseal": true},
+      {"id": "gamma_projected_970_byte_state", "owner_path": "selected.record.provenance.section_provenance.gamma_projected_ten_state_hex", "validator": "validate_correction_provenance", "stage": "Gamma_970", "first_reason": "task176 selected independent Q0/Gamma replay", "reseal": true},
+      {"id": "gamma_full_vs_projected_substitution", "owner_path": "selected.record.provenance.section_provenance.gamma_full_state_hex", "validator": "validate_correction_provenance", "stage": "Gamma_full_diagnostic", "first_reason": "correction reconstructed Q0/Gamma identity", "reseal": true},
+      {"id": "k0_coarse_key_full_blob_least_base", "owner_path": "selected.record.provenance.section_provenance.k0_state_digest", "validator": "validate_correction_provenance", "stage": "K0_full_state", "first_reason": "K0 physical open-address provenance", "reseal": true},
+      {"id": "kernel_generator_order_cursor_word", "owner_path": "selected.record.provenance.section_provenance.kernel_generators", "validator": "validate_correction_provenance", "stage": "kernel_roster", "first_reason": "K0 authenticated kernel generator binding", "reseal": true},
+      {"id": "product_order", "owner_path": "selected.record.provenance.delta_word", "validator": "validate_correction_provenance", "stage": "product_order", "first_reason": "K0 kernel+Gamma+Q0 product order", "reseal": true},
+      {"id": "heavy_identity_final_row", "owner_path": "receipt.heavy_public", "validator": "validate_selected_frame", "stage": "heavy_identity", "first_reason": "selected-correction frame", "reseal": true}
+    ],
+    "positive": [
+      {"id": "omitted_selected_row", "owner_path": "receipt.selected_old|selected_new", "validator": "validate_positive_frame", "stage": "selected_support", "first_reason": "SELFTEST selected support complete", "reseal": true},
+      {"id": "changed_selected_row", "owner_path": "selected.record.sparse_row", "validator": "validate_correction_provenance", "stage": "row_replay", "first_reason": "selected correction stored row", "reseal": true},
+      {"id": "changed_selected_coefficient", "owner_path": "selected.coefficient", "validator": "validate_positive_frame", "stage": "coefficient", "first_reason": "SELFTEST selected coefficient", "reseal": true},
+      {"id": "wrong_coefficient_two_word", "owner_path": "coefficient_two.correction_word", "validator": "validate_coefficient_two_frame", "stage": "coefficient_two", "first_reason": "literal coefficient-two inverse word", "reseal": true},
+      {"id": "copied_sparse_equality_boolean", "owner_path": "receipt.producer_sparse_equality", "validator": "validate_positive_frame", "stage": "residual", "first_reason": "SELFTEST typed preimage/support", "reseal": true},
+      {"id": "changed_target", "owner_path": "receipt.target", "validator": "validate_positive_frame", "stage": "target", "first_reason": "SELFTEST target/g760", "reseal": true},
+      {"id": "changed_boundary_preimage", "owner_path": "receipt.boundary_preimage", "validator": "validate_positive_frame", "stage": "preimage", "first_reason": "SELFTEST typed preimage/support", "reseal": true}
+    ],
+    "physical": [
+      {"id": "symlink_candidate", "owner_path": "candidate.pathname", "validator": "physical_owner_open", "stage": "physical_open", "first_reason": "physical open", "reseal": false},
+      {"id": "hardlink_candidate", "owner_path": "candidate.inode", "validator": "physical_owner_open", "stage": "unique_link", "first_reason": "physical regular unique owner", "reseal": false},
+      {"id": "toctou_substitution", "owner_path": "candidate.fd", "validator": "physical_owner_open", "stage": "pathname_identity", "first_reason": "physical pathname identity", "reseal": false},
+      {"id": "unbound_checkpoint", "owner_path": "receipt.checkpoint", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "positive_claim_on_resource_exit", "owner_path": "receipt.claims", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "separator_flip", "owner_path": "receipt.claims.separator", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "cofinal_flip", "owner_path": "receipt.claims.cofinal_lift", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "fake_flip", "owner_path": "receipt.claims.fake", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "ihara_flip", "owner_path": "receipt.claims.ihara_witness", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "terminal_reseal", "owner_path": "receipt.terminal", "validator": "selftest_envelope", "stage": "identity_envelope", "first_reason": "SELFTEST identity envelope", "reseal": true},
+      {"id": "stale_output", "owner_path": "candidate.path", "validator": "exclusive_json", "stage": "stale", "first_reason": "stale output", "reseal": false}
+    ],
+    "phase": [
+      {"id": "heavy_call_before_heavy_digest", "owner_path": "runtime.phase_transition.heavy_input_sha256", "validator": "validate_phase_transition", "stage": "heavy_digest_order", "first_reason": "phase gate", "reseal": true},
+      {"id": "fabricated_heavy_digest", "owner_path": "runtime.phase_transition.heavy_input_sha256", "validator": "validate_phase_transition", "stage": "heavy_digest_order", "first_reason": "phase gate", "reseal": true},
+      {"id": "stale_correction_progress", "owner_path": "runtime.phase_transition.correction_progress.canonical_row_cursor", "validator": "validate_phase_transition", "stage": "correction_progress", "first_reason": "phase gate", "reseal": true},
+      {"id": "zero_promoted_to_negative", "owner_path": "runtime.phase_transition.zero_is_negative", "validator": "validate_phase_transition", "stage": "zero_semantics", "first_reason": "phase gate", "reseal": true}
+    ],
+    "phase_positive_gates": [
+      {"id": "light_resource_checkpoint", "owner_path": "runtime.light_public", "validator": "validate_phase_transition", "stage": "transition", "reseal": false, "ordinary_pass": true},
+      {"id": "heavy_transition", "owner_path": "runtime.heavy_public", "validator": "validate_phase_transition", "stage": "transition", "reseal": false, "ordinary_pass": true}
+    ]
+  },
+  "expected_first_checkpoint": {
+    "columns": 2896,
+    "rank": 2896,
+    "boundary_columns": 2896,
+    "correction_columns": 0,
+    "raw_support_total": 20354,
+    "raw_support_max": 12,
+    "ancestry_entries_total": 137926,
+    "ancestry_entries_max": 258,
+    "ancestry_weighted_contributions": 1011460,
+    "pivot_support_total": 289774,
+    "pivot_support_max": 522,
+    "first_dual_support": 1188,
+    "first_dual_matching_descriptors": 4,
+    "first_dual_pairs": 4752
+  },
+  "p5_p6_chronological_witness": {
+    "physical_columns": 2896,
+    "validator_semantics": "chronological-seen-pivots-only",
+    "future_pivots_legal_until_own_row": true,
+    "all_eight_mutations_same_ordinary_validator": true
+  },
+  "resource_deadline_platform_contract": {
+    "platform": "GitHub Actions ubuntu-24.04 x86_64; CPython 3.13; Linux fork; AF_UNIX; O_NOFOLLOW; /proc RSS",
+    "producer_internal_seconds": 9600,
+    "producer_external_seconds": 9900,
+    "checker_internal_seconds": 5400,
+    "checker_external_seconds": 5700,
+    "artifact_internal_seconds": 1200,
+    "artifact_external_seconds": 1500,
+    "external_sum_seconds": 17100,
+    "outer_seconds": 18000,
+    "workflow_seconds": 21600,
+    "outer_margin_seconds": 900,
+    "workflow_setup_cleanup_upload_margin_seconds": 3600,
+    "candidate_output_hard_cap_bytes": 536870912,
+    "rss_hard_cap_bytes": 5700000000,
+    "producer_conservative_live_peak_bytes": 4900000000,
+    "checker_conservative_live_peak_bytes": 4600000000,
+    "producer_rss_margin_bytes": 800000000,
+    "checker_rss_margin_bytes": 1100000000,
+    "q0_ten_store_payload_formula": "1469664*(5*40+5*154)=1425574080",
+    "simultaneous_child_peak": 4,
+    "mutation_dom_policy": "one baseline plus one small changed-owner copy; no triangular full-frame clone"
+  },
+  "claims": {
+    "common_word": false,
+    "finite_common_word": false,
+    "separator": false,
+    "negative": false,
+    "cofinal_lift": false,
+    "fake": false,
+    "ihara_witness": false
+  },
+  "self_digest_sha256": "cc787bc588f05a0bf49cebc385a968d10c245d906352d3b6e8e53d101f9c8ad5"
+}

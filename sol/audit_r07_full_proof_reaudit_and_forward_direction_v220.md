@@ -6774,3 +6774,42 @@ missing word.
 
 Delta169 closes the known v6d allocation/publication implementation defects
 at author level and moves A4 to an independent execution-authorization gate.
+
+### Delta 170 (2026-08-29): A0/v12b complete repair is frozen for fresh audit
+
+- Froze all five v12b machine owners:
+  P0 27,295 bytes / SHA-256
+  `ecd722495b02dc48cfa68e3be9751a82664fd895a4b01d185c647b4053fbfbe7`,
+  producer 317,154 /
+  `614bc65bbb36c0a7504923c9ba7b4700ba04ecb66868d5a90994c65e1577dcd7`,
+  checker 263,911 /
+  `1b8587de9caabc16f3a51ace1d2ea5a892281d155ea4f4270e830208ec4cd0d0`,
+  ASCII driver 28,740 /
+  `631ba0d02443d8d4f142248aa098859b2e943cb86073b7021313b22c7cff7896`,
+  and fixture 23,679 /
+  `64a7dd14e26431387f6ff1dd71aad6d977a5db943c4ca42c01fb19477f3a3ddb`.
+  P0/fixture body self seals are respectively
+  `3538a629d7e3ce44d965ff796d201bee23cfca1087f3c966b84b9dfe8dcb3419`
+  and
+  `cc787bc588f05a0bf49cebc385a968d10c245d906352d3b6e8e53d101f9c8ad5`.
+- The 14,913-byte task372 reply (SHA-256
+  `06811754600b16f82e8ca0460c86461ecdd44ebb6588d98596dd724d7f1e7426`)
+  reports all nine task368 defects repaired: chronological pivots, actual
+  current-dual owner, independent 2,896-column checker replay, physical
+  mutations, linear sparse DAG, phase releases/caps, truthful R/V/IPC
+  accounting, strict deadlines and typed Linux/native-driver boundary.
+  Candidate code remains unexecuted.
+- Added `sol/sol_task_376_r07_a0_v12b_code_performance_reaudit.txt`.  A fresh
+  Sol(max) must reconstruct every route and bound before the first v12b
+  SELFTEST_BOOTSTRAP GHA run.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **V12B REPAIR FROZEN / FRESH STATIC REAUDIT
+  ACTIVE**.  A3 is **0/3 V3 STATIC REJECT / BOUNDED REPAIR NEXT**, A4
+  **1/3 V7 FRESH REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- No production/resume authorization, actual A0 word, compatible lift, fake
+  certificate or Ihara witness is added.
+
+Delta170 moves A0 from implementation/sealing into the independent
+execution-authorization gate without counting an unexecuted candidate.

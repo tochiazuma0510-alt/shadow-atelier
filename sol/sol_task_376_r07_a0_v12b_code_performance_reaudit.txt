@@ -1,0 +1,204 @@
+Sol(max) task 376 - independent A0/v12b code and performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task372 implementer must not audit this tranche.
+Do not edit any frozen owner. Do not run Python, Node, GAP, GHA, workflows,
+git, network, syntax compilation, imports, candidate code, mutations, RSS,
+or subprocess tests. Read-only PowerShell inspection and hashing are
+allowed. Write only the designated reply.
+
+1. Frozen subject and claim boundary
+
+Audit these exact physical owners:
+
+- ci/in/d972_r07_history_free_positive_fast_resume_selftest_bootstrap_v12b.manifest.v1.json
+  27295 bytes
+  ecd722495b02dc48cfa68e3be9751a82664fd895a4b01d185c647b4053fbfbe7
+- search/d972_r07_history_free_positive_fast_resume_v12b.py
+  317154 bytes
+  614bc65bbb36c0a7504923c9ba7b4700ba04ecb66868d5a90994c65e1577dcd7
+- crosscheck/check_d972_r07_history_free_positive_fast_resume_v12b.py
+  263911 bytes
+  1b8587de9caabc16f3a51ace1d2ea5a892281d155ea4f4270e830208ec4cd0d0
+- search/d972_r07_history_free_positive_fast_resume_gha_driver_v12b.g
+  28740 bytes
+  631ba0d02443d8d4f142248aa098859b2e943cb86073b7021313b22c7cff7896
+- search/certs/d972_r07_history_free_positive_fast_resume_selftest_v12b_20260829.json
+  23679 bytes
+  64a7dd14e26431387f6ff1dd71aad6d977a5db943c4ca42c01fb19477f3a3ddb
+- sol/sol_reply_372_r07_a0_v12b_minimal_complete_repair.md
+  14913 bytes
+  06811754600b16f82e8ca0460c86461ecdd44ebb6588d98596dd724d7f1e7426
+
+The P0 body self seal is
+3538a629d7e3ce44d965ff796d201bee23cfca1087f3c966b84b9dfe8dcb3419.
+The fixture body self seal is
+cc787bc588f05a0bf49cebc385a968d10c245d906352d3b6e8e53d101f9c8ad5.
+Reject immediately on any physical, canonical or self-seal mismatch.
+
+Read task354/reply354, task368 and its full STATIC REJECT, task372 and its
+full repair reply, plus every frozen v275--v290/task176/task198/raw-checkpoint
+authority pinned by P0. V12b is candidate SELFTEST_BOOTSTRAP only. Even
+STATIC PASS authorizes no production, resume, A0 word, lift, fake, or Ihara.
+
+2. Canonical P0, fixture and acyclic graph
+
+Independently reconstruct both canonical JSON bodies and self seals, exact
+source rows, fixture physical row, every recursive owner identity, and the
+driver's P0/producer/checker/fixture pins. Require the one-way graph
+
+  frozen sources -> P0 -> candidate R -> independent V -> artifact gate.
+
+The Python sources may name P0 path/schema/self-seal/source graph but P0 must
+not pin their final physical hashes; only the downstream driver may pin P0
+and final source identities. Reject retained v12a hashes, placeholders,
+post-freeze cycles, malformed/duplicate/extra owners, symlinks or permissive
+canonical predicates. Confirm the GAP driver is ASCII without BOM/CR.
+
+3. Chronological triangular baseline and mutations
+
+Trace the ordinary producer builder, selftest validator, checker raw
+reconstructor and the frozen P5/P6 witness. All must reject only pivots
+already in chronological seen_pivots; a future pivot is legal until its own
+row. Require one reachable untouched baseline before all eight triangular
+mutations and the same ordinary validator for every case. Reject mutation
+name branches, a hidden full-pivot set, miniature frames or special
+validators.
+
+4. Actual current dual and independent checker reconstruction
+
+Reconstruct the producer dataflow from the actual target reduction to:
+
+- current dual and exact pivot/rank epoch;
+- annihilation of all 2,896 chronological rows;
+- nonzero target pairing equal to the remainder pairing;
+- formal solution and actual current remainder;
+- selected K0 owner from the real Q0/Gamma/K0 roster;
+- ordinary add_actual transition 2896 -> 2897; and
+- exact selected pivot, formal solution and coordinate.
+
+Reject any convenient one-key functional, hard-coded owner, precomputed
+selected coordinate, transported unchecked dual or summary-only binding.
+
+Independently trace the checker from exactly one authenticated raw checkpoint
+parse through all 2,896 columns, provenance, sparse digests, ancestry, P
+rows, target reduction, remainder, formal solution, initial/current dual,
+annihilation and selected add_actual transition. It may not initialize from
+the producer statement. V and the driver must bind the independent objects,
+physical R bytes/SHA/seals and heavy carrier only after this reconstruction.
+
+5. Every real physical mutation route
+
+Independently enumerate triangular 8, boundary 13, selected-correction 30,
+positive 7, physical 11, phase 4 and phase-positive 2. Each case must mutate
+an extant ordinary owner, invoke the same authority/transport/transition
+validator as the untouched route, and match one independently fixed exact
+first reason. Require real W4 outcome/fault/blocked-send owners, actual
+current-dual owners, shared ordinary phase-transition validators and
+physical R owners rather than Boolean or miniature substitutes.
+
+MutationAccepted, wrong reason and arbitrary exceptions must remain outside
+the narrow expected catch. Producer and checker must build normalized
+ledgers independently and compare exact equality/digest. Look specifically
+for full-R/full-frame clones, hidden nested validators, missing cleanup or a
+case which never reaches its claimed load-bearing route.
+
+6. Linear DAG and avoidable processing
+
+Prove or reject the claimed linear sparse propagation of AncestryDAG.expand:
+one descending weights map, one answer map, children-before-parent
+topological invariant, pre-insertion charge and aggregate cap
+len(weights)+len(answer)<=2,000,000. Audit the checker implementation
+independently. Reject quadratic per-node dictionary memo copies or caps which
+bound only one answer while aggregate copying remains unbounded.
+
+Trace physical authentication and last-consumer releases for every
+P0/source/raw/fixture owner, task176 stream, Q0 store, selected K0, parent/
+letter/membership cache, projection and walk digest. Confirm:
+
+- snapshot owners are authenticated once and reused;
+- no repeated checker P0/source/fixture reauthentication;
+- only two full Gamma 4,814-byte values are constructed, while the 243
+  load-bearing projected values have width 970;
+- known Q0 duplicates skip before coordinate work;
+- pc_cache caps cardinality 131,072 and every attempted insertion before
+  allocation; and
+- triangular/full-R serialization and mutation clones are not duplicated.
+
+List all remaining avoidable slow scans, repeated hashes, DOMs, large
+copies, worker creation or serialization. A performance PASS requires a
+source-derived bound, not merely renamed counters.
+
+7. Truthful live-memory, IPC and publication audit
+
+Independently derive the producer payload/output formula 2,604,166,234 plus
+2,295,833,766 reserve = 4,900,000,000, and the checker formula
+1,185,941,203 plus 3,414,058,797 reserve = 4,600,000,000. Audit simultaneous
+bytearray/bytes/ASCII/DOM/list/int/dict/COW/mutation/output states and every
+last-consumer release. Confirm both remain below the 5,700,000,000 RSS cap
+with the stated margins, or reject with an exact missing allocation.
+
+Require full output-cap reservation before R/V canonical construction,
+encoded-size recheck, exclusive temp create, file fsync, no-replace link,
+directory fsync and fail-closed rollback. The driver must stream artifact
+validation without R+2V raw or both DOMs live simultaneously and must stream
+the last physical rehash.
+
+Audit the one shared meter, sequential normal/fault/blocked routes, additive
+IPC/STOP/restart totals, max physical gauges, child-PID RSS sampling,
+simultaneous child peak four, and absence of post-heavy forks. InputStop,
+ResourceStop and platform failure must normalize to fixed typed UNKNOWN only
+after cleanup and never publish a positive artifact or sentinel.
+
+8. Deadlines, driver and platform
+
+Recompute internal/external deadlines:
+
+  producer 9600/9900
+  checker 5400/5700
+  artifact 1200/1500
+  external sum 17100
+  outer 18000
+  workflow 21600
+
+Require strict cleanup/setup/upload margins at every boundary. Check native
+GAP directory creation; frozen Ubuntu-24.04/x86_64/CPython-3.13 Linux/fork/
+AF_UNIX/O_NOFOLLOW/proc/coreutils preflight; fixed quoted shell arguments;
+and rejection of production/resume/stale/temp aliases before heavy work.
+
+The accepting route must have exact-one full-line terminals, exact
+candidate-only fields, independent reconstruction gates, post-validation
+R/V rehash and one final neutral no-replace/fsynced sentinel. Any failure,
+UNKNOWN, stale output, mismatch or rollback failure must be nonaccepting.
+
+9. Decisive verdict and output
+
+Write only:
+
+sol/sol_reply_376_r07_a0_v12b_code_performance_reaudit_v1.md
+
+Give a decisive STATIC PASS or STATIC REJECT, exact frozen identities,
+line-numbered findings, independently derived resource/deadline formulas and
+every avoidable-work finding. STATIC PASS authorizes one v12b
+SELFTEST_BOOTSTRAP GHA candidate run only. It never authorizes production or
+resume. On REJECT, list all load-bearing defects together for one bounded
+repair.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+P0 / FIXTURE / ACYCLIC GRAPH:          PASS or REJECT
+CHRONOLOGICAL PIVOT ROUTE:             PASS or REJECT
+ACTUAL CURRENT DUAL / SELECTED OWNER:  PASS or REJECT
+INDEPENDENT RAW CHECKER:               PASS or REJECT
+ALL REAL MUTATION ROUTES:              PASS or REJECT
+LINEAR DAG / DUPLICATE WORK:           PASS or REJECT
+STATIC MEMORY / IPC / PUBLICATION:     PASS or REJECT
+DEADLINES / DRIVER / PLATFORM:         PASS or REJECT
+V12B SELFTEST_BOOTSTRAP GHA:           AUTHORIZED or FORBIDDEN
+PRODUCTION / RESUME:                   FORBIDDEN
+ACTUAL A0 COMMON + CHECKER:             remains 0/1
+LIFT / FAKE / IHARA:                   NONE
+
+TASK376_R07_A0_V12B_CODE_PERFORMANCE_REAUDIT_V1
