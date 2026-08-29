@@ -12,6 +12,7 @@ stopped task381.  Read these files in full before editing:
 sol/proof_r07_a4_legal_actual_image_leading_gate_v359.md
 sol/proof_r07_superperfect_residual_coinvariant_collapse_v151.md
 sol/proof_r07_task176_joint_formation_residual_v149.md
+sol/proof_r07_canonical_residual_action_materialization_v360.md
 sol/proof_r07_word_independent_successor_and_direct_pair_compiler_v231.md
 search/d972_r07_word_independent_successor_kernel_v12.py
 crosscheck/check_d972_r07_word_independent_successor_kernel_v14.py
@@ -65,7 +66,13 @@ the following physical inputs:
 
 A PSL projection, two convenient pure-factor words, a roof label, an order
 504 expectation or a stable-derived prose claim is not by itself such an
-input.  If the current owners expose no sufficient object, return
+input.  V360 supplies the missing bounded compiler: find the two inner
+Gamma corrections by complete 243-state scans, then enumerate the 729
+central pairs and retain the unique pair satisfying all five pinned complete
+PSL(2,8) presentation relators.  Authenticate every owner used by that
+compiler and replay its final values; do not replace any of these gates by
+projection or order alone.  If the current owners lack a physical field
+needed to execute v360, return
 
 ```text
 UNKNOWN_INPUT:WORD_BEARING_CANONICAL_RESIDUAL_ACTION_NOT_AUTHENTICATED
