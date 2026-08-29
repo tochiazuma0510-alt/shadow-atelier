@@ -10539,3 +10539,54 @@ single transport repair required before continuation; it does not count the
   independent code audit, GHA measurement, and any positive replay remain.
 - A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No compatible
   lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 261 (2026-08-30): the 1.66 GB A0 frontier resumes without a whole-file DOM
+
+- The final transport set is producer v26, checker v27, driver v27, and its
+  complete frozen owner chain.  Producer
+  `search/d972_r07_history_free_positive_fast_resume_v26.py` is 5,950 bytes,
+  SHA-256
+  `4ae9de2eaf0ae337d48309f107fe7aef94afe3783ee2bde63b7c839364e1098e`;
+  checker `crosscheck/check_d972_r07_history_free_positive_fast_resume_v27.py`
+  is 1,964 bytes, SHA-256
+  `181553ce338d1ef65e9ca275a41b157c2e4f8f4a8ca8616a63f3b5a144a045a3`;
+  and driver
+  `search/d972_r07_history_free_positive_fast_resume_gha_driver_v27.g` is
+  5,779 bytes, SHA-256
+  `f43a1e9c1b403012880a17ed7b3f53f748f1743cac3d49037a8cde3a5936ab14`.
+- Parent inspection and an independent Sol(max) fatal-only audit both PASS.
+  The parser requires the exact 32 canonical checkpoint keys.  It restores
+  the formal DAG, old pivots, counters, cleanup owner, and accounting before
+  streaming `new_records`; only after the complete top-level parse does it
+  bind `next_clean_boundary_epoch` and run the source/basis/remainder/current
+  dual semantic gates.  The generated owner is 165,550 bytes, SHA-256
+  `634d4d6d646e3736d81b31730ab53d97ef639b4ca280c2af26828f65a2d79110`,
+  with one streaming resume call and zero legacy whole-file resume calls.
+- The resume member remains pinned to run `33267817818`, artifact id
+  `9721440597`, 1,663,424,241 bytes, SHA-256
+  `55c463335e89fb7e67a04ec9c0405a8216f6f909b2ce67a0fe7a8a4afaf2014d`.
+  The parser retains the live semantic records needed for later ancestry but
+  creates no whole-file bytearray, bytes copy, decoded string, or JSON DOM.
+- The complete dependency chain and transport were committed at
+  `f9108039d896806b548fa7b3cac834dcdcfc540e`.  Because a newly named workflow
+  is not dispatch-addressable until it exists on the default branch, the
+  already registered branch-local `gap-run.yml` received only the exact A0
+  prior-artifact binding/download steps at commit
+  `39ce78aeb4096d9d3707378d94893daf9493501f`.  No master update was made.
+- GHA run `33282142711`, job `99178973561`, was dispatched at exact head
+  `39ce78aeb4096d9d3707378d94893daf9493501f`.  It authenticates the prior
+  run/head/artifact identity, downloads the prior artifact outside `ci/out`,
+  and uploads only successor outputs.  At this delta it is in progress; no
+  terminal or frontier increment is yet claimed.
+
+**v220 mapping**:
+
+- A0 changes from **0/1 UNKNOWN_RESOURCE, DURABLE RESUME** to **0/1 RUNNING
+  FROM DURABLE RESUME** on `33282142711`.  The old 22,912,880-pair frontier is
+  preserved; this run is still the one-column baseline and makes no batch
+  performance claim.
+- The globally merged batch-64 successor is being implemented independently
+  against the v387 contract and may resume the same v24 frontier in parallel.
+  It is not yet code-audited or dispatched.
+- A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No compatible
+  lift, fake numerator, or Ihara witness is promoted.
