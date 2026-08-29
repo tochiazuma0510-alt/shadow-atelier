@@ -9643,3 +9643,52 @@ new base-change theorem into a concrete post-A4 linear-algebra certificate.
 
 Delta244 removes one genuinely spurious post-A4 step while preserving every
 nonlinear and non-pro-\(3\) obligation.
+
+### Delta 245 (2026-08-30): a finite free seed source bypasses full legal-source base change
+
+- `proof_r07_free_relative_seed_newton_source_v368.md`, independently
+  audited PASS by Sol(max), proves the raw-lane seed lift.  If a future
+  positive task382 receipt gives an ordered basis
+  `c_1,...,c_r` of `C_rel`, v37's onto transitions and compact nested fibres
+  lift it once to `a_1,...,a_r in Pi_S cap ker(q_0)`.  The registered finite
+  value towers have a deterministic least-preimage selector; the global
+  seeds themselves remain nonconstructive compactness data.
+- Put `P_C=Xi^r`.  This is a free instruction module, not an asserted free
+  subgroup of profinite words.  V319's based Neumann theorem needs only a
+  complete parameter module, its continuous Jacobian
+  `B_C:P_C -> L`, legal filtration-preserving ordered materialization, and
+  leading onto.  It does not require materialization to be injective and it
+  does not require an identification of
+  `A_legal/J A_legal` with the kernel of the leading side map.
+- After the physical v169 occurrence evaluator, relator-typing gate and
+  localization are authenticated, the leading map is determined by
+  `bar-B_C(e_i)=loc(Bhat(c_i-1))`; its image is the diagonal-context closure
+  of those finitely many seed values.  Thus the positive finite decision is
+  `im(bar-B_C)=L/JL`.  A negative dual rejects only this sufficient seed
+  route and is not a fake certificate.
+- This is a conditional reduction, not a lift.  The still load-bearing
+  hypotheses are: actual filtration-preserving materialization of every
+  `J^d P_C` value at word depth `d`, the strict localized target `L/JL`,
+  leading onto, nonlinear stability/depth gain, and tower replay.  Settlement,
+  mixed-prime and perfect-core gates remain separate.  The literal task382
+  words certify registered finite reductions, not discrete membership in
+  `Pi_S` or convergence in the full profinite topology.
+- Task395 is the narrowly commissioned implementation of only the raw
+  first-edge occurrence closure from a future positive task382 basis.  It is
+  forbidden to call that raw closure `L/JL`, ONTO, or a cokernel decision.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the positive post-A4 source path is now
+  `K -> C_rel -> P_C -> im(bar-B_C)`.  Full
+  `A_legal/J A_legal` base change is no longer a prerequisite on this route;
+  it remains relevant only to the full-source alternative.
+- The new raw-seed theorem closes the compatible finite value-tower
+  existence step.  It does **not** close the filtered completed
+  materialization step, so no A9 numerator is promoted.
+- A4 remains **1/3** pending a positive physical action/basis owner.
+  Compatible lift, fake and Ihara witness numerators remain unchanged.
+
+Delta245 replaces the last source-side generic quotient problem by one
+finite seed-image test while keeping the genuinely nonlinear and completed
+word-realization hypotheses visible.
