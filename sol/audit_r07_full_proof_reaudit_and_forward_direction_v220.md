@@ -8826,3 +8826,48 @@ promote an unexecuted checkpoint claim.
 
 Delta225 closes A8's static construction gap while preserving the rule that
 only an actual parent MEMBER and independent replay can change its numerator.
+
+### Delta 226 (2026-08-30): the transported Jacobian is an explicit natural finite sum
+
+- `proof_r07_occurrencewise_transported_jacobian_v357.md`, frozen at commit
+  `70a55461865bbafb985e93f761aa25d5070cd84c`, constructs the derivative
+  change from the exact eleven task198/task179 prefixes.  If
+  `F_1=F_0u` and `k_o(u)=P_o(F_0)^(-1)P_o(F_1)`, then
+
+  `T_u(a)=sum_o sigma_o P_o(F_0)(k_o(u)-1)rho_(o,*)(a)`.
+
+  This is a literal finite formula, not an abstract matrix to be guessed after
+  an A0 result.
+- Every prefix ratio lies in the relative kernel, so `k_o(u)-1` is in the
+  augmentation ideal.  Hence `T_u` raises depth once.  Because every term is
+  evaluation of a fixed word, the same formula commutes with every matched
+  refinement automatically.
+- V357 proves a filtered additive based-perturbation theorem: Xi-linearity of
+  `T_u` is unnecessary.  A strict filtered free cover admits a continuous
+  filtration-preserving `F_3`-linear section; lifting `T_us` to a depth-raising
+  endomorphism `K` gives `s_T=s(1+K)^(-1)` and
+  `(B+T_u)s_T=q` by a convergent additive Neumann series.
+- Formation typing and BRUN-DEF put the transported H1/H2/P values in the same
+  full doubly localized target.  Together with v356's `q2=0` and v266's
+  later new--new depth bound, this removes a separate transported-linear
+  return axiom from the **full localized** route.
+- The remaining pro-3 gate is now the actual strict localized free cover and
+  a word-bearing leading solve for a finite generator roster.  One A0 vector
+  alone is not that all-generator solve, and the narrower cyclic route still
+  needs preservation of its cyclic class.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but its all-depth paper gap is narrowed from an
+  unspecified transported-linear homotopy to the concrete leading localized
+  generator-surjectivity/strictness gate.  The first nonlinear remainder is
+  already zero by Delta222.
+- A0 remains **0/1 with v22 run 33259268996 active**, A4 remains **1/3 with
+  run 33250865356 active**, and all other actual milestone counts are
+  unchanged from Delta225.
+- No relative pro-3 compatible lift, mixed-prime lift, fake or Ihara witness
+  is promoted.
+
+Delta226 is a theorem-level advance: it constructs and absorbs the actual
+shape of every later prefix-transport term, while keeping the still-unproved
+localized leading onto gate explicit.
