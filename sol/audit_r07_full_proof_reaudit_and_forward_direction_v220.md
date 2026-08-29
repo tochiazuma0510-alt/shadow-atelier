@@ -7237,3 +7237,38 @@ field-even homotopy.
 
 Delta183 makes the relative-dihedral/field-even method uniform over
 refinement without claiming the still-missing all-edge nonemptiness theorem.
+
+### Delta 184 (2026-08-29): A3/v5 bounded driver and duplicate-pass repair is frozen
+
+- Froze the task384 v5 tranche: producer 104,446 bytes /
+  `4fbbd5792a1d1cc7bb1c3d534bdc0966291751cc9d3cea99d1ed20ca7d70fecb`,
+  checker 116,872 /
+  `90838f12061783c77651c656f7bd1a572ca4a687339b5b70747342d18d32028a`,
+  and ASCII driver 18,597 /
+  `0465b46a734048b4ef6c16ed079e7daf825f71407f8cfe1b969a648ffb936d27`.
+  The 16,209-byte task384 reply has external SHA-256
+  `1dd63647ad95a54e1ee09e62550386e795f5b5e5f9d510966dee68c4b17a6a6c`.
+- The implementation retains task381's accepted P0/evaluator/projection,
+  one-closure, independent-checker, 486/729-roster and twelve-mutation core.
+  It removes only the enumerated duplicate source/receipt hashes and driver
+  receipt serializations, transporting the already-authenticated receipt
+  digest into the checker verdict.
+- The GAP driver replaces status-discarding `Exec` with the documented
+  status-bearing `Process` call and makes sentinel publication/rollback and
+  close failures nonaccepting.  Static reverse deltas recover all three
+  frozen v4 owners byte-for-byte.
+- No candidate, compiler, import, mutation, GAP, GHA, workflow, network or
+  RSS execution occurred.  A fresh independent full-source audit remains
+  mandatory before any A3/v5 candidate.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V5 REPAIR FROZEN / FRESH AUDIT QUEUED**.  A0 is
+  **0/1 V12C FINALIZATION ACTIVE**, A4 **1/3 V9 TRACE REPAIR + DRIVER
+  ACTIVE**, and A5--A7 **0/3**.
+- No actual A3 terminal, common word, compatible lift, fake certificate or
+  Ihara witness is added.
+
+Delta184 closes the bounded v4 driver/performance defects without counting
+unexecuted code as mathematical progress or diverting the next free auditor
+from the higher-priority A0/v12c audit.
