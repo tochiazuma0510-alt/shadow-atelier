@@ -5875,3 +5875,66 @@ owners.
 
 Delta142 replaces the two-day A0 implementation loop by one immutable audit
 subject and a single pass-or-repair gate.
+
+### Delta 143 (2026-08-29): a tree marginal selector reduced to local edge preimages
+
+- Added sol/proof_r07_tree_ambiguity_edge_selector_v318.md.  After rooting
+  v317's tree, the representative adjustment at a non-root vertex satisfies
+  one triangular equation on its parent overlap.  A right inverse for each
+  local ambiguity-to-overlap map gives an explicit top-down selector; full
+  local surjectivity makes every quotient-marginal tuple glue.
+- For a prefix-corrected cyclic ambiguity, the complete local dual consists
+  of functionals whose values sum to zero on every mandatory right-r_v orbit
+  after the p_v^-1 translation.  A nonzero pairing with the encountered edge
+  target is a complete obstruction for that fixed parent choice; a positive
+  ancestry is the actual local second homotopy.
+- The return split leaves at most one actual-even overlap preimage per
+  non-root vertex, while the relative-dihedral theorem supplies the odd
+  pieces.  If these local sections and the tree data are natural under
+  refinement, the same recursion gives a compatible completed coefficient
+  at once.
+- The actual seven-context joint image has not passed the tree gate, so this
+  is a conditional structural selector rather than an R07 numerator.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12A INDEPENDENT AUDIT ACTIVE**, A3 is
+  **0/3 V2 FROZEN / AUDIT QUEUED**, A4 is **1/3 V6D REPAIR ACTIVE**, and
+  A5--A7 remain **0/3**.
+- The all-refinement linear field-even target is reduced, conditional on the
+  tree gate, from one global homotopy to finitely many natural local overlap
+  preimages.  Those actual maps await A0/A3/A4.
+- Nonlinear recurrence, formation, perfect-core accepted sets, the compatible
+  lift, fake certificate and Ihara witness remain open.
+
+Delta143 identifies the smallest closed-form selector still capable of
+turning one linear marginal success into all compatible refinements.
+
+### Delta 144 (2026-08-29): pre-A0 A3/v2 frozen and sent to an independent audit
+
+- Froze the five task363 outputs at commit 180e305e.  Parent read-only hashing
+  agrees with the P0 / producer / checker / driver identities
+  4a7f966d... / 01578037... / 3d77b6e6... / 05ecedcf....  P0 is 13,748
+  byte compact ASCII JSON with no terminal LF, and both Python owners and the
+  driver literally pin the final upstream identities.
+- The implementation claims one producer task227 closure call, one independent
+  checker verifier call, a v303 allowlist projection, twelve physical glue
+  mutations, Linux wall/address-space caps, fixed-point output accounting and
+  a serial accepting-only driver.  No candidate command or GHA was run, so
+  MEMBER/NONMEMBER and every A3 numerator remain unobserved.
+- Added sol/sol_task_369_r07_pre_a0_a3_v2_code_performance_audit.txt and
+  assigned a fresh Sol(max), distinct from the implementation author, to
+  audit exact task198 authority, projection sufficiency, closure/verifier
+  independence, real peak lifetimes, duplicate processing and atomic output.
+  GHA remains forbidden without STATIC PASS.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, with implementation state **V2 FROZEN / INDEPENDENT
+  SOL(MAX) CODE+PERFORMANCE AUDIT ACTIVE**.  A0 remains **0/1 V12A
+  INDEPENDENT AUDIT ACTIVE**.  A4 remains **1/3 V6D REPAIR ACTIVE**.
+- This is a prerequisite advance only.  A5--A7 remain **0/3**, and no common
+  word, compatible lift, fake certificate or Ihara witness is added.
+
+Delta144 puts both long-running A0 and A3 implementations behind immutable,
+independent pass-or-repair gates.

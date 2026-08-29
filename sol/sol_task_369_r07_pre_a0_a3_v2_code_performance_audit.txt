@@ -1,0 +1,133 @@
+Sol(max) task 369 - independent pre-A0 A3/v2 code and performance audit
+
+Role: independent mathematical/code auditor.  Read every numbered section
+first to last.  Do not edit any frozen owner.  Do not run Python, Node, GAP,
+GHA, workflows, git, network, or any candidate command.  Read-only
+PowerShell inspection and hashing are allowed.  Write only the designated
+reply.
+
+1. Frozen subject
+
+Audit commit 180e305e and these exact owners:
+
+- ci/in/d972_r07_pre_a0_single_target_a3_v2.prereg.v1.json
+  13748 bytes
+  4a7f966d803dfdf7977dc73ab2db9b7f54d0d932ec2a10e410e034b5b6b151af
+- search/d972_r07_pre_a0_single_target_a3_v2.py
+  76763 bytes
+  01578037cfabc73fdb7cb29d7725a41f903b05aab0f689d259fc89f56489daa6
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v2.py
+  84273 bytes
+  3d77b6e6ca577bd762512b99a1ba2be647d994c4632b66ca2478259fea06f403
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v2.g
+  15917 bytes
+  05ecedcf238fc55f758302a6210de0e32cf52c5d6304d3ad472007aba99c99b6
+- sol/luna_reply_363_r07_pre_a0_a3_v2_complete_repair.md
+  19513 bytes
+  942f470f4fb9234b1cd2e671542d022237df1fa70e972befe2f32193593ca7f4
+
+Reject immediately on physical mismatch.  Read task363, task359, the full
+task361 reject, v302/v303, the accepted task198 authority chain, and the
+current pinned task226/task227 owners.  V2 is pre-A0 and cannot assert an A0
+word or any A3 numerator before an accepted run.
+
+2. P0 and authority graph
+
+Independently recompute P0 canonical raw equality, no-BOM/no-CR/no-LF rule,
+self seal, every authority identity, evaluator contract, mutation first
+reason, cap and terminal field.  Check the acyclic graph: frozen authorities
+to P0; P0 pinned by each Python owner; P0 and final Python identities pinned
+by the driver.  Reject any retained v1 hash, missing full 64-hex pin, stale
+owner, post-freeze cycle, or permissive canonical predicate.
+
+3. Full task198 authority and evaluator
+
+Trace the untouched ordinary producer and checker routes.  Each side must
+independently decode every receipt/manifest/member/attestation/verdict/source
+link and self seal required by task363 Section 4, the complete exact evaluator
+ABI and all eleven occurrence rows.  Confirm stat-before-read, single receipt
+read/parse per process, bounded streaming canonical comparison without a
+second 31-MB raw copy, and release before the new result DOM.  Verify that
+the decoded evaluator is actually exercised by the ordinary g760/base/central
+reconstruction rather than only compared as a dictionary.
+
+4. Projection sufficiency and closure
+
+Statically enumerate every field read by the pinned task227 producer and
+checker.  Prove or reject that projected_a3_interface_v2 and its derived
+task227_consumer_abi contain every semantically required value and no
+full-package-only value disguised as a marker.  In particular adjudicate the
+presence-only rword_f/rword_g compatibility markers against the exact frozen
+consumer code.  Check seal stripping, immediate untouched-baseline checks,
+and ABI_seal_target reachability.
+
+The producer must call the load-bearing task227 closure exactly once with the
+minimal consumer only and retain all 486/729, ancestry, rank, replay or dual
+evidence.  The checker must import only independent checker engines and call
+the full task227 verifier exactly once.  Distinguish the frozen verifier's
+real internal span comparisons from wrapper work; reject hidden duplicate
+reverse calls or Boolean summaries replacing the exact objects.
+
+5. Mutations, conclusions, and independence
+
+Audit the untouched baseline first and all twelve mutations on each side.
+Every case must alter an extant independently built owner, invoke the same
+ordinary validator, and compare the exact preregistered first reason.
+MutationAccepted and wrong-reason failure must remain outside the narrow
+expected catch.  Require complete false_conclusion_flags, especially
+actual_a3_numerator=false, before any accepting terminal.  Reject copied
+producer evidence, shared mutation helpers, or a checker that merely compares
+digests.
+
+6. Caps and avoidable processing
+
+Recompute all input, authority, output, allocation, RSS and wall formulas
+from source.  Confirm Linux signal deadline and RLIMIT_AS are installed before
+the expensive call and restored correctly, with narrow UNKNOWN handling.
+Audit fixed-point serialization accounting and emergency publication reserve.
+Look specifically for duplicate 31-MB reads/DOMs, repeated task226 builds,
+deep-copy projection, repeated 486/729 closures, duplicate span passes,
+unbounded structures, resource double-booking, and unnecessarily slow work.
+The two 2,100-second external timeouts plus setup must fit the six-hour
+workflow and strictly exceed internal deadlines.
+
+7. Atomic publication and serial driver
+
+Audit every temp/final path, no-follow/bound-parent assumption, exclusive
+same-filesystem publication, fsync/rollback, stale final handling, and the
+nonaccepting UNKNOWN constructor.  Check producer-receipt hash injection,
+post-checker rehash, exact-one full-line terminals, accepted-terminal equality,
+physical cross-bindings, and absence of an accepted sentinel on UNKNOWN or
+mismatch.  Adjudicate any shell/native-platform assumption explicitly.
+
+8. Verdict and output
+
+Write only:
+
+sol/sol_reply_369_r07_pre_a0_a3_v2_code_performance_audit_v1.md
+
+Give a decisive STATIC PASS or STATIC REJECT, exact frozen identities,
+line-numbered findings, source-derived resource formulas, avoidable-work
+findings, and the exact GHA authorization boundary.  STATIC PASS authorizes
+one pre-A0 A3/v2 run only; it does not assert MEMBER, NONMEMBER, any A3
+numerator, A0, a lift, fake, or Ihara.  On REJECT, list all load-bearing
+defects so one bounded repair can close them together.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+P0 / ACYCLIC AUTHORITY GRAPH:          PASS or REJECT
+TASK198 AUTHORITY / EVALUATOR ABI:     PASS or REJECT
+V303-ONLY PROJECTION SUFFICIENCY:      PASS or REJECT
+ONE PRODUCER CLOSURE ROUTE:            PASS or REJECT
+INDEPENDENT CHECKER ROUTE:             PASS or REJECT
+BASELINE + TWELVE MUTATIONS:           PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+ATOMIC PUBLICATION / SERIAL DRIVER:    PASS or REJECT
+PRE-A0 A3/V2 GHA:                      AUTHORIZED or FORBIDDEN
+ACTUAL A3 NUMERATOR:                   remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:      NONE
+
+TASK369_R07_PRE_A0_A3_V2_CODE_PERFORMANCE_AUDIT_V1
