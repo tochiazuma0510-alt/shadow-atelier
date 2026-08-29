@@ -6068,3 +6068,40 @@ turns it into an exact pointed or structural certificate.
 
 Delta148 gives a general all-context replacement for the conditional tree
 selector while retaining the tree as the smaller fast path.
+
+### Delta 149 (2026-08-29): Goursat ambiguity ranks collapse to a cyclic-order formula
+
+- Added sol/proof_r07_goursat_cyclic_ambiguity_image_v323.md.  For a group
+  quotient beta:G->D, the pushforward of the right-r invariant space is
+  exactly m times the right-beta(r) invariant space, where
+  m=|<r> intersect ker(beta)|.  Over F3 it is zero when 3 divides m and is
+  the full quotient invariant space otherwise.
+- Including the literal epsilon,p prefix gives
+  beta_*(epsilon K_r p^-1)=epsilon*m*K_beta(r)*beta(p)^-1.  Thus an actual
+  Goursat defect d is MEMBER exactly when d=0 in the modular-collapse case,
+  or when (d beta(p))(1-beta(r))=0 otherwise.  A quotient-orbit lift formula
+  returns a literal preimage without linear elimination.
+- The local ambiguity map is onto the whole overlap algebra exactly when
+  beta(r)=1 and m is nonzero mod 3.  For involutory return, this reduces to
+  the group-theoretic condition that the cumulative Goursat overlap kills
+  return.  This yields an authenticated ordering criterion and exact local
+  dimensions.
+- Natural transversals give a closed all-level local section.  Without
+  natural transversals, levelwise nonemptiness can still feed v313's finite
+  compactness theorem; arbitrary selected preimages are not called
+  compatible.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 AUDIT ACTIVE**,
+  A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The field-even Goursat frontier no longer contains an unspecified local
+  rank computation.  Once A0/A3/A4 authenticate each D_i, the exact local
+  gate is only the return image/order and the actual invariance equality.
+- The joint images themselves, nonlinear saturation, mixed-prime and
+  perfect-core gates, compatible lift, fake certificate and Ihara witness
+  remain open.
+
+Delta149 converts the local second homotopy from a generic matrix solve into
+an explicit quotient-orbit formula; the remaining difficulty is global
+joint-image authority and the actual defects.
