@@ -9129,3 +9129,44 @@ source formula without promoting an unrun compiler or a missing A4 input.
 
 Delta232 closes the specification gap between finite side-gate kernels and
 the exact Newton source/target while making no zero-defect assumption.
+
+### Delta 233 (2026-08-30): A4 completed rows are now durable and the repaired production run is launched
+
+- The v13 producer / v15 independent checker / v22 driver package is frozen
+  at commit `e695a77f`.  It leaves the v12/v14 mathematical oracle unchanged
+  and writes atomic completed-row checkpoints at rows
+  `4,8,12,16,20,24,28,32`, then at the existing sparse cadence through row
+  6441.  A partial prefix before the first 1024-row canonical chunk is now a
+  valid sealed owner and resumes at its exact `next_row`.
+- The checkpoint retains the complete row/bridge prefix, both echelons,
+  boundary and K ancestries, word DAG, query/dual histories and queue state.
+  Resume authenticates and deterministically rebuilds these objects before
+  continuing.  Thus a registered wall/RSS resource stop after the first v13
+  checkpoint no longer repeats the whole prefix; the old v12 checkpoint is
+  still correctly rejected because it contains none of its 27 completed
+  rows.
+- Progress output now exposes completed and durable rows, combined/boundary/K
+  ranks, correlation rounds, membership/correlation work and RSS at most once
+  per minute.  This makes the next artifact's true frontier visible even when
+  the mathematical terminal is nonpositive.
+- The proposed multi-column correlation batch was not inserted into this
+  version.  The current receipt and independent-checker contracts identify a
+  chronological singleton insertion history; changing pivot order without a
+  new span-comparison ABI would silently change K ancestry.  The baseline
+  repair therefore preserves exact semantics rather than claiming that
+  speedup.
+- Fresh production run `33262257286` was dispatched at immutable head
+  `e695a77f32bc47e7f45337a4b3623291b9ec6acc` through the existing
+  `gap-run.yml`, with mode `PRODUCTION`, a 14,400-second internal cap and no
+  optional p-quotient packages.  It was queued when this delta was written.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING**.  This delta completes durability/observability,
+  not the invariant closure or accepted word-bearing `K` milestones.
+- A9 remains **0/3 actual**; v360--v361 remain the exact post-A4 path.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts, compatible lift, fake and Ihara numerators are unchanged.
+
+Delta233 converts future A4 resource terminals into genuine resumable
+frontiers while keeping the still-missing performance batch explicit.
