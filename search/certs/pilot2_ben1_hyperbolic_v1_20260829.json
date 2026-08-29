@@ -1,0 +1,725 @@
+{
+ "schema": "pilot2-ben1/v1",
+ "title": "PILOT-2 ben1 -- hyperbolic layers L1'-L4' and the rho measurement",
+ "date": "2026-08-29",
+ "ruling": "coordinator ruling 1800 (ben1 dispatch)",
+ "spec": {
+  "path": "scratchpad/pilot2_spec_v1.md",
+  "version": "v1.1",
+  "sha16": "1ff1b9713d2d9207"
+ },
+ "machine_output_only": true,
+ "author": "mathematician (Opus 5)",
+ "target": {
+  "passport": "9T27-[9,9,9]-9-9-9-g4",
+  "member": 2,
+  "degree": 9,
+  "genus": 4,
+  "monodromy": "PSL(2,8), order 504",
+  "source_file": "scratchpad/BelyiDB_repo/belyi_db/9/9T27-[9,9,9]-9-9-9-g4.m",
+  "source_sha16": "26bc39a21b1936b5",
+  "trap": "the DB headline BelyiDBPermutationTriple is member #3, NOT the target (machine-confirmed in both systems)",
+  "sigma_a_sigma_b_sigma_c": [
+   [
+    8,
+    3,
+    7,
+    1,
+    6,
+    2,
+    4,
+    9,
+    5
+   ],
+   [
+    3,
+    4,
+    8,
+    9,
+    2,
+    1,
+    5,
+    7,
+    6
+   ],
+   [
+    2,
+    9,
+    5,
+    8,
+    4,
+    7,
+    1,
+    6,
+    3
+   ]
+  ],
+  "workshop_xyz": [
+   [
+    2,
+    9,
+    5,
+    8,
+    4,
+    7,
+    1,
+    6,
+    3
+   ],
+   [
+    3,
+    4,
+    8,
+    9,
+    2,
+    1,
+    5,
+    7,
+    6
+   ],
+   [
+    8,
+    3,
+    7,
+    1,
+    6,
+    2,
+    4,
+    9,
+    5
+   ]
+  ],
+  "census_X4_Y4_Z4": [
+   [
+    8,
+    5,
+    2,
+    1,
+    9,
+    7,
+    4,
+    3,
+    6
+   ],
+   [
+    2,
+    6,
+    7,
+    5,
+    8,
+    4,
+    1,
+    9,
+    3
+   ],
+   [
+    6,
+    4,
+    5,
+    9,
+    7,
+    3,
+    8,
+    2,
+    1
+   ]
+  ]
+ },
+ "conventions": {
+  "perm_compose": "left_to_right (i^(ab) = (i^a)^b)",
+  "stored_relator": "lam3*lam2*lam1 = id (machine-verified on the TARGET member, not just on the DB headline triple)",
+  "reading_used": "(sigma_0,sigma_1,sigma_inf) = (lam1,lam2,lam3) [KMSV/engine]; the workshop order (x,y,z) = (lam3,lam2,lam1) satisfies xyz = id",
+  "matrix_relator": "delta_c * delta_b * delta_a = +-I (mirrors PILOT-1's delta_inf*delta_1*delta_0)",
+  "expansion_point": "p = z_a = i (fixed point of delta_a <-> sigma_0)",
+  "series_variable": "w(z) = (z-p)/(z-conj p)",
+  "engine_kite": "z_a = i, z_b = t*i, z_c = x+iy, z_c* = -x+iy"
+ },
+ "FINAL_VERDICT": {
+  "L1_prime": "PASS",
+  "L2_prime": "PASS",
+  "L3_prime": "PASS",
+  "L4_prime": "PASS",
+  "G-1'": "PASS (a,b,c,d,e,f,g,h; two independent systems agree on every exported value)",
+  "G-2'": "PASS (a,b,c,c-ext,d,e)",
+  "G-3'": "PASS (a,b,c,d,e,f,g) + [G3'-rho] delivered",
+  "all_boolean_gates_true": true,
+  "rho": "[0.937755427375292117060376330683609964835150394395720382754228621241253042852494755431670149905736761555748672223471091577957136398759644395304086259742 +/- 3.03e-151]",
+  "N_D20": 717,
+  "A1_band": "<1000 -> direct method, A-1 NOT required",
+  "W1_fires": false
+ },
+ "part_G1_group_layer": {
+  "gate_G1a_cycle_types": "[ [ 9 ], [ 9 ], [ 9 ] ]",
+  "gate_G1a_orders": "[ 9, 9, 9 ]",
+  "gate_G1b_stored_relator_lam3lam2lam1_is_id": true,
+  "gate_G1b_other_relator_lam1lam2lam3_is_id": false,
+  "gate_G1b_workshop_relator_xyz_is_id": true,
+  "gate_G1c_group_order": 504,
+  "gate_G1c_transitive": true,
+  "gate_G1c_primitive": true,
+  "gate_G1c_simple": true,
+  "gate_G1c_is_PSL2_8": true,
+  "gate_G1d_gap_julia_roundtrip_all_match": true,
+  "gate_G1d_battery_size": 11,
+  "gate_G1e_2g_minus_2": 6,
+  "gate_G1e_genus": 4,
+  "gate_G1f_members_with_all3_G_conjugate": "[ 2 ]",
+  "gate_G1f_unique_is_member2": true,
+  "gate_G1f_DB_headline_equals_member": "[ 3 ]",
+  "gate_G1g_centralizer_S9_order": 1,
+  "gate_G1h_order3_solution_exists": true,
+  "gate_G1h_order3_solution_count": 1,
+  "gate_G1h_g_cycletype": "[ 3, 3, 3 ]",
+  "gate_G1h_g_in_G": true,
+  "gate_G1h_pi_relator": true,
+  "gate_G1h_F3": 0,
+  "gate_G1h_S_cycletype": "[ 1, 2, 2, 2, 2 ]",
+  "gate_G1h_Ftau": 2,
+  "gate_G1h_zS_eq_zx": true,
+  "unique_conjugator_c_workshop_to_census_cycle": "(2,8,6,7,4,9,3)",
+  "unique_conjugator_c_image_list": [
+   1,
+   8,
+   2,
+   9,
+   5,
+   7,
+   4,
+   6,
+   3
+  ],
+  "unique_conjugator_count": 1,
+  "stored_order_to_census_conjugator": "fail",
+  "coset_table_index": 9,
+  "coset_transversal_exponents_k_j": [
+   0,
+   5,
+   6,
+   8,
+   3,
+   4,
+   7,
+   1,
+   2
+  ],
+  "coset_transversal_verified": true,
+  "independent_second_system": {
+   "implementation": "scratchpad/pilot2_ben1_g1_check.py (pure python: own permutation arithmetic, own BFS group enumeration, exhaustive S_9 scans, own GF(8) from x^3=x+1, own re-parse of the BelyiDB .m source)",
+   "source_sha256_recomputed": "26bc39a21b1936b583bcf30e449c8a9d898e54b0ad5fbbe95784050d1b242473",
+   "py_conjugator_count": 1,
+   "py_stored_order_conjugator_count": 0,
+   "py_members_with_all3_G_conjugate": "[2]",
+   "py_S9_scanned": 362880,
+   "CROSSCHECK_ALL_AGREE": true
+  }
+ },
+ "part_G2_triangle_group": {
+  "arithmetic": "Nemo/Arb ball arithmetic, 512 bits (spec floor 150)",
+  "orientation_variant_(mirror,ea,eb,ec)": "(false, 1, 1, 1)",
+  "gate_G2a_delta_pow9_is_pm_I": true,
+  "gate_G2a_delta_pow3_is_not_pm_I": true,
+  "gate_G2b_relator_dc_db_da_is_pm_I": true,
+  "gate_G2c_traces_eq_2cos_pi_over_9": true,
+  "gate_G2c_ext_formula_calibration": {
+   "(3,7,2)_t": "1.86017717312389447493140974976011128181078757901041175017911285230135720487518285212080734705155660387072323767346569674602772221450864992725644489069552",
+   "(3,7,2)_matches_PILOT1_mu_1.86018_at_1e-5": true,
+   "(3,7,2)_matches_1.86017_at_1e-5": true,
+   "(3,7,2)_matches_spec_printed_1.860173_at_1e-6": false,
+   "law_of_cosines_agrees_for_(3,3,9)": true,
+   "law_of_cosines_agrees_for_(2,9,18)": true,
+   "law_of_cosines_agrees_for_(9,9,9)": true
+  },
+  "gate_G2d_triangle_2pi_over_3_kite_4pi_over_3": true,
+  "gate_G2e_absw_zb_and_t_eq_exp_d": true,
+  "geometry_independent_checks": {
+   "equilateral_(all three sides equal)": true,
+   "all_three_angles_pi_over_9": true,
+   "cosh_dist_za_zb_equals_l": true
+  },
+  "constants": {
+   "cosh_d": "[15.5817187387631792132424448208195184552329949024372980481384744407623912433946145657108842254257785134952230319721891947525472822526238128524029949445216 +/- 2.97e-152]",
+   "t": "[31.1313154812489341182042845407533936891555526870819526277677612857080469684567015407038036902969496117999059043783876167489548999708456778534018048019228 +/- 5.60e-152]",
+   "x": "[5.4834509772295122474876245500366547761958810240043567177146449214136660156404221925455106491005286633528557146131464967095033230415206608720980964023413 +/- 4.04e-152]",
+   "y": "[1.0310581271536737533950070779611359299578307245347378894481910957531040494614097918373435269955313441057980254531470622730537750176635273307758411094552 +/- 6.58e-152]",
+   "abs_w_zb": "[0.93775542737529211706037633068360996483515039439572038275422862124125304285249475543167014990573676155574867222347109157795713639875964439530408625974170 +/- 3.84e-153]",
+   "closed_form_cosh_d": "cos(pi/9)/(1-cos(pi/9))",
+   "closed_form_cosh_d_agrees": true,
+   "closed_form_rho": "sqrt(2*cos(pi/9)-1)",
+   "closed_form_rho_agrees": true
+  },
+  "spec_value_comparison": {
+   "cosh_d_vs_spec_brief_15.58172_at_1e-5": true,
+   "cosh_d_vs_spec_4.1a_15.58166_at_1e-5": false,
+   "t_vs_31.1313_at_1e-4": true,
+   "abs_w_zb_vs_0.93776_at_1e-5": true
+  }
+ },
+ "part_G3_fundamental_domain_and_reduction": {
+  "arithmetic": "pure Julia Complex{BigFloat}, 256 bits -- an INDEPENDENT re-derivation of the Arb generators (agreement to 1e-60 on l,t,x,y and the relator)",
+  "fundamental_domain": "9-copy kite 'flower' around the expansion point p = z_a; the transversal g_j = delta_a^{k_j} exists because sigma_0 is a 9-cycle, so <delta_a> is transitive on the 9 cosets.  Result: FD(Gamma') is a REGULAR hyperbolic 18-gon centred at p.",
+  "gate_G3a_idempotent": true,
+  "gate_G3b_exact_gamma_membership": true,
+  "gate_G3b_membership_failures": 0,
+  "gate_G3b_points_tested": 400,
+  "gate_G3b_numeric_orbit_error": 1.5229931606437879e-74,
+  "gate_G3c_gamma_equivariant": true,
+  "gate_G3d_edge_pairing": {
+   "just_outside_all_moved_by_nontrivial_element": true,
+   "just_outside_all_exact_gamma": true,
+   "max_absw_after_pairing": 0.937755426436,
+   "directions_tested": 180,
+   "min_displacement_class_size": 26,
+   "min_displacement_equals_2x_inradius_at_1e-9": true,
+   "displacement_gap_to_next_class": 3.5321,
+   "side_pairing_generators_enumerated": "UNKNOWN (see unknowns/U-B1)"
+  },
+  "gate_G3e_area": {
+   "fd_area": "[37.6991118430775188615517205993540346103660327925012698516993351076937968754345079835364179041054048157857770381593876797651261353146069867807043128975418 +/- 6.44e-152]",
+   "expected_12pi_gauss_bonnet": true,
+   "passed": true,
+   "second_route_18gon_formula_16pi_minus_18x2pi_over_9": true
+  },
+  "gate_G3f_termination": true,
+  "gate_G3g_VW12_automorphy": true,
+  "gate_G3g_max_rel_err": 2.936e-76,
+  "delta_stage_landed_in_kite_fraction": 1,
+  "boundary_scan": {
+   "n_directions": 180,
+   "rho_measured_from_boundary": "0.9377554273752656968099472578614950180053710937499999999999999999999999999999995",
+   "rho_predicted": "0.9377554273752921170603763306836099648351503943957203827542286212412530428524939",
+   "agree_1e-12": true,
+   "inradius_in_w": "0.8294933739891691288903530221432447433471679687500000000000000000000000000000079",
+   "dihedral_symmetry_period_2pi_over_18_maxdev": 0,
+   "dihedral_symmetry_period_2pi_over_9_maxdev": 0
+  }
+ },
+ "part_rho": {
+  "definition": "rho := sup over FD(Gamma') of |w(p;z)|, w(z) = (z-p)/(z-conj p), p = z_a.  |w| = tanh(d(p,.)/2) is a strictly increasing function of the hyperbolic distance to p, hence convex; the FD is a convex polygon, so the sup is attained at a VERTEX -- the vertex maximum is therefore exact, not a sample.",
+  "rho_exact_closed_form": "sqrt(2*cos(pi/9) - 1)",
+  "rho_value": "[0.937755427375292117060376330683609964835150394395720382754228621241253042852494755431670149905736761555748672223471091577957136398759644395304086259742 +/- 3.03e-151]",
+  "rho_from_36_vertex_images": "[0.937755427375292117060376330683609964835150394395720382754228621241253042852494755431670149905736761555748672223471091577957136398759644395304086259742 +/- 3.03e-151]",
+  "rho_from_boundary_scan_180_directions": "0.9377554273752656968099472578614950180053710937499999999999999999999999999999995",
+  "rho_from_400_random_reduced_points": "0.9363461874714607311061245941640221516573567563148241651705922190888253983914765",
+  "rho_from_VW_sample_rows": {
+   "0.900000": 0.9,
+   "0.920000": 0.92,
+   "0.933067": 0.9295427470581555
+  },
+  "optimality": "the minimal displacement in Gamma' equals cosh(2*d_r)-1 (d_r = FD inradius) to 1e-9 => the FD sides are perpendicular bisectors of [p, gamma p] => the FD is the DIRICHLET domain at p => no fundamental domain gives a smaller sup |w|, and the reduction never increases |w|.",
+  "rigorous_lower_bound_spec_4.1c": "sqrt(3)/2 = 0.86603 (disk-area bound); measured rho exceeds it",
+  "N_of_D": {
+   "D=15": 538,
+   "D=20": 717,
+   "D=25": 896,
+   "D=30": 1075
+  },
+  "A1_band_decision_input": {
+   "N(20)_measured": 717,
+   "band_<1000": "direct method, no A-1, straight to ben2",
+   "band_[1000,1400]": "coordinator ruling",
+   "band_>1400": "A-1 required",
+   "which_band": "<1000"
+  },
+  "spec_point_estimate_comparison": {
+   "spec_4.1c_extrapolated_rho": 0.96307,
+   "spec_4.1c_extrapolated_N20": 1224,
+   "measured_rho": 0.9377554273752922,
+   "measured_N20": 717,
+   "why_the_spec_over-estimated": "the spec extrapolated the ratio disk_area(rho)/area(FD) from PILOT-1 (4.264).  PILOT-1's FD was a ragged BFS-tree domain; ours is the optimal flower around the expansion point (ratio 2.43), which is possible only because sigma_0 is a full 9-cycle."
+  }
+ },
+ "part_cost_extrapolation": {
+  "scope": "cost only; kernel NOT interpreted (no rank/dimension claim)",
+  "measured": [
+   {
+    "t_build_s": 0.24499988555908203,
+    "maxwp": 0.9190003188277863,
+    "N": 60,
+    "rows": 56,
+    "A_MB": 0.5212860107421875,
+    "nbad": 0,
+    "ntriv": 24,
+    "t_mgs_s": 0.4719998836517334,
+    "cols": 61
+   },
+   {
+    "t_build_s": 0.5530002117156982,
+    "maxwp": 0.9156612989010562,
+    "N": 100,
+    "rows": 96,
+    "A_MB": 1.4795379638671875,
+    "nbad": 0,
+    "ntriv": 36,
+    "t_mgs_s": 2.4189999103546143,
+    "cols": 101
+   },
+   {
+    "t_build_s": 0.749000072479248,
+    "maxwp": 0.9190003188277863,
+    "N": 160,
+    "rows": 147,
+    "A_MB": 3.6113433837890625,
+    "nbad": 0,
+    "ntriv": 63,
+    "t_mgs_s": 8.806999921798706,
+    "cols": 161
+   },
+   {
+    "t_build_s": 1.2660000324249268,
+    "maxwp": 0.9190003188277863,
+    "N": 240,
+    "rows": 220,
+    "A_MB": 8.090255737304688,
+    "nbad": 0,
+    "ntriv": 94,
+    "t_mgs_s": 30.01699995994568,
+    "cols": 241
+   },
+   {
+    "t_build_s": 1.7649998664855957,
+    "maxwp": 0.9190003188277863,
+    "N": 320,
+    "rows": 292,
+    "A_MB": 14.302413940429688,
+    "nbad": 0,
+    "ntriv": 126,
+    "t_mgs_s": 70.53500008583069,
+    "cols": 321
+   }
+  ],
+  "fits": {
+   "build": {
+    "c": 0.002560787748249947,
+    "alpha": 1.1330603578165408
+   },
+   "mgs": {
+    "c": 2.5874998285518454e-06,
+    "alpha": 2.968795290332676
+   },
+   "mem": {
+    "c": 0.00016514708439280412,
+    "alpha": 1.9708881488860153
+   }
+  },
+  "extrapolated": [
+   {
+    "t_build_s": 3.1806415330937026,
+    "N": 538,
+    "A_MB": 39.80497313056762,
+    "D": 15,
+    "t_mgs_s": 331.1417111286136,
+    "peak_GB_est": 0.11661613221845982,
+    "total_h": 0.0928673201838076
+   },
+   {
+    "t_build_s": 4.404018550107396,
+    "N": 717,
+    "A_MB": 70.1099687635534,
+    "D": 20,
+    "t_mgs_s": 776.8410212051078,
+    "peak_GB_est": 0.20540029911197283,
+    "total_h": 0.21701251104311534
+   },
+   {
+    "t_build_s": 5.66913440073669,
+    "N": 896,
+    "A_MB": 108.7776767222585,
+    "D": 25,
+    "t_mgs_s": 1505.4919733689696,
+    "peak_GB_est": 0.31868459977224173,
+    "total_h": 0.419766974380474
+   },
+   {
+    "t_build_s": 6.968548748711482,
+    "N": 1075,
+    "A_MB": 155.75354044479775,
+    "D": 30,
+    "t_mgs_s": 2585.303305318164,
+    "peak_GB_est": 0.4563092005218684,
+    "total_h": 0.7200755150185765
+   }
+  ],
+  "cube_law_cross_check_hours": {
+   "1075": 0.7428098058467627,
+   "538": 0.09311058654688202,
+   "896": 0.4301067560789319,
+   "717": 0.22039904201585853
+  },
+  "sampling_geometry": [
+   {
+    "oversample": 240,
+    "trivial_pct": 100,
+    "frac_of_rho": 0.7,
+    "abs_w": 0.6564287991627045
+   },
+   {
+    "oversample": 240,
+    "trivial_pct": 100,
+    "frac_of_rho": 0.85,
+    "abs_w": 0.7970921132689983
+   },
+   {
+    "oversample": 2.2222222222222223,
+    "trivial_pct": 55,
+    "frac_of_rho": 0.9,
+    "abs_w": 0.8439798846377629
+   },
+   {
+    "oversample": 1.25,
+    "trivial_pct": 20,
+    "frac_of_rho": 0.94,
+    "abs_w": 0.8814901017327746
+   },
+   {
+    "oversample": 1.1111111111111112,
+    "trivial_pct": 10,
+    "frac_of_rho": 0.97,
+    "abs_w": 0.9096227645540333
+   },
+   {
+    "oversample": 1.0256410256410255,
+    "trivial_pct": 2.5,
+    "frac_of_rho": 0.99,
+    "abs_w": 0.9283778731015392
+   },
+   {
+    "oversample": 1,
+    "trivial_pct": 0,
+    "frac_of_rho": 1,
+    "abs_w": 0.9377554273752922
+   }
+  ],
+  "W1_check": {
+   "threshold_X_hours_proposed_in_spec": 3,
+   "extrapolated_total_hours_at_N(20)": 0.21701251104311534,
+   "W1_fires": false
+  },
+  "RAM": {
+   "budget_GB": 8,
+   "matrix_MB_at_N20": 70.1099687635534,
+   "peak_estimate_GB_at_N20": 0.20540029911197283
+  }
+ },
+ "not_reached": [
+  "L5' (S_2(Gamma') numerical basis, dim 4, dimension scan) -- ben2",
+  "L6' (canonical embedding, Sym^2/Sym^3, hyperelliptic test, Q cap C) -- ben4",
+  "L7' (phi by divisor prescription, coefficient recognition) -- ben5",
+  "L8' / G-6' (branching, S_3 symmetry on the geometric side, basis-free invariants) -- ben6",
+  "CAL (KMSV Example 5.27 full re-run) -- ben3",
+  "A-1 accelerator (Gamma_3 with Delta(3,3,9)) -- designed in spec 4.1(c), NOT implemented here; ben1's measurement indicates it is not needed",
+  "MU-* destructive controls -- ben4/ben6",
+  "any statement about ranks, kernel dimensions or modular-form bases (the cost harness deliberately does not interpret its matrices)",
+  "fibre monodromy-consistent labelling (declared out of scope by spec 6.5)"
+ ],
+ "unknowns": [
+  {
+   "id": "U-B1",
+   "text": "Explicit enumeration of the 18 side-pairing generators of the 18-gon. The minimal-displacement class of Gamma' has 26 members (well separated: displacement gap ratio to the next class = 3.5321), which must contain the 18 side pairings plus vertex-only neighbours at the same distance; separating them needs a boundary accuracy better than the 44-step bisection used. NOT needed downstream: ben2 needs the reduction map and rho, not a side-pairing presentation."
+  },
+  {
+   "id": "U-B2",
+   "text": "The usable VW sampling band is narrow: |w| must exceed the FD inradius 0.8294933739891691288903530221432447433471679687500000000000000000000000000000079 (otherwise the sample point lies inside the FD and the relation row is vacuous) and should not exceed rho. Whether ben2's held-out radius separation ([G4'-a]) can be arranged inside that band with enough separation is not settled here."
+  }
+ ],
+ "errata_found_in_the_spec": [
+  {
+   "where": "spec sec.4.1(a)",
+   "spec_prints": "cosh d = 15.58166",
+   "machine_value": "[15.5817187387631792132424448208195184552329949024372980481384744407623912433946145657108842254257785134952230319721891947525472822526238128524029949445216 +/- 2.97e-152]",
+   "note": "the dispatch brief's 15.58172 is correct; the spec's 15.58166 is wrong in the 6th significant digit. Machine comparison at 1e-5: brief PASS, spec sec.4.1(a) FAIL."
+  },
+  {
+   "where": "spec sec.4.1(a)",
+   "spec_prints": "t = 31.13123 and (3,7,2) t = 1.860173",
+   "machine_value": "[31.1313154812489341182042845407533936891555526870819526277677612857080469684567015407038036902969496117999059043783876167489548999708456778534018048019228 +/- 5.60e-152]",
+   "note": "true t = 31.1313154..., and the (3,7,2) calibration value is 1.8601771731..., not 1.860173 (agrees with PILOT-1's frozen mu = 1.86017 and with the brief's 1.86018, but not with the spec's own 7-digit printing)."
+  },
+  {
+   "where": "spec sec.4.1(c)",
+   "spec_says": "rho_PILOT2 ~ 0.96307, N(20) ~ 1224, band [1000,1400] -> coordinator ruling",
+   "machine_value": "rho = 0.937755427375292117060376330683609964835150394395720382754228621241253042852494755431670149905736761555748672223471091577957136398759644395304086259742, N(20) = 717",
+   "note": "the extrapolation was pessimistic because it assumed PILOT-1's FD efficiency."
+  },
+  {
+   "where": "spec sec.2.4",
+   "spec_says": "((member#2)_j)^c = (Xbar,Ybar,Zbar)_j",
+   "machine_value": "the conjugator c = (2,8,6,7,4,9,3) conjugates the WORKSHOP-ordered triple (lam3,lam2,lam1); applied to the STORED order (lam1,lam2,lam3) there is NO conjugator (count 0, both systems)",
+   "note": "the frozen value of c is correct; the ordering it acts on needed disambiguation."
+  }
+ ],
+ "handover_to_ben2": {
+  "reduction": "scratchpad/pilot2_ben1_L4_core.jl is a drop-in library: include it and call gamma_reduce(z) -> (z_red, gamma, gamma_perm, niter, converged, npolish). Gamma'-membership is certified EXACTLY by gamma_perm[1] == 1.",
+  "rho_to_use": "[0.937755427375292117060376330683609964835150394395720382754228621241253042852494755431670149905736761555748672223471091577957136398759644395304086259742 +/- 3.03e-151]",
+  "N_recommended": {
+   "D=15": 538,
+   "D=20": 717,
+   "D=25": 896,
+   "D=30": 1075
+  },
+  "matrix_shape_at_N20": "rows ~ 1.3*(N+1), cols = N+1, Complex{BigFloat} at 256 bits",
+  "sampling_constraint": "sample |w| MUST exceed the FD inradius 0.8294933 -- below that every relation row is vacuous (measured: 100% trivial at 0.70*rho and 0.85*rho). Measured trivial fraction: 55% at 0.90*rho, 20% at 0.94*rho, 10% at 0.97*rho, 2.5% at 0.99*rho, 0% at rho. Oversample accordingly (build cost is negligible: ~3 s at N=717).",
+  "held_out_warning": "[G4'-a]'s 'structurally separated radius sets' must live inside the narrow band (inradius, rho] = (0.8294933, 0.9377554].",
+  "reduction_is_norm_decreasing": "the reduction is Dirichlet at p, so |w(z_red)| <= |w(z)| always; the effective truncation base equals the largest sample radius used.",
+  "A1_not_needed": true,
+  "frozen_group_data_for_downstream": {
+   "g_order3": [
+    7,
+    5,
+    4,
+    6,
+    9,
+    3,
+    8,
+    1,
+    2
+   ],
+   "S_order2": [
+    9,
+    6,
+    3,
+    7,
+    8,
+    2,
+    4,
+    5,
+    1
+   ],
+   "conjugator_c": [
+    1,
+    8,
+    2,
+    9,
+    5,
+    7,
+    4,
+    6,
+    3
+   ],
+   "transversal_exponents": [
+    0,
+    5,
+    6,
+    8,
+    3,
+    4,
+    7,
+    1,
+    2
+   ]
+  }
+ },
+ "artifacts": [
+  {
+   "path": "scratchpad/pilot2_ben1_L1L3.jl",
+   "sha16": "568aa620db9d2ba1"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L1L3_out.json",
+   "sha16": "9abaa74af56b0693"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L1L3_out.txt",
+   "sha16": "0dc0ce0b9a667d6c"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_boundary.jl",
+   "sha16": "169dfab322b08b98"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_boundary_out.json",
+   "sha16": "1d4fd8bc43ccb0db"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_boundary_out.txt",
+   "sha16": "c6c308439e6231b5"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_core.jl",
+   "sha16": "d0dff03d89d89ba3"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_out.json",
+   "sha16": "294df978d5f72874"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_reduce.jl",
+   "sha16": "b7d9f8bec2100c95"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_L4_reduce_out.txt",
+   "sha16": "0db3ab1eaf7f221e"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_cert.py",
+   "sha16": "daf355d10ace2ca4"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1.g",
+   "sha16": "f779299dda264a13"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1_check.py",
+   "sha16": "abc58036f7d04294"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1_check_out.txt",
+   "sha16": "868964ea19d0c7a8"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1_export.json",
+   "sha16": "445d5450eb8bc4e8"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1_out.txt",
+   "sha16": "5ab99c1ba33b5212"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1d_check.g",
+   "sha16": "870f91cfaa4ebbc4"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1d_check_out.txt",
+   "sha16": "c621ac55ddec831b"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1d_roundtrip.jl",
+   "sha16": "e20f4519e09cb4db"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1d_roundtrip_out.json",
+   "sha16": "0794b26947f19235"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_g1d_roundtrip_out.txt",
+   "sha16": "8bbfcfed8a92ac67"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_mgs_cost.jl",
+   "sha16": "43ab08746ccb5dfa"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_mgs_cost_out.json",
+   "sha16": "30775b1fddd4aaef"
+  },
+  {
+   "path": "scratchpad/pilot2_ben1_mgs_cost_out.txt",
+   "sha16": "5e607fa0037b4667"
+  },
+  {
+   "path": "scratchpad/pilot2_s1_triple_v1.g",
+   "sha16": "a4d0332b7385351e"
+  },
+  {
+   "path": "scratchpad/pilot2_spec_v1.md",
+   "sha16": "1ff1b9713d2d9207"
+  }
+ ],
+ "generated_by": {
+  "cert_script": "scratchpad/pilot2_ben1_cert.py",
+  "gap": "GAP 4.16.0 via gap.ps1 (-o 2g)",
+  "julia": "Julia 1.12.7 + Nemo 0.56.1 + JSON3 1.14.3",
+  "python": "CPython (stdlib only)",
+  "generated_at": "2026-08-29T15:50:10"
+ },
+ "grade": "cross-checked (two independent implementations agree on the group layer; the hyperbolic layer is computed twice -- Arb ball arithmetic at 512 bits and pure BigFloat at 256 bits -- and rho is obtained by three independent routes: the exact closed form sqrt(2cos(pi/9)-1), the 36 fundamental-domain vertex images, and a 180-direction bisection scan of the boundary the reduction actually produces). NOT verified: no Lean. NOT genuine: nothing here is a claim about GT-shadows."
+}
