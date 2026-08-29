@@ -10215,3 +10215,37 @@ by the fail-fast run.
 
 Delta254 corrects the fine/coarse action mismatch and removes one redundant
 leading-image hypothesis without assuming the two remaining finite decisions.
+
+### Delta 255 (2026-08-30): audited A4 v30 resume has entered the real GAP computation
+
+- Driver v30, its Luna implementation report, and the independently audited
+  task395 coinvariant bridge v379 were frozen in parent-broker commit
+  `ff91a7b1e21a42b278af854ca9511587a05b55fe` and pushed to working branch
+  `sol/r07-witness-v220-delta211`.
+- GHA run `33274918945` was dispatched from that exact immutable head by JSON
+  input, with script
+  `search/d972_r07_word_independent_successor_kernel_gha_driver_v30.g`, literal
+  preamble `D386Mode:="RESUME";;`, output directory `ci/out`, a 250-minute
+  workflow limit, and optional p-quotient packages disabled.  URL:
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33274918945`.
+- The job entered the GAP script at 2026-08-30 06:01:11 JST and remained there
+  on the latest parent poll.  It therefore passed both earlier fail-fast
+  points: JSON quoting was preserved and the repaired hexadecimal checkpoint
+  decoder completed.  This is the first v30 observation inside the actual
+  GAP/Python computation; it is not yet a mathematical verdict.
+- A0 replacement run `33267817818`, immutable head
+  `8227ecd4cb12f7efc8e2419306b847e228a78f36`, simultaneously remained in its
+  GAP step.  Its workflow cap is near, so its artifact—not workflow colour—will
+  be inspected at terminal.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING**, now on the audited v30 owner beyond all known
+  launch/decoder failures.  Its durable input frontier remains `next_row=25`
+  until the terminal artifact proves a later checkpoint or outcome.
+- A0 remains **0/1 RUNNING**.  A9 remains **0/3 actual**; Delta254's finite
+  factorization is unaffected by either running computation.
+
+Delta255 records only the immutable execution identity and the two passed
+fail-fast boundaries.  It does not infer a positive basis, complete negative,
+compatible lift, fake numerator, or Ihara witness from a live job.
