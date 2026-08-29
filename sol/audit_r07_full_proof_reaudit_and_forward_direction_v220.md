@@ -5157,3 +5157,38 @@ selector as a witness result.
 
 Delta122 turns the area-class selector into one binary pre-A0 branch test on
 paper without treating the unexecuted test as an actual numerator.
+
+### Delta 123 (2026-08-29): pre-A0 single-target A3 actual route commissioned
+
+- Added `sol/luna_task_359_r07_pre_a0_single_target_a3_v1.md`.  It gives the
+  v302 single target an acyclic actual-production route from accepted task198
+  and independently reconstructed `g760`, with no task192 input and no
+  fictional correction word.
+- The new route reuses the two already SELFTEST-accepted sides of task226 and
+  task227: the producer imports only their producer engines, while the checker
+  imports only their independent `crosscheck/` engines.  Both sides separately
+  reconstruct the task198 ledger, the computational-base ABI, the eleven
+  signed central factors, all three projected area representatives, the 486
+  ideal rows, 729 translates, and the MEMBER coefficients or NONMEMBER dual.
+- The computational point is explicitly typed as
+  `PRE_A0_COMPUTATIONAL_BASE_ONLY`: `a=[]`, `f=g760`, no task192 binding and no
+  claim that an A0 correction has been constructed.  V302, rather than that
+  placeholder equality, is what transfers the resulting projected target to
+  every registered A0 correction.
+- A single accepted actual run can therefore supply all three A3 entries at
+  once: authenticated base package, independently checked orbit/486/729
+  equality, and an independently accepted MEMBER or separating NONMEMBER
+  certificate.  A NONMEMBER would obstruct the fixed `g760` A0 branch;
+  MEMBER would only remove this necessary projected filter.
+
+**v220 mapping**:
+
+- A3 remains **0/3 ACTUAL; TASK359 COMMISSIONED / UNEXECUTED**.  No source,
+  P0, receipt, checker verdict, Sol(max) audit or GHA terminal exists yet.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 remains **4/4
+  CROSS-CHECKED**, A2 **2/3**, and A4 **1/3 V6B FINITE REPAIR ACTIVE**.
+- No pointed multiplier, exact PB endpoint, compatible lift, fake certificate,
+  Ihara counterexample or cofinal witness is added.
+
+Delta123 converts v302's paper dependency shortcut into one finite actual
+certificate contract without advancing an unexecuted numerator.
