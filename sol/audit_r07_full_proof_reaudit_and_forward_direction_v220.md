@@ -8999,3 +8999,50 @@ not a search over arbitrary common-word columns.
 Delta229 is a corrective advance: it removes a false source theorem while
 recovering a smaller, exact and mechanically computable source from the
 already-proved superperfect residual formula.
+
+### Delta 230 (2026-08-30): A4 v21 reaches a genuine resource terminal, but its checkpoint is only prefrontier
+
+- A4 production run `33250865356` at immutable head
+  `7d51d13b251061bca01acdcf5b5007d4a962dd63` completed after four hours.
+  Artifact `gap-run-out` is id `9717285313`, 15,994 bytes, digest
+  `sha256:601ea25e5853126e181a51a19f38717330db77d5093c419a16bdbd5b552e4427`.
+  Workflow conclusion `success` means the diagnostic artifact was uploaded;
+  it is not an A4 mathematical pass.
+- The producer receipt is 8,864 bytes / SHA-256
+  `fc9f99723a2c11102bf23f08e014d1b4bb195078f65eeb65644bb6d7f3b61068`
+  and returns `UNKNOWN_RESOURCE`, `complete=false`, with exact reason
+  `echelon_reduce:wall_seconds:14402.179492432>14400:state=echelon_reduce`.
+  It completed 27 literal rows, 28,037 boundary rank rises, 30,660,320
+  correlation pairs, 7,377,861 membership reductions and reached peak RSS
+  3,885,568,000 bytes.  This is a wall frontier, not an OOM and not a
+  nonexistence result.
+- The independent verdict is 8,400 bytes / SHA-256
+  `d22be555f507282dfa0c571b0667d56fffb3080aebb9307774321f7f020b4d81`.
+  It is `UNKNOWN_INPUT`, `complete=false`, `accepted=false`, with reason
+  `checker:producer_terminal_identity`; no A4 mathematical terminal was
+  independently accepted.
+- The producer checkpoint is 9,354 bytes / SHA-256
+  `246651a44bebbdcfc21c2294b3627600a2daa8d214e49fccd5eea80a7d45c18d`.
+  Although its schema says `replayable=true`, direct inspection shows
+  `next_row=1`, empty row digests, empty K/boundary rosters and the
+  prefrontier state.  It does not contain the completed 27-row work.  A
+  RESUME from it would repeat the same prefix and is therefore not launched.
+- Task383 commissions only the two necessary changes: an early sealed
+  completed-row cadence and a bounded exact batch of already-computed
+  nonzero boundary columns.  The batch is permitted only with a current
+  combined-basis independence test; otherwise the implementer must retain
+  the checkpoint fix and report the exact blocker.  No large rewrite or
+  audit-only path is authorized.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  The individual result is `UNKNOWN_RESOURCE`; the
+  v220 numerator does not increase.  Its next state is **V13/V15 EARLY
+  CHECKPOINT + BOUNDED HOTPATH REPAIR ACTIVE**.
+- A9 remains **0/3 actual** and keeps the corrected legal-source chain from
+  Delta229.  No A4 basis exists yet to instantiate it.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts, compatible lift, fake and Ihara numerators are unchanged.
+
+Delta230 turns the four-hour run into exact performance evidence and rejects
+a fake-resume loop before spending another run on the same prefrontier state.
