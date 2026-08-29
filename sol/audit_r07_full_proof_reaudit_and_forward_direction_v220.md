@@ -6360,3 +6360,33 @@ next version on the actual semantic path and honest resource boundary.
 Delta157 permits a uniform nonlinear selector even when ordinary
 same-depth saturation fails, provided that failure has a finite weighted
 presentation.
+
+### Delta 158 (2026-08-29): cumulative ambiguity has a local-score dual normal form
+
+- Added sol/proof_r07_common_source_local_score_dual_v329.md.  The
+  annihilator of the complete common-source ambiguity consists exactly of
+  tuples of admissible local scalar functions whose sum is the requested
+  functional on the actual joint image.
+- Globally, NONMEMBER is exactly a tuple of local scores whose sum vanishes
+  on every joint-image point but whose target pairing is nonzero.  At one
+  Goursat step, a quotient row must decompose over all previous local scores
+  and have an admissible new-coordinate pullback.
+- For the R07 cyclic ambiguities, every local score is governed by the
+  prefix-twisted orbit-sum equations of v315/v323.  This gives a dual route
+  which need not materialize v324's V_i or v325's rectangle basis; those
+  remain sparse primal/independent-checker alternatives.
+- A finite row prefix is not a complete separator because a sum of arbitrary
+  local functions need not be a group homomorphism.  Exhaustive joint-image
+  traversal or a proved identity classifier is required for NONMEMBER.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- The finite field-even common-source gate now has matched sparse primal
+  (v324--v325) and local-score dual (v329) certificates.  Actual authority
+  and target evaluation remain pending.
+- The compatible lift, fake certificate and Ihara witness remain open.
+
+Delta158 removes the need to build the full cumulative ambiguity basis when
+the dual local-score system is smaller.
