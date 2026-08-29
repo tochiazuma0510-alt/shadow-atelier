@@ -8028,3 +8028,48 @@ first A5 representative from ending the search.
 
 Delta206 removes downstream coding latency after the running A0/A4 owners
 arrive, while keeping unexecuted candidates outside every actual numerator.
+
+### Delta 207 (2026-08-29): both compact downstream v1 candidates are rejected at the real-owner boundary
+
+- The independent A0-to-task193 audit rejects v1 as an executable handoff,
+  without changing v347's mathematical adapter theorem.  The v1 adapter
+  reads the physical A0 files, but does not invoke the full A0
+  `validate_common` replay; it also labels a compact row as the legacy full
+  task186/task193 certificate although it omits that checker's normalized
+  columns, rank transcript and binary sparse digest.  The legacy checker
+  therefore necessarily rejects it.  UNKNOWN handling is sound and no
+  SELFTEST/search/retry was found.
+- Repair v2 is restricted to a dedicated compact ABI.  It must run the
+  pinned A0 checker core with `include_selftest=False`, reproduce the
+  canonical derived result, and expose the lossless typed `d1`, `beta1`,
+  `e1=-beta1` and literal-word binding.  It must not claim a task186 or
+  legacy-task193 terminal.  This is an interface repair only; no second
+  common-word search or legacy task186 reconstruction is authorized.
+- The independent zero-base-compiler audit also rejects v1 at the real-owner
+  boundary.  It requires nonexistent `task198.evaluator.zero_base` and A4
+  `K_roster[*].seed` fields, reads the accepted A3 zero values at the wrong
+  path, uses the negative of the actual solution coefficients for A6, and
+  has neither a valid NONMEMBER tuple nor an independently replayed dual.
+  These are load-bearing defects, not optional hardening.
+- `sol/luna_task_360_r07_zero_base_actual_a5_a6_v2.md` fixes the replacement
+  scope: consume task198's real occurrence/evaluator owners and A4's literal
+  word/rho/action owners, stream only v348's A5 joint equality, negate the
+  echelon transform before emitting `theta`, and replay MEMBER ancestry or a
+  complete NONMEMBER dual.  A7 is explicitly `NOT_BOUND` and no SELFTEST,
+  mutation suite or generic infrastructure is in scope.
+
+**v220 mapping**:
+
+- A0 remains **0/1** with actual runs `33246619673` and `33247540982`
+  active.  The rejected adapter does not affect their mathematics.
+- A4 remains **1/3** with diagnostic capture `33247161395` and repaired
+  actual run `33248273650` active.  A3 remains **3/3 (CROSS-CHECKED MEMBER,
+  ZERO SEED)**.
+- A5/A6 return from “candidate under audit” to **0/3 / 0/3; V1 STATIC
+  REJECT / REAL-OWNER V2 IMPLEMENTATION ACTIVE**.  A7 remains **0/3** and
+  all later numerators are unchanged.  No compatible cofinal lift, fake
+  certificate or Ihara witness is claimed.
+
+Delta207 prevents either fictional input fields or a compact-envelope label
+from being mistaken for witness progress, while preserving the short
+positive mathematics of v347 and v348.
