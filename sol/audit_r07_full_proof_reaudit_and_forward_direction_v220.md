@@ -5592,3 +5592,34 @@ map for the actual class.
 
 Delta134 isolates the exact field-outer/common-source remainder after the
 local cyclic part of the relative-dihedral lift has been solved explicitly.
+
+### Delta 135 (2026-08-29): v311 local antidifference repaired for signed prefixes
+
+- Added `sol/proof_r07_local_antidifference_prefix_erratum_v312.md`.
+  V311's abstract theorem `im(a -> a(1-r)) = ker orbit-sum` is retained, but
+  its R07 application had silently set every universal endpoint to naked
+  `1-r_b`.  V193 requires each signed/prefix-transported row to keep its
+  literal endpoint.
+- The exact block factor is
+  `D1(d_b)=epsilon_b p_b(1-r_b)`.  Orbit-sum zero remains the local
+  obstruction after the coefficient twist `a -> epsilon_b a p_b`; the
+  original local coefficient set is
+  `epsilon_b(A_b+K_b)p_b^{-1}`.
+- The common-source condition is therefore that the diagonal lift-kernel
+  image meet the product of these seven twisted affine sets.  V311's
+  untwisted intersections are superseded unless direct replay gives
+  `p_b=1` in every relevant tag.
+
+**v220 mapping**:
+
+- No actual target used v311, so no numerator changes.  A0 remains **0/1**,
+  A3 **0/3**, A4 **1/3**, and A5--A7 **0/3** with their active repairs as in
+  Delta134.
+- The local/diagonal reduction survives with the necessary prefix units;
+  actual prefix triples and endpoints remain uncomputed.
+- No relative pro-3 correction, cofinal lift, fake certificate or Ihara
+  counterexample is added.
+
+Delta135 prevents a signed or transported occurrence row from being fed to
+the correct cyclic antidifference theorem in the wrong coefficient
+coordinate.
