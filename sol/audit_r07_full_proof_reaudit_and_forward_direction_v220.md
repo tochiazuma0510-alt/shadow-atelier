@@ -8447,3 +8447,40 @@ task193 positive output now has a physical A5/A6 consumer.
 Delta215 closes the missing representative-completeness theorem on the
 positive A5--A7 route.  The remaining first numerical decision is still the
 active A0 word computation.
+
+### Delta 216 (2026-08-29): the exact endpoint input gap is typed and closed on paper
+
+- The first task375 implementation attempt stopped correctly before creating
+  executables.  Task292-v2 has an unconditional production blocker and its
+  private literal compiler requires eleven `d_sources` and three
+  `epsilon_sources` not serialized in the direct-relator v3 `M` receipt.
+  Guessing those fields would have been fictional; the blocker reply is
+  preserved in commit `cccc3bc24763f3b9ffaa475d7f468d8ea3de929e`.
+- `proof_r07_task193_to_exact_endpoint_literal_binding_v352.md` in that same
+  commit proves the unique physical binding.  For occurrence `o`, task198's
+  executable context gives `r_o=rho_o(g760)`, the frozen prefix ledger gives
+  `P_o`, and the literal source is `d_o=delta(r_o^-1)`.  Task193's corrected
+  word gives `epsilon_B=-delta R_B(g760*c_exact)`.  The v3 pairs map directly
+  to ordered task292 `U-V` terms.
+- The resulting endpoint expression is exactly
+  `D1(e_B-(M star d)_B)` in H1, H2 and P.  Producer reconstruction is owned by
+  task198-v12/task193-v3; the independent side uses task198-v14 and recomputes
+  every occurrence, prefix, relation word and sign.  Task292-v2's exact core
+  may be loaded under a non-main name, but its blocker is not patched or
+  reinterpreted.
+- Task376 now resumes the v4 fused implementation with this explicit ABI,
+  including v351's lift-null columns.  It remains static implementation work,
+  not an endpoint result.
+
+**v220 mapping**:
+
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual**.  The missing physical
+  A6-`M` to A7-literal-input map is now paper-complete; its executable binding
+  is active.
+- A0 remains **0/1 with v20 run active and v21 restart frozen**; A2 remains
+  **2/3**, A3 **3/3**, and A4 **1/3 with v21 run active**.
+- No A8/A9, B/C, compatible-lift, fake or Ihara numerator changes.
+
+Delta216 distinguishes an absent serialized field from absent mathematics:
+the former is now supplied by deterministic reconstruction from the two
+accepted owners, without weakening any endpoint equality gate.
