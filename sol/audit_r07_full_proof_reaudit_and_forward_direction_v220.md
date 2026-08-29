@@ -5223,3 +5223,39 @@ certificate contract without advancing an unexecuted numerator.
 
 Delta124 prevents a computational base point from being mistaken for the
 unknown full corrected lift while preserving the one-run A3 shortcut.
+
+### Delta 125 (2026-08-29): a pre-A0 MEMBER ancestry already fixes the A5 literal seed
+
+- Added `sol/proof_r07_pre_a0_member_to_literal_seed_v304.md`.  If task359
+  returns MEMBER with source-algebra ancestry
+  `kappa_D=lambda*(z0-1)`, the fixed normal-form section of
+  `D1=H_2(9)` produces the finite literal polynomial
+  `sum lambda_g*(s(g)[x,y]^3-s(g))`.  Every summand is a roof-fibre pair,
+  and its upper image lies in the actual relative ideal.
+- V303 makes both the occurrence vector and projected target identical for
+  every registered A0 correction.  Hence this one literal `kappa0` passes the
+  endpoint equation for every possible A0 word on the fixed `g760` branch;
+  it is constructed once and is not rebuilt after A0 selection.
+- Therefore actual A2 specialization is no longer a dependency of the A5
+  endpoint base point.  After a positive A3 terminal, A5 needs the literal
+  A3 seed, accepted A4 word-bearing kernel, and actual A0/task193 pointed
+  rows.  A2 remains a separate milestone and remains load-bearing for full
+  corrected-word and exact-PB duties.
+- The multiplier representative `lambda` need not be abstractly unique; the
+  accepted MEMBER ancestry fixes the representative used by the literalizer.
+  No uniqueness claim or digest-only substitution is made.
+
+**v220 mapping**:
+
+- A3 remains **0/3 ACTUAL; TASK359 IMPLEMENTATION ACTIVE**.  V304 is a paper
+  handoff theorem and no MEMBER/NONMEMBER receipt exists yet.
+- A5 remains **0/3 ACTUAL**, but its positive dependency cone is shorter:
+  actual A2 is removed from the endpoint-base input only.  A0 remains **0/1
+  V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**, A2 **2/3**, and A4
+  **1/3 V6B FINITE REPAIR ACTIVE**.
+- A6--A9, B, C, W and F numerators are unchanged.  No compatible lift, fake
+  certificate, cofinal witness, or Ihara counterexample is claimed.
+
+Delta125 makes a future positive pre-A0 A3 certificate immediately
+word-bearing for A5 without confusing the projected interface with the full
+unknown corrected-word package.
