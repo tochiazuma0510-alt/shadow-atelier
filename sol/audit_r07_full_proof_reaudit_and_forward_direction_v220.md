@@ -8871,3 +8871,36 @@ only an actual parent MEMBER and independent replay can change its numerator.
 Delta226 is a theorem-level advance: it constructs and absorbs the actual
 shape of every later prefix-transport term, while keeping the still-unproved
 localized leading onto gate explicit.
+
+### Delta 227 (2026-08-30): the actual A0 class-two canary is executable
+
+- The task379 producer/checker/driver package is frozen at commit
+  `775020a5043b4d403d56911d2a939c86706acfdb`.  It authenticates the positive
+  task193-v3 receipt and uses its literal `correction_word`; it never accepts
+  an A5 multiplier or interprets `mu1`/`M` as the applied word.
+- Producer and independent checker reconstruct the task198 eleven-occurrence
+  ledger, literal H1/H2/P factor order, signs, inverse slots, old prefixes and
+  every conjugated correction factor.  Each requires the product of those
+  factors to equal the full corrected/base relation-word ratio.
+- PB3/PB4 class-two coordinates are built from the original task292
+  two/eleven relators.  Both sides compute the relator initial-form span,
+  collect all eleven factors, reduce the three tagged q2 vectors, and only
+  then require H1/H2/P to be zero as predicted by v356.  Zero is not stored as
+  a shortcut; a nonzero vector fails closed as a theorem/ABI mismatch.
+- Static Python, frozen-owner, GAP parse, ASCII and exact-pin checks passed.
+  The program has checkpoint/resume and resource UNKNOWN terminals, but it
+  has not run because no accepted A0/task193 parent package exists.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but both its first nonlinear theorem and the
+  independent physical replay path are now ready.  An accepted task193 word
+  can feed task379 immediately without waiting for A5--A8.
+- A0 remains **0/1 with v22 run 33259268996 active**, A4 remains **1/3 with
+  run 33250865356 active**, and all other actual counts remain as in
+  Delta226.
+- No compatible lift, fake or Ihara witness is promoted.
+
+Delta227 closes the static theorem-to-executable gap for `q2=0`; the open A9
+mathematics is now the localized leading generator solve identified by
+Delta226, not a missing first nonlinear calculator.
