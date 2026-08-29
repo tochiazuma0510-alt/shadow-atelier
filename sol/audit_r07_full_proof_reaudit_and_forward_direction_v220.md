@@ -5479,3 +5479,43 @@ mistaken for the pre-A0 A3 decision needed by the witness branch.
 Delta131 replaces v306's invalid linear shortcut by a terminating exact
 fixed-rung construction while keeping the all-rung promotion obstruction
 explicit.
+
+### Delta 132 (2026-08-29): A5 coefficient choice fused with the universal endpoint gate
+
+- Added `sol/proof_r07_pointed_slice_universal_endpoint_fusion_v309.md`.
+  For one fixed literal A0 word and positive A3/A4 inputs, it augments every
+  word-bearing A4 coefficient column by three coordinates: its pointed row,
+  endpoint-projection row, and exact universal PB endpoint action.
+- One joint equality with target `(r0(c),0,eta0(c))` now selects a coefficient
+  `mu1`, its literal roof-fibre polynomial `M`, and universal endpoint zero
+  simultaneously.  V193 then supplies the finite boundary chain, and
+  v191/v174 promote that same `M` through every relative pro-3 rung, subject
+  to the already stated nonlinear/formation gates.  Thus an arbitrary
+  post-A5 representative choice is removed on a positive branch.
+- The finite canonical A4 roster spans the full first-shadow ideal, but it
+  does not span every universal representative of one first-shadow value.
+  V309 therefore adds zero-first-shadow lift-kernel columns and proves a fair
+  dovetail positive-complete for every finite-support promotable polynomial.
+  A bounded failure remains UNKNOWN.
+- The exact universal endpoint is not determined by v308's finite two-rung
+  state: state-equivalent literal A0 ancestries may differ in the fixed
+  infinite PB presentations.  They can be merged for A0/A5 but not for a
+  complete all-rung negative.  This limitation is explicit and prevents a
+  second invalid finite-state collapse.
+
+**v220 mapping**:
+
+- The paper route now fuses the prospective A5 slice, A6 pair compilation
+  and A7 endpoint existence into one positive augmented solve plus
+  constructive relator decomposition.  No actual input or run exists, so
+  A5, A6 and A7 remain **0/3**.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A3 **0/3 V2 REPAIR
+  ACTIVE**, and A4 **1/3 V6C REPAIR ACTIVE**.  All other numerators are
+  unchanged.
+- A positive augmented solve would close the relative pro-3 promotion
+  component only.  It would not by itself settle prime-to-three formation,
+  new perfect-core accepted sets, the complete cofinal lift, fake, or Ihara.
+
+Delta132 turns the first pointed multiplier into an all-pro-3 candidate at
+the moment it is selected, while preserving the genuine infinite
+representative obstruction.
