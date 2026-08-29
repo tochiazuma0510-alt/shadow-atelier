@@ -9447,3 +9447,46 @@ boundary exactly.
 
 Delta240 puts the corrected finite-work A4 successor into production without
 discarding the independently resumable baseline or enlarging any claim.
+
+### Delta 241 (2026-08-30): the full crossed action ring is no longer a splitter hypothesis
+
+- `proof_r07_crossed_relative_group_algebra_splitter_v364.md` proves the
+  exact finite-edge algebra omitted from v362.  For
+  `1 -> K -> Delta1 -> Delta0 -> 1`, with `K=(C_p)^t`, the full relative
+  ideal
+  `J=ker(F_p[Delta1] -> F_p[Delta0])` satisfies
+  `J^r=a_K^r F_p[Delta1]` and hence `J^((p-1)t+1)=0`.  No splitting of the
+  group extension, semisimplicity of the coarse algebra or prime-to-p
+  coarse order is required.
+- Consequently, if either actual v361 codomain is finite free and its
+  leading map is onto, the v362 section over the physically correct full
+  diagonal action ring is the finite polynomial
+  `s=s0 sum_(i=0)^((p-1)t) (-E)^i`.  At the R07 p=3 edge its degree is at
+  most `2t`, and both associated `S_r,T_r` defects vanish at every depth.
+  For a finite projective codomain the same conclusion follows because the
+  now-authenticated nilpotent `J` lies in the Jacobson radical.
+- Thus the post-A4 split branch no longer has a separate action-ring
+  locality/radical gate.  The honest remaining tests are exactly the
+  projectivity of the actual codomains `Y,Q` and leading surjectivity of
+  `bar-G,bar-H`; a failure of those hypotheses falls back to v361's four
+  finite defects.
+- A separate live-owner audit found that the current adapter v4 exact-pins
+  A0 v20, whereas active run `33259268996` is A0 v22.  Therefore a future
+  v22 COMMON result would presently be rejected before task193.  Task391,
+  commissioned at commit `2b894619`, is a pin-only adapter-v5/task193-v4
+  successor; it changes no affine mathematics and is not counted before its
+  physical return is audited.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but one genuine hypothesis in its split
+  base-change branch is closed: the full R07 action ideal is nilpotent with
+  the explicit bound `J^(2t+1)=0` once A4 supplies rank `t`.
+- A0 remains **0/1 with v22 run 33259268996 active**.  Its downstream live
+  ABI is **ADVANCED / task391 active**, not yet closed.
+- A4 remains **1/3 RUNNING** under bounded batch `33263899806` and durable
+  baseline `33262485779`.  Compatible lift, fake and Ihara witness
+  numerators are unchanged.
+
+Delta241 removes an unnecessary pure-kernel-algebra assumption and catches
+the next live A0 handoff failure before a positive artifact can be stranded.
