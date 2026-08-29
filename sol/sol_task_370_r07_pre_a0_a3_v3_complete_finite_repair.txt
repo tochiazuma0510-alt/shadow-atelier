@@ -1,0 +1,146 @@
+Sol(max) task 370 - pre-A0 A3/v3 complete bounded repair after task369
+
+Role: bounded implementation repair.  Read every numbered section first to
+last before editing.  Task369's independent STATIC REJECT is authoritative.
+Do not edit or overwrite any frozen v2 owner.  Do not run Python, Node, GAP,
+GHA, workflows, git, network, or any candidate command.  Read-only
+PowerShell inspection and hashing are allowed.  Create only the five
+versioned v3 outputs named below.
+
+1. Mandatory inputs
+
+Read in full:
+
+- sol/sol_task_363_r07_pre_a0_a3_v2_complete_repair.txt
+- sol/luna_reply_363_r07_pre_a0_a3_v2_complete_repair.md
+- sol/sol_task_369_r07_pre_a0_a3_v2_code_performance_audit.txt
+- sol/sol_reply_369_r07_pre_a0_a3_v2_code_performance_audit_v1.md
+- task359/task361 and v302/v303 cited there
+- the complete accepted task198 authority/evaluator owners
+- the pinned task226/task227 producer/checker owners
+
+Preserve every v2 clause which task369 passed: exact v303-only projection,
+minimal consumer ABI, one producer task227 closure, one independent checker
+verifier, retained 486/729/rank/ancestry/replay-or-dual evidence, false
+conclusion flags, and serial accepting-only driver.
+
+2. Versioned outputs
+
+Create only:
+
+- ci/in/d972_r07_pre_a0_single_target_a3_v3.prereg.v1.json
+- search/d972_r07_pre_a0_single_target_a3_v3.py
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v3.py
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v3.g
+- sol/sol_reply_370_r07_pre_a0_a3_v3_complete_finite_repair.md
+
+The GAP driver must be ASCII only.  Do not execute the owners.  The reply
+must mark the complete v3 tranche UNEXECUTED and GHA FORBIDDEN pending a
+fresh independent static audit.
+
+3. Repair F1: complete acyclic authority graph
+
+Normalize P0 authority.g760_ancestry to ordinary owner records with literal
+path, byte count and SHA-256, or extend every recursive pin walker so the
+current keyed representation is exhaustively and unambiguously traversed.
+The producer, checker and generated driver collector must all authenticate
+both ancestry owners in addition to every other task198/task226/task227
+owner.  No shape may silently disappear.
+
+Recompute the complete intended owner count/bytes, P0 canonical raw identity
+and self seal.  Each Python owner pins the exact P0; the driver pins P0 and
+both final Python identities.  Keep the graph acyclic and reject every
+missing, duplicate, malformed or extra authority owner.
+
+4. Repair F2: execute the accepted task198 evaluator
+
+Dictionary/ABI comparison is insufficient.  On the ordinary route, import
+or reconstruct the accepted task198 evaluator registry and actually call the
+six load-bearing operations used for g760/base/central reconstruction:
+roof_eval, roof_multiply, roof_inverse, roof_source_section, roof_action and
+roof_section_cocycle.  Bind their results to all eleven occurrence rows and
+the exact widths/conventions used downstream.
+
+The independent checker must exercise the same mathematical semantics from
+its checker-side authority, without accepting producer summaries.  Retain
+exact call counts and direct values in the result/verdict.  A renamed
+contract comparison must reject.
+
+5. Repair F5: mutations traverse ordinary validators
+
+Keep untouched baseline first and all twelve preregistered mutations on each
+side.  Every mutation must alter an extant independently built owner and
+then traverse the same load-bearing ordinary validator:
+
+- task198 raw/manifest/member/attestation/verdict mutations re-enter the full
+  task198 authority binding and evaluator route;
+- H1/H2/P and central mutations re-enter the actual central replay
+  constructor;
+- projected area/target mutations re-enter the actual closure or independent
+  verifier constructor;
+- ABI mutations re-enter the true ABI seal/consumer validator.
+
+Do not compare only copied fixture values.  Preserve exact first-reason
+matching, narrow expected exceptions, and fail hard on MutationAccepted or
+wrong reason.
+
+6. Repair F6: truthful caps and avoidable work
+
+Meter every material physical read before use, including authenticated
+pre-read, module-loader/exec reads and post-read binding.  Either execute
+from the authenticated bytes without another source read or reserve and
+charge the loader reads before import.  Include both g760 ancestry owners in
+authority/input formulas.
+
+Make closure_actions and occurrence_support describe real work, or remove
+them from acceptance if they cannot be measured honestly.  Preserve exactly
+one wrapper closure/verifier call and do not add reverse span comparisons.
+The known twelve internal frozen task227 span comparisons are declared
+frozen dependency cost, not wrapper optimization work.
+
+Give source-derived formulas for authority, input, output, allocation and
+wall bounds.  Account for simultaneous old/new serialized payloads and
+encoded bytes during fixed-point sealing.  Install Linux RLIMIT_AS and the
+deadline before expensive imports/builds/calls.  Restore a pre-existing
+timer by an elapsed-adjusted remaining value; if safe restoration is
+impossible, fail closed.  Keep each 2,100-second external timeout above the
+1,800-second internal deadline and both serial routes within six hours.
+
+7. Repair F7: bound publication to the checked parent
+
+Either state and enforce a complete trusted-parent assumption before any
+writer starts, or use dirfd-relative no-follow operations throughout:
+openat-style exclusive temp creation, renameat2 with bound source/destination
+dirfds and RENAME_NOREPLACE, unlinkat rollback, and directory fsync.  Merely
+opening a parent fd for fsync while using pathname operations is insufficient.
+
+The driver must compare the digest of the bytes it validated with a
+post-validation physical verdict rehash before accepting.  Publish the
+accepted sentinel exclusively/no-follow/no-overwrite and fsync its directory.
+Any substitution, stale final/temp, UNKNOWN, terminal mismatch, digest
+mismatch or rollback failure must leave no accepted sentinel.
+
+8. Static self-audit and reply
+
+Without executing candidate code, line-audit every task369 finding against
+v3.  Report exact paths, bytes and SHA-256; P0 terminator/BOM/CR status and
+self seal; the full authority graph; actual evaluator call sites; every
+mutation-to-ordinary-validator route; corrected resource formulas; parent
+binding; and all retained PASS clauses.
+
+End exactly with:
+
+A3/V3 VERSIONED OWNERS:                 COMPLETE
+TASK369 F1 AUTHORITY GRAPH:              REPAIRED
+TASK369 F2 EVALUATOR EXERCISE:           REPAIRED
+TASK369 F3 PROJECTION / CLOSURE:         RETAINED
+TASK369 F4 DUPLICATE WORK BOUNDARY:      RETAINED
+TASK369 F5 MUTATION ORDINARY ROUTES:     REPAIRED
+TASK369 F6 CAPS / PERFORMANCE:           REPAIRED
+TASK369 F7 BOUND PUBLICATION:            REPAIRED
+LOCAL CANDIDATE EXECUTION:               NONE
+PRE-A0 A3/V3 GHA:                        FORBIDDEN PENDING INDEPENDENT AUDIT
+ACTUAL A3 NUMERATOR:                     remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:        NONE
+
+TASK370_R07_PRE_A0_A3_V3_COMPLETE_FINITE_REPAIR

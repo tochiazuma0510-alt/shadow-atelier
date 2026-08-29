@@ -6105,3 +6105,33 @@ selector while retaining the tree as the smaller fast path.
 Delta149 converts the local second homotopy from a generic matrix solve into
 an explicit quotient-orbit formula; the remaining difficulty is global
 joint-image authority and the actual defects.
+
+### Delta 150 (2026-08-29): A3/v2 independently rejected; one bounded v3 repair commissioned
+
+- Froze sol/sol_reply_369_r07_pre_a0_a3_v2_code_performance_audit_v1.md
+  (21,271 bytes; SHA-256 7c158cbe8f437ae53fd6aa00de17e8a3961619514ba133161186c8976f80b2ff).
+  Its independent verdict is **STATIC REJECT / GHA FORBIDDEN**.  Physical
+  owners, the v303-only projection, the one producer closure and independent
+  checker routes passed.
+- The rejected load-bearing defects are finite: two g760 ancestry owners
+  escape the recursive pin walkers; the accepted task198 evaluator is
+  compared but never exercised; the twelve mutations use copied cheap
+  validators rather than ordinary authority/replay routes; physical import
+  reads and some work counters are not charged truthfully; and publication
+  is not bound to the checked parent while the driver omits a validated-byte
+  versus post-validation digest equality.
+- Added sol/sol_task_370_r07_pre_a0_a3_v3_complete_finite_repair.txt.  V3
+  must repair all five groups together, preserve the already-passed minimal
+  projection and single closure/verifier routes, remain unexecuted, and
+  undergo another independent audit before any GHA run.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V2 STATIC REJECT / V3 COMPLETE FINITE REPAIR
+  ACTIVE**.  This is not a numerator loss because v2 was never run or
+  accepted.
+- A0 remains **0/1 AUDIT ACTIVE**, A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7
+  **0/3**.  No compatible lift, fake certificate or Ihara witness is added.
+
+Delta150 prevents a partially authenticated A3 owner from consuming GHA time
+and turns the rejection into one finite versioned repair.
