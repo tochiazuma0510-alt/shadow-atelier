@@ -8563,3 +8563,36 @@ needed only after an actual canonical nonzero receipt.
 Delta218 removes the need to finish an enormous `Delta1` roster before the
 lift-null search can start.  It is a positive-completeness and restart
 advance, not an endpoint result or a runtime bound.
+
+### Delta 219 (2026-08-29): A8 has a deterministic annotated PB combing
+
+- `proof_r07_annotated_pure_braid_combing_boundary_v354.md`, frozen at
+  commit `66da34c643712b90d4c2b34c7ad2c072e543e237`, specializes v197 to the
+  exact recursive PB3/PB4 presentations already emitted by task292.  Their
+  two/eleven relators present the standard old-factor-left decomposition
+  `P_n = P_(n-1) semidirect F_(n-1)`.
+- Every kernel-letter/old-letter collection move, including all inverse
+  signs, is derived from an original task292 conjugation relator and retains
+  a literal conjugate-relator annotation.  Recursive combing therefore turns
+  each finite identity loop into a van Kampen trace without enumerating
+  arbitrary products of relator conjugates.
+- Combining that trace with v197's finite fundamental-cycle decomposition
+  gives explicit `q_H1`, `q_H2`, `q_P` and a direct equality `D2 q_B=z_B`.
+  The algorithm is finite after a genuine task292 ZERO input; a process cap
+  may still produce operational UNKNOWN and a resumable annotation DAG.
+- No A8 executable or actual boundary chain is claimed yet.  Its parent
+  receipt should be pinned only after the task377 v5 endpoint owner is
+  frozen, avoiding a second input-adapter revision.
+
+**v220 mapping**:
+
+- A8 remains **0/3 actual**, but its earlier generic proof-enumeration branch
+  has been replaced by a deterministic proof-producing Artin combing on the
+  actual PB3/PB4 presentations.
+- A0 remains **0/1 active**, A2 **2/3**, A3 **3/3**, A4 **1/3 active**, and
+  A5/A6/A7 **0/3 / 0/3 / 0/3 actual with v5 implementation active**.
+- A9, B/C, compatible-lift, fake and Ihara numerators remain unchanged.
+
+Delta219 advances the certificate path after endpoint zero while deliberately
+waiting for the final endpoint-owner pin before creating the A8 executable
+wrapper.
