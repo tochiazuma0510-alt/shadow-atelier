@@ -7936,3 +7936,36 @@ the next numerical decisions still come from the running A0 and A4 jobs.
 
 Delta203 is a mathematical and algorithmic shortening of the next actual
 gate, not a numerical promotion.
+
+### Delta 204 (2026-08-29): the streaming search is fused with the exact A7 endpoint
+
+- Added `sol/proof_r07_zero_base_streaming_a5_a7_fusion_v349.md`, the actual
+  zero-base specialization of v309.  With `kappa0=M0=0`, each accepted
+  pre-`C` closure row carries the augmented column
+  `(theta*d1, C(theta odot w), Dtilde1(P*dtilde))`.  Exact membership of
+  target `(e1,0,eta_c)` simultaneously produces `mu1=theta`, the literal A6
+  pair polynomial `M`, and all three exact A7 endpoint zeros.
+- The augmented echelon is streamed beside the A5-only echelon.  An
+  augmented hit is a finite positive certificate before closure exhaustion.
+  An early A5-only hit is retained but does not stop the witness search,
+  because later canonical rows can still give an endpoint-zero
+  representative.
+- If the finite canonical augmented span misses while A5 passes, v310's
+  translated finite Schreier seeds enter the same echelon as `(0,0,zeta)`
+  columns.  A finite hit is exact and positive-complete; a bounded miss in
+  this infinite representative orbit remains UNKNOWN, never A7 NONZERO.
+  This witness-first requirement has been sent to the active compiler
+  implementation.
+
+**v220 mapping**:
+
+- A5--A7 remain **0/3 actual**, but their positive route is now one streaming
+  augmented equality rather than a first-A5-choice followed by an arbitrary
+  endpoint test.
+- A0 runs `33246619673`, `33247540982` and A4 run `33247161395` remain
+  active.  A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- All later formation/fake/Ihara numerators remain unchanged.
+
+Delta204 preserves v309's all-pro-3 witness objective in the simplified
+zero-base implementation and prevents a locally valid but globally poor
+first A5 representative from ending the search.
