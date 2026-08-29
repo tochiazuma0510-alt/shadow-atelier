@@ -1,0 +1,198 @@
+{
+  "schema": "pilot1-ben4-L5/v1",
+  "ruling": "coordinator ruling 1792 (ben4-6 extension, new withdrawal: close if G-5 unreached by end of ben6)",
+  "target": "LMFDB 9T27-7.1.1_2.2.2.2.1_3.3.3-a",
+  "ben": 4,
+  "filename_date_note": "ben ordering is by ben number, not filename date label (bens 1-3 carry a _20260830 label; this cert carries the real date _20260829).",
+  "author": "mathematician (Opus 5)",
+
+  "FINAL_VERDICT": "L5 REACHED. The ben3 wall (KMSV Sec.5's external reference [28,Sec.4.4] for the S_k(Gamma) basis) is DISSOLVED, not circumvented: the method KMSV attributes to Voight-Willis [60] was read in full and implemented, and the phrase 'echelonized basis with respect to the coefficients b_n' is resolved as reduced row echelon form of the numerical kernel in the natural coefficient order. G-4-a PASS, G-4-c PASS (9/9 weights), G-4-d PASS. G-5 not started (out of ben4 scope by instruction).",
+
+  "primary_source_read_this_ben": {
+    "paper": "papers/voight-willis-1205.0045-power-series-expansions.pdf",
+    "sha16": "141e6555ced67e9f",
+    "pages_read": "all 30 pages (text); eq (9)/(10)/(11)/(12) and the Cauchy section additionally verified against a 150dpi page-image render of printed p.11, because those are the load-bearing formulas",
+    "why": "KMSV attributes its S_k(Gamma) basis method to 'the method of power series expansions due to Voight-Willis [60]'; [28] (Klug thesis) is unavailable and is cited by KMSV for one phrase only",
+    "also_read": "papers/kmsv-1311.2081-numerical-belyi-maps.pdf pp.33-36 (Sec.4 'Hypergeometric series'), re-read this ben ONLY to check the phi-normalisation statement used in the ben5 handover below"
+  },
+
+  "part_A_translation_table_VW_to_engine": {
+    "core_mathematical_judgement": "KMSV Sec.4's lacunary expansion is about the DELTA-hauptmodul phi at the elliptic point z_a; VW's method is about GAMMA-forms at a point with TRIVIAL Gamma-stabiliser. These are different objects, not a conflict. The unique point that satisfies both is p = z_a = i: it is Delta-elliptic of order 3 but Gamma-REGULAR, because sigma_inf = lam3 has cycle type 3.3.3 (no fixed point) so no nontrivial power of delta_inf lies in Gamma. DECISION: build the linear system in the single disc coordinate w = (z-i)/(z+i), which is simultaneously VW's w(p;z) at p=i and KMSV Sec.4's disc coordinate at z_a. This choice was validated a posteriori (see part_D_unplanned_structural_confirmation).",
+    "rows": [
+      {"VW": "Gamma cocompact Fuchsian", "engine": "Gamma = Stab(coset 1) inside Delta(7,2,3), index 9, from ben1's degree-9 permutation representation (sigma_0,sigma_1,sigma_inf) = (lam1,lam2,lam3), branch_assignment [1,2,3], perm_compose left_to_right"},
+      {"VW": "p in H with Gamma_p = {1} (REQUIREMENT)", "engine": "p = i = z_a, the order-3 vertex of the ben2 kite. Stab_Delta(i) = <delta_inf>; Gamma cap <delta_inf> = 1 is an EXACT INTEGER FACT (sigma_inf and sigma_inf^2 have no fixed point on 9 letters) -- machine-checked, no numerics"},
+      {"VW": "w(p;z) = (z-p)/(z-pbar), z(p;w) = (pbar w - p)/(w-1)  [eq (1)]", "engine": "w = (z-i)/(z+i), z = (-i w - i)/(w-1). Same coordinate KMSV Sec.4 expands phi in"},
+      {"VW": "j(g,z) = cz+d for g in Gamma, upper-half-plane matrix  [eq (2)]", "engine": "ben1's real 2x2 generator matrices delta_0,delta_1,delta_inf (det 1); membership g in Gamma decided EXACTLY by the permutation word (must fix coset 1), never numerically"},
+      {"VW": "D = D(p) Dirichlet domain + reduction algorithm z |-> (g, gz in D)  [Thm 2.1]", "engine": "three-stage composite: (i) ben2's greedy Delta-reduction toward the kite centroid returns h in Delta with h^{-1}z reduced and its permutation pi(h); (ii) coset lookup j := 1^{pi(h)}, set zred := g_j (h^{-1} z), gamma := h g_j^{-1}, which lies in Gamma by construction; (iii) Gamma-polish: greedily minimise |w(zred)| over a pool of 36 short Gamma elements (= Dirichlet reduction centred at p, exactly VW's D(p))"},
+      {"VW": "rho = max{|w| : w in D}  [Sec.3]", "engine": "declared rho = 0.56. Empirical support: max|w(zred)| = 0.51828022887678765871 over 400 random points; 0.55159931855076747504 over the 36 vertices g_j*KITE; 0.5129 over the reduced images of every sample point actually used in every run reported here"},
+      {"VW": "f(z) = (1-w)^k sum b_n w^n  [eq (4)]", "engine": "adopted verbatim"},
+      {"VW": "K^a_n(w) = j(g,z)^k (1-w)^k w^n - (1-w')^k (w')^n  [eq (11)]", "engine": "adopted verbatim; we produce z = gamma*zred so VW's g is gamma^{-1}. Each row is then normalised to unit 2-norm"},
+      {"VW": "Remark 3.4 rescaling b_n = rho^n btilde_n", "engine": "column n multiplied by rho^{-n} so every |w/rho| <= 1"},
+      {"VW": "numerical kernel via SVD  [Sec.3 'Computing the numerical kernel']", "engine": "Arb/Nemo has no SVD. Substituted: column-pivoted modified Gram-Schmidt (rank-revealing QR) in Complex{BigFloat} at 256 bits; its pivot-norm sequence interlaces the singular values and exhibits the same rank gap. A genuine singular-value spectrum is ALSO recorded by downcasting to ComplexF64 and calling LinearAlgebra.svdvals -- both are reported per weight"},
+      {"VW/KMSV": "KMSV Sec.5 'an echelonized basis [28,Sec.4.4] of functions with respect to the coefficients b_n'", "engine": "resolved as: reduced row echelon form of the kernel basis matrix with the columns in the natural coefficient order n = 0,1,2,.... This is the exact analogue of the Miller/echelon basis for classical modular forms. The pivot positions are machine-determined and recorded (see normalization_convention below), not chosen by hand"}
+    ],
+    "NOT_used_from_VW": ["Cauchy-integral / Simpson relations (eq 13-16) -- the automorphy relations (10)-(11) alone already reproduce every predicted dimension", "Hecke relations (eq 17-18) -- our Gamma is not known to be congruence and no Hecke structure was needed", "Shimura-Maass derivative relations (Lemma 3.7)", "fnorm = f(z)(Im z)^{k/2} (Remark 3.3) -- our rho = 0.56 is small enough that the automorphy factor never became a stability problem"]
+  },
+
+  "part_B_MATERIAL_CORRECTION_to_ben3": {
+    "what": "ben3's cert states 'dim S_2=0, dim S_4=1, dim S_6=1, dim S_8=2 -- k=8 is the MINIMAL even weight with dim>=2'. All three nonzero values are wrong by exactly +1: ben3 mis-evaluated its OWN correctly-quoted formula.",
+    "correct_values_for_signature_(0;7,7,2)": {"k=4": 0, "k=6": 0, "k=8": 1, "k=10": 1, "k=12": 2, "k=14": 2, "k=16": 1, "k=18": 1, "k=20": 2},
+    "formula": "dim M_k(Gamma) = (k-1)(g'-1) + sum_i floor(k(e_i-1)/(2 e_i)) for even k>=4; dim M_2 = g'. (Gamma is cocompact so M_k = S_k.)",
+    "orbifold_signature_reconfirmed_this_ben": "(g'; e) = (0; 7,7,2), re-derived here from the cycle types by integer arithmetic only (script pilot1_ben4_L5_dimscan.jl), agreeing with ben3",
+    "external_validation_of_the_formula": "machine-checked against all three published Voight-Willis examples (script pilot1_ben4_L5_dimcheck.jl): sig (0;2,2,3,3) k=4 -> 1 (VW Ex.2 'dimension 1'); sig (1;2,2) k=2 -> 1 (VW Ex.3 '1-dimensional'); sig (2;-) k=2 -> 2 (VW Ex.4 '2-dimensional'). 3/3 agree.",
+    "consequence": "The minimal even weight with dim >= 2 is k = 12, NOT k = 8. At k=8 the space is 1-dimensional and NO hauptmodul ratio exists. ben4 therefore worked at k = 12.",
+    "bonus_from_the_correction": "deg D_12 = 1 and h^0 = 2 = deg+1, so the linear system |D_12| is COMPLETE and base-point-free on the genus-0 curve X; hence x = f_2/f_1 has degree exactly 1, i.e. is a hauptmodul, automatically -- no separate G-4-e search is needed. (deg D_k machine-computed in pilot1_ben4_L5_dimcheck.jl.)"
+  },
+
+  "part_C_gates": {
+    "reduction_hard_checks": {
+      "script": "scratchpad/pilot1_ben4_L5_setup.jl",
+      "sample": "400 random points of the disc |w| <= 0.93",
+      "gamma_not_in_Gamma_rows": 0,
+      "gamma_membership_test": "EXACT (integer permutation of the accumulated word must fix coset 1)",
+      "max_abs_gamma_zred_minus_z": 5.902996518393634e-76,
+      "max_automorphy_factor_identity_defect": "9.672508781705778e-76   ( ||j(gamma^-1,z)|^2 Im(zred) - Im(z)|, VW (12) )",
+      "Delta_stage_nonconvergent": 0,
+      "Gamma_equivariance_failures": "0 / 60  (reduce(z) = reduce(gamma.z) for a nontrivial gamma) -- this is ben2's G3-c lifted to the Gamma level",
+      "independent_re_derivation_cross_checks": {
+        "trace_delta_0_vs_ben1_Arb_value": 4.846398864840856e-60,
+        "trace_error_vs_2cos(pi/7)": 1.727e-77,
+        "kite_t_vs_ben3_hypergeometric_mu": 2.0989588249820888e-44,
+        "note": "ben4 rebuilt L1/L3 from scratch in pure Julia Complex{BigFloat} (no Nemo/Arb), so these are genuine independent-arithmetic reproductions of ben1/ben2/ben3 values, not re-reads"
+      }
+    },
+
+    "G_4_c_kernel_dimension": {
+      "status": "PASS",
+      "script": "scratchpad/pilot1_ben4_L5_dimscan.jl",
+      "setup": "N = 40, rho = 0.56, sample radii [0.55, 0.50], 130 relation rows per weight, max|w'| over used rows = 0.5129",
+      "result": "the numerical kernel dimension equals the Riemann-Roch prediction at ALL NINE weights k = 4,6,8,10,12,14,16,18,20, giving the fingerprint 0,0,1,1,2,2,1,1,2 -- including the NON-MONOTONE drop 2 (k=14) -> 1 (k=16) -> 1 (k=18) -> 2 (k=20), which no naive 'dimension grows with weight' bug could produce",
+      "per_weight": [
+        {"k": 4,  "dim": 0, "pred": 0, "svdvals_last_two": [0.7348953172392214, 0.7191552927857193],  "gap_ratio": "n/a (full rank, no kernel)"},
+        {"k": 6,  "dim": 0, "pred": 0, "svdvals_last_two": [0.7156383930866449, 0.699223622873647],   "gap_ratio": "n/a (full rank, no kernel)"},
+        {"k": 8,  "dim": 1, "pred": 1, "svdvals_last_two": [0.6945145190743137, 5.67272580233383e-8], "gap_ratio": 7646804.9250493},
+        {"k": 10, "dim": 1, "pred": 1, "svdvals_last_two": [0.590372752143807, 2.3637442439269763e-7],"gap_ratio": 1113875.1633628188},
+        {"k": 12, "dim": 2, "pred": 2, "svdvals_last_two": [5.952333993438634e-7, 8.051047406254052e-8], "gap_ratio": 337930.80642718036},
+        {"k": 14, "dim": 2, "pred": 2, "svdvals_last_two": [2.188230821835446e-6, 7.567352813604962e-7], "gap_ratio": 163845.80791162763},
+        {"k": 16, "dim": 1, "pred": 1, "svdvals_last_two": [0.25125856252263307, 4.745943101030798e-6], "gap_ratio": 45033.72859752704},
+        {"k": 18, "dim": 1, "pred": 1, "svdvals_last_two": [0.18334707367400377, 7.54314440636621e-6],  "gap_ratio": 18038.143812107664},
+        {"k": 20, "dim": 2, "pred": 2, "svdvals_last_two": [1.815866005584617e-5, 1.3206314976081259e-5],"gap_ratio": 5814.372215448101}
+      ],
+      "gap_criterion": "rank = #{pivot norms >= 1e-3 * leading pivot norm}. The threshold sits in an empty band: in every run the kernel pivots are <= 3.4e-5 and the in-range pivots are >= 1.3e-1. The achieved gap ratio (last kept / first dropped) is listed per weight above.",
+      "measurement_and_prediction_are_independent": "the prediction is integer arithmetic on the permutation cycle types; the measurement is complex numerical linear algebra on the geometry. No quantity flows from one to the other."
+    },
+
+    "G_4_a_heldout_residual": {
+      "status": "PASS",
+      "script": "scratchpad/pilot1_ben4_L5_basis.jl",
+      "held_out_construction": "57 points on radii [0.53, 0.45, 0.35] with angular offset 0.4571; the fit set uses radii [0.55, 0.50] with angular offset 0.1379. The two RADIUS SETS ARE DISJOINT, so no held-out point can coincide with a fit point (exact, structural -- this is the defence against the spec's mutant MU-4). 52 of the 57 give a nontrivial gamma and are usable.",
+      "metric": "relative automorphy defect  |f_N(z') - j(g,z)^k f_N(z)| / max(|f_N(z')|,|j^k f_N(z)|)  at a point never seen by the fit",
+      "table": [
+        {"N": 30, "defect_max_f1": 1.8934542025996666e-4,  "defect_max_f2": 2.3260764215011796e-4,  "rho^(N+1)": 1.562531701075868e-8,  "ratio_defect_over_rho^(N+1)": 12117.86},
+        {"N": 45, "defect_max_f1": 1.0814160681364843e-7,  "defect_max_f2": 4.88017604415233e-8,   "rho^(N+1)": 2.610052495349895e-12, "ratio_defect_over_rho^(N+1)": 41432.73},
+        {"N": 60, "defect_max_f1": 2.941460009999125e-11,  "defect_max_f2": 9.031694974406244e-11, "rho^(N+1)": 4.359830922976866e-16, "ratio_defect_over_rho^(N+1)": 67467.30},
+        {"N": 75, "defect_max_f1": 1.442296593355934e-16,  "defect_max_f2": 1.0933286355137913e-14,"rho^(N+1)": 7.282660295457829e-20, "ratio_defect_over_rho^(N+1)": 1980.45},
+        {"N": 90, "defect_max_f1": 6.639598602086573e-19,  "defect_max_f2": 4.156051519137146e-18, "rho^(N+1)": 1.2164953622289664e-23,"ratio_defect_over_rho^(N+1)": 54579.73}
+      ],
+      "verdict": "the held-out defect falls by 15 orders of magnitude as N goes 30 -> 90, and the ratio defect/rho^(N+1) stays inside a band of 1.5 orders (2.0e3 .. 6.7e4) over that entire range. That is exactly the behaviour VW's degree estimate (8), N = log(eps)/log(rho), predicts. No plateau appears down to 6.6e-19, confirming truncation (not the 256-bit working precision) is the limiting term throughout.",
+      "extra": "the Gamma-invariance defect of the hauptmodul candidate x = f_2/f_1 at the same held-out points tracks the same curve: 2.342e-4, 1.112e-7, 9.101e-11, 1.098e-14, 4.108e-18"
+    },
+
+    "G_4_d_coefficient_stability": {
+      "status": "PASS",
+      "metric": "max_{n<8} |btilde_n(N) - btilde_n(N')| for successive N in the echelon basis",
+      "f1": {"30_vs_45": 2.1968658128106357e-6, "45_vs_60": 3.001993803646234e-9, "60_vs_75": 1.0979978752807266e-12, "75_vs_90": 1.3379170214360985e-17},
+      "f2": {"30_vs_45": 3.7196545021129388e-6, "45_vs_60": 2.3231211958025267e-9, "60_vs_75": 8.485550404121929e-13, "75_vs_90": 2.9812194779357803e-16}
+    },
+
+    "G_4_e_hauptmodul": {
+      "status": "PASS by proof + machine evidence (not by a search)",
+      "proof": "deg D_12 = 1 and dim M_12 = 2 = deg+1 on the genus-0 curve X, so |D_12| is the complete base-point-free system O(1) and x = f_2/f_1 has degree exactly 1",
+      "machine_evidence": "the echelon pivots are (n_1,n_2) = (0,1) at EVERY N in {30,45,60,75,90}, so f_1 = (1-w)^12(1 + O(w^2)) and f_2 = (1-w)^12(w + O(w^2)); hence x = f_2/f_1 = w + O(w^2) has a simple zero at p = i. Gamma-invariance of x checked at held-out points to 4.1e-18 (see above)."
+    },
+
+    "destructive_controls": {
+      "script": "scratchpad/pilot1_ben4_L5_controls.jl",
+      "MU_A_wrong_automorphy_exponent": "replacing j(g,z)^k by j(g,z)^{-k}: k=12 gives dim 4 (pred 2), k=8 gives dim 2 (pred 1) -- prediction DESTROYED",
+      "MU_B_gamma_not_in_Gamma": "post-multiplying gamma by delta_inf (which is NOT in Gamma): k=12 gives dim 1 (pred 2), k=8 gives dim 0 (pred 1) -- prediction DESTROYED",
+      "MU_4_heldout_contamination": "prevented structurally, see G_4_a held_out_construction",
+      "verdict": "the G-4-c gate has discriminating power; it is not a tautology of the linear algebra"
+    }
+  },
+
+  "part_D_unplanned_structural_confirmation": {
+    "finding": "The echelon basis element f_1 at k=12 turns out to be LACUNARY in w^3: max|btilde_n| over n = 0 mod 3 is 5.7105e+00 while max|btilde_n| over n != 0 mod 3 is 4.2573e-18 (ratio 7.455e-19), at N = 90 over all 91 coefficients. The other basis element f_2 shows ratio 9.809e-01, i.e. no lacunarity at all -- the perfect internal control.",
+    "explanation_derived_after_the_fact": "Delta(7,2,3) has signature (0;7,2,3) and dim M_12(Delta) = 1 (machine-computed). The degree-9 action is PRIMITIVE (ben1 G1-c), so Gamma is a maximal subgroup and M_12(Delta) sits inside M_12(Gamma) as the unique line on which delta_inf acts trivially. A Delta-form of weight k expanded at an elliptic point of order e has b_n = 0 unless n = -k/2 (mod e); here e = 3, k = 12, so n = 0 (mod 3). Exactly what the machine produced.",
+    "why_this_matters": "Nothing about Delta-invariance, about M_12(Delta), or about elliptic-point lacunarity was put into the computation -- the linear system only ever saw Gamma. That the numerics spontaneously reproduce a 20-digit-clean lacunary series is strong independent evidence that (i) the reduction really returns Gamma elements, (ii) the automorphy factor convention is right, (iii) the choice p = z_a = i is the correct bridge between the Gamma side (VW) and the Delta side (KMSV Sec.4), since KMSV's phi is lacunary in exactly the same w^a."
+  },
+
+  "normalization_convention": {
+    "declared_before_reading_the_output": "false -- the echelon pivots are a machine OUTPUT, recorded here, not a hand choice",
+    "convention": "kernel basis put in reduced row echelon form with columns in the natural coefficient order n = 0,1,2,...; the pivot coefficients are set to 1 and are 0 in the other basis elements",
+    "observed_pivots": "(n_1, n_2) = (0, 1), stable across N = 30,45,60,75,90",
+    "resulting_normalisation": "f_1 = (1-w)^12 (1 + 0*w + sum_{n>=2} b_n w^n),  f_2 = (1-w)^12 (0 + w + sum_{n>=2} b_n w^n),  w = (z-i)/(z+i)",
+    "residual_ambiguity_and_why_it_is_harmless": "KMSV's [28,Sec.4.4] is unavailable, so we cannot confirm that Klug's echelonisation is literally this one. Any other basis normalisation differs by an element of GL_2(C) acting on the 2-dimensional space, which changes x = f_2/f_1 only by a Mobius transformation of the SOURCE P^1 -- precisely the freedom the spec's G-5 'convention N' (post-hoc Mobius search) is designed to absorb. The ambiguity is therefore inert downstream, and no re-acquisition of [28] is needed for the pilot. (This retires the urgency of the frozen literature request PILOT-L28; it does not claim [28] says the same thing.)"
+  },
+
+  "part_E_what_L5s_validity_actually_rests_on": {
+    "claim": "the VW automorphy relation (11) is valid for ANY gamma in Gamma; it does NOT require F to be a fundamental domain, nor the edge pairing to close, nor the area to be right",
+    "consequence": "ben3's registered 'candidate scaffolding' items G3-b (containment proxy), G3-d (edge-pairing closure) and G3-e (area) are NOT prerequisites for L5. The only two things L5 needs are (i) gamma in Gamma, verified EXACTLY by the permutation word, 0 failures in 400 points and in every relation row used; and (ii) |w| and |w'| both <= rho, verified numerically per row (max 0.5129 <= 0.56).",
+    "what_G3_b_d_e_still_matter_for": "any claim that F = union of g_j*KITE IS a fundamental domain, and any rigorous (as opposed to empirical) bound on rho. ben3's frozen first-suspect order [G3-e, G3-d, G3-b] remains the right debug order for a future G-5 failure, but a G-5 failure would now be LESS likely to be caused by them."
+  },
+
+  "part_F_handover_to_ben5": {
+    "assets_now_in_hand": [
+      "Gamma-reduction with exact Gamma-membership certification (scratchpad/pilot1_ben4_L5_core.jl)",
+      "VW relation matrix + rank-revealing kernel + echelonisation (scratchpad/pilot1_ben4_L5_linalg.jl)",
+      "echelonized numerical basis of S_12(Gamma), N = 90, 256-bit working precision, held-out defect 6.6e-19 (scratchpad/pilot1_ben4_L5_basis_out.json, fields basis_btilde_re / basis_btilde_im, b_n = btilde_n / rho^n with rho = 0.56)"
+    ],
+    "SINGLE_COORDINATE_FACT": "both sides are now expansions in the SAME disc coordinate w = (z-i)/(z+i) centred at z_a = i: the Delta-side phi via KMSV (4.16) (ben3) and the Gamma-side forms via VW (ben4). So no reduction or point-matching is needed to compare them -- the G-5 fit becomes a pure power-series identity.",
+    "remaining_work_for_G_5": [
+      "1. complete the KMSV (4.16) Puiseux reversion to get phi's w-series to ~30+ terms (ben3 computed only A,B,C,kappa; the reversion itself was NOT done)",
+      "2. invert the series x(w) = w + O(w^2) to get w(x) (formal power series reversion)",
+      "3. substitute to get phi as a series in x; fit phi = P(x)/R(x) with deg P = deg R = 9 by the linear system phi*R(x) - P(x) = O(x^M) -- linear in the 20 unknown coefficients",
+      "4. L7: recognise the coefficients over Q (Nemo lll + factor)",
+      "5. G-5: post-hoc Mobius search on the SOURCE against the LMFDB published map; G-6 ramification checks"
+    ],
+    "TARGET_SIDE_LABEL_WARNING": {
+      "issue": "the spec's G-5 'convention N' searches a Mobius on the SOURCE P^1 only. The TARGET labelling is NOT free and must be fixed correctly, or G-5 will fail for a reason that has nothing to do with T-a/T-b.",
+      "what_KMSV_says": "KMSV Sec.4 (read this ben, p.34): 'there is an isomorphism phi : X(Delta) -> P^1(C) ... unique if we insist that the elliptic points map to the points 0, 1, infinity. The function phi ... has a single simple pole at the elliptic point of order c', and (4.16) gives phi(w) = (w/kappa)^a + ... near p = z_a. Hence phi(z_a) = 0, phi(z_c) = infinity, phi(z_b) = 1.",
+      "our_labels": "engine (a,b,c) = (3,7,2) with z_a = i = our delta_inf (order 3), z_b = t*i = our delta_0 (order 7), z_c = x+iy = our delta_1 (order 2). So phi sends the order-3 point to 0, the order-7 point to 1, the order-2 point to infinity.",
+      "LMFDB_labels": "ramification order 7 over 0, 2 over 1, 3 over infinity (passport 7.1.1 / 2.2.2.2.1 / 3.3.3, with ben1's frozen branch_assignment [1,2,3])",
+      "derived_relation": "for the currently frozen branch_assignment [1,2,3] and engine labelling (a,b,c) = (3,7,2):  t_LMFDB = (phi - 1)/phi = 1 - 1/phi.  (Derivation: t = mu(phi) with mu a Mobius permuting {0,1,infinity} and ord_t(x) = ord_phi(mu^{-1}(x)); this forces mu(1)=0, mu(infinity)=1, mu(0)=infinity.)",
+      "status": "DERIVED THIS BEN by the mathematician from KMSV's own normalisation sentence; NOT yet machine-confirmed. ben5 must carry it as a hypothesis and let G-5 confirm or refute it, and must re-derive it for each T-a/T-b variant carried, since T-a/T-b permutes exactly these labels."
+    },
+    "T_a_T_b_status": "still UNRESOLVED (G-5 not started). ben2's pre-registered prediction (T-b or an identity-like reading wins, T-a loses) remains an untested call."
+  },
+
+  "not_reached": [
+    "G-5 (Mobius match against the LMFDB published map) -- deliberately not started, out of ben4 scope by instruction",
+    "the KMSV (4.16) series reversion for phi (only A,B,C,kappa exist, from ben3) -- so no numeric Delta-hauptmodul values yet",
+    "L7 algebraic recognition (LLL) of the Gamma-side coefficients -- not attempted; the ben4 basis is purely numerical (Complex{BigFloat})",
+    "a PROVEN bound rho >= max{|w| : w in F}. rho = 0.56 is supported by three empirical probes (0.51828 over 400 random points, 0.55160 over the 36 kite-copy vertices, 0.5129 over every relation row actually used) but is not a theorem",
+    "proof that the 36-element Gamma pool generates Gamma. Sufficiency of the relation set is argued only empirically -- by the 9/9 dimension agreement, which would fail if the relations were too weak",
+    "G3-b / G3-d / G3-e remain candidate scaffolding as registered in ben3 (see part_E for why L5 does not depend on them)",
+    "independent second-implementation cross-check of the L5 numerics by a different agent or language. Within ben4 the prediction side and the measurement side are independent of each other, but both live in this implementer's scripts",
+    "Lean formalisation -- none. Nothing here is 'verified' in the workshop's sense",
+    "the k=12 basis was not compared against any externally published value (none exists for this Gamma); the external validation is of the DIMENSION FORMULA only, against VW Examples 2/3/4"
+  ],
+
+  "generated_by": {
+    "scripts": [
+      {"path": "scratchpad/pilot1_ben4_L5_core.jl",     "sha16": "dfcfe647e45bb36b", "role": "engine rebuild (Complex{BigFloat}), kite, cosets, Gamma-reduction"},
+      {"path": "scratchpad/pilot1_ben4_L5_linalg.jl",   "sha16": "dd004ac6e101bb91", "role": "VW relation rows, RRQR kernel, echelonisation, dimension formula"},
+      {"path": "scratchpad/pilot1_ben4_L5_setup.jl",    "sha16": "91a51fcfa6d8b683", "role": "stage 1: cross-checks, Gamma-membership, equivariance, rho"},
+      {"path": "scratchpad/pilot1_ben4_L5_dimscan.jl",  "sha16": "40e57503f0a0cdc9", "role": "stage 2: G-4-c dimension scan over 9 weights"},
+      {"path": "scratchpad/pilot1_ben4_L5_basis.jl",    "sha16": "8a02cc5355923b48", "role": "stage 3: k=12 echelon basis, G-4-a, G-4-d"},
+      {"path": "scratchpad/pilot1_ben4_L5_controls.jl", "sha16": "d13722627535a8c0", "role": "stage 4: lacunarity cross-check, MU-A/MU-B destructive controls"},
+      {"path": "scratchpad/pilot1_ben4_L5_dimcheck.jl", "sha16": "7f47022446106c1a", "role": "external validation of the dimension formula vs VW Examples 2/3/4"}
+    ],
+    "outputs": ["scratchpad/pilot1_ben4_L5_setup_out.json", "scratchpad/pilot1_ben4_L5_dimscan_out.json", "scratchpad/pilot1_ben4_L5_basis_out.json"],
+    "tools": ["Julia 1.12.7", "JSON3.jl", "LinearAlgebra (stdlib, ComplexF64 svdvals only)", "poppler pdftotext/pdftocairo"],
+    "working_precision": "setprecision(BigFloat, 256) = 256 bits (~77 decimal digits), above the 150-bit floor set by the ben4 order",
+    "note_on_Nemo": "ben4's L5 layer deliberately does NOT use Nemo/Arb: it is rebuilt in base-Julia Complex{BigFloat}, which makes ben1/ben2/ben3's Arb values independently reproducible (see part_C independent_re_derivation_cross_checks) and gives direct control of the rank-revealing elimination. Nemo remains the ben1-3 arithmetic.",
+    "machine_output_only": true
+  },
+
+  "grade": "candidate (ben4: L5 reached; G-4-a / G-4-c / G-4-d PASS with destructive controls; the ben3 blocker dissolved by reading the method's actual source [60]; one material arithmetic correction to ben3's dimension table; G-5 untouched by instruction). NOT cross-checked in the workshop's two-implementer sense and NOT verified."
+}
