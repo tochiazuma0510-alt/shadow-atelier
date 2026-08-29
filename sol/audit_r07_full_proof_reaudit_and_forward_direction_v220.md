@@ -9833,3 +9833,68 @@ relative-dihedral/Newton lift must be completed.
 The v369--v372 proof package and this delta were frozen in parent-broker
 commit `e6b993cd` on branch `sol/r07-explicit-lift-20260825`; the GHA run IDs
 inspected in this delta are `33263899806`, `33262485779`, and `33267817818`.
+
+### Delta 248 (2026-08-30): the raw occurrence closure now has the exact first-successor consumer
+
+- `proof_r07_frattini_loop_target_and_occurrence_projection_v373.md` is a
+  rejected draft, 12,183 bytes, SHA-256
+  `23aa7ce7be21ae51a7958de9804c6f69dc0662c6fa57447884b96b4a4891d951`.
+  Its unsupported naturality, blockwise formation, loophood and source-map
+  assertions are not promoted.
+- The corrected
+  `proof_r07_frattini_loop_target_and_occurrence_projection_v374.md`, 16,616
+  bytes, SHA-256
+  `006c586def82d4e5097275df6a85b88ffd406eceec60f0c6fd90c059b840b223`,
+  received an independent Sol(max) PASS.  For every registered block, the
+  coarse Fox-loop fibre is canonically the next relative Frattini endpoint
+  (K_{B,n}/K_{B,n+1}).  The supported successor layer is the literal
+  intersection
+  (T_{B,n}=V_{B,n}\cap N_{B,n+1}), with the aligned formation formula
+  (T^S_{B,n}=(K_{B,n}\cap\Phi_3^{n+1}(P_B^S))/K_{B,n+1}); the pentagon
+  retains its separate Brunnian intersection.
+- V374 also proves that all of the task395 four-generator closure lies in
+  the three loop kernels.  On the finite formal action module, the
+  authenticated occurrence map and actual affine correction map form the
+  commuting square
+  \(\lambda_0\widehat b=D_0^{\rm act}m\).  Basis completeness and generator
+  closure therefore give the exact image equality
+  \(\lambda_0(W_C)=\operatorname{im}D_0^{\rm act}\), conditional only on the
+  named task198/task382 physical ABI.  Thus first-successor correction is
+  the direct finite test \(-\beta_0\in\lambda_0(W_C)\); an ordinary strict
+  (L/JL) theorem is not needed for this one edge.
+- The final task395 v3 implementation received an independent Sol(max) code
+  audit PASS.  Its producer, checker, GAP driver and Luna report have hashes
+  `8d1ee5d06fd5dc760c2df1fa760cb64280903c2a10561b4340f93ed313deb817`,
+  `7409847c42581631495cadae549e7cff019d4f9e30c6398b679fb9e5e50b829c`,
+  `9395acdade96fca3bd70105e674b0f687c92d6900ae33d0fea8fdf3f72fa4eb1`
+  and
+  `8cdba56c4e19030261092253dead9a376fcd963f2d940b18845b92a5a5077591`.
+  It restores producer and checker ownership separately, keeps candidate
+  ancestry distinct from reduced ancestry, directly replays dependent as
+  well as independent actions, requires exact forward transcripts and
+  Boolean `complete:true`, and checks both span directions.  It is ready to
+  consume a positive task382 basis but has no such input yet.
+- The exact one-successor criterion is necessary and sufficient at every
+  rung: (D_n[c_n]=-\beta_n), and later deeper corrections preserve all
+  earlier equations.  This does not prove that every finite accepted set is
+  nonempty.  A compatible all-rung branch follows by finite-state Koenig
+  compactness only after that nonemptiness, or alternatively from one
+  natural completed right-inverse identity.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the first-successor target, projection and
+  membership predicate are now paper-complete and task395 is code-audited.
+  The remaining first-edge dependency is physical: a positive A4/task382
+  action-and-basis owner and the actual comparison with (-\beta_0).
+- For the pro-(3) tail, strict (L/JL) is no longer a prerequisite for a
+  direct rung-by-rung test.  The live mathematical obstruction is now
+  sharply the uniform nonemptiness/completed-right-inverse problem, plus
+  the previously named nonlinear replay if the Newton route is used.
+- A4 remains **1/3** pending a positive basis or a complete negative; A0
+  remains **0/1** pending its replacement run.  No compatible lift, fake or
+  Ihara witness numerator changes in this delta.
+
+Delta248 replaces an untyped occurrence heuristic by the exact finite
+first-successor correction test, while leaving the all-rung and physical
+input obligations explicit.
