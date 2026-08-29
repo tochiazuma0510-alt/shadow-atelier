@@ -7340,3 +7340,31 @@ keeping its execution behind an independent full-source gate.
 
 Delta186 ends the A0 implementation delay and moves the exact v12c bundle
 directly into the already-prepared independent full-source audit.
+
+### Delta 187 (2026-08-29): A4/v9 audit retains the trace repair but rejects the driver envelope
+
+- Froze `sol/sol_reply_386_r07_a4_v9_code_performance_reaudit_v1.md`
+  (18,353 bytes; SHA-256
+  `006e26aa03a762b8f30936ed70923a0a5be337152d5f286efc94d313d6746a3e`).
+  Its verdict is **STATIC REJECT**; nothing was executed.
+- The v7/v6 reverse deltas, row-4 ordered two-admission trace, other six
+  rejection traces, independent serial commands and basic canonical/self-seal
+  route pass.  These repairs are retained.
+- Five driver/source groups remain: six task198 source owners are not bound or
+  revalidated; missing row 4 is mislabeled as symlink/reparse; payload maps and
+  normalization are overbroad; the buffer peak omits a third result buffer and
+  normalized DOM while duplicate full passes/stale scans remain; and rollback
+  loses its timer while post-terminal close/timer failures can be accepted.
+- Added `sol/sol_task_387_r07_a4_v10_complete_driver_repair.txt` to repair all
+  groups in one versioned tranche before another independent audit.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V9 STATIC REJECT / V10 COMPLETE REPAIR ACTIVE**.
+  A0 is **0/1 V12C FULL AUDIT ACTIVE**, A3 **0/3 V5 REPAIR FROZEN**, and
+  A5--A7 **0/3**.
+- No rows-1--7 candidate, full A4 basis, common word, compatible lift, fake
+  certificate or Ihara witness is added.
+
+Delta187 prevents a valid trace repair from masking incomplete physical
+ancestry, understated memory and a post-success rollback boundary.

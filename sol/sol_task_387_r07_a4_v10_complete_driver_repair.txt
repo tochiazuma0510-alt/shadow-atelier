@@ -1,0 +1,123 @@
+Sol(max) task 387 - A4/v10 complete source/driver repair after task386
+
+Role: fresh bounded implementation repairer. Read every numbered section
+first to last. The task386 auditor must not implement this tranche. Preserve
+every task386 PASS finding and repair all five rejection groups together.
+Do not execute or compile any candidate. Write only the four designated
+outputs.
+
+1. Frozen input and outputs
+
+Read task383/reply383, task386/reply386, producer v7, checker v6, driver v9,
+and the frozen v5 fixture. Audit the directly pinned task198 authority owners
+needed by the driver graph. Create exactly:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v8.py
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v7.py
+- search/d972_r07_a4_actual_owner_trace_gha_driver_v10.g
+- sol/sol_reply_387_r07_a4_v10_complete_driver_repair.md
+
+Do not edit the frozen inputs or fixture. Scope remains candidate-only rows
+1--7. Rows 8--48, full A4, an A4 basis, lift, fake and Ihara claims remain
+false/incomplete.
+
+Retain byte-for-byte semantics of the exact row-4 ordered
+manifest.path/receipt.path trace, the other six exact first-rejection traces,
+fixed serial independent candidate commands, ordinary validators and every
+task386 PASS clause.
+
+2. F1 - bind the complete physical task198 graph
+
+The v10 driver must open, identity-bind and revalidate not only task198
+receipt/manifest but also both attestations, checker verdict and all three
+task198 program sources. Include all eight task198 owners in duplicate
+logical/physical-path rejection, before/after-candidate revalidation, every
+pre-sentinel and post-sentinel revalidation, and the sentinel identity graph.
+No transcript literal may substitute for a retained physical owner.
+
+Bind both output directories and reject a physical alias between them. Reject
+any alias with an authority, candidate, output or driver owner. Preserve the
+acyclic graph and no-follow path walk.
+
+3. F2 - truthful missing-path evidence and exact admission shape
+
+Version both candidates. For row 4, emit a truthful missing owner with
+`exists=false`, `type=missing`, `readable=false`, `symlink_or_reparse=false`,
+and no link target. The driver must require that exact shape. Never encode
+"nonregular" as synonymous with symlink/reparse.
+
+Require the resource `payload_owners` map to have the exact registered keys,
+order-independent values and individual source-derived byte counts, not only
+a nonnegative sum. Restrict producer/checker normalization to an explicit
+allowlist of the admitted root schema and registered role-specific
+validator/reason fields. Do not normalize arbitrary dictionary keys or nested
+strings. A semantic difference anywhere else must survive and reject.
+
+4. F3 - truthful buffers and remove avoidable full passes
+
+Repair the driver result reader so no `raw + LF-stripped payload + canonical`
+triple exists. Parse the canonical raw with its legal trailing LF directly or
+use another source-proved bounded route. Account for raw, decoded text, DOM,
+canonical buffer, projection, normalized comparison state and every retained
+producer/checker object at their simultaneous lifetimes.
+
+Do not allocate a complete projection before enforcing its cap. Replace the
+recursive full normalized-DOM copy by a bounded streaming/restricted-field
+comparison or another source-proved representation which cannot coexist as an
+unaccounted full container tree. Fuse or stream repeated canonical/body-seal/
+projection passes for candidate results and the 31-MB task198 receipt where
+semantics permit. List every unavoidable full pass and exact reason.
+
+Remove the pre-harness unbounded duplicate GAP directory scan. The bound-fd
+Python stale scan must have an explicit entry/name-byte cap and in-loop
+deadline. Recompute the true maximum explicit-byte/container formula from the
+new source; do not call it RSS. Retain serial candidates and all RLIMIT/CPU/
+wall margins.
+
+5. F4 - deadline-bounded rollback and fail-closed close order
+
+Keep the global timer armed through process stopping, rollback, fsync and
+close, or install a separately bounded cleanup timer before cancelling it.
+Put deadline checks inside every potentially long cleanup and stale-scan
+loop. The published 260-second cleanup margin and 9000-second global wall must
+be enforced by control flow, not only arithmetic.
+
+On success, close every retained authority/parent/output-directory/root fd and
+cancel/restore the timer before emitting the single accepting terminal. Any
+close or timer failure must trigger rollback and a nonzero status. After the
+terminal is emitted there must be no fallible timer, close, revalidation,
+publication or cleanup operation. Preserve status-bearing GAP `Process`; no
+GAP acceptance check may strand visible outputs after Python success.
+
+6. Static closure and reply
+
+Give exact forward/reverse deltas. The reverse map should recover v7/v6/v9
+except for the complete enumerated repair regions and truthful version labels;
+explain any wider delta. Report exact bytes/SHA-256 for the three machine
+owners; the reply SHA is supplied externally after freeze. Inventory physical
+owners, full passes, simultaneous buffers/containers, deadlines and every
+publication failure edge with line anchors.
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, imports, syntax
+compilation, candidates, mutations, subprocess tests or RSS. Read-only
+PowerShell inspection and hashing are allowed. A fresh independent audit is
+mandatory before GHA.
+
+End exactly with:
+
+A4/V10 VERSIONED OWNERS:                 COMPLETE or INCOMPLETE
+TASK386 RETAINED PASS CLAUSES:            RETAINED or REGRESSED
+COMPLETE TASK198 PHYSICAL GRAPH:          REPAIRED or OPEN
+TRUTHFUL ROW4 MISSING OWNER:              REPAIRED or OPEN
+EXACT PAYLOAD / NORMALIZATION ADMISSION:  REPAIRED or OPEN
+BUFFER / DUPLICATE-PASS ACCOUNTING:       REPAIRED or OPEN
+BOUNDED STALE SCAN / CLEANUP TIMER:       REPAIRED or OPEN
+FAIL-CLOSED CLOSE / TERMINAL ORDER:       REPAIRED or OPEN
+CANDIDATE / DRIVER EXECUTION:             UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:           REQUIRED
+ROWS1-7 A4/V10 GHA:                       FORBIDDEN
+FULL 48x2 A4:                             remains INCOMPLETE
+ACTUAL A4 NUMERATOR:                      remains 1/3
+LIFT / FAKE / IHARA:                      NONE
+
+TASK387_R07_A4_V10_COMPLETE_DRIVER_REPAIR
