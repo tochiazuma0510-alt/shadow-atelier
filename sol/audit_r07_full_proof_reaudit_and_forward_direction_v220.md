@@ -9829,3 +9829,7 @@ with the still-missing physical compatible lift.
 Delta247 prevents the active Frattini obstruction from being accidentally
 quotiented away and gives the exact finite state on which the uniform
 relative-dihedral/Newton lift must be completed.
+
+The v369--v372 proof package and this delta were frozen in parent-broker
+commit `e6b993cd` on branch `sol/r07-explicit-lift-20260825`; the GHA run IDs
+inspected in this delta are `33263899806`, `33262485779`, and `33267817818`.
