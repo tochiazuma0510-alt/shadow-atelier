@@ -10108,3 +10108,110 @@ visible.
 
 Delta252 keeps the launch failure distinct from the audited compact owner and
 from the mathematical terminal of its replacement run.
+
+### Delta 253 (2026-08-30): the A4 checkpoint decoder receives the one-line GAP type repair
+
+- Replacement run 33274409570 received the intended quoted RESUME mode but
+  failed before starting either Python owner.  The embedded hexadecimal
+  checkpoint payloads were valid; the GAP decoder attempted
+  Concatenation(out,CharInt(...)), while CharInt returns one character
+  rather than a list.  GAP therefore stopped immediately with
+  Concatenation: arguments must be lists.  No checkpoint, mathematical row,
+  memory frontier, or artifact was changed.
+- Driver v30 replaces that one functional line by
+  Add(out,CharInt(...)).  Apart from v29-to-v30 paths and sentinel names,
+  no other executable logic changes.  Independent Sol(max) implementation
+  audit PASS gives 76,229 bytes and SHA-256
+  bacea39ac0615e0051d5cb59356f45f7fd8b8cd6867bad7b2bc2ec286949575c.
+  A tiny GAP 4.16 gate emitted V30_HEX_ADD_GATE_OK.
+- The unchanged embedded producer checkpoint decodes to 25,581 bytes with
+  SHA-256
+  595213bab8936ef10e94ce90ccf526c105d02d871c4dc5d02b6c76cb51593445;
+  the checker checkpoint decodes to 8,991 bytes with SHA-256
+  b96919b38272d87a6885da98a18603065d1c2ccf805cd2c4f65dd22e32ed7af2.
+  V16/v22 source pins, PRODUCTION/RESUME gate, mathematical order, and all
+  three sentinels remain intact.  Luna report bytes/hash are
+  1583 / 0c5fabb743ac67b8c49baf24fc4ba0b8fe926fb9b3d03e73897ce3b06580eef0.
+
+**v220 mapping**:
+
+- A4 remains **1/3** while v30 awaits publication and replacement dispatch.
+  Both failed launches stopped before computation and do not invalidate or
+  advance the durable next_row=25 frontier.
+- A0 remains **0/1 RUNNING** under 33267817818; A9 remains **0/3 actual**.
+
+Delta253 limits the repair to the exact GAP character/list mismatch exposed
+by the fail-fast run.
+
+### Delta 254 (2026-08-30): task395 now factors onto the correct coarse coinvariant image
+
+- proof_r07_task395_leading_coinvariant_bridge_v378.md is a rejected draft,
+  7,864 bytes, SHA-256
+  488b2c5264d9c265a20fb0c147593a1088ca229ce4f64fe50c93b4b6a4089355.
+  It incorrectly identified the fine task395 \(\Delta_1\)-action module with
+  the coarse \(\Delta_0\)-coinvariant source and attempted to localize the
+  whole raw chain space.  Its escaped-text corruption is also not promoted.
+- The corrected
+  proof_r07_task395_leading_coinvariant_bridge_v379.md, 8,245 bytes,
+  SHA-256
+  c5d73192c6c91e58eef867336befefae99d294be376f66c0b91755dc0daa33ee,
+  received an independent Sol(max) PASS.  It uses the actual marked
+  reduction
+
+  \[
+   \pi:\Delta_1^{\rm act}\twoheadrightarrow
+   G_0\simeq\Delta_0
+  \]
+
+  and the induced source quotient
+
+  \[
+   \pi_{\rm reg}:P_{\rm reg}\twoheadrightarrow
+   \overline P_C=P_C/\widehat JP_C.
+  \]
+
+  Localization is defined only on v374's stable legal loop image \(W_C\).
+  Fine-action equivariance through \(\pi\), together with the physical seed
+  replay, proves the exact factor square
+
+  \[
+   \boxed{
+   \overline B_C\pi_{\rm reg}=q_{\rm loc}\widehat b.}
+  \]
+
+  Since both source maps are onto their displayed images, this gives
+
+  \[
+   \boxed{
+   \operatorname {im}\overline B_C=q_{\rm loc}(W_C)}
+  \]
+
+  without injectivity of any raw-chain map.
+- Combining the factor square with v374's loop--successor square proves,
+  conditional on the common physical ABI,
+
+  \[
+   \bar\lambda_0(\operatorname {im}\overline B_C)
+   =\lambda_0(W_C)=\operatorname {im}D_0^{\rm act}.
+  \]
+
+  Thus v377's extra task395/action-closure equality is no longer an
+  independent all-depth theorem.  Full leading onto now requires exactly the
+  still-open isomorphism
+  \(L_{\rm corr}/\widehat JL_{\rm corr}\to Z_0^{\rm loc}\) and the numerical
+  full-image equality
+  \(\operatorname {im}D_0^{\rm act}=Z_0^{\rm loc}\), plus the named physical
+  ABI.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but one of Delta251's leading-quotient
+  comparison obligations is now a proved finite factorization.  The positive
+  linear frontier is reduced to the physical ABI, comparison isomorphism,
+  and full target-span decision.
+- The nonlinear one-depth return, non-pro-\(3\), perfect-core, and settlement
+  gates are unchanged.  No compatible lift, fake numerator, or Ihara witness
+  numerator is promoted.
+
+Delta254 corrects the fine/coarse action mismatch and removes one redundant
+leading-image hypothesis without assuming the two remaining finite decisions.
