@@ -8674,3 +8674,45 @@ that the positive dovetail terminates within any fixed resource budget.
 Delta221 fixes a load-bearing word/multiplier type error and creates an
 independent parallel path to the first nonlinear datum, while making no
 claim about its value or return membership.
+
+### Delta 222 (2026-08-29): the first nonlinear obstruction vanishes structurally
+
+- `proof_r07_class_two_nonlinear_remainder_vanishes_v356.md`, frozen at
+  commit `36bdc626205d0c6a2f4ad9c7b822297dd73881ba`, evaluates v355's
+  class-two formula on the exact registered contexts.  An exponent-zero A0
+  correction has source class `kappa[X,Y]`.  In H1 the signed substitutions
+  contribute `h,h,h`; in H2 they contribute `-h,-h,-h`.  Prefix conjugations
+  are invisible in class two, so both sums vanish over `F3`.
+- The degree-two PB4 quotient has basis
+  `h_123,h_124,h_134,h_234`.  Deleting strands `4,3,2,1` reads these four
+  coordinates separately.  Hence the common kernel of all four deletion maps
+  is zero in degrees one and two, and `Brun_4` begins in Zassenhaus degree
+  three.
+- BRUN-DEF puts both pentagon residuals before and after the A0 correction in
+  `Brun_4`; their ratio is therefore Brunnian and has zero degree-two class.
+  Together with the two hexagon cancellations this proves
+  `q2=(0,0,0)`, so the pointed return ancestry is empty:
+  `nu2=0` and `lambda2=mu`.
+- Task379 remains useful as a direct physical canary for the eleven contexts,
+  signs and printed factor order, but no A0-dependent elimination is needed
+  to prove first-return membership.  It must compute rather than hard-code
+  the zero.
+- V266 already removes new--new quadratic terms from the immediately next
+  layer for every depth `r>=2`.  The remaining nonlinear issue is now only
+  the transported-linear interaction with the accumulated shallower word and
+  residual tail.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual** because no accepted A0 word or all-depth return
+  package exists, but its first nonlinear `q2` canary is **paper-closed with
+  zero coefficient**.  The all-depth target has strictly narrowed to one
+  transported-linear return theorem.
+- A0 remains **0/1 active**, A2 **2/3**, A3 **3/3**, A4 **1/3 active**,
+  A5/A6/A7 **0/3 / 0/3 / 0/3 actual**, and A8 **0/3 actual**.
+- No compatible lift, fake, Ihara, mixed-prime or perfect-core numerator is
+  promoted.
+
+Delta222 removes the exceptional self-quadratic obstruction rather than
+merely scheduling its computation.  It does not extrapolate that cancellation
+to the later transported-linear terms.
