@@ -1,0 +1,106 @@
+Sol(max) task 378 - A4/v8 one-function producer repair after task375
+
+Role: fresh researcher-authorized bounded implementation repairer. Read every
+numbered section first to last before editing. The task375 auditor must not
+implement this tranche. Do not run the candidate. Write only the two
+designated versioned outputs below and do not edit any frozen v5 owner.
+
+1. Binding verdict and exact scope
+
+Read task367 and all four replies/outputs, task371 and its full STATIC REJECT,
+task373 and its full reply, task375 and the full audit reply. Task375's verdict
+is STATIC REJECT solely because producer v5 calls `admit_path` at line 651 but
+contains no definition or import of that name. Every other audited group is
+PASS: frozen identities, acyclic fixture/task198 authority, independent
+checker, modeled token ledger, RLIMIT_AS order, streaming canonical work,
+duplicate-work audit and no result publisher.
+
+This commission repairs that one definition gap only. It does not broaden
+rows 1--7, create a driver, touch rows 8--48, publish a result, change resource
+design, or claim execution.
+
+2. Sole permitted outputs
+
+Create exactly:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v6.py
+- sol/sol_reply_378_r07_a4_v8_one_function_repair.md
+
+The v6 producer must be a new versioned owner. Do not create or copy a v6
+checker or fixture: the frozen checker v5 and fixture v5 remain the paired
+owners. Update only producer-local version/schema/source labels required to
+make the new physical owner truthful; preserve all authority pins and fixture
+bindings. Report the final producer byte length and SHA-256 after all edits.
+
+3. Restore a producer-owned admission function
+
+Restore exactly one producer-owned `admit_path` definition before its first
+ordinary-route use. It must not import, call, alias or copy runtime evidence
+from the checker. The function must preserve the registered v4/v5 contract:
+
+1. enter `producer.transport.path_containment` with transport role and the
+   exact `<role>.path` owner;
+2. normalize the lexical candidate and the registered receipt/manifest path;
+3. admit only the exact registered owner or an immediate/descendant physical
+   mutation owner inside the invocation-unique workspace;
+4. on a containment failure, record the path-kind observed identity and raise
+   narrow `TraceReject` with stage/reason exactly
+   `producer.transport.path_containment` /
+   `producer:path:registered_containment`;
+5. walk every lexical path component and reject any symlink with the same
+   observation, stage and reason; and
+6. return the admitted lexical path unchanged after those checks.
+
+Use the frozen v4 producer lines 391--400 only as a semantic reference and
+adapt it to the v5/v6 EventSink, `_inside`, `_path_identity`, exception and
+resource interfaces. Do not transplant v4 allocation logic or any superseded
+publisher. There must be one definition and the existing two ordinary-route
+calls; no second validator route or Boolean shortcut.
+
+4. Preserve every task375 PASS clause
+
+Source-statically trace that the repair leaves unchanged:
+
+- exact v5 fixture self seal and immutable task198 identities;
+- complete row 11/context 28 and evaluator ABI canaries;
+- untouched baseline followed by seven ordinary producer mutation cases;
+- exact seven first-rejection meanings and narrow exception discipline;
+- concrete physical case parents, row-4 invocation-unique path identity,
+  fourteen retained-fd revalidations, cleanup and cache eviction;
+- modeled payload formulas, including peak 63,409,572 and terminal authority
+  payload 31,343,744, without calling them RSS or allocation proof;
+- Linux RLIMIT_AS installation before material authority allocation;
+- fused streaming canonical/seal/row scan, no deepcopy or avoidable 31-MB
+  materialization, and stdout-only result with `--output` rejected; and
+- exact scope flags:
+  `covered_rows=[1,2,3,4,5,6,7]`, `remaining_rows=[8,...,48]`,
+  `candidate_only=true`, `full_a4_selftest=false`,
+  `actual_a4_numerator=false`.
+
+If any producer-local version label must change, prove that doing so does not
+alter a frozen fixture/task198 binding or a registered rejection reason.
+
+5. Static-only closure and handoff
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, syntax/import
+compilation, mutations, RSS or any candidate command. Read-only PowerShell
+inspection and SHA-256 hashing are allowed. The v8 hybrid tranche remains
+UNEXECUTED and requires a fresh independent static reaudit of producer v6
+against frozen checker/fixture v5 before a driver may be designed.
+
+In the designated reply give the exact producer identity, line-numbered
+definition and call-chain evidence, task375 PASS preservation, and every
+command class not run. End exactly with:
+
+TASK375 UNDEFINED admit_path:            REPAIRED or OPEN
+PRODUCER-OWNED ORDINARY ADMISSION ROUTE: REACHABLE or BROKEN
+TASK375 PASS CLAUSES:                    RETAINED or REGRESSED
+ROWS 1--7 PRODUCER/CHECKER ROUTE:        IMPLEMENTED or BLOCKED
+RUNTIME / MUTATIONS / GHA:               UNEXECUTED
+FRESH INDEPENDENT REAUDIT REQUIRED:      YES
+PINNED GHA DRIVER:                       NOT PRESENT
+FULL 48x2 SELFTEST:                      INCOMPLETE
+ACTUAL A4:                               remains 1/3
+LIFT / FAKE / IHARA:                     NONE
+
+TASK378_R07_A4_V8_ONE_FUNCTION_REPAIR

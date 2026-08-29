@@ -6848,3 +6848,34 @@ execution-authorization gate without counting an unexecuted candidate.
 
 Delta171 converts the A3 failure into a finite repair contract without
 reopening the already-passed mathematics or counting an unexecuted result.
+
+### Delta 172 (2026-08-29): A4/v7 reject is isolated to one missing producer function
+
+- Froze the independent task375 reply
+  `sol/sol_reply_375_r07_a4_v7_code_performance_reaudit_v1.md`
+  (18,602 bytes; SHA-256
+  `0b9fd42011c22ad2440c59a64878becf3a56687ac336ba2e0af5f21040a6aca8`).
+  Its verdict is **STATIC REJECT**, with no candidate, runtime, compiler,
+  mutation, GHA, workflow or network execution.
+- All immutable identities and seals, the acyclic task198 graph, the
+  independent checker, exact payload ledgers, RLIMIT_AS ordering, streaming
+  canonical route, duplicate-work removal and absence of a result publisher
+  pass.  The sole load-bearing defect is that producer v5 calls undefined
+  `admit_path` at line 651, so its baseline and all seven producer mutations
+  are unreachable.
+- Added `sol/sol_task_378_r07_a4_v8_one_function_repair.txt`.  The bounded
+  v8 repair must restore one producer-owned path-admission definition and
+  retain every task375 PASS clause.  It deliberately reuses the frozen v5
+  checker and fixture; no execution or driver is authorized before another
+  fresh audit.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V7 STATIC REJECT / V8 ONE-FUNCTION REPAIR
+  ACTIVE**.  A0 is **0/1 V12B FRESH REAUDIT ACTIVE**, A3 **0/3 V4 BOUNDED
+  REPAIR ACTIVE**, and A5--A7 **0/3**.
+- No numerator changes.  No common word, compatible lift, fake certificate
+  or Ihara witness is added.
+
+Delta172 prevents a trivial missing name from reopening the already-passed
+A4 design while keeping execution gated on an independent source audit.
