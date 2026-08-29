@@ -7526,3 +7526,48 @@ operational perfection a parallel concern instead of the critical path.
 
 Delta192 is the new progress baseline for A0: subsequent reports compare
 against the active heavy run, not against the earlier infrastructure audits.
+
+### Delta 193 (2026-08-29): production-only A0 and the existing full A4 core replace audit-only runs
+
+- Run `33241920817` was cancelled after inspection showed that its live heavy
+  route was `SELFTEST_BOOTSTRAP`, not the requested common-word production
+  search.  Its elapsed work is not counted toward A0.
+- Commit `5bdfb961` introduced the production-only A0-v13 producer, independent
+  checker and driver.  At immutable head
+  `dfda5e17eaa83293d76bb93e939dfb97954deeb1`, parent/root dispatched actual
+  production run `33243151014`; it is currently in the GAP-script step.  This
+  route has no SELFTEST mode and a positive independently agreeing terminal is
+  the only event that can increment A0.
+- The A4-v10 rows-1--7 trace was reclassified correctly as `candidate_only`:
+  its own source says `actual_a4_numerator=false`.  Run `33243150681` was
+  cancelled and contributes no A4 progress.
+- The older frozen A4-v6 machine is a different object: its production route
+  consumes all 6,441 authenticated presentation rows, constructs the complete
+  invariant closure and returns a word-bearing ordered K roster.  The later
+  48-route work was mutation/transport hardening around that core, not the A4
+  mathematics itself.  Parent/root therefore dispatched v6 directly with
+  `D345Mode:="PRODUCTION"` as GHA run `33243525369` at the same immutable
+  head.  No SELFTEST or rows-1--7 fixture is selected.  A producer/checker PASS
+  can close the two remaining A4 entries; an UNKNOWN or failed replay cannot.
+- A3 remains an actual-production repair: run `33241671037` returned
+  `UNKNOWN_INPUT`, and the current bounded repair is locating that concrete
+  input stop while preserving the actual closure/member-or-dual route.
+- Fresh inventory gives no additional currently dispatchable numerator-moving
+  run.  A1 is already 4/4; A2 awaits an A0 carrier; A5--A9 await positive
+  A3/A4 and later actual inputs; B/C/W/F likewise lack their upstream actual
+  word/class/endpoint owners.  SELFTEST, canary, inventory and fixed-UNKNOWN
+  drivers are excluded from READY.
+
+**v220 mapping**:
+
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
+- A3 remains **0/3; ACTUAL UNKNOWN_INPUT REPAIR ACTIVE**.
+- A4 remains **1/3 while ACTUAL PRODUCTION RUN 33243525369 is queued/running**;
+  only an independently agreeing full positive result may change it to 3/3.
+- A1 stays **4/4**, A2 **2/3**, and A5--A9, B, C, W, F remain unchanged.
+  No common word, compatible lift, fake certificate or Ihara witness is yet
+  claimed.
+
+Delta193 separates mathematical production from operational selftests and
+restores the already-implemented full A4 computation to the live critical
+path in parallel with A0.
