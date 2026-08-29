@@ -7451,3 +7451,39 @@ keeps an impossible candidate off GHA.
 
 Delta190 preserves the complete accepted A3 semantic/performance core and
 reduces its remaining pre-GHA work to one bounded driver edge.
+
+### Delta 191 (2026-08-29): A0 is split into mathematical discovery and operational hardening
+
+- The researcher rejected the growing A0 infrastructure audit as a substitute
+  for the actual goal.  Accordingly task389's seven-defect full-hardening route
+  no longer blocks a research run.
+- Versioned the minimal runnable hotfix: producer v12d 342,850 bytes /
+  `cd78b2c7d38da9a18e636a2917880c135329501b8e5af1aa9fb3dd7a9a46a628`,
+  checker v12d 298,456 /
+  `4d4750162af04cd4961e5872c9538ef13723e6d6635361568f6487a94ed35046`,
+  and driver v12d 43,559 /
+  `4a350c661a52e4fe57428910c509016aa86b7d7d44b62db86f72afcffe554850`.
+  Commit `1dfb9f6684c1e5c8e7b001b8b110c14ac67247e7` repairs only the two
+  execution blockers: checker D1 K0 indentation/live-meter ownership and
+  producer D2 live sparse-interface ownership.  The v12c P0, fixture, schemas,
+  mathematical route and output names are reused unchanged.
+- Parent/root dispatched GHA run `33241458432` at that exact commit.  It stopped
+  before candidate execution because the required explicit mode preamble was
+  omitted.  Root immediately redispatched the same commit with
+  `D972_R07_A0_V12C_MODE:=\"SELFTEST_BOOTSTRAP\";;` as run `33241570468`.
+  D3--D7 are operational hardening and remain open, but they do not preclude a
+  result-specific promotion if a clean successful trace has independently
+  agreeing producer/checker artifacts, exact physical identities and no stale
+  output admission.
+
+**v220 mapping**:
+
+- A0 remains **0/1** while the run is active, now **D1/D2 HOTFIX GHA IN
+  PROGRESS / RESULT-SPECIFIC AUDIT NEXT**.  A3 is **0/3 V6 SINGLE-EDGE REPAIR
+  ACTIVE**, A4 **1/3 V10 REPAIR ACTIVE**, and A5--A7 **0/3**.
+- No common word, compatible lift, fake certificate or Ihara witness is yet
+  added; the purpose of this run is to decide the first of those computational
+  gates rather than finish the deferred deployment hardening.
+
+Delta191 restores A0 to its role as a mathematical discovery gate and makes
+operational perfection a parallel concern instead of the critical path.
