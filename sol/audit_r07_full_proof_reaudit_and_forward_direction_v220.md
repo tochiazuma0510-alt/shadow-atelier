@@ -5938,3 +5938,40 @@ turning one linear marginal success into all compatible refinements.
 
 Delta144 puts both long-running A0 and A3 implementations behind immutable,
 independent pass-or-repair gates.
+
+### Delta 145 (2026-08-29): full localized based surjectivity closes the nonlinear pro-3 recursion
+
+- Added sol/proof_r07_localized_based_newton_nakayama_v319.md.  For a strict
+  finite free cover q:F->L of a complete localized residual module, one
+  word-bearing leading solve modulo J gives Bs0-q=qR with R(F) in JF.
+  The convergent based Neumann operator s=s0(1+R)^-1 then satisfies Bs=q on
+  the whole completion, without an annihilator condition or a quotient
+  splitter.
+- If exact H1/H2/printed-pentagon residuals remain in L after every legal
+  correction, the one-depth affine law and the fixed based lift give a
+  Newton--Hensel recursion.  Every nonlinear remainder is one layer deeper
+  and has a next correction through s, so the literal residual converges to
+  zero.
+- This supplies a second route around v263's cyclic q2 return.  The pointed
+  route still asks q2 and every later remainder to return to Xi beta; the
+  stronger localized route only asks them to stay in v252's
+  formation/Brunnian module and asks the leading Jacobian to cover a finite
+  generator roster of that whole module.
+- The actual localized module has not yet been proved finitely generated and
+  strict, and the leading all-generator solve has not been computed.  The
+  theorem therefore closes the all-depth logic conditionally but changes no
+  numerator.
+
+**v220 mapping**:
+
+- A0 is **0/1 V12A AUDIT ACTIVE**, A3 is **0/3 V2 AUDIT ACTIVE**, A4 is
+  **1/3 V6D REPAIR ACTIVE**, and A5--A7 remain **0/3**.
+- The nonlinear pro-3 frontier is now a finite leading decision:
+  surjectivity of the actual localized Jacobian onto L/JL plus a
+  word-bearing error matrix R.  V317--v318 may discharge its marginal
+  component if the tree gate passes.
+- Mixed-prime formation, nonabelian/perfect-core accepted sets, the compatible
+  lift, fake certificate and Ihara witness remain open.
+
+Delta145 replaces an unbounded symbolic NLSAT return assertion by one
+stronger but finite leading-generator surjectivity target.
