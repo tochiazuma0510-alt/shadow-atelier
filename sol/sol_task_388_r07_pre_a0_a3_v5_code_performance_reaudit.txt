@@ -1,0 +1,113 @@
+Sol(max) task 388 - independent pre-A0 A3/v5 code-performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task384 implementer must not audit this tranche.
+Do not edit frozen owners or run any candidate. Write only the designated
+reply.
+
+1. Frozen subject and boundary
+
+Audit exactly:
+
+- search/d972_r07_pre_a0_single_target_a3_v5.py
+  104446 bytes
+  4fbbd5792a1d1cc7bb1c3d534bdc0966291751cc9d3cea99d1ed20ca7d70fecb
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v5.py
+  116872 bytes
+  90838f12061783c77651c656f7bd1a572ca4a687339b5b70747342d18d32028a
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v5.g
+  18597 bytes
+  0465b46a734048b4ef6c16ed079e7daf825f71407f8cfe1b969a648ffb936d27
+- sol/sol_reply_384_r07_pre_a0_a3_v5_driver_performance_repair.md
+  16209 bytes
+  1dd63647ad95a54e1ee09e62550386e795f5b5e5f9d510966dee68c4b17a6a6c
+
+The unchanged P0 is 16417 bytes /
+`14ea6de8efac73e71854f6566a9202eb89164ab6b7b5940954e87b3af21ee8ae`
+with body seal
+`f1991fa0c232e1d7ea95a211498b4d1741c2104b22271fb90ec1a7ee3af98be7`.
+Reject any mismatch. Read task363, 369/reply369, 370/reply370, 374/reply374,
+377/reply377, 381/reply381, 384/reply384 and every directly referenced
+authority. Even STATIC PASS authorizes only one bounded serial pre-A0 A3/v5
+candidate, not an A3 numerator, A0 word, lift, fake or Ihara witness.
+
+2. Retained semantic core and exact reverse delta
+
+Independently reconstruct the 23-owner/33,121,619-byte acyclic graph, accepted
+task198 authority/live evaluator calls, v303-only projection, one producer
+closure, one independent checker verifier, exact 486/729 rosters and all
+twelve mutations. Require all conclusion flags false.
+
+Reverse each v5 machine owner to frozen v4 and require byte-for-byte equality.
+Confirm every forward delta is confined to truthful v5 labels, enumerated
+duplicate-pass removal, authenticated receipt-digest transport, RLIMIT
+readback, status-bearing driver invocation and fail-closed sentinel handling.
+
+3. Producer/checker pass consolidation
+
+For each imported dynamic source, require a physical authenticated pre-read,
+single compile/exec/build and physical authenticated post-read; removing an
+immediate duplicate `digest_bytes` call must not remove either physical hash,
+TOCTOU boundary, deadline or source pin. Recompute the exact source-byte work
+removed.
+
+Checker receipt authentication must perform one physical SHA, canonical/body
+seal and semantic reconstruction. The same typed authenticated SHA must cross
+the verdict function boundary on both normal and UNKNOWN paths and equal the
+driver-injected pin. Reject a second receipt hash, detached summary digest,
+untyped/empty normal digest or producer evidence.
+
+4. Driver consolidation and accepting status
+
+Require only bounded owner/size/injection-hash checks before checker; the
+deleted full semantic pre-helper and intermediate `rsha2` must not be needed
+for acceptance. The final independent helper must retain complete canonical,
+self-seal, P0, 23-owner, projection, evaluator, mutation, rank, resource and
+post-validation receipt/verdict rehash gates.
+
+Audit exact `/usr/bin/bash` binding and the documented GAP `Process` signature.
+Any noninteger, nonzero or signalled status must reject before sentinel read.
+No status-discarding `Exec`, shell ambiguity or surviving old sentinel may
+accept.
+
+5. Durable sentinel and performance/resource audit
+
+Trace no-follow dirfd opening, exclusive creation, complete writes, file and
+directory fsync, exact sentinel identity, all file/root/ci/out close results,
+and rollback on every post-create failure. Unlink and fsync errors must remain
+diagnostic and nonaccepting. There must be no fallible acceptance gate after
+the terminal.
+
+Recompute all remaining whole-owner reads, hashes, parses and serializations,
+simultaneous live buffers/DOMs/modules, Q0 construction, serializer components,
+RLIMIT_AS and wall formulas. Search for any avoidable duplicate processing,
+unbounded structure, quadratic scan, untimed loop or needless slow path not
+listed in task384. Component bounds are not observed RSS.
+
+6. Verdict and reply
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, imports, syntax
+compilation, candidates, mutations, subprocess tests or RSS. Read-only
+PowerShell inspection and hashing are allowed. On REJECT list every defect
+together. Write only:
+
+sol/sol_reply_388_r07_pre_a0_a3_v5_code_performance_reaudit_v1.md
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+V5 TO V4 BOUNDED REVERSE DELTA:        PASS or REJECT
+P0 / AUTHORITY / LIVE EVALUATOR:       PASS or REJECT
+V303 / ONE CLOSURE / CHECKER:          PASS or REJECT
+BASELINE + TWELVE MUTATIONS:           PASS or REJECT
+SOURCE / RECEIPT PASS CONSOLIDATION:   PASS or REJECT
+STATUS-BEARING PROCESS GATE:           PASS or REJECT
+DURABLE SENTINEL ROLLBACK:             PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+PRE-A0 A3/V5 GHA:                      AUTHORIZED or FORBIDDEN
+ACTUAL A3 NUMERATOR:                   remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:      NONE
+
+TASK388_R07_PRE_A0_A3_V5_CODE_PERFORMANCE_REAUDIT_V1

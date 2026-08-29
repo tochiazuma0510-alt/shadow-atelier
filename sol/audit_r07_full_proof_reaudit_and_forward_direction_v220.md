@@ -7368,3 +7368,26 @@ directly into the already-prepared independent full-source audit.
 
 Delta187 prevents a valid trace repair from masking incomplete physical
 ancestry, understated memory and a post-success rollback boundary.
+
+### Delta 188 (2026-08-29): A3/v5 fresh full-source audit is commissioned
+
+- Added `sol/sol_task_388_r07_pre_a0_a3_v5_code_performance_reaudit.txt` for
+  the frozen task384 producer/checker/driver tranche.  The fresh auditor must
+  reconstruct the accepted task381 semantic core and byte-exact v5-to-v4
+  reverse deltas before judging the bounded performance repair.
+- The audit isolates the v5 changes: duplicate imported-source and receipt
+  passes, authenticated receipt-digest transport, removal of the redundant
+  driver pre-helper/hash, status-bearing GAP `Process`, and fail-closed
+  sentinel rollback.  It also explicitly searches for any remaining
+  avoidable slow path.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V5 REPAIR FROZEN / FRESH AUDIT ACTIVE**.  A0 is
+  **0/1 V12C FULL AUDIT ACTIVE**, A4 **1/3 V10 REPAIR ACTIVE**, and A5--A7
+  **0/3**.
+- No candidate terminal, common word, compatible lift, fake certificate or
+  Ihara witness is added.
+
+Delta188 uses the last free independent Sol(max) lane without slowing the
+higher-priority A0 audit.
