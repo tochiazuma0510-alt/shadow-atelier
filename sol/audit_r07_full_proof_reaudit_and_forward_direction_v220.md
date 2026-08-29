@@ -6738,3 +6738,39 @@ overinterpreted as a full no-go theorem.
 Delta168 proves that the explicit dihedral core and the field-outer A4
 anchor are complementary components, not two parameterizations of the same
 missing word.
+
+### Delta 169 (2026-08-29): A4/v7 minimal allocation repair is frozen for fresh audit
+
+- Froze the task373 owners:
+  `search/d972_r07_a4_actual_owner_trace_producer_v5.py`
+  (101,139 bytes; SHA-256
+  `2d0be0e2875404cf25fbaa020d501a7e250c977e9fa9c946362363544540dde9`),
+  `crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v5.py`
+  (99,782 bytes; SHA-256
+  `33b7905fb1f00b23b8e30c8b90b57a793cabf62ed272fb258790d3c88ba34165`),
+  and the 8,489-byte fixture (SHA-256
+  `474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481`;
+  body self seal
+  `c674491a2f50b200a70349780f0e7a80c21cc0fc3cecd44432dc6e70c51f63fb`).
+  The 12,791-byte task373 reply has SHA-256
+  `3ab963655608df1ec5c962caef89f8e8d6474aa1d4ca87e732f7f68db46c10fb`.
+- The repair separates the exact 63,409,572-token modeled payload peak from
+  a Linux RLIMIT_AS ceiling below 750 MB, fuses canonical/seal/row scans,
+  removes deepcopy and duplicate local receipt hashing, and deletes the
+  optional result publisher.  The preserved semantic scope remains exactly
+  rows 1--7; rows 8--48 and runtime RSS are untouched.
+- Added `sol/sol_task_375_r07_a4_v7_code_performance_reaudit.txt`.  A fresh
+  Sol(max) must independently reconstruct the authority/mutation routes,
+  allocation order, streaming canonical semantics, remaining full work and
+  absence of a result output path before any execution.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V7 REPAIR FROZEN / FRESH STATIC REAUDIT
+  ACTIVE**.  A0 is **0/1 V12B SEAL ACTIVE**, A3 **0/3 V3 FRESH REAUDIT
+  ACTIVE**, and A5--A7 **0/3**.
+- V7 has no pinned GHA driver.  No candidate execution, new A4 numerator,
+  common word, compatible lift, fake certificate or Ihara witness is added.
+
+Delta169 closes the known v6d allocation/publication implementation defects
+at author level and moves A4 to an independent execution-authorization gate.

@@ -1,0 +1,165 @@
+Sol(max) task 375 - independent A4/v7 code and performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task373 implementer must not audit this tranche.
+Do not edit any frozen owner. Do not run Python, Node, GAP, GHA, workflows,
+git, network, syntax compilation, imports, mutations, RSS, or any candidate
+command. Read-only PowerShell inspection and hashing are allowed. Write only
+the designated reply.
+
+1. Frozen subject and claim boundary
+
+Audit these exact physical owners:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v5.py
+  101139 bytes
+  2d0be0e2875404cf25fbaa020d501a7e250c977e9fa9c946362363544540dde9
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v5.py
+  99782 bytes
+  33b7905fb1f00b23b8e30c8b90b57a793cabf62ed272fb258790d3c88ba34165
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json
+  8489 bytes
+  474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481
+- sol/sol_reply_373_r07_a4_v7_minimal_allocation_repair.md
+  12791 bytes
+  3ab963655608df1ec5c962caef89f8e8d6474aa1d4ca87e732f7f68db46c10fb
+
+The fixture canonical body is 8400 ASCII bytes with self seal
+c674491a2f50b200a70349780f0e7a80c21cc0fc3cecd44432dc6e70c51f63fb.
+Reject immediately on any physical or self-seal mismatch.
+
+Read task367 and all four v6d outputs, task371 and its full STATIC REJECT,
+task373 and the full repair reply, plus every task198 authority owner pinned
+by the fixture. V7 covers rows 1--7 only. Even STATIC PASS does not complete
+48x2, increment A4 beyond 1/3, construct an A4 basis, lift, fake, or Ihara.
+
+2. Preserved authority, row and independence routes
+
+Independently reconstruct the acyclic fixture/task198 authority graph and
+every immutable physical identity. Confirm the fixture pins no v5 program or
+reply. Trace producer and checker ordinary baselines, row 11/context 28, the
+complete evaluator ABI, retained descriptors/fds, fourteen revalidations,
+case parents and cleanup.
+
+For rows 1--7, prove that each physical mutation changes an extant ordinary
+owner and returns through the same ordinary authority/transport validator.
+Reconstruct the exact first-rejection stage/reason on both sides. Require
+MutationAccepted and wrong reasons outside every narrow catch. Reject shared
+producer helpers, copied producer evidence, Boolean-only validators, lost
+row-4 path identity, or a hidden route covering rows 8--48.
+
+3. Truthful token ledger versus enforced memory cap
+
+Recompute every source formula rather than copying the task373 reply:
+
+- authority payload S+F+R+M = 31,343,744;
+- owner-read bytes = 186,443,583;
+- case-stage readback = 155,099,839;
+- parsed input = 279,185,470;
+- fourteen revalidations = 438,812,416;
+- exact modeled peak = 63,409,572 tokens;
+- end live tokens = 31,343,744.
+
+Trace every acquire/release edge and actual last consumer. Check simultaneous
+bytearray, bytes, ASCII fragments, canonical fragments, row-3 wire owner,
+case DOM, baseline raw owner, result stream and stdout. Confirm that parsed
+DOM/container/interpreter/allocator overhead, capacity slack and RSS are
+explicitly unmeasured and never mislabeled as payload tokens or peak live
+bytes.
+
+Audit the streaming canonical encoder for complete JSON semantics: exact key
+order, escaping, separators, booleans/null/numbers, fragment boundaries,
+seal-minus-field body, whole/chunk row feeds, and exact physical comparison.
+Reject any hidden full canonical str+bytes pair, second 31-MB
+materialization, deepcopy, unbounded chunk roster, quadratic concatenation,
+or output DOM retained across a new full case.
+
+4. OS address-space cap and fail-closed order
+
+Trace the supported route from process entry. A supplied --output must be
+rejected before cap/authority/path access. Otherwise Linux RLIMIT_AS must be
+installed and read back to the exact finite target, strictly below
+750,000,000 bytes, before the first fixture/source read, JSON parse, deferred
+ABI parse, mutation DOM, or other material allocation. Pre-existing
+soft/hard limits must be handled monotonically and safely. Unsupported or
+ineffective platforms must fail before large allocation.
+
+An RLIMIT_AS ceiling is not observed RSS and does not validate the modeled
+token arithmetic. Check that MemoryError, ResourceStop, InputStop, deadline
+and cleanup paths cannot emit a PASS-like result. Report any unavoidable
+Python allocation which the selected 700,000,000 ceiling makes structurally
+impossible or any allocation which occurs before the cap.
+
+5. Avoidable full work
+
+Enumerate every physical read, canonical pass, body-seal pass, schema/type
+walk, row digest feed, retained-fd revalidation, constructor pass, and result
+serialization by purpose. Check that:
+
+- the acceptance scan fuses canonical comparison, seal-body hashing and
+  row whole/chunk feeds;
+- the separate schema/type loop performs no second canonical
+  materialization and preserves first-rejection order;
+- a local sealed receipt identity is passed directly to its manifest;
+- only the independent ordinary validator reopens and rehashes it;
+- four fresh sequential parses replace deepcopy and release before the next
+  case; and
+- no avoidable 31-MB hash/canonical/DOM work or slow nested scan remains.
+
+Give a decisive finding on performance, not merely the absence of the word
+`deepcopy`.
+
+6. No result publisher and no output path
+
+Source-statically prove there is no v5 result stage/final/link/rename/output
+publisher. Confirm --output rejection precedes every path creation/open and
+cannot be routed into a helper. Distinguish the invocation-unique physical
+mutation case writer, which remains load-bearing, from a result publisher.
+Check that canonical stdout is the sole result route and is bounded by the
+same cap/ledger.
+
+7. Conclusions and exact scope
+
+Require exactly:
+
+  covered_rows=[1,2,3,4,5,6,7]
+  remaining_rows=[8,...,48]
+  candidate_only=true
+  full_a4_selftest=false
+  actual_a4_numerator=false
+
+No source string, result constructor or terminal may imply full A4,
+production acceptance, a kernel basis, a lift, fake, or Ihara. A STATIC PASS
+authorizes at most one bounded serial producer/checker rows-1--7 candidate
+execution after a separately pinned and audited driver exists. There is no
+v7 driver in this frozen tranche.
+
+8. Decisive verdict and output
+
+Write only:
+
+sol/sol_reply_375_r07_a4_v7_code_performance_reaudit_v1.md
+
+Give a decisive STATIC PASS or STATIC REJECT, exact physical identities,
+line-numbered findings, independently derived token/cap formulas, full-pass
+inventory and every avoidable-work finding. On REJECT, list all load-bearing
+defects together for one bounded repair.
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+ACYCLIC FIXTURE / TASK198 AUTHORITY:   PASS or REJECT
+ROWS 1--7 ORDINARY PRODUCER ROUTE:     PASS or REJECT
+ROWS 1--7 INDEPENDENT CHECKER ROUTE:   PASS or REJECT
+MODELED TOKEN LEDGER:                  PASS or REJECT
+RLIMIT_AS / FAIL-CLOSED ORDER:         PASS or REJECT
+STREAMING CANONICAL / DUPLICATE WORK:  PASS or REJECT
+NO RESULT PUBLISHER / OUTPUT PATH:     PASS or REJECT
+V7 ROWS-1--7 CANDIDATE EXECUTION:      AUTHORIZED or FORBIDDEN
+PINNED GHA DRIVER:                     NOT PRESENT
+FULL 48x2 SELFTEST:                    INCOMPLETE
+ACTUAL A4:                             remains 1/3
+LIFT / FAKE / IHARA:                   NONE
+
+TASK375_R07_A4_V7_CODE_PERFORMANCE_REAUDIT_V1
