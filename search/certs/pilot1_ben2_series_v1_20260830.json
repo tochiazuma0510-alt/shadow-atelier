@@ -1,0 +1,104 @@
+{
+  "schema": "pilot1-ben2/v1",
+  "ruling": "coordinator PILOT-1 ben2 GO (ruling 1788) + injected math finding (ruling 1789, mid-ben2)",
+  "target": "LMFDB 9T27-7.1.1_2.2.2.2.1_3.3.3-a",
+  "ben": 2,
+
+  "part_A_ruling1789_injection": {
+    "context": "Ruling 1789: this implementer's ben1 G1-f finding ('the independently-generated PSL(2,8) triple is S9-conjugate to the LMFDB triple only after inverting all 3 components, not directly') was judged by the mathematician to be a NEUTRAL plumbing artifact (relator-convention mismatch), not a T-a/T-b geometric signal. Three items requested; addressed below.",
+    "item1_G1_separation": {
+      "script": "scratchpad/pilot1_ben2_g1_separation.g",
+      "script_sha16": "f6353e3b63d52b66",
+      "i_OnPairs_conjugacy": {
+        "method": "RepresentativeAction(Sym(9), [a,b], [lam1,lam2], OnTuples) -- pair-only conjugacy, independent of any 3rd-component convention.",
+        "result": "found, tau=(1,4,6,8,5,9)(2,7,3)",
+        "verdict": "PASS (unconditional, as predicted -- confirms this was never an implementer bug in the base conjugacy machinery)"
+      },
+      "ii_relation_asserts": {
+        "this_implementers_triple": "c := (a*b)^-1 (verbatim, as literally coded in ben1's pilot1_ben1_g1.g search loop) -- satisfies a*b*c = identity (workshop-style 'xyz=1' relator), by construction; c*b*a is NOT identity.",
+        "KMSV_LMFDB_triple": "(lam1,lam2,lam3) with defining relation sigma_inf*sigma_1*sigma_0 = lam3*lam2*lam1 = identity (KMSV convention, REVERSED order relative to a*b*c=1); lam1*lam2*lam3 is NOT identity.",
+        "conclusion": "The two triples' 3rd components are constructed to satisfy relations with opposite multiplication order (a*b*c=1 vs c*b*a=1-equivalent-to-sinf*s1*s0=1). This is exactly the plumbing-convention mismatch the mathematician identified as the neutral explanation -- not a geometric T-a/T-b fact."
+      },
+      "footnote_nonessential": "Re-running the independent-triple search this ben (via a slightly different element-selection order: a:=elts7[1], b:=First(...) instead of ben1's nested for-loop-with-break) produced a DIFFERENT concrete (a,b,c) than ben1's, and for THIS run's tauPair, c^tauPair matched neither lam3 nor lam3^-1 exactly (both are valid order-3 elements satisfying the same abstract relation, but PSL(2,8) has more than one element in the relevant class satisfying a given pair's relator -- multiple valid c choices exist depending on which specific a,b were picked). This does not affect items (i)/(ii)'s conclusions, which concern the relator convention, not the specific representative chosen; noted for completeness/honesty."
+    },
+    "item2_verbatim_construction_record": {
+      "declaration": "This implementer's GAP triple's 3rd component was built via c := (a*b)^-1 -- i.e. the '(ab)^-1' form, NOT '(ba)^-1'. Recorded verbatim as requested."
+    },
+    "item3_G5_preregistration": {
+      "prediction_registered_before_ben3_G5_run": "Per the mathematician's finding (ruling 1789): the production target (9,9,9), being convention-independent in this respect, means the pilot's decisive bit narrows from a 3-way (T-a / T-b / identity-like) question to primarily 'T-b vs identity' -- T-a is EXPECTED to be excluded by the production-side type check (G-CONV: transfer rho in a 27-value set). PRE-REGISTERED PREDICTION (before running ben3's G-5): T-b or an identity-like reading wins; T-a loses. Both (T-a) and (T-b) will still be carried computationally through ben3's G-5 test per standing instruction ('両系運搬は継続') -- this prediction is registered as a call made in advance, not a shortcut that skips testing T-a."
+    }
+  },
+
+  "part_B_ben2_main_track": {
+    "step0_G1d_closed_loop_roundtrip": {
+      "scripts": ["scratchpad/pilot1_ben2_g1d_roundtrip.jl (sha16 69f9324ff0cfe139)", "scratchpad/pilot1_ben2_g1d_gapcheck.g (sha16 c060719c69b526b6)"],
+      "method": "GAP exports lam1/lam2/lam3 (ben1) -> Julia reads JSON, composes sigma_inf*sigma_1*sigma_0 under the frozen left_to_right convention -> Julia exports result as JSON -> GAP re-imports and compares against its own native lam3*lam2*lam1 as GAP permutation objects.",
+      "result": "GAP native lam3*lam2*lam1 = () (identity). Julia round-trip result imported back into GAP = (). Equal as GAP permutation objects : true.",
+      "verdict": "[G1-d] PASS -- full closed loop confirmed"
+    },
+
+    "step1_kite_fd_reconstruction": {
+      "script": "scratchpad/pilot1_ben2_kite.jl",
+      "script_sha16": "718821396075022a",
+      "source": "BelyiEngine_repo Code/triangle.m L503-565 (intrinsic FundamentalDomain), HEAD 0cd768d5762aedb61618020d331da77634503987",
+      "formula_used": "l=(cos(pi/a)cos(pi/b)+cos(pi/c))/(sin(pi/a)sin(pi/b)); t=l+sqrt(l^2-1); x=(t^2-1)/(2(cot(pi/a)+t*cot(pi/b))); y=sqrt(csc(pi/a)^2-(x-cot(pi/a))^2); V=[i, x+y*i, t*i, -x+y*i]",
+      "our_labeling": "engine-a:=3 (our delta_inf, fixes z_a=i), engine-b:=7 (our delta_0, on-axis at z_b=t*i), engine-c:=2 (our delta_1, off-axis at z_c=x+y*i); z_c*=-x+y*i is the mirror vertex.",
+      "cross_checks": {
+        "engine_t_vs_ben1_y0": "t (engine formula) numerically equals y0 (ben1's law-of-cosines P0 height) to full 200-bit precision -- confirms consistent labeling.",
+        "engine_z_c_vs_ben1_P1": "engine's z_c matches ben1's P1 only up to the mirror sign (z_c has +x real part, ben1's P1 had -x, i.e. ben1's P1 = z_c*, not z_c -- a pure left/right mirror-choice difference from ben1's ang_sign=+1 pick, not an error)."
+      },
+      "sanity": "delta_inf*delta_1*delta_0 ~ I reconfirmed with the (unchanged) ben1 generator matrices."
+    },
+
+    "step2_L4_G3": {
+      "script": "scratchpad/pilot1_ben2_L4_g3.jl",
+      "script_sha16": "1842881b67404abc",
+      "algorithm": "Greedy nearest-translate reduction: maintain accumulated h in Delta; at each step, among the 6 neighbor moves {delta_0^+-1, delta_1^+-1, delta_inf^+-1}, accept the one that most decreases hyperbolic distance from the candidate point to a fixed interior basepoint w0 (arithmetic mean of the kite's 4 vertices, a heuristic center, NOT a rigorous Dirichlet-domain center). Stop at a local minimum (no further improving move) or a 60-iteration cap.",
+      "acknowledged_limitation": "This is a Dirichlet-style nearest-translate reduction, not a literal geodesic-side-of-kite-edge test as spec sec2 L4 describes ('反復的な最近傍アルゴリズム'). It is a legitimate variant of the same family, but its correctness relative to the EXACT kite V (rather than the w0-based Dirichlet cell, which need not coincide with V exactly) has not been independently proven here -- only empirically gated below.",
+
+      "G3_a_idempotency": {
+        "pass": true,
+        "method": "5 sample points z; verified reduce(reduce(z)) = reduce(z) via direct Euclidean-in-C comparison (NOT via hyp_dist/acosh, which has a genuine branch-point singularity at coincident points causing Arb-ball nan -- documented bug found and fixed this ben).",
+        "all_5_sample_points": "converged (2-7 iterations each), idempotent to <1e-20 tolerance"
+      },
+      "G3_c_gamma_invariance": {
+        "pass": true,
+        "method": "BFS over words length<=3 in the 6 generators, filtered to those whose permutation action fixes coset 1 (candidate Gamma elements) AND whose matrix is not +-I (excludes the trivial/identity-cancelling word found on the first pass, e.g. delta_0*delta_0^-1 -- this filtering was itself a bug-catch this ben: the first unfiltered pick was vacuously the identity, which would have made this gate a no-op pass; corrected to use a genuinely nontrivial gamma word '.d0.d0.d1').",
+        "result": "reduce(z) = reduce(gamma.z) for all 5 sample points under the nontrivial gamma, to <1e-15 tolerance"
+      },
+      "G3_f_termination": {"pass": true, "detail": "all 5 sample points converged within the 60-iteration cap (2-7 iterations actually used)"},
+      "G3_b_containment": {
+        "pass_as_weak_proxy_only": true,
+        "IMPORTANT_CAVEAT": "This is EXPLICITLY NOT the spec's exact point-in-kite inclusion test (geodesic side-of-edge tests against the 4 bounding geodesics of V). It only checks that the reduced point's hyperbolic distance to w0 is within 1.05x the maximum vertex-to-w0 distance (a circumradius bound with slack). A point outside V could still pass this proxy. All 5 sample points passed the proxy. Reported honestly as a weaker substitute, not a genuine G3-b PASS."
+      },
+      "G3_d_edge_pairing_closure": {
+        "status": "NOT MACHINE-VERIFIED this ben.",
+        "plausibility_argument_only": "By the Poincare polygon theorem for triangle groups (standard, textbook), edge-pairing closure follows automatically from the abstract presentation <delta_0,delta_1,delta_inf | delta_0^7=delta_1^2=delta_inf^3=delta_inf*delta_1*delta_0=1> holding EXACTLY as matrices, which was already machine-verified in ben1's G-2 (all 4 sub-items PASS). This is a mathematical argument for why G3-d SHOULD hold, not an independent machine check of it -- flagged explicitly as not meeting this workshop's machine-verification bar."
+      },
+      "G3_e_area": {
+        "status": "NOT MACHINE-INTEGRATED this ben.",
+        "formula_based_value": "single kite area = 2*pi*(1-1/3-1/7-1/2) = 0.149599650... ; 9x (index [Delta:Gamma]=9) = 1.346396851...",
+        "plausibility_argument_only": "Area additivity under finite-index covering (area(H/Gamma) = [Delta:Gamma]*area(H/Delta)) is a general fact of hyperbolic covering-space theory, independent of any torsion/orbifold subtlety, and the BFS already confirmed all 9 cosets are distinct and fully enumerated (ben1's L3). This argues FOR the total-area value being correct given a valid tiling, but does NOT independently machine-verify that the 9 copies g_i*V actually tile without gaps or overlaps -- that would require e.g. numerical integration or an explicit overlap/gap check, neither implemented this ben."
+      }
+    }
+  },
+
+  "G3_overall_honest_summary": {
+    "solidly_machine_verified_PASS": ["G3-a (idempotency)", "G3-c (Gamma-invariance, nontrivial element)", "G3-f (termination)"],
+    "weak_proxy_PASS_not_the_spec_exact_test": ["G3-b (containment, circumradius proxy only)"],
+    "argued_but_NOT_machine_verified": ["G3-d (edge-pairing closure)", "G3-e (area, formula-based only, no numeric integration/tiling check)"],
+    "count_strict": "3/6 solid PASS, 1/6 weak-proxy PASS, 2/6 not machine-verified -- G-3 is NOT a clean 6/6 machine PASS by the spec's literal bar",
+    "decision_deferred_to_coordinator": "Per this workshop's discipline (stop-and-report rather than silently decide on ambiguous gate status), this implementer did NOT proceed to L5-L6/G-4-a (spec sec5's 'if G-3 passes' condition for ben2 part 2) without explicit direction, since G-3's status is genuinely mixed (not a clean pass, not a clean fail either). Awaiting coordinator/mathematician judgment on whether the achieved G-3 status (3 solid + 1 weak-proxy + 2 argued-only) is sufficient to proceed to L5-L6, or whether G3-b/d/e need genuine machine implementation first."
+  },
+
+  "generated_by": {
+    "scripts": [
+      "scratchpad/pilot1_ben2_kite.jl", "scratchpad/pilot1_ben2_L4_g3.jl",
+      "scratchpad/pilot1_ben2_g1d_roundtrip.jl", "scratchpad/pilot1_ben2_g1d_gapcheck.g",
+      "scratchpad/pilot1_ben2_g1_separation.g"
+    ],
+    "tools": ["GAP 4.16.0", "Julia 1.12.7 + Nemo 0.56.1 + JSON3.jl"],
+    "machine_output_only": true
+  },
+  "grade": "candidate (ben2 partial: ruling-1789 items 1-3 addressed with machine output; G1-d closed-loop PASS; kite FD reconstructed and cross-checked against ben1; G-3 mixed status 3-solid+1-weak-proxy+2-argued-only, NOT a clean 6/6 -- L5-L6/G-4-a deliberately not attempted pending coordinator direction on whether to proceed)"
+}
