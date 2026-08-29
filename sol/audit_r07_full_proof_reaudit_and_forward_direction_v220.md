@@ -6135,3 +6135,39 @@ joint-image authority and the actual defects.
 
 Delta150 prevents a partially authenticated A3 owner from consuming GHA time
 and turns the rejection into one finite versioned repair.
+
+### Delta 151 (2026-08-29): cumulative coupling ambiguity removes the greedy Goursat gap
+
+- Added sol/proof_r07_goursat_affine_ambiguity_dp_v324.md.  At every
+  cumulative Goursat prefix the complete solution set is retained as an
+  affine space eta_i^0+V_i.  The next prefix is feasible exactly when its
+  mismatch lies in the image of
+  C_i:V_(i-1) direct-sum U_i -> k[D_i], rather than only in the image of the
+  new-coordinate ambiguity U_i.
+- The direction recurrence is
+  V_i=Z_i direct-sum S_i(ker C_i), where Z_i is the zero-two-marginal
+  correlation kernel and S_i is the signed fibre-gluing section.  Retaining
+  Z_i is necessary because an invisible current correlation may change a
+  later cumulative overlap.
+- A right inverse of every C_i gives a closed selector; for one actual tuple,
+  one retained ancestry per step suffices.  A separating functional must
+  annihilate both the previous cumulative ambiguity and the new local
+  ambiguity, so its nonzero target pairing is a complete prefix obstruction,
+  not a greedy miss.
+- V323 computes the new-coordinate cyclic summand of C_i by orders and one
+  invariance test.  The previous-coupling summand is now the only additional
+  linear state.  Exact nonemptiness at every cofinal level feeds v313
+  compactness even when arbitrary gluing sections are not natural.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 V3 REPAIR
+  ACTIVE**, A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The finite common-source field-even decision now has an exact,
+  non-greedy dynamic program with complete positive ancestry and negative
+  dual certificates.  Its literal inputs still await A0/A3/A4 authority.
+- Nonlinear saturation, mixed-prime and perfect-core gates, the compatible
+  lift, fake certificate and Ihara witness remain open.
+
+Delta151 closes the structural selector gap left by v322: all earlier joint
+coupling freedom is retained instead of silently frozen.
