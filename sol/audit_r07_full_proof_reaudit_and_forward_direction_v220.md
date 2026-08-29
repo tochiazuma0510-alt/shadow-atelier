@@ -7868,3 +7868,40 @@ search while the direct witness-first A0/A4 computations continue.
 Delta201 prevents another opaque A4 failure and closes the sole resource-
 checkpoint ABI defect found by the independent A0 audit without delaying the
 already-running positive search.
+
+### Delta 202 (2026-08-29): the A0 word now has a lossless direct route into task193
+
+- The first checkpoint repair wrapper v17 stopped before mathematics because
+  its short replacement pattern also occurred in an unrelated SELFTEST
+  dictionary.  V18 narrows the match to the pre-pool checkpoint's adjacent
+  `triangular_certificate` field.  Local argument parsing passed, and an
+  independent Sol(max) audit confirmed: exactly one pre-pool insertion, exact
+  source size/SHA pins, retained 80,000,000 cap and UNKNOWN light binding, and
+  no added SELFTEST, mutation, retry, duplicate producer, or heavy step.
+  Actual v18 run `33247540982` has entered the GAP-script production step;
+  older potentially positive run `33246619673` remains active.
+- Added `sol/proof_r07_history_free_a0_to_task193_exact_adapter_v347.md`.
+  An accepted A0 receipt/checker pair already determines the literal
+  correction `c`, `red(g760*c)`, and a freshly replayed eleven-occurrence /
+  direct-seven row `D(c)`.  These data canonically form the exact task186-v2
+  compatibility envelope read by task193.  The independent adapter checker
+  reopens the physical A0 pair and recomputes all load-bearing fields; no A0
+  Boolean or copied sparse row is trusted.
+- Hence an accepted A0 word requires no second common-word or task186 search.
+  The exact remaining chain is A0 COMMON -> lossless adapter -> task193
+  `beta1(c)` -> zero-base test `-beta1(c) in (ker Phi)d1`.  A production-only
+  implementation of this adapter is being prepared in parallel; no fixture
+  or SELFTEST route is part of that commission.
+
+**v220 mapping**:
+
+- A0 remains **0/1; ACTUAL RUNS 33246619673 AND 33247540982 ACTIVE**.
+- A4 remains **1/3; ACTUAL CAPTURE RUN 33247161395 ACTIVE**; A3 remains
+  **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A5/A6 remain **0/3 / 0/3 actual**, but their previously missing A0-to-
+  task193 logical bridge is now a paper theorem with a fixed production ABI.
+- A1 stays **4/4**, A2 **2/3**, and A7--A9, B/C/W/F remain unchanged.  No
+  fake certificate or Ihara witness is claimed.
+
+Delta202 removes a redundant search stage from the actual witness pipeline;
+the next numerical decisions still come from the running A0 and A4 jobs.
