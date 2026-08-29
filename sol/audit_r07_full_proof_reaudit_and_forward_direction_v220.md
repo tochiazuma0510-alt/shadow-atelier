@@ -5437,3 +5437,45 @@ from being collapsed to an invalid coarse linear coordinate.
 
 Delta130 prevents a malformed wrapper and a non-accepting UNKNOWN from being
 mistaken for the pre-A0 A3 decision needed by the witness branch.
+
+### Delta 131 (2026-08-29): nonlinear A0/A5 selector made a finite normal-closure decision
+
+- Added `sol/proof_r07_finite_normal_closure_joint_a0_a5_selector_v308.md`.
+  It retains two distinct layers which v306 had collapsed: every typed roof
+  occurrence Fox chain and every complete next-rung affine occurrence state.
+  The printed task193 row is a deterministic nonlinear function of the
+  latter tuple; no false linear factorization is used.
+- For the 6,441 registered normal generators, their combined states generate
+  a finite group closed under the exact source conjugation actions of
+  `x^{+/-1},y^{+/-1}`.  Theorem 3.1 proves that this finite invariant closure
+  is exactly the state image of the infinite normal correction domain.  A
+  retained operation DAG gives a literal source word for every reached state.
+- The A0 states form one computable coset in this closure.  A5 is then the
+  exact nonlinear predicate `r_* - B(q) in (ker Phi)d1` on the complete
+  affine-state projection of that coset.  A positive state returns both the
+  literal A0 correction and `mu1=kappa0+theta`; a bounded incomplete closure
+  remains UNKNOWN.  A complete fixed-rung negative is now mathematically
+  finite, though potentially very large.
+- V168 gives the same affine compiler at every relative Frattini rung.  With
+  a registered finite normal-generator roster for each rungwise correction
+  domain, this supplies a uniform finite selector **conditional on nonempty
+  accepted sets**; neither the roster nor nonemptiness is inferred from v168
+  alone.  A first positive `mu1` still must pass v191's universal boundary
+  identity before v174 promotes it to all pro-3 rungs.
+
+**v220 mapping**:
+
+- This is a paper/computation-design advance only.  A0 remains **0/1 V12A
+  IMPLEMENTATION ACTIVE**, A3 **0/3**, A4 **1/3**, and A5 **0/3**; no actual
+  finite closure, task193 row, pointed multiplier or universal boundary chain
+  has been computed.
+- The arbitrary choice of one A0 word is no longer a mathematical selector
+  ambiguity: after a pointwise failure, the whole homogeneous A0 fibre can be
+  searched without losing the next Fox state.  It may still be too large for
+  the registered resource cap.
+- No compatible/cofinal lift, fake certificate or Ihara counterexample is
+  added.
+
+Delta131 replaces v306's invalid linear shortcut by a terminating exact
+fixed-rung construction while keeping the all-rung promotion obstruction
+explicit.
