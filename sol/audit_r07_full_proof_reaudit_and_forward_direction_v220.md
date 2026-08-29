@@ -7669,3 +7669,32 @@ A4 path without changing either mathematical engine.
 Delta195 is the first numerator advance since the v220 inventory: it closes
 the complete projected A3 gate and removes the A4 anchor subproblem from the
 actual zero-seed branch while retaining the genuine homogeneous A4 closure.
+
+### Delta 196 (2026-08-29): zero-seed consequence is corrected to the nonlinear selector
+
+- Froze `sol/proof_r07_actual_zero_seed_nonlinear_selector_erratum_v344.md`.
+  V343's actual zero-seed lemma and the bypass of the nonzero A4 `z0` anchor
+  are retained.  Its reference to v306 is retracted: v307 already proved that
+  the task193 row is not a linear function of the coarse A0 value, and a zero
+  endpoint base does not restore that false factorization.
+- The correct actual-class pointwise gate is now fixed as
+  `d1 - B(c) in (ker Phi)d1`, with `B(c)` reconstructed from the complete
+  literal task193 affine-prefix state.  On accepted ancestry the multiplier
+  is simply `mu1=theta`.  The exact simultaneous alternative is v308's finite
+  nonlinear normal-closure state test, not v306's rejected vector-space
+  membership.
+- A4 run `33245366779` never entered Python; the v12 transport stopped on a
+  nested-driver escape.  The simplified v13 transport at commit `1e4863d3`
+  replaces sizes and SHA strings separately.  Actual-production run
+  `33245530212` is active.  No SELFTEST is selected.
+
+**v220 mapping**:
+
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A4 remains **1/3; ACTUAL PRODUCTION RUN 33245530212 ACTIVE**.
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
+- A5--A9 and B/C/W/F remain unchanged.  The correction changes no numerator
+  and prevents the zero seed from reviving a previously retracted shortcut.
+
+Delta196 retains the real A3 simplification while restoring the exact
+nonlinear A0/A5 dependency boundary.
