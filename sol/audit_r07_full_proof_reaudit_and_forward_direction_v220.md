@@ -6426,3 +6426,36 @@ the dual local-score system is smaller.
 
 Delta159 closes the finite identity-classification caveat in Delta158 while
 leaving the actual authenticated score system as the next computation.
+
+### Delta 160 (2026-08-29): score identities grow by exact Goursat overlap increments
+
+- Added `sol/proof_r07_goursat_score_exact_sequence_v331.md`.  If `I_i` is
+  the admissible additive-score identity space on the first `i` coordinates,
+  its new quotient at a Goursat step is exactly the overlap-score space
+  `P_i` consisting of functions on `D_i` whose old and new pullbacks are both
+  locally representable.  This gives the short exact sequence
+  `0 -> I_(i-1) -> I_i -> P_i -> 0`.
+- Consequently `dim I_m=sum_i dim P_i`, and the rank of the complete
+  common-source marginal map is the sum of the local quotient dimensions
+  minus those overlap increments.  Global surjectivity is equivalent to the
+  vanishing of every `P_i`; no dense full-joint column matrix is required.
+- Once a target prefix has passed inherited identities, only a basis of the
+  new `P_i` must be paired.  The resulting scalar is exactly the pairing of
+  that quotient score with v324's actual prefix mismatch `d_i`.  Thus the
+  sparse primal DP and the recursive dual have the same stagewise obstruction
+  and provide independent certificates.
+- V330 decides the old-pullback representability in `P_i`; v323 supplies the
+  new cyclic pullback equations.  Actual overlap bases and pairings still
+  await authenticated A0/A3/A4 data.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- The finite field-even calculation is now stagewise in exact overlap
+  increments rather than one global score solve; vertical naturality,
+  nonlinear saturation, formation and perfect-core gates remain open.
+- No compatible lift, fake certificate or Ihara witness is added.
+
+Delta160 supplies the rank and target-pairing recursion needed to turn the
+complete classifier of Delta159 into a bounded overlap-by-overlap audit.
