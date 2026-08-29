@@ -5699,3 +5699,42 @@ missing all-level nonemptiness theorem.
 Delta137 replaces the phrase "prove every finite marginal set nonempty" by
 the exact edgewise class that must vanish and the literal formula that
 constructs the next compatible correction when it does.
+
+### Delta 138 (2026-08-29): actual even obstruction dualized as a new fibre identity
+
+- Added `sol/proof_r07_marginal_fibre_constant_dual_v315.md`.  The dual of
+  v314's vertical cokernel is the space of upper target functionals whose
+  pullback to the common-source group algebra is constant on every
+  refinement fibre, modulo functionals descended from the lower target.
+  Hence full vertical onto means that no new fibre-constant marginal
+  identity appears; the one actual branch only requires every such identity
+  to pair trivially with its named residual.
+- Fibre constancy is checked exactly by scalar equations
+  `F(g*s_i)=F(g)` for literal generators of the refinement kernel.  This is
+  the transpose of v314's source-translation column closure and avoids
+  pretending that the vector-space local quotients carry a target-side
+  action.
+- For each prefix-corrected local quotient
+  `Q_b=F3[G_b]/epsilon_b*K_b*p_b^-1`, its dual consists exactly of functions
+  whose values sum to zero on every right `<r_b>` orbit after the mandatory
+  `p_b^-1` translation.  The signed prefix from v312 therefore remains
+  load-bearing on the dual side.
+- A finite edge may now decide the actual even class either by primal
+  ancestry or by classifying these fibre-constant scalar scores.  A nonzero
+  actual pairing is a complete edge obstruction; zero pairings for a basis
+  imply MEMBER by finite duality and allow primal ancestry recovery.
+
+**v220 mapping**:
+
+- This paper duality changes no numerator.  A0 is **0/1 V12A IMPLEMENTATION
+  ACTIVE**, A3 **0/3 V2 REPAIR ACTIVE**, A4 **1/3 V6C REPAIR ACTIVE**, and
+  A5--A7 remain **0/3**.
+- The next structural mathematical target is now concrete: show that no new
+  return-even fibre identity detects the actual residual at each matched
+  edge, or construct the corresponding v314 preimage.  Neither the actual
+  score space nor its pairings is yet computed.
+- No nonlinear recurrence, mixed-prime formation, perfect-core accepted set,
+  cofinal lift, fake certificate or Ihara witness is added.
+
+Delta138 gives a human- and machine-checkable description of exactly what a
+field-outer return-even survivor would be at the next refinement.
