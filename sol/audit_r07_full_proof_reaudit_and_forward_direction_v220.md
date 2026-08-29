@@ -6171,3 +6171,35 @@ and turns the rejection into one finite versioned repair.
 
 Delta151 closes the structural selector gap left by v322: all earlier joint
 coupling freedom is retained instead of silently frozen.
+
+### Delta 152 (2026-08-29): the cumulative correlation kernel has a four-term rectangle basis
+
+- Added sol/proof_r07_goursat_rectangle_correlation_basis_v325.md.  In each
+  fibre A_d x B_d of a two-factor Goursat product, the kernel of both
+  marginals has the four-term basis
+  [a,b]-[a,b0]-[a0,b]+[a0,b0].  Its exact dimension is the sum of
+  (|A_d|-1)(|B_d|-1), or
+  |D|(|ker alpha|-1)(|ker beta|-1) for group quotients.
+- The image of this whole kernel in any later cumulative quotient is spanned
+  by the corresponding four-term images.  A later map factoring through
+  either current marginal kills it; otherwise the literal rectangle roster
+  is retained.
+- Dually, an overlap functional kills the correlation image exactly when
+  its scalar score has zero mixed rectangle differences, equivalently is
+  additively separable on every fibre block.
+- This supplies an explicit sparse basis for v324's load-bearing Z_i and
+  removes a dense zero-marginal nullspace calculation.  It does not remove
+  the need to authenticate the cumulative joint groups themselves.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 V3 REPAIR
+  ACTIVE**, A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The finite Goursat dynamic selector now has explicit local cyclic columns
+  (v323) and explicit joint-correlation columns (v325); only their actual
+  authenticated maps and target ancestry remain computational.
+- Nonlinear saturation, mixed-prime and perfect-core gates, the compatible
+  lift, fake certificate and Ihara witness remain open.
+
+Delta152 replaces the last abstract direction in the finite affine Goursat
+recurrence by literal four-term word-bearing columns.
