@@ -8130,3 +8130,61 @@ Delta208 converts A4's opaque thirty-minute behavior into a measured,
 visible production frontier and starts the bounded successor without
 mistaking a resource receipt, static wrapper, or adapter schema for witness
 progress.
+
+### Delta 209 (2026-08-29): A4 launch is repaired and positive A5 no longer logically waits for an A4 basis
+
+- The bounded Sol(max) audit of A4 v12/v13/v19 returned **REJECT** on two
+  literal launch defects, while confirming that remainder reuse, in-place
+  sparse F3 AXPY and invariant-owner caching preserve the intended
+  arithmetic.  Checker v13's owner-hoist replacement also deleted its
+  per-row `occurrences=[]` initialization, so its first checked row would
+  raise `NameError`.  Driver v19 gated `D364Mode` but did not set the
+  frozen inner driver's required `D345Mode`.
+- Consequently run `33249768646` failed in the GAP step before launching
+  either Python owner; it consumed only setup time and has no mathematical
+  content.  Versioned checker v14 restores the per-row accumulator, and the
+  one-layer v20 driver sets the inner production mode immediately before
+  reading its generated frozen-v6 body.  Commit
+  `b4b81825e144370e6de7d28cc8ebff12617f53d1` was pushed and corrected GHA
+  run `33250191092` is active on that exact head.
+- Added `sol/proof_r07_direct_relator_a5_positive_bypass_v350.md`.  V231's
+  complete normal-generation theorem implies not only that the 6,441
+  defects `b_j` generate `K`, but that their literal differences generate
+  the whole relative group-algebra ideal:
+
+  \[
+   I=\sum_{j=1}^{6441} k[\Delta_1](b_j-1).
+  \]
+
+  Therefore the full pre-`C` A5 image is the marked invariant closure of the
+  6,441 literal task198 relator columns themselves.  An independent A4
+  quotient basis is a compression, not a premise for a positive A5/A6
+  witness.
+- V350 fuses the quotient equality with the actual target solve.  Raw
+  relator/action columns are tagged as coefficient ancestry and translated
+  PB presentation columns as boundary slack.  A single zero target
+  remainder simultaneously gives `theta=mu1`, the exact boundary ledger and
+  the literal A6 pair polynomial
+  `M=sum a_(g,j)((w r_j)-w)`.  Boundary coefficients prove the equality but
+  do not enter `M`.  A miss remains UNKNOWN unless both action and boundary
+  families exhaust.
+- This removes 6,441 separate quotient classifications, A4 basis
+  compression, its complete action matrix and basis-to-relator
+  back-substitution from the **positive critical path**.  It neither proves
+  that the actual target is MEMBER nor removes the reusable A4 milestone;
+  the active A5 implementation has been given the direct-relator route.
+
+**v220 mapping**:
+
+- A4 remains **1/3; CORRECTED V20 RUN 33250191092 ACTIVE**.  Failed v19 adds
+  no numerator.
+- A5/A6 remain **0/3 / 0/3**, but A5 positive no longer has a mathematical
+  dependency on completion of the A4 independent basis.  V350 is a paper
+  theorem pending its actual fused run.
+- A0 remains **0/1** with runs `33246619673` and `33247540982` active; A3
+  stays **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.  Every later
+  compatible-lift/fake/Ihara numerator remains unchanged.
+
+Delta209 repairs the actual A4 launch without another long failed run and
+changes the witness schedule from `finish all A4, then start A5` to one
+direct target-specific relator calculation in parallel with reusable A4.
