@@ -5623,3 +5623,37 @@ local cyclic part of the relative-dihedral lift has been solved explicitly.
 Delta135 prevents a signed or transported occurrence row from being fed to
 the correct cyclic antidifference theorem in the wrong coefficient
 coordinate.
+
+### Delta 136 (2026-08-29): diagonal endpoint repair rewritten as a measure marginal problem
+
+- Added `sol/proof_r07_multimarginal_measure_endpoint_selector_v313.md`.
+  After quotienting each local coefficient space by its exact cyclic
+  antidifference kernel, v312's seven affine conditions and the zero
+  `Delta1` condition are one linear map from `F3[Gamma]`.  Endpoint repair is
+  exactly membership of the prescribed eight-component marginal target in
+  its image.
+- A finite ancestry is a finite `F3`-valued signed measure on the common
+  source group: its `Delta1` pushforward is zero and its seven context
+  pushforwards are the required primitive classes.  This keeps the common
+  word coupling literal and gives a positive-complete sparse column route.
+- At a matched tower of finite quotients, let `X_n` be the finite affine set
+  of marginal solutions.  If every `X_n` is nonempty, Koenig compactness
+  gives one compatible element of the completed common-source group algebra;
+  the bonding maps need not be surjective.  This is the precise useful role
+  of measure theory in the uniform lift.
+- Compactness does not turn one successful level into all levels and does not
+  prove any `X_n` nonempty.  A finite universal polynomial remains the more
+  explicit positive certificate; a symbolic class-specific right inverse
+  would be the uniform nonemptiness theorem.
+
+**v220 mapping**:
+
+- This is a paper reformulation and compactness theorem only.  A0 remains
+  **0/1**, A3 **0/3**, A4 **1/3**, and A5--A7 **0/3** with the same active
+  implementation repairs.
+- No actual marginal target, finite measure, completed coefficient, relative
+  pro-3 correction, cofinal lift, fake or Ihara witness is constructed.
+
+Delta136 supplies a rigorous measure-theoretic route without confusing
+componentwise solvability, first-level success or compactness with the
+missing all-level nonemptiness theorem.
