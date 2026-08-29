@@ -6669,3 +6669,39 @@ object without prematurely counting an execution result.
 
 Delta166 turns the explicit R40/R07 comparison into an all-rung formula and,
 equally importantly, proves why that formula alone cannot repair A3.
+
+### Delta 167 (2026-08-29): comparator group-value zero is not Fox-tangent zero
+
+- Added `sol/proof_r07_core_comparator_fox_norm_column_v336.md`.  For
+  `c(m)=chi07^-1 h^m chi07`, the exact Fox formula is
+  `d c=chi07^-1 (N_m(h) d h +(h^m-1)d chi07)`.  At an old rung where
+  \(h^m=1\), the group value of \(c(m)\) is trivial but its tangent is the
+  potentially nonzero norm column `chi07^-1 N_m(h) d h`.
+- For the v335 sequence \(c_j\), differentiation of
+  `c_(j+1)=c_j^3` gives
+  `d c_(j+1)=(1+c_j+c_j^2)d c_j`.  In characteristic three the next
+  comparator is tangent-invisible one rung below.  Exact geometric-sum
+  recurrences give an \(O(\log m_j)\) symbolic DAG without expanding the
+  exponentially long power.
+- Delta166's “zero A3 column” is thereby qualified precisely: it is zero in
+  the **group-valued v216/v302 projected A3 ABI**.  It does not assert that
+  every later universal Fox/relation-module column vanishes.  Such a column
+  can first be tested after full A4 typing.
+- A dual score invariant under every pulled occurrence action of \(h\)
+  annihilates the norm column in characteristic three.  Hence the actual
+  field-even decision is a finite complete score/norm pairing matrix: a
+  nonzero pairing makes the comparator useful; invariance of every missing
+  score proves that a genuinely field-outer supplement is necessary.
+
+**v220 mapping**:
+
+- This is **CLOSED at the Fox paper interface** and **ADVANCED but not
+  CLOSED** for A4/field-even.  A0 remains **0/1 V12B SEAL ACTIVE**, A3
+  **0/3 V3 FRESH REAUDIT ACTIVE**, A4 **1/3 V7 SEAL ACTIVE**, and
+  A5--A7 **0/3**.
+- No actual score matrix, common word, compatible lift, fake certificate or
+  Ihara witness is added.
+
+Delta167 turns the explicit rung words into directly evaluable tangent
+columns while preventing projected-value invisibility from being
+overinterpreted as a full no-go theorem.
