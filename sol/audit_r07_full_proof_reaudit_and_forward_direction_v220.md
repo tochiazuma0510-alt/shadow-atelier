@@ -5776,3 +5776,73 @@ field-outer return-even survivor would be at the next refinement.
 Delta139 states exactly what extra theorem would make one marginal success
 propagate to every relative refinement, while retaining the weaker pointed
 route if either structural equality fails.
+
+### Delta 140 (2026-08-29): tree fibre products admit an explicit all-level marginal selector
+
+- Added `sol/proof_r07_tree_fibre_marginal_gluing_v317.md`.  For two finite
+  context sets over a common quotient, compatible signed marginals have the
+  explicit lift
+  `Jz + L_A(x-s_A z) + L_B(y-s_B z)`.  Iterating this formula over a tree
+  proves that the common-source marginal image is exactly the tuples whose
+  pushforwards agree on every tree edge, and gives a linear right inverse.
+- After quotienting each vertex by its prefix-corrected cyclic ambiguity,
+  the global v313 membership becomes the smaller finite problem of choosing
+  local representatives with matching edge marginals.  A retained tuple is
+  glued by the formula and then pulled back through one literal common-source
+  word section; no independent occurrence words are introduced.
+- For a fixed tree of cartesian refinement squares with compatible sections,
+  the gluing maps commute with reduction.  A compatible local representative
+  selector therefore gives one completed coefficient directly; on a
+  vertical residual it is the v314 Hensel preimage and forces both v316
+  defects to vanish on that registered subspace.
+- The actual seven-context image has not been proved to be this tree fibre
+  product.  Pairwise surjectivity is insufficient because a higher Goursat
+  relation may remain.  Thus v317 supplies a new structural route and a
+  sharply smaller even-overlap target, not an unearned R07 application.
+
+**v220 mapping**:
+
+- The paper theorem changes no numerator.  A0 remains **0/1 V12A P0 FROZEN /
+  FINAL DRIVER+REPLY ACTIVE**; A3 remains **0/3 V2 FINAL
+  CAPS+P0+DRIVER+REPLY ACTIVE**; A4 remains **1/3 V6C FROZEN / INDEPENDENT
+  SOL(MAX) AUDIT ACTIVE**; A5--A7 remain **0/3**.
+- A positive actual tree/overlap audit would replace the abstract all-edge
+  score-intersection problem by a finite natural edge-adjustment selector.
+  That audit and selector await the literal A0/A3/A4 owners.
+- No nonlinear recurrence, mixed-prime formation, perfect-core accepted set,
+  compatible lift, fake certificate or Ihara witness is added.
+
+Delta140 gives a conditional closed-form field-even marginal gluing formula
+while keeping the higher joint-image gate explicit.
+
+### Delta 141 (2026-08-29): A4/v6c rejected before execution; one finite v6d repair commissioned
+
+- Froze sol/sol_reply_366_r07_task362_a4_v6c_code_performance_audit_v1.md.
+  The independent Sol(max) verdict is **STATIC REJECT / UNEXECUTED**.  The
+  semantic reseal DAG, producer exact ABI validation, retained-fd baseline
+  revalidation and fused 6,441-row traversal passed statically, but the
+  checker dropped row 11's literal context_id=28, both case writers opened
+  the workspace's parent instead of a file's parent, row-4 mixed path/file
+  identities, row 1 exceeded the 750-MB meter after truthful live-token
+  accounting, and optional publication repeated the parent-fd error and had
+  incomplete cleanup.
+- Added sol/sol_task_367_r07_a4_v6d_complete_finite_repair.txt and assigned
+  the bounded implementation directly to Sol(max), as requested by the
+  researcher.  V6d must repair all rejection causes together, remove the
+  avoidable 31-MB copies/false live tokens, retain the already-correct
+  semantic work, and remain unexecuted pending another independent audit.
+- No rejected v6c owner was run or promoted.  Rows 8--48 remain outside this
+  tranche.
+
+**v220 mapping**:
+
+- A4 remains **1/3**; its implementation state is now **V6C STATIC REJECT /
+  V6D COMPLETE FINITE REPAIR ACTIVE**.  A0 remains **0/1 V12A FINAL
+  DRIVER+REPLY ACTIVE**, A3 remains **0/3 V2 FINAL PYTHON+DRIVER+REPLY
+  ACTIVE**, and A5--A7 remain **0/3**.
+- This delta is implementation/audit provenance only.  It adds no accepted
+  A4 row, common word, lift, fake certificate, or Ihara witness.
+
+Delta141 prevents a statically unreachable and over-cap A4 selftest from
+consuming GHA time while keeping the repair bounded to the exact rejected
+owners.

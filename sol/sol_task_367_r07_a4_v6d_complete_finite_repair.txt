@@ -1,0 +1,140 @@
+Sol(max) task 367 - A4/v6d complete finite repair after task366 reject
+
+Role for this commission: bounded implementation repair.  The researcher
+explicitly asked that Sol(max), rather than a slower Luna handoff, finish
+implementation when the finite design is already known.  Read every numbered
+section first to last.  Do not run Python, Node, GAP, GHA, workflows, git,
+network, or any candidate command.  Read-only PowerShell inspection and
+hashing are allowed.  Use apply_patch for repository edits.
+
+1. Binding inputs and verdict
+
+Read in full:
+
+1. sol/luna_task_362_r07_a4_v6c_authority_trace_repair.md;
+2. all four frozen task362 outputs;
+3. sol/sol_reply_366_r07_task362_a4_v6c_code_performance_audit_v1.md;
+4. task360 audit and every exact owner cited by task366 where needed.
+
+Task366 is STATIC REJECT / UNEXECUTED.  Preserve every task362 repair which
+task366 passed: semantic receipt/manifest reseal DAG, producer exact type/ABI
+validation, retained-fd baseline revalidation, fixture acyclicity, fused
+6,441-row traversal, row order, and rows-8--48 noncoverage.  Repair every
+F1--F6 defect below in one version.  Do not produce another wrapper, partial
+tranche, or fail-closed stub.
+
+2. Sole permitted outputs
+
+Create only:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v4.py
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v4.py
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v4_20260829.json
+- sol/sol_reply_367_r07_a4_v6d_complete_finite_repair.md
+
+Do not edit v1--v3, task366, workflows, v220, proof files, or actual task198
+owners.  Do not create a driver or runtime output.  The v4 fixture remains
+acyclic and does not pin either new program.
+
+3. F1 - checker baseline occurrence ledger
+
+Reconstruct the checker expected eleven-row ledger independently from the
+actual accepted task198 owner.  Row 11 must retain its exact context_id=28
+and the exact same 12-key schema required by the ordinary validator.  Do not
+replace context_id by a temporary source label and do not pop the wrong key.
+Require recursive exact equality and demonstrate in the reply that the
+untouched checker baseline reaches the mutation loop.  Retain the complete
+evaluator ABI/canary checks.
+
+4. F2 - case writer and row-4 identity
+
+Both case writers must bind a concrete regular-file target inside the
+per-case workspace.  Pass that file target, not the workspace directory, to
+the no-follow parent opener, so the retained fd names the workspace and the
+leaf names the regular file.  All staging, exclusive publish, validation,
+cleanup, and disposal operations are relative to that bound parent.
+
+For row 4, derive before/after owner identity and owner_kind from the actual
+path mutation observation.  A path-kind plan may not project a receipt-file
+identity as its before value.  Preserve invocation-unique outside-parent
+creation, before/after absence, and cleanup.  Require the same registered
+identity type on both sides of every v297 I_before/I_after comparison.
+
+5. F3 - exact resource lifetime and avoidable copies
+
+Recompute the meter from the final source and make the clean supported-POSIX
+seven-row route fit the frozen 750,000,000-byte peak.  In particular:
+
+- remove false live tokens and release receipt/manifest canonical buffers as
+  soon as their consumer is finished, before ordinary validation where safe;
+- charge retained canonical objects by their exact allocated length, not the
+  35,000,000/10,000 serialization bounds;
+- eliminate bytes(raw) copies of 31-MB bytearray/memoryview owners in
+  canonical comparison and hashing; use memoryview/chunked comparison and
+  hash the existing buffer;
+- do not retain two equivalent 31-MB caches or a 200-MB clone across work
+  which can be performed sequentially;
+- reserve every remaining allocation before it occurs;
+- report the worst exact row trace, not the old 728,045,006 formula; and
+- make the implemented logical-open counter agree with the declared route,
+  including retained-fd revalidation operations, or rename/separate counters
+  so no physical-open claim is made.
+
+No superlinear redesign is requested.  The goal is a truthful bounded
+lifetime with the duplicated full-size work removed.
+
+6. F4 - optional output transaction
+
+For a final target such as ci/out/result.json, open and retain the no-follow
+fd for ci/out and use result.json as the leaf.  Do not call the helper on
+target.parent if the helper itself already opens path.parent.
+
+Before publication, rewalk the registered parent pathname without following
+links and require it to identify the retained parent fd.  Stage and clean
+the temporary file through the actual stage-directory fd.  On any staging,
+link, fsync, final-identity, parent-identity, or post-publication failure,
+remove every stage/final name through its correct retained fd, fsync the
+resulting namespace, assert absence, and only then propagate a typed
+non-PASS.  A failed call may leave neither a published target nor a staging
+directory/file.  On success require exact bytes/SHA, regular-file identity,
+temporary absence, parent identity, and final parent fsync.
+
+7. Rows, independence, and execution boundary
+
+Producer and checker independently execute the same seven mutation
+constructors and ordinary validators.  The checker imports no producer
+helper or evidence.  MutationAccepted remains outside narrow expected
+catches.  Preserve exactly:
+
+covered_rows=[1,2,3,4,5,6,7]
+remaining_rows=[8,...,48]
+candidate_only=true
+full_a4_selftest=false
+actual_a4_numerator=false
+
+No source inspection may be reported as runtime success.  Python syntax,
+runtime, RSS, the seven mutation results, and GHA remain UNEXECUTED.
+
+8. Static closure and reply
+
+Before freezing, perform read-only static tracing of the untouched baseline,
+each writer fd/leaf pair, row-4 identity flow, every meter acquire/release,
+the worst peak formula, and every optional-publication cleanup edge.  Give
+exact bytes/SHA-256 of all three machine owners, fixture self seal, and
+line-numbered evidence for Sections 3--7.  State every remaining limitation.
+Do not claim rows 8--48, full A4, a lift, fake, or Ihara.
+
+End exactly with:
+
+TASK366 CHECKER BASELINE DEFECT:       REPAIRED or BLOCKED
+TASK366 CASE WRITER / ROW-4 IDENTITY:  REPAIRED or BLOCKED
+TASK366 RESOURCE / DUPLICATION DEFECT: REPAIRED or BLOCKED
+TASK366 OPTIONAL PUBLICATION DEFECT:   REPAIRED or BLOCKED
+ROWS 1--7 PRODUCER/CHECKER ROUTE:      IMPLEMENTED or BLOCKED
+EXECUTION / GHA:                       UNEXECUTED
+FULL 48x2 SELFTEST:                    INCOMPLETE
+INDEPENDENT SOL(MAX) REAUDIT REQUIRED: YES
+ACTUAL A4:                             remains 1/3
+LIFT / FAKE / IHARA:                   NONE
+
+TASK367_R07_A4_V6D_COMPLETE_FINITE_REPAIR
