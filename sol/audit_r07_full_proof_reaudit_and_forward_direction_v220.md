@@ -8716,3 +8716,42 @@ claim about its value or return membership.
 Delta222 removes the exceptional self-quadratic obstruction rather than
 merely scheduling its computation.  It does not extrapolate that cancellation
 to the later transported-linear terms.
+
+### Delta 223 (2026-08-29): A0 v20 reaches a controlled terminal but writes no restart state
+
+- A0 production run `33251157582`, at commit
+  `f012c1590fe91a83cef1e233a1143d495532589c`, completed at the workflow level
+  with the typed mathematical terminal
+  `UNKNOWN_RESOURCE:phase=checkpoint_serialization_cap=wall_seconds_value=10827.371522878999_limit=10800.0`.
+  The independent checker returned `PASS` for exactly that UNKNOWN terminal;
+  this is neither MEMBER nor a negative result.
+- The authenticated final counters are `22,975,460` boundary pairs, `8,762`
+  retained columns, `29,441` DAG nodes and zero candidate words.  Peak sampled
+  parent RSS was `4,599,615,488` bytes and peak sampled child RSS sum was
+  `830,980,096` bytes.  Thus the run did not trip the registered RSS cap.
+- Artifact `9716632620` (`gap-run-out`, `17,456` bytes,
+  `sha256:b05fd566f0f17258204b617f8e0485eca7f97987b4d30da6719287aaca3f1cda`)
+  contains the receipt, verdict and logs, but no checkpoint file.  Both the
+  receipt field `checkpoint_required:false` and the checker-derived
+  `checkpoint:null` say that v21 has no state it can honestly restore.
+- The immediate cause is narrow: after the wall ResourceStop and clean worker
+  shutdown, terminal checkpoint writing calls the ordinary meter bump for
+  `serialized_dag_bytes`; that bump rechecks the already-exceeded wall clock
+  before atomic serialization starts.  A minimal v22 successor is therefore
+  being built to preserve both byte caps while accounting the terminal
+  serialization without recursively rechecking the wall cap.  No arithmetic,
+  search ordering or acceptance predicate is being changed.
+- A4 production run `33250865356` remains active at this recording point.
+
+**v220 mapping**:
+
+- A0 remains **0/1**.  V20 supplied a real three-hour performance trace and
+  isolated the terminal-checkpoint defect, but its work cannot be resumed from
+  the downloaded artifact; the next honest production run must be fresh under
+  v22.
+- A2 remains **2/3**, A3 **3/3**, A4 **1/3 active**, A5/A6/A7
+  **0/3 / 0/3 / 0/3**, and A8/A9 **0/3 / 0/3 actual**.
+- No compatible lift, fake or Ihara witness is promoted.
+
+Delta223 records the lost-restart fact explicitly so that later work never
+mistakes workflow success or checker acceptance of UNKNOWN for an A0 result.
