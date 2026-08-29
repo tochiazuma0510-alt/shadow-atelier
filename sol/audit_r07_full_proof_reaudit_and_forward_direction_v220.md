@@ -8755,3 +8755,74 @@ to the later transported-linear terms.
 
 Delta223 records the lost-restart fact explicitly so that later work never
 mistakes workflow success or checker acceptance of UNKNOWN for an A0 result.
+
+### Delta 224 (2026-08-30): A0 v22 terminal checkpoint repair enters production
+
+- The v22 producer/checker/driver package is frozen at commit
+  `a25fca260d1eb3d7a7d05d95b53423c4003c7ffd`.  Its generated owner differs
+  from v21 at exactly the two terminal and prepool
+  `serialized_dag_bytes` bookkeeping sites identified by Delta223.
+- Each repaired site computes the same serialized-size estimate, enforces the
+  unchanged cumulative byte cap, and commits that counter without invoking a
+  second wall/RSS check after a ResourceStop has already entered terminal
+  serialization.  Atomic JSON, actual/estimated checkpoint byte caps, clean
+  worker shutdown, exact resume authentication, search order, arithmetic and
+  acceptance predicates are unchanged.
+- The internal producer cap remains `10,800` seconds and the outer process
+  cap `11,100` seconds.  Thus a typed wall or registered RSS stop has a
+  300-second terminal window in which to seal the checkpoint and carry it in
+  the workflow artifact.  An external hard kill or a serialization failure
+  remains non-resumable and must not be described otherwise.
+- Fresh A0 v22 production run `33259268996` was dispatched through the
+  unchanged generic `gap-run.yml` workflow at head
+  `a25fca260d1eb3d7a7d05d95b53423c4003c7ffd`.  It uses two workers and no
+  p-quotient packages.  There was no honest v20 checkpoint to resume, so this
+  run necessarily starts from the authenticated v3 raw checkpoint source.
+- A4 run `33250865356` remains active independently.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V22 ACTUAL RUN 33259268996 ACTIVE**.  The production
+  numerator changes only on an accepted COMMON result.
+- A2 remains **2/3**, A3 **3/3**, A4 **1/3 active**, A5/A6/A7
+  **0/3 / 0/3 / 0/3**, and A8/A9 **0/3 / 0/3 actual**.
+- Compatible lift, fake and Ihara numerators remain unchanged.
+
+Delta224 restores the intended restart semantics for future controlled
+resource terminals; it does not recover the state lost by v20 and does not
+promote an unexecuted checkpoint claim.
+
+### Delta 225 (2026-08-30): the A8 annotated boundary compiler is executable
+
+- The deterministic compiler proved in v354 is frozen at commit
+  `2903774eaf19719f79537828fca9587c294d9a89`.  It accepts only a physical
+  task377-v5 MEMBER package whose independent verdict has already replayed
+  the three task292 endpoints as ZERO.
+- For each of H1, H2 and P it reconstructs the complete finite support graph
+  on literal Artin tuples, decomposes the parent cycle by one deterministic
+  spanning tree, and recursively combs every fundamental identity loop using
+  only task292's original two/eleven PB relators.  The resulting annotation
+  DAG retains conjugators, signs and relator indices rather than only a
+  boundary vector.
+- The producer directly recomputes `D2(q_B)` with the frozen task292 Fox
+  owner and requires exact equality with the parent `z_B`.  Its independent
+  checker does not import the new producer: it rebuilds the graph, tree,
+  cycle elimination, literal relator traces, q accumulation and all three
+  `D2(q_B)=z_B` equalities with the checker-side presentation owner.
+- Checkpoint/resume retains only authenticated finite words, integer cursors,
+  graph/cycle state and annotation ancestry; all Artin actions, relator
+  rosters and Fox rows are recomputed.  Static Python loading, frozen-owner
+  restoration, GAP parsing, ASCII and exact-pin checks passed.  No production
+  input exists yet, so the code has not been dispatched.
+
+**v220 mapping**:
+
+- A8 remains **0/3 actual**, but there is no longer a missing algorithm or
+  executable between a future A7 ZERO package and explicit PB3/PB4
+  two-boundaries `q_H1,q_H2,q_P`.
+- A0 remains **0/1 with v22 run 33259268996 active**, A2 **2/3**, A3
+  **3/3**, A4 **1/3 active**, and A5/A6/A7 **0/3 / 0/3 / 0/3 actual**.
+- A9, compatible lift, fake and Ihara numerators remain unchanged.
+
+Delta225 closes A8's static construction gap while preserving the rule that
+only an actual parent MEMBER and independent replay can change its numerator.
