@@ -6490,3 +6490,39 @@ complete classifier of Delta159 into a bounded overlap-by-overlap audit.
 Delta161 removes a false memory-bound claim and an unsafe optional write path
 before spending execution time, while preserving the already-passed A4
 semantics.
+
+### Delta 162 (2026-08-29): one-level success propagates when overlap scores do not grow
+
+- Added `sol/proof_r07_vertical_overlap_descent_propagation_v332.md`.  Place
+  v331's horizontal score exact sequences at two consecutive refinements in a
+  natural commutative diagram.  The quotient of upper identities by pulled
+  lower identities has a filtration whose successive quotients are exactly
+  the new Goursat overlap-score spaces
+  `P_(i,n+1) / pullback(P_(i,n))`.
+- Therefore the dimension of the genuinely new vertical obstruction is the
+  sum of the new overlap dimensions.  For an actual target already MEMBER
+  downstairs, only lifts of these novel overlap classes need to be paired;
+  pulled identities vanish automatically by target compatibility.
+- If every upper overlap-score space is exactly the pullback of its lower
+  counterpart, no new identity exists and any compatible MEMBER target
+  propagates to the next refinement.  If this holds at every edge, one
+  initial MEMBER result propagates to all finite levels and v313 compactness
+  gives one compatible completed linear coefficient.  Natural right inverses
+  strengthen existence to an explicit recursive selector.
+- Equality here means two-way containment of complete authenticated score
+  spaces, not equal dimensions.  Actual R07 overlap descent and any novel
+  target pairings remain to be computed.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V7 REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The phrase “jump from one successful stage to all stages” now has an exact
+  finite criterion: no new cumulative overlap scores at every refinement,
+  with a target-specific novelty test when structural stability fails.
+- Nonlinear saturation, formation, perfect-core gates, the compatible full
+  lift, fake certificate and Ihara witness remain open.
+
+Delta162 decomposes the vertical common-source obstruction into the smallest
+horizontal overlap increments and proves the promised one-level propagation
+under their stability.
