@@ -10381,3 +10381,161 @@ compatible lift, fake numerator, or Ihara witness from a live job.
 Delta257 records the exact progress that survived the resource stop and the
 single transport repair required before continuation; it does not count the
 500-million resource ceiling as a finite universe.
+
+### Delta 258 (2026-08-30): the saturation retraction is correctly typed over the inverse limit
+
+- Deltas 256--257 and their proof versions were published by the parent broker
+  in commit `0545614d13d01ea87f3adb3f52786415510976cf`, pushed to
+  `sol/r07-witness-v220-delta211`.
+- `proof_r07_class_specific_retraction_kills_saturation_tower_v383.md`, 9,883
+  bytes, SHA-256
+  `5e4bc261470cfcad03df8bf3aca2bceec1fc77352eddde4e03aa79d174077b5d`,
+  is rejected.  Although its abstract retraction lemma was sound, it mixed
+  global divisors with finite reductions and identified
+  `E_Fox` with `lim E_Fox,i` without defining or proving that identification.
+- The repaired
+  `proof_r07_class_specific_retraction_kills_saturation_tower_v384.md`, 10,819
+  bytes, SHA-256
+  `a2d45db44df10da53765b91000f7444f4d3b1dfd72c9d19512204b9f391e3246`,
+  received an independent Sol(max) PASS.  It fixes, before any Newton choice,
+  the compatible global divisor family for every legal triple and defines
+
+  \[
+   E_{\rm Fox}=\overline{\widehat\Xi\cdot
+   (L_{\rm reach}\cup\mathcal D_{\rm Fox})}.
+  \]
+
+  For every matched coordinate it then uses the actual images
+  `E_i=pi_i(E_Fox)` and `L_i=pi_i(L_reach)`.  A closed compact submodule of an
+  inverse limit of finite discrete modules is canonically the inverse limit of
+  its coordinate images; the proof uses the finite-intersection property in
+  the closed submodule itself.
+- Continuous compatible finite retractions with the typed square
+
+  \[
+   q^L_{ji}r_j=r_iq^E_{ji}
+  \]
+
+  therefore induce one global retraction.  Any such retraction gives
+  `L_reach intersect J-hat^n E_Fox = J-hat^n L_reach` for every `n`, so all
+  leading and positive-depth saturation classes in v382 vanish at once.
+  The retraction does not prove the ambient Fox-depth estimate; that estimate
+  remains a separately quantified physical hypothesis.
+- The odd relative-dihedral component is retained only under v333's actual
+  typing/equivariance/image hypotheses.  V82's return-even object remains an
+  abstract finite candidate, not an actual A.18 occurrence.  The even map,
+  ambient divisor ABI, full-path membership, and finite naturality squares are
+  all still open.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but the former unnamed saturation obstruction now
+  has one sufficient inverse-limit construction target.  This is a paper
+  theorem, not a constructed uniform lift.
+- A0 is **0/1 UNKNOWN_RESOURCE, DURABLE RESUME**; A4 remains **1/3 RUNNING**.
+  Fake and Ihara witness numerators remain zero.
+
+### Delta 259 (2026-08-30): divisor capture removes the need for a full retraction matrix
+
+- `proof_r07_divisor_capture_collapses_fox_envelope_v386.md`, 8,195 bytes,
+  SHA-256
+  `a4951c2ef03906e2f2dc4d7a87967a801fa829cbb12c9927086fadc802b1e941`,
+  received an independent Sol(max) PASS.
+- Let `L_i=pi_i(L_reach)`.  If every fixed compatible Fox divisor satisfies
+
+  \[
+   \pi_i(d)\in L_i
+   \quad\text{at every matched finite coordinate},
+  \]
+
+  then closed-submodule reconstruction puts the global divisor itself in
+  `L_reach`.  No compatible selection of finite preimages is needed.  Hence
+
+  \[
+   \mathcal D_{\rm Fox}\subseteq L_{\rm reach},
+   \qquad E_{\rm Fox}=L_{\rm reach},
+  \]
+
+  and the v384 retraction is simply the identity.
+- V339's word-bearing elementary-abelian split reduces finite divisor capture
+  to the primitive anchor/outer differences.  At the first edge these are
+
+  \[
+   u_z-1,\quad v_1-1,\ldots,v_{t-1}-1.
+  \]
+
+  Telescoping and left translation generate the entire relative augmentation
+  ideal from these words.  Thus the actual remaining finite tests are:
+  authenticate a well-defined path-bearing occurrence/Fox map on that ideal,
+  explicitly factor every required prefix/cross-term divisor through it, and
+  prove the resulting primitive images lie in `L_i`.
+- This criterion is strictly weaker than a structural even right inverse.
+  Structural score-matrix onto is sufficient but unnecessary; actual divisor
+  cokernel membership is enough.  A4 supplies only the ambient word-bearing
+  kernel roster, and A0 supplies a named membership only after exact
+  target/quotient/ABI binding.  Neither running computation has yet closed
+  these gates.
+
+**v220 mapping**:
+
+- The preferred uniform-lift route is now finite primitive divisor capture,
+  not construction of an arbitrary full-even retraction.  Its abstract
+  inverse-limit implication is complete at paper grade.
+- The physical first-edge basis, legal-source gate, divisor factorization,
+  primitive memberships, and symbolic all-rung formula remain open.  A9 stays
+  **0/3 actual**; no compatible lift, fake numerator, or Ihara witness is
+  promoted.
+
+### Delta 260 (2026-08-30): A0's safe batch boundary is fixed at paper grade
+
+- `proof_r07_a0_batched_dual_column_generation_v385.md`, 8,046 bytes,
+  SHA-256
+  `1d8aada7234b66b50ee95d4d8ffd5db552d39dbd565f659d322358e30461450e`,
+  is rejected.  Its linear-algebraic batch step was sound, but it incorrectly
+  treated the v23 history-free discovery checkpoint as an authenticated exact
+  span/DAG state and cited the wrong source for completeness of the active
+  roster.
+- The repaired
+  `proof_r07_a0_batched_history_free_discovery_v387.md`, 9,479 bytes,
+  SHA-256
+  `f2dde994ba9ca61b07fae38154f336209e3faeec5e8c7598e5dac47faa19b21e`,
+  received an independent Sol(max) PASS.  It separates two authorities:
+  v23 remains heuristic discovery only, whereas a mathematical positive must
+  be replayed through every exact acceptance gate of v278 Section 3.
+- For one frozen separating dual, the batch epoch must scan all 104 active
+  descriptors and every matching support pair, through a disjoint complete
+  shard cover.  Worker contributions are merged and cancelled globally over
+  `F_3` before ranking or truncation.  In particular, shard-local top-b
+  selection is forbidden.  From the globally merged columns one may retain a
+  bounded linearly independent batch, extend the span/DAG, and only then
+  compute a new separating dual.  A partially completed convolution is
+  discarded as a whole at a resource stop.
+- This preserves the discovery span: dependency rejection changes neither
+  the span nor the existence of a first rank rise.  It does not license reuse
+  of the old dual as a separator after the span changes, and it does not turn
+  an empty discovery active set into a negative certificate.
+- The terminal v24 workers wrote 11,473,766 locally nonzero accumulator
+  entries over 8,727 committed single-column epochs, about 1,315 entries per
+  epoch before global cancellation.  These are neither distinct active
+  columns nor independent columns, but they expose the avoidable bottleneck:
+  the previous implementation generated a wide local frontier and committed
+  only one column before recomputing the next dual.  A bounded batch such as
+  64 is now a justified discovery experiment, not yet an implemented or
+  measured speedup.
+- Every proposed positive still requires the v278 full selected-support
+  replay, including equality of the reconstructed selected-old row with its
+  stored heuristic row, sparse boundary equality, correction materialization,
+  all occurrence/kernel constraints, and all side gates.  Coefficient `2` in
+  `F_3` is interpreted by the final word materializer as the inverse.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, DURABLE RESUME**: no new computation is
+  promoted by this theorem.  The safe algorithmic repair is now split into
+  (i) streaming restoration of the 1.66 GB checkpoint and (ii) globally
+  merged bounded-batch discovery, followed by exact replay of any positive.
+- The principal A0 serial bottleneck is no longer an unnamed performance
+  issue.  Its mathematical batch contract is complete; implementation,
+  independent code audit, GHA measurement, and any positive replay remain.
+- A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No compatible
+  lift, fake numerator, or Ihara witness is promoted.
