@@ -8188,3 +8188,108 @@ progress.
 Delta209 repairs the actual A4 launch without another long failed run and
 changes the witness schedule from `finish all A4, then start A5` to one
 direct target-specific relator calculation in parallel with reusable A4.
+
+### Delta 210 (2026-08-29): launch failures are separated from resource time, and both rejected shortcuts are retired
+
+- A4 run `33250191092` did not enter either Python owner.  Native Windows
+  argument handling stripped the quotes from the workflow-dispatch preamble,
+  so GAP received `D366Mode:=PRODUCTION;;` and stopped while parsing an
+  unbound identifier.  It used setup time only and has no mathematical
+  content.
+- The quote-free retry `33250369521` (head
+  `c6c76385bac1c77de711759d3f0c9d07e3a5c69a`) also stopped before Python,
+  in 59 seconds total.  Its preamble was accepted, but the v20 wrapper had
+  emitted literal `\\n` characters in its generated inner tail.  GAP
+  consequently parsed the next token as `\\nExec` and returned
+  `Variable: '\\nExec' must have a value`.  This is an exact one-line
+  transport defect, not a correlation cap or an A4 arithmetic result.  A
+  v21 wrapper is restricted to restoring real newlines while preserving all
+  v12/v14 owners, caps, pins and production semantics.
+- The proposed A0 v19 hot-path wrapper is **STATIC REJECTED** before any run.
+  Its generic replacement gate requires `source.count(new)==0`, but two
+  canary deletions pass `new=b""`; Python has
+  `bytes.count(b"")=len(source)+1`.  Producer and checker therefore both
+  abort on the first deletion before launching the search.  The repair is a
+  separate delete-once gate; no v19 result or speed claim is counted.
+- The first direct A5/A6 compiler v2 is likewise **STATIC REJECTED** before
+  execution.  It requires serialized task198 `context_maps`, action edges
+  and a block map, whereas the accepted physical task198 receipt has null
+  context/joint maps and no such rosters.  Supplying them through an
+  unowned manifest overlay would be fictional.  The replacement v3 is
+  therefore constrained to replay task198's real executable
+  `AuthorityAdapter`/`Runtime` ABI independently on the producer and checker
+  sides and to implement v350's raw-relator plus boundary-slack solve.
+- A0 production runs `33246619673` and `33247540982` remain in the actual
+  GAP/Python step.  At this delta they have not returned a terminal resource
+  cap or witness, so elapsed wall time is not recorded as mathematical
+  progress.
+
+**v220 mapping**:
+
+- A0 remains **0/1; TWO ACTUAL RUNS ACTIVE**.  Rejected v19 is not a third
+  candidate.
+- A4 remains **1/3; V21 NEWLINE-ONLY LAUNCH REPAIR ACTIVE**.  Runs
+  `33250191092` and `33250369521` add zero numerator and did not consume the
+  long arithmetic envelope.
+- A5/A6 remain **0/3 / 0/3; EXECUTABLE-OWNER DIRECT-RELATOR V3 ACTIVE**.
+  The v350 theorem remains the positive-path reduction, but no actual
+  MEMBER has yet been obtained.
+- A3 stays **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**; every compatible-lift,
+  fake and Ihara-witness numerator remains unchanged.
+
+Delta210 prevents startup syntax failures, an impossible empty-string
+canary and nonexistent serialized owner fields from being charged as either
+resource time or witness progress.  The only continuing production paths
+are the two live A0 runs, the newline-only A4 relaunch and the executable-ABI
+direct A5/A6 compiler.
+
+### Delta 211 (2026-08-29): both A0 runs terminate at the same RSS frontier; their checkpoint transport fails
+
+- A0 run `33246619673` (v16 wrapper, head
+  `f135b7301d6fe0259abddec7b97bc7f5bbefa685`) made continuous minute-level
+  progress from source loading through the positive boundary correlation.
+  The producer then serialized a checkpoint and terminated after about 98
+  minutes with
+  `UNKNOWN_RESOURCE:phase=positive_search:cap=rss_bytes:`
+  `value=5700616192:limit=5700000000`.
+- The independently audited v18 launch `33247540982` (head
+  `69aeafe3e0b04d70593fb7702a84f4a14b802aea`) followed the same path and
+  terminated after about 78 minutes at
+  `value=5700284416:limit=5700000000`.  Thus neither run was hung, but both
+  copies were stopped by the same unchanged four-worker sampled parent-plus-
+  children RSS guard.  Parallel execution reduced elapsed wall time but
+  duplicated runner work and yielded no numerator.
+- In both runs the checker then crashed in `validate_dag_nodes` with
+  `TypeError: unhashable type: 'list'`: JSON had correctly converted the
+  serialized DAG tuples to lists, while the checker attempted to use those
+  lists as hash keys without canonicalizing them back to tuples.  The driver
+  consequently produced no completion sentinel, the generic artifact step
+  was skipped, and both runs report zero uploaded artifacts.  The just-written
+  checkpoints are therefore not recoverable from these runners.
+- A0 v20 is restricted to the actual failure surface: a dedicated
+  delete-once substitution gate, two workers rather than four, no unbounded
+  persistent decode cache, recursive DAG-node tuple canonicalization in the
+  UNKNOWN replay, and live boundary/DAG/parent-RSS/child-RSS counters.  The
+  mathematical owners and non-RSS caps remain fixed.  Only one production
+  copy will be launched after static acceptance.
+- The task193 adapter-v3/compiler-v2 implementation is physically complete
+  and under independent bounded audit.  It is not executable on an actual
+  lift until A0 supplies an accepted common word, so it adds no A2 or lift
+  numerator at this delta.
+
+**v220 mapping**:
+
+- A0 remains **0/1; RSS FRONTIER MEASURED, V20 REPAIR ACTIVE**.  Runs
+  `33246619673` and `33247540982` are terminal failures, not active runs and
+  not witness evidence.
+- A2 remains **2/3; TASK193 V2 IMPLEMENTED, AUDIT PENDING, ACTUAL A0 INPUT
+  ABSENT**.
+- A4 remains **1/3; V21 LAUNCH-TRANSPORT REPAIR READY**.  A4 arithmetic is
+  unchanged from Delta208's measured frontier until the v21 production run.
+- A5/A6 remain **0/3 / 0/3; EXECUTABLE-OWNER DIRECT-RELATOR V3 ACTIVE**;
+  A3 stays **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.  Compatible-lift,
+  fake and Ihara-witness numerators remain zero.
+
+Delta211 records that the A0 loss was a real memory-bound run plus a broken
+UNKNOWN transport, not an invisible hang.  It also removes the invalid
+assumption that v18 had repaired either of those two paths.
