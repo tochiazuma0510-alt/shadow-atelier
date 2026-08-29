@@ -5122,3 +5122,38 @@ a paper splice as an actual witness milestone.
 Delta121 replaces a potentially unbounded sequence of A0-word/A3 failures by
 one finite three-class selector on paper, without counting an unexecuted
 selector as a witness result.
+
+### Delta 122 (2026-08-29): A.18 area invisibility collapses A3 to one pre-A0 target
+
+- Added `sol/proof_r07_a18_area_invisibility_single_a3_target_v302.md`.
+  V301's three exponent-nine area classes do not produce three different A3
+  targets.  In every occurrence the correction image is the central element
+  `q_o([x,y]^3)^t`; the literal task198 signs let these factors be collected
+  blockwise.
+- The complete signed PB3 tables sum to `-9*c123` in H1 and `+9*c123` in H2.
+  The five PB4 pentagon rows sum coordinatewise to zero in
+  `(c123,c124,c134,c234)`.  Hence the collected central correction factor is
+  the identity separately in H1, H2 and P, for every `t in F3`.
+- Therefore both the v225 occurrence closure and its residual target depend
+  only on fixed `g760`, not on any A0 correction word or its area.  The A3
+  fate of every A0 word is decided by one rank-at-most-486 closure and one
+  membership test from accepted task198.  A NONMEMBER dual would obstruct
+  the whole fixed A0 branch before common-word search; MEMBER would remove
+  only this necessary projected filter.
+- V301's augmented area row remains mathematically valid, but it is no longer
+  required as an A3 selector.  Its three-class passing set is necessarily
+  either all of `F3` or empty.
+
+**v220 mapping**:
+
+- A3 remains **0/3 actual**: no actual base target, closure receipt or
+  MEMBER/NONMEMBER certificate has yet been produced.  Its dependency is now
+  strictly shorter than Delta121: the complete projected A3 run no longer
+  waits for A0 at all.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**; A1 remains **4/4
+  CROSS-CHECKED**, A2 **2/3**, and A4 **1/3 V6B FINITE REPAIR ACTIVE**.
+  No pointed multiplier, compatible lift, fake certificate or Ihara witness
+  is added.
+
+Delta122 turns the area-class selector into one binary pre-A0 branch test on
+paper without treating the unexecuted test as an actual numerator.
