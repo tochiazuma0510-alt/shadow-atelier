@@ -8369,3 +8369,40 @@ Delta213 corrects the operational contract before the current run reaches a
 resource frontier: save/check is one property, restart/continue is a separate
 property, and only the latter will be claimed after the v21 call site is
 physically present.
+
+### Delta 214 (2026-08-29): actual A0 restart and the direct-relator A5/A6 compiler are physical
+
+- A0 actual restart v21 is frozen at commit
+  `146686fe9c05388d894e72ded041cb98b530afc5`.  It adds an optional
+  all-or-none resume path/byte/SHA binding, delays worker creation until after
+  restoration, and calls the already frozen `restore_checkpoint` routine
+  exactly once.  Thus a v20 typed RSS stop whose artifact upload completes can
+  continue from that exact sidecar; an external runner kill before sidecar
+  upload remains unrecoverable.
+- The direct-relator A5/A6 v3 implementation is frozen at commit
+  `e00495193937a11a6ed7b4011a5055818695406a`.  Its producer restores the
+  executable task198-v12 owner, its independent checker restores task198-v14,
+  and both exact-pin task193-v3.  It constructs the 6,441 raw relator-action
+  columns together with PB boundary slack and, on MEMBER, expands literal
+  ancestry and the A6 polynomial `M`.  NONMEMBER is permitted only after the
+  complete marked-action and boundary closures exhaust.
+- This is an executable milestone only.  A5/A6 v3 cannot enter production
+  until A0 returns a positive accepted word and the pinned adapter-v4/task193-v3
+  chain emits its accepted receipt and verdict.  No SELFTEST, mutation lane,
+  A7 calculation, fake claim, or Ihara claim is included.
+- At this delta A0 run `33251157582` and A4 run `33250865356` remain active in
+  their GAP/Python production steps.  Neither has yet emitted a mathematical
+  terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1; V20 ACTUAL RUN ACTIVE, V21 ACTUAL RESTART FROZEN**.
+- A2 remains **2/3; V20-PIN TASK193 SUCCESSOR FROZEN, POSITIVE INPUT ABSENT**.
+- A4 remains **1/3; V21 ACTUAL RUN ACTIVE**.
+- A5/A6 remain **0/3 / 0/3; DIRECT-RELATOR V3 EXECUTABLE FROZEN, NOT RUN**;
+  A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.  Compatible-lift,
+  fake, and Ihara-witness numerators remain zero.
+
+Delta214 removes two implementation gaps without promoting a mathematical
+result: a controlled A0 resource stop is now restartable, and a future
+task193 positive output now has a physical A5/A6 consumer.
