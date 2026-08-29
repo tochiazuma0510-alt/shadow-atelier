@@ -8406,3 +8406,44 @@ physically present.
 Delta214 removes two implementation gaps without promoting a mathematical
 result: a controlled A0 resource stop is now restartable, and a future
 task193 positive output now has a physical A5/A6 consumer.
+
+### Delta 215 (2026-08-29): direct relators are fused with exact endpoints and lift-null completion
+
+- `proof_r07_direct_relator_a5_a7_fusion_v351.md`, frozen at commit
+  `caaf95e2e9553fd70da8016fcc61a170956deab6`, combines v350 with v309--v310.
+  For one fixed literal A0 word it proves that a promotable finite-support
+  representative exists exactly when the augmented target `(t5,eta_c)` is in
+  the span of the 6,441 direct-relator columns together with translated
+  Schreier lift-null columns.
+- The theorem keeps the two kernels separate.  Direct relators generate the
+  finite first-shadow ideal and decide A5; lift-null columns change the
+  literal `M` without changing A5 and are necessary for exact H1/H2/P
+  endpoint repair.  Thus a nonzero endpoint for the first A5 representative
+  is not a negative result.
+- A raw-chain version includes the full raw row of every lift-null pair plus
+  PB boundary slack.  Replacing that raw row by zero without a boundary
+  ledger is forbidden.  Any finite augmented hit yields `mu1`, one literal
+  `M`, and all three exact endpoint zeros in a single replayable certificate.
+- The finite Schreier seed roster has generally infinite source translations.
+  Fair enumeration is positive-complete for every finite-support witness, but
+  a bounded miss remains `UNKNOWN_RESOURCE`.  Complete finite A5 NONMEMBER is
+  unaffected because all lift-null columns have zero A5 quotient coordinate.
+- The mechanical v4 connection of the frozen v3 owner to the task292 exact
+  endpoint core is commissioned in
+  `luna_task_375_r07_direct_relator_a5_a7_fusion_v4.md`.  It is implementation
+  work only and is not yet an actual run.
+
+**v220 mapping**:
+
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual**.  Their positive path is now a
+  paper-complete direct-relator plus lift-null augmented membership, rather
+  than an arbitrary A5 representative followed by an incomplete endpoint
+  test.
+- A0 stays **0/1 with v20 run active and v21 restart frozen**; A2 stays
+  **2/3**, A3 **3/3**, and A4 **1/3 with v21 run active**.
+- A8/A9, B, C, W and F do not advance.  No compatible lift, fake certificate
+  or Ihara witness is promoted.
+
+Delta215 closes the missing representative-completeness theorem on the
+positive A5--A7 route.  The remaining first numerical decision is still the
+active A0 word computation.
