@@ -5053,3 +5053,33 @@ heavy build without increasing any actual witness numerator.
 
 Delta119 freezes a complete adversarial failure record and replaces it by one
 finite nonrepeating repair contract without increasing an actual numerator.
+
+### Delta 120 (2026-08-29): final-heavy carrier to actual A2 splice
+
+- Added `sol/proof_r07_final_heavy_carrier_to_actual_a2_v300.md`.  It defines
+  the stable positive projection of v299's independently accepted final
+  carrier as `(g760, correction_word, corrected_word, literal_replay,
+  physical_identity_tuple)` and proves that this is exactly the v289/v225 A2
+  premise.
+- The future v12b producer and checker must decode this projection separately
+  from the physical COMMON receipt/verdict/transport owners.  A copied
+  projection or digest is not an authority.  V12a's candidate-only bootstrap
+  terminal is expressly excluded.
+- The splice proves that A2 need not reopen A0's full task176 roster or rebuild
+  any of the ten 1,469,664-state search tables.  It retains independent
+  reconstruction of the eleven occurrences, Fox data, Q3/Q4 arithmetic and
+  endpoints.  Thus an accepted A0 COMMON can enter the already cross-checked
+  A2 mathematical core through one bounded versioned decoder rather than a
+  new global search.
+
+**v220 mapping**:
+
+- A2 remains **2/3**: its actual-specialization input contract is now closed
+  for a future v12b final carrier, but no accepted A0 COMMON exists to supply
+  an actual value.  A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**.
+- A4 remains **1/3 V6B FINITE REPAIR ACTIVE**, A1 remains **4/4
+  CROSS-CHECKED**, A3 remains **0/3**, and every later lift/fake/Ihara gate is
+  unchanged.
+
+Delta120 removes a post-A0 ABI and repeated-heavy-work loop without counting
+a paper splice as an actual witness milestone.
