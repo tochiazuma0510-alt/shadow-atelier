@@ -9279,3 +9279,34 @@ packaged codomain while retaining v361 as the exact nonsplit fallback.
 Delta236 moves the needed A4 performance change into actual production while
 preserving the independent resumable baseline and all mathematical claim
 boundaries.
+
+### Delta 237 (2026-08-30): v23 is cancelled because its candidate work was not actually capped
+
+- The concurrent read-only Sol audit rejected one performance claim in
+  Delta236.  V14/v16 cap **accepted rank rises** at 64, but dependent
+  candidates do not increment that counter.  A dependency-heavy correlation
+  can therefore decode, translate and current-reduce the rest of the complete
+  nonzero roster before accepting 64 rows.  The mathematics and the
+  current-combined independence gate remain sound, but the intended bounded
+  hotpath is not established.
+- Run `33263049698` was cancelled immediately after the finding, before it
+  could be used as performance or mathematical evidence.  It contributes no
+  A4 result.  The independent resumable v13 baseline run `33262485779`
+  continues unchanged.
+- Task385 commissions only the missing bound: examine the first at most 64
+  canonical candidates, require every examined column to be reduced against
+  the updated combined basis, insert the independent subset, and then return
+  to the ordinary query loop for a fresh dual/correlation.  Both producer and
+  checker must assert `0 < accepted <= examined <= 64`; no candidate 65 may
+  be decoded or reduced in that correlation.
+
+**v220 mapping**:
+
+- A4 remains **1/3**.  Its valid active production is the durable v13 run
+  `33262485779`; v23 is a cancelled performance experiment and task385 is the
+  minimal replacement implementation.
+- A0 remains **0/1 with v22 run 33259268996 active**.  A9 and all compatible
+  lift/fake/Ihara numerators are unchanged.
+
+Delta237 prevents an uncapped dependency scan from consuming another
+four-hour A4 budget; it does not retract v14's mathematical batching rule.
