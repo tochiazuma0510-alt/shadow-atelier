@@ -8904,3 +8904,47 @@ localized leading onto gate explicit.
 Delta227 closes the static theorem-to-executable gap for `q2=0`; the open A9
 mathematics is now the localized leading generator solve identified by
 Delta226, not a missing first nonlinear calculator.
+
+### Delta 228 (2026-08-30): A4 is a finite primitive roster for the structural leading solve
+
+- `proof_r07_a4_occurrence_leading_image_compiler_v358.md`, frozen at
+  commit `94d31976`, proves that a positive word-bearing A4 basis
+  `k_1,...,k_t` generates the complete relative ideal as
+  `I=sum_i F3[Delta1](k_i-1)`.  Hence its `t` literal pair columns are a
+  complete primitive source roster, not merely anchor diagnostics for one
+  projected class.
+- The roof-fixed Jacobian is equivariant before the eleven occurrences are
+  combined.  Closing the `t` occurrence-level columns under
+  `x^{\pm1},y^{\pm1}` until rank-queue exhaustion therefore gives its complete
+  image.  Applying the printed/localized map only after that closure gives
+  the exact localized leading image even when the final map is not
+  equivariant.
+- This eliminates successor-group enumeration and explicit enumeration of
+  v340's coarse prefix-collision basis from the structural image
+  calculation: those collision vectors are already combinations of marked
+  translates of `k_i-1`.  Every retained image row still carries a literal
+  roof-fibre ancestry.
+- The structural map is roof-fixed by v263, so this calculation can start
+  immediately after A4 acceptance without waiting for the actual A0 word.
+  A0 is needed for the named residual lane, not for the all-generator map.
+  If the occurrence closure fills the whole raw target, leading onto follows
+  for every surjective localization quotient; otherwise the actual
+  localization map must be applied before drawing a conclusion.
+- The remaining target-side gate is now isolated: authenticate the complete
+  finite `Q_loc = L/JL` map, including formation/Brunnian and side-gate
+  coordinates, and bind it to a strict or pointed-saturated filtered cover.
+  V358 does not assume that the raw occurrence module already is this
+  localized quotient.
+
+**v220 mapping**:
+
+- A4 remains **1/3 with run 33250865356 active**; no numerator changes until
+  an accepted exhausted word-bearing K receipt exists.
+- A9 remains **0/3 actual**, but its Delta226 leading-onto gate now has a
+  finite A4-seeded complete image algorithm which is independent of A0.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts, compatible lift, fake and Ihara numerators are unchanged.
+
+Delta228 removes the unknown source roster from the localized leading solve.
+What remains is the actual A4 output and the complete localized target map,
+not a search over arbitrary common-word columns.
