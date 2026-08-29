@@ -7831,3 +7831,40 @@ checkpoint binding.
 
 Delta200 fixes a finite complete alternative to repeated arbitrary A0-word
 search while the direct witness-first A0/A4 computations continue.
+
+### Delta 201 (2026-08-29): A4 failure evidence is retained and the last A0 checkpoint field is repaired
+
+- A4 run `33245807123` spent about thirty minutes in the actual v11
+  producer/checker route, then the outer driver reported only a missing
+  completion sentinel.  Because the inherited failure route skipped artifact
+  upload, that outer terminal alone does not classify the inner mathematical
+  result.  Commit `e8e361ba` adds a bounded diagnostic transport around the
+  same v11 producer/checker: it preserves and uploads their logs and sealed
+  outputs even when the inner sentinel is absent.  Capture run `33247161395`
+  has entered the actual GAP-script step.
+- An independent Sol(max) static audit accepted the A0 v15/v16 production
+  path, cap replacement, hash pins, single producer/checker execution, and
+  absence of SELFTEST/mutations.  It found one reachable resource-only
+  defect: the pre-pool checkpoint had `heavy_complete=false` but omitted the
+  checker-required Boolean `heavy_reconstructible`.  This does not alter a
+  positive result, but could discard a valid early resource checkpoint.
+- Commit `5623a6b5` adds only `heavy_reconstructible=false` to that pre-pool
+  body, retaining the v15 cap and receipt-binding changes.  It also keeps the
+  generated driver paths outside the stale-output prefix.  Replacement run
+  `33247360906` is queued while the still potentially successful v16 run
+  `33246619673` continues; neither computation was canceled.
+
+**v220 mapping**:
+
+- A0 remains **0/1** with actual runs `33246619673` active and `33247360906`
+  queued.  The audit defect concerns replay of an early resource stop, not
+  the positive-search mathematics.
+- A4 remains **1/3; ACTUAL CAPTURE RUN 33247161395 ACTIVE**.  It can advance
+  only after the recovered producer/checker artifacts agree positively.
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**; A1 is **4/4**, A2 is
+  **2/3**, and A5--A9, B/C/W/F remain unchanged.  No fake certificate or
+  Ihara witness is claimed.
+
+Delta201 prevents another opaque A4 failure and closes the sole resource-
+checkpoint ABI defect found by the independent A0 audit without delaying the
+already-running positive search.
