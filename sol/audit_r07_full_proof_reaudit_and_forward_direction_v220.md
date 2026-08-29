@@ -8380,7 +8380,7 @@ physically present.
   continue from that exact sidecar; an external runner kill before sidecar
   upload remains unrecoverable.
 - The direct-relator A5/A6 v3 implementation is frozen at commit
-  `e00495193937a11a6ed7b4011a5055818695406a`.  Its producer restores the
+  `e0049519b1bb63332d6533618978cf17b73d2465`.  Its producer restores the
   executable task198-v12 owner, its independent checker restores task198-v14,
   and both exact-pin task193-v3.  It constructs the 6,441 raw relator-action
   columns together with PB boundary slack and, on MEMBER, expands literal
@@ -8410,7 +8410,7 @@ task193 positive output now has a physical A5/A6 consumer.
 ### Delta 215 (2026-08-29): direct relators are fused with exact endpoints and lift-null completion
 
 - `proof_r07_direct_relator_a5_a7_fusion_v351.md`, frozen at commit
-  `caaf95e2e9553fd70da8016fcc61a170956deab6`, combines v350 with v309--v310.
+  `caaf95e29ec4d251c3c7f29dcfc7c47577063707`, combines v350 with v309--v310.
   For one fixed literal A0 word it proves that a promotable finite-support
   representative exists exactly when the augmented target `(t5,eta_c)` is in
   the span of the 6,441 direct-relator columns together with translated
