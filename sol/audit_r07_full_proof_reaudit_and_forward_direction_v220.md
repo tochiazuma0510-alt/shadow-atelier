@@ -5398,3 +5398,42 @@ and fixes its complete repair boundary before extending to rows 8--48.
 
 Delta129 restores the rung typing and prevents a nonlinear task193 state
 from being collapsed to an invalid coarse linear coordinate.
+
+### Delta 130 (2026-08-29): task359 A3/v1 rejected; complete v2 repair commissioned
+
+- Independent Sol(max) audit
+  `sol/sol_reply_361_r07_task359_pre_a0_a3_code_performance_audit_v1.md`
+  returns **STATIC REJECT / UNEXECUTED**.  The frozen P0 is noncanonical,
+  has a stale seal, and the driver pins a 63-character SHA.  These three
+  deterministic entry failures alone prevent execution.
+- The deeper load-bearing failures are also fixed in the repair boundary:
+  task198's full member/attestation/verdict and evaluator ABI were not
+  decoded; the projected object both omitted all marked `q_o(x),q_o(y)`
+  actions and secretly retained the full task226 package; its seal included
+  the old seal; the independent 486/729 verification was uninterruptibly
+  unmetered; serialization was allocated before reservation; publication
+  was not failure-atomic; and UNKNOWN was incorrectly called driver PASS.
+- The underlying g760 reconstruction, empty-correction base formulas,
+  endpoint target, signed H1/H2/P central tables and three area canaries have
+  no new static discrepancy.  The accepted task227 five-case SELFTEST is not
+  retracted; only the new v1 wrapper route is rejected.
+- Commissioned
+  `sol/luna_task_363_r07_pre_a0_a3_v2_complete_repair.md`.  V2 must use an
+  exact canonical P0, fully decode task198 authority, derive one sufficient
+  task227 ABI from a v303-only allowlist, hard-bound the meter-free verifier
+  by same-process Linux wall/address-space limits, use honest counters and
+  failure-atomic publication, and accept only MEMBER/NONMEMBER.  No GHA is
+  authorized before a fresh Sol(max) static PASS.
+
+**v220 mapping**:
+
+- A3 stays **0/3 ACTUAL**: actual task226 package **0/1**, actual 486/729
+  equality **0/1**, and actual coefficient/dual **0/1**.  Task363 is an
+  implementation repair and adds no numerator.
+- A0 remains **0/1 V12A IMPLEMENTATION ACTIVE**, A1 **4/4 CROSS-CHECKED**,
+  A2 **2/3**, A4 **1/3**, and A5--A9, B, C, W and F remain unchanged.
+- No compatible/cofinal lift, fake certificate or Ihara counterexample is
+  added.
+
+Delta130 prevents a malformed wrapper and a non-accepting UNKNOWN from being
+mistaken for the pre-A0 A3 decision needed by the witness branch.
