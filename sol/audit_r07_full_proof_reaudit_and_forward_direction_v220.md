@@ -8484,3 +8484,43 @@ active A0 word computation.
 Delta216 distinguishes an absent serialized field from absent mathematics:
 the former is now supplied by deterministic reconstruction from the two
 accepted owners, without weakening any endpoint equality gate.
+
+### Delta 217 (2026-08-29): the canonical exact-endpoint binder is executable
+
+- The canonical-first v4 binder is frozen at commit
+  `06cea3b1ad988c5cc7d0b4da9318764fa5113573`.  Its producer reconstructs
+  v352's eleven `d_sources` and three `epsilon_sources` from the accepted
+  task198-v12/task193-v3 owners, then evaluates the unchanged task292-v2
+  literal endpoint core.  The checker independently reconstructs the same
+  data through task198-v14 and the checker-side task193 owner.
+- The terminal boundary is deliberately asymmetric.  A complete A5
+  NONMEMBER remains terminal.  On A5 MEMBER, a canonical `M` whose three
+  exact endpoints vanish emits
+  `R07_DIRECT_RELATOR_A5_A7_FUSION_MEMBER` and supplies the A5, A6 and A7
+  positive data for that fixed word.  A nonzero canonical endpoint emits the
+  typed terminal `UNKNOWN_RESOURCE:phase=v351_lift_null:cap=not_implemented`;
+  it is not an A7 negative because translated lift-null columns may change
+  the representative while preserving A5.
+- The receipt records `canonical_M_only=true` and
+  `v351_lift_null=NOT_IMPLEMENTED`.  A producer/checker/sidecar resume triple
+  is all-or-none authenticated.  Python byte compilation, frozen-owner
+  restoration, GAP `ReadAsFunction`, ASCII and pin checks passed; no
+  production word or endpoint was computed in this static milestone.
+- A0 run `33251157582` and A4 run `33250865356` were still active when this
+  delta was recorded.  The binder therefore remains dormant until A0,
+  adapter-v4 and task193-v3 supply an accepted literal word receipt.
+
+**v220 mapping**:
+
+- A5/A6/A7 remain **0/3 / 0/3 / 0/3 actual; CANONICAL EXACT-ENDPOINT V4
+  FROZEN, NOT RUN**.  The canonical-zero fast path is now physical; the
+  representative-complete v351 lift-null enumeration remains the next
+  implementation only if that canonical endpoint is nonzero.
+- A0 remains **0/1 with v20 run active and v21 restart frozen**; A2 remains
+  **2/3**, A3 **3/3**, and A4 **1/3 with v21 run active**.
+- A8/A9, B/C, compatible-lift, fake and Ihara numerators remain unchanged.
+
+Delta217 closes the direct-relator-to-literal-endpoint executable ABI without
+turning a single canonical representative into an unjustified completeness
+claim.  It also makes the next branch data-dependent: lift-null machinery is
+needed only after an actual canonical nonzero receipt.
