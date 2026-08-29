@@ -5558,3 +5558,37 @@ representative obstruction.
 Delta133 compresses the infinite lift-representative ambiguity to the orbit
 of a finite literal kernel seed roster and fixes the exact second-homotopy
 map for the actual class.
+
+### Delta 134 (2026-08-29): endpoint homotopy split into local antidifferences and one diagonal lift
+
+- Added `sol/proof_r07_local_cyclic_antidifference_diagonal_endpoint_v311.md`.
+  For any group element `r`, the finite-support image of
+  `a -> a(1-r)` is exactly the chains whose coefficients sum to zero on each
+  right `<r>` orbit.  A finite-support primitive and the kernel are explicit.
+- Applied to the seven tagged endpoint values `1-R_b(g760)`, this gives a
+  cheap exact local obstruction and, on PASS, seven deterministic local
+  primitives.  V310's endpoint preimage exists exactly when one common
+  lift-kernel coefficient has diagonal context image in the affine set of
+  these primitives modulo their explicit right-invariant kernels.
+- The remaining return-even difficulty is therefore not another local
+  dihedral division.  It is one simultaneous common-source lift of the seven
+  primitives.  V310's finite Schreier seeds generate the diagonal side; a
+  positive ancestry is the class-specific second homotopy for the named
+  actual endpoint.
+- A nonzero local orbit sum completely obstructs that literal candidate.
+  Passing all local tests does not prove diagonal compatibility; bounded
+  failure of the infinite diagonal orbit remains UNKNOWN.
+
+**v220 mapping**:
+
+- This paper reduction changes no numerator.  A0 is **0/1 V12A
+  IMPLEMENTATION ACTIVE**, A3 **0/3 V2 REPAIR ACTIVE**, A4 **1/3 V6C
+  REPAIR ACTIVE**, and A5--A7 remain **0/3**.
+- Once actual `eta` exists, the former unspecified endpoint homotopy begins
+  with seven deterministic finite-support computations and leaves only the
+  common diagonal ancestry.  No actual endpoint or ancestry exists yet.
+- No relative pro-3 correction, cofinal lift, fake certificate or Ihara
+  counterexample is added.
+
+Delta134 isolates the exact field-outer/common-source remainder after the
+local cyclic part of the relative-dihedral lift has been solved explicitly.
