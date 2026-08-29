@@ -7064,3 +7064,38 @@ unexecuted repair as mathematical progress.
 
 Delta178 closes the source-reachability audit and moves A4 to its last static
 pre-execution component without inflating the witness numerator.
+
+### Delta 179 (2026-08-29): the full field-outer kernel gains an explicit prefix-collision block
+
+- Added `sol/proof_r07_full_projection_kernel_three_block_split_v340.md`.
+  For the full relative-ideal projection `Q:I -> I_R`, a word-bearing section
+  gives `I=alpha(I_R) direct-sum ker Q`.  The kernel is not always exhausted
+  by v339's translated `K0` augmentation: coarse prefixes which collide in
+  `D/R` contribute a second explicit finite summand.
+- V340 gives a basis for both pieces.  The local block has dimension
+  `|G0|(|K|-|R|)`; the prefix-collision block has dimension
+  `(|G0|-|D/R|)(|R|-1)`.  Their sum is exactly `dim I-dim I_R`.  At the first
+  `R=C3` edge every collision generator is a four-word expression formed
+  from the A4 anchor and two aligned coarse prefixes.
+- The local `K0` roster is complete exactly when the induced coarse map
+  `G0 -> D/R` is bijective.  Otherwise both rosters must enter the v333 score
+  pairing and the A5 pointed image; translating only the local outer seeds
+  would omit genuine correction directions.
+- Factoring the projected endpoint through `Q` gives the complete A5 domain
+  as three word-bearing blocks: `alpha(ker Psi)`, local outer augmentation,
+  and prefix collisions.  V340 rewrites A5 MEMBER and v338's homogeneous
+  kernel as finite linear algebra on this complete domain.
+
+**v220 mapping**:
+
+- This is **CLOSED at the full first-edge projection-kernel paper interface**
+  and advances the explicit relative-dihedral/field-even compiler.  A0 remains
+  **0/1 V12C REPAIR ACTIVE**, A3 **0/3 V4 REAUDIT ACTIVE**, A4 **1/3 PINNED
+  DRIVER ACTIVE**, and A5--A7 **0/3**.
+- The actual prefix fibres, three-block matrix, A5 MEMBER ancestry, common
+  word, compatible lift, fake certificate and Ihara witness remain
+  unconstructed.
+
+Delta179 replaces the last unnamed first-edge projected-kernel component by
+an exact finite word roster without claiming the still-missing score/member
+calculation.
