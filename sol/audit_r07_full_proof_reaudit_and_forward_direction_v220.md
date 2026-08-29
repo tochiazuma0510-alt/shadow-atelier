@@ -7272,3 +7272,34 @@ refinement without claiming the still-missing all-edge nonemptiness theorem.
 Delta184 closes the bounded v4 driver/performance defects without counting
 unexecuted code as mathematical progress or diverting the next free auditor
 from the higher-priority A0/v12c audit.
+
+### Delta 185 (2026-08-29): A4/v9 trace repair and pinned driver are frozen
+
+- Froze producer v7 102,958 bytes /
+  `4f7f57150892e354f3398c33e0f72c0d968c7101de05b7ce7e5690b47fcd064c`,
+  checker v6 100,648 /
+  `7cf5468be847c3a49014986e39af9bb71120af6371aec05e23bb9789bb22c6c1`,
+  and ASCII driver v9 72,604 /
+  `130a6e838f648d58a81854eb74dc8476aa4f1d70dc4d6bfc0a5a81a3e3e68155`.
+  The 14,439-byte task383 reply has SHA-256
+  `aa6d92ca6292b9b425ea69bbc21c81b2b089ad4ccdfe46e6074ac8fce0c2ccf0`.
+- Producer and checker now require the exact ordered manifest/receipt
+  containment entries for row 4, while retaining the exact-one trace rule for
+  the other six rows.  Static reverse deltas recover the frozen v6/v5 owners.
+- The pinned driver independently admits both canonical results, compares
+  their complete semantic projections, enforces serial bounded subprocesses,
+  and uses status-bearing `Process` plus fail-closed durable publication.
+  Nothing was executed.
+- Added `sol/sol_task_386_r07_a4_v9_code_performance_reaudit.txt`.  A fresh
+  Sol(max) must audit the full routes, performance and rollback before GHA.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V9 REPAIR+DRIVER FROZEN / FRESH AUDIT ACTIVE**.
+  A0 is **0/1 V12C FINALIZATION ACTIVE**, A3 **0/3 V5 REPAIR FROZEN**, and
+  A5--A7 **0/3**.
+- No rows-1--7 result, full 48x2 A4, actual basis, common word, compatible
+  lift, fake certificate or Ihara witness is added.
+
+Delta185 reaches the first complete pinned rows-1--7 v9 source bundle while
+keeping its execution behind an independent full-source gate.

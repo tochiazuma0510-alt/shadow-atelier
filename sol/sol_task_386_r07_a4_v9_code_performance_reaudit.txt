@@ -1,0 +1,130 @@
+Sol(max) task 386 - independent A4/v9 trace/driver code-performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task383 implementer must not audit this tranche.
+Do not edit frozen owners or run any candidate. Write only the designated
+reply.
+
+1. Frozen subject and execution boundary
+
+Audit these exact physical owners:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v7.py
+  102958 bytes
+  4f7f57150892e354f3398c33e0f72c0d968c7101de05b7ce7e5690b47fcd064c
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v6.py
+  100648 bytes
+  7cf5468be847c3a49014986e39af9bb71120af6371aec05e23bb9789bb22c6c1
+- search/d972_r07_a4_actual_owner_trace_gha_driver_v9.g
+  72604 bytes
+  130a6e838f648d58a81854eb74dc8476aa4f1d70dc4d6bfc0a5a81a3e3e68155
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json
+  8489 bytes
+  474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481
+- sol/sol_reply_383_r07_a4_v9_trace_repair_and_pinned_driver.md
+  14439 bytes
+  aa6d92ca6292b9b425ea69bbc21c81b2b089ad4ccdfe46e6074ac8fce0c2ccf0
+
+Reject on any mismatch. Read task356/reply357, task362/reply366,
+task365/reply367, task371/reply371, task373/reply375, task378/reply378,
+task379/reply379, task382/reply382, task383/reply383, and all frozen v6/v5
+owners. Read every directly pinned task198 authority owner needed to decide
+the graph. A STATIC PASS authorizes at most one bounded serial rows-1--7
+candidate; it is not full 48x2 A4, an A4 basis, a lift, fake, or Ihara result.
+
+2. Exact bounded delta and row-4 repair
+
+Independently reverse the producer to frozen v6 and checker to frozen v5.
+Require byte-for-byte recovery and prove that only truthful labels, fixture
+schema decoupling, and the one trace predicate changed. Reconstruct the
+ordinary control flow, not just literals.
+
+For row 4 require the exact ordered rejection-validator subsequence
+
+  [(transport, manifest.path), (transport, receipt.path)]
+
+and the final registered rejection on receipt.path. For each other row require
+exactly one rejection-validator entry and the registered final validator,
+stage, owner, reason, reseal and terminal. Confirm producer and checker derive
+these independently and that all task379 non-trace PASS clauses remain live.
+
+3. Authority graph and independent candidate routes
+
+Reconstruct fixture/body seal, task198 receipt/manifest authority, every
+physical path and every source pin. Reject aliases, duplicate logical or
+physical owners, partial digests, path escape, symlink/reparse acceptance,
+unbound mutable paths or a cycle. Require complete before/after owner
+revalidation and truthful missing-path handling.
+
+Trace exactly one fixed producer and one fixed independent checker subprocess,
+serially. The checker may receive only the frozen fixture, never producer
+output or a normalized producer summary. Require bounded separated stdout and
+stderr, exact status zero, exact fixed commands, and complete single-document
+framing despite the source programs' omitted terminator.
+
+4. Independent canonical result admission
+
+Audit the driver reconstruction of both candidate results from physical raw
+bytes. Require canonical compact ASCII plus one LF, body self seals, truthful
+v7/v6 schemas, all seven mutation IDs, exact event lists/digests, owner and
+disposal evidence, revalidation transcripts, resource snapshots and false
+conclusion flags. Normalization may erase only producer/checker name prefixes
+and the already-admitted version-label difference; it must not erase a
+semantic difference. Require two-way complete projection equality.
+
+5. Static resource and performance audit
+
+Recompute every source/result/log/projection bound, the simultaneous-byte
+formula, parent and child RLIMIT_AS gates, child CPU/external wall margin,
+stop waits, cleanup margin and global wall formula. Confirm the parent cap is
+installed before material authority work and candidate processes are serial.
+Search for duplicate full parses/hashes/serializations, hidden DOM copies,
+unbounded logs/sets, quadratic scans, untimed loops, repeated candidates or
+any needlessly slow step. Component bounds are not observed RSS; require that
+the output says so.
+
+6. Durable fail-closed driver
+
+Trace stale-name rejection, native directory creation, all no-follow dirfd
+walks, exclusive temp creation, complete writes, file fsync, no-replace link,
+transient link-count audit, temp unlink plus directory fsync, final rehash and
+stable-directory checks for raw results, logs, admitted copies and sentinel.
+
+On every typed or untyped failure, timeout, nonzero child status, close error,
+post-publication revalidation error or rollback error, acceptance must remain
+false. Rollback must precede closing its bound fds, remove only retained exact
+transaction owners and fsync after each unlink attempt. Require GAP `Process`
+status checking and no fallible GAP acceptance gate after the Python harness
+has emitted success.
+
+7. Verdict and reply
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, syntax/import
+compilation, candidates, mutations, subprocess tests or RSS. Read-only
+PowerShell inspection and hashing are allowed. On REJECT list every
+load-bearing defect together; do not commission piecemeal execution.
+
+Write only:
+
+sol/sol_reply_386_r07_a4_v9_code_performance_reaudit_v1.md
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+V6/V5 BOUNDED REVERSE DELTA:           PASS or REJECT
+ROW4 TWO-ADMISSION TRACE:              PASS or REJECT
+OTHER SIX REJECTION TRACES:            PASS or REJECT
+TASK379 NON-TRACE CLAUSES:              PASS or REJECT
+AUTHORITY / PATH GRAPH:                PASS or REJECT
+INDEPENDENT PRODUCER/CHECKER:           PASS or REJECT
+CANONICAL RESULT / SELF-SEAL:           PASS or REJECT
+STATIC CAPS / PERFORMANCE:             PASS or REJECT
+DURABLE FAIL-CLOSED DRIVER:             PASS or REJECT
+ROWS1-7 A4/V9 GHA:                      AUTHORIZED or FORBIDDEN
+FULL 48x2 A4:                           remains INCOMPLETE
+ACTUAL A4 NUMERATOR:                    remains 1/3
+LIFT / FAKE / IHARA:                    NONE
+
+TASK386_R07_A4_V9_CODE_PERFORMANCE_REAUDIT_V1
+
