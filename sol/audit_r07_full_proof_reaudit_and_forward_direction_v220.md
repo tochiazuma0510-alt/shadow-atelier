@@ -7763,3 +7763,41 @@ partition and records that A4 has reached its actual closure loop.
 
 Delta198 converts the actual zero result into a smaller, Boolean-free next
 compiler without reviving the rejected linear A0 selector.
+
+### Delta 199 (2026-08-29): A0 artificial-cap stop is isolated and production is relaunched resumably
+
+- Actual A0 run `33243151014` completed the 2,896-row light basis and entered
+  the positive boundary search.  It stopped at the exact typed resource
+  terminal
+  `UNKNOWN_RESOURCE:phase=positive_boundary_correlation_cap=boundary_pairs_value=8000756_limit=8000000`.
+  Thus this run is neither a separator nor a mathematical negative: the next
+  boundary epoch exceeded the historical artificial cap by 756 pairs.
+- The cap-only successor raises `boundary_pairs` from 8,000,000 to the
+  already used v12c envelope 80,000,000, without changing the search,
+  arithmetic, target, source cone, or terminal semantics.  Inspection of the
+  same failed run also found why its valid sidecar could not be retained: the
+  UNKNOWN receipt omitted `light_input_sha256` although the checkpoint
+  carried it, so the independent checker correctly stopped at its binding
+  equality.  V15 adds that derived binding to the sealed UNKNOWN receipt.
+- Run `33246398414` then exposed only a generated-driver pathname collision:
+  its inner driver shared the owned-output prefix and the inherited stale
+  gate rejected it before Python.  Run `33246575842` was canceled during GAP
+  setup once this deterministic defect was known.  Commit `f135b730` moves
+  both generated drivers to prefix-disjoint paths.  Actual production run
+  `33246619673` at head
+  `f135b7301d6fe0259abddec7b97bc7f5bbefa685` is active with the 80,000,000
+  cap and replayable resource-checkpoint binding.
+
+**v220 mapping**:
+
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33246619673 ACTIVE**.  The old
+  8,000,000-pair stop is classified `UNKNOWN_RESOURCE`, not mathematical
+  evidence.
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A4 remains **1/3; ACTUAL 6,441-ROW CLOSURE RUN 33245807123 ACTIVE**.
+- A5--A9 and B/C/W/F remain unchanged; no fake certificate or Ihara witness
+  is claimed.
+
+Delta199 removes both known nonmathematical ways of losing the current A0
+search while preserving the exact positive-search route and independent
+checkpoint binding.
