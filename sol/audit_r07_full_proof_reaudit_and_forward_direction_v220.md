@@ -9046,3 +9046,45 @@ already-proved superperfect residual formula.
 
 Delta230 turns the four-hour run into exact performance evidence and rejects
 a fake-resume loop before spending another run on the same prefrontier state.
+
+### Delta 231 (2026-08-30): the canonical residual action reduces to 243-state inner scans and 729 central pairs
+
+- `proof_r07_canonical_residual_action_materialization_v360.md`, frozen at
+  commit `80cbda41`, gives a bounded physical construction of the two
+  word-bearing generators needed in Delta229.  Start from the two frozen
+  pure-`PSL(2,8)` split words, compare their conjugation actions with all 243
+  accepted `Gamma` states, and remove the matching inner actions.
+- The inner representatives are ambiguous only by `Z(Gamma)`, whose order is
+  27.  Thus all remaining choices are the 729 central pairs.  Evaluating the
+  five pinned complete `PSL(2,8)` presentation relators selects exactly one
+  pair: existence follows from v149's complement and uniqueness from the
+  uniqueness of `tilde-S` (equivalently, from perfectness against the central
+  3-group).  The selected values generate the canonical
+  `R_S(Delta0)=tilde-S` and retain literal source words.
+- Composing those two words in the future positive A4 marked action gives
+  matrices `S_1,S_2`, after which the exact legal relative source is one
+  finite echelon:
+
+  `C_rel = [tilde-S,K] = im(S_1-I) + im(S_2-I)`.
+
+  No enumeration of the full joint group and no 708,588-state arithmetic
+  quotient tree is required for this residual-action step.
+- Task382 has been tightened to implement this exact 243+729 compiler and to
+  fail with a typed missing-owner field if any physical input is absent.  It
+  still may not identify a projection, an order-504 subgroup or the ambient
+  full `K` with the canonical legal source.
+
+**v220 mapping**:
+
+- A4 remains **1/3** and task383's early-checkpoint/bounded-hotpath repair is
+  active.  V360 closes the source-action **design** gap, but no positive A4
+  basis or actual `C_rel` rank has yet been produced.
+- A9 remains **0/3 actual**.  Its source chain is now finite and explicit
+  through `K -> [tilde-S,K]`; the later registered side-gate intersection,
+  actual `A_legal/JA_legal`, actual `L/JL`, and leading onto calculation
+  remain open.
+- A0 remains **0/1 with v22 run 33259268996 active**.  Every other actual
+  milestone count, compatible lift, fake and Ihara numerator is unchanged.
+
+Delta231 removes the last abstract residual-generator oracle from the legal
+source formula without promoting an unrun compiler or a missing A4 input.
