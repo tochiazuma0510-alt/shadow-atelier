@@ -9592,3 +9592,54 @@ actual witness count.
 
 Delta243 removes the remaining known task193 version splits and turns the
 new base-change theorem into a concrete post-A4 linear-algebra certificate.
+
+### Delta 244 (2026-08-30): the registered first-edge source has no second side-gate echelon
+
+- `proof_r07_registered_pro3_source_gate_collapse_v367.md` specializes
+  v359's generic \(C_{\rm adm}\) to the source ledger actually retained by
+  v248/v260 on the relative pro-\(3\) lane.  The value domain
+  \(C_{\rm rel}=\rho_1(\Pi_S\cap\ker\rho_0)\) already fixes the complete
+  task198 coarse value and is formation typed; v37--v38 put every such value
+  in the commutator image, while \(m=0\) makes the unit gate constant.
+- V94 makes onto a consequence of the already generating coarse tuple and
+  the matched Frattini transition, rather than a homogeneous kernel in the
+  correction value.  H1, H2, the printed pentagon and their localized
+  support remain residual target equations.  Therefore, for this exact
+  registered ledger,
+  \(C_{\rm adm}=C_{\rm rel}=[R_S(\Delta_0),K]=[\widetilde S,K]\).
+- Consequently a future positive task382 block echelon is already the
+  complete first-edge homogeneous source, and
+  \(I_{\rm adm}=\sum_i\mathbf F_3[\Delta_1](c_i-1)\).  No unnamed second
+  source-side echelon may delay the occurrence closure.  This does not
+  identify \(A_{\rm legal}/JA_{\rm legal}\), construct the strict \(L/JL\)
+  target, or prove leading onto.
+- The scope is deliberately not enlarged to a settled self-shadow, a new
+  finite map outside \(\Delta_0\), mixed-prime or perfect-core gates.  Such a
+  future physical registration would require a fresh intersection.  The
+  literal task382 commutators are finite common-word ancestries, not
+  nontrivial discrete elements of \(\Pi_S\); compatible relative spellings
+  still use v37 with the v98/v260 nested-kernel materialization.
+- At 2026-08-30 02:44 JST, A0 v22 run `33259268996`, A4 baseline
+  `33262485779`, and bounded-batch A4 run `33263899806` were all still
+  in their GAP calculation steps.  No elapsed run is promoted before its
+  artifact is inspected.
+
+**v220 mapping**:
+
+- A9 remains **0/3 actual**, but its first post-A4 source chain is shortened
+  from
+  \(K\to C_{\rm rel}\to C_{\rm adm}\to W_{\rm adm}\)
+  to
+  \(K\to C_{\rm rel}=C_{\rm adm}\to W_{\rm adm}\)
+  on the registered pro-\(3\) ledger.
+- A4 remains **1/3 RUNNING** under runs `33262485779` and
+  `33263899806`; task382 still needs a positive A4 owner before it can emit
+  the numerical source rank and basis.  A0 remains **0/1 RUNNING** under
+  `33259268996`.
+- Compatible lift, fake and Ihara witness numerators are unchanged.  The
+  next mathematical type gates are the actual
+  \(A_{\rm legal}/JA_{\rm legal}\) occurrence source and strict \(L/JL\)
+  target, not another abstract source-side filter.
+
+Delta244 removes one genuinely spurious post-A4 step while preserving every
+nonlinear and non-pro-\(3\) obligation.
