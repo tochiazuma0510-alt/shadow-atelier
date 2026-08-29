@@ -6329,3 +6329,34 @@ extension and one formation-intersection gate.
 
 Delta156 stops the rejected bloated bootstrap before compute and focuses the
 next version on the actual semantic path and honest resource boundary.
+
+### Delta 157 (2026-08-29): weighted free covers bypass ordinary saturation without losing depth
+
+- Added sol/proof_r07_weighted_ambient_filtration_newton_v328.md.  Keep the
+  authoritative induced filtration L_r=L intersect J^r Z and require a
+  finite roster (ell_j,w_j) with
+  L_r=sum_j J^max(0,r-w_j) ell_j.  The corresponding weighted free module
+  maps strictly onto every ambient depth even when L_r differs from J^rL.
+- A leading based solve Bs0-q=qR with R raising this weighted filtration has
+  the same Neumann correction s=s0(1+R)^-1.  Exact nonlinear depth gain then
+  iterates directly in L_r, so no ordinary saturation class is inserted at
+  each step.
+- Weight zero recovers v319 and the retract route.  Positive weights encode
+  a finite persistent saturation defect.  A finite Rees presentation or
+  tail recurrence must prove the roster for all depths; adding one ad hoc
+  generator per remainder is only the pointed route in disguise.
+- The class-two canary becomes one weighted ancestry with exact coefficient
+  depths.  The actual weighted roster, leading error matrix and side-gate
+  replay remain unconstructed.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and A5--A7 **0/3**.
+- V321's nonlinear structural frontier now has two explicit alternatives:
+  an exact filtered retract or a finite strict weighted/Rees presentation.
+- The compatible lift, fake certificate and Ihara witness remain open.
+
+Delta157 permits a uniform nonlinear selector even when ordinary
+same-depth saturation fails, provided that failure has a finite weighted
+presentation.
