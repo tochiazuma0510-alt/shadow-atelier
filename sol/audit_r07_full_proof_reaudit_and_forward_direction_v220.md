@@ -6036,3 +6036,35 @@ non-pro-3 gates.
 
 Delta147 repairs the only implicit filtration jump in the v319 synthesis and
 turns it into an exact pointed or structural certificate.
+
+### Delta 148 (2026-08-29): every joint image admits a cumulative Goursat marginal chain
+
+- Added sol/proof_r07_goursat_chain_marginal_selector_v322.md.  For any
+  subdirect joint image H in a product of context groups, its cumulative
+  images satisfy H_i=H_(i-1) fibre-product over D_i with G_i by Goursat's
+  lemma.  Iterating the two-factor signed-measure formula gives an exact
+  recursive marginal criterion without assuming a visible-coordinate tree.
+- If the ambiguity space of each newly added coordinate maps onto its
+  cumulative common quotient D_i, a closed linear common-source selector
+  follows.  For one actual branch only the recursively encountered target
+  needs a preimage; prefix-corrected annihilators have the same explicit
+  orbit-sum dual on D_i.
+- The coordinate order can be chosen to minimize Goursat overlaps, but must
+  be preregistered.  A greedy failure is not negative unless all preceding
+  choices are covered; full finite dynamic programming remains exact.
+- Compatible Goursat quotients, sections and local inverses give the same
+  selector on the whole cofinal tower.  The actual quotients and ranks await
+  the literal A0/A3/A4 authority objects.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 AUDIT ACTIVE**,
+  A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The field-even common-source frontier no longer depends on proving the
+  special visible-tree hypothesis.  Its general finite target is now the
+  ordered list of ambiguity-to-Goursat-overlap maps.
+- Nonlinear localization/saturation, mixed-prime and perfect-core gates, the
+  compatible lift, fake certificate and Ihara witness remain open.
+
+Delta148 gives a general all-context replacement for the conditional tree
+selector while retaining the tree as the smaller fast path.
