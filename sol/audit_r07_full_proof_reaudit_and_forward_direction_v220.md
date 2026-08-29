@@ -7203,3 +7203,37 @@ full-owner passes.
 Delta182 converts the newly exposed huge correction component into a fixed
 488-seed exact compiler rather than retreating to enumeration or an unnamed
 field-even homotopy.
+
+### Delta 183 (2026-08-29): the compact full-kernel roster is uniform at every split abelian edge
+
+- Added `sol/proof_r07_all_rung_compact_relative_kernel_compiler_v342.md`.
+  At any split elementary-abelian refinement, a basis of the projected
+  homogeneous directions, a basis of `K0`, and the adjusted Schreier roster
+  generate the complete affine correction tangent as a left group-algebra
+  module.  The primitive count is
+  `u+t+(|D/R|+1)(|R|-1)`; it is independent of the enormous collision-space
+  dimension.
+- Exhausting the marked-action closure of those primitive images is an exact
+  finite MEMBER/NONMEMBER test.  MEMBER ancestry gives a literal correction
+  in the accumulated coarse kernel.  By v259, edgewise Schreier trees,
+  sections and row bases need not commute across refinements for the selected
+  corrections to form one compatible profinite product.
+- At the first R07 edge the collision contribution is exactly 488 primitive
+  four-word seeds, so the pending actual closure starts from `u+t+488`, not
+  714,256,218 individual collision vectors.
+- The theorem deliberately does not infer every later MEMBER from one first
+  MEMBER.  That final uniform-success step still requires one of: structural
+  score onto plus the v334 nonlinear bridge, v332 no-new-overlap descent, or
+  an actual-class recurrence proving MEMBER for the reached residual at each
+  edge.
+
+**v220 mapping**:
+
+- The all-rung **finite construction/compatibility compiler is CLOSED at the
+  paper interface**.  The all-rung success premise remains OPEN.  Numerators
+  remain A0 **0/1**, A3 **0/3**, A4 **1/3**, and A5--A7 **0/3**.
+- No actual A3/A4 words, first closure, common word, compatible lift, fake
+  certificate or Ihara witness is added.
+
+Delta183 makes the relative-dihedral/field-even method uniform over
+refinement without claiming the still-missing all-edge nonemptiness theorem.
