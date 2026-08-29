@@ -10081,3 +10081,30 @@ frontier; it does not promote a computation that has not finished.
 Delta251 replaces an all-depth family of linear choices by one exact leading
 quotient problem and keeps the genuinely nonlinear and physical obligations
 visible.
+
+### Delta 252 (2026-08-30): A4 launch quoting was fail-fast and the JSON replacement is live
+
+- A4 run `33274131676` at head
+  `82161af8c6850cd3867cc68d6ba9c9f8847ae086` failed before reading the
+  driver or any checkpoint.  The command-line workflow dispatch stripped the
+  string quotes and supplied `D386Mode:=RESUME;;`; GAP therefore stopped in
+  one second with `Variable: 'RESUME' must have a value`.  No mathematical
+  row, checkpoint byte, memory state, or artifact was changed.  This is a
+  launch-transport error, not an implementation or A4 mathematical result.
+- Replacement run `33274409570` was dispatched by JSON input, preserving the
+  literal preamble `D386Mode:="RESUME";;`.  Its immutable head is
+  `9265c615e25176abe4fda4dbe7360228ff3de6d2`; the script, row-25 checkpoint,
+  250-minute limit, output directory, and no-pquot setting are otherwise
+  identical.  It entered its job at 2026-08-30 05:47 JST.  URL:
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33274409570`.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING** under replacement `33274409570`.  The failed
+  launch consumed no computational frontier and supplies no numerator or
+  negative.
+- A0 remains independently **0/1 RUNNING** under `33267817818`; A9 remains
+  **0/3 actual**.
+
+Delta252 keeps the launch failure distinct from the audited compact owner and
+from the mathematical terminal of its replacement run.
