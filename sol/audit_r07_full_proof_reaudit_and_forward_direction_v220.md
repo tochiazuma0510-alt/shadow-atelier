@@ -7627,3 +7627,45 @@ path in parallel with A0.
 Delta194 records the first actual positive A3 terminal while keeping it below
 the cross-checked boundary, and replaces two false metadata assumptions on the
 A4 path without changing either mathematical engine.
+
+### Delta 195 (2026-08-29): A3 is cross-checked MEMBER and its actual seed is zero
+
+- Actual-production run `33244921126` at immutable head
+  `b458a49c2e7ad10fdc86a619d4e48f32099b37b4` completed with agreeing producer
+  and independent-checker terminals
+  `R07_PRE_A0_A3_PROJECTED_MEMBER`.  The receipt and verdict canonical
+  self-digests replay respectively as
+  `a3f452074bf1e722591949372ae2b16c4d9fed0a2a5cba26a7eba58c7b30b43e`
+  and
+  `71f239868b46989b12289baa9acae73ecd19701b6b0a7dd33107527f33aa4b7e`.
+- The independently reconstructed actual package has all 486 ideal rows and
+  729 actor translates, occurrence and block ranks 243, and an exhausted
+  closure queue.  The accepted MEMBER ancestry is the exact zero solution:
+  target, block remainder, quotient remainder, `c_i`, `lambda`, and `kappa`
+  are all the canonical empty sparse vector.  This closes all three A3
+  milestones: actual package, orbit closure, and accepted membership-or-dual.
+- Froze the resulting paper consequence in
+  `sol/proof_r07_actual_zero_projected_seed_specialization_v343.md`: because
+  the actual projected target and coefficient are zero, the all-A0 endpoint
+  base is canonically `kappa0=0`.  V305's nonzero A4 projected-generator
+  anchor is bypassed for this class.  A4 remains load-bearing for the
+  homogeneous word-bearing closure `H d1`, and the v306 joint target reduces
+  exactly to `r*=d1`.
+- A4 run `33244921196` reached only the nonmathematical checkpoint transport
+  stop `checkpoint:fixed_point_shrunk`.  The bounded accounting repair is at
+  commits `d29ee386` and `3af47f60`; replacement run `33245366779` has passed
+  setup and entered the actual GAP-script route.  A0 production run
+  `33243151014` remains active.
+
+**v220 mapping**:
+
+- A3 moves from **0/3 to 3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
+- A4 remains **1/3; ACTUAL PRODUCTION RUN 33245366779 ACTIVE**.  A4 may move
+  to 3/3 only after agreeing positive producer/checker artifacts.
+- A1 stays **4/4**, A2 **2/3**, and A5--A9, B, C, W and F remain unchanged.
+  No compatible cofinal lift, fake certificate or Ihara witness is claimed.
+
+Delta195 is the first numerator advance since the v220 inventory: it closes
+the complete projected A3 gate and removes the A4 anchor subproblem from the
+actual zero-seed branch while retaining the genuine homogeneous A4 closure.
