@@ -7905,3 +7905,34 @@ already-running positive search.
 
 Delta202 removes a redundant search stage from the actual witness pipeline;
 the next numerical decisions still come from the running A0 and A4 jobs.
+
+### Delta 203 (2026-08-29): zero-base A5 becomes a streaming positive-certificate search
+
+- Added `sol/proof_r07_zero_base_streaming_joint_a5_certificate_v348.md`.
+  For the complete pre-`C` closure
+  `Lhat={(theta*d1,theta odot w):theta in I}`, define
+  `T(a,b)=(a,Cb)`.  The actual A5 condition is exactly
+  `(e1,0) in T(Lhat)`.  Therefore an explicit nullspace basis followed by a
+  first-coordinate image computation is unnecessary.
+- The sound implementation keeps the full pre-`C` echelon and action queue,
+  but streams each newly accepted row's `T`-image into a second joint
+  echelon.  A zero target remainder is an immediate MEMBER certificate even
+  before queue exhaustion.  Only NONMEMBER requires the complete pre-`C`
+  closure and a separating dual.
+- The same positive membership coefficients already expand `theta=mu1` in
+  the A6 language `(coefficient,prefix_DAG_node,original_A4_word_index)`.
+  Thus no post-membership nullspace basis conversion, anchor, adapted basis,
+  or local A3 back-substitution remains.  This refinement has been passed to
+  the parallel production-compiler implementation.
+
+**v220 mapping**:
+
+- A5/A6 remain **0/3 / 0/3 actual**, but the positive route now permits an
+  early exact certificate and directly emits the A6 ancestry.
+- A0 runs `33246619673`, `33247540982` and A4 capture run `33247161395`
+  remain active; A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- All other v220 numerators are unchanged.  No fake certificate or Ihara
+  witness is claimed.
+
+Delta203 is a mathematical and algorithmic shortening of the next actual
+gate, not a numerical promotion.
