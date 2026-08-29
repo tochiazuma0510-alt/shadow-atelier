@@ -1,0 +1,168 @@
+Sol(max) task 372 - A0/v12b minimal complete repair after task368 reject
+
+Role: bounded implementation repair.  Read every numbered section first to
+last.  Task368's independent STATIC REJECT is authoritative.  The goal is
+the smallest auditable SELFTEST_BOOTSTRAP owner which repairs every
+load-bearing defect together.  Prefer deleting duplicate/non-load-bearing
+machinery over adding another wrapper layer.  Do not edit any frozen v12a
+owner.  Do not run Python, Node, GAP, GHA, workflows, git, network, syntax
+compilation, or candidate commands.  Read-only PowerShell inspection and
+hashing are allowed.
+
+1. Mandatory inputs and retained scope
+
+Read in full task354, reply354, task368 and reply368, together with every
+task352/task353/v11 and v275--v290 authority they cite.  Preserve only the
+semantics task368 did not reject:
+
+- exact P0/acyclic constructor graph and candidate-only R/V boundary;
+- three q3 gates and exact index/right-left multiplication conventions;
+- 970-byte projected Gamma versus 4,814-byte diagnostic typing;
+- selected-coordinate K0 full-state equality, skip behavior, kernel and
+  incremental replay;
+- known-Q0-duplicate early skip;
+- exclusive/no-replace/fsync publication; and
+- false conclusions: no production, resume, A0, lift, fake or Ihara.
+
+V12b is still one candidate SELFTEST_BOOTSTRAP.  It is not production or
+resume and cannot increment A0 before an accepted run and independent
+checker result.
+
+2. Sole permitted outputs
+
+Create only:
+
+- ci/in/d972_r07_history_free_positive_fast_resume_selftest_bootstrap_v12b.manifest.v1.json
+- search/d972_r07_history_free_positive_fast_resume_v12b.py
+- crosscheck/check_d972_r07_history_free_positive_fast_resume_v12b.py
+- search/d972_r07_history_free_positive_fast_resume_gha_driver_v12b.g
+- search/certs/d972_r07_history_free_positive_fast_resume_selftest_v12b_20260829.json
+- sol/sol_reply_372_r07_a0_v12b_minimal_complete_repair.md
+
+The .g file is ASCII only.  Recompute every identity, P0 self seal and
+fixture seal.  Python owners pin P0; the driver pins final P0, producer,
+checker and fixture identities.  R/V must not pin the driver and the graph
+must remain acyclic.  All six outputs remain UNEXECUTED pending another
+independent static audit.
+
+3. Repair the first unavoidable semantic stop
+
+Replace the v12a selftest's full-pivot triangular check by chronological
+seen-pivot validation identical to the ordinary producer/checker rule.
+Future pivots are legal until their own rows are processed.  The frozen
+P5/P6 witness and all eight triangular mutations must traverse this same
+ordinary validator with exact first-reason checks.
+
+There must be one reachable untouched baseline before mutation cases and no
+special mutation-name branch.
+
+4. Bind the actual current dual and selected owner
+
+Do not manufacture a one-key functional from a convenient row.  The
+producer must derive the selected owner from the actual target reduction:
+current dual, pivot/rank epoch, annihilation of the chronological basis,
+nonzero/required target or remainder pairing, formal solution and exact
+selected coordinate.  Bind these values into the heavy identity and R.
+
+The checker must independently parse the frozen raw checkpoint once and
+reconstruct columns, target, chronological P rows, remainder, formal
+solution, initial/current dual, annihilation and selected epoch.  It may not
+trust the producer's selected statement or transported dual.  Its result V
+binds physical R bytes/SHA/seals only after independent reconstruction.
+
+5. Real physical mutation suites
+
+Every preregistered triangular, boundary, selected-correction, positive,
+physical, phase and phase-positive case must mutate an extant ordinary owner,
+invoke the same ordinary authority/transport/transition validator, and match
+an independently fixed exact first reason.  Remove miniature envelope
+substitutes, copied producer ledgers and Boolean-only mutation frames.
+
+The producer and checker construct their normalized ledgers independently
+and the fixture binds their expected exact equality.  MutationAccepted,
+wrong reason and arbitrary exception remain outside the narrow expected
+catch.  A case may share an immutable authenticated snapshot, but not skip
+the load-bearing validator.
+
+6. Linear-time DAG and minimal heavy processing
+
+Replace the quadratic memo dictionary copying in AncestryDAG.expand by a
+streamed/shared sparse accumulator or another representation with a proved
+aggregate live-entry/copy bound.  Charge before allocation and stop typed
+UNKNOWN before exceeding it.  Per-answer support and node caps alone are
+insufficient.
+
+Authenticate every immutable P0/source/raw/fixture owner once into a shared
+snapshot registry and reuse it.  Remove repeated checker reauthentication,
+repeated parent walks/digests, duplicate triangular full-frame serialization
+and clones.  Release source DOMs, decoded streams, Q0 stores and K0 caches at
+the end of their last phase.
+
+The 4,814-byte full Gamma value is diagnostic only.  Compute it only for the
+selected actual owner/canary values needed to prove typing; do not evaluate
+and hex-serialize all other states.  Bound pc_cache cardinality and insertion
+attempts explicitly.  Do not retain all ten coordinate stores once a known
+duplicate or phase release makes them unnecessary.
+
+7. Truthful memory, IPC and deadline model
+
+Count simultaneous bytearray/bytes/ASCII/DOM/canonical buffers, Python
+list/int/dict overhead, Q0 stores, K0 tables, mutation clones, R/V
+serialization and artifact reading.  Publication reserves the entire
+encoded output before construction and enforces a hard byte cap.  Stream
+artifact R and V validation so the driver does not retain R+2V plus both
+DOMs.
+
+Simplify process testing.  Reuse bounded workers or run exact cases
+sequentially when concurrency is not load-bearing.  Aggregate all normal,
+fault, blocked-send and post-heavy IPC/STOP/restart counters additively;
+aggregate simultaneous RSS by a physical maximum including child PIDs.
+Do not reset meters between phases in a way that hides cumulative work.
+Exception class names derived from OS timing may not become nondeterministic
+semantic reasons.
+
+Normalize InputStop and ResourceStop to the preregistered typed UNKNOWN
+terminal after rollback.  Give strict positive margins between every
+internal deadline, its external timeout, the producer/checker/artifact sum,
+the 21,600-second outer envelope, setup/cleanup and workflow upload.  The
+v12a zero-margin 10,800+7,200+3,600 schedule is forbidden.  Record formulas
+from the final source.
+
+8. Driver and platform
+
+Use GAP's native directory API rather than Exec("mkdir -p ...").  Either
+bind the whole route explicitly to the current Ubuntu GHA platform in P0 or
+provide typed platform preflight for Linux/fork/AF_UNIX/no-follow/coreutils
+requirements before heavy loading.  Shell arguments remain fixed and
+quoted.
+
+Reject PRODUCTION, RESUME and stale/temp aliases before heavy work.  Require
+exact-one full-line terminals, post-validation physical R/V rehash, exact
+candidate-only fields and one last neutral sentinel.  Failure or UNKNOWN
+must leave no accepted candidate.
+
+9. Static closure and reply
+
+Line-audit all nine task368 repair items without executing the code.  Report
+exact identities, P0/fixture seals, actual selected-dual derivation,
+checker-independent reconstruction, mutation-to-ordinary-validator routes,
+linear DAG bound, source-derived live memory/IPC/deadline formulas, removed
+duplicate work, publication and platform boundaries.
+
+End exactly with:
+
+A0/V12B VERSIONED OWNERS:               COMPLETE
+TASK368 F1 CHRONOLOGICAL PIVOTS:         REPAIRED
+TASK368 F2 ACTUAL CURRENT DUAL:          REPAIRED
+TASK368 F3 CHECKER RECONSTRUCTION:       REPAIRED
+TASK368 F4 REAL MUTATION ROUTES:         REPAIRED
+TASK368 F5 LINEAR BOUNDED DAG:           REPAIRED
+TASK368 F6 MEMORY / DUPLICATION:         REPAIRED
+TASK368 F7 R/V / DEADLINES / PLATFORM:   REPAIRED
+LOCAL CANDIDATE EXECUTION:               NONE
+V12B SELFTEST_BOOTSTRAP GHA:             FORBIDDEN PENDING INDEPENDENT AUDIT
+PRODUCTION / RESUME:                     FORBIDDEN
+ACTUAL A0 COMMON + CHECKER:               0/1
+LIFT / FAKE / IHARA:                     NONE
+
+TASK372_R07_A0_V12B_MINIMAL_COMPLETE_REPAIR

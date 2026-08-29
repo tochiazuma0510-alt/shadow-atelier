@@ -6294,3 +6294,38 @@ promoting its source-static claims.
 
 Delta155 turns a broad Brunnian strictness question into one precise module
 extension and one formation-intersection gate.
+
+### Delta 156 (2026-08-29): A0/v12a independently rejected; minimal v12b repair commissioned
+
+- Froze sol/sol_reply_368_r07_a0_v12a_code_performance_audit_v1.md
+  (26,948 bytes; SHA-256 bceb9af1df8e7104e4f513f6c1fcb1034c1d622aed6fbc80b47822ac3320e360).
+  The verdict is **STATIC REJECT / GHA FORBIDDEN**.  Physical identities and
+  the acyclic candidate-only P0 constructor graph passed.
+- The first unavoidable failure is concrete: the producer selftest validates
+  each P row against the full future pivot set, so the frozen legal P5 row is
+  rejected for containing the later P6 pivot.  Further defects include a
+  manufactured rather than current search dual, incomplete checker
+  reconstruction, miniature mutation substitutes, quadratic DAG memo copies,
+  duplicate owner passes, incomplete memory/child accounting, zero deadline
+  margin and an unbound platform boundary.
+- Added sol/sol_task_372_r07_a0_v12b_minimal_complete_repair.txt.  It permits
+  a versioned simplification rather than another wrapper: chronological
+  pivots, actual dual and independent reconstruction, real ordinary mutation
+  routes, linear DAG expansion, one immutable snapshot registry, aggressive
+  phase release, truthful memory/IPC, strict deadlines and native/platform
+  gates.
+- V12b remains an unexecuted SELFTEST_BOOTSTRAP and must pass a fresh
+  independent audit before one GHA run.  Production and resume stay
+  forbidden.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **V12A STATIC REJECT / V12B MINIMAL COMPLETE
+  REPAIR ACTIVE**.
+- A3 remains **0/3 V3 REPAIR ACTIVE**, A4 **1/3 V6D REAUDIT ACTIVE**, and
+  A5--A7 **0/3**.
+- No common word, compatible lift, fake certificate or Ihara witness is
+  added.
+
+Delta156 stops the rejected bloated bootstrap before compute and focuses the
+next version on the actual semantic path and honest resource boundary.
