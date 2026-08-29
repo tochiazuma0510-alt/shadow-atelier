@@ -7698,3 +7698,37 @@ actual zero-seed branch while retaining the genuine homogeneous A4 closure.
 
 Delta196 retains the real A3 simplification while restoring the exact
 nonlinear A0/A5 dependency boundary.
+
+### Delta 197 (2026-08-29): A4 passes transport and enters the 6,441-row closure
+
+- Run `33245530212` completed both Python owners and printed
+  `R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V6_DRIVER_PASS`; artifact upload was
+  lost only because the outer generated driver overwrote the file from which
+  GAP was still reading.  V14 removed that transport self-overwrite.
+- V14 run `33245626463` then published a sealed producer/checker artifact and
+  exposed the first mathematical-input stop after transport:
+  `bridge:inverse_replay`.  The stored seven-block index roster was
+  `((0,1,2),(3,0,4),(5),(6),(7),(8),(9))`, which neither partitions the
+  eleven occurrence positions nor has arities `(3,3,1,1,1,1,1)`.
+- The v189/task198 authority fixes the unique correct position partition as
+  `((0,1,2),(3,4,5),(6),(7),(8),(9),(10))`, corresponding exactly to
+  `H1,H2,P1,P2,P3,P5,P4`.  Producer and independent checker v11 repair this
+  one constant while retaining the ten-to-eleven insertion and inverse
+  deletion maps.
+- Commit `eda09741` is on the work branch.  Actual-production run
+  `33245807123` has passed the repaired bridge boundary and remains inside
+  the 6,441-row/closure computation.  No SELFTEST or reduced-row fixture is
+  selected.
+
+**v220 mapping**:
+
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A4 remains **1/3; ACTUAL 6,441-ROW CLOSURE RUN 33245807123 ACTIVE**.  The
+  bridge repair is exact input progress but is not counted before agreeing
+  positive artifacts.
+- A0 remains **0/1; ACTUAL PRODUCTION RUN 33243151014 ACTIVE**.
+- A5--A9 and B/C/W/F remain unchanged; no fake certificate or Ihara witness
+  is yet added.
+
+Delta197 replaces the wrong eleven-to-seven regrouping by the proved v189
+partition and records that A4 has reached its actual closure loop.
