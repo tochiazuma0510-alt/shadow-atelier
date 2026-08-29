@@ -7801,3 +7801,33 @@ compiler without reviving the rejected linear A0 selector.
 Delta199 removes both known nonmathematical ways of losing the current A0
 search while preserving the exact positive-search route and independent
 checkpoint binding.
+
+### Delta 200 (2026-08-29): zero-base A0-to-A5 fallback is reduced to one projected kernel coset
+
+- Added
+  `sol/proof_r07_zero_base_seeded_schreier_a0_a5_selector_v346.md`.  Once an
+  accepted A0 word gives a complete two-rung state `h0=(v0,q0,0)`, all A0
+  solutions have `Q1` states in the single coset
+  `q0*P`, where `P=pr_Q1(ker(pi0|C))`.
+- The A0 kernel need not be obtained by enumerating every element of the
+  finite normal-closure image `C`.  A Cayley transversal in the much smaller
+  image `pi0(C)` gives ancestry-bearing Reidemeister--Schreier generators
+  `t_a*s*t_(a*pi0(s))^-1`; their `Q1` projections generate `P` exactly.
+- With the cross-checked zero A3 base, the complete joint predicate is simply
+  `d1-B(q) in (ker Phi)d1`.  The initially accepted A0 word is tested first.
+  If it fails, the fallback evaluates each distinct state in `q0*P`; it does
+  not rerun the A0 column search and does not enumerate all of `C`.  No
+  homomorphism is falsely attributed to the nonlinear map `B`.
+
+**v220 mapping**:
+
+- A0 remains **0/1; ACTUAL RUN 33246619673 ACTIVE** and A4 remains **1/3;
+  ACTUAL RUN 33245807123 ACTIVE**.
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A5/A6 remain **0/3 / 0/3 actual**.  Delta200 shortens the complete fallback
+  only if the first A0 word fails the zero-base A5 test; it adds no terminal.
+- A7--A9 and B/C/W/F remain unchanged.  No fake certificate or Ihara witness
+  is claimed.
+
+Delta200 fixes a finite complete alternative to repeated arbitrary A0-word
+search while the direct witness-first A0/A4 computations continue.
