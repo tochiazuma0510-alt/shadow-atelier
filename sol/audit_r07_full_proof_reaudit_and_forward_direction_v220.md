@@ -6879,3 +6879,95 @@ reopening the already-passed mathematics or counting an unexecuted result.
 
 Delta172 prevents a trivial missing name from reopening the already-passed
 A4 design while keeping execution gated on an independent source audit.
+
+### Delta 173 (2026-08-29): endpoint repair now ranges over every A5 solution
+
+- Added `sol/proof_r07_all_first_shadow_endpoint_repair_v338.md`.  If one
+  A5 solution is `mu0`, the complete first-shadow solution set is the affine
+  torsor
+  `mu0 + (ker D intersect ker Phi)`, not the one selected ancestry alone.
+- After choosing literal lifts of a basis of that finite homogeneous kernel,
+  every source representative of every A5 solution is exactly
+  `M0 + lifted homogeneous kernel + J1`, where `J1` is v196's
+  same-successor source ideal.
+- Universal endpoint zero is therefore one joint span condition using both
+  the finite homogeneous endpoint columns and v196's one-sided Schreier
+  orbit columns.  V196 by itself is the fixed-multiplier special case; its
+  failure cannot exclude a different A5 multiplier.
+- Two valid A4 projected anchors are gauge-equivalent: translating the A5
+  slice ancestry by their difference preserves the final multiplier.  Anchor
+  choice is not another search axis, while source words trivial in the first
+  successor remain a genuine exact-endpoint direction.
+
+**v220 mapping**:
+
+- This is **CLOSED at the all-first-shadow affine paper interface**.  It
+  enlarges the positive endpoint search without changing a milestone
+  numerator.  A0 remains **0/1 V12B STATIC REJECT / AUDIT CLOSURE ACTIVE**,
+  A3 **0/3 V4 BOUNDED REPAIR ACTIVE**, A4 **1/3 V8 ONE-FUNCTION REPAIR
+  ACTIVE**, and A5--A7 **0/3**.
+- The actual homogeneous basis, endpoint columns, common word, compatible
+  lift, fake certificate and Ihara witness remain unconstructed.
+
+Delta173 prevents an arbitrary first A5 ancestry from becoming a false
+negative for the one finite universal word-pair sought by the witness route.
+
+### Delta 174 (2026-08-29): A0/v12b audit closes with seven bounded repair groups
+
+- Froze `sol/sol_reply_376_r07_a0_v12b_code_performance_reaudit_v1.md`
+  (21,192 bytes; SHA-256
+  `c3fabafe7d784d6aaa73f3b9efd42bba37d535f3c7041631ba4332ff540010e0`).
+  Its decisive verdict is **STATIC REJECT**; no candidate, compiler, runtime,
+  mutation, GHA, workflow or network command was run.
+- Chronological pivots, the actual current dual and selected 2896 -> 2897
+  route, independent checker reconstruction and the bounded ancestry DAG pass.
+  These mathematical/code routes are retained.
+- The complete rejection boundary is: noncanonical physical P0/fixture and
+  wrong final-source pin ownership plus a duplicate fixture path;
+  full-frame/DOM mutation clones, fake W4/physical-R owners and an incomplete
+  75-case cross-ledger; allocation-before-cap plus repeated Gamma/K0 work;
+  holes in long-loop deadlines; non-derived live-memory bounds and late
+  512-MiB output reservation; and post-link publication without final-name
+  rollback/fsync in producer, checker and driver.
+- Added `sol/sol_task_380_r07_a0_v12c_bounded_complete_repair.txt`.  V12c
+  must close all seven groups together, with compact canonical owners,
+  owner-local deltas, exact heavy-owner reuse, strict loop deadlines,
+  source-derived lifetimes and fail-closed durable publication.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **V12B STATIC REJECT / V12C BOUNDED COMPLETE
+  REPAIR ACTIVE**.  A3 is **0/3 V4 BOUNDED REPAIR ACTIVE**, A4 **1/3 V8
+  ONE-FUNCTION REPAIR FROZEN**, and A5--A7 **0/3**.
+- No GHA authorization, production/resume route, common word, compatible
+  lift, fake certificate or Ihara witness is added.
+
+Delta174 ends the v12b audit delay with one finite repair contract rather
+than another sequence of partial patches.
+
+### Delta 175 (2026-08-29): A4/v8 one-function repair is frozen for reaudit
+
+- Froze `search/d972_r07_a4_actual_owner_trace_producer_v6.py`
+  (102,151 bytes; SHA-256
+  `6bbae63e284e055bba2097696f0202645bc38ec9856815af9c1857ecd2131a58`)
+  and `sol/sol_reply_378_r07_a4_v8_one_function_repair.md`
+  (10,521 bytes; SHA-256
+  `4e7fa642fa79cac1cacf23267f7283566d0deb4fe5964b72dcf4d0c9f85cf11a`).
+- The new producer owns one `admit_path` definition at lines 454--467 and
+  reaches it twice through the one ordinary route.  Reverse-delta inspection
+  reports frozen v5 after removing that function and truthful local labels;
+  checker/fixture v5 remain unchanged.  No execution occurred.
+- Added `sol/sol_task_379_r07_a4_v8_one_function_reaudit.txt`.  A fresh
+  auditor must prove the exact bounded delta and retained task375 PASS clauses
+  before even a pinned rows-1--7 driver may be designed.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V8 REPAIR FROZEN / FRESH STATIC REAUDIT ACTIVE**.
+  A0 is **0/1 V12C REPAIR ACTIVE**, A3 **0/3 V4 REPAIR ACTIVE**, and A5--A7
+  **0/3**.
+- No rows-1--7 execution, full 48x2 result, new A4 basis, lift, fake or Ihara
+  witness is added.
+
+Delta175 restores source reachability without reopening the already-passed
+A4 resource design and keeps execution behind a small independent audit.

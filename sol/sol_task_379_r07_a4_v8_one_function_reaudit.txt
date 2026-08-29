@@ -1,0 +1,93 @@
+Sol(max) task 379 - independent A4/v8 one-function static reaudit
+
+Role: fresh independent code auditor. Read every numbered section first to
+last. The task378 implementer must not audit this tranche. Do not edit any
+frozen owner or run any candidate. Write only the designated reply.
+
+1. Frozen hybrid tranche
+
+Audit these exact owners:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v6.py
+  102151 bytes
+  6bbae63e284e055bba2097696f0202645bc38ec9856815af9c1857ecd2131a58
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v5.py
+  99782 bytes
+  33b7905fb1f00b23b8e30c8b90b57a793cabf62ed272fb258790d3c88ba34165
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json
+  8489 bytes
+  474d8e19ca49cad06b560cf0ac1d5eeeac1927fe2666224cb9501e77b5cc8481
+- sol/sol_reply_378_r07_a4_v8_one_function_repair.md
+  10521 bytes
+  4e7fa642fa79cac1cacf23267f7283566d0deb4fe5964b72dcf4d0c9f85cf11a
+
+The fixture root body is 8400 canonical ASCII bytes with self seal
+c674491a2f50b200a70349780f0e7a80c21cc0fc3cecd44432dc6e70c51f63fb.
+Reject on any mismatch. Read task375 and its full reply plus task378 and its
+full reply. This audit is limited to the v6 delta and preservation of every
+task375 PASS clause; rows 8--48 remain out of scope.
+
+2. Exact reverse delta
+
+Independently compare frozen producer v5 and v6. After removing exactly the
+new producer-owned admit_path definition and reversing only truthful local
+version/schema labels, require byte-for-byte source equality. Enumerate every
+remaining token/line delta. Reject an unreported resource, authority,
+mutation, publisher, exception, path, result or conclusion change.
+
+3. Producer path admission
+
+Require exactly one definition and exactly the two ordinary-route calls. Trace
+the untouched baseline and all seven mutation calls to that same definition.
+The function must:
+
+- enter the exact producer containment event/owner;
+- normalize candidate and registered paths;
+- admit only the exact registered path or an owner inside the invocation
+  workspace;
+- record a path-kind identity and narrowly reject containment failure with
+  exact stage/reason;
+- walk and reject every symlink component with the same reason; and
+- return the admitted lexical path before its bound physical open.
+
+Reject checker imports/aliases, copied checker evidence, Boolean shortcuts,
+multiple validators, a broad catch, changed first reason, or an unreachable
+call. Check all referenced producer helpers and names actually exist.
+
+4. Inherited PASS boundary
+
+By exact source delta and direct line tracing, require retention of all
+task375 PASS findings: immutable fixture/task198 graph, row 11/context 28,
+complete evaluator ABI, seven physical mutations, fourteen fd
+revalidations, cleanup, exact token ledger, RLIMIT_AS order, streaming
+canonical route, no avoidable full receipt work, stdout-only result,
+--output rejection and no result publisher. Require exact scope flags for
+rows 1--7 and actual_a4_numerator=false.
+
+5. Static-only verdict
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, syntax/import
+compilation, mutations, RSS or either candidate. Read-only PowerShell and
+hashing are allowed. A STATIC PASS authorizes only creation and independent
+audit of a pinned rows-1--7 driver; it does not authorize execution by itself,
+cover rows 8--48, increment A4, or construct a basis/lift/fake/Ihara witness.
+
+Write only:
+
+sol/sol_reply_379_r07_a4_v8_one_function_reaudit_v1.md
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN HYBRID OWNERS:                  PASS or REJECT
+EXACT V5->V6 BOUNDED DELTA:            PASS or REJECT
+PRODUCER admit_path DEFINITION/USES:   PASS or REJECT
+ROWS 1--7 PRODUCER ROUTE REACHABLE:    PASS or REJECT
+TASK375 PASS CLAUSES RETAINED:         PASS or REJECT
+V8 CANDIDATE EXECUTION:                FORBIDDEN
+PINNED GHA DRIVER:                     NOT PRESENT
+FULL 48x2 SELFTEST:                    INCOMPLETE
+ACTUAL A4:                             remains 1/3
+LIFT / FAKE / IHARA:                   NONE
+
+TASK379_R07_A4_V8_ONE_FUNCTION_REAUDIT_V1
