@@ -6559,3 +6559,38 @@ under their stability.
 
 Delta163 replaces an unspecified even-module supplement by an exact minimal
 column rank and a weaker target-specific span test.
+
+### Delta 164 (2026-08-29): complete score separation feeds the nonlinear Newton base
+
+- Added `sol/proof_r07_overlap_score_to_newton_bridge_v334.md`.  Once the
+  authenticated leading localized quotient is identified with the complete
+  Goursat marginal target, v333's score-column evaluation is injective
+  exactly when the leading common-word Jacobian is onto every generator of
+  `L/JL`.
+- Literal primal ancestries for a basis then define v319's based leading map
+  `s0`; a strict free cover produces `s=s0(1+R)^-1`.  With the exact
+  localization, depth-gain and materialization hypotheses, the same section
+  corrects every nonlinear remainder and gives the full pro-3 Newton
+  completion.  V328 supplies the alternative weighted-cover version.
+- A column which repairs only the named actual endpoint does **not** imply
+  structural onto.  It leaves the residual score space
+  `ker(T*) intersect ker(ev_C)`.  The weaker route is sound exactly when that
+  space annihilates a proved invariant subspace containing every reachable
+  nonlinear remainder.
+- Thus the witness-first actual-class route and the stronger all-generator
+  route now meet in one exact condition rather than being conflated.  The
+  leading R07 identification, legal columns, filtered cover and nonlinear
+  localization remain unproved.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V7 REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The finite score calculation now has a proved route into the all-depth
+  nonlinear construction, conditional on the explicitly listed actual
+  module/cover/localization certificates.
+- Formation, perfect-core gates, the compatible full lift, fake certificate
+  and Ihara witness remain open.
+
+Delta164 states exactly when the finite relative-dihedral/field-even score
+calculation is strong enough to drive one uniform nonlinear lift.
