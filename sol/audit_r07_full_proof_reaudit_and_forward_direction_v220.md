@@ -7303,3 +7303,40 @@ from the higher-priority A0/v12c audit.
 
 Delta185 reaches the first complete pinned rows-1--7 v9 source bundle while
 keeping its execution behind an independent full-source gate.
+
+### Delta 186 (2026-08-29): A0/v12c bounded complete repair is frozen for immediate audit
+
+- Froze canonical P0 11,476 bytes /
+  `24fbc1f9d7a7be3c96e1a56d4eb97d0aa5ccca9233f1e552088e9848bc081d74`,
+  producer 342,630 /
+  `fbfcd4f82cccb7a6772270bf755852e94d5d98a5059994797cacc0a8e3feec92`,
+  checker 298,317 /
+  `859cb6e9e1b9c7f74b39014cbdb1accdf54e1a692d5ce962d86f7314e3bb2c44`,
+  ASCII driver 43,559 /
+  `56867f847d3242f03bd2763087d58df1985a8634b6260efe2cb91abc23b29c8e`,
+  and canonical fixture 22,785 /
+  `6fb7fe92c3cf93f54e44f9f26c3e920d131dbc626fc826d8b5bb4745bf67c8ec`.
+  The 16,269-byte reply has external SHA-256
+  `633fd4ec9611e3b382695d1f746ae5e51719c1b38d818ee280f12a83945d3159`.
+- The implementation reports all task376 F1--F7 groups repaired together:
+  canonical acyclic roots; owner-local 75-case mutations; pc-cache/Gamma/K0
+  reuse; in-loop deadlines; source-derived live/output reservations; durable
+  R/V/raw/log/sentinel publication; and a status-bearing accepting driver.
+  The task376 rank-2896 dual, selected 2897th column, independent replay and
+  ancestry semantics are retained source-statically.
+- No candidate, compiler, import, mutation, Python, Node, GAP, GHA, workflow,
+  network, subprocess or RSS execution occurred.  Added
+  `sol/sol_task_385_r07_a0_v12c_code_performance_reaudit.txt`; its fresh
+  Sol(max) auditor has already completed the prerequisite-only preparation
+  and now receives the frozen owners.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **V12C REPAIR FROZEN / FRESH FULL AUDIT ACTIVE**.
+  A3 remains **0/3 V5 REPAIR FROZEN**, A4 **1/3 V9 STATIC REJECT**, and
+  A5--A7 **0/3**.
+- No A0 candidate terminal, common word, compatible lift, fake certificate or
+  Ihara witness is added.
+
+Delta186 ends the A0 implementation delay and moves the exact v12c bundle
+directly into the already-prepared independent full-source audit.

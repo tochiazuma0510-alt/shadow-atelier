@@ -1,0 +1,153 @@
+Sol(max) task 385 - independent A0/v12c full code-performance reaudit
+
+Role: fresh independent mathematical/code auditor. Read every numbered
+section first to last. The task380 implementer must not audit this tranche.
+You have already completed the authorized prerequisite-only audit preparation;
+now inspect the frozen v12c owners themselves. Do not edit them or run any
+candidate. Write only the designated reply.
+
+1. Frozen subject and exact scope
+
+Audit these six exact physical owners:
+
+- ci/in/d972_r07_history_free_positive_fast_resume_selftest_bootstrap_v12c.manifest.v1.json
+  11476 bytes
+  24fbc1f9d7a7be3c96e1a56d4eb97d0aa5ccca9233f1e552088e9848bc081d74
+- search/d972_r07_history_free_positive_fast_resume_v12c.py
+  342630 bytes
+  fbfcd4f82cccb7a6772270bf755852e94d5d98a5059994797cacc0a8e3feec92
+- crosscheck/check_d972_r07_history_free_positive_fast_resume_v12c.py
+  298317 bytes
+  859cb6e9e1b9c7f74b39014cbdb1accdf54e1a692d5ce962d86f7314e3bb2c44
+- search/d972_r07_history_free_positive_fast_resume_gha_driver_v12c.g
+  43559 bytes
+  56867f847d3242f03bd2763087d58df1985a8634b6260efe2cb91abc23b29c8e
+- search/certs/d972_r07_history_free_positive_fast_resume_selftest_v12c_20260829.json
+  22785 bytes
+  6fb7fe92c3cf93f54e44f9f26c3e920d131dbc626fc826d8b5bb4745bf67c8ec
+- sol/sol_reply_380_r07_a0_v12c_bounded_complete_repair.md
+  16269 bytes
+  633fd4ec9611e3b382695d1f746ae5e51719c1b38d818ee280f12a83945d3159
+
+P0 body seal is
+39b483cf2df56aa6148bac3026c16c7f4e68950c8ff417543e84b5abaaf5f775;
+fixture body seal is
+5569881a6e79c0ad45a794d501f2f0e3a7625aee7f2032f42694ba6d2441256d.
+Reject any mismatch. Read/reuse the complete prerequisite corpus from your
+preparation, plus task380/reply380. Scope is SELFTEST_BOOTSTRAP only. Even a
+STATIC PASS authorizes at most one bounded v12c GHA selftest; it is not an A0
+numerator, production/resume result, common word, lift, fake, or Ihara witness.
+
+2. F1 canonical roots and acyclic physical graph
+
+Independently reconstruct compact ASCII P0 and fixture bytes, final LF and
+body seals. Require ordinary readers and driver to reject whitespace, key
+order, newline and byte mutations before semantic use. Rebuild the complete
+30-owner unique-path inventory and prove the graph is exactly
+
+  immutable authorities -> canonical P0/fixture -> producer/checker -> driver.
+
+P0/fixture must not pin final producer/checker identities. Reject duplicate
+keys/paths, aliases, stale v12b physical hashes, missing ancestry, partial
+digests or a cycle. Independently hash every driver pin.
+
+3. F2 real bounded mutations and exact ledger
+
+Trace all `8+13+30+7+11+4+2=75` cases on both sides from real owner-local
+typed deltas through the ordinary validators. Require no full-frame/full-R
+clone, deepcopy, canonicalize/parse clone, detached Boolean predicate or
+unrelated nested selected validation. Check before/after inequality, exact
+first reason, narrow catches, hard MutationAccepted failure and all false
+conclusion flags.
+
+Require genuine W4 normal, timeout, death, partial and blocked-send owners on
+both sides and producer physical11 on the actual R/publication owner. The
+complete comparison must retain all 75 measured owner identities, event
+traces and physical digests, including both phase-positive cases.
+
+4. F3 charge-before-allocation and heavy-owner reuse
+
+Audit pc-cache precharge before multiplication/bytes/insertion, the 131072
+cap, duplicate/failure/final releases and every last consumer. Prove exactly
+two full Gamma values per process, one K0/index build and one selected roster
+build per process, with immutable reuse thereafter. Checker parent/letter
+digests must stream compact authenticated owners and may not create a
+1,469,664-element integer list only for hashing.
+
+Inventory every full Gamma/K0/Q0/coordinate/raw-column pass. Reject hidden
+reconstruction, dead full-owner mutation routes, repeated independent owners,
+quadratic scans or any avoidably slow processing not required by the retained
+mathematical semantics.
+
+5. F4 deadlines and F5 source-derived resources
+
+Trace one elapsed-adjusted signal deadline from before material authority work
+through imports, all builds, raw/selected loops, mutation deltas/validators,
+stream hashes, closure/verifier, serialization, publication, rollback and
+cleanup. Require in-loop checks, prior-timer restoration after elapsed time,
+fail-closed signal/platform errors and strict internal/external/global wall
+margins `9600/9900`, `5400/5700`, `1200/1500`,
+`17100 < 18000 < 21600`.
+
+Recompute all simultaneous lifetimes and formulas from source. Require a
+read-back Linux RLIMIT_AS before material work, charge before every material
+allocation, cardinality/width caps, truthful last-consumer releases, and the
+full 536870912-byte R/V token before output construction. Distinguish explicit
+payload bounds from the hard address-space ceiling and from unobserved RSS.
+Reject unexplained constants, omitted raw/bytes/ASCII/DOM/container/COW/IPC
+coexistence, output reservation after construction, or a stated peak below a
+source-static lower bound.
+
+6. F6 durable publication and F7 accepting-only driver
+
+Audit producer R, checker V, driver raw extraction, logs, terminal owners and
+sentinel line by line. Require bound no-follow same-dirfd exclusive temp,
+complete write, file fsync, no-replace final publication, exact physical
+rehash, directory fsync and cleanup of every temp. On every typed/untyped
+failure after visibility, exact final unlink plus directory fsync and temp
+unlink/fsync must be attempted; rollback failure remains nonaccepting.
+
+For the driver require Linux/x86_64, native directory creation, fixed quoted
+paths/commands, stale rejection, canonical P0/fixture admission, streamed
+large rehashes, no `R+2V` lifetime, exact-one complete producer/checker
+terminals and independent checker raw 2896-column reconstruction. Prove GAP
+uses status-bearing `Process`, shell cleanup remains armed through every
+post-helper rehash, and there is no fallible acceptance gate after helper
+success. UNKNOWN, timeout, mismatch, partial log, alias, fsync or cleanup
+failure must leave no accepted owner.
+
+7. Retained mathematical route and decisive verdict
+
+Independently retain chronological growing pivots, actual rank-2896 current
+dual with full annihilation/nonzero target and remainder pairing, real
+Q0/Gamma/K0 selected correction and ordinary 2896->2897 transition. Require
+checker-side reconstruction of all 2896 raw columns, formal solution, both
+duals, selected owner and transported identity, plus one bounded descending
+AncestryDAG. Producer summary is never checker evidence.
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, imports, syntax
+compilation, candidates, mutations, RSS or subprocess tests. Read-only
+PowerShell inspection and hashing are allowed. On REJECT list every
+load-bearing defect together. Write only:
+
+sol/sol_reply_385_r07_a0_v12c_code_performance_reaudit_v1.md
+
+End exactly with:
+
+AUDIT VERDICT:                         STATIC PASS or STATIC REJECT
+FROZEN PHYSICAL OWNERS:                PASS or REJECT
+F1 CANONICAL / ACYCLIC GRAPH:          PASS or REJECT
+F2 REAL 75-CASE MUTATIONS:             PASS or REJECT
+F3 HEAVY OWNER REUSE:                  PASS or REJECT
+F4 DEADLINE COVERAGE:                  PASS or REJECT
+F5 LIVE MEMORY / OUTPUT RESERVE:       PASS or REJECT
+F6 DURABLE PUBLICATION:                PASS or REJECT
+F7 STATUS DRIVER / INDEPENDENCE:       PASS or REJECT
+TASK376 MATHEMATICAL PASSES:           RETAINED or REGRESSED
+AVOIDABLE DUPLICATED PROCESSING:       PASS or REJECT
+V12C SELFTEST_BOOTSTRAP GHA:           AUTHORIZED or FORBIDDEN
+PRODUCTION / RESUME:                   FORBIDDEN
+ACTUAL A0 COMMON + CHECKER:             remains 0/1
+LIFT / FAKE / IHARA:                    NONE
+
+TASK385_R07_A0_V12C_CODE_PERFORMANCE_REAUDIT_V1
