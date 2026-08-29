@@ -1,0 +1,22 @@
+{
+  "schema":"drophunt-checker-producer/v1",
+  "status":"CANDIDATE_GAP_PRODUCER",
+  "verified":false,
+  "window":{"node_id":"b64de01683ad766ab042ea41cfd015580aa5b7039d8a251cd0af93edf8ed78d6","b3_index_of_L":108,"K_ord":18,"M_ord":18,"F1_m_factor":1,"F2_ratio":9,"F3_fib":9,"F5_size_G":13226976,"degree":144,"JX_one_line":[2,3,4,5,6,7,8,9,1,10,18,17,16,15,14,13,12,11,19,27,26,25,24,23,22,21,20,35,32,29,28,36,34,31,30,33,73,74,75,77,78,76,81,79,80,82,83,84,86,87,85,90,88,89,46,47,48,50,51,49,54,52,53,37,38,39,41,42,40,45,43,44,55,56,57,59,60,58,63,61,62,64,65,66,68,69,67,72,70,71,127,128,129,131,132,130,135,133,134,136,137,138,140,141,139,144,142,143,100,101,102,104,105,103,108,106,107,91,92,93,95,96,94,99,97,98,109,110,111,113,114,112,117,115,116,118,119,120,122,123,121,126,124,125],"JY_one_line":[2,1,9,8,7,6,5,4,3,11,12,13,14,15,16,17,18,10,20,19,27,26,25,24,23,22,21,29,33,34,32,35,31,28,36,30,75,73,74,76,77,78,80,81,79,84,82,83,85,86,87,89,90,88,48,46,47,49,50,51,53,54,52,39,37,38,40,41,42,44,45,43,57,55,56,58,59,60,62,63,61,66,64,65,67,68,69,71,72,70,128,129,127,132,130,131,133,134,135,137,138,136,141,139,140,142,143,144,101,102,100,105,103,104,106,107,108,92,93,91,96,94,95,97,98,99,110,111,109,114,112,113,115,116,117,119,120,118,123,121,122,124,125,126]},
+  "seed":"row36",
+  "cc1_candidate_coverage":{"evaluated_count":9,"expected_count":9,"match":true},
+  "valid_count":1,
+  "total_elapsed_ms":19,
+  "reduction_index_order":"source_first",
+  "rows":[
+{"m":0,"f_word_codes":[-1,-1,-1,-1,2,2,1,1,1,1,-2,1,1,-2,1,2,-1,-1,-2,1,2,-1,-2,-1,-1,2,1,-2,1,2,2,-1,-2,-1,-1,-2,1,1],"charming":true,"hex310":true,"hex311":true,"onto":true,"reduction_match":true,"verdict":true,"stage":"pass","eval_ms":5},
+{"m":0,"f_word_codes":[-1,-1,-1,-1,2,2,1,1,1,1,-2,-2,1,2,1,1,-2,-1,2,-1,-1,-2,-2,-2,-2,-2,1,1,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[2,2,-1,-1,-1,-1,-2,-2,1,1,1,1,1,2,-1,2,2,1,-2,-1,-2,-2,1,2,2,-1,-1,-2,-2,1,-2,-2,-2,-2,1,-2,-2,1,-2,1,1,-2,1,1,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[1,1,1,1,1,1,2,1,1,-2,1,2,2,-1,-2,-2,1,2,2,-1,-1,-1,-2,1,-2,1,1,-2,-1,2],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[1,2,-1,2,2,1,-2,-1,-2,-2,1,1,2,2,-1,-1,-2,-2,-2,-2,-2,-2,-2,-1,-1,2,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[2,1,-2,-2,-1,-2,1,2,2,2,-1,2,2,1,-2,-1,-2,-2,1,2,2,-1,-1,-2,-2,1,-2,-2,-2,-2,1,-2,-2,-1,-2,-2,1,1,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[1,1,1,1,1,2,2,1,-2,-2,-1,-1,2,2,1,2,-1,-2,-2,1,-2,-1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[1,-2,-2,-1,2,1,2,2,1,-2,1,2,-1,-1,-2,-1,-1,2,2,1,1,-2,-2,-1,-2,-2,-2,-2,-2,-2,1,1,2,1,1,2,1,1,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[-1,2,2,-1,-2,1,-2,1,1,-2,-1,2,2,1,1,-2,1,2,-1,-1,-2,-1,-2,-2,-2,-2,1,-2,-2,-1,-2,-1,-1,-2,1,1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0}
+  ]
+}

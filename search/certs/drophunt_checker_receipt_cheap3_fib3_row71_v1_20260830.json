@@ -1,0 +1,16 @@
+{
+  "schema":"drophunt-checker-producer/v1",
+  "status":"CANDIDATE_GAP_PRODUCER",
+  "verified":false,
+  "window":{"node_id":"298138ecf5a1c5b3557eb2a092e4c7e58357be09b389d37fdc86f31b77c65678","b3_index_of_L":18,"K_ord":18,"M_ord":18,"F1_m_factor":1,"F2_ratio":3,"F3_fib":3,"F5_size_G":4408992,"degree":54,"JX_one_line":[2,3,4,5,6,7,8,9,1,10,18,17,16,15,14,13,12,11,19,27,26,25,24,23,22,21,20,35,32,29,28,36,34,31,30,33,39,37,38,42,40,41,45,43,44,48,46,47,51,49,50,54,52,53],"JY_one_line":[2,1,9,8,7,6,5,4,3,11,12,13,14,15,16,17,18,10,20,19,27,26,25,24,23,22,21,29,33,34,32,35,31,28,36,30,39,37,38,42,40,41,45,43,44,48,46,47,51,49,50,54,52,53]},
+  "seed":"row71",
+  "cc1_candidate_coverage":{"evaluated_count":3,"expected_count":3,"match":true},
+  "valid_count":1,
+  "total_elapsed_ms":1,
+  "reduction_index_order":"source_first",
+  "rows":[
+{"m":0,"f_word_codes":[2,1,2,-1,-1,-2,-1,-1,-1,-2,-1,2,2,1,2,2,2,2,-1,-1],"charming":true,"hex310":true,"hex311":true,"onto":true,"reduction_match":true,"verdict":true,"stage":"pass","eval_ms":0},
+{"m":0,"f_word_codes":[1,1,-2,1,1,2,-1,2,2,1,2,2,2,2,-1,-1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0},
+{"m":0,"f_word_codes":[1,1,-2,1,1,2,2,1,1,1,2,1,1,-2,-1,-2,1,1,-2,1,1,2,-1,2,2,1,2,2,2,2,-1,-1],"charming":false,"hex310":false,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"charming_fail","eval_ms":0}
+  ]
+}

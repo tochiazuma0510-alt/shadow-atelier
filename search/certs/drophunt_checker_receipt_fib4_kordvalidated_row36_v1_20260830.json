@@ -1,0 +1,17 @@
+{
+  "schema":"drophunt-checker-producer/v1",
+  "status":"CANDIDATE_GAP_PRODUCER",
+  "verified":false,
+  "window":{"node_id":"f36a34ebaed8b975867d048936eba42d3c2e172c118baa626836e9a6e79c3f4e","b3_index_of_L":48,"K_ord":36,"M_ord":18,"F1_m_factor":2,"F2_ratio":2,"F3_fib":4,"F5_size_G":2939328,"degree":84,"JX_one_line":[2,3,4,5,6,7,8,9,1,10,18,17,16,15,14,13,12,11,19,27,26,25,24,23,22,21,20,35,32,29,28,36,34,31,30,33,39,40,38,37,44,43,41,42,51,52,49,50,48,47,46,45,57,58,59,60,54,53,56,55,63,64,62,61,68,67,65,66,75,76,73,74,72,71,70,69,81,82,83,84,78,77,80,79],"JY_one_line":[2,1,9,8,7,6,5,4,3,11,12,13,14,15,16,17,18,10,20,19,27,26,25,24,23,22,21,29,33,34,32,35,31,28,36,30,41,42,43,44,38,37,40,39,47,48,46,45,51,52,50,49,59,60,58,57,55,56,54,53,67,68,66,65,63,64,62,61,73,74,76,75,70,69,71,72,79,80,78,77,84,83,81,82]},
+  "seed":"row36",
+  "cc1_candidate_coverage":{"evaluated_count":4,"expected_count":4,"match":true},
+  "valid_count":2,
+  "total_elapsed_ms":964,
+  "reduction_index_order":"source_first",
+  "rows":[
+{"m":0,"f_word_codes":[-1,2,-1,-1,-2,-1,2,2,1,2,2,-1,-2,-2,-2,-2,1,1,1,1],"charming":true,"hex310":true,"hex311":true,"onto":true,"reduction_match":true,"verdict":true,"stage":"pass","eval_ms":1},
+{"m":0,"f_word_codes":[1,2,-1,2,2,1,-2,-1,-2,-2,-1,-1,-2,-1,-2,-2,-1,-2,-1,2,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-1,-1,-1,-1,-1,-1,2,-1,-1,-2,-1,2,2,1,2,2,-1,-2,-2,-2,-2,1,1,1,1],"charming":true,"hex310":true,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"hex311_fail","eval_ms":0},
+{"m":18,"f_word_codes":[-1,2,-1,-1,-2,-1,2,2,1,2,2,-1,-2,-2,-2,-2,1,1,1,1],"charming":true,"hex310":true,"hex311":false,"onto":false,"reduction_match":false,"verdict":false,"stage":"hex311_fail","eval_ms":0},
+{"m":18,"f_word_codes":[1,2,-1,2,2,1,-2,-1,-2,-2,-1,-1,-2,-1,-2,-2,-1,-2,-1,2,2,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-2,-2,-1,-1,-1,-1,-1,-1,2,-1,-1,-2,-1,2,2,1,2,2,-1,-2,-2,-2,-2,1,1,1,1],"charming":true,"hex310":true,"hex311":true,"onto":true,"reduction_match":true,"verdict":true,"stage":"pass","eval_ms":1}
+  ]
+}

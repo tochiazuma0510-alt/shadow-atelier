@@ -1,0 +1,40 @@
+{
+  "agreement": "716/716 receipts PASS on both systems; DROP 0, ANOMALY 0, BUG 0 on producer; 0 checker errors",
+  "campaign": "DROP-HUNT-DOUBLE (fuda 2)",
+  "checker_side": {
+    "checkpoint": "scratchpad/official_checker_checkpoint_v1.json",
+    "checkpoint_sha16": "8a3463f3d7a658e0",
+    "implementation": "search/drophunt_checker_v3.py + search/drophunt_checker_batch_runner_v1.py (independent Python re-computation)",
+    "receipts_processed": 716,
+    "receipts_with_errors": 0,
+    "rows_breakdown": {
+      "row36": 358,
+      "row71": 358
+    },
+    "status_counts": {
+      "PASS": 716
+    }
+  },
+  "date": "2026-08-29",
+  "frozen_node_list": {
+    "gap": "search/certs/drophunt_frozen_node_list_v2_gap.g",
+    "gap_sha16": null,
+    "json": "search/certs/drophunt_frozen_node_list_v2_20260829.json",
+    "json_sha16": "e8edaacf90089d47"
+  },
+  "grade": "agreement = cross-checked (spec semantics fixed via preflight bens, rulings 1776-1781, and convention-pair ruling 1761); conclusion = candidate / framework-assumption-relative (c|_M=1 is an unattested framework assumption; scope = fib<=100 stratum only, 358/4265 windows; the other 3907 windows are UNKNOWN; negative search is not a nonexistence proof)",
+  "machine_output_only": true,
+  "producer_side": {
+    "cert": "search/certs/drophunt_official_sweep_v1_20260829.json",
+    "cert_sha16": "7795a5727b00a756",
+    "summary_fields": {
+      "authority_note": "'verified' is reserved for Lean. Directive: \u88c1\u5b9a1783 (\u767a\u5c04\u8a31\u53ef). This is the OFFICIAL 358-window sweep (via search/drophunt_sweep_launch_v1.g, no DryRunLimit, real checkpoint/lock paths) -- supersedes all prior dry-run/preview scans (search/certs/drophunt_launch_final_v1_20260829.json's MAJOR_FINDING section was an unemitted preview; this cert is the real, receipt-emitting run).",
+      "part3_checker_batch_verification": "PLACEHOLDER_FILLED_ON_COMPLETION_SEE_BELOW",
+      "schema": "drophunt-official-sweep/v1",
+      "status": "GAP_SWEEP_COMPLETE_CHECKER_BATCH_IN_PROGRESS",
+      "verified": false
+    }
+  },
+  "ruling": "coordinator ruling 1799 (fuda2 closure)",
+  "schema": "drophunt-crosscheck-final/v1"
+}
