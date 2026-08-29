@@ -1,0 +1,153 @@
+Sol(max) task 373 - A4/v7 minimal allocation and publication repair
+
+Role for this commission: bounded implementation repair.  The researcher
+explicitly asked Sol(max) to finish known finite implementation work quickly.
+Read every numbered section first to last.  Do not run Python, Node, GAP, GHA,
+workflows, git, network, or any candidate command.  Read-only PowerShell
+inspection and hashing are allowed.  Use apply_patch for repository edits.
+
+1. Binding verdict and preserved passes
+
+Read in full:
+
+1. sol/sol_task_367_r07_a4_v6d_complete_finite_repair.txt;
+2. all four frozen task367 outputs;
+3. sol/sol_task_371_r07_a4_v6d_code_performance_reaudit.txt; and
+4. sol/sol_reply_371_r07_a4_v6d_code_performance_reaudit_v1.md.
+
+Task371 is STATIC REJECT / execution FORBIDDEN.  Preserve every section it
+passed: exact physical task198 authority, acyclic fixture/seal DAG, retained-fd
+baseline and fourteen revalidations, checker literal row 11 with context_id 28,
+complete evaluator ABI, rows 1--7 first-rejection meanings, ordinary mutation
+routes, concrete case-file parents, row-4 path identity, narrow exception
+discipline and cleanup.  Rows 8--48 remain out of scope.
+
+Repair only the three rejected groups: honest allocation/cap boundary,
+avoidable repeated materialization/hash work, and optional publication.  Do
+not add features, another wrapper, a second validator route, or a broader A4
+tranche.
+
+2. Sole permitted outputs
+
+Create only:
+
+- search/d972_r07_a4_actual_owner_trace_producer_v5.py
+- crosscheck/check_d972_r07_a4_actual_owner_trace_checker_v5.py
+- search/certs/d972_r07_a4_actual_owner_trace_authority_fixture_v5_20260829.json
+- sol/sol_reply_373_r07_a4_v7_minimal_allocation_repair.md
+
+Do not edit v1--v4, task371, workflows, v220, proof files, task198 owners, or
+any runtime output.  The v5 fixture must remain acyclic and must not pin either
+new program or the task373 reply.  No driver is part of this commission.
+
+3. F1 - distinguish payload accounting from an actual process cap
+
+The number 532,017,754 is only a token-ledger calculation.  Never export it as
+`peak_live_bytes`, observed RSS, or an allocation bound.  If retained, name it
+`modeled_payload_tokens` and state exactly which payloads it counts and omits.
+
+Before the first authority read or parse on the supported clean Linux route,
+install and read back an OS address-space limit strictly below the frozen
+750,000,000-byte ceiling.  Reject unsupported platforms and unavailable or
+ineffective limits before allocation.  There are no candidate subprocesses in
+this tranche.  Runtime RSS remains unobserved until GHA and must not be inferred
+from the address-space limit.
+
+Every explicit full-size allocation still represented by the source ledger
+must be reserved before allocation and released at its actual last consumer.
+In particular, a canonical serializer may not hold both one complete `str` and
+one complete `bytes` while charging one object.  Prefer an incremental canonical
+encoder feeding digest/length/comparison sinks, with bounded fragments and no
+full duplicate canonical buffer.  Do not use an unexplained multiplier such as
+`6*raw` or `200_000_000` as an actual Python-object bound.  One live parsed DOM
+under the enforced address-space cap is acceptable if the public ledger calls
+it unmeasured object state rather than exact bytes.
+
+The reply must provide two separate ledgers:
+
+- exact modeled payload tokens, with every acquire/release edge; and
+- the enforced process address-space cap, plus the still-unobserved RSS status.
+
+4. F2 - remove avoidable duplicate full work
+
+Do not rehash a locally sealed 31-MB receipt merely to copy its already known
+length/digest into a manifest.  Pass the just-computed immutable identity from
+the sealing result and independently compare it when the ordinary validator
+reopens the physical owner.
+
+Within each baseline or mutation route, combine canonical streaming, seal-body
+digesting and the 6,441-row schema/type/digest walk as far as one traversal can
+honestly supply them.  At minimum there may be no second full canonical
+materialization solely to rederive a value already returned by the same local
+constructor.  Preserve independent producer/checker implementations and the
+ordinary validator for every mutation; do not replace a real route by a cheap
+copy or cached acceptance Boolean.
+
+Avoid `copy.deepcopy` of the complete receipt when a fresh sequential parse or
+one mutation-local rebuild gives the same physical case.  Release the baseline
+DOM/raw owner before the next 31-MB case when no longer load-bearing.  Report
+full bytes traversed by purpose and explain every remaining repeated pass.
+
+5. F3 - eliminate the unsafe optional publisher from this tranche
+
+The optional in-process path publisher is not load-bearing for the seven-row
+selftest and its all-exception rollback cannot be certified after an arbitrary
+unlink failure.  Remove that feature from both v5 owners.  The only supported
+machine-result route in this tranche is the already returned/in-memory sealed
+result plus canonical stdout; any request for a repository/path output must be
+rejected before creating or opening a stage or final name.
+
+Do not replace it with a new filesystem transaction.  A later separately
+audited GHA driver will own artifact publication.  Source-statically prove that
+the v5 programs contain no stage/link/final-output write path and that an output
+argument cannot leave a filesystem name.  This versioned simplification
+supersedes task367's optional publisher requirement; it does not weaken the
+mathematical seven-row route.
+
+6. Rows, counters and independence
+
+Preserve exactly:
+
+    covered_rows=[1,2,3,4,5,6,7]
+    remaining_rows=[8,...,48]
+    candidate_only=true
+    full_a4_selftest=false
+    actual_a4_numerator=false
+
+Producer and checker independently use their ordinary authority and mutation
+routes.  The checker imports no producer helper or evidence.  MutationAccepted
+stays outside the narrow expected catches.  Keep logical opens explicitly
+named logical; do not imply they count component-directory OS opens.  Counters
+and the modeled payload snapshot must include the complete no-output run up to
+return/stdout serialization.
+
+7. Static closure only
+
+Perform read-only static tracing of:
+
+1. untouched baseline and all seven first rejections;
+2. every full-size allocation/modeled-token lifetime;
+3. address-space-limit installation before the first large allocation;
+4. every canonical/hash/row traversal and the reason it remains;
+5. absence of the optional publication state machine and all output paths;
+6. producer/checker helper non-sharing and exact fixture bindings.
+
+Do not run syntax, imports, candidates, mutations, RSS, GHA, or workflows.
+Give exact bytes/SHA-256 for the three machine owners, the fixture self seal,
+line-numbered evidence, and all remaining limitations.  Another independent
+Sol(max) audit is mandatory before any execution.
+
+End exactly with:
+
+TASK371 MODELED/ACTUAL MEMORY CONFUSION: REPAIRED or BLOCKED
+TASK371 DUPLICATE MATERIAL WORK:         REPAIRED or BLOCKED
+TASK371 OPTIONAL PUBLISHER:              REMOVED or BLOCKED
+ROWS 1--7 PRODUCER/CHECKER ROUTE:        IMPLEMENTED or BLOCKED
+PROCESS ADDRESS-SPACE CAP:               IMPLEMENTED or BLOCKED
+RUNTIME RSS / MUTATIONS / GHA:           UNEXECUTED
+FULL 48x2 SELFTEST:                      INCOMPLETE
+INDEPENDENT SOL(MAX) REAUDIT REQUIRED:   YES
+ACTUAL A4:                               remains 1/3
+LIFT / FAKE / IHARA:                     NONE
+
+TASK373_R07_A4_V7_MINIMAL_ALLOCATION_REPAIR

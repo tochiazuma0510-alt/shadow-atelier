@@ -6459,3 +6459,34 @@ leaving the actual authenticated score system as the next computation.
 
 Delta160 supplies the rank and target-pairing recursion needed to turn the
 complete classifier of Delta159 into a bounded overlap-by-overlap audit.
+
+### Delta 161 (2026-08-29): A4/v6d rejected on allocation truth and unsafe rollback
+
+- Froze `sol/sol_reply_371_r07_a4_v6d_code_performance_reaudit_v1.md`
+  (13,153 bytes; SHA-256
+  `0bc0b15e3f9a8be0ef73278109b392fc97fa7667cc8c2cd102fc9e6c8bc29b7a`).
+  The independent verdict is **STATIC REJECT / execution FORBIDDEN**.
+- Physical task198 authority, the acyclic seal DAG, checker row 11, all seven
+  intended ordinary mutation routes, concrete case parents and row-4 path
+  identity passed.  The rejection is confined to resource/publication code:
+  532,017,754 is only modeled payload arithmetic, while simultaneous canonical
+  strings/bytes and Python-object overhead are unbounded; material receipt
+  rehash/canonical work remains duplicated; and a `BaseException` or failed
+  rollback can leave a published output behind a typed non-PASS.
+- Added `sol/sol_task_373_r07_a4_v7_minimal_allocation_repair.txt`.  The v5
+  machine owners must separate modeled payload from an enforced process
+  address-space cap, stream canonical data, remove local duplicate full work,
+  and delete the non-load-bearing in-process publisher entirely.  The seven
+  passed semantic routes remain fixed and the new owners stay unexecuted.
+
+**v220 mapping**:
+
+- A4 remains **1/3**, now **V6D STATIC REJECT / V7 MINIMAL ALLOCATION REPAIR
+  ACTIVE**.  A0 remains **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3 REPAIR
+  ACTIVE**, and A5--A7 **0/3**.
+- No rejected owner is sent to GHA and no numerator changes.  No common word,
+  compatible lift, fake certificate or Ihara witness is added.
+
+Delta161 removes a false memory-bound claim and an unsafe optional write path
+before spending execution time, while preserving the already-passed A4
+semantics.
