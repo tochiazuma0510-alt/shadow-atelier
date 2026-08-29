@@ -6526,3 +6526,36 @@ semantics.
 Delta162 decomposes the vertical common-source obstruction into the smallest
 horizontal overlap increments and proves the promised one-level propagation
 under their stability.
+
+### Delta 163 (2026-08-29): the missing field-even homotopy has an exact minimal rank
+
+- Added `sol/proof_r07_minimal_even_homotopy_augmentation_v333.md`.  For a
+  finite common-source map `T`, adding legal columns makes it onto exactly
+  when their pairings separate every identity in `ker(T*)`.  Therefore the
+  algebraic minimum, and the lower bound for any legal structural roster, is
+  `dim coker(T)`; equality requires an invertible legal score-column matrix.
+- V331 identifies that number for the marginal problem as
+  `sum_i dim(P_i)`, the sum of cumulative Goursat overlap-score dimensions.
+  If v323's cyclic ambiguity is onto every overlap, all `P_i` vanish and no
+  extra class-specific column is needed.
+- After an equivariant relative-dihedral right inverse removes the return-odd
+  cokernel, the exact structural field-even load is `dim(I_even)`.  For the
+  one actual endpoint, fewer columns suffice: its single even cokernel class
+  only has to lie in their span.  The residual dual criterion is exact and
+  retains literal column ancestry.
+- Under v332, only newly born even score classes can demand new columns at a
+  refinement.  Stable overlap spaces keep the same augmentation sufficient;
+  actual legal columns and pairings remain uncomputed.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 V12B REPAIR ACTIVE**, A3 **0/3 V3
+  REPAIR ACTIVE**, A4 **1/3 V7 REPAIR ACTIVE**, and A5--A7 **0/3**.
+- The “dihedral plus field-outer homotopy” requirement is now quantitative:
+  a full right inverse needs exactly the even score deficiency, while the
+  witness-first branch needs only the named target class.
+- Nonlinear localization, formation, perfect-core gates, the compatible full
+  lift, fake certificate and Ihara witness remain open.
+
+Delta163 replaces an unspecified even-module supplement by an exact minimal
+column rank and a weaker target-specific span test.

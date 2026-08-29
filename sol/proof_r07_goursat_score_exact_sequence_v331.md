@@ -11,7 +11,7 @@ fake certificate or Ihara witness is declared.  `verified=false`.
 
 ## 1. Local scores and cumulative identity spaces
 
-Let (k) be a field and retain the cumulative Goursat chain
+Let \(k\) be a field and retain the cumulative Goursat chain
 
 \[
  H_i=H_{i-1}\times_{D_i}G_i,
@@ -28,7 +28,7 @@ with quotient maps
 \tag{1.2}
 \]
 
-For local ambiguity spaces (U_j\le k[G_j]), put
+For local ambiguity spaces \(U_j\le k[G_j]\), put
 
 \[
  Q_j=k[G_j]/U_j,
@@ -54,8 +54,8 @@ and its identity space
 \tag{1.5}
 \]
 
-Thus (mathcal I_i) is exactly the space of v329 local-score identities on
-the prefix joint image.  Since (H_1=G_1), one has
+Thus \(\mathcal I_i\) is exactly the space of v329 local-score identities on
+the prefix joint image.  Since \(H_1=G_1\), one has
 
 \[
  \mathcal I_1=0.
@@ -83,7 +83,7 @@ give two complete finite ways to compute (2.1).
 
 ### Theorem 2.1 (HORIZONTAL GOURSAT SCORE EXACT SEQUENCE)
 
-For every (i\ge2), there is a natural short exact sequence
+For every \(i\ge2\), there is a natural short exact sequence
 
 \[
  \boxed{
@@ -105,8 +105,8 @@ Here
 \]
 
 and, for an identity
-((\phi_1,\ldots,\phi_i)\in\mathcal I_i), the value
-(Theta_i(\phi)=\psi) is the unique quotient score satisfying
+\((\phi_1,\ldots,\phi_i)\in\mathcal I_i\), the value
+\(\Theta_i(\phi)=\psi\) is the unique quotient score satisfying
 
 \[
  \sum_{j<i}\phi_j(g_j)=\psi(\alpha_i(g_1,\ldots,g_{i-1})),
@@ -125,32 +125,32 @@ Apply v330 Theorem 1.1 to
 \tag{2.5}
 \]
 
-If their sum vanishes on the fibre product (H_i), both functions are
-constant on the fibres of (alpha_i,eta_i).  Surjectivity of the two maps
-therefore gives a unique function (psi:D_i\to k) with (2.4).  The first
-equation shows (alpha_i^*\psi\in\operatorname{im}R_{i-1}); the second and
-(phi_i\in W_i) show (eta_i^*\psi\in W_i).  Thus (Theta_i) is
-well defined into (mathcal P_i).
+If their sum vanishes on the fibre product \(H_i\), both functions are
+constant on the fibres of \(\alpha_i,\beta_i\).  Surjectivity of the two maps
+therefore gives a unique function \(\psi:D_i\to k\) with (2.4).  The first
+equation shows \(\alpha_i^*\psi\in\operatorname{im}R_{i-1}\); the second and
+\(\phi_i\in W_i\) show \(\beta_i^*\psi\in W_i\).  Thus \(\Theta_i\) is
+well defined into \(\mathcal P_i\).
 
-If (Theta_i(\phi)=0), then (phi_i=0) because (eta_i) is onto, and
-the preceding tuple is in (mathcal I_{i-1}).  Hence
-(ker\Theta_i=\operatorname{im}\iota_i).
+If \(\Theta_i(\phi)=0\), then \(\phi_i=0\) because \(\beta_i\) is onto, and
+the preceding tuple is in \(\mathcal I_{i-1}\).  Hence
+\(\ker\Theta_i=\operatorname{im}\iota_i\).
 
-Conversely, let (psi\in\mathcal P_i).  Choose
-((\phi_1,\ldots,\phi_{i-1})in\bigoplus_{j<i}W_j) with
+Conversely, let \(\psi\in\mathcal P_i\).  Choose
+\((\phi_1,\ldots,\phi_{i-1})\in\bigoplus_{j<i}W_j\) with
 
 \[
  R_{i-1}(\phi_1,\ldots,\phi_{i-1})=\alpha_i^*\psi,
 \tag{2.6}
 \]
 
-and put (phi_i=-\beta_i^*\psiin W_i).  Equality of the two quotient
-values on (H_i) makes their total score zero, so this tuple lies in
-(mathcal I_i) and maps to (psi).  This proves surjectivity and
+and put \(\phi_i=-\beta_i^*\psi\in W_i\).  Equality of the two quotient
+values on \(H_i\) makes their total score zero, so this tuple lies in
+\(\mathcal I_i\) and maps to \(\psi\).  This proves surjectivity and
 exactness.  \(\square\)
 
 Choosing one decomposition in (2.6) for every basis element of
-(mathcal P_i) splits (2.2) as vector spaces.  The splitting is not
+\(\mathcal P_i\) splits (2.2) as vector spaces.  The splitting is not
 canonical and need not commute with cofinal reduction; the exact sequence
 itself is canonical.
 
@@ -176,7 +176,7 @@ Let
 \tag{3.2}
 \]
 
-be the quotient-marginal map of v329.  Its dual is (R_m).  Hence:
+be the quotient-marginal map of v329.  Its dual is \(R_m\).  Hence:
 
 ### Corollary 3.2 (COMMON-SOURCE RANK FORMULA)
 
@@ -201,13 +201,13 @@ In particular,
 #### Proof
 
 Finite-dimensional duality gives
-(operatorname{rank}T_m=\operatorname{rank}R_m).  The domain of (R_m)
-has dimension (sum_j\dim W_j=sum_j\dim Q_j), and its kernel is
-(mathcal I_m).  Use (3.1).  Formula (3.4) follows because all summands in
+\(\operatorname{rank}T_m=\operatorname{rank}R_m\).  The domain of \(R_m\)
+has dimension \(\sum_j\dim W_j=\sum_j\dim Q_j\), and its kernel is
+\(\mathcal I_m\).  Use (3.1).  Formula (3.4) follows because all summands in
 (3.1) have nonnegative dimension.  \(\square\)
 
 This rank computation uses only cumulative overlap-score spaces.  It does
-not form a dense matrix with one column for every element of (H_m).
+not form a dense matrix with one column for every element of \(H_m\).
 
 ## 4. Stagewise target test
 
@@ -219,13 +219,13 @@ Let
 \tag{4.1}
 \]
 
-be the target prefix.  Assume (a^{(i-1)}) has passed all identities in
-(mathcal I_{i-1}).  For
-(psi\in\mathcal P_i), choose any decomposition (2.6) and define
+be the target prefix.  Assume \(a^{(i-1)}\) has passed all identities in
+\(\mathcal I_{i-1}\).  For
+\(\psi\in\mathcal P_i\), choose any decomposition (2.6) and define
 
 \[
  \boxed{
- \langle\psi,a^{(i)}\rangle_{m new}
+ \langle\psi,a^{(i)}\rangle_{\rm new}
   =\sum_{j<i}\phi_j(a_j)-\psi((\beta_i)_*a_i).}
 \tag{4.2}
 \]
@@ -233,25 +233,25 @@ be the target prefix.  Assume (a^{(i-1)}) has passed all identities in
 ### Theorem 4.1 (NEW-OVERLAP TARGET OBSTRUCTION)
 
 The value in (4.2) is independent of the chosen decomposition (2.6).
-Moreover (a^{(i)}) passes every identity in (mathcal I_i) if and only if
+Moreover \(a^{(i)}\) passes every identity in \(\mathcal I_i\) if and only if
 
 \[
  \boxed{
- \langle\psi,a^{(i)}\rangle_{m new}=0
+ \langle\psi,a^{(i)}\rangle_{\rm new}=0
  \quad\text{for every }\psi\in\mathcal P_i.}
 \tag{4.3}
 \]
 
 #### Proof
 
-Two decompositions differ by an element of (mathcal I_{i-1}), whose
+Two decompositions differ by an element of \(\mathcal I_{i-1}\), whose
 pairing with the passed prefix target is zero.  Thus (4.2) is well defined.
-The exact sequence (2.2) says that a basis of (mathcal I_i) consists of
+The exact sequence (2.2) says that a basis of \(\mathcal I_i\) consists of
 the inherited identities and one chosen lift of a basis of
-(mathcal P_i).  The inherited pairings vanish by assumption; the new
+\(\mathcal P_i\).  The inherited pairings vanish by assumption; the new
 pairings are exactly (4.2).  This proves (4.3).  \(\square\)
 
-If (eta_{i-1}\in k[H_{i-1}]) is a retained primal realization of the
+If \(\eta_{i-1}\in k[H_{i-1}]\) is a retained primal realization of the
 prefix target, then (2.6) gives
 
 \[
@@ -264,13 +264,13 @@ Consequently
 
 \[
  \boxed{
- \langle\psi,a^{(i)}\rangle_{m new}
+ \langle\psi,a^{(i)}\rangle_{\rm new}
  =\psi\bigl((\alpha_i)_*\eta_{i-1}-(\beta_i)_*a_i\bigr)
  =\psi(d_i),}
 \tag{4.5}
 \]
 
-where (d_i) is v324's actual prefix mismatch.  Thus the horizontal exact
+where \(d_i\) is v324's actual prefix mismatch.  Thus the horizontal exact
 sequence and the affine primal DP have literally the same stagewise
 obstruction pairing.
 
@@ -283,21 +283,21 @@ For the prefix-corrected cyclic spaces
 \tag{5.1}
 \]
 
-the condition (eta_i^*\psi\in W_i) is the explicit quotient-orbit
+the condition \(\beta_i^*\psi\in W_i\) is the explicit quotient-orbit
 condition of v323/v329.  The condition
-(alpha_i^*\psi\in\operatorname{im}R_{i-1}) is decided by v330's recursive
+\(\alpha_i^*\psi\in\operatorname{im}R_{i-1}\) is decided by v330's recursive
 graph-score classifier.  Hence an authenticated calculation may proceed in
 the following bounded stages:
 
 1. construct the ordered cumulative groups, Goursat kernels and quotients;
-2. compute a basis of each (mathcal P_i) from orbit and recursive score
+2. compute a basis of each \(\mathcal P_i\) from orbit and recursive score
    equations;
 3. audit the dimension increments using (3.1)--(3.3);
 4. pair only the newly added basis with the actual target by (4.2); and
 5. on zero pairings, recover a primal ancestry with v324--v325.
 
 A nonzero value in (4.2) is a complete named NONMEMBER certificate.  Zero
-pairings without authenticated completeness of the (mathcal P_i) basis
+pairings without authenticated completeness of the \(\mathcal P_i\) basis
 are not MEMBER evidence.  A positive primal ancestry, rather than a rank
 claim, remains the word-bearing output.
 

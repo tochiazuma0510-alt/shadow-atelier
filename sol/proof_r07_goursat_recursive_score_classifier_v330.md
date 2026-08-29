@@ -14,7 +14,7 @@ declared.  `verified=false`.
 
 ## 1. A two-factor fibre identity needs only fibre invariance and quotient values
 
-Let (k) be a field and let
+Let \(k\) be a field and let
 
 \[
  A\mathrel{\mathop{\twoheadrightarrow}^{\alpha}}D,
@@ -31,8 +31,8 @@ be surjective maps of finite groups.  Put
 \tag{1.2}
 \]
 
-Choose set sections (s_A:D\to A) and (s_B:D\to B).  For arbitrary
-functions (F:A\to k) and (f:B\to k), write
+Choose set sections \(s_A:D\to A\) and \(s_B:D\to B\).  For arbitrary
+functions \(F:A\to k\) and \(f:B\to k\), write
 
 \[
  Z_{F,f}(a,b)=F(a)+f(b).
@@ -43,7 +43,7 @@ functions (F:A\to k) and (f:B\to k), write
 
 The following are equivalent.
 
-1. (Z_{F,f}=0) on all of (H).
+1. \(Z_{F,f}=0\) on all of \(H\).
 2. The three finite conditions hold:
 
    \[
@@ -64,24 +64,24 @@ needed.
 
 #### Proof
 
-Assume (1).  If (n\in\ker\alpha), then both
-((a,s_B(\alpha(a)))) and
-((an,s_B(\alpha(a)))) lie in (H).  Subtracting their two zero equations
-gives (F(an)=F(a)).  The same argument gives the second line of (1.4), and
+Assume (1).  If \(n\in\ker\alpha\), then both
+\((a,s_B(\alpha(a)))\) and
+\((an,s_B(\alpha(a)))\) lie in \(H\).  Subtracting their two zero equations
+gives \(F(an)=F(a)\).  The same argument gives the second line of (1.4), and
 the section pair gives the third.
 
-Conversely let ((a,b)\in H) and put
-(d=\alpha(a)=\beta(b)).  The first two lines of (1.4) imply
+Conversely let \((a,b)\in H\) and put
+\(d=\alpha(a)=\beta(b)\).  The first two lines of (1.4) imply
 
 \[
  F(a)=F(s_A(d)),\qquad f(b)=f(s_B(d)).
 \tag{1.5}
 \]
 
-The last line of (1.4) then gives (F(a)+f(b)=0).  \(\square\)
+The last line of (1.4) then gives \(F(a)+f(b)=0\).  \(\square\)
 
-If (S_A,S_B) are group-generating sets of the two kernels, the first two
-lines need only be tested for (n\in S_A) and (r\in S_B).  Repeated right
+If \(S_A,S_B\) are group-generating sets of the two kernels, the first two
+lines need only be tested for \(n\in S_A\) and \(r\in S_B\).  Repeated right
 multiplication proves invariance under every kernel word.  This is a valid
 generator test because the tested property is fibre invariance and is stable
 under multiplication; it is not the invalid assertion that an arbitrary
@@ -114,8 +114,8 @@ Choose finite group-generating rosters
 \tag{2.3}
 \]
 
-and quotient sections (s_i^L,s_i^R).  For local functions
-(phi_j:G_j\to k), put
+and quotient sections \(s_i^L,s_i^R\).  For local functions
+\(\phi_j:G_j\to k\), put
 
 \[
  F_i(g_1,\ldots,g_i)=\sum_{j=1}^i\phi_j(g_j)
@@ -123,13 +123,13 @@ and quotient sections (s_i^L,s_i^R).  For local functions
 \tag{2.4}
 \]
 
-Define a recursive certificate ({\sf Zero}_i(\phi_1,\ldots,\phi_i)).
+Define a recursive certificate \({\sf Zero}_i(\phi_1,\ldots,\phi_i)\).
 
-- At (i=1), it consists of the equations
-  (phi_1(g)=0) for every (g\in G_1).
-- At (i\ge2), it consists of:
+- At \(i=1\), it consists of the equations
+  \(\phi_1(g)=0\) for every \(g\in G_1\).
+- At \(i\ge2\), it consists of:
 
-  1. for every (n=(n_1,\ldots,n_{i-1})\in S_i^L), the recursive
+  1. for every \(n=(n_1,\ldots,n_{i-1})\in S_i^L\), the recursive
      certificate
 
      \[
@@ -149,7 +149,7 @@ Define a recursive certificate ({\sf Zero}_i(\phi_1,\ldots,\phi_i)).
      \tag{2.6}
      \]
 
-  3. for every (d\in D_i), the section equation
+  3. for every \(d\in D_i\), the section equation
 
      \[
      \sum_{j<i}\phi_j((s_i^L(d))_j)
@@ -157,7 +157,7 @@ Define a recursive certificate ({\sf Zero}_i(\phi_1,\ldots,\phi_i)).
      \tag{2.7}
      \]
 
-All entries of (n\) and (s_i^L(d)) are retained in their original tagged
+All entries of \(n\) and \(s_i^L(d)\) are retained in their original tagged
 coordinates.  No isomorphic occurrences are identified.
 
 ### Theorem 2.1 (RECURSIVE GOURSAT SCORE CLASSIFIER)
@@ -172,7 +172,7 @@ coordinates.  No isomorphic occurrences are identified.
 
 #### Proof
 
-Induct on (i).  The base case is the definition.  For (i\ge2), apply
+Induct on \(i\).  The base case is the definition.  For \(i\ge2\), apply
 Theorem 1.1 with
 
 \[
@@ -180,7 +180,7 @@ Theorem 1.1 with
 \tag{2.9}
 \]
 
-For (n\in N_i^L), right multiplication in (H_{i-1}) gives
+For \(n\in N_i^L\), right multiplication in \(H_{i-1}\) gives
 
 \[
  F_{i-1}(hn)-F_{i-1}(h)
@@ -189,15 +189,15 @@ For (n\in N_i^L), right multiplication in (H_{i-1}) gives
 \]
 
 By induction, (2.5) says exactly that (2.10) vanishes for all
-(h\in H_{i-1}).  Testing the generating roster therefore gives invariance
-under all of (N_i^L).  Equation (2.6) gives the corresponding invariance
-under (N_i^R), and (2.7) is the quotient-section equation.  These are
+\(h\in H_{i-1}\).  Testing the generating roster therefore gives invariance
+under all of \(N_i^L\).  Equation (2.6) gives the corresponding invariance
+under \(N_i^R\), and (2.7) is the quotient-section equation.  These are
 precisely the three conditions of Theorem 1.1.  \(\square\)
 
-The recursive equations are linear in all values of the (phi_j).  They
+The recursive equations are linear in all values of the \(\phi_j\).  They
 may be canonicalized and duplicate rows removed.  Their completeness does
 not depend on a score being a homomorphism and does not require traversal of
-the newly formed set (H_i), whose fibres may be much larger than the input
+the newly formed set \(H_i\), whose fibres may be much larger than the input
 groups and kernels.
 
 ## 3. Complete dual decision for the quotient-marginal target
@@ -209,12 +209,12 @@ Retain v329's local ambiguity spaces
 \tag{3.1}
 \]
 
-and target representatives (a_j\in k[G_j]).  Introduce the values of local
-scores (phi_j:G_j\to k) as finite scalar variables and impose:
+and target representatives \(a_j\in k[G_j]\).  Introduce the values of local
+scores \(\phi_j:G_j\to k\) as finite scalar variables and impose:
 
-1. local admissibility (phi_j\in U_j^\perp);
+1. local admissibility \(\phi_j\in U_j^\perp\);
 2. the complete recursive equations
-   ({\sf Zero}_m(\phi_1,\ldots,\phi_m)); and
+   \({\sf Zero}_m(\phi_1,\ldots,\phi_m)\); and
 3. the normalized target equation
 
    \[
@@ -231,7 +231,7 @@ target is MEMBER.
 #### Proof
 
 Theorem 2.1 identifies the second group of equations exactly with v329
-equation (2.2), while the first group makes every score descend to (Q_j).
+equation (2.2), while the first group makes every score descend to \(Q_j\).
 Over a field, every nonzero target pairing can be scaled to one.  V329
 Theorem 2.1 now gives both directions and the dichotomy.  \(\square\)
 
@@ -257,7 +257,7 @@ MEMBER ancestry; inconsistency alone is not used as a word certificate.
 ## 4. Cumulative overlap equations are covered by the same classifier
 
 V329 Theorem 3.1 asks whether, for
-(lambda\in k[D_i]^*),
+\(\lambda\in k[D_i]^*\),
 
 \[
  \lambda\circ\alpha_i
@@ -274,16 +274,16 @@ This is again a zero-score identity: adjoin the graph coordinate
 \tag{4.2}
 \]
 
-with local score (-\lambda) on (D_i), and apply Theorem 2.1 to the
+with local score \(-\lambda\) on \(D_i\), and apply Theorem 2.1 to the
 resulting cumulative chain.  The last right kernel is trivial and the left
-kernel is (ker\alpha_i).  Together with
-(lambda\circ\beta_i\in U_i^\perp), this gives a complete finite
-constraint system for every annihilator of v324's map (C_i), without
-constructing (V_{i-1}) or enumerating (H_i).
+kernel is \(\ker\alpha_i\).  Together with
+\(\lambda\circ\beta_i\in U_i^\perp\), this gives a complete finite
+constraint system for every annihilator of v324's map \(C_i\), without
+constructing \(V_{i-1}\) or enumerating \(H_i\).
 
-Therefore a Goursat prefix defect (d_i) is NONMEMBER exactly when this
+Therefore a Goursat prefix defect \(d_i\) is NONMEMBER exactly when this
 finite graph-score system has a normalized solution
-(lambda(d_i)=1).  Otherwise finite duality proves MEMBER and the sparse
+\(\lambda(d_i)=1\).  Otherwise finite duality proves MEMBER and the sparse
 primal route recovers its correction ancestry.
 
 ## 5. Certificate and cost boundary
@@ -292,7 +292,7 @@ An acceptable negative certificate contains:
 
 1. the authenticated ordered joint-image generators and cumulative Goursat
    quotient data;
-2. independently checked generating rosters for every (N_i^L,N_i^R);
+2. independently checked generating rosters for every \(N_i^L,N_i^R\);
 3. the chosen quotient sections with direct map replay;
 4. every local orbit-sum row, recursive difference row and section row;
 5. the local score values and all zero equations; and

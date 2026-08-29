@@ -13,7 +13,7 @@ witness is declared.  `verified=false`.
 
 ## 1. Two compatible Goursat chains
 
-Let (n) and (n+1) be consecutive matched finite refinements.  At each
+Let \(n\) and \(n+1\) be consecutive matched finite refinements.  At each
 level retain an ordered cumulative chain
 
 \[
@@ -42,9 +42,9 @@ Assume the Goursat squares commute:
 \tag{1.3}
 \]
 
-Let (U_{j,r}\le k[G_{j,r}]),
-(Q_{j,r}=k[G_{j,r}]/U_{j,r}), and
-(W_{j,r}=U_{j,r}^\perp\).  Require the local quotients to reduce naturally,
+Let \(U_{j,r}\le k[G_{j,r}]\),
+\(Q_{j,r}=k[G_{j,r}]/U_{j,r}\), and
+\(W_{j,r}=U_{j,r}^\perp\).  Require the local quotients to reduce naturally,
 so pullback of functions gives injections
 
 \[
@@ -60,17 +60,17 @@ The resulting coordinatewise pullback is denoted simply by
 \tag{1.5}
 \]
 
-Let (mathcal I_{i,r}) and (mathcal P_{i,r}) be respectively v331's
-cumulative identity and overlap-score spaces at level (r).
+Let \(\mathcal I_{i,r}\) and \(\mathcal P_{i,r}\) be respectively v331's
+cumulative identity and overlap-score spaces at level \(r\).
 
 ## 2. Naturality of the horizontal exact sequence
 
 ### Lemma 2.1 (OVERLAP PULLBACK)
 
-Pullback by (ho_i^D) sends
+Pullback by \(\rho_i^D\) sends
 
 \[
- (\rho_i^D)^*:\mathcal P_{i,n}hookrightarrow
+ (\rho_i^D)^*:\mathcal P_{i,n}\hookrightarrow
                  \mathcal P_{i,n+1}.
 \tag{2.1}
 \]
@@ -91,19 +91,19 @@ Moreover the v331 short exact sequences form a commutative diagram
 
 #### Proof
 
-Let (psi\in\mathcal P_{i,n}).  By definition,
-(alpha_{i,n}^*\psi) is a sum of admissible lower local scores and
-(eta_{i,n}^*\psi\in W_{i,n}).  Pull those scores through (1.4), and use
+Let \(\psi\in\mathcal P_{i,n}\).  By definition,
+\(\alpha_{i,n}^*\psi\) is a sum of admissible lower local scores and
+\(\beta_{i,n}^*\psi\in W_{i,n}\).  Pull those scores through (1.4), and use
 the two commuting identities (1.3).  They show that
-((\rho_i^D)^*\psi) satisfies both defining conditions for
-(mathcal P_{i,n+1}).  Surjectivity of (ho_i^D) makes pullback
+\((\rho_i^D)^*\psi\) satisfies both defining conditions for
+\(\mathcal P_{i,n+1}\).  Surjectivity of \(\rho_i^D\) makes pullback
 injective.
 
 Pullback of a zero additive score remains zero on the upper joint image, so
-it sends (mathcal I_{i,n}) into (mathcal I_{i,n+1}).  V331's quotient
+it sends \(\mathcal I_{i,n}\) into \(\mathcal I_{i,n+1}\).  V331's quotient
 score attached to the pulled identity is exactly
-((\rho_i^D)^*\psi), again by (1.3).  This proves every square in (2.2).
-(\square\)
+\((\rho_i^D)^*\psi\), again by (1.3).  This proves every square in (2.2).
+\(\square\)
 
 ## 3. Every new identity is an extension of new overlap scores
 
@@ -123,7 +123,7 @@ Define the vertical novelty spaces
 
 ### Theorem 3.1 (NOVEL-IDENTITY EXACT SEQUENCE)
 
-For (i\ge2), there is a short exact sequence
+For \(i\ge2\), there is a short exact sequence
 
 \[
  \boxed{
@@ -153,12 +153,12 @@ space.  It is trivial modulo pulled identities exactly when that preceding
 class descends.  Conversely every novel overlap class has an upper identity
 lift by v331 Theorem 2.1.  This proves (3.3).
 
-At (i=1), both identity spaces vanish, so
-(mathcal C_{1,n}=0).  Taking dimensions in (3.3) and iterating gives
+At \(i=1\), both identity spaces vanish, so
+\(\mathcal C_{1,n}=0\).  Taking dimensions in (3.3) and iterating gives
 (3.4).  \(\square\)
 
 Thus v316's possible new vertical dual obstruction is horizontally graded by
-the concrete overlap novelties (mathcal E_{i,n}).  A monolithic upper
+the concrete overlap novelties \(\mathcal E_{i,n}\).  A monolithic upper
 identity basis is unnecessary.
 
 ## 4. Exact one-step propagation of an actual target
@@ -178,10 +178,10 @@ be compatible target classes:
 \tag{4.2}
 \]
 
-Assume (a_n) is MEMBER in the level-(n) common-source marginal image.
-Then it annihilates every identity in (mathcal I_{m,n}).  Consequently the
-pairing of (a_{n+1}) with an upper identity depends only on its novelty
-class in (mathcal C_{m,n}), since for every lower identity (phi),
+Assume \(a_n\) is MEMBER in the level-\(n\) common-source marginal image.
+Then it annihilates every identity in \(\mathcal I_{m,n}\).  Consequently the
+pairing of \(a_{n+1}\) with an upper identity depends only on its novelty
+class in \(\mathcal C_{m,n}\), since for every lower identity \(\phi\),
 
 \[
  \langle\rho_m^*\phi,a_{n+1}\rangle
@@ -203,16 +203,16 @@ Under the preceding hypotheses,
 \]
 
 It is enough to test identity lifts of bases of the overlap novelty spaces
-(mathcal E_{i,n}), together with the inherited novelty basis from
-(mathcal C_{i-1,n}).
+\(\mathcal E_{i,n}\), together with the inherited novelty basis from
+\(\mathcal C_{i-1,n}\).
 
 #### Proof
 
 By v329 finite duality, the upper target is MEMBER exactly when it annihilates
-all of (mathcal I_{m,n+1}).  The pulled lower subspace already pairs to
+all of \(\mathcal I_{m,n+1}\).  The pulled lower subspace already pairs to
 zero by (4.3), so this is equivalent to vanishing on the quotient
-(mathcal C_{m,n}).  The final assertion follows recursively from (3.3).
-(\square\)
+\(\mathcal C_{m,n}\).  The final assertion follows recursively from (3.3).
+\(\square\)
 
 A nonzero pairing with one named lifted overlap novelty is a complete
 successor obstruction.  If all pairings vanish, finite primal elimination
@@ -240,13 +240,13 @@ then
 \tag{5.2}
 \]
 
-and every compatible level-(n) MEMBER target is MEMBER at level (n+1).
+and every compatible level-\(n\) MEMBER target is MEMBER at level \(n+1\).
 
 #### Proof
 
-Condition (5.1) says every (mathcal E_{i,n}=0).  Equations (3.3)--(3.4)
-give (mathcal C_{m,n}=0), and Theorem 4.1 gives target propagation.
-(\square\)
+Condition (5.1) says every \(\mathcal E_{i,n}=0\).  Equations (3.3)--(3.4)
+give \(\mathcal C_{m,n}=0\), and Theorem 4.1 gives target propagation.
+\(\square\)
 
 ### Corollary 5.2 (ONE LEVEL TO THE COFINAL LINEAR LIFT)
 
@@ -264,7 +264,7 @@ than only obtaining it by compactness.
 Iterate Corollary 5.1.  Every finite solution set is nonempty and maps into
 the preceding one.  V313 applies to the resulting inverse system of finite
 nonempty sets.  Natural right inverses give the stronger explicit recursion.
-(\square\)
+\(\square\)
 
 This is the precise form in which one successful stage can imply all stages.
 The hypothesis is not merely equality of local group orders or dimensions:
@@ -280,7 +280,7 @@ At every R07 matched edge, an acceptable overlap-descent certificate contains:
 2. both complete overlap-score bases, generated from v323 and v330;
 3. direct pullback of every lower basis row;
 4. two-way span containment proving (5.1), or a basis of the quotient
-   (mathcal E_{i,n});
+   \(\mathcal E_{i,n}\);
 5. for a target-specific pass, identity lifts of every novel basis and their
    zero target pairings; and
 6. on MEMBER, independently replayed v324--v325 primal ancestry.
