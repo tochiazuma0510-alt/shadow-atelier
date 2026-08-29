@@ -6203,3 +6203,35 @@ coupling freedom is retained instead of silently frozen.
 
 Delta152 replaces the last abstract direction in the finite affine Goursat
 recurrence by literal four-term word-bearing columns.
+
+### Delta 153 (2026-08-29): filtered retracts remove the localized saturation kernel
+
+- Added sol/proof_r07_filtered_retract_saturation_v326.md.  If the localized
+  residual module L is the image of a Lambda-linear retraction p:Z->L, then
+  L intersect J^r Z=J^r L at every depth.  Applying p to a retained ambient
+  depth ancestry and lifting its finitely many values through the free cover
+  gives the exact intrinsic v321 coefficient.
+- Over F3, Lambda-linear return-even and return-odd eigenspaces are strict by
+  the idempotents (1+theta)/2 and (1-theta)/2.  Thus the dihedral return split
+  itself contributes no saturation defect when its actual action is
+  Lambda-linear.
+- Intersections of split kernels are strict when their kernel idempotents
+  commute; nested retractions also compose.  These give precise candidate
+  mechanisms for Brunnian/formation localization without claiming that the
+  actual full R07 intersection already has such a projection.
+- A proposed actual retraction must replay linearity, idempotence, exact
+  image, naturality and the word-bearing intrinsic ancestry.  A projection
+  onto a larger target is insufficient.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 V3 REPAIR
+  ACTIVE**, A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- V321's structural saturation frontier is narrowed from an abstract
+  same-depth equality to construction of one exact filtered retraction (or
+  the existing pointed ancestry route).  Return splitting is conditionally
+  discharged; formation/full-Brunnian retraction remains open.
+- The compatible lift, fake certificate and Ihara witness remain open.
+
+Delta153 identifies a finite idempotent certificate which would remove the
+same-depth gap in the localized Newton recursion.
