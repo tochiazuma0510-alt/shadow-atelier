@@ -7732,3 +7732,34 @@ nonlinear A0/A5 dependency boundary.
 
 Delta197 replaces the wrong eleven-to-seven regrouping by the proved v189
 partition and records that A4 has reached its actual closure loop.
+
+### Delta 198 (2026-08-29): zero A3 removes anchor/adaptation from the actual A5/A6 compiler
+
+- Added `sol/proof_r07_zero_base_boolean_free_a5_a6_specialization_v345.md`.
+  Since the cross-checked actual target is zero, the A3 endpoint fibre is the
+  linear space `H=ker Phi` itself and its canonical literal base point is
+  zero.  The v283/v305 nonzero `z0` anchor, adapted A4 basis, change matrix,
+  and local A3 base-pair roster are therefore absent from this branch.
+- For an accepted A4 ordered word-bearing basis `(u_i,k_i)`, the original
+  seeds `((k_i-1)d1,(k_i-1) odot w)` already generate the complete joint
+  image after marked action closure.  Applying `C` only after exhaustion and
+  taking its nullspace reconstructs exactly `(ker Phi)d1`; no projected
+  exponent or anchor choice enters this proof.
+- For one literal A0/task193 word `c`, the actual A5 test simplifies to
+  `e1(c) in (ker Phi)d1`.  On MEMBER, `mu1=theta`, and the A6 polynomial has
+  only closure-derived factored terms indexed by the original A4 words.  The
+  nonlinear dependence of `e1(c)` on the literal A0 word remains intact.
+
+**v220 mapping**:
+
+- A3 remains **3/3 (CROSS-CHECKED MEMBER, ZERO SEED)**.
+- A4 remains **1/3; ACTUAL RUN 33245807123 ACTIVE** and A0 remains **0/1;
+  ACTUAL RUN 33243151014 ACTIVE**.
+- A5/A6 remain **0/3 / 0/3 actual**.  Their positive implementation cone is
+  now strictly smaller: accepted A4 + task198 + literal A0/task193 + the
+  authenticated zero-A3 terminal, with no anchor/adapted-base preprocessing.
+- A7--A9 and B/C/W/F remain unchanged; no fake certificate or Ihara witness
+  is added.
+
+Delta198 converts the actual zero result into a smaller, Boolean-free next
+compiler without reviving the rejected linear A0 selector.
