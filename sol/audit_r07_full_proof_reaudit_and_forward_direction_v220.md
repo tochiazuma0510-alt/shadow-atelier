@@ -6813,3 +6813,38 @@ at author level and moves A4 to an independent execution-authorization gate.
 
 Delta170 moves A0 from implementation/sealing into the independent
 execution-authorization gate without counting an unexecuted candidate.
+
+### Delta 171 (2026-08-29): A3/v3 static reject is reduced to one bounded v4 repair
+
+- Froze the fresh task374 audit reply
+  `sol/sol_reply_374_r07_pre_a0_a3_v3_code_performance_reaudit_v1.md`
+  (24,672 bytes; SHA-256
+  `49b2b58f480a885de12ec40f763eae07cd09abf46c749f10644f9ef2e0f77ee8`).
+  Its decisive verdict is **STATIC REJECT**; no candidate, Python, Node,
+  GAP, GHA, workflow, network or compilation was executed.
+- The frozen P0 identities and complete 23-owner / 33,121,619-byte acyclic
+  authority graph pass.  The accepted task198 authority, v303-only
+  projection, single producer closure, full 486/729 evidence, twelve
+  mutation meanings and serial driver structure also pass statically.
+- Five load-bearing defects remain together: the checker calls nonexistent
+  `Meter.check_wall`; the raw-manifest mutation repeats full 31,017,244-byte
+  receipt parsing/canonical work; each side deep-copies the full reference
+  twelve times; material mutation work lies outside the internal signal
+  deadline; and pre-rename temp rollback omits directory fsync.
+- Added `sol/sol_task_377_r07_pre_a0_a3_v4_bounded_repair.txt`.  V4 must
+  repair exactly those five groups with an authenticate-once immutable
+  snapshot, owner-local copy-on-write mutations, one elapsed-adjusted
+  deadline envelope and durable rollback, while retaining every task374
+  PASS clause.  Candidate execution remains forbidden until another fresh
+  independent audit.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V3 STATIC REJECT / V4 BOUNDED REPAIR ACTIVE**.
+  A0 remains **0/1 V12B FRESH REAUDIT ACTIVE**, A4 **1/3 V7 FRESH REAUDIT
+  ACTIVE**, and A5--A7 **0/3**.
+- No numerator changes.  No common word, compatible lift, fake certificate
+  or Ihara witness is added.
+
+Delta171 converts the A3 failure into a finite repair contract without
+reopening the already-passed mathematics or counting an unexecuted result.

@@ -1,0 +1,164 @@
+Sol(max) task 377 - pre-A0 A3/v4 bounded repair after task374
+
+Role: researcher-authorized bounded implementation repairer. Read every
+numbered section first to last before editing. This is not an audit and must
+not execute the candidate. The task374 auditor must not implement this
+tranche. Write only the five designated versioned outputs below; do not edit
+or overwrite any frozen v3 owner or any other working-tree file.
+
+1. Mandatory context and exact defect boundary
+
+Read task363, task369, task370, task374 and every full reply, together with
+v302/v303, the accepted task198 authority/evaluator owners, and the exact
+pinned task226/task227 producer/checker owners. Task374's full verdict is the
+load-bearing boundary: retain every PASS finding and repair all five REJECT
+groups together. Do not broaden the mathematical universe, replace an
+ordinary authority route by a test-only shortcut, or claim execution.
+
+The five defect groups are exactly:
+
+1. checker EvaluatorBudget calls nonexistent Meter.check_wall;
+2. task198 raw-manifest mutation repeats full 31,017,244-byte receipt
+   parsing/canonical/seal/hash work;
+3. mutation_fixture deep-copies the full reference, including the task226
+   ABI, twelve times per side;
+4. material projection/mutation work is outside the internal signal
+   WallDeadline;
+5. pre-rename temp rollback unlinks without fsync of the already-bound
+   output directory.
+
+2. Only permitted outputs
+
+Create exactly these new versioned owners:
+
+- ci/in/d972_r07_pre_a0_single_target_a3_v4.prereg.v1.json
+- search/d972_r07_pre_a0_single_target_a3_v4.py
+- crosscheck/check_d972_r07_pre_a0_single_target_a3_v4.py
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v4.g
+- sol/sol_reply_377_r07_pre_a0_a3_v4_bounded_repair.md
+
+The P0 must be compact canonical ASCII with no BOM/CR/LF and an exact body
+self seal. The GAP driver must be ASCII without BOM/CR. Recompute and pin all
+new physical byte lengths and SHA-256 identities only after the Python owners
+are final. Preserve the one-way graph
+
+  immutable authorities -> canonical P0 -> v4 producer/checker -> v4 driver.
+
+Reject aliases, retained v3 source hashes, partial digests, missing ancestry,
+post-freeze cycles, or a P0 that claims an identity before it is final.
+
+3. Repair F1: checker evaluator reachability
+
+Make EvaluatorBudget.check invoke the actually implemented Meter.check, or
+implement one correctly named single method and use it consistently. The
+ordinary task176 checker route must reach its first sid=0 budget check, build
+the live evaluator, complete the independent evaluator semantics, and reach
+the one verify_gate call without AttributeError. Do not broaden any catch,
+convert an unexpected exception to UNKNOWN, or weaken the elapsed/signal
+deadline.
+
+Retain exact task198 callable semantics and independently disclose direct and
+transitive call counts, ten-coordinate values, widths, signs, orientations
+and occurrence bindings on both sides. Checker authority must remain
+checker-side and must not consume the producer summary as callable evidence.
+
+4. Repair F2: authenticate once, mutate a small real binding owner
+
+The baseline may authenticate and parse the 31,017,244-byte accepted receipt
+once per process. Preserve an immutable authenticated snapshot containing
+the exact raw digest, body seal, manifest/member/attestation/verdict/source
+bindings and decoded result needed downstream. Reuse it without a second
+full receipt parse, canonical serialization, seal traversal or whole-raw
+rehash.
+
+For task198_raw_manifest_binding, mutate an extant small manifest/binding
+owner or order the ordinary validator so the exact first reason
+`task198 raw/manifest binding` is reached from that authenticated immutable
+snapshot before any duplicate full-receipt DOM/canonical work. The mutation
+must still pass through the same ordinary authority validator, change a real
+owner, prove changed-owner digest inequality, and fail for the preregistered
+first reason. A test-only parallel predicate or synthetic detached object is
+forbidden.
+
+5. Repair F3: copy-on-write mutation owners
+
+Remove whole-reference deepcopy from mutation_fixture and every roster
+case. Build each mutation from immutable baseline owners plus an owner-local
+copy-on-write replacement. Only the projected-area case may copy the minimum
+task226 subowner it actually mutates; no case may duplicate the full ABI,
+consumer, interface, areas, base and central bundle.
+
+Retain the untouched baseline and all twelve mutations on both producer and
+checker ordinary routes, with exact first-reason equality and narrow expected
+catches. MutationAccepted or a wrong first reason is a hard failure. All
+forbidden conclusion flags, especially actual_a3_numerator, remain false.
+
+6. Repair F4: one elapsed-adjusted internal deadline envelope
+
+Put projection/sealing, fixture construction, all owner-local copies, all
+twelve mutation validator calls, the evaluator build, producer closure,
+checker verifier and publication inside the elapsed-adjusted internal
+WallDeadline/signal scope. Expensive work must not occur before installing
+the relevant timer. Restore any prior timer after subtracting real elapsed
+time and fail closed on timer/platform errors.
+
+Recompute source-derived wall formulas. Keep the internal/external/serial
+ordering strict and account for every mutation route. A meter check after an
+untimed operation does not satisfy this requirement.
+
+7. Repair F5: durable pre-rename rollback
+
+For both producer and checker bound writers, every typed or untyped failure
+before rename must unlink the temp entry relative to the same already-checked
+directory fd and fsync that directory before returning or re-raising. Preserve
+the post-rename final unlink + directory fsync rollback. Rollback failure must
+remain nonaccepting. Source and destination must stay on the same bound fd;
+do not weaken openat/no-follow/exclusive-temp/renameat2 RENAME_NOREPLACE or
+successful file/directory fsync semantics.
+
+8. Retained PASS clauses and resource audit
+
+Retain without semantic weakening every task374 PASS clause:
+
+- exact complete P0 authority graph and all 23 immutable owners;
+- accepted task198 authority and eleven-row evaluator ABI;
+- v303-only projection sufficiency, including presence-only rword_f/rword_g;
+- exactly one producer task227 closure and one checker verify_gate call;
+- complete 486/729 ancestry, rank/echelon and replay-or-dual evidence;
+- all twelve real mutations and exact false conclusion flags;
+- serial accepting-only driver, exact terminal/cross-bindings, bounded
+  publication and accepted-sentinel durability.
+
+Recompute all input, output, allocation, RLIMIT_AS and wall formulas from the
+v4 source. Explicitly inventory full-size reads, DOMs, canonical passes,
+hashes, copies, task226 builds, closure/verifier passes and mutation work.
+The reply must state why there is no duplicate 31-MB parse/canonical route and
+no full-reference per-mutation copy. Token or payload counts alone are not an
+allocation proof.
+
+9. Static-only completion and handoff
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, syntax compilation
+or any candidate command. Read-only PowerShell inspection and hashing are
+allowed. The v4 candidate remains UNEXECUTED. A fresh independent Sol(max)
+static code/performance audit is mandatory before any GHA execution.
+
+In the designated reply give exact bytes/SHA-256 for all five outputs,
+canonical P0 self-seal details, line-numbered repairs F1--F5, retained PASS
+evidence, independently recomputed resource formulas, and a precise list of
+commands not run. End exactly with:
+
+A3/V4 VERSIONED OWNERS:                COMPLETE or INCOMPLETE
+TASK374 F1 CHECKER BUDGET API:          REPAIRED or OPEN
+TASK374 F2 DUPLICATE 31-MB PROCESSING:  REPAIRED or OPEN
+TASK374 F3 FULL-REFERENCE DEEPCOPY:     REPAIRED or OPEN
+TASK374 F4 INTERNAL DEADLINE COVERAGE:  REPAIRED or OPEN
+TASK374 F5 PRE-RENAME ROLLBACK FSYNC:   REPAIRED or OPEN
+TASK374 RETAINED PASS CLAUSES:          RETAINED or REGRESSED
+CANDIDATE EXECUTION:                    UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:         REQUIRED
+PRE-A0 A3/V4 GHA:                       FORBIDDEN
+ACTUAL A3 NUMERATOR:                    remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:       NONE
+
+TASK377_R07_PRE_A0_A3_V4_BOUNDED_REPAIR
