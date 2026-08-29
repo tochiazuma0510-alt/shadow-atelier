@@ -1,0 +1,78 @@
+Sol(max) task 390 - A3/v6 final sentinel terminal repair after task388
+
+Role: bounded implementation repairer. Read every numbered section first to
+last. Preserve every task388 PASS and repair its sole rejected edge. Do not
+execute or compile any candidate. Write only the two designated outputs.
+
+1. Frozen inputs and exact outputs
+
+Read task363, task369/reply369, task370/reply370, task374/reply374,
+task377/reply377, task381/reply381, task384/reply384, task388/reply388, the
+frozen v5 producer/checker/driver, P0 and every recursively named authority.
+Create exactly:
+
+- search/d972_r07_pre_a0_single_target_a3_gha_driver_v6.g
+- sol/sol_reply_390_r07_pre_a0_a3_v6_terminal_repair.md
+
+Do not edit or duplicate the frozen v5 producer/checker. The v6 bundle uses
+those exact two v5 owners and changes only the driver. No P0 or authority may
+change.
+
+2. Sole admitted repair
+
+Move the exact sentinel readback and identity admission into the existing
+status-bearing shell helper, before its successful return. Every failure after
+exclusive sentinel creation, including short/nonexact readback, identity
+change, fsync/close failure or diagnostic/output failure, must go through the
+existing dirfd-relative unlink plus output-directory fsync rollback and return
+nonzero while retaining both primary and rollback diagnostics.
+
+After the helper's exact successful return, GAP may perform only the
+status-bearing `Process` call and an in-memory integer-zero assertion. Remove
+the post-Process `StringFile`/sentinel identity gate and any successful-path
+`Print`, filesystem read, close, timer, revalidation or cleanup. Resolve and
+close every needed GAP-side file/script owner before `Process`. A noninteger,
+nonzero or signalled status remains nonaccepting and can never accept a stale
+sentinel.
+
+Do not weaken exclusive creation, no-follow fd binding, exact 15-byte content,
+file fsync, required close, out-directory fsync, stale-name rejection or the
+current rollback rules. Do not add another receipt parse/hash/canonical pass,
+source pass, helper, subprocess, scan or unbounded work.
+
+3. Preserve every task388 PASS
+
+The v5 producer/checker bytes and all semantic claims remain frozen. Preserve
+the 23-owner P0 graph, live evaluator, v303 projection, exactly one closure,
+one independent verifier, 486/729 rosters, baseline plus twelve mutations,
+authenticated receipt-digest transport, exact bash `Process` status gate,
+resource/deadline caps and the removal of duplicate work.
+
+Give a complete forward and reverse line delta from v5 to v6 and prove that
+reversing only the admitted driver hunk recovers the exact frozen v5 driver.
+Search the final driver for every operation after `Process` and enumerate it.
+
+4. Static-only boundary and reply
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, imports, syntax
+compilation, candidate code, mutations, subprocess tests or RSS measurement.
+Read-only PowerShell inspection and hashing are allowed. Report exact bytes and
+SHA-256 of the new driver and the unchanged v5 producer/checker. A fresh
+independent full-source audit remains mandatory before GHA.
+
+End exactly with:
+
+A3/V6 VERSIONED DRIVER:                  COMPLETE or INCOMPLETE
+V5 PRODUCER/CHECKER:                     RETAINED or REGRESSED
+TASK388 PASS GROUPS:                     RETAINED or REGRESSED
+SENTINEL READBACK INSIDE HELPER:         REPAIRED or OPEN
+POST-PROCESS FALLIBLE SUCCESS EDGE:      REMOVED or OPEN
+DURABLE POST-CREATE ROLLBACK:            REPAIRED or OPEN
+AVOIDABLE DUPLICATE WORK:                NONE or PRESENT
+CANDIDATE EXECUTION:                     UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:          REQUIRED
+PRE-A0 A3/V6 GHA:                        FORBIDDEN
+ACTUAL A3 NUMERATOR:                     remains 0/3
+A0 / COFINAL LIFT / FAKE / IHARA:        NONE
+
+TASK390_R07_PRE_A0_A3_V6_TERMINAL_REPAIR

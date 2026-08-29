@@ -7422,3 +7422,32 @@ higher-priority A0 audit.
 
 Delta189 converts the v12c delay into one finite source-level repair list and
 keeps an impossible candidate off GHA.
+
+### Delta 190 (2026-08-29): A3/v5 audit isolates one terminal rollback defect
+
+- Froze `sol/sol_reply_388_r07_pre_a0_a3_v5_code_performance_reaudit_v1.md`
+  (SHA-256
+  `882458b0e7100f45144103d6d81e958dc75ff8eb65dfecdebd90ca9e36a70612`).
+  Its verdict is **STATIC REJECT**; nothing executable was run.
+- The frozen identities and reverse deltas, P0/23-owner graph, live evaluator,
+  v303 projection, one closure, one independent verifier, baseline plus twelve
+  mutations, pass consolidation, receipt-digest transport, status-bearing GAP
+  `Process`, numerical caps and duplicate-work search all pass.
+- The sole remaining defect is after successful durable sentinel creation:
+  GAP performs a new fallible `StringFile`/identity gate without a durable
+  unlink plus directory-fsync rollback edge. A valid sentinel can therefore
+  survive a post-create failure.
+- Added `sol/sol_task_390_r07_pre_a0_a3_v6_terminal_repair.txt`. It moves exact
+  sentinel readback into the rollback-capable helper and leaves no fallible
+  operation after a zero `Process` status.
+
+**v220 mapping**:
+
+- A3 remains **0/3**, now **V5 STATIC REJECT / V6 SINGLE-EDGE REPAIR ACTIVE**.
+  A0 is **0/1 V12D COMPLETE REPAIR ACTIVE**, A4 **1/3 V10 REPAIR ACTIVE**,
+  and A5--A7 **0/3**.
+- No A3 candidate, common word, compatible lift, fake certificate or Ihara
+  witness is added.
+
+Delta190 preserves the complete accepted A3 semantic/performance core and
+reduces its remaining pre-GHA work to one bounded driver edge.
