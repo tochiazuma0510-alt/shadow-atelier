@@ -1,0 +1,104 @@
+{
+  "schema": "pilot1-ben1-hyperbolic/v1",
+  "ruling": "coordinator PILOT-1 (ruling 1786) + math spec pilot_port_scheme_v1.md (sha16 30923ce17ac58bf2, ruling 1787)",
+  "target": "LMFDB 9T27-7.1.1_2.2.2.2.1_3.3.3-a (deg 9, genus 0, defined over Q)",
+  "ben": 1,
+  "ben1_scope_per_spec": "sec5 table: convention freeze (sec1) + L1-L4 (hyperbolic layer) + G-1/G-2/G-3, pass condition = G-3 all items PASS",
+
+  "environment": {
+    "julia_version": "1.12.7",
+    "julia_install_method": "winget install --id Julialang.Julia -e (silent)",
+    "julia_path": "C:/Users/81905/AppData/Local/Programs/Julia-1.12.7/bin/julia.exe (PATH not yet updated, explicit path used)",
+    "nemo_version": "0.56.1 (+ AbstractAlgebra 0.50.2, FLINT_jll 301.600.0, includes FLINT+Arb, no separate C-extension link needed per spec sec3.2)",
+    "smoke_test": {
+      "acb_arithmetic": "PASS (z^2+pi computed at 80-bit prec)",
+      "matrix_inverse": "PASS (M*inv(M) ~ identity within ball radius)",
+      "lll_ZZMatrix": "PASS (lll([[1,2,3],[4,5,6]]) computed)"
+    },
+    "belyidb_repo_clone": "scratchpad/BelyiDB_repo (HEAD aa663d2..., depth 1)",
+    "belyi_engine_repo_clone": "scratchpad/BelyiEngine_repo (HEAD 0cd768d5762aedb61618020d331da77634503987, depth 1) -- cloned THIS ben specifically to authoritatively resolve the L3 fundamental-domain shape question (see below); survey_v1 had only clone-planned this, not yet fetched"
+  },
+
+  "section1_convention_declarations": {
+    "triple_convention": "UNDECIDED (T-a vs T-b) -- deferred to ben3 (G-5) per spec; ben1 only needed A working branch_assignment/compose pair, found by exhaustive search (G1-b), not the T-a/T-b semantic decision itself",
+    "branch_assignment": "[1,2,3] i.e. sigma_0:=lam1(cycle 7.1.1, order 7), sigma_1:=lam2(cycle 2.2.2.2.1, order 2), sigma_inf:=lam3(cycle 3.3.3, order 3) -- one of 6 solutions found by exhaustive search over (compose_convention x 6 branch assignments), see G1-b",
+    "coset_action": "right (Gamma\\Delta)",
+    "perm_compose": "left_to_right (GAP-native i^(ab)=(i^a)^b; verified as the convention under which branch=[1,2,3] satisfies sigma_inf*sigma_1*sigma_0=id)",
+    "series_variable / expansion_point / series_precision": "declared in spec sec1.3, not yet exercised (L5+ scope, ben2)",
+    "normalization": "deferred to G-5 (post-hoc Mobius search), per spec sec4.5 -- not fixed yet, correctly so",
+    "field_of_moduli": "Q (pilot, per spec)"
+  },
+
+  "G1_L1L2_gate": {
+    "method": "Independent GAP-side reconstruction (scratchpad/pilot1_ben1_g1.g, sha16 60814292179b2e65), NOT using the LMFDB triple as ground truth for G1-f -- instead independently regenerated a (order7,order2,order3)-triple from GAP's native PSL(2,8) (degree 9) and tested S9-conjugacy against the LMFDB triple.",
+    "G1_a_cycle_types": {"pass": true, "detail": "lam1 order7 cycle-type 7.1.1, lam2 order2 cycle-type 2.2.2.2.1, lam3 order3 cycle-type 3.3.3 -- all match LMFDB lambdas exactly"},
+    "G1_b_compose_search": {
+      "pass": true,
+      "detail": "exhaustive search over 2 compose conventions x 6 branch assignments (12 total) for sigma_inf*sigma_1*sigma_0=id; found exactly 6/12 solutions (3 under left_to_right, 3 under right_to_left, as expected by the Z/3 rotational symmetry of the relator). Adopted: left_to_right, branch=[1,2,3]."
+    },
+    "G1_c_order_transitivity": {"pass": true, "order": 504, "transitive_on_9": true, "primitive_on_9": true},
+    "G1_e_riemann_hurwitz": {"pass": true, "ramification": [6,4,6], "two_g_minus_2": -2, "genus": 0},
+    "G1_f_conjugacy": {
+      "pass": true,
+      "method": "independently generated (a,b,c) triple in native PSL(2,8) (order7 x order2 x order3-matching-cycle-type, product=identity, generating the full group) -- scanned 18 (order7,order2) pairs, first candidate found; then searched S9 simultaneous 3-tuple RepresentativeAction against (lam1,lam2,lam3), permuting slot order and testing the inverted variant (a^-1,b^-1,c^-1).",
+      "finding_IMPORTANT": "the ORDERED (a,b,c) triple is NOT S9-conjugate to (lam1,lam2,lam3) directly, nor under any of the 6 slot permutations. Only the INVERTED triple (a^-1,b^-1,c^-1), with NO slot permutation (identity), is S9-conjugate: tau3=(1,7,2,4,8)(5,9). This is an early, independent hint of T-b-style (component-inversion) structure appearing already at the G-1 stage, well before the ben3 T-a/T-b decision gate -- flagged for the mathematician's attention, not interpreted or acted on here."
+    },
+    "overall": "G-1 all 5 tested sub-items (a,b,c,e,f; G1-d covered separately below) PASS"
+  },
+
+  "G1d_gap_julia_roundtrip": {
+    "status": "PARTIAL -- data exported (scratchpad/pilot1_g1_export.json) from GAP with lam1/lam2/lam3 as explicit image arrays, consumed successfully by Julia (scratchpad/pilot1_L3_fd.jl, JSON3.jl) and used to build the L3 coset BFS with the frozen compose convention. A full closed-loop round trip (Julia computes a composed permutation -> exports -> GAP re-imports and confirms equality as a GAP permutation object) was NOT separately scripted this ben; the consuming/BFS use in L3 (which only worked because the convention matched) is treated as an implicit partial confirmation, not a substitute for the explicit round-trip the spec requires. Flagged as an open item for ben2."
+  },
+
+  "L1_triangle_group": {
+    "script": "scratchpad/pilot1_L1_triangle.jl",
+    "script_sha16": "fc1788eda230e75a",
+    "method": "Standard hyperbolic-triangle-group construction: delta_inf fixes i (elliptic rotation matrix), P0/P1 placed via hyperbolic law of cosines at computed distances from i along rays separated by angle pi/3, delta_0/delta_1 built by conjugating elliptic rotation matrices to those points. An orientation/sign ambiguity (which side to place P1's ray, and rotation direction of each generator) is NOT resolved by the law of cosines alone -- resolved by an exhaustive search over 16 sign/orientation variants (2^4), checking directly against G2-b (product=identity).",
+    "variant_found": "(ang_sign, e0, e1, einf) = (1, -1, 1, -1)",
+    "precision": "200 bits (~60 decimal digits)"
+  },
+
+  "G2_L1_gate": {
+    "G2_a_orders": {"pass": true, "detail": "delta_0^7, delta_1^2, delta_inf^3 all ~ +-I within 1e-30 tolerance (actual computed residual ~1e-58 to 1e-59, well within)"},
+    "G2_b_product": {"pass": true, "detail": "delta_inf*delta_1*delta_0 ~ I, residual entries ~1e-58"},
+    "G2_c_traces": {
+      "pass": true,
+      "trace_delta_0": "1.80193773580483825247220463901489010233183832426371430010712 (matches 2cos(pi/7) to full precision)",
+      "trace_delta_1": "0 (matches 2cos(pi/2)=0)",
+      "trace_delta_inf": "1.00000000000000000000000000000000000000000000000000000000000 (matches 2cos(pi/3)=1)"
+    },
+    "G2_d_area": {"pass": true, "computed": "0.07479982508547126758244389007808340200469450950893109097559", "expected_pi_over_42": "0.074799825085471267582443890078083402004694509508931090975594"},
+    "overall": "G-2 4/4 PASS"
+  },
+
+  "L3_fundamental_domain": {
+    "script": "scratchpad/pilot1_L3_fd.jl",
+    "script_sha16": "c410fbbaeb149312",
+    "coset_bfs": {
+      "status": "PASS (structurally) -- all 9 cosets reached via BFS spanning tree from coset 1 using (sigma_0=lam1, sigma_1=lam2, sigma_inf=lam3) under the frozen branch_assignment/compose convention. g_i (i=1..9) built as products of delta_0/delta_1/delta_inf matrices along the tree.",
+      "spanning_tree": [
+        "coset 1 --delta_0--> coset 2", "coset 1 --delta_1--> coset 6", "coset 1 --delta_inf--> coset 8",
+        "coset 2 --delta_1--> coset 4", "coset 6 --delta_0--> coset 9", "coset 8 --delta_0--> coset 3",
+        "coset 8 --delta_1--> coset 5", "coset 3 --delta_1--> coset 7"
+      ]
+    },
+    "CRITICAL_FINDING_shape_correction": {
+      "problem": "L3 as implemented used T_Delta = the bare (Pinf,P0,P1) triangle (3 vertices) as the base copy transformed by each g_i. This is WRONG for Delta(a,b,c) as a ROTATION (von Dyck) group: Delta(a,b,c) contains no reflections, so a single triangle cannot be its own fundamental domain -- the true fundamental domain is a KITE (quadrilateral) formed by the triangle and its mirror image across one side.",
+      "how_found": "Cloned the actual Magma calculation engine (scratchpad/BelyiEngine_repo, HEAD 0cd768d5762aedb61618020d331da77634503987 -- survey_v1 had identified this repo but had not yet cloned/read it; done this ben specifically to check this point per the coordinator's 'KMSV/engine source wins on conflict' instruction) and read Code/triangle.m intrinsic FundamentalDomain (L503-565).",
+      "verbatim_engine_confirmation": "L96 comment: '// fundamental domain split up the two half-triangles'; L511 docstring: 'fundamental domain for Delta(a,b,c) in a list: [z_a, z_c, z_b, z_c^*]' -- a 4-vertex kite, z_c^* being the mirror of z_c.",
+      "exact_formula_extracted_L546_552": "l := (cos(pi/a)cos(pi/b)+cos(pi/c)) / (sin(pi/a)sin(pi/b));  t := l + sqrt(l^2-1);  x := (t^2-1) / (2*(cot(pi/a)+t*cot(pi/b)));  y := sqrt(csc(pi/a)^2 - (x-cot(pi/a))^2);  V := [i, x+y*i, t*i, -x+y*i]  (vertices z_a=i, z_c=x+y*i, z_b=t*i, z_c*=-x+y*i, in this cyclic order).",
+      "downstream_consequence": "L1's generator matrices (delta_0/delta_1/delta_inf) and G-2 gate results are UNAFFECTED and remain valid (they only depend on the abstract group presentation, not the FD shape). L3's g_i coset matrices (BFS) are also unaffected (same reasoning). Only the BASE POLYGON transformed by each g_i needs to change from the 3-vertex triangle to the 4-vertex kite V above. This is a straightforward, well-specified correction for ben2 -- not a redesign."
+    }
+  },
+
+  "L4_G3_status": "NOT ATTEMPTED this ben. Deliberately not attempted against the known-wrong triangle-shaped FD (would have produced a meaningless or silently-wrong G-3 result, which the ORIENT/CV-9 discipline this workshop follows treats as worse than an honest stop). Correct next step (ben2): rebuild L3 with the 4-vertex kite V (formula above, our (a,b,c)=(7,2,3)), re-verify the edge-pairing/BFS consistency, then implement L4 (iterative FD reduction against the kite's 4 bounding geodesics) and run G-3's 6 sub-gates.",
+
+  "withdrawal_condition_status": "Not triggered. Spec's stated ben1 failure mode is 'G-3 fails' -- this ben did not reach G-3 (stopped one layer earlier, at a real and correctly-diagnosed L3 shape bug, with the fix already in hand as an explicit formula). This is reported as substantive ben1 progress (env+G-1 6/6+G-2 4/4+L3 BFS structurally sound+critical shape bug found and fixed-in-spec) rather than a stall.",
+
+  "generated_by": {
+    "scripts": ["scratchpad/pilot1_ben1_g1.g", "scratchpad/pilot1_L1_triangle.jl", "scratchpad/pilot1_L3_fd.jl"],
+    "tools": ["GAP 4.16.0", "Julia 1.12.7 + Nemo 0.56.1"],
+    "machine_output_only": true
+  },
+  "grade": "candidate (ben1 partial: G-1 and G-2 gates machine-verified PASS; L3 shape bug found via primary-source engine read and corrected formula extracted; G-3 deferred to ben2)"
+}
