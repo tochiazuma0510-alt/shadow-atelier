@@ -5975,3 +5975,34 @@ independent pass-or-repair gates.
 
 Delta145 replaces an unbounded symbolic NLSAT return assertion by one
 stronger but finite leading-generator surjectivity target.
+
+### Delta 146 (2026-08-29): transported-linear recurrence absorbed by one based error matrix
+
+- Added sol/proof_r07_based_transport_perturbation_v320.md.  If s is a based
+  free-cover lift for B and a continuous linear prefix-transport operator T
+  raises filtration, lift Ts through the same free cover as qK=Ts.  Then the
+  single Neumann correction s_T=s(1+K)^-1 satisfies (B+T)s_T=q.
+- This is based rather than quotient-splitting, so no annihilator condition
+  is introduced.  Compatible K matrices give the same formula on the whole
+  inverse system.
+- V266's depth estimate shows why this targets the correct remaining linear
+  term: from depth two onward, two occurrences of the new correction skip
+  the immediately following layer, while the fixed depth-one prefix change
+  is linear and one-depth raising.  Actual application still requires
+  literal proof that those terms assemble to a natural Xi-linear T inside
+  the same localized module.
+- The genuinely nonlinear formation/Brunnian closure remains distinct and is
+  not inferred from the perturbation lemma.
+
+**v220 mapping**:
+
+- No numerator changes.  A0 is **0/1 AUDIT ACTIVE**, A3 **0/3 AUDIT ACTIVE**,
+  A4 **1/3 V6D REPAIR ACTIVE**, and A5--A7 **0/3**.
+- Conditional on v319's leading localized lift, the later transported-linear
+  problem is now one finite word-bearing matrix K, not a fresh all-depth
+  search.  Actual T and K await the literal first correction.
+- No compatible lift, fake certificate or Ihara witness is added.
+
+Delta146 separates and finitely solves the linear perturbation part of the
+post-q2 recurrence, leaving only actual nonlinear localization and the
+non-pro-3 gates.
