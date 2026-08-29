@@ -7391,3 +7391,34 @@ ancestry, understated memory and a post-success rollback boundary.
 
 Delta188 uses the last free independent Sol(max) lane without slowing the
 higher-priority A0 audit.
+
+### Delta 189 (2026-08-29): A0/v12c audit rejects seven concrete source/resource groups
+
+- Froze `sol/sol_reply_385_r07_a0_v12c_code_performance_reaudit_v1.md`
+  (15,768 bytes; SHA-256
+  `8252b78c3ca1cc23e6bf61318087d83d8e04a606d00029748fc60f48795f2b76`).
+  Its verdict is **STATIC REJECT**; no candidate or toolchain execution ran.
+- All six frozen identities and F1 canonical/acyclic graph pass.  The ordinary
+  routes nevertheless fail source-statically: checker has malformed K0
+  indentation and undefined `self.meter`; producer boundary validation uses
+  undefined `live`; the internal deadline excludes imports and rollback;
+  producer/checker resource aggregates are unexplained and contradict the
+  fixture; R/V terminal failures escape rollback; and the driver retains a
+  fallible GAP print after shell cleanup is disarmed.
+- The checker also reconstructs the full immutable translated-pair owner twice
+  per process case.  Task385 therefore marks F2--F7 and avoidable processing
+  REJECT and the task376 mathematical path REGRESSED as an executable route.
+- Added `sol/sol_task_389_r07_a0_v12d_static_blocker_and_resource_repair.txt`.
+  It repairs all seven groups in one versioned tranche, including one exact
+  shared source-derived resource ledger rather than another reserve constant.
+
+**v220 mapping**:
+
+- A0 remains **0/1**, now **V12C STATIC REJECT / V12D COMPLETE REPAIR
+  QUEUED**.  A3 remains **0/3 V5 AUDIT ACTIVE**, A4 **1/3 V10 REPAIR
+  ACTIVE**, and A5--A7 **0/3**.
+- No A0 candidate, common word, compatible lift, fake certificate or Ihara
+  witness is added.
+
+Delta189 converts the v12c delay into one finite source-level repair list and
+keeps an impossible candidate off GHA.

@@ -1,0 +1,158 @@
+Sol(max) task 389 - A0/v12d complete repair after task385 STATIC REJECT
+
+Role: bounded implementation repairer. Read every numbered section first to
+last. The task385 auditor must not implement this tranche. Preserve F1 and all
+mathematical source semantics which task385 did not reject; repair all seven
+defect groups together. Do not execute or compile any candidate. Write only
+the six designated outputs.
+
+1. Frozen input, outputs and scope
+
+Read task376/reply376, task380/reply380, task385/reply385 and all six frozen
+v12c owners completely. Create exactly:
+
+- ci/in/d972_r07_history_free_positive_fast_resume_selftest_bootstrap_v12d.manifest.v1.json
+- search/d972_r07_history_free_positive_fast_resume_v12d.py
+- crosscheck/check_d972_r07_history_free_positive_fast_resume_v12d.py
+- search/d972_r07_history_free_positive_fast_resume_gha_driver_v12d.g
+- search/certs/d972_r07_history_free_positive_fast_resume_selftest_v12d_20260829.json
+- sol/sol_reply_389_r07_a0_v12d_static_blocker_and_resource_repair.md
+
+Do not edit frozen v12c. Scope remains SELFTEST_BOOTSTRAP only. Production,
+resume, actual A0, common word, lift, fake and Ihara claims remain forbidden.
+Retain the v12c canonical acyclic authority graph and canonical-reader mutation
+semantics exactly, apart from truthful v12d identities and the resource-ledger
+changes required below.
+
+2. D1/D2 - restore both ordinary mutation routes
+
+Repair checker `K0CoordinateStore.put` indentation and give the store an
+explicit live meter through its constructor or another typed owner path.
+Every `put` and `lookup` meter call must be defined and use the one checker
+meter; no detached fallback/no-op meter is allowed. Preserve one K0 store and
+one selected roster build.
+
+Repair producer `producer_boundary_validate` so its sparse parser/publicizer
+comes explicitly from the passed runtime or a typed parameter. The baseline
+and all thirteen boundary mutations must reach the ordinary validator and
+record exact first reasons; do not broaden catches to convert NameError or
+other implementation faults into expected mutation evidence.
+
+Statically trace all 75 cases on both sides after the repair. Preserve
+chronological pivots, current dual, selected 2897th column, independent raw
+2896 replay and bounded ancestry semantics.
+
+3. D3 - remove duplicate checker translated-pair reconstruction
+
+Within each checker process case, construct the immutable descriptor/support/
+translated-pair wire owner exactly once. Reuse that authenticated typed wire
+owner for the independent child accumulator/outcome route while keeping the
+child's arithmetic, accumulator and result reconstruction independent from
+the producer and from copied claimed outcomes. Do not call both former full
+translation constructors on the same dual/workers.
+
+Record exact before/after operation counts and remaining unavoidable passes.
+Search both programs for any additional dead full-owner route, repeated Gamma,
+K0/Q0, canonical/parse clone, quadratic scan or unnecessary slow processing.
+
+4. D4 - one internal deadline from bootstrap imports through rollback
+
+Install a minimal bootstrap signal deadline before every non-bootstrap/material
+import, then hand it to the ordinary elapsed deadline without a gap or reset.
+Standard primitives strictly necessary to install that deadline must be
+enumerated. The same elapsed budget must remain armed through all typed and
+untyped exception handling, output rollback, fsync, child/process cleanup and
+prior-timer restoration. Do not leave rollback outside the context.
+
+Put checks inside every material import/build/hash/K0/Q0/Gamma/raw-column/
+mutation/publication/cleanup loop. Preserve the strict 300-second internal to
+external margins and `17100 < 18000 < 21600`. Timer setup, handoff, restore or
+cleanup failure remains nonaccepting.
+
+5. D5 - replace opaque memory constants with one exact source-derived ledger
+
+Version P0, fixture, producer and checker so they bind one identical producer
+peak and one identical checker peak. Remove the v12c contradictions
+`4,832,908,288 vs 4,312,038,019` and
+`4,291,084,288 vs 3,153,713,824`.
+
+No unexplained aggregate such as "fixed byte owners",
+"immutable reconstruction/maps/DAG", blanket Q0 headers, CPython/COW reserve,
+or unnamed remainder is allowed. Define a finite ledger whose every row gives:
+
+- concrete source owner/container;
+- maximum cardinality and per-entry or byte width;
+- exact product/sum;
+- first allocation and last consumer;
+- which other rows coexist at the asserted peak; and
+- whether it is an explicit payload charge or only protected by RLIMIT_AS.
+
+The code must reserve/charge each material row before allocation and release it
+at the documented last consumer. Compact arrays, sparse bounded maps, module
+bytes/code objects, DOM/text/raw overlap, K0/Q0/Gamma, DAG, IPC/COW children,
+serializer fragments and the 536870912-byte output token must all be explicit.
+If an object cannot be bounded as payload, exclude it from the payload sum and
+state only the hard 5.7-GB address-space ceiling; never disguise it as a byte
+identity. P0, fixture, both programs, result evidence and driver must compare
+the same derived ledgers field by field. Component bounds are not RSS.
+
+6. D6 - keep R/V recoverable through terminal emission
+
+Refactor producer/checker publication so final R/V identity remains registered
+for rollback through every elapsed assertion and flushed terminal write.
+Catch typed and untyped terminal-output failures, attempt exact final and temp
+unlink relative to a checked directory fd, fsync after every removal, and stay
+nonaccepting when rollback itself fails. Do not swallow rollback diagnostics.
+
+All retained fds and timers must be closed/restored before the accepting
+terminal is emitted. After a successful flushed terminal there may be no
+fallible close, timer, publication, revalidation or cleanup operation. On a
+terminal failure, a separately checked rollback reopen is allowed but must
+match the retained final physical identity before unlink.
+
+7. D7 - no post-helper GAP acceptance edge
+
+The generated shell must retain an EXIT trap which cleans owned raw/R/V/log/
+terminal/sentinel names on every nonzero exit and is harmless on exact zero;
+do not disable it before shell exit. The Python artifact helper must perform
+all final raw/sentinel rehashes and emit the sole accepted terminal before its
+zero exit.
+
+GAP must prepare/close its script and resolve fixed executables before
+starting the helper. Its final operation is the status-bearing `Process` call
+plus an in-memory integer-zero assertion; remove `StringFile`, sentinel reread
+and `Print` after helper success. No fallible filesystem/output gate may follow
+zero status. A nonzero/signal status must correspond to armed shell rollback.
+
+8. Static closure and reply
+
+Give exact forward/reverse deltas from v12c and line-numbered D1--D7 repairs.
+Report exact bytes/SHA-256 for the five machine owners; the reply SHA is
+supplied externally after freeze. Recompute all owner/pass/deadline/resource/
+publication inventories from final source, not intended design.
+
+Do not run Python, Node, GAP, GHA, workflows, git, network, imports, syntax
+compilation, candidates, mutations, subprocess tests or RSS. Read-only
+PowerShell inspection and hashing are allowed. A fresh independent static
+audit remains mandatory before GHA.
+
+End exactly with:
+
+A0/V12D VERSIONED OWNERS:                COMPLETE or INCOMPLETE
+TASK385 F1 CANONICAL GRAPH:               RETAINED or REGRESSED
+D1 CHECKER K0 ROUTE:                      REPAIRED or OPEN
+D2 PRODUCER BOUNDARY ROUTE:               REPAIRED or OPEN
+D3 DUPLICATE TRANSLATED-PAIR WORK:        REMOVED or OPEN
+D4 BOOTSTRAP-THROUGH-ROLLBACK DEADLINE:   REPAIRED or OPEN
+D5 EXACT SHARED RESOURCE LEDGER:          REPAIRED or OPEN
+D6 R/V TERMINAL ROLLBACK:                 REPAIRED or OPEN
+D7 NO POST-HELPER GAP EDGE:               REPAIRED or OPEN
+TASK376 MATHEMATICAL SEMANTICS:           RETAINED or REGRESSED
+CANDIDATE EXECUTION:                      UNEXECUTED
+FRESH INDEPENDENT STATIC AUDIT:           REQUIRED
+V12D SELFTEST_BOOTSTRAP GHA:              FORBIDDEN
+PRODUCTION / RESUME:                      FORBIDDEN
+ACTUAL A0 COMMON + CHECKER:               remains 0/1
+LIFT / FAKE / IHARA:                      NONE
+
+TASK389_R07_A0_V12D_STATIC_BLOCKER_AND_RESOURCE_REPAIR
