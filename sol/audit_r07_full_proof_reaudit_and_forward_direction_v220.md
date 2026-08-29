@@ -9170,3 +9170,31 @@ the exact Newton source/target while making no zero-defect assumption.
 
 Delta233 converts future A4 resource terminals into genuine resumable
 frontiers while keeping the still-missing performance batch explicit.
+
+### Delta 234 (2026-08-30): A4 dispatch preamble is corrected before computation
+
+- Run `33262257286` did not enter the producer.  Its workflow input lost the
+  GAP string quotes and supplied `D383Mode:=PRODUCTION;;`; GAP rejected the
+  unbound variable `PRODUCTION` immediately.  Setup consumed under one minute,
+  no mathematical row or checkpoint was produced, and this run is a dispatch
+  failure rather than an A4 result.
+- The same pinned v13/v15/v22 executable was redispatched by JSON input as run
+  `33262485779`, with the literal preamble
+  `D383Mode:="PRODUCTION";;`.  Its immutable head is
+  `181df8547d390f69960265c03c9ec2e64f0e408c`; the only later file at that
+  head is the undispatched task384 commission, not a change to the running
+  executable.  GAP setup was in progress when this delta was written.
+- Task384 separately commissions the minimal exact performance successor:
+  one full correlation may insert up to 64 canonical candidates, but every
+  candidate must first remain nonzero against the current combined basis.
+  It preserves the v13 early checkpoint and the existing public history ABI.
+
+**v220 mapping**:
+
+- A4 remains **1/3 RUNNING**, now under run `33262485779`; the failed preamble
+  run does not count as a resource or mathematical terminal.
+- A0 remains **0/1 with v22 run 33259268996 active**.  All other actual
+  milestone counts and witness/fake conclusions are unchanged.
+
+Delta234 replaces only a malformed dispatch and records the concurrent exact
+batch implementation without promoting either calculation.
