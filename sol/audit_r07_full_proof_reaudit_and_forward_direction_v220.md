@@ -10902,3 +10902,72 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`**, with the
   every-completed-row checkpoint repair in progress.  A9 stays **0/3 actual**;
   no lift, fake numerator or Ihara witness is promoted.
+
+### Delta 269 (2026-08-30): the tagged derivative keeps the full actor and isolates one aggregation gate
+
+- Two tempting shortcuts were rejected and retained as explicit negative
+  records.  V390 (11,039 bytes, SHA-256
+  `c05398fb48ae6ae1d58342e025fa82bc242482afce6bf1b7279bd671b392ffcb`)
+  incorrectly transported the occurrence-dependent v370 action through the
+  eleven-to-three aggregation.  V391 (10,890 bytes, SHA-256
+  `fd2335e70ddbfc2b2de32434e063fb6709a3e13ddd03fcefdfaf1f44249677ae`)
+  then descended too early to coarse coinvariants; its kernel is the very
+  relative-ideal source whose divisor image must survive.  Both files are
+  marked `REJECTED / DO NOT CITE`.
+- The corrected theorem is
+  `proof_r07_full_actor_tagged_derivative_and_actual_square_v392.md`, 10,450
+  bytes, SHA-256
+  `af2d3d6eda2cf267a6b80d3e48dcd6d2c3e694db54f2dff40206462f72d0efcb`.
+  Independent Sol(max) audit returned PASS/no fatal.
+- At a finite coordinate, the unconditional object is the v370 tagged map
+
+  \[
+   \widehat b_i:k[\Delta_i^{\rm act}]^r\longrightarrow W_{C,i},
+  \]
+
+  whose basis columns are literal Fox first differences of one conjugated
+  seed word.  The v372 same-owner replay gives a `k`-linear square before any
+  module action is moved through aggregation.
+- The full v388/v389 source is retained as
+
+  \[
+   P_i=k[\Gamma_i]^r,
+   \qquad I_iP_i\subset P_i.
+  \]
+
+  The quotient
+  `pi_full,i:P_reg,i -> P_i` kills only fine actor/tagging redundancy; it
+  does not kill `I_i P_i`.  The desired `R_i`-linear actual square now follows
+  exactly when the physical full aggregation obeys
+
+  \[
+   q_{{\rm full},i}(g\cdot w)
+   =\alpha_i(g)q_{{\rm full},i}(w)
+   \quad(g\in\Delta_i^{\rm act},\ w\in W_{C,i}),
+  \]
+
+  and materialization factors through the same full source.  After an
+  exhausted positive A4 closure this is a finite marked-generator by basis
+  ABI check, not an all-rung membership search.
+- Under that one full-action gate, the v388 divisor map is the restriction
+  `Sigma_i=B_C,i|_(I_i P_i)`.  Every primitive column has the explicit tagged
+  replay of any lift of `(k_ij-1)e_ia`; different lifts differ only by
+  `ker(pi_full,i)`.  V379 is correctly placed only after the later coarse
+  coinvariant quotient and cannot prove this full-target identity backward.
+- At inverse-limit level, one continuous full-action equivariant aggregation
+  which kills the closed tagging kernel induces all finite squares at once.
+  V392 identifies this as the correct relative-dihedral generalization but
+  does not construct the homotopy.
+
+**v220 mapping**:
+
+- The duplicated `Sigma` matrix search is removed at paper level, and the
+  actual-image comparison is narrowed to one finite full-action aggregation
+  gate after A4.  This is real progress inside A9's uniform-lift route, but
+  it supplies no actual numerator: A9 remains **0/3 actual** until A4, the
+  aggregation gate, filtered nonlinear depth, and initial path-bearing input
+  are supplied.
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME** under run `33285081587`.
+  A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`** while its
+  every-completed-row repair is independently code-audited.  No compatible
+  lift, fake numerator or Ihara witness is promoted.
