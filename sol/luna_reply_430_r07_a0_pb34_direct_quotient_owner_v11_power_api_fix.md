@@ -64,3 +64,37 @@ V11_LOCAL_GO_FOR_PARENT_AUDIT_AND_DISPATCH
 The audit found no new expensive operation or full-state copy.  An inherited
 resume-only expression scans the same input checkpoint seal twice; it is not
 reached by this fresh dispatch and is not a blocker.
+
+## Parent GHA result
+
+- run `33320103188`, job `99280454030`, immutable head
+  `eb840541ece21f394a6ac46b1b7a6e0a6cd5a301`, completed in about 54 minutes;
+- workflow/checker envelope: `success`;
+- artifact id: `9735328330`;
+- producer terminal: `UNKNOWN_RESOURCE:rss_limit`;
+- 44-seed phase: complete; occurrence seed rank `43`;
+- durable state: `seed_cursor=44`, `parent_cursor=86`,
+  `action_cursor=344`, occurrence/physical rank `344/344`, frontier `258`;
+- stored pivot nonzeros: occurrence `31,847,811`, physical `38,056,986`;
+- checkpoint sequence `10`, bytes `275,905,469`, SHA-256
+  `3ac222801a1a91b8e0f163554835e569a26c2cac0f3f8bea481e1825e5f911b8`;
+- independent v11 checker terminal:
+  `UNKNOWN_RESOURCE`, checkpoint sequence `10`;
+- all common-word, A0-membership, compatible-lift, fake, Ihara-witness and
+  verified claim flags remain `false`.
+
+The exact six-file artifact was independently expanded and the checkpoint
+bytes/SHA were rechecked.  Its permanent release mirror is:
+
+```text
+asset  artifact_9735328330_gap-run-out.valid.zip
+bytes  211,296,971
+sha256 b044eb9d730cb99c39253aedc573f8bba764ade0f732920e2ad7c306a5a3db92
+url    https://github.com/tochiazuma0510-alt/shadow-atelier/releases/download/archive-gha-checkpoints/artifact_9735328330_gap-run-out.valid.zip
+```
+
+An initially uploaded partial-download mirror with the same name minus
+`.valid` failed archive decompression and was deleted after the validated
+asset was uploaded.  The GHA artifact and sealed checkpoint were unaffected.
+The successor is task431/v12, using v405's prescribed phase separation and
+packed pivot rows; no increase of the 4.8 GB production cap is planned.

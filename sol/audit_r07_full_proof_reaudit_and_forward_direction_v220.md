@@ -12287,3 +12287,61 @@ single transport repair required before continuation; it does not count the
   nonmembership result and not a loss of the old sealed round-648 fallback.
 - All non-A0 v220 numerators are unchanged by this delta.  No compatible
   lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 292 (2026-08-31): A0 completes 44 seeds and reaches a sealed rank-344 RSS terminal
+
+- Full v11 run `33320103188`, job `99280454030`, immutable head
+  `eb840541ece21f394a6ac46b1b7a6e0a6cd5a301`, completed after about 54
+  minutes.  Workflow and checker passed, but the mathematical terminal is
+  strictly `UNKNOWN_RESOURCE:rss_limit`, not A0 membership or nonmembership.
+- The target/bootstrap and all 44 compact seeds completed.  The seed
+  occurrence rank was 43.  The occurrence frontier then reached the exact
+  durable state
+
+  ```text
+  seed / parent / action cursors       44 / 86 / 344
+  occurrence / physical rank          344 / 344
+  frontier                            258
+  occurrence / physical pivot nnz     31,847,811 / 38,056,986
+  checkpoint sequence                 10
+  ```
+
+  Thus task430 removed the startup failures and executed the actual v405
+  closure.  It did not finish that closure: the growing frontier remains
+  nonempty.
+- Artifact `9735328330` contains the 275,905,469-byte sealed checkpoint with
+  SHA-256
+  `3ac222801a1a91b8e0f163554835e569a26c2cac0f3f8bea481e1825e5f911b8`.
+  The independent v11 checker accepted sequence 10 only as
+  `UNKNOWN_RESOURCE`.  All promotion flags remain false.
+- The independently expanded six-file artifact is permanently mirrored as
+  release asset `artifact_9735328330_gap-run-out.valid.zip`, 211,296,971
+  bytes, SHA-256
+  `b044eb9d730cb99c39253aedc573f8bba764ade0f732920e2ad7c306a5a3db92`.
+  Its extracted checkpoint reproduces the bytes/SHA above.
+- The measured cause is redundant simultaneous storage.  V405 §3--§4 says
+  to exhaust the occurrence queue first and only then insert physical
+  aggregates, while v11 retained both echelons at every rank.  Added
+  `proof_r07_a0_phase_separated_packed_echelon_v407.md`: it proves delayed
+  physical insertion preserves exactly `Lbar(Wbar)`, packed coordinate rows
+  preserve the echelon coefficient-for-coefficient, processed occurrence
+  payloads may be streamed away after aggregation, and positive source rows
+  can be rebuilt from the retained literal DAG with a digest canary plus the
+  unchanged fresh Fox replay.
+- Task431/v12 is therefore scoped to migrate the exact v11 checkpoint before
+  heavy runtime bootstrap, discard only its redundant partial physical
+  echelon, pack occurrence pivots, continue from parent 86/frontier 258, and
+  build the physical echelon only after occurrence exhaustion.  The 4.8 GB
+  production cap, search universe and claim boundary are unchanged.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta291, the executable selector
+  has completed its 44-seed subphase and 86 occurrence parents, and now has a
+  sealed rank-344 continuation.  This is real implementation/execution
+  progress but not a common word.
+- The A0 open chain is now: packed checkpoint migration, remaining occurrence
+  closure, deferred physical build, six-action decision, and strict positive
+  replay if the target reduces to zero.
+- All non-A0 numerators are unchanged.  No compatible lift, fake numerator,
+  or Ihara witness is promoted.
