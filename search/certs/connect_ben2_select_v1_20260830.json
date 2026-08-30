@@ -1,0 +1,1710 @@
+{
+ "schema": "connect-ben2-select/v1",
+ "title": "CONNECT ben2: [CONN-DIH] -- eps_D derived from the explicit dihedral (Chebyshev T_9) cover, the three-prime run, and the SELECT decision",
+ "date": "2026-08-30",
+ "ruling": "coordinator ruling 1814 (ben2 dispatch, final)",
+ "machine_output_only": true,
+ "author": "shadow-atelier mathematician (Opus 5)",
+ "spec": {
+  "path": "scratchpad/connect_spec_v1.md",
+  "version": "v1.2",
+  "sha16": "78da8fa13469955d",
+  "sections": [
+   "1.2 decision rule",
+   "3.1 Lemma BR",
+   "3.4' (star)",
+   "4.2 [CONN-DIH]",
+   "4.3 relative sign",
+   "4.4 u0 trap",
+   "5.2' gates",
+   "5.4' controls",
+   "5.5 root selection"
+  ],
+  "ben1_corrections_carried": [
+   "CC-11",
+   "CC-12",
+   "CC-13"
+  ]
+ },
+ "inherited_frozen": {
+  "source_cert": "search/certs/connect_ben1_conventions_v1_20260830.json",
+  "sha16": "8d5f9d1da8f485e0",
+  "eps_B": "+1  (T-1 reading B, T-4 dir1 with DC-21 passed, T-2, T-3)",
+  "c0_exact": "-27/2",
+  "c0_class_mod_cubes": 4,
+  "c0_class_mod_9th": 6912,
+  "conventions_module": "scratchpad/connect_ben1_conv.py",
+  "conventions_module_sha16": "2336cece326487bd",
+  "rule": "ben2 imports the module and re-declares no convention"
+ },
+ "kummer_object": "c0 = (phi/s^9)(P_0)",
+ "word_convention": "W-1: paper AB = GAP B*A (anti-hom)",
+ "equivariance_dir": "dir1: m(sigma g) = rho^-1 m(g) rho ; rho: P -> sigma P",
+ "branch_assignment": "Xbar=m(g_0), Ybar=m(g_1), z_census=(Ybar*Xbar)^-1=m(g_inf)",
+ "word_order": "gap_left_to_right",
+ "CC-9_applied": "assignment Xbar<->sigma_0, Ybar<->sigma_1 per the erratum sidecar (sha16 105a2e87234b08fe)",
+ "SELECT": {
+  "value": "NN-09",
+  "three_valued_field": [
+   "NN-09",
+   "NN-12",
+   "CONDITIONAL"
+  ],
+  "declared": "NN-09",
+  "conditional_fallback_W_C4": "SELECT = NN-12 <=> eps_B = eps_D (spec sec.0). W-C4 did NOT fire: eps_D is a computed result, not a guess.",
+  "roster_identity": "the 324-key roster whose row_indices_sha256 prefix is 4042644557996fd70c0a6bcf0b375d8ad7e26181838fe4d2ea828fdbaeb8b4fd (receipt candidate_id IDX3-NN-09)",
+  "warning": "the labels NN-09 / NN-12 are lexicographic candidate_ids with zero semantics (ruling 1726); the content of this line is the ROSTER, identified by hash, not the name.",
+  "cells_agreeing": 18,
+  "distinct_verdicts": [
+   "NN-09"
+  ],
+  "independent_extra_prime": {
+   "SELECT": "NN-09",
+   "agrees_with_baseline": true,
+   "census_hits": 1,
+   "chi": 7,
+   "d00": 2,
+   "e0": 2,
+   "e_dih": 2,
+   "in_symdiff": true,
+   "m": 3,
+   "monomial_layer": false,
+   "p": 7,
+   "pi_1based": [
+    5,
+    8,
+    4,
+    6,
+    9,
+    3,
+    2,
+    7,
+    1
+   ],
+   "row_index": 185,
+   "star_solutions": 9
+  }
+ },
+ "part_CONN_DIH": {
+  "gate": "[G-C7]",
+  "verdict": "PASS",
+  "eps_D": {
+   "spec_C6_sense_k_eq_epsD_edih": {
+    "mod_9": 5,
+    "mod_3": -1,
+    "note": "5 = 2^-1 mod 9 ; 5 = -1 mod 3"
+   },
+   "raw_sense_d00_eq_eps_edih": 1,
+   "reading": "the RAW measurement returns d_00 = +e_dih, i.e. the SAME sign as the Belyi side's a = +e_0. The mod-3 reversal that produces eps_D = -1 in the spec's C6 normalisation comes entirely from 2405 Thm 4.3's r^{2k}: the census stores the r-exponent d_00 = 2k, so k = 2^-1 d_00 = 5 d_00 and k = -d_00 mod 3."
+  },
+  "step_1_explicit_cover": {
+   "T9_coeffs_ascending": [
+    0,
+    9,
+    0,
+    -120,
+    0,
+    432,
+    0,
+    -576,
+    0,
+    256
+   ],
+   "derivation": "T_{n+1} = 2x T_n - T_{n-1}, exact integers",
+   "passport": "([9], [2^4,1], [2^4,1])  genus 0",
+   "T9_minus_1_factorisation_verified": true,
+   "T9_plus_1_factorisation_verified": true,
+   "normalisations": {
+    "mu1": "(inf,1,-1) -> (0,1,inf) : phi = 2/(1 + T_9(x)) , s = 1/x",
+    "mu2": "(inf,-1,1) -> (0,1,inf) : phi = 2/(1 - T_9(x)) , s = 1/x"
+   }
+  },
+  "step_2_c_dih_local_leading_coefficient": {
+   "method": "exact power series of phi/s^9 = 2/(s^9 +- P(s)) with P(s) = s^9 T_9(1/s) = 256 - 576 s^2 + 432 s^4 - 120 s^6 + 9 s^8",
+   "P_of_s_coeffs_ascending": [
+    256,
+    0,
+    -576,
+    0,
+    432,
+    0,
+    -120,
+    0,
+    9,
+    0
+   ],
+   "c_dih_mu1": "1/128",
+   "c_dih_mu2": "-1/128",
+   "c_dih_series_phi_over_s9": [
+    "1/128",
+    "0",
+    "9/512",
+    "0",
+    "27/1024",
+    "0",
+    "273/8192",
+    "0",
+    "315/8192",
+    "-1/32768",
+    "1377/32768",
+    "-9/65536"
+   ],
+   "factorisation": {
+    "2": -7
+   },
+   "class_mod_cubes": 4,
+   "class_mod_9th_powers": 4,
+   "well_definedness_BR1": "1953125/2519424",
+   "re_derived_not_cited": true,
+   "agrees_with_local3_anchor_value": "yes -- +-2^-7 = +-1/128"
+  },
+  "FRAME_LEDGER": {
+   "c_dih_frame": "c_dih = (phi_dih/s^9)(P_0) with phi_dih the Belyi map whose TOTALLY RAMIFIED point sits over 0 and s = 1/x. This is the Lemma-BR c_0 frame, and it coincides with convention D's u := lim_{s->0} t/s^n because there t IS phi_dih. NOT the u_0 frame.",
+   "belyi_frame": "c0 = (phi/s^9)(P_0) with phi the ben5 model map -- ben1, exact -27/2",
+   "u0_frame": "u = (t/s^9)(P_0). On the DIHEDRAL side u and c coincide because convention D's t IS the Belyi map phi_dih (both put the index-9 cusp over 0). See part_corrections CC-14 for the Belyi/S4 side.",
+   "step_by_step": [
+    "D1 c_dih computed in the c-frame (phi_dih/s^9), never the reciprocal",
+    "D5 (star)_dih consumed rho built from that same c-frame e_dih",
+    "R3 e_dih read with the SAME zeta_9bar as e_0 (spec field 5)"
+   ]
+  },
+  "step_3_group_window": {
+   "producer_source": "search/week3-battery-common.g MakeDn L22-25 / MakeGn L31-42",
+   "r": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    1
+   ],
+   "Ybar_dih_is_GAP_s_times_r": [
+    2,
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3
+   ],
+   "z_dih": [
+    3,
+    2,
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4
+   ],
+   "cycle_types": {
+    "Xbar_dih": [
+     9
+    ],
+    "Ybar_dih": [
+     2,
+     2,
+     2,
+     2,
+     1
+    ],
+    "z_dih": [
+     2,
+     2,
+     2,
+     2,
+     1
+    ]
+   },
+   "D9_order": 18,
+   "zyx_is_id": true,
+   "d9_normal_form_selftest": {
+    "Ybar_dih": [
+     8,
+     1
+    ],
+    "r": [
+     1,
+     0
+    ],
+    "s": [
+     0,
+     1
+    ],
+    "z_dih": [
+     7,
+     1
+    ]
+   },
+   "note": "MakeGn writes y := tr(s*r,1)*... : the GAP product s*r, i.e. the paper word 'rs' of 2405 (3.1) under convention W-1. Confirmed at run time in GAP."
+  },
+  "step_4_pins": {
+   "mirror_pin_count_in_S9": 1,
+   "rho_mir_dih": [
+    2,
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3
+   ],
+   "rho_mir_dih_equals_Ybar_dih": true,
+   "L_dih_pin_i_count": 9,
+   "L_dih_pin_i_and_ii_count": 1,
+   "L_dih": [
+    6,
+    7,
+    8,
+    9,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "L_dih_is_SH_power": [
+    5
+   ],
+   "PREDICTION_Y_geom_dih": [
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2
+   ],
+   "PREDICTION_Y_geom_dih_equals_INV": true
+  },
+  "step_5_G_C2_dih_numerical_monodromy": {
+   "what_it_is": "the dihedral analogue of ben1's only true calibration: the 9 fibre points of T_9(x) = w(t) are tracked along gamma_0 and gamma_1 from a tangential-base-point labelling, with no group input",
+   "verdict": "PASS",
+   "per_normalisation": {
+    "1": {
+     "c_dih": "1/128",
+     "cc_is_INV": true,
+     "complex_conjugation": [
+      1,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+     ],
+     "labelling_min_margin": 9307.3670118986,
+     "m_gamma_0": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+     ],
+     "m_gamma_0_is_SH": true,
+     "m_gamma_1": [
+      1,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+     ],
+     "m_gamma_1_is_INV": true,
+     "m_gamma_1_reflection_c": [
+      0
+     ],
+     "steps": 6496,
+     "worst_swap_ratio": 0.05472014602580903
+    },
+    "2": {
+     "c_dih": "-1/128",
+     "cc_is_INV": true,
+     "complex_conjugation": [
+      1,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+     ],
+     "labelling_min_margin": 9307.367011772081,
+     "m_gamma_0": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+     ],
+     "m_gamma_0_is_SH": true,
+     "m_gamma_1": [
+      1,
+      9,
+      8,
+      7,
+      6,
+      5,
+      4,
+      3,
+      2
+     ],
+     "m_gamma_1_is_INV": true,
+     "m_gamma_1_reflection_c": [
+      0
+     ],
+     "steps": 6496,
+     "worst_swap_ratio": 0.05472014602580903
+    }
+   },
+   "closes": "the analogue of UC-3''(i): complex conjugation was MEASURED to act as INV on the labels, not assumed from corollary BR-3"
+  },
+  "step_6_star_dih": {
+   "equation": "pi Ybar_dih^chi pi^-1 = rho_dih^-1 Ybar_dih rho_dih   (reading B x dir1)",
+   "Ychi_justification": "chi in Zhat^x is odd (its Z/2 component is 1), and Ybar_dih has order 2, so Ybar_dih^chi = Ybar_dih. The census's chi = 2m+1 makes this explicit.",
+   "solution_set": "pi in rho_dih^-1 * C_{D_9}(Ybar_dih) = { r^{e_dih}, r^{e_dih} Ybar_dih }",
+   "residual_pin": "2405 Thm 4.3 forces the first D_9 component to be the ROTATION r^{2k}; machine-verified on all 972 census rows (e_i = 0 throughout). This is census STRUCTURE, symmetric in the two rosters, not roster membership -- it cannot carry orientation.",
+   "d00_table_per_layer": {
+    "0": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "11": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "12": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "14": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "15": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "17": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "2": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "3": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "5": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "6": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "8": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "9": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ]
+   },
+   "closed_form": "d_00 = e_dih (mod 9) in ALL 12 layers -- the chi-dependence cancels because L_dih = SH^5 satisfies 10 = 1 mod 9; paper derivation: rho: j -> chi j + 5(1-chi) - e, rho^-1 Ybar_dih rho : j -> 1 - 2e - j, pi = r^a : j -> 1 - 2a - j  =>  a = e.",
+   "closed_form_holds_all_12_layers": true,
+   "four_readings_x_directions_chi19": {
+    "A_dir1": [
+     0,
+     8,
+     7,
+     6,
+     5,
+     4,
+     3,
+     2,
+     1
+    ],
+    "A_dir2": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "B_dir1": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8
+    ],
+    "B_dir2": [
+     0,
+     8,
+     7,
+     6,
+     5,
+     4,
+     3,
+     2,
+     1
+    ]
+   },
+   "robustness_1_inf_swap": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "robustness_L_shift_chi1": true,
+   "L_shift_moves_it_at_chi7": true
+  },
+  "step_7_DIR_gate_on_the_dihedral_side": {
+   "what": "rho^-1 Xbar_dih rho == Xbar_dih^chi  (the sigma(x) = x^chi arithmetic fact)",
+   "dir1": {
+    "0": true,
+    "2": true,
+    "3": true,
+    "5": true,
+    "6": true,
+    "8": true,
+    "9": true,
+    "11": true,
+    "12": true,
+    "14": true,
+    "15": true,
+    "17": true
+   },
+   "dir2": {
+    "0": true,
+    "2": false,
+    "3": false,
+    "5": false,
+    "6": false,
+    "8": true,
+    "9": true,
+    "11": false,
+    "12": false,
+    "14": false,
+    "15": false,
+    "17": true
+   },
+   "reading": "dir1 passes in all 12 layers; dir2 fails in exactly the 8 layers with chi != +-1. This is an INDEPENDENT, non-vacuous confirmation of T-4 on the dihedral window, structurally parallel to ben1's DC-21."
+  },
+  "consistency_with_joint_design_J3": {
+   "J3": "k := (1/2)*c*e_p mod 9   [joint_marked_frobenius_design_v1.md sec.3.4]",
+   "measured": "k = (1/2) * e_dih  =>  c = +1 when e_p is taken w.r.t. the ANCHOR u_dih",
+   "warning_CC-3prime": "joint J2 used beta = 2, and [u_dih]_9 = [2]^-7 = [2]^2, so an e_p read off beta = 2 is NOT the e_dih of this cert; the 1/2 factor of J3 is confirmed, the value of c depends on which Kummer object e_p refers to.",
+   "half_factor_confirmed": true
+  }
+ },
+ "part_three_prime_run": {
+  "primes": [
+   19,
+   37,
+   73
+  ],
+  "zeta9bar_choices_per_prime": 6,
+  "table": [
+   {
+    "SELECT": "NN-09",
+    "a": 2,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 2,
+    "e0": 2,
+    "e_dih": 2,
+    "e_dih_neg_sign_variant": 2,
+    "in_symdiff": true,
+    "k": 1,
+    "k_mod3": 1,
+    "m": 9,
+    "p": 19,
+    "row_index": 512,
+    "zeta9bar": 4
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 7,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 7,
+    "e0": 7,
+    "e_dih": 7,
+    "e_dih_neg_sign_variant": 7,
+    "in_symdiff": true,
+    "k": 8,
+    "k_mod3": 2,
+    "m": 9,
+    "p": 19,
+    "row_index": 552,
+    "zeta9bar": 5
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 8,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 8,
+    "e0": 8,
+    "e_dih": 8,
+    "e_dih_neg_sign_variant": 8,
+    "in_symdiff": true,
+    "k": 4,
+    "k_mod3": 1,
+    "m": 9,
+    "p": 19,
+    "row_index": 564,
+    "zeta9bar": 6
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 5,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 5,
+    "e0": 5,
+    "e_dih": 5,
+    "e_dih_neg_sign_variant": 5,
+    "in_symdiff": true,
+    "k": 7,
+    "k_mod3": 1,
+    "m": 9,
+    "p": 19,
+    "row_index": 533,
+    "zeta9bar": 9
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 1,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 1,
+    "e0": 1,
+    "e_dih": 1,
+    "e_dih_neg_sign_variant": 1,
+    "in_symdiff": true,
+    "k": 5,
+    "k_mod3": 2,
+    "m": 9,
+    "p": 19,
+    "row_index": 500,
+    "zeta9bar": 16
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 4,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 4,
+    "e0": 4,
+    "e_dih": 4,
+    "e_dih_neg_sign_variant": 4,
+    "in_symdiff": true,
+    "k": 2,
+    "k_mod3": 2,
+    "m": 9,
+    "p": 19,
+    "row_index": 523,
+    "zeta9bar": 17
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 4,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 7,
+    "e0": 4,
+    "e_dih": 7,
+    "e_dih_neg_sign_variant": 7,
+    "in_symdiff": true,
+    "k": 8,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 37,
+    "row_index": 64,
+    "zeta9bar": 7
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 8,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 5,
+    "e0": 8,
+    "e_dih": 5,
+    "e_dih_neg_sign_variant": 5,
+    "in_symdiff": true,
+    "k": 7,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 37,
+    "row_index": 51,
+    "zeta9bar": 9
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 2,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 8,
+    "e0": 2,
+    "e_dih": 8,
+    "e_dih_neg_sign_variant": 8,
+    "in_symdiff": true,
+    "k": 4,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 37,
+    "row_index": 80,
+    "zeta9bar": 12
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 5,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 2,
+    "e0": 5,
+    "e_dih": 2,
+    "e_dih_neg_sign_variant": 2,
+    "in_symdiff": true,
+    "k": 1,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 37,
+    "row_index": 20,
+    "zeta9bar": 16
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 1,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 4,
+    "e0": 1,
+    "e_dih": 4,
+    "e_dih_neg_sign_variant": 4,
+    "in_symdiff": true,
+    "k": 2,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 37,
+    "row_index": 41,
+    "zeta9bar": 33
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 7,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 1,
+    "e0": 7,
+    "e_dih": 1,
+    "e_dih_neg_sign_variant": 1,
+    "in_symdiff": true,
+    "k": 5,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 37,
+    "row_index": 12,
+    "zeta9bar": 34
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 1,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 7,
+    "e0": 1,
+    "e_dih": 7,
+    "e_dih_neg_sign_variant": 7,
+    "in_symdiff": true,
+    "k": 8,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 73,
+    "row_index": 68,
+    "zeta9bar": 2
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 5,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 8,
+    "e0": 5,
+    "e_dih": 8,
+    "e_dih_neg_sign_variant": 8,
+    "in_symdiff": true,
+    "k": 4,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 73,
+    "row_index": 74,
+    "zeta9bar": 4
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 7,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 4,
+    "e0": 7,
+    "e_dih": 4,
+    "e_dih_neg_sign_variant": 4,
+    "in_symdiff": true,
+    "k": 2,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 73,
+    "row_index": 39,
+    "zeta9bar": 16
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 2,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 5,
+    "e0": 2,
+    "e_dih": 5,
+    "e_dih_neg_sign_variant": 5,
+    "in_symdiff": true,
+    "k": 7,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 73,
+    "row_index": 53,
+    "zeta9bar": 32
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 8,
+    "a_mod3": 2,
+    "chi_mod9": 1,
+    "d00": 2,
+    "e0": 8,
+    "e_dih": 2,
+    "e_dih_neg_sign_variant": 2,
+    "in_symdiff": true,
+    "k": 1,
+    "k_mod3": 1,
+    "m": 0,
+    "p": 73,
+    "row_index": 24,
+    "zeta9bar": 37
+   },
+   {
+    "SELECT": "NN-09",
+    "a": 4,
+    "a_mod3": 1,
+    "chi_mod9": 1,
+    "d00": 1,
+    "e0": 4,
+    "e_dih": 1,
+    "e_dih_neg_sign_variant": 1,
+    "in_symdiff": true,
+    "k": 5,
+    "k_mod3": 2,
+    "m": 0,
+    "p": 73,
+    "row_index": 10,
+    "zeta9bar": 55
+   }
+  ],
+  "column_note": "a = eps_B e_0 = +e_0 ; d_00 = e_dih ; k = 5 d_00 mod 9 ; row = [m, ((d_00,0),(-d_00,0),(kappa(m),0)), Xbar^a Ybar^-a]",
+  "P_CONN_A_B": {
+   "e0_equals_edih_mod3": true,
+   "e0_equals_edih_mod9": false,
+   "note": "mod 9 equality at p=19 only is the accident 1729 = 7*13*19 (c0/c_dih = -1728)"
+  },
+  "G_C6_discriminating": true,
+  "DC_9_symmetric_difference": true,
+  "raw_measurement_d00_equals_a_mod3": true,
+  "census_gates": {
+   "X18": [
+    0,
+    2,
+    3,
+    5,
+    6,
+    8,
+    9,
+    11,
+    12,
+    14,
+    15,
+    17
+   ],
+   "kappa_even_canary_D13": true,
+   "kappa_table_mod9": {
+    "0": 0,
+    "11": 3,
+    "12": 6,
+    "14": 4,
+    "15": 7,
+    "17": 0,
+    "2": 7,
+    "3": 4,
+    "5": 6,
+    "6": 3,
+    "8": 1,
+    "9": 1
+   },
+   "thm43_shape_on_all_972": {
+    "all_rotations": true,
+    "second_is_minus_first": true,
+    "third_is_kappa": true
+   },
+   "complete_product": true,
+   "monomial_layers": [
+    0,
+    8,
+    9,
+    17
+   ]
+  },
+  "decision_rule": {
+   "spec_1_2_table": {
+    "a0_k0": [
+     "both"
+    ],
+    "a0_k1": [
+     "neither"
+    ],
+    "a0_k2": [
+     "neither"
+    ],
+    "a1_k0": [
+     "neither"
+    ],
+    "a1_k1": [
+     "NN-12"
+    ],
+    "a1_k2": [
+     "NN-09"
+    ],
+    "a2_k0": [
+     "neither"
+    ],
+    "a2_k1": [
+     "NN-09"
+    ],
+    "a2_k2": [
+     "NN-12"
+    ]
+   },
+   "spec_1_2_reproduced": true,
+   "rows_covered": 324,
+   "raw_table": {
+    "a0_d000": [
+     "both"
+    ],
+    "a0_d001": [
+     "neither"
+    ],
+    "a0_d002": [
+     "neither"
+    ],
+    "a1_d000": [
+     "neither"
+    ],
+    "a1_d001": [
+     "NN-09"
+    ],
+    "a1_d002": [
+     "NN-12"
+    ],
+    "a2_d000": [
+     "neither"
+    ],
+    "a2_d001": [
+     "NN-12"
+    ],
+    "a2_d002": [
+     "NN-09"
+    ]
+   },
+   "raw_statement": "NN-09 <=> d_00 = +a (mod 3, both nonzero) ; NN-12 <=> d_00 = -a. This form uses only the two raw census key coordinates (27-block first r-exponent, 9-block famB exponent) and is free of the k = 5 d_00 normalisation.",
+   "raw_reproduced": true
+  },
+  "roster_sizes": {
+   "NN09": 324,
+   "NN12": 324,
+   "cap": 108,
+   "index_max": 971,
+   "index_min": 0,
+   "rows": 972,
+   "symdiff": 432
+  },
+  "roster_hashes": {
+   "NN09": "4042644557996fd70c0a6bcf0b375d8ad7e26181838fe4d2ea828fdbaeb8b4fd",
+   "NN09_keys": "994df2d1bd03d97426e2257322e6c9fb2a101bfe5c4a5db8be10177c17f23364",
+   "NN12": "9d8854a4cd6b1e09c9ade26bf36cb027ed6f6ba60397de9b0899e83d3b4ecc3d",
+   "NN12_keys": "e2dbe380afd89bffe5812c20a4d1e8392df566db7dedff3acf988323b9c438a9"
+  }
+ },
+ "part_controls": {
+  "baseline": [
+   "NN-09"
+  ],
+  "destructive": {
+   "CONT7_both_sides_flip": {
+    "expected": "NN-09",
+    "note": "SELECT must be INVARIANT (sec.4.3: only the relative sign matters)",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-10prime_eps_B_flip": {
+    "expected": "NN-12",
+    "note": "SELECT must swap (a is live in the implementation)",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "DC-11pp_u2": {
+    "expected": "NN-12",
+    "note": "flips iff u = 2 mod 3 (u^-1 mod 3)",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "DC-11pp_u4": {
+    "expected": "NN-09",
+    "note": "flips iff u = 2 mod 3 (u^-1 mod 3)",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11pp_u5": {
+    "expected": "NN-12",
+    "note": "flips iff u = 2 mod 3 (u^-1 mod 3)",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "DC-11pp_u7": {
+    "expected": "NN-09",
+    "note": "flips iff u = 2 mod 3 (u^-1 mod 3)",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11pp_u8": {
+    "expected": "NN-12",
+    "note": "flips iff u = 2 mod 3 (u^-1 mod 3)",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "DC-11prime_u2": {
+    "expected": "NN-09",
+    "note": "CONT-1: invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11prime_u4": {
+    "expected": "NN-09",
+    "note": "CONT-1: invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11prime_u5": {
+    "expected": "NN-09",
+    "note": "CONT-1: invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11prime_u7": {
+    "expected": "NN-09",
+    "note": "CONT-1: invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-11prime_u8": {
+    "expected": "NN-09",
+    "note": "CONT-1: invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "DC-17_fake_c0_cube": {
+    "expected": [
+     "UNDECIDABLE(neither)",
+     "UNDECIDABLE(both)"
+    ],
+    "note": "a = 0 mod 3 -> undecidable, as pre-registered",
+    "pass": true,
+    "result": [
+     "UNDECIDABLE(neither)"
+    ]
+   },
+   "DC-17_fake_c0_inverse_class": {
+    "expected": "NN-12",
+    "note": "inverse cube class -> SELECT flips",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "DC-20_u0_trap": {
+    "expected": "NN-12",
+    "note": "the frozen spec sec.2.2 value of 'u0'",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "eps_D_flip": {
+    "expected": "NN-12",
+    "note": "SELECT must swap (k is live)",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "u_dih_same_class_2m4": {
+    "expected": "NN-09",
+    "note": "same cube class -> no-op (guards against a spurious 'any change flips')",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   },
+   "u_dih_sensitivity_2m8": {
+    "expected": "NN-12",
+    "note": "the recorded local3 sensitivity: [2^-8]_3 = [2] != [2]^2",
+    "pass": true,
+    "result": [
+     "NN-12"
+    ]
+   },
+   "u_dih_sign": {
+    "expected": "NN-09",
+    "note": "sign is a 9th power -> invariant",
+    "pass": true,
+    "result": [
+     "NN-09"
+    ]
+   }
+  },
+  "DC-12": {
+   "pass": true,
+   "per_layer_counts": {
+    "0": [
+     27,
+     27
+    ],
+    "11": [
+     27,
+     27
+    ],
+    "12": [
+     27,
+     27
+    ],
+    "14": [
+     27,
+     27
+    ],
+    "15": [
+     27,
+     27
+    ],
+    "17": [
+     27,
+     27
+    ],
+    "2": [
+     27,
+     27
+    ],
+    "3": [
+     27,
+     27
+    ],
+    "5": [
+     27,
+     27
+    ],
+    "6": [
+     27,
+     27
+    ],
+    "8": [
+     27,
+     27
+    ],
+    "9": [
+     27,
+     27
+    ]
+   }
+  },
+  "DC-13": {
+   "in_intersection": true,
+   "row": 891,
+   "verdict": "UNDECIDABLE(both)"
+  },
+  "DC-14prime_root_prime_P": {
+   "c0_mod_p": 4,
+   "c_dih_mod_p": 4,
+   "chi_mod9": 7,
+   "e0": 2,
+   "e_dih": 2,
+   "field": "F_7^9",
+   "gamma_ninth_power_is_c0": true,
+   "gamma_ninth_power_is_c_dih": true,
+   "irreducible": true,
+   "k": 9,
+   "m": 3,
+   "min_poly_coeffs_asc": [
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "p": 7,
+   "reading": "zeta_9bar^e = gamma^(p-1)",
+   "zeta9bar_is_gamma_cubed": true,
+   "zeta9bar_poly": [
+    0,
+    0,
+    0,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "DC-14prime_full_pipeline_p7": {
+   "SELECT": "NN-09",
+   "agrees_with_baseline": true,
+   "census_hits": 1,
+   "chi": 7,
+   "d00": 2,
+   "e0": 2,
+   "e_dih": 2,
+   "in_symdiff": true,
+   "m": 3,
+   "monomial_layer": false,
+   "p": 7,
+   "pi_1based": [
+    5,
+    8,
+    4,
+    6,
+    9,
+    3,
+    2,
+    7,
+    1
+   ],
+   "row_index": 185,
+   "star_solutions": 9
+  },
+  "L_shift_sensitivity_p7": {
+   "NN-09": 81,
+   "NN-12": 0,
+   "achievable_e_shifts_mod3_per_layer": {
+    "0": [
+     0
+    ],
+    "11": [
+     0,
+     1,
+     2
+    ],
+    "12": [
+     0
+    ],
+    "14": [
+     0,
+     1,
+     2
+    ],
+    "15": [
+     0
+    ],
+    "17": [
+     0,
+     1,
+     2
+    ],
+    "2": [
+     0,
+     1,
+     2
+    ],
+    "3": [
+     0
+    ],
+    "5": [
+     0,
+     1,
+     2
+    ],
+    "6": [
+     0
+    ],
+    "8": [
+     0,
+     1,
+     2
+    ],
+    "9": [
+     0
+    ]
+   },
+   "grid": {
+    "0,0": "NN-09",
+    "0,1": "NN-09",
+    "0,2": "NN-09",
+    "0,3": "NN-09",
+    "0,4": "NN-09",
+    "0,5": "NN-09",
+    "0,6": "NN-09",
+    "0,7": "NN-09",
+    "0,8": "NN-09",
+    "1,0": "NN-09",
+    "1,1": "NN-09",
+    "1,2": "NN-09",
+    "1,3": "NN-09",
+    "1,4": "NN-09",
+    "1,5": "NN-09",
+    "1,6": "NN-09",
+    "1,7": "NN-09",
+    "1,8": "NN-09",
+    "2,0": "NN-09",
+    "2,1": "NN-09",
+    "2,2": "NN-09",
+    "2,3": "NN-09",
+    "2,4": "NN-09",
+    "2,5": "NN-09",
+    "2,6": "NN-09",
+    "2,7": "NN-09",
+    "2,8": "NN-09",
+    "3,0": "NN-09",
+    "3,1": "NN-09",
+    "3,2": "NN-09",
+    "3,3": "NN-09",
+    "3,4": "NN-09",
+    "3,5": "NN-09",
+    "3,6": "NN-09",
+    "3,7": "NN-09",
+    "3,8": "NN-09",
+    "4,0": "NN-09",
+    "4,1": "NN-09",
+    "4,2": "NN-09",
+    "4,3": "NN-09",
+    "4,4": "NN-09",
+    "4,5": "NN-09",
+    "4,6": "NN-09",
+    "4,7": "NN-09",
+    "4,8": "NN-09",
+    "5,0": "NN-09",
+    "5,1": "NN-09",
+    "5,2": "NN-09",
+    "5,3": "NN-09",
+    "5,4": "NN-09",
+    "5,5": "NN-09",
+    "5,6": "NN-09",
+    "5,7": "NN-09",
+    "5,8": "NN-09",
+    "6,0": "NN-09",
+    "6,1": "NN-09",
+    "6,2": "NN-09",
+    "6,3": "NN-09",
+    "6,4": "NN-09",
+    "6,5": "NN-09",
+    "6,6": "NN-09",
+    "6,7": "NN-09",
+    "6,8": "NN-09",
+    "7,0": "NN-09",
+    "7,1": "NN-09",
+    "7,2": "NN-09",
+    "7,3": "NN-09",
+    "7,4": "NN-09",
+    "7,5": "NN-09",
+    "7,6": "NN-09",
+    "7,7": "NN-09",
+    "7,8": "NN-09",
+    "8,0": "NN-09",
+    "8,1": "NN-09",
+    "8,2": "NN-09",
+    "8,3": "NN-09",
+    "8,4": "NN-09",
+    "8,5": "NN-09",
+    "8,6": "NN-09",
+    "8,7": "NN-09",
+    "8,8": "NN-09"
+   },
+   "other": 0,
+   "pinned_pair_verdict": "NN-09",
+   "reason": "L -> L o SH^b shifts e by b(1-chi) mod 9; for chi = 1 mod 3 this is 0 mod 3"
+  },
+  "T1_T3_existence_argument": {
+   "hits": {
+    "m0_A_dir1": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "m0_A_dir2": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "m0_B_dir1": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "m0_B_dir2": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "m9_A_dir1": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "m9_A_dir2": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "m9_B_dir1": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ],
+    "m9_B_dir2": [
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1,
+     1
+    ]
+   },
+   "pass": true,
+   "statement": "reading A gives 0 census hits for every e_0 != 0 in both measurement layers and under both directions; reading B gives exactly 1. Since the shadow of Frob_p is a census row and e_0 was measured nonzero, reading B is forced. SELECT therefore does not rest on spec sec.3.8's verbatim producer-code archaeology."
+  },
+  "all_controls_pass": true,
+  "W_C5_fires": false
+ },
+ "part_corrections": {
+  "CC-14": {
+   "target": "spec v1.2 sec.2.2 (the u0 line) and sec.4.4 (the u0 trap)",
+   "old": "u0 = uS4 = -3^6*5^9/2^8 , [u0]_3 = [2] , hence [c0]_3 = [u0]_3^-1",
+   "new": "-3^6*5^9/2^8 is the value of the ds4 receipt's field named `input_u0_inverse`, i.e. 1/u0, not u0. The convention-D quantity is u0 = -2^8/(3^6*5^9), and c0/u0 = (15/2)^9 EXACTLY, so [c0]_9 = [u0]_9. The trap as stated in sec.4.4 is inverted.",
+   "machine": {
+    "c0_and_u0_same_9th_power_class": true,
+    "c0_over_u0": "38443359375/512",
+    "cert_field_input_u0_inverse": "-1423828125/256",
+    "is_ninth_power_of": "15/2",
+    "u0_reciprocal": "-256/1423828125"
+   },
+   "positive_content": "the exact 9th-power agreement c0 = u0*(15/2)^9 is an independent cross-check that PILOT-2's Belyi model (X,phi) and the d972 S4 lane's u0 are the same object -- P5 (u0 = uS4) gains real support. It also removes the apparent conflict between [c0]_3 = [2]^2, [u_dih]_3 = [2]^2 and LOCAL-3's c' = +1: all three now agree.",
+   "impact_on_SELECT": "NONE. This cert never uses u0; it uses ben1's exact c0 = -27/2 and its own exact c_dih. DC-20 was run with the value frozen in spec sec.2.2 and does flip SELECT, so it retains its role as a sensitivity probe -- but it must no longer be described as 'substituting the u0 frame'.",
+   "already_visible_in": "LOCAL-3 anchor v1 sec.A.3, whose table lists u_S4 = u0 as class [2]^2",
+   "registered_as": "D-10 (cert same-name-different-value) in the LOCAL-3 v2 ledger"
+  },
+  "CC-15": {
+   "target": "spec v1.2 sec.3.6' line C6  (k := eps_D * edih mod 9)",
+   "old": "k = eps_D * e_dih with eps_D in {+1,-1}",
+   "new": "no sign in {+1,-1} can satisfy this: the measured relation is k = 5 e_dih mod 9. C6 should read  d_00 := eps_D * e_dih  (eps_D = +1 measured)  and  k := 5 * d_00 mod 9. The spec's C6 silently dropped 2405 Thm 4.3's factor 2. Recorded mod 3 the spec's eps_D equals -1, which is what SELECT consumes.",
+   "impact_on_SELECT": "none once stated correctly; but the sign of eps_D reads opposite in the two normalisations, so the wording must be fixed before anyone re-uses it."
+  },
+  "CC-16": {
+   "target": "spec v1.2 sec.5.3' [P-CONN-E] / sec.5.4' DC-14 ('no discriminating power')",
+   "old": "agreement across primes is automatic because [c0]_3 = [u_dih]_3 is an identity in Q",
+   "new": "true for primes in the SAME layer, but a prime with chi != +-1 lands in a NON-monomial layer where the row is built from a different pi and a different kappa(m); its agreement is NOT automatic. p = 7 was run end to end and agrees (row 185, NN-09). This is real, if modest, independent power."
+  }
+ },
+ "assumption_load_of_SELECT": {
+  "note": "SELECT consumes only (a mod 3, d_00 mod 3), both raw census key coordinates. This ben reduced the list of conventions it actually depends on:",
+  "T-1_reading": "FORCED, not assumed: reading A returns zero census hits for every e_0 != 0 in both measurement layers under both directions, while the shadow of Frob_p must be a census row. (spec sec.3.8's archaeology agrees but is no longer load-bearing.)",
+  "T-3_paper_f_vs_f_inverse": "same argument: a global flip is a global reading flip, refuted",
+  "T-4_DIR": "CANCELS: dir2 on BOTH windows sends a -> -a and d_00 -> -d_00, leaving SELECT unchanged (control CONT7_both_sides_flip).",
+  "zeta_9_choice": "CANCELS when applied to both windows (DC-11', 5 exponents x 18 cells)",
+  "T-2_label_pin_shift_part": "INVISIBLE mod 3 at every prime used: L -> L o SH^b moves the Kummer index by b(1-chi), and chi = 1 mod 3 for p = 7, 19, 37, 73.",
+  "T-2_x_y_swap_part": "NOT TESTED -- see not_reached / UC-3''(ii)",
+  "still_load_bearing": [
+   "ben1's exact c0 = -27/2 (from the ben5 model of the Belyi cover)",
+   "this ben's exact c_dih = +-2^-7 (from the Chebyshev model)",
+   "2405 Thm 4.3's shape (r^{2k}, r^{-2k}, r^{kappa(m)}) -- verified on all 972 rows",
+   "Lemma BR itself (own paper-proof, no citation -- UC-5)",
+   "the identification of the two frozen 324-key rosters (10/10 hash pin, fuda 7)"
+  ]
+ },
+ "FINAL_VERDICT": {
+  "G-C7_CONN_DIH": "PASS",
+  "G-C2_dih_numerical_monodromy": "PASS",
+  "G-C6_discriminability": true,
+  "eps_D_closed": true,
+  "W-C4_fires": false,
+  "W-C5_fires": false,
+  "SELECT": "NN-09",
+  "all_gates_and_controls_pass": true,
+  "grade": "candidate / cross-checked. Exact rational and integer arithmetic throughout (Chebyshev model, c_dih, all permutation work, all discrete logarithms), an independent GAP run-time witness for the dihedral window and the (star)_dih solve, and an independent double-precision analytic continuation for the monodromy. NOT verified (no Lean).",
+  "campaign_status": "CONNECT campaign complete: eps_B (ben1) and eps_D (ben2) both closed."
+ },
+ "not_reached": [
+  "the second and third psi_9 components as an independent re-derivation of d_10 = -d_00 and d_20 = kappa(m): those windows put the 9-cycle over 1 and over infinity, so they need Lemma BR at a tangential base point other than 01vec. Thm 4.3's shape was only VERIFIED on the 972 rows, not re-derived geometrically.",
+  "UC-3''(ii): the GT normalisation x = gamma_0 is still not in any producer code. This ben shows the L-SHIFT part of the label freedom is invisible mod 3 at every prime used (chi = 1 mod 3), but the x <-> y swap is a different, larger change and was NOT tested.",
+  "T-3 / UC-5': the original 2401.06870 sec.3 wording of T_{m,f} (still unread)",
+  "UC-5: a citable source for Lemma BR (still an own paper-proof)",
+  "Lean formalisation (UC-8) -- zero",
+  "genuineness of the 648 complement: SELECT fixes WHICH rows are non-arithmetic, not whether the non-arithmetic ones are genuine (DICHOT-972 is a separate branch)"
+ ],
+ "unknowns": {
+  "UC-2_eps_D": "CLOSED in this ben (raw eps_D = +1; spec-C6 eps_D = 5 mod 9 = -1 mod 3)",
+  "UC-7_explicit_dihedral_Belyi_map": "CLOSED -- phi_dih = 2/(1 +- T_9(x)) written down and its local leading coefficient computed exactly",
+  "UC-3''_step_(ii)": "OPEN (inherited from ben1). See not_reached.",
+  "UC-5_Lemma_BR_citation": "UNKNOWN in the corpus (literature request 1 stands)",
+  "UC-5prime_T-3": "UNKNOWN -- 2401.06870 sec.3 not read",
+  "SELECT_label_semantics": "the names NN-09/NN-12 are lexicographic; the content of the verdict is the hashed roster, not the name (ruling 1726)"
+ },
+ "literature_requests": [
+  {
+   "id": "LR-1 (standing)",
+   "need": "an explicit formula relating the G_Q action on the dessin fibre at the tangential base point 01vec to Drinfeld's f(sigma) (direction of conjugation, f vs f^-1, generator order). Would give Lemma BR a citable source and close T-3."
+  },
+  {
+   "id": "LR-2 (new, ben2)",
+   "need": "a source for the arithmetic of the dihedral GT-shadow marking: is the Kummer index attached to the D_n component of psi_n(f) documented anywhere as k = 2^-1 * (Kummer index of the cusp coefficient)? The factor 2 in 2405 Thm 4.3's r^{2k} is exactly the load-bearing step of this ben, and a citation would turn a workshop derivation into a corroborated one."
+  }
+ ],
+ "grade": "candidate / cross-checked (NOT verified -- verified is reserved for Lean)",
+ "artifacts": {
+  "scratchpad/connect_ben2_dih.py": "097acec4693c2b55",
+  "scratchpad/connect_ben2_run.py": "c882be2fa6093337",
+  "scratchpad/connect_ben2_ctrl.py": "02b629fff7ad12db",
+  "scratchpad/connect_ben2_cert.py": "e0b616a509d3dbed",
+  "scratchpad/connect_ben2_gapwit.g": "7f53f70e2be0741c",
+  "scratchpad/connect_ben2_dih_out.txt": "423d26fa201b9eaf",
+  "scratchpad/connect_ben2_dih_out.json": "68a880494d69c84f",
+  "scratchpad/connect_ben2_run_out.txt": "c8f96d9c22df72fe",
+  "scratchpad/connect_ben2_run_out.json": "19e5cc4844aa9637",
+  "scratchpad/connect_ben2_ctrl_out.txt": "9d07c805ac5b416f",
+  "scratchpad/connect_ben2_ctrl_out.json": "4741c3416480b359",
+  "scratchpad/connect_ben2_gapwit_out.txt": "8df37235be79fcff"
+ },
+ "inputs": {
+  "scratchpad/connect_spec_v1.md": "78da8fa13469955d",
+  "scratchpad/connect_ben1_conv.py": "2336cece326487bd",
+  "search/certs/connect_ben1_conventions_v1_20260830.json": "8d5f9d1da8f485e0",
+  "search/certs/pilot2_ben1_hyperbolic_v1_20260829_ERRATUM_CC9.md": "105a2e87234b08fe",
+  "search/certs/d972_b4_word_key_artifact_v1_20260816.json": "564a921be8114bde",
+  "search/certs/d972_idx3_arithmetic_receipt_v2_20260823.json": "1fca084f396605a8",
+  "search/certs/ds4_receipt_v1_20260812.json": "f4658b2d7f455269",
+  "search/week3-battery-common.g": "aadf1afa5e1a171d",
+  "search/d972_dovetail_worker_v1.g": "f9ad3f8f71dc5af3"
+ },
+ "generated_by": {
+  "script": "scratchpad/connect_ben2_cert.py",
+  "software": "python 3.13 (fractions/integers, exact) + numpy 2.5.1 (root finding, IEEE double) + GAP 4.16.0 via gap.ps1 (run-time witness)",
+  "note": "every numeric value in this certificate is copied programmatically from the *_out.json machine outputs listed in artifacts; nothing was typed by hand.",
+  "runtime": "connect_ben2_dih.py ~40 s, run ~3 s, ctrl ~25 s on the 8GB box"
+ }
+}
