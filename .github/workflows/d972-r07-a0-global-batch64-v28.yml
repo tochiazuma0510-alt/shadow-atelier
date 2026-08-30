@@ -1,0 +1,106 @@
+name: d972-r07-a0-global-batch64-v28
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  resume:
+    runs-on: ubuntu-latest
+    timeout-minutes: 245
+    steps:
+      - name: Checkout exact dispatched batch successor head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup pinned official GAP 4.16.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          for required in bash curl tar sha256sum make gcc g++ nproc; do
+            command -v "$required" >/dev/null
+          done
+          gap_url='https://github.com/gap-system/gap/releases/download/v4.16.0/gap-4.16.0.tar.gz'
+          gap_sha='aaa296b32a5d7bf25fd80f241d23ec1f58b74e991ae730fafe40e54eb3af6e7e'
+          gap_archive="$RUNNER_TEMP/gap-4.16.0.tar.gz"
+          gap_root="$RUNNER_TEMP/gap-4.16.0"
+          test -n "$RUNNER_TEMP"
+          rm -f "$gap_archive"
+          rm -rf "$gap_root"
+          curl --fail --location --silent --show-error \
+            --connect-timeout 20 --max-time 900 \
+            --retry 5 --retry-delay 5 --retry-max-time 1200 \
+            --retry-all-errors --output "$gap_archive" "$gap_url"
+          printf '%s  %s\n' "$gap_sha" "$gap_archive" | sha256sum --check --status
+          tar --extract --gzip --file "$gap_archive" --directory "$RUNNER_TEMP"
+          test -d "$gap_root"
+          cd "$gap_root"
+          ./configure
+          make -j"$(nproc)"
+          test -x "$gap_root/gap"
+          printf 'GAPROOT=%s\n' "$gap_root" >> "$GITHUB_ENV"
+          printf '%s\n' "$gap_root" >> "$GITHUB_PATH"
+          printf '%s\n' \
+            'if GAPInfo.Version <> "4.16.0" then Error("GAP 4.16.0 smoke gate failed"); fi;;' \
+            'QUIT_GAP(0);;' | "$gap_root/gap" --quitonbreak -q
+
+      - name: Bind dispatched and prior-run identities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRIOR_RUN_ID: "33267817818"
+          PRIOR_ARTIFACT_ID: "9721440597"
+          PRIOR_ARTIFACT_NAME: gap-run-out
+          PRIOR_HEAD_SHA: 8227ecd4cb12f7efc8e2419306b847e228a78f36
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID" --jq .head_sha)" = "$PRIOR_HEAD_SHA"
+          artifact_name="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID/artifacts" --paginate --jq ".artifacts[] | select(.id == $PRIOR_ARTIFACT_ID) | .name")"
+          artifact_expired="$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRIOR_RUN_ID/artifacts" --paginate --jq ".artifacts[] | select(.id == $PRIOR_ARTIFACT_ID) | .expired")"
+          test "$artifact_name" = "$PRIOR_ARTIFACT_NAME"
+          test "$artifact_expired" = false
+          mkdir -p ci/out
+          printf '%s\n' "{\"artifact_id\":$PRIOR_ARTIFACT_ID,\"artifact_name\":\"$PRIOR_ARTIFACT_NAME\",\"dispatched_head\":\"$GITHUB_SHA\",\"prior_head\":\"$PRIOR_HEAD_SHA\",\"prior_run\":$PRIOR_RUN_ID,\"schema\":\"d972-r07-a0/prior-artifact-binding/v28\"}" > ci/out/d972-r07-a0-prior-artifact-binding-v28.json
+
+      - name: Download exact prior A0 artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: gap-run-out
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33267817818
+          path: ci/in/prior
+
+      - name: Authenticate exact resume member
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t members < <(find ci/in/prior -type f -name 'd972_r07_history_free_positive_fast_resume_v24_production.json.checkpoint.json')
+          test "${#members[@]}" -eq 1
+          resume="${members[0]}"
+          test "$resume" = ci/in/prior/d972_r07_history_free_positive_fast_resume_v24_production.json.checkpoint.json
+          test "$(wc -c < "$resume")" = 1663424241
+          test "$(sha256sum "$resume" | awk '{print $1}')" = 55c463335e89fb7e67a04ec9c0405a8216f6f909b2ce67a0fe7a8a4afaf2014d
+          mkdir -p ci/resume
+
+      - name: Run globally merged batch-64 GAP driver
+        shell: bash
+        run: |
+          set -o pipefail
+          gap -q --quitonbreak search/d972_r07_history_free_positive_fast_resume_batch64_gha_driver_v28.g 2>&1 | tee ci/out/gap-driver.log
+
+      - name: Upload batch successor outputs and logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: d972-r07-a0-global-batch64-v28-${{ github.run_id }}
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 7
+          path: ci/out/
