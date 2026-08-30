@@ -10728,3 +10728,23 @@ single transport repair required before continuation; it does not count the
 - A0 remains **0/1 RUNNING FROM DURABLE RESUME** in the parallel one-column
   and batch-64 runs; A4 remains **1/3 RUNNING**.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 265 (2026-08-30): batch-64 transport reaches the production script
+
+- GHA run `33283161829`, job `99181659662`, passed checkout, the official
+  GAP 4.16.0 setup, exact prior-run/head/artifact identity binding, and the
+  download of artifact `9721440597`.  It entered `Run GAP script` at
+  2026-08-30 09:23:26 JST and remains in progress.
+- This closes the path/basename transport gate which stopped the superseded
+  run `33282142711`.  It does not yet prove that the complete 1.66 GB semantic
+  stream restore has finished, and it contributes no new retained column
+  until a successor checkpoint is uploaded.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME**.  Both the one-column
+  baseline `33282364093` and the batch-64 run `33283161829` are inside their
+  production GAP steps.  No A0 common word or negative certificate exists at
+  this delta.
+- A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  Fake and Ihara
+  witness numerators remain zero.
