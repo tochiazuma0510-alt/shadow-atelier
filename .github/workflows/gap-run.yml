@@ -277,6 +277,7 @@ jobs:
             fi
           fi
       - uses: actions/upload-artifact@v4
+        if: ${{ always() }}
         with:
           name: gap-run-out
           path: |
