@@ -11727,3 +11727,65 @@ single transport repair required before continuation; it does not count the
   return-symmetric defect image and strict fixed-source coverage; do not first
   classify the value and connection summands by parity.
 - No compatible lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 283 (2026-08-30): A0 batch-v4 preserves round 648 as an exact resume state
+
+- A0 GHA run `33300457583`, job `99227497880`, completed on immutable head
+  `4fa8a7d936e7f86f22964d512aab664e45402483`.  The workflow conclusion is
+  `success`, but the mathematical producer terminal is honestly
+
+  ```text
+  UNKNOWN_RESOURCE
+  reason = seconds:positive_lazy
+  last printed round = 648
+  last printed rank = 60258
+  boundary_pairs = 10102480
+  row_nnz = 9297
+  total_pivot_nnz = 53059112
+  owner_rss_bytes = 2727055360
+  elapsed = 6017.562 seconds
+  cumulative batch_added after round 648 = 60200
+  ```
+
+  The unchanged narrow checker returned
+  `R07_A0_BATCH_LAZY_CHECKER_PASS status=UNKNOWN_RESOURCE`.  This accepts the
+  resource-terminal envelope only; it is not an A0 MEMBER/NONMEMBER result.
+- Artifact `9730051236` is named `gap-run-out`, has 98,493,406 bytes and
+  digest
+  `sha256:fc83f49e361733889990e25ab99c8b641d62b9ff827d64445087d2585b6d2377`.
+  Unlike the earlier non-durable B3 prefix, it contains a full continuation
+  checkpoint of 129,119,626 bytes with SHA-256
+  `1deed5488a8051102a3fbc80d65432b6f461fdf35c7db46e51261610b7e4a3d5`.
+  Its `D972-A0-LAZY-CP2` header seals a 129,119,534-byte payload with SHA-256
+  `14f38dedf5e1704dbac48ae41e7374adbd397b0f5e98b502eb7e554066bad96d`.
+  Thus the elapsed work is durable and may be continued without rebuilding
+  the rank-raising prefix.
+- Task417 supplies the minimal versioned resume driver
+  `search/d972_r07_history_free_positive_fast_resume_gha_driver_v31.g`,
+  2,852 bytes, SHA-256
+  `161192258bdb21ed25875061b5a1388227b491bf9fb38932b7a3e47d36566bf2`.
+  It byte-pins the unchanged task416 producer/checker and the full prior
+  checkpoint, passes the latter only as `--resume`, runs a further 18,000
+  seconds with batch cap 128 and the 5.7 GB controlled RSS cap, and requires
+  a fresh checkpoint before accepting another `UNKNOWN_RESOURCE` envelope.
+  No local production or checkpoint decode was used for this transport.
+- The generic GHA workflow already has an authenticated prior-artifact
+  download gate selected by the v31 filename.  Its four constants still
+  point to the old A0 artifact.  The exact minimal pin substitution for run
+  `33300457583` / artifact `9730051236` / head `4fa8a7d...` has been sent to
+  the commander through the express box because workflow edits require
+  prior approval.  No unapproved workflow change or replacement fresh run
+  is made.
+
+**v220 mapping**:
+
+- A0 is **0/1 UNKNOWN_RESOURCE, durable through round 648**.  Relative to
+  Delta279, batch insertion raised the live rank frontier from 314 to at
+  least the printed 60,258 while preserving a sealed exact continuation.
+  No absence claim follows from this resource terminal.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+- A4 remains **1/3 UNKNOWN_RESOURCE, durable next_row=25** while run
+  `33303302455` continues.
+- A9 remains **0/3 actual** with the return-symmetric image and strict
+  fixed-source coverage open.  No compatible lift, fake numerator, or Ihara
+  witness is promoted.
