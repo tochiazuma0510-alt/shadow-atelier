@@ -13,7 +13,7 @@ if not IsBound(D972_R07_A0_PB34_V12_RUN) or D972_R07_A0_PB34_V12_RUN<>true then 
 if D431ProducerSHA="PENDING" or D431CheckerSHA="PENDING" then Error("task431 pins pending");fi;;
 D431Pin(D431Producer,D431ProducerBytes,D431ProducerSHA);;D431Pin(D431Checker,D431CheckerBytes,D431CheckerSHA);;
 Exec("mkdir -p ci/out");;if IsExistingFile(D431Output) then Error("task431 output checkpoint already exists; archive it and choose a fresh output path");fi;;
-D431Resume:="";;D431InputArg:="";;D431MigrationArg:=Concatenation(" --resume-v11-url https://github.com/tochiazuma0510-alt/shadow-atelier/releases/download/archive-gha-checkpoints/artifact_9735328330_gap-run-out.valid.zip");;if IsExistingFile(D431Input) then D431Resume:=Concatenation(" --resume ",D431Input);D431InputArg:=D431Input;D431MigrationArg:="";fi;;
+D431Resume:="";;D431InputArg:="";;D431MigrationArg:=" --resume-v11-url https://github.com/tochiazuma0510-alt/shadow-atelier/releases/download/archive-gha-checkpoints/artifact_9735328330_gap-run-out.valid.zip";;if IsExistingFile(D431Input) then D431Resume:=Concatenation(" --resume ",D431Input);D431InputArg:=D431Input;D431MigrationArg:="";fi;;
 D431CheckInput:="";;if D431InputArg<>"" then D431CheckInput:=Concatenation(" --input-checkpoint ",D431InputArg);fi;;
 Exec(Concatenation("python3 -u -B ",D431Producer," --mode PRODUCTION --seconds 9000 --rss-bytes 4800000000",D431MigrationArg," --output ",D431Artifact," --checkpoint ",D431Output,D431Resume," 2>&1 | tee ",D431PL));;
 if PositionSublist(D431Read(D431PL),"R07_A0_PHASE_SEPARATED_PACKED_OWNER_V12")=fail then Error("task431 producer marker");fi;;

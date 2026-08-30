@@ -74,3 +74,24 @@ Final identities は driver と Luna reply に一致する。
 この最終便では上記3点の bounded static inspection と byte/SHA 照合のみ実施し、download/migration/production は実行していない。コード、driver、workflow は変更していない。
 
 GO
+
+## Immediate driver-only repair audit after run 33328233304
+
+Run `33328233304`, job `99302076654`, stopped before Python/migration with
+GAP `Concatenation: arguments must be lists`.  The exact cause is the
+one-argument expression `Concatenation(" --resume-v11-url ...")`: with one
+argument GAP treats the string as the outer collection to concatenate, so its
+character entries fail the list requirement.
+
+The repair replaces only that expression by the same literal GAP string.
+Every multi-argument `Concatenation`, the URL, producer/checker pins, resource
+limits, paths, workflow, and all Python code are byte-for-byte unchanged.
+The repaired driver is 3125 bytes with SHA-256
+`b3921e7c975b5bd4dfd2a581829d6c6497230105218dea1af88f0676f7bb1dc8`.
+Static inspection finds no remaining one-argument `Concatenation` in the
+driver.  Local Windows GAP remains unavailable because of the previously
+recorded signal-pipe error; the Linux GHA parse is therefore the next bounded
+gate.
+
+**GO for immediate redispatch.**  This repair has no mathematical claim
+effect; A0 remains 0/1 actual until a production artifact says otherwise.

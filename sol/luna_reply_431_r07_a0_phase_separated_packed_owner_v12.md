@@ -41,7 +41,7 @@ Final pins:
 
 - `search/d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 50017 bytes, SHA-256 `ff856827e462c9cd09fe6068fed7930b06bbf9de0d04b78e1f20bbf3965063a8`
 - `crosscheck/check_d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 13334 bytes, SHA-256 `e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`
-- `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g`: 3140 bytes, SHA-256 `4e1550da1b28bf42b2871838b5213e6296b5a3e046607a526daa256c5bf03340`
+- `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g`: 3125 bytes, SHA-256 `b3921e7c975b5bd4dfd2a581829d6c6497230105218dea1af88f0676f7bb1dc8`
 
 The driver uses fresh v12 paths, requires external
 `D972_R07_A0_PB34_V12_RUN:=true`, passes the exact registered v11 release URL,
@@ -102,3 +102,16 @@ Production identifiers:
 At dispatch recording time the job is `in_progress` in GAP setup.  This is
 not yet a migration result, common word, compatible lift, fake numerator, or
 Ihara witness.
+
+## Immediate driver repair after run 33328233304
+
+The job stopped before Python or migration. GAP evaluated the one-argument
+`Concatenation(" --resume-v11-url ...")` while constructing the migration
+argument and raised `Concatenation: arguments must be lists`. The constant
+argument is now assigned directly as a GAP string; the conditional resume and
+multi-argument command constructions are unchanged. This is a driver-only
+repair; producer/checker and workflow were not modified, and no production or
+download was rerun.
+
+Updated driver pin: 3125 bytes, SHA-256
+`b3921e7c975b5bd4dfd2a581829d6c6497230105218dea1af88f0676f7bb1dc8`.
