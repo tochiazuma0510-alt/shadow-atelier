@@ -12373,3 +12373,31 @@ single transport repair required before continuation; it does not count the
   strict positive replay if the target reduces to zero.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 294 (2026-08-31): v12 driver stop repaired and production relaunched
+
+- Run `33328233304`, job `99302076654`, stopped before Python or migration.
+  GAP rejected the one-argument expression
+  `Concatenation(" --resume-v11-url ...")`; this is a driver-language error,
+  not a resource terminal and not an A0 membership/nonmembership result.
+- The minimal repair assigns the identical constant directly as a GAP
+  string.  Producer, checker, workflow, search universe, checkpoint pins,
+  time/RSS limits, and all mathematical gates are unchanged.  The repaired
+  driver is 3,125 bytes with SHA-256
+  `b3921e7c975b5bd4dfd2a581829d6c6497230105218dea1af88f0676f7bb1dc8`,
+  committed at `7f0222069de7b6c0db593d05b391d12a9da7662e`.
+- Replacement run `33328450708`, job `99302639103`, uses that immutable
+  head.  It has passed GAP setup and continued in the production step beyond
+  the previous one-second failure.  Authentication, packed migration, and
+  rank-344 continuation are not counted until durable output is available.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta293, an exact dispatch-shell
+  defect was closed and the same packed owner is running; none of the five
+  substantive open gates has yet been removed.
+- The A0 open chain remains: authenticated packed migration, remaining
+  occurrence closure, deferred physical build, six-action decision, and
+  strict positive replay if the target reduces to zero.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.
