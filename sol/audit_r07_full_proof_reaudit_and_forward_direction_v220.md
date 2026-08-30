@@ -10809,3 +10809,57 @@ single transport repair required before continuation; it does not count the
 - A0 remains **0/1 RUNNING FROM DURABLE RESUME** in both production searches;
   A4 remains **1/3 RUNNING** under `33274918945`.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 267 (2026-08-30): two production terminals expose narrow durability bugs, not mathematical negatives
+
+- The one-column A0 baseline run `33282364093`, job `99179564334`, head
+  `ed32ca089f22c7b5db04da67780aa6e6c1406c8d`, passed the exact prior-artifact
+  binding and streamed input setup, but stopped after rebuilding the light
+  base rows with
+
+  ```text
+  ProtocolStop: direct P injection gate
+  ```
+
+  Artifact `9723823284` preserves the logs.  The fault is now localized:
+  every checkpoint `new_records` entry stores its **raw** actual column, while
+  its `pivot_hex` and `pivot_node_id` are obtained after sequential reduction
+  by all preceding pivots.  Frozen v26 `_stream_record` incorrectly sent that
+  raw row straight to `FormalReducer.inject`, whose contract requires the
+  reduced normalized row.  Therefore this is an implementation stop before
+  resumed discovery, not an empty accepted set and not evidence against an
+  A0 word.
+- Batch-64 run `33283161829`, job `99181659662`, head
+  `26c641b97ed9a7762f095004792dac9f92988812`, inherited the same restore
+  function.  It was cancelled after its input gates and light-row rebuild had
+  begun, before wasting another production interval on the already forced
+  first-record stop.  Task408 is restricted to one repair: replay each raw
+  row through the existing sequential reducer, require the freshly derived
+  pivot and DAG node to equal the sealed record, then continue with the
+  already audited global batch-64 search.
+- A4 GHA run `33274918945`, job `99159847964`, head
+  `ff91a7b1e21a42b278af854ca9511587a05b55fe`, completed its workflow and
+  uploaded artifact `9724030943` (34,390 bytes).  Its mathematical producer
+  terminal is `UNKNOWN_RESOURCE`, not MEMBER/NONMEMBER.  It resumed the sealed
+  frontier at `next_row=25`, completed rows 25 and 26, entered row 27, and at
+  the 14,400-second cap reported 27 membership queries, 49,513,044
+  correlation pairs, combined/boundary rank 145,184 and `K_rank=0`.
+- The producer checkpoint is nevertheless still the old 25,581-byte object,
+  SHA-256
+  `595213bab8936ef10e94ce90ccf526c105d02d871c4dc5d02b6c76cb51593445`,
+  with `next_row=25`.  Frozen v13/v16 writes at row 24 and then row 28, so the
+  two completed rows were not durable.  This is a cadence defect, not a
+  mathematical rollback.  Task409 is restricted to atomic checkpointing
+  after every completed row while preserving the oracle, row order,
+  batch-64 arithmetic and resource envelope.
+
+**v220 mapping**:
+
+- A0 returns to **0/1 BLOCKED ON NARROW RESUME REPAIR**, with the original
+  1.66 GB frontier still intact.  No discovery work after that frontier has
+  yet been retained.
+- A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`**.  `K_rank=0`
+  applies only to the completed durable prefix rows 1--24; it is not a claim
+  about all 6,441 rows.  The next run must preserve each newly completed row.
+- A9 remains **0/3 actual**.  No finite common word, compatible lift, fake
+  numerator or Ihara witness is promoted by either terminal.
