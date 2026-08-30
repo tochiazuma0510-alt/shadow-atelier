@@ -3428,3 +3428,9 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - 退避先: C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/artifact_9730051236_gap-run-out.zip(98,493,406 B・repo 外)。内容 = d972_r07_a0_batch_lazy_owner_v4.checkpoint(129,119,626 B)+ driver/log 一式。
 - **checkpoint sha256 = 1deed5488a8051102a3fbc80d65432b6f461fdf35c7db46e51261610b7e4a3d5**(Sol 申告の 1deed548… と一致・機械突合)。再開 driver = commit 74282588be7e3056569cd057e7818bb10a3646b7・再開地点 rank 60,258。
 - 期限後の再開手順: 本 zip を展開し checkpoint を GHA へ再投入(または Release 昇格 = 無期限・2GB/file・必要時に司令塔実行)。
+
+## 2026-08-30 Lean 期 GHA artifact の一括回収(裁定 1820・研究者指示)
+- 対象: shadow-atelier repo の Lean 形式化期(2026-08-05〜08-12・Sol×Luna pipeline)の artifact **64 本・全て未失効のうちに回収**(最早期限 = 2026-11-03 — 約 2 ヶ月前の救出)。内訳: existing-lean-build 23・p1-axiom-manifest 21・lean-arith-build 20。
+- 中身: **P1/AXIOMS.manifest.json 21 本(Lean axiom policy の #print axioms 照合証跡)**・axiom-audit.log・p1-build.log・lean-arith-build.log 等 = P1(dihedral)形式化の公理検査の一次記録。
+- 退避先: C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/lean/(64 zip・計 648KB・repo 外)+ **MANIFEST.json(sha16 cf5d5f5380bac5f9)** = 全 zip の sha256+内部ファイル hash。健全性検査 64/64 PASS・corrupt 0。
+- 非対象と宣言: es5-proof repo(別プロジェクト)・regression-battery-receipt 等の非 Lean 系(必要になれば同手順で)。今後の規律: **GHA artifact は 90 日で消える — 保存価値のある run は作成時に退避 or Release 昇格**(round-648 checkpoint の件[裁定 1819]と本件で 2 例目)。
