@@ -15,7 +15,7 @@ the base for ancestry.
 |---|---:|---|
 | `search/d972_r07_word_independent_successor_kernel_v19.py` | 2388 | `c7add6648f53e4ec85eb40620e3469008349e5676ac7d9602a6699a52cb4c6c1` |
 | `crosscheck/check_d972_r07_word_independent_successor_kernel_v25.py` | 2540 | `4c04fd31fe4a27c96841ddc5931961cc6d2e4162f98f239df3577ee367a57317` |
-| `search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g` | 5515 | `06e1a54fa52d6592804cdec94d686b33ce20731e1ec9b66129af34395e2af9b7` |
+| `search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g` | 4299 | `348732f85a0c7d96ac38692464bf92af1dd47901f61a42f3d569504f5888034f` |
 
 Generated-source pins:
 
@@ -39,8 +39,8 @@ Generated-source pins:
 - GAP parsing reaches the intentional `D386Mode` guard.  The transformed v33
   inner driver retains literal `RESUME`, has no `SELFTEST`, installs the
   canonical seed at both producer HEAD and base (preserving base ancestry),
-  under `*.producer.base.checkpoint.json`, and its PRODUCTION producer command
-  includes `--resume ci/out/d972_r07_word_independent_successor_kernel_v33.producer.head.checkpoint.json`.
+  under `*.producer.base.checkpoint.json`; its native RESUME producer command
+  includes `--resume` on the transformed producer HEAD checkpoint path.
 
 ## Generic `gap-run.yml` dispatch inputs
 
@@ -48,12 +48,10 @@ No dispatch was performed.  The exact bounded production inputs are:
 
 ```text
 script=search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g
-preamble=D386Mode:="PRODUCTION";;
+preamble=D386Mode:="RESUME";;
 out_dir=ci/out
 timeout_min=250
 with_pquot_packages=true
 ```
-
-`RESUME` uses the same inputs with `preamble=D386Mode:="RESUME";;`.
 
 `TASK414_R07_A4_DELTA_PIN_REPAIR_V19`

@@ -11429,3 +11429,91 @@ single transport repair required before continuation; it does not count the
 - A1 is **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3 UNKNOWN_RESOURCE**;
   A5--A9 and B/C/W/F have no new actual numerator.  No compatible lift,
   fake numerator, or Ihara witness is promoted.
+
+### Delta 279 (2026-08-30): exact boundary batching and the class-orbit relative selector
+
+- A0 GHA run 33299110020, job 99223789860, completed on immutable head
+  6913dcbcc882d897c55e71744f1fff095c039160.  The workflow and narrow
+  checker passed, while the mathematical terminal was
+
+  ~~~text
+  UNKNOWN_RESOURCE
+  reason = positive round bound
+  round = 256
+  rank = 314
+  boundary_pairs = 19904
+  compact_relator_cursor = 0
+  correction_candidate_cursor = 0
+  ~~~
+
+  The last progress record had RSS 486,301,696 bytes and elapsed 867.417
+  seconds.  Thus the run established that memory is controlled, but it spent
+  all 256 rounds adding one exact translated boundary at a time and never
+  entered the correction-word scan.  Since the round bound was a normal
+  return rather than the controlled time/RSS exception, this run emitted no
+  continuation checkpoint.  It is not an empty accepted set and not a
+  negative A0 result.
+- Task416 changes only that scheduling bottleneck.  For the current dual it
+  computes all nonzero exact translated-boundary pairings using
+  \(t=gh^{-1}\), materializes them in deterministic order, and inserts up to
+  128 independent rank rises before recomputing the dual.  Same-translation
+  characteristic-three cancellation is still performed before activation.
+  It retains no contributor histories.  Its correction side uses task415's
+  occurrence formula as an exact scalar prefilter and materializes a full
+  correction column only for a nonzero scalar, which is then directly
+  compared with the formula.
+- Task416 also raises the administrative round bound to one million and
+  writes a sealed continuation checkpoint even if that bound is reached.
+  Commit 4fa8a7d936e7f86f22964d512aab664e45402483 was dispatched as A0 run
+  33300457583.  A hit remains only COMMON_CANDIDATE until strict
+  all-seven and selected-boundary replay; exhaustion remains
+  UNKNOWN_RESOURCE.
+- Added proof_r07_class_orbit_section_relative_lift_v396.md.  Under the
+  v392 same-owner full-action gate, choose actual residual generators
+  \(\ell_a\) and word-bearing preimages \(d_a\).  The two orbit maps
+
+  \[
+    \phi_L:R^q\to L,\qquad \phi_D:R^q\to D
+  \]
+
+  give a well-defined word-bearing section precisely when
+
+  \[
+    \ker\phi_L\subseteq\ker\phi_D.
+  \]
+
+  Since \(B\phi_D=\phi_L\) gives the reverse inclusion automatically, this
+  is equality of the source and target orbit-relation modules.  If the
+  actual orbit is free over \(R=\mathbf F_3[K]\), the gate is automatic.
+  Together with the class-orbit saturation
+
+  \[
+    L_\chi\cap\ker r_L=\mathfrak aL_\chi,
+  \]
+
+  the restriction of that section supplies the explicit relative right
+  inverse.  A coefficient \(g(k-1)d_a\) is materialized by the literal
+  instruction tree \({}^g[k,d_a]\).  Hence the actual \(\chi_{07}\) route
+  needs only its defect orbit, not the whole ambient relative kernel at every
+  refinement.
+- A4 run 33299903258 did not enter the producer.  Its outer GAP driver
+  contained an overlong injected replacement string and stopped at parse
+  time.  This is a launch fault, not a mathematical or checkpoint terminal.
+  The repair uses the already present native RESUME branch, whose producer
+  command passes the authenticated HEAD checkpoint; no new producer logic is
+  required.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING** on run 33300457583; the previous run is an
+  authenticated UNKNOWN_RESOURCE, not a numerator.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+- A4 remains **1/3 UNKNOWN_RESOURCE, durable next_row=25**.  Run
+  33299903258 is excluded from its mathematical count because parsing
+  stopped before the producer.
+- A5--A8 remain **0/3 actual** pending actual upstream words.  A9 remains
+  **0/3 actual**, but v396 replaces its full-kernel computation by three
+  smaller actual gates: defect-orbit membership, orbit-relation equality
+  (automatic for a free orbit), and class-orbit saturation.  B, C, W and F
+  remain **0/3 actual**.
+- No compatible lift, fake numerator, or Ihara witness is promoted.
