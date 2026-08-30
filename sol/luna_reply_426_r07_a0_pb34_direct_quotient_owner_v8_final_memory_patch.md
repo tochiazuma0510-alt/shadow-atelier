@@ -40,3 +40,15 @@ No production run, GHA dispatch, commit, or push was performed.
 The driver pins the producer/checker bytes and SHA-256 values above, uses unique v8 paths, the 4.8 GB RSS cap, live tee logs, and resumes only from an existing immutable input checkpoint.
 
 V8_LOCAL_GO_FOR_PARENT_DISPATCH
+
+## Parent dispatch receipt
+
+- dispatch commit: `b7225a9d59495e19ab8a2d146a473e9254a91f62`
+- branch: `sol/r07-explicit-lift-20260825`
+- workflow: `gap-run.yml`
+- run id: `33317727481`
+- job id: `99274129809`
+- script: `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v8.g`
+- fresh input checkpoint: absent
+- timeout: owner `9000` seconds; workflow `180` minutes
+- initial state at dispatch: `in_progress`
