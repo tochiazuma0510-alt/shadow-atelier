@@ -10748,3 +10748,64 @@ single transport repair required before continuation; it does not count the
   this delta.
 - A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  Fake and Ihara
   witness numerators remain zero.
+
+### Delta 266 (2026-08-30): the actual-image square makes divisor membership automatic
+
+- New paper theorem
+  `proof_r07_actual_image_square_captures_all_fox_divisors_v389.md`, 9,157
+  bytes, SHA-256
+  `c3a633f968e0d781e3141ad49a16492f3ab42f97c353137436e1543c2093da75`,
+  received an independent Sol(max) PASS and was published at commit
+  `1bdd13167f35af20e2d08ffd247ccb98a786960e`.
+- At finite coordinate `i`, the source is now explicitly the canonical
+  reduction
+
+  \[
+   q_i^P:P_C\twoheadrightarrow
+   P_i=P_C/\ker(\widehat\Xi\to R_i)P_C\cong R_i^r,
+  \]
+
+  with `pi_i^L B_C = B_C,i q_i^P`.  This supplies the finite-source lift
+  needed to prove `B_C,i(P_i) subset L_i`; it is not inferred merely from
+  writing `P_i=R_i^r`.
+- Let `Sigma_i:I_i P_i -> L_amb,i` be v388's path-bearing divisor map.  The
+  single new physical no-duplicate-owner gate is
+
+  \[
+   \Sigma_i
+   =(B_{{\rm act},i}\tau_i)|_{I_iP_i}
+   =(\iota_iB_{C,i})|_{I_iP_i}.
+  \]
+
+  It is an equality of complete Fox/Magnus paths, not endpoints, and is an
+  additional authenticated ABI identity rather than a consequence silently
+  read from the v369 square.
+- Under that identity every v388 primitive-by-seed divisor has the named
+  preimage `(k_ij-1)e_ia` under `B_C,i`.  Therefore it already lies in
+  `B_C,i(P_i) subset L_i`.  V388 then captures every ordered prefix/cross
+  divisor, and v386 reconstructs globally:
+
+  \[
+   \mathcal D_{\rm Fox}\subseteq L_{\rm reach},
+   \qquad E_{\rm Fox}=L_{\rm reach}.
+  \]
+
+  All relevant `E_Fox`-relative saturation classes vanish and the retraction
+  is the identity.  No claim is made about the broader saturation of
+  `L_reach` inside all of `L_amb`.
+- Hence a separate A0-style search for primitive divisor membership is not
+  needed.  The finite physical task is instead to authenticate the common
+  v369/v372 seed square and the no-duplicate-owner equality on the free seed
+  basis/action.  The ambient filtered-depth estimate and the one full initial
+  path-bearing membership remain separate.
+
+**v220 mapping**:
+
+- A9's saturation subproblem is reduced from an all-rung family of membership
+  tests to one uniform physical map comparison.  This is a paper-level
+  reduction, not an actual A9 numerator: the v369/v372 square, filtered depth,
+  initial path-bearing class, and later non-pro-3 gates remain open, so A9 is
+  still **0/3 actual**.
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME** in both production searches;
+  A4 remains **1/3 RUNNING** under `33274918945`.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.
