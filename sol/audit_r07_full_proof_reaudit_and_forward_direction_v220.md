@@ -10668,3 +10668,63 @@ single transport repair required before continuation; it does not count the
   positive v278 replay remain open.
 - A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No finite common
   word, compatible uniform lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 264 (2026-08-30): all ordered Fox divisors reduce to a finite primitive-by-seed roster
+
+- New paper theorem
+  `proof_r07_primitive_relative_ideal_absorbs_ordered_fox_divisors_v388.md`,
+  11,579 bytes, SHA-256
+  `5bb063654346bafbf5404bcaa8910ea40df66d33c48edaf7c248545f57d7d005`,
+  was published at commit `3fc3b15a4aa37e8bbf7ef5fc61686cbaf4f42727`.
+- For a matched extension with elementary-abelian kernel
+  `K=<k_1,...,k_t>`, the relative group-ring ideal has the exact left-ideal
+  presentation
+
+  \[
+    I=\sum_{j=1}^t R(k_j-1).
+  \]
+
+  The noncommutative product-difference identity puts every fixed/moving
+  prefix divisor in this ideal.  For any crossed Fox path `delta`, the exact
+  ordered-materialization error is
+
+  \[
+   \delta(d_1\cdots d_s)-\sum_r\delta(d_r)
+   =\sum_r(d_1\cdots d_{r-1}-1)\delta(d_r),
+  \]
+
+  so every nonlinear prefix/cross coefficient lies in the same relative
+  ideal.  Conjugated, inverse, and right-suffix slots introduce no new
+  primitive generator.
+- The first draft incorrectly compressed the divisor source to one cyclic
+  module.  Independent Sol(max) audit rejected that rank-one typing because
+  v369 has `P_C=Xi^r`.  The repaired theorem uses
+
+  \[
+   IP_C=\sum_{j=1}^t\sum_{a=1}^r
+          \Xi (k_j-1)e_a.
+  \]
+
+  Hence the correctly typed finite roster is kernel basis times free-seed
+  basis.  The anchor/outer form is similarly
+  `(s_j-1)e_a` and `(ell_q-1)e_a` for every seed coordinate.  The auditor
+  then returned PASS/no fatal; the final version also names the crossed path,
+  states two-sidedness of the kernel ideal, and identifies the finite actor
+  action explicitly.
+- Therefore a fresh enumeration of all A.18 prefix and cross-term divisors at
+  every rung is no longer a mathematical task.  Once the physical
+  path-bearing occurrence/Fox map is authenticated, the coefficient
+  factorization is uniform and finite.  What is not proved is membership of
+  those primitive-by-seed images in `L_i`; that remains the actual arithmetic
+  content needed by v386.
+
+**v220 mapping**:
+
+- The `actual A.18 divisor factorization through roster` item of Delta 259 is
+  closed at its algebraic coefficient level and corrected from an unsupported
+  rank-one roster to the finite `dim(K_i) * rank(P_i)` roster.  Physical ABI
+  authentication and primitive memberships remain open, so A9 stays
+  **0/3 actual**.
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME** in the parallel one-column
+  and batch-64 runs; A4 remains **1/3 RUNNING**.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.
