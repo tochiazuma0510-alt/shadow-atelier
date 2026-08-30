@@ -10863,3 +10863,42 @@ single transport repair required before continuation; it does not count the
   about all 6,441 rows.  The next run must preserve each newly completed row.
 - A9 remains **0/3 actual**.  No finite common word, compatible lift, fake
   numerator or Ihara witness is promoted by either terminal.
+
+### Delta 268 (2026-08-30): A0 raw-row resume repair is audited and redispatched
+
+- Task408 produced the minimal versioned repair:
+  `search/d972_r07_history_free_positive_fast_resume_batch64_v29.py`
+  (4,999 bytes, SHA-256
+  `e3cf997b8aae78599e693652cf576083ae518b7a3690099c83b12d6e83039434`),
+  checker v29 (2,332 bytes, SHA-256
+  `0df0b765f00553cec696606b334022fe5953fa79a05076454aed8f05e45ce7c2`),
+  batch driver v29 (5,825 bytes, SHA-256
+  `a72280933cab9543fc349c2dbc80cfb24436ddd56d167b7a2299928a665c6b7a`),
+  and generic adapter v30 (519 bytes, SHA-256
+  `9ab3b687d5ba2ee6194895c5e39a80d246abeb912851813e5007a83a9cdf8a6f`).
+- The only semantic change is streamed `new_records` restoration.  Each raw
+  column is replayed by the frozen `FormalReducer.add_actual`; the derived
+  normalized pivot, DAG node, rank and formal accounting must equal the
+  sealed record.  The already restored final hash-consed DAG must allocate no
+  fresh node.  Only after all gates pass is the record appended.
+- The bounded fixture reproduces the incident (`raw_min=a`, stored pivot
+  `b`), observes rejection by the old direct injection, reconstructs the
+  normalized row `b+2c`, and rejects independent pivot and node mutations.
+  Independent Sol(max) code/performance audit returned PASS: there is no
+  second checkpoint read, active-set rescan, SELFTEST/SAT detour or added
+  whole-record copy.  The unavoidable work is the sequential reduction which
+  the original discovery performed but the broken resume omitted.
+- The repair was published at commit
+  `5088ca66c941c28b3f7f88f8b343964db7d8176f`.  Generic GHA run
+  `33285081587` was dispatched at that exact head with adapter v30 and the
+  registered prior-artifact binding.  Job `99186755101` passed setup and
+  checkout and is in progress; its production conclusion is pending.
+
+**v220 mapping**:
+
+- A0 is **0/1 RUNNING FROM DURABLE RESUME**.  The transport blocker of
+  Delta267 is closed at code/audit grade; completing semantic replay and
+  retaining a successor checkpoint remain production work.
+- A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`**, with the
+  every-completed-row checkpoint repair in progress.  A9 stays **0/3 actual**;
+  no lift, fake numerator or Ihara witness is promoted.
