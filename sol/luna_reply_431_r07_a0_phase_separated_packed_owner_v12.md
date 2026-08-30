@@ -39,9 +39,9 @@ same v12 state before runtime bootstrap, and resumes by explicit phase.
 
 Final pins:
 
-- `search/d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 50017 bytes, SHA-256 `ff856827e462c9cd09fe6068fed7930b06bbf9de0d04b78e1f20bbf3965063a8`
+- `search/d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 51884 bytes, SHA-256 `3016b6a21d9fafbf037dbb5384dcca81f49e1fa44ae45a466ff16f1fd13948b3`
 - `crosscheck/check_d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 13334 bytes, SHA-256 `e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`
-- `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g`: 3125 bytes, SHA-256 `b3921e7c975b5bd4dfd2a581829d6c6497230105218dea1af88f0676f7bb1dc8`
+- `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g`: 7996 bytes, SHA-256 `924b629340bd3d319b75db1edaa6e7d19a99b9fa5de40dd35719a4cb00eb55cd`
 
 The driver uses fresh v12 paths, requires external
 `D972_R07_A0_PB34_V12_RUN:=true`, passes the exact registered v11 release URL,
@@ -128,3 +128,52 @@ generic-workflow inputs:
 This run passed GAP setup and remained in the GAP/Python production step
 beyond the prior one-second stop.  Its mathematical terminal is still
 pending.
+
+## Recovery repair for run 33328450708
+
+The preserved checkpoint was inspected without modification: 326449173 bytes,
+SHA-256 `0b3169fe6e7051fe46a28bb966ffd3dfeada841dce1a6fe2358959dd99402ff1`,
+sequence 40, seed 44, parent 410, action 1640, occurrence rank 1316,
+frontier 906, and occurrence payload nnz 155059809. Its only schema defect is
+the event label `phase="parent"`; the actual saved state is the occurrence
+queue (physical state is empty).
+
+The producer now saves the enclosing canonical phase from `guard(event)`
+(`parent`, `resume`, and `six_action` are never serialized as phases). For
+recovery, `cp_read` permits exactly one transition from `parent` to
+`occurrence_queue`, and only after matching the complete authenticated
+checkpoint seal and the recorded cursor/rank/frontier/nnz/shape constants.
+Unpinned or malformed phase repairs fail closed; the original checkpoint is
+never rewritten.
+
+The driver now recovers the exact six-file release asset before starting the
+producer. It verifies the zip (132415389 bytes,
+SHA-256 `75223cf534c5864ec32ad895887c16e0ff097ba8871d72162156dc9fdafc863a`),
+extracts the registered checkpoint entry, verifies its 326449173-byte seal,
+then resumes from `ci/out/d972_r07_a0_pb34_direct_quotient_owner_v12_input.checkpoint`.
+Recovery is now performed through fresh temporary paths under `ci/in` and
+`ci/out`; the archive is checked for exactly the six registered names with no
+duplicates, extras, directories, absolute names, or traversal names. The
+registered names are the four v12 artifact/log/checkpoint files plus
+`driver.g` and `run.log`.
+checkpoint is streamed to a temporary file, both validated files are atomically
+renamed into place, and a bound recovery seal is created only afterward.
+Any pre-existing zip/input/seal is rejected unless all three are regular,
+non-symlink files with matching bytes/SHA, exact roster, and seal contents.
+The driver also requires a fresh, distinct recovery receipt path before the
+shell command. The receipt is written to a same-directory temporary file and
+atomically renamed only after either validation branch succeeds; GAP then
+reads and exact-matches its fixed content. A stale seal alone can no longer
+make a failed recovery appear successful, including for dangling symlinks.
+No workflow edit, upload, dispatch, or heavy local run was performed.
+
+Updated pins:
+
+- producer: 51884 bytes, SHA-256 `3016b6a21d9fafbf037dbb5384dcca81f49e1fa44ae45a466ff16f1fd13948b3`
+- checker: 13334 bytes, SHA-256 `e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`
+- driver: 7996 bytes, SHA-256 `924b629340bd3d319b75db1edaa6e7d19a99b9fa5de40dd35719a4cb00eb55cd`
+
+Final driver-only gate: the recovery receipt text is passed as one quoted shell
+argument, so GAP's exact one-line comparison is preserved; fresh zip/input/seal
+installation rejects both existing paths and dangling symlinks (`! -e` and
+`! -L` paired for each path).

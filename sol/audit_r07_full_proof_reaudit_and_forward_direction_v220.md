@@ -12401,3 +12401,68 @@ single transport repair required before continuation; it does not count the
   strict positive replay if the target reduces to zero.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 295 (2026-08-31): v12 crosses the old memory wall and reaches rank 1316
+
+- Replacement run `33328450708`, job `99302639103`, immutable code head
+  `7f0222069de7b6c0db593d05b391d12a9da7662e`, ran the producer for the full
+  9,000-second owner window.  The exact v11 migration produced and restored
+  the phase-separated sequence-11 state at rank 344, frontier 258, physical
+  rank 0, 73,093,672 bytes, SHA-256
+  `67adb718ee6cae0cd438b1b5684b54a935d773c0a8b0b5624bddea94c5daf742`.
+- The producer then advanced from
+
+  ```text
+  parent / action cursor       86 / 344
+  occurrence rank / frontier  344 / 258
+  occurrence payload nnz      31,847,811
+  ```
+
+  to the sequence-40 candidate state
+
+  ```text
+  parent / action cursor       410 / 1,640
+  occurrence rank / frontier  1,316 / 906
+  occurrence payload nnz      155,059,809
+  physical rank / payload     0 / 0
+  checkpoint bytes            326,449,173
+  checkpoint SHA-256          0b3169fe6e7051fe46a28bb966ffd3dfeada841dce1a6fe2358959dd99402ff1
+  terminal                    UNKNOWN_RESOURCE:time_limit
+  ```
+
+  Peak logged owner RSS was 2,362,261,504 bytes, below half the 4.8 GB cap.
+  Thus delayed physical construction and packed rows crossed the old v11
+  rank-344 RSS terminal; this run stopped on time, not memory.
+- The 324 newly processed parents produced exactly 1,296 action trials, 972
+  new independent occurrence pivots, and net frontier growth 648.  Equivalently
+  on this interval `rank = 3*parent_cursor + 86` and
+  `frontier = rank - parent_cursor`.  This is evidence that the present BFS
+  has not yet entered a saturating regime and is a concrete target for a
+  further paper/orbit quotient; it is not a nontermination theorem.
+- Workflow conclusion is `failure` only because the time-limit guard stored
+  its event label `parent` in the checkpoint `phase` field.  The independent
+  checker correctly rejected that noncanonical label.  All preceding periodic
+  checkpoints used `occurrence_queue`; the defect is localized to
+  `guard("parent") -> save(...)`.  Consequently the sequence-40 object is a
+  pinned producer candidate, not yet cross-checked.
+- Artifact `9738910465` was downloaded and hashed independently.  Its exact
+  six-file zip is permanently mirrored as release asset
+  `artifact_9738910465_gap-run-out.valid.zip`, 132,415,389 bytes, SHA-256
+  `75223cf534c5864ec32ad895887c16e0ff097ba8871d72162156dc9fdafc863a`.
+  The zip contains the checkpoint bytes/SHA above.  Recovery is to normalize
+  `parent -> occurrence_queue` only for this exact byte/SHA-pinned state and
+  then apply every ordinary checkpoint gate; general noncanonical phases
+  remain rejected.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**: occurrence closure is still nonempty and no
+  common word has been produced.  Relative to Delta294, packed migration and
+  324 more parents have executed, rank grew by 972, and the old memory wall
+  was removed in practice.  The final state awaits strict recovery and an
+  independent checker before it can be called cross-checked.
+- The A0 open chain is now: exact seq-40 phase-label recovery/check, remaining
+  occurrence closure, deferred physical build, six-action decision, and
+  strict positive replay if the target reduces to zero.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.

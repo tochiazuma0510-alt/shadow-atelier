@@ -95,3 +95,128 @@ gate.
 
 **GO for immediate redispatch.**  This repair has no mathematical claim
 effect; A0 remains 0/1 actual until a production artifact says otherwise.
+
+## Seq40 recovery re-audit
+
+**NO-GO.**  The producer-side recovery repair itself is closed:
+
+- `normalize_parent_checkpoint` (producer lines 338--345) accepts only the
+  exact 326449173-byte / `0b3169fe...` whole-checkpoint seal and additionally
+  binds sequence 40, all cursors, occurrence rank/shape, frontier, both
+  occurrence nnz counters, and empty/zero physical state.  It changes only
+  `parent` to `occurrence_queue`.
+- `cp_read` invokes that normalization before its ordinary phase gate
+  (lines 357--359), so the one pinned legacy checkpoint is admitted while no
+  other `parent` checkpoint passes.  `guard(event)` writes `save(phase, ...)`
+  after checking the enclosing canonical phase (lines 446--450), so event
+  labels can no longer become checkpoint phases.
+- Driver lines 8 and 18 keep input/output paths distinct and select the exact
+  v12 input with `--resume`, clearing the v11 migration argument.  The scoped
+  changes contain no checker, workflow, search-math, or hot-path change.
+
+There is one dispatch blocker in driver line 17.  The recovery command writes
+both the download and extracted checkpoint directly to their final paths
+(`curl --output D431RecoveryZip` and `unzip -p ... > D431Input`) and never
+enumerates or compares the archive members with the preregistered exact
+six-name roster.  Thus an interrupted command can leave a partial final input,
+and an authenticated zip with extra/duplicate/path-confusing entries is not
+rejected; merely extracting the named member and touching an unbound seal does
+not satisfy the frozen atomic/exact-roster gate.  The smallest repair is to
+download and extract to fresh relative temporary files, validate zip
+bytes/SHA and the exact six-entry roster (including duplicate, absolute, and
+traversal rejection), validate checkpoint bytes/SHA, atomically rename both
+validated files to their final paths, and create the seal only afterward.
+Pre-existing final input/seal must be revalidated or rejected rather than
+trusted by existence alone.
+
+Actual final identities match the driver and Luna reply: producer 51884 bytes,
+SHA-256 `3016b6a21d9fafbf037dbb5384dcca81f49e1fa44ae45a466ff16f1fd13948b3`;
+checker 13334 bytes, SHA-256
+`e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`;
+driver 4418 bytes, SHA-256
+`b1135b53baf80cea54f9164bc8b23e6b0c12da54c172e8c36e5e33ef52e4d345`.
+Bounded `py_compile` and producer `--mode FIXTURE` passed; no download,
+migration, or production run was performed.
+
+NO-GO
+
+## Recovery-driver repair re-audit
+
+**NO-GO.**  The prior direct-write/roster defect is repaired, but strict
+pre-existing-state authentication still has one dispatch blocker.
+
+Driver line 17 now names the exact v12 six-file roster (the four v12
+artifact/checkpoint/log names plus `driver.g` and `run.log`).  Six total lines,
+six unique lines, and one exact match for every registered name reject
+duplicates, extras, directory names, absolute names, and traversal names.
+The exact release URL is `artifact_9738910465_gap-run-out.valid.zip`; its
+132415389-byte / `75223cf...` pin and the extracted checkpoint's 326449173-byte
+/ `0b3169fe...` pin are checked.  Zip and checkpoint temporaries are created
+respectively under `ci/in` and `ci/out`, the same directories as their final
+paths, and are moved into place only after validation.  Input and output
+checkpoint paths remain distinct.  The seal binds both full hashes, and the
+pre-existing branch attempts regular-file, non-symlink, roster, size, hash,
+and exact-seal revalidation.
+
+However, `Exec(D431RecoveryCommand)` does not propagate the shell's failure
+status, and the only GAP-side postcondition is
+`IsExistingFile(D431RecoverySeal)`.  On the pre-existing branch that file
+already exists.  For example, take an exact valid input checkpoint, an invalid
+zip (or invalid seal contents), and an existing seal pathname: Bash exits
+nonzero at the failed roster/hash/seal test, GAP `Exec` discards that status,
+the existence test still passes, and line 18 selects `--resume` from the valid
+input.  Thus the claimed strict revalidation is not an enforced gate.  GAP
+4.16's `Exec` status-discarding behavior is already recorded from installed
+`lib/process.gi` in the repository audit record; `set -e` alone cannot carry
+success back to GAP.
+
+The smallest repair is a distinct, initially absent completion receipt.  The
+shell must create it (preferably temp plus atomic rename) only after either the
+pre-existing triple has fully revalidated or the fresh triple has been fully
+installed, and GAP must require its exact hash-bound contents.  A stale receipt
+must be rejected before `Exec`.  Also use `-e OR -L` both when detecting any
+pre-existing final path and immediately before installation: the current
+`-e` tests miss dangling symlinks, most importantly a dangling seal symlink
+which the final redirection can follow.
+
+Producer and checker remain at their previously audited identities
+(`3016b6a21d9fafbf037dbb5384dcca81f49e1fa44ae45a466ff16f1fd13948b3`
+and `e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`);
+the scoped repair changes only driver/reply and no task431 workflow or math/hot
+path.  The actual driver is 7073 bytes, SHA-256
+`8a87290e4cdadb967947471b103f9d2154ed5c9daeffd64ba93f45bead7e67eb`,
+matching its reply pin.  In bounded static inspection the 71-part GAP
+`Concatenation` reconstructed to exactly `bash -lc <one payload>` with balanced
+quoting.  Local `bash -n` could not start because of the already-recorded
+Windows signal-pipe error; no download or production run was attempted.
+
+NO-GO
+
+## Final receipt delta re-audit
+
+**GO.**  The prior stale-seal/status blocker is closed.  Driver line 17 rejects
+an existing regular receipt before invoking the shell; line 18 additionally
+requires both `! -e` and `! -L`, so a dangling receipt symlink also fails
+closed.  The shell creates a same-directory receipt temporary only after the
+pre-existing-validation or fresh-install branch has completed, writes one
+hash-bound line, and atomically moves it to the final receipt path.  GAP then
+requires the receipt to exist and exact-matches its complete one-line contents,
+so discarded `Exec` status can no longer masquerade as success.
+
+The fresh branch rechecks both `! -e` and `! -L` for zip, input checkpoint, and
+seal before installing them.  The exact v12 six-name roster, duplicate/extra
+and path rejection, release URL, zip/checkpoint bytes and SHA, distinct
+input/output paths, and v12 `--resume` selection are unchanged.  Producer and
+checker are unchanged at 51884 / 13334 bytes and SHA-256
+`3016b6a21d9fafbf037dbb5384dcca81f49e1fa44ae45a466ff16f1fd13948b3` /
+`e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`.
+The actual driver and Luna pin agree: 7996 bytes, SHA-256
+`924b629340bd3d319b75db1edaa6e7d19a99b9fa5de40dd35719a4cb00eb55cd`.
+
+Bounded reconstruction of the 91-part GAP `Concatenation` produced exactly
+three outer arguments, `bash -lc <payload>`, with a one-line payload and one
+double-quoted occurrence of
+`D972-A0V12-RECOVERY-RECEIPT1 <zip-sha> <checkpoint-sha>` after the branch
+`fi`.  No download, production, or dispatch was run.
+
+GO

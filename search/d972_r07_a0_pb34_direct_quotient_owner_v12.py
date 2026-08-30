@@ -27,6 +27,7 @@ V11_MIRROR_URL="https://github.com/tochiazuma0510-alt/shadow-atelier/releases/do
 V11_MIRROR_BYTES=211296971;V11_MIRROR_SHA="b044eb9d730cb99c39253aedc573f8bba764ade0f732920e2ad7c306a5a3db92"
 V11_ENTRY="d972_r07_a0_pb34_direct_quotient_owner_v11_output.checkpoint";V11_WHOLE_BYTES=275905469;V11_WHOLE_SHA="3ac222801a1a91b8e0f163554835e569a26c2cac0f3f8bea481e1825e5f911b8";V11_PAYLOAD_BYTES=275905379;V11_PAYLOAD_SHA="36da75dc8e5c21a84b26e35e4adbc9ac47e94f6c1fabbfcddddac03fd81d7ddf"
 V11_ROSTER={"d972_r07_a0_pb34_direct_quotient_owner_v11.json","d972_r07_a0_pb34_direct_quotient_owner_v11_checker.log","d972_r07_a0_pb34_direct_quotient_owner_v11_output.checkpoint","d972_r07_a0_pb34_direct_quotient_owner_v11_producer.log","driver.g","run.log"}
+PARENT_REPAIR_BYTES=326449173;PARENT_REPAIR_SHA="0b3169fe6e7051fe46a28bb966ffd3dfeada841dce1a6fe2358959dd99402ff1";PARENT_REPAIR_SEQ=40;PARENT_REPAIR_KEYS=4284963;PARENT_REPAIR_RANK=1316;PARENT_REPAIR_FRONTIER=906;PARENT_REPAIR_NNZ=155059809
 def packed_contract():
  need(sys.byteorder=="little" and array("I").itemsize==4,"packed_platform")
  return {"byteorder":"little","uint_itemsize":4}
@@ -334,6 +335,14 @@ def phase_gate(s):
   if x.get("family")=="PHYSICAL":
    op=bytes.fromhex(x.get("occurrence_pivot",""));need(op in order_index,"phase_physical_source_id");idx=order_index[op];need(idx<pc and idx>last,"phase_physical_source_prefix");last=idx
  return True
+def normalize_parent_checkpoint(s,file_n,file_h):
+ need(file_n==PARENT_REPAIR_BYTES and file_h==PARENT_REPAIR_SHA,"parent_repair_seal")
+ need(s.get("phase")=="parent" and s.get("reason")=="time_limit","parent_repair_phase")
+ need(s.get("checkpoint_seq")==PARENT_REPAIR_SEQ and s.get("seed_cursor")==44 and s.get("parent_cursor")==410 and s.get("action_cursor")==1640 and s.get("physical_cursor")==0,"parent_repair_cursors")
+ need(len(s.get("coordinate_keys",()))==PARENT_REPAIR_KEYS and len(s.get("occ_order",()))==PARENT_REPAIR_RANK and len(s.get("occ_rows",{}))==PARENT_REPAIR_RANK and len(s.get("occ_expr",{}))==PARENT_REPAIR_RANK and len(s.get("occ_sources",()))==PARENT_REPAIR_RANK,"parent_repair_shape")
+ need(len(s.get("queue",()))==PARENT_REPAIR_FRONTIER and s.get("frontier_length")==PARENT_REPAIR_FRONTIER and s.get("occurrence_payload_nnz")==PARENT_REPAIR_NNZ and s.get("occurrence_pivot_nnz")==PARENT_REPAIR_NNZ,"parent_repair_frontier")
+ need(not s.get("physical_rows") and not s.get("physical_order") and not s.get("physical_expr") and not s.get("physical_sources") and s.get("physical_payload_nnz")==0 and s.get("physical_pivot_nnz")==0,"parent_repair_physical_empty")
+ s["phase"]="occurrence_queue";s["reason"]="time_limit_parent_normalized";return s
 def cp_read(path):
  global LAST_INPUT_SEAL
  p=Path(path);need(not p.is_absolute() and p.parent==Path("ci/out"),"resume_path")
@@ -345,7 +354,9 @@ def cp_read(path):
   f.readline()
   with gzip.GzipFile(fileobj=f,mode="rb") as z:b=marshal.load(z)
  need(isinstance(b,dict) and b.get("schema")==SCHEMA+"/checkpoint", "checkpoint_schema");s=b["state"];need(s.get("binding")==hashlib.sha256((SCHEMA+V3[2]).encode()).hexdigest(),"checkpoint_binding");need(s.get("packed_contract")==packed_contract(),"packed_contract");need(s.get("eliminated_boundary_rows")==0 and s.get("old_boundary_closure_present") is False,"boundary_invariant")
- phase=s.get("phase");pc=int(s.get("physical_cursor",0));need(phase in {"occurrence_queue","physical_build","six_action"},"checkpoint_phase")
+ phase=s.get("phase");
+ if phase=="parent":s=normalize_parent_checkpoint(s,file_n,file_h);phase=s.get("phase")
+ pc=int(s.get("physical_cursor",0));need(phase in {"occurrence_queue","physical_build","six_action"},"checkpoint_phase")
  keys=s["coordinate_keys"];need(len(keys)==len(set(keys)) and all(isinstance(k,bytes) for k in keys),"checkpoint_keys")
  for pref in ("occ","physical"):
   rows=s[pref+"_rows"];order=s[pref+"_order"];expr=s[pref+"_expr"];sources=s[pref+"_sources"];need(len(expr)==len(sources)==len(order) and len(rows)<=len(order),"checkpoint_shape")
@@ -432,7 +443,8 @@ def run(a):
    elif (v3.rss() or 0)>=int(a.rss_bytes):stop_reason="rss_limit"
   seq+=1;s=state(phase,stop_reason or reason);s["checkpoint_seq"]=seq;n,h=cp_write(a.checkpoint,s);durable={"phase":phase,"seed_cursor":seed_cursor,"parent_cursor":parent_cursor,"action_cursor":action_cursor,"physical_cursor":physical_cursor,"occurrence_rank":len(occ.order),"physical_rank":len(phys.order),"frontier_length":len(queue),"occurrence_payload_nnz":s["occurrence_payload_nnz"],"physical_payload_nnz":s["physical_payload_nnz"],"occurrence_pivot_nnz":s["occurrence_pivot_nnz"],"physical_pivot_nnz":s["physical_pivot_nnz"],"checkpoint_seq":seq,"checkpoint_bytes":n,"checkpoint_sha256":h};LAST_DURABLE=durable;last_save=now;print("checkpoint_durable phase=%s seq=%d rank=%d/%d pivot_nnz=%d/%d"%(phase,seq,len(occ.order),len(phys.order),s["occurrence_pivot_nnz"],s["physical_pivot_nnz"]),flush=True)
   if stop_reason:raise RuntimeError(RESOURCE+":"+stop_reason)
- def guard(phase):
+ def guard(event):
+  need(phase in {"occurrence_queue","physical_build","six_action"},"guard_phase")
   elapsed=time.monotonic()-start;mem=v3.rss() or 0
   if (a.seconds is not None and elapsed>=a.seconds) or mem>=int(a.rss_bytes):
    reason="time_limit" if a.seconds is not None and elapsed>=a.seconds else "rss_limit";save(phase,reason,True);raise RuntimeError(RESOURCE+":"+reason)
@@ -566,6 +578,9 @@ def toy_packed_fixture():
  return True
 def fixture():
  need(V11_WHOLE_BYTES==275905469 and V11_PAYLOAD_BYTES==275905379 and V11_WHOLE_BYTES>V11_PAYLOAD_BYTES and len(V11_WHOLE_SHA)==64 and len(V11_PAYLOAD_SHA)==64,"fixture_v11_seal_constants")
+ try:normalize_parent_checkpoint({"phase":"parent"},PARENT_REPAIR_BYTES+1,PARENT_REPAIR_SHA)
+ except RuntimeError:pass
+ else:raise RuntimeError("fixture_unpinned_parent_phase_accepted")
  class Toy:
   identity=0
   def mul(self,a,b):return a+b
