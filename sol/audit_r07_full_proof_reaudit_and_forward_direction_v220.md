@@ -10590,3 +10590,36 @@ single transport repair required before continuation; it does not count the
   It is not yet code-audited or dispatched.
 - A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No compatible
   lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 262 (2026-08-30): A0 resume crosses the prior-artifact input gate
+
+- Run `33282142711` did not enter the producer.  Prior run/head/artifact
+  binding and artifact download both passed, after which driver v27 stopped in
+  its initial existence gate.  It referred to the audit alias
+  `d972_r07_history_free_positive_fast_resume_v24_checkpoint.json`, whereas
+  the uploaded member retains the producer basename
+  `d972_r07_history_free_positive_fast_resume_v24_production.json.checkpoint.json`.
+  This was a path-only transport failure: no checkpoint was read, no A0 pair
+  was recomputed, and no frontier state was changed.
+- Driver v28 changes only that member basename, its output basename, terminal
+  sentinel, and diagnostic task number.  It is 5,872 bytes with SHA-256
+  `20c5973251f71b2885a2b2087d5bb35cc7b7769ecb779a831fbc3e32e1c69d5f`.
+  The generic runner's upload step was also made unconditional so a future
+  runtime failure cannot suppress a durable checkpoint or diagnostic output.
+  These changes were committed at
+  `ed32ca089f22c7b5db04da67780aa6e6c1406c8d`.
+- Replacement GHA run `33282364093`, job `99179564334`, was dispatched at
+  that exact head.  Its setup, prior identity binding, and exact artifact
+  download passed, and it entered `Run GAP script` at 2026-08-30 09:03:24
+  JST.  It remains in progress at this delta.  This crosses the gate that
+  stopped `33282142711`; it does not yet prove that the full streamed semantic
+  restore or the subsequent search has completed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME**, now on `33282364093`.
+  Run `33282142711` is a typed zero-work transport failure and contributes no
+  mathematical progress.
+- A4 remains **1/3 RUNNING**, the batch-64 implementation remains in progress,
+  and A9 remains **0/3 actual**.  No compatible lift, fake numerator, or Ihara
+  witness is promoted.
