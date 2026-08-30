@@ -2,10 +2,10 @@
 
 ## Status
 
-PASS.  The task410 v18/v24 append-only delta transport is frozen as the
-producer/checker owner.  Only the legacy-base hash and checkpoint schema pins
+PASS (v34 supersedes the defective v33 wrapper).  The task410 v18/v24 append-only delta transport is frozen as the
+  producer/checker owner.  Only the legacy-base hash and checkpoint schema pins
 were advanced; arithmetic, row order, reducer, oracle, cap, and transport
-semantics are unchanged.  The v33 driver installs the canonical seed at both
+  semantics are unchanged.  The v34 driver installs the canonical seed at both
 the producer HEAD and delta-chain base paths before Python starts, preserving
 the base for ancestry.
 
@@ -16,6 +16,7 @@ the base for ancestry.
 | `search/d972_r07_word_independent_successor_kernel_v19.py` | 2388 | `c7add6648f53e4ec85eb40620e3469008349e5676ac7d9602a6699a52cb4c6c1` |
 | `crosscheck/check_d972_r07_word_independent_successor_kernel_v25.py` | 2540 | `4c04fd31fe4a27c96841ddc5931961cc6d2e4162f98f239df3577ee367a57317` |
 | `search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g` | 4299 | `348732f85a0c7d96ac38692464bf92af1dd47901f61a42f3d569504f5888034f` |
+| `search/d972_r07_word_independent_successor_kernel_gha_driver_v34.g` | 4372 | `a7d333b3120740db35f52969685f4029fcdffc0e5132a3ef4e9ac9a614df66b2` |
 
 Generated-source pins:
 
@@ -36,18 +37,32 @@ Generated-source pins:
   legacy-base identity gates.  The checker has zero erroneous strings and one
   canonical base gate.  Completed-row call sites use `write_checkpoint`; the
   persistent counter charges `len(encoded) + len(head_encoded)` only.
-- GAP parsing reaches the intentional `D386Mode` guard.  The transformed v33
+- GAP parsing reaches the intentional `D386Mode` guard.  The transformed v34
   inner driver retains literal `RESUME`, has no `SELFTEST`, installs the
   canonical seed at both producer HEAD and base (preserving base ancestry),
   under `*.producer.base.checkpoint.json`; its native RESUME producer command
   includes `--resume` on the transformed producer HEAD checkpoint path.
+- The v33 failure was isolated to `D410Pairs[1]`: after the global version
+  rewrite its parsed escaped needle had cardinality zero.  v34 corrects the
+  escaped needle/value representation for pairs 1--5; construction exits 0,
+  and the generated inner driver parses with GAP.
+
+Exact bounded local checks:
+
+```text
+temporary predriver: D386Mode:="RESUME";;
+temporary v34 construction: replace final Read(D410Inner);; with QUIT_GAP(0);;
+CONSTRUCT_EXIT=0
+GAP parse: ReadAsFunction(v34);; ReadAsFunction(ci/out/a4_task410_inner.g);;
+PARSE_EXIT=0 (1150 expected unbound-global warning lines)
+```
 
 ## Generic `gap-run.yml` dispatch inputs
 
 No dispatch was performed.  The exact bounded production inputs are:
 
 ```text
-script=search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g
+script=search/d972_r07_word_independent_successor_kernel_gha_driver_v34.g
 preamble=D386Mode:="RESUME";;
 out_dir=ci/out
 timeout_min=250
