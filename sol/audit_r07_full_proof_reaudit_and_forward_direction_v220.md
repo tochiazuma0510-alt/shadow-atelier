@@ -11915,3 +11915,46 @@ single transport repair required before continuation; it does not count the
   and A4 **1/3 UNKNOWN_RESOURCE** while run `33303302455` continues.
 - A9 remains **0/3 actual**.  No compatible lift, fake numerator, or Ihara
   witness is promoted.
+
+### Delta 286 (2026-08-30): the direct quotient is an exact positive A0 terminal
+
+- Added `proof_r07_a0_pb34_physical_quotient_terminal_v403.md`, 6,552 bytes,
+  SHA-256
+  `264bc6f20f526bfabc7c4a36e45f36404aacbc1eef8e9ca893b30de226ac4625`.
+  It combines
+  the two v401 PB3 kernel maps and v402's PB4 kernel map on the actual
+  three-tag physical row space. If
+
+  \[
+   Q=Q_3\oplus Q_3\oplus Q_4\oplus\operatorname{id}_{\mathbf F_3^2},
+  \]
+
+  then the exact blockwise statement is
+
+  \[
+   \boxed{\ker Q=D_3^{(1)}\oplus D_3^{(2)}\oplus D_4\oplus0=D.}
+  \]
+
+- It is therefore unnecessary on a positive terminal to rebuild the two
+  eliminated PB3 closures or the five central PB4 closures. For PB4, write
+  its central normal form as `(S,U)`. Exact membership is equivalent to
+  `U=0` and `S` being a finite sum of selected translates of the six action
+  columns. Those selected columns, the two PB3 zero normal forms, and the
+  v399 normalized pair are a complete positive certificate.
+- The quotient may be applied after task413 has materialized each literal
+  conjugate's signed-prefix physical row. This is linear and safe because
+  `Q` acts on the already tagged physical space. No common source action on
+  the aggregated quotient is inferred; closing quotient seeds under such an
+  action remains forbidden. Task419 addendum v1 records this implementation
+  simplification (1,273 bytes, SHA-256
+  `f11a3bfc2d62836e2ad66151d90ab1ec2a71f5b0038e261abdb8820a552181a2`).
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, durable through round 648**, but the
+  fresh task419 positive terminal no longer owes an old-boundary replay after
+  quotient success. Its live boundary oracle consists only of six PB4 action
+  families over `H0`.
+- A4 remains **1/3 UNKNOWN_RESOURCE** with run `33303302455` active. A9
+  remains **0/3 actual**. No common word, compatible lift, fake numerator,
+  or Ihara witness is promoted by this paper theorem alone.
