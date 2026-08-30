@@ -10623,3 +10623,48 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 RUNNING**, the batch-64 implementation remains in progress,
   and A9 remains **0/3 actual**.  No compatible lift, fake numerator, or Ihara
   witness is promoted.
+
+### Delta 263 (2026-08-30): globally merged batch-64 A0 discovery enters GHA production
+
+- The v387 batch contract is now implemented by producer
+  `search/d972_r07_history_free_positive_fast_resume_batch64_v28.py`, 19,149
+  bytes, SHA-256
+  `ff26d11c23b45b70a1fc93d481bfd4f3dd66e6c106fd0afae140af81ec01ddf9`,
+  checker
+  `crosscheck/check_d972_r07_history_free_positive_fast_resume_batch64_v28.py`,
+  8,219 bytes, SHA-256
+  `0491b3b7ff68a839811869079c7da33cae751f58936c6eef7a4e5ab8724baa99`,
+  and exact-pinned driver v28 plus generic-workflow adapter v29.  The files
+  were committed at `26c641b97ed9a7762f095004792dac9f92988812` and pushed to
+  `sol/r07-witness-v220-delta211`.
+- The implementation keeps one dual frozen while every matching support pair
+  is scanned.  All worker accumulators are merged and cancelled globally over
+  `F_3` before canonical top-64 selection.  The parent then uses one complete
+  pair scan for the entire selected batch, reconstructs every row/scalar/full
+  contributor list, and inserts the rows sequentially, skipping dependent
+  later rows.  Thus the parent materialization cost is one pair traversal per
+  batch rather than up to 64 traversals.  A resource stop before materialization
+  retains no row; a stop during sequential insertion retains only the already
+  atomic committed prefix and forces a fresh dual on resume.
+- Bounded permutation, cross-worker cancellation, cap-1, span, dependent-row,
+  single-parent-scan, mutation, generated-owner compile/help, YAML, ASCII, and
+  fail-fast gates passed.  An independent Sol(max) fatal-only audit also PASSed:
+  it found no blocker in the fixed-dual/global-merge/one-scan/rollback contract
+  or in the inherited v278 positive replay.  This remains history-free positive
+  discovery only; it makes no negative/exhaustion claim.
+- GHA run `33283161829`, job `99181659662`, was dispatched from exact head
+  `26c641b97ed9a7762f095004792dac9f92988812` through the already registered
+  `gap-run.yml`.  Adapter v29 deliberately matches that workflow's authenticated
+  A0 prefix and loads the self-contained batch driver v28.  The run resumes the
+  same v24 checkpoint from prior run `33267817818`, artifact id `9721440597`;
+  no fresh restart of the 22,912,880-pair frontier is intended.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING FROM DURABLE RESUME**.  The one-column baseline
+  `33282364093` and batch-64 successor `33283161829` are running in parallel
+  from the same authenticated frontier.  The batch implementation and code
+  audit portions of Delta 260 are complete; production measurement and any
+  positive v278 replay remain open.
+- A4 remains **1/3 RUNNING** and A9 remains **0/3 actual**.  No finite common
+  word, compatible uniform lift, fake numerator, or Ihara witness is promoted.
