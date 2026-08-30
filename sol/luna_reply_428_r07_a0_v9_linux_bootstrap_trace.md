@@ -50,3 +50,16 @@ TRACE_V1_LOCAL_GO_FOR_PARENT_DISPATCH
 - preamble: `D972_R07_A0_V9_BOOTSTRAP_TRACE_V1_RUN:=true;;`;
 - workflow timeout: `15` minutes;
 - initial state at dispatch: `in_progress`.
+
+## Linux trace result
+
+- workflow conclusion: `success` (diagnostic transport completed);
+- artifact id: `9734292344`;
+- diagnostic terminal: `TRACE_CAPTURED` (not PASS and not a search result);
+- exception: `KeyError(6)`;
+- exact path: v9 `run()` reached `target=q.transform(...)`, then
+  `Quotient.transform` line 100 indexed the E4 internal map with raw typed
+  component `6`;
+- interpretation: task179 raw components are one-based `1..6`, while the
+  quotient formula is internal-zero-based `0..5`;
+- checkpoint: absent; seed/parent/action search work: none.
