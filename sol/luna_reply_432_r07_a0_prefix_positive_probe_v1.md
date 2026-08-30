@@ -41,3 +41,22 @@ This fork is positive-discovery only. A nonpositive result is top-level
 `UNKNOWN` (including resource stops), never `NONMEMBER`; it does not promote COMMON_WORD, fake,
 Ihara, or compatible-lift claims. No checkpoint was loaded locally, and no
 production run, download, workflow edit, commit, push, or dispatch was done.
+
+## Parent dispatch record
+
+After the independent Sol dispatch audit returned `GO`, the parent broker
+committed and pushed the exact audited files at immutable head
+`eba7ebec4ee7a12d0d199d522f225ce42ba25366`.  Without changing a workflow,
+the parent dispatched generic `gap-run.yml` run `33339152288`, job
+`99331474026`, with:
+
+```text
+script               search/d972_r07_a0_prefix_positive_probe_gha_driver_v1.g
+preamble             D972_R07_A0_PREFIX_POSITIVE_PROBE_V1_RUN:=true;;
+out_dir              ci/out
+timeout_min          180
+with_pquot_packages  false
+```
+
+The exact continuation run `33337628476`, job `99327291932`, remains a
+separate active process.  The probe does not replace or mutate it.

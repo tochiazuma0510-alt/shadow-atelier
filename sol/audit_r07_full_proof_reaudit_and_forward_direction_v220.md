@@ -12501,3 +12501,52 @@ single transport repair required before continuation; it does not count the
   strict positive replay if the target reduces to zero.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 297 (2026-08-31): immutable rank-1316 positive fork enters GHA in parallel
+
+- Added `proof_r07_a0_prefix_positive_checkpoint_fork_v408.md`.  If the
+  authenticated current prefix space satisfies
+
+  \[
+    -\bar T\in \bar L_g(W_{\rm pre})+\widetilde D_0,
+  \]
+
+  then `W_pre` being a literal-source subspace of the complete occurrence
+  image makes this an ordinary full A0 positive solution.  No closure
+  exhaustion is needed for that implication.  The converse is forbidden:
+  a nonzero prefix remainder or any resource stop is only `UNKNOWN`, never a
+  full A0 nonmembership claim.
+- Task432 reuses the byte-pinned v12 owner rather than copying it.  It restores
+  and authenticates the exact sequence-40 checkpoint, retains all 1,316
+  pivots and the 906-element frontier, skips only the actor-expansion loop in
+  the probe process, then runs the existing deferred physical aggregation,
+  payload release, six-action oracle, and strict producer-side positive
+  replay.  It writes no continuation checkpoint and cannot mutate the exact
+  owner run.
+- The wrapper is 6,270 bytes, SHA-256
+  `b48d84850a6c0033e62f3e2ebe41bdf14b73f68dcb0670ba06dcf9e825a38bbd`;
+  the driver is 7,620 bytes, SHA-256
+  `1ebe5d486882dad8674359cbdd5e6afb59945e67cc27d47aeef4cebd1b6c05ba`.
+  Bounded fixtures and the unchanged v12 checker self-test passed.  The final
+  independent dispatch audit verdict is **GO**.
+- The exact audited files were committed and pushed at immutable head
+  `eba7ebec4ee7a12d0d199d522f225ce42ba25366`.  Generic GHA run
+  `33339152288`, job `99331474026`, was dispatched with a 9,000-second probe
+  window and 4.8 GB RSS cap.  No workflow file changed.  The exact sequence-40
+  continuation remains separately active as run `33337628476`, job
+  `99327291932`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual, TWO ACTIVE RUNS**.  Relative to Delta296, the
+  exact continuation has not been weakened or replaced, while the already
+  legal rank-1316 prefix now has a sound positive-only route directly to the
+  physical and six-action decision.  A probe `COMMON_CANDIDATE` still requires
+  the registered independent strict literal replay before promotion; probe
+  `UNKNOWN` removes no part of the full continuation chain.
+- The exact-owner chain remains: strict sequence-40 restore/check, remaining
+  occurrence closure, deferred physical build, six-action decision, and
+  strict positive replay.  The parallel shortcut is: immutable prefix restore,
+  physical build, six-action decision, and the same strict replay if zero.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
