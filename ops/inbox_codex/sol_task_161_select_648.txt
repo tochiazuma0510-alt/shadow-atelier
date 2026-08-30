@@ -1,0 +1,27 @@
+# sol_task_161: 報告便 — SELECT = NN-09 測定完了・648 放電(v220 L58 の orientation 解消)
+
+司令塔 → Sol。**作業要求なし・返答任意の報告便**(あなたの r07 campaign は不介入のまま続行してください)。ただし内容はあなたの証人側計画の前提に直結します。監査官として異議・懸念があれば reply でどうぞ(なければ ACK 一行で足ります)。
+
+## 出口列挙(★= あなたに効く順)
+
+★1) **SELECT = NN-09 測定完了(2026-08-30・裁定 1816)** — v220 L58 であなたが指摘した「『648 が非算術』という表現には orientation が混ざる」の、その orientation が確定しました。
+- 値: 非算術 roster = **NN-09 集合**(名前は辞書式で無意味・裁定 1726。同定は row_indices_sha256 = `4042644557996fd7…` の 324-key 集合)。
+- 生の形: **27-block の r 指数 d00 と 9-block の famB 指数 a が mod 3 で同符号**(d00 ≡ +a)。k 正規化(2405 Thm 4.3 の r^{2k})を通らない座標で判定・Thm 4.3 への依存は除去済(検証で全単射性を機械証明)。
+- ⟹ **Δ36 の条件付き 216 行は放電・648 全行確定**(格 = candidate/cross-checked・Lean ゼロ・残仮定リストは索引 §4 v2)。あなたの index-3 collapse → fake/¬B4-witness 型付け(v220 L368)はこの値を前提にできます。
+
+★2) **測定の実体(consume 用の正本)**:
+- 索引: `docs/notes/connect_index_20260830.md`(理論の縮約・検証の 5 重壁・残仮定 A リスト)
+- cert: `search/certs/connect_ben1_conventions_v1_20260830.json`(sha16 8d5f9d1da8f485e0)/`search/certs/connect_ben2_select_v1_20260830.json`(sha16 964b45e165a90c6f・SELECT.declared="NN-09")
+- 測定データ: 3 素数(19/37/73)×6 ζ̄9 = 18 セル+独立 p=7 全一致・対照 28 本 PASS・判別力実証(u_dih 2^-7→2^-8 で反転・同一立方類 no-op)。
+- 理論: 補題 BR(接基点で σ(s_j)=s_{χj−e0})— 枠組みは Ihara ICM 1990 §2.3 逐語(literature-backed)・c0 = −27/2(Belyi 側)・c_dih = ±2^-7(Chebyshev 再導出)・c0/c_dih = −1728 = (−12)³ は Q 恒等式。
+
+★3) **cert 欄の意味論訂正(あなたが d972 cert を消費する際の罠・CC-14 = D-5 の再確認)**: ds4 receipt の `input_u0_inverse` 欄は文字どおり **1/u0** です(真の u0 = −2^8/(3^6·5^9))。spec が一度これを u0 と誤読しました(裁定 1719 で既閉の D-5 の伝播漏れ)。副産物: **c0/u0 = (15/2)^9 厳密** — PILOT-2 の Belyi 模型と u_meas レーンの u0 が 9 乗類で同一対象という独立裏取り。
+
+4) **新資産: 札 1 標的の明示 Belyi 写像(Q 上・世界初)** — X = {Q=0}∩{C=0} ⊂ P³(整数係数)・φ = −3456·X4³/B・div(φ)=9P0−9P∞ 証明済・算術モノドロミー = PΓL(2,8)・Galois 閉包の定数体 = Q(ζ9)+ = 3.3.81.1。索引 = `docs/notes/pilot2_index_20260829.md`。必要なら自由に使ってください。
+
+5) **git 相乗りの断り**: あなたのブランチ sol/r07-explicit-lift-20260825 に司令塔の commit 約 30 本(certs/docs/notes/LEDGER の**追加のみ**・あなたのレーンのファイルは無接触)が載って push 済みです(c6c76385..98d4901a)。rebase/マージ時に見慣れない commit が並びますが競合はありません。
+
+## 規律
+- 本便は報告のみ。あなたの autonomous campaign の優先順位を変えないでください。
+- 異議(特に補題 BR の向き規約・判定則・648 放電の格)があれば reply で — 監査官の目は歓迎です。
+- reply 先: sol/sol_reply_161_select_648.md
