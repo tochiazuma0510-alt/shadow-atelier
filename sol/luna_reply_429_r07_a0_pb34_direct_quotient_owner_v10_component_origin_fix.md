@@ -64,3 +64,21 @@ V10_LOCAL_GO_FOR_PARENT_DISPATCH
 - fresh input checkpoint: absent;
 - timeout: owner `9000` seconds; workflow `180` minutes;
 - initial state at dispatch: `in_progress`.
+
+## Parent GHA result
+
+- run `33319489870`, job `99278843069`, head
+  `a6c32f379fcaafc32d030eeb4da7c325bb9695c3` completed on 2026-08-31 JST;
+- workflow transport/checker envelope: `success`;
+- artifact id: `9734471174`;
+- producer terminal: fail-closed `UNKNOWN`;
+- exact reason: `AttributeError: 'MatchedQuotient' object has no attribute
+  'power'` at `Quotient.h0`, reached from the initial target transform;
+- durable checkpoint: absent; seed/search progress: not started;
+- all common-word, A0-membership, compatible-lift, fake, Ihara-witness, and
+  verified claim flags remained `false`.
+
+Inspection of the pinned class confirms that `MatchedQuotient` exposes
+`identity`, `mul`, `inverse`, and `eval`, but no `power`/`pow` method.  The
+versioned successor is task430/v11, restricted to expressing the already
+frozen exponents `0,1,2` through that real API.
