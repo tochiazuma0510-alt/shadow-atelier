@@ -45,26 +45,22 @@ if Length(D410Raw)<>D410BaseBytes or HexSHA256(D410Raw)<>D410BaseSHA then
 fi;
 D410Raw:=D410ReplaceAll(D410Raw,"v30","v33");;
 D410Pairs:=[
- ["D345Producer:=\\\"search/d972_r07_word_independent_successor_kernel_v15.py\\\";;",
+ ["D345Producer:=\\\"search/d972_r07_word_independent_successor_kernel_v16.py\\\";;",
   "D345Producer:=\\\"search/d972_r07_word_independent_successor_kernel_v19.py\\\";;"],
- ["D345Checker:=\\\"crosscheck/check_d972_r07_word_independent_successor_kernel_v17.py\\\";;",
+ ["D345Checker:=\\\"crosscheck/check_d972_r07_word_independent_successor_kernel_v22.py\\\";;",
   "D345Checker:=\\\"crosscheck/check_d972_r07_word_independent_successor_kernel_v25.py\\\";;"],
- ["[D345Producer,7417,\\\"964b2311ac4f2a06ec2a1136e4ff798a9db1760da83bc2809deb912d9c238be7\\\"],",
+ ["[D345Producer,15991,\\\"bbd2c2093da3f18d2ea298c5d6955d987d4acbfc6eeb2dc9665abdad556bb2a7\\\"],",
   "[D345Producer,2388,\\\"c7add6648f53e4ec85eb40620e3469008349e5676ac7d9602a6699a52cb4c6c1\\\"],"],
- ["[D345Checker,7574,\\\"0b0281af7d38f4c255f7cd3346dc816987da863a29275a2c6c1851366171cef0\\\"],",
+ ["[D345Checker,6579,\\\"91ae327d9a983136cc5a1ac9188dc1ea11f9e553aef606e8bc4bf45cb9bd819a\\\"],",
   "[D345Checker,2540,\\\"4c04fd31fe4a27c96841ddc5931961cc6d2e4162f98f239df3577ee367a57317\\\"],"],
   ["D345PCheckpoint:=\\\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.checkpoint.json\\\";;",
    "D345PCheckpoint:=\\\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.head.checkpoint.json\\\";;"],
   ["D386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.checkpoint.json\"",
    "D386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.base.checkpoint.json\""],
+  ["D386InstallSeed:=function(path,raw,expected_bytes,expected_sha)",
+   "D386Raw:=D386ReplaceOnce(D386Raw,D386HexDecode(\"443338355261773a3d4433383552656164284433383542617365293b3b\"),D386HexDecode(\"443338355261773a3d4433383552656164284433383542617365293b3b0a416464284433383550616972732c5b22205072696e74546f2844333435532c5c2274696d656f75742031343532307320707974686f6e33202d75202d42205c222c4433343550726f64756365722c5c22202d2d696e707574205c222c44333435496e7075742c5c22202d2d6f7574707574205c222c44333435526563656970742c5c22202d2d636865636b706f696e74205c222c4433343550436865636b706f696e742c5c22202d2d7365636f6e6473203134343030202d2d7273732d627974657320383030303030303030305c222c222c22205072696e74546f2844333435532c5c2274696d656f75742031343532307320707974686f6e33202d75202d42205c222c4433343550726f64756365722c5c22202d2d696e707574205c222c44333435496e7075742c5c22202d2d6f7574707574205c222c44333435526563656970742c5c22202d2d636865636b706f696e74205c222c4433343550436865636b706f696e742c5c22202d2d726573756d65205c222c4433343550436865636b706f696e742c5c22202d2d7365636f6e6473203134343030202d2d7273732d627974657320383030303030303030305c222c225d293b3b\"));;\nD386InstallSeed:=function(path,raw,expected_bytes,expected_sha)\"] ,
   ["if D386Mode=\"RESUME\" then\n D386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.base.checkpoint.json\",\n                 D386HexDecode(D386ProducerCheckpointHex),D386ProducerCheckpointBytes,D386ProducerCheckpointSHA);;\n",
-   "D386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.base.checkpoint.json\",\n                 D386HexDecode(D386ProducerCheckpointHex),D386ProducerCheckpointBytes,D386ProducerCheckpointSHA);;\nif D386Mode=\"RESUME\" then\n"],
-  ["R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V24_DRIVER_PASS\\\\n",
-   "R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V33_DRIVER_PASS\\\\n"],
-  ["R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V24_DIAGNOSTIC_NO_SENTINEL\\\\n",
-   "R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V33_DIAGNOSTIC_NO_SENTINEL\\\\n"],
-  ["R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V24_CAPTURE_PASS\\\\n",
-   "R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V33_CAPTURE_PASS\\\\n"]
+    "D386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.head.checkpoint.json\",\n                 D386HexDecode(D386ProducerCheckpointHex),D386ProducerCheckpointBytes,D386ProducerCheckpointSHA);;\nD386InstallSeed(\"ci/out/d972_r07_word_independent_successor_kernel_v33.producer.base.checkpoint.json\",\n                 D386HexDecode(D386ProducerCheckpointHex),D386ProducerCheckpointBytes,D386ProducerCheckpointSHA);;\nif D386Mode=\"RESUME\" then\n"],
 ];;
 for D410Pair in D410Pairs do
  D410Raw:=D410ReplaceOnce(D410Raw,D410Pair[1],D410Pair[2]);;

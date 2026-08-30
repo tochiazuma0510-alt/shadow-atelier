@@ -5,8 +5,9 @@
 PASS.  The task410 v18/v24 append-only delta transport is frozen as the
 producer/checker owner.  Only the legacy-base hash and checkpoint schema pins
 were advanced; arithmetic, row order, reducer, oracle, cap, and transport
-semantics are unchanged.  The v33 driver also installs the embedded base at
-the delta-chain base path before Python starts, including PRODUCTION mode.
+semantics are unchanged.  The v33 driver installs the canonical seed at both
+the producer HEAD and delta-chain base paths before Python starts, preserving
+the base for ancestry.
 
 ## Versioned outputs
 
@@ -14,13 +15,12 @@ the delta-chain base path before Python starts, including PRODUCTION mode.
 |---|---:|---|
 | `search/d972_r07_word_independent_successor_kernel_v19.py` | 2388 | `c7add6648f53e4ec85eb40620e3469008349e5676ac7d9602a6699a52cb4c6c1` |
 | `crosscheck/check_d972_r07_word_independent_successor_kernel_v25.py` | 2540 | `4c04fd31fe4a27c96841ddc5931961cc6d2e4162f98f239df3577ee367a57317` |
-| `search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g` | 4491 | `b214e959ba75c408fee65c7092379c5092910967e50c1eaf8501fb112c6475ed` |
+| `search/d972_r07_word_independent_successor_kernel_gha_driver_v33.g` | 5515 | `06e1a54fa52d6592804cdec94d686b33ce20731e1ec9b66129af34395e2af9b7` |
 
 Generated-source pins:
 
 - producer: 251746 bytes / `223dd0b759780ed90b8d259311646a41425f40bf00b161e187a98cde73d7c796`;
 - checker: 272663 bytes / `344168094ed6dd597b4a5d15bda87d2c348d4fa233e9de7ba1eb7426ef201493`;
-- v33 inner GAP driver: 76238 bytes / `eb0b14867ef774971033852fb973f8d589cec836bcaabf8e891a0523d26d4b20`.
 
 ## Bounded gates
 
@@ -37,9 +37,10 @@ Generated-source pins:
   canonical base gate.  Completed-row call sites use `write_checkpoint`; the
   persistent counter charges `len(encoded) + len(head_encoded)` only.
 - GAP parsing reaches the intentional `D386Mode` guard.  The transformed v33
-  inner driver retains literal `RESUME`, has no `SELFTEST`, installs the base
-  under `*.producer.base.checkpoint.json`, and carries no pre-production
-  Python invocation.
+  inner driver retains literal `RESUME`, has no `SELFTEST`, installs the
+  canonical seed at both producer HEAD and base (preserving base ancestry),
+  under `*.producer.base.checkpoint.json`, and its PRODUCTION producer command
+  includes `--resume ci/out/d972_r07_word_independent_successor_kernel_v33.producer.head.checkpoint.json`.
 
 ## Generic `gap-run.yml` dispatch inputs
 
