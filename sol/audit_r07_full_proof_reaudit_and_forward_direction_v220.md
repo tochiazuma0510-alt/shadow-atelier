@@ -11269,6 +11269,81 @@ single transport repair required before continuation; it does not count the
   **0/3 actual**.
 - No compatible lift, fake numerator, or Ihara witness is promoted.
 
+### Delta 290 (2026-08-30): task421 v3 is also NO-GO; terminal repair is narrowed to concrete defects
+
+- Task421 returned four unadopted v3 outputs:
+
+  - producer: 24,942 bytes, SHA-256
+    `1f7c94d3b949431c17013dd1a26fb917b8dbd109f8df75405f6e7fe7abdef9f0`;
+  - checker: 3,603 bytes, SHA-256
+    `f115bda42bb725f357cf3506c8308757b32504f68b2964bf1e18a805fe45b93f`;
+  - GHA driver: 2,362 bytes, SHA-256
+    `b4862f62dc1f207538cf7fdb429e89536b4041e05ca915eca991cd8f526ec9bd`;
+  - Luna reply: 2,037 bytes, SHA-256
+    `889013c4442872b4112ecec50b0979ca03110365912cf9050405665b048929a0`.
+
+  Compile and three bounded self-reported gates passed, but both Sol and the
+  independent audit give **NO-GO before GHA dispatch**.  Those gates are not
+  counted as A0 progress.
+- The v3 implementation did repair four real v2 defects: it aggregates the
+  stored normalized occurrence pivot, constructs and equates the explicit
+  six action rows with `pure_relations(4)[5:11]`, checks the current dual
+  pairing directly, and uses `deque` with a seed-aware resume.  These parts
+  are retained in the next version.
+- The remaining production blockers are explicit rather than architectural:
+
+  1. the PB3 least-orbit representative `r=h*z^j_shift` is returned with
+     exponent `j_shift` instead of `-j_shift mod 3`;
+  2. both PB3 physical blocks are initially serialized as block 1, so H2
+     changes type after its first actor;
+  3. the `tau` key cannot be parsed by the sparse section;
+  4. the section lives in new Tietze coordinates, but v3 feeds it back through
+     the old-to-new transform, turning central coordinates into old `c/r`
+     coordinates;
+  5. the positive terminal rejects every selected action source, reverses
+     nested conjugator order, sums normalized pivot rows instead of original
+     source rows, and references an undefined `quotient` variable;
+  6. consequently action ancestry is always empty and a strict positive
+     terminal is not reachable;
+  7. the checker tests constants and receipt fields rather than independently
+     replaying the word, normal maps, actors, action translates and survivor;
+     and
+  8. checkpoint reading retains the full compressed payload, phase/shape
+     restoration and split-run fixtures are incomplete, progress is not
+     time-based, and the driver lacks byte pins and an
+     `UNKNOWN_RESOURCE` checkpoint identity gate.
+
+  The hot echelon also copies the whole sparse row and ancestry at every
+  pivot elimination; this is an avoidable closure-scale time/RSS regression.
+- Issued the minimal versioned repair
+  `luna_task_422_r07_a0_pb34_direct_quotient_owner_v4_terminal_repair.md`,
+  9,208 bytes, SHA-256
+  `ed271e8cdf25c4e901db4b7f93340ea881d5ef2d35160e69e69c2456e499a00e`.
+  It keeps the v405/v406 architecture and changes only the defects above.  In
+  particular, the quotient actor now lifts into new coordinates and calls
+  the contraction directly once per occurrence; the terminal separates
+  correction and action sources and freshly proves
+
+  \[
+    T_{\rm neg}+C_{\rm selected}+A_{\rm selected}=0;
+  \]
+
+  the checker must independently replay any positive artifact; and the hot
+  reducer uses in-place sparse axpy rather than full-row copies.  No heavy
+  local run, workflow edit, or dispatch is authorized before v4 audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, durable through round 648**.  Relative
+  to Delta289, v3 supplied useful code pieces but no executable positive
+  terminal.  The paper selector v405 and source theorem v406 remain the fixed
+  mathematical state; the outstanding implementation is now the bounded v4
+  repair followed by audit and GHA execution.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**,
+  A4 **1/3 UNKNOWN_RESOURCE**, and A5--A9 have no new actual numerator.
+- There is still no actual common word, compatible lift, fake numerator, or
+  Ihara witness.
+
 ### Delta 280 (2026-08-30): occurrencewise pivot section and corrected A4 resume launch
 
 - Added `proof_r07_semilinear_instruction_section_v397.md`, 11,979 bytes,
