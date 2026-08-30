@@ -12247,3 +12247,43 @@ single transport repair required before continuation; it does not count the
 - A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**,
   A4 **1/3 UNKNOWN_RESOURCE**, and A5--A9 have no new actual numerator.
 - No compatible lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 291 (2026-08-31): A0 v10 API stop is localized and v11 is dispatched
+
+- The v10 full GHA run `33319489870`, job `99278843069`, immutable head
+  `a6c32f379fcaafc32d030eeb4da7c325bb9695c3`, completed its workflow
+  envelope and uploaded artifact `9734471174`.  The producer failed closed
+  during the initial target transform with
+  `AttributeError: 'MatchedQuotient' object has no attribute 'power'`.
+  It produced no durable checkpoint and did not begin the 44-seed search.
+- The pinned `MatchedQuotient` implementation exposes `identity`, `mul`,
+  `inverse`, and `eval`, but no exponentiation method.  In both affected
+  PB3/PB4 normal-form formulas the exponent is already frozen to `0,1,2`.
+  Task430/v11 therefore replaces exactly three nonexistent calls by the
+  constant-size values `1,z,z*z` (and the same for `z^-1`).  It does not
+  alter the target, correction closure, six-action oracle, checkpoint state,
+  memory cap, positive replay, or claim boundary.
+- The v11 producer (27,430 bytes, SHA-256
+  `b6ae32a89dfd0cd8afc540bc09089ef3722e489d4fdef574a8bd42540a1bfd63`),
+  independent checker (7,401 bytes, SHA-256
+  `3dd65ccc71cf834674f2198458c4ecf4eea936a4e9cfca8c5e72e0dd10d9c8fd`),
+  and driver (2,903 bytes, SHA-256
+  `37e8c2893142ba5f7b0fe721a0b0033c15f37d9966b6a2c268ceb7854d957fb0`)
+  passed bounded fixture/checker gates and an independent Sol dispatch audit.
+  No new expensive pass or full-state copy was introduced.
+- Full fresh GHA run `33320103188`, job `99280454030`, immutable head
+  `eb840541ece21f394a6ac46b1b7a6e0a6cd5a301`, is now active with a 9,000
+  second owner limit and 4.8 GB RSS cap.  It has no input checkpoint.  The
+  first informative milestone is successful target construction followed by
+  a durable 44-seed checkpoint; only after that does occurrence-rank closure
+  and the six-action decision begin.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**: no common word has yet been produced.  Relative
+  to Delta290, the exact v405/v404 finite selector is unchanged; its newest
+  executable owner has passed bounded audit and entered full GHA execution.
+  The v10 STOP was an implementation API mismatch, not a mathematical
+  nonmembership result and not a loss of the old sealed round-648 fallback.
+- All non-A0 v220 numerators are unchanged by this delta.  No compatible
+  lift, fake numerator, or Ihara witness is promoted.

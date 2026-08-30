@@ -45,3 +45,22 @@ Static search found no executable `V10`, `v10`, or `task429` identifiers and no
 bootstrap and production search were not run.
 
 V11_LOCAL_GO_FOR_PARENT_AUDIT_AND_DISPATCH
+
+## Parent audit and dispatch receipt
+
+- independent Sol verdict: `GO`;
+- commit: `eb840541ece21f394a6ac46b1b7a6e0a6cd5a301`;
+- branch: `sol/r07-explicit-lift-20260825`;
+- workflow: `gap-run.yml`;
+- run id: `33320103188`;
+- job id: `99280454030`;
+- script: `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v11.g`;
+- preamble: `D972_R07_A0_PB34_V11_RUN:=true;;`;
+- fresh input checkpoint: absent;
+- owner timeout/RSS cap: 9000 seconds / 4,800,000,000 bytes;
+- workflow timeout: 180 minutes;
+- state after dispatch: `in_progress`.
+
+The audit found no new expensive operation or full-state copy.  An inherited
+resume-only expression scans the same input checkpoint seal twice; it is not
+reached by this fresh dispatch and is not a blocker.
