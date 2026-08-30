@@ -11676,3 +11676,54 @@ single transport repair required before continuation; it does not count the
   numerator.
 - A5--A9, B, C, W and F receive no new actual numerator.  No compatible lift,
   fake numerator, or Ihara witness is promoted.
+
+### Delta 282 (2026-08-30): orbit-doubled return removes two stronger A9 gates
+
+- Added `proof_r07_return_orbit_doubled_instruction_lift_v400.md`, 9,610
+  bytes, SHA-256
+  `efbadccd09752643470e3194591d2eec2d56098b9552f488eb7b7d98357f701a`.
+  At a return-fixed affine base, no pre-existing involution on the physical
+  residual target is required.  For the literal relation map (F), define
+
+  \[
+    F^{\rm orb}(a)=(F(a),F(Ra)),
+    \qquad B^{\rm orb}d=(Bd,B\theta d).
+  \]
+
+  Then (B^{\rm orb}\theta=\operatorname{swap}B^{\rm orb}) by definition,
+  while return-stability of the actual solution locus gives
+  ((F^{\rm orb})^{-1}(0)=F^{-1}(0)).  Every legal solution (d) has the
+  return-fixed legal average
+
+  \[
+    d_+=\tfrac12(d+\theta d),
+    \qquad Bd_+=-\beta_+.
+  \]
+
+  Hence the exact class-specific gate is
+  (-\beta_+\in B(D^{{\rm rel},+})), or word-bearingly the corresponding
+  image of the return-fixed instruction source.  For a commutator tree it
+  is enough to replay
+  (B(c+\theta c)/2=-\beta_+).  The two stronger v399 requirements—a
+  separately serialized target involution/intertwiner and separate
+  value-odd/connection-even identities—are optional shortcuts, not
+  prerequisites.  The symmetric image equality itself remains open.
+- A4 run `33303009846` did not evaluate v38.  Its CLI-dispatched preamble
+  reached GAP as `D386Mode:=RESUME` with the quotes removed, and GAP stopped
+  with `Variable: 'RESUME' must have a value`.  This is a dispatch-shell
+  quoting fault, not a producer, checkpoint, or mathematical terminal.
+  The identical v38 inputs were redispatched through a JSON API body, which
+  preserves `D386Mode:="RESUME";;`, as run `33303302455`, job
+  `99235283814`, on immutable head
+  `a6d54c9aa60600d4b7f9ba591d7b6af8a30a3272`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING** on run `33300457583`.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+- A4 remains **1/3 UNKNOWN_RESOURCE, durable next_row=25** while the correctly
+  quoted run `33303302455` is active.
+- A9 remains **0/3 actual**.  Its paper route is narrower: compute the actual
+  return-symmetric defect image and strict fixed-source coverage; do not first
+  classify the value and connection summands by parity.
+- No compatible lift, fake numerator, or Ihara witness is promoted.
