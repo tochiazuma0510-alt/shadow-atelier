@@ -12098,3 +12098,77 @@ single transport repair required before continuation; it does not count the
   A4 **1/3 UNKNOWN_RESOURCE**, and A5--A9 have no new actual numerator.
 - No common word, compatible lift, fake numerator, or Ihara witness is
   promoted by the selector theorem alone.
+
+### Delta 289 (2026-08-30): reject task420 v2 and freeze the production actor/source contract
+
+- Luna returned task420 v2 with bounded fixtures passing, but Sol and an
+  independent code audit both classify it **NO-GO before GHA dispatch**.
+  The fixture result is not counted as A0 progress.  The load-bearing defects
+  are:
+
+  1. raw old-coordinate occurrence rows enter the occurrence echelon; the
+     PB3/PB4 normal maps are applied only after tags have already been
+     aggregated;
+  2. all occurrences use the same marked generator as actor instead of the
+     occurrence substitution conjugated by its frozen prefix;
+  3. PB3 incorrectly uses PB4's first-PC `kappa` transversal;
+  4. `pure_relations(4)[2:8]` selects the old `A12/A13` families, whereas the
+     six centre-free `b/c` action rows are exactly `[5:11]`;
+  5. a zero target remainder returns `UNKNOWN` without literal positive
+     reconstruction;
+  6. a seed-phase resume skips the remaining seeds;
+  7. checkpoint serialization holds multiple full copies and the queue uses
+     quadratic `pop(0)` shifts; and
+  8. its checker does not independently reconstruct the occurrence maps,
+     actors, closure, or a positive artifact.
+
+  The independent audit additionally caught that the physical source was
+  formed from the unreduced candidate while being labelled by the normalized
+  pivot.  This breaks positive source ancestry.  The task418 certificate was
+  named but not byte-read, and the v2 driver deleted rather than resumed its
+  checkpoint.  No v2 producer, checker, or driver is adopted or dispatched.
+- Added
+  `proof_r07_a0_quotient_actor_source_coherence_v406.md`, 6,744 bytes,
+  SHA-256
+  `206250488dccc3f0a08fe5c7d59fe253e12e3c6d07bc5ca00daee0d11b2bf5aa`.
+  It fixes the two distinct transversals, the sparse sections, and the exact
+  occurrence actor
+
+  \[
+    \bar\rho_o(a)=Q_oL_{P_o\overline{s_o(a)}P_o^{-1}}\iota_o.
+  \]
+
+  It also proves the source-coherence requirement: after echelon
+  normalization, physical aggregation must use the stored normalized pivot,
+  not the incoming candidate.  With task413's reduction sign, a positive
+  ancestry must replay
+
+  \[
+    T_{\rm neg}+\text{correction}+\text{selected six-action rows}=0.
+  \]
+
+  V401/v402 kernel equality then removes the need to reconstruct the large
+  eliminated PB3 and central-PB4 boundary preimages.
+- Issued the strictly scoped production repair
+  `luna_task_421_r07_a0_pb34_direct_quotient_owner_v3_production_repair.md`,
+  8,445 bytes, SHA-256
+  `b1a2f17d300c6c9523470423451b38cbc0e3970f79130e3697e72503a6a7ef4d`.
+  It requires per-occurrence normal coordinates before closure, the correct
+  substituted actors, the explicit `[5:11]` six-row roster, normalized-pivot
+  aggregation, seed/actor phase resume, streaming checkpoints, and a strict
+  `COMMON_WORD` replay by a helper-nonshared checker.  It authorizes only
+  seconds-scale fixtures locally; production dispatch awaits Sol audit of v3.
+- A4 run `33303302455`, job `99235283814`, remains in the `Run GAP script`
+  step.  It has not reached artifact upload and has no new terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, durable through round 648**.  Relative
+  to Delta288, the paper selector is unchanged and complete, while the first
+  attempted implementation was rejected before it could create a false
+  terminal.  The exact outstanding chain is now: finish v3, bounded audit,
+  GHA execution, and strict positive replay if the quotient target reaches
+  zero.  There is still no actual common word.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**,
+  A4 **1/3 UNKNOWN_RESOURCE**, and A5--A9 have no new actual numerator.
+- No compatible lift, fake numerator, or Ihara witness is promoted.
