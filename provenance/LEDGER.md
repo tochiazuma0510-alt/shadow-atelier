@@ -3434,3 +3434,8 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - 中身: **P1/AXIOMS.manifest.json 21 本(Lean axiom policy の #print axioms 照合証跡)**・axiom-audit.log・p1-build.log・lean-arith-build.log 等 = P1(dihedral)形式化の公理検査の一次記録。
 - 退避先: C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/lean/(64 zip・計 648KB・repo 外)+ **MANIFEST.json(sha16 cf5d5f5380bac5f9)** = 全 zip の sha256+内部ファイル hash。健全性検査 64/64 PASS・corrupt 0。
 - 非対象と宣言: es5-proof repo(別プロジェクト)・regression-battery-receipt 等の非 Lean 系(必要になれば同手順で)。今後の規律: **GHA artifact は 90 日で消える — 保存価値のある run は作成時に退避 or Release 昇格**(round-648 checkpoint の件[裁定 1819]と本件で 2 例目)。
+
+## 2026-08-30 checkpoint の Release 恒久化(裁定 1821)
+- Release **archive-gha-checkpoints** を新設し、round-648 checkpoint zip(artifact_9730051236_gap-run-out.zip・98,493,406 B)を asset として恒久ミラー化。**往復検証: Release からの再ダウンロードと退避ローカル zip の sha256 完全一致**(fc83f49e…)。
+- ⟹ artifact 期限(2026-11-28)は無害化。期限後の GHA 再開は workflow から Release asset を取得(履歴非汚染・無期限)。取得例: gh release download archive-gha-checkpoints -p 'artifact_9730051236*'。
+- 以後の同型案件はこの Release に asset を追加する(Lean 期 64 zip はローカル退避+MANIFEST で完全・必要なら同所へ追加可)。
