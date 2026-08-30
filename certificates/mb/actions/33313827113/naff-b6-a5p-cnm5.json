@@ -1,0 +1,136 @@
+{
+  "schema": "mb/naff-branch-search/v2",
+  "branch": "N_aff",
+  "normal_form": "a(x)^2-c_N*x^5=f6(x)*p2(x)^2 (x0=0 by translation gauge, a5=+-1 by monic-f6 gauge, c_N NOT gauge-fixed)",
+  "search_bound": 6,
+  "a5_values": [
+    1
+  ],
+  "cn_range": [
+    -5,
+    -5
+  ],
+  "calibration": {
+    "schema": "mb/naff-calibration/v1",
+    "all_pass": true,
+    "results": [
+      {
+        "id": "stage1-positive-known-tuple",
+        "kind": "positive",
+        "input": {
+          "a0": 0,
+          "a1": 2,
+          "a2": 1,
+          "a3": 0,
+          "a4": -3,
+          "a5": 1,
+          "cN": 2
+        },
+        "expect": "ok=true",
+        "got": true,
+        "pass": true,
+        "detail": {
+          "p2": [
+            "0",
+            "-2",
+            "1"
+          ],
+          "f6cand": [
+            "1",
+            "2",
+            "2",
+            "-2",
+            "-3",
+            "-2",
+            "1"
+          ]
+        }
+      },
+      {
+        "id": "stage1-negative-perturbed",
+        "kind": "negative",
+        "input": {
+          "a0": 1,
+          "a1": 2,
+          "a2": 1,
+          "a3": 0,
+          "a4": -3,
+          "a5": 1,
+          "cN": 2
+        },
+        "expect": "ok=false",
+        "got": true,
+        "pass": true,
+        "detail": {
+          "ok": false,
+          "reason": "deg(gcd(h,h'))=0, expected 2"
+        }
+      },
+      {
+        "id": "stage2-positive-synthetic-pattern",
+        "kind": "positive",
+        "input": {
+          "a5": "1",
+          "cN": "7",
+          "hTarget": "9",
+          "k0": 5
+        },
+        "expect": "linPower=1,k=5,even=true,h=9",
+        "got": {
+          "linPower": 1,
+          "k": 5,
+          "even": true,
+          "sqOk": true,
+          "h": "9"
+        },
+        "pass": true
+      },
+      {
+        "id": "stage2-negative-broken-parity",
+        "kind": "negative",
+        "input": {
+          "extra_factor": "(v-1)"
+        },
+        "expect": "even=false (correctly rejected)",
+        "got": {
+          "even": false
+        },
+        "pass": true
+      },
+      {
+        "id": "stage2-adversarial-v0-artifact-regression",
+        "kind": "adversarial",
+        "input": {
+          "a0": 0,
+          "a1": 2,
+          "a2": 1,
+          "a3": 0,
+          "a4": -3,
+          "a5": 1,
+          "cN": 2
+        },
+        "expect": "D(v0)=0 (見かけ上の消失を再現)かつ stripKnownLinearFactor が power>=1 を検出",
+        "got": {
+          "D_at_v0": "0",
+          "linPower": 1
+        },
+        "pass": true,
+        "note": "v0 = c_N/(2*a5) = mu(infty_-) の値。D(v0)=0 は幾何的分岐点ではなく Sylvester 行列の射影的アーティファクト(委嘱2で発見・修正)。本テストはその再現を固定し、退行を防ぐレグレッションガードである。"
+      }
+    ]
+  },
+  "tested": 371293,
+  "stage1_passes": 0,
+  "stage1_rejects": 371293,
+  "stage1_pass_details": [],
+  "hits": [],
+  "skip_count": 0,
+  "skips": [],
+  "error_count": 0,
+  "errors": [],
+  "internal_error_count": 0,
+  "internal_errors": [],
+  "integrity_flag": false,
+  "elapsed_ms": 335522,
+  "contact_discipline": "本探索器は c_N の平方類・平方因子・符号、lambda=c*mu^2 の c、c_hat_mu=a^2-f6*p2^2 のいずれも計算・選択基準に使用していない。出力は a,c_N,p2,f6 の整数/有理係数(完全な曲線データ・A1 whitelist 内)と D(v) の構造検査結果(k,h)のみ。"
+}
