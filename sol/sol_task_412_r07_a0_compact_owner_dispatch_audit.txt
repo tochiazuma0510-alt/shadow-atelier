@@ -1,0 +1,36 @@
+Sol task 412 — R07 A0 compact owner dispatch audit
+
+Role: Sol(max), read-only adversarial code/performance audit.  Do not edit any
+file, run heavy arithmetic, commit, push, dispatch GHA, or broaden the task.
+
+Audit the current in-progress task411 files:
+
+- search/d972_r07_a0_compact_pc_invariant_owner_v1.py
+- crosscheck/check_d972_r07_a0_compact_pc_invariant_owner_v1.py
+- search/d972_r07_a0_compact_pc_invariant_owner_gha_driver_v1.g
+- sol/luna_task_411_r07_a0_compact_pc_invariant_owner_v1.md
+- sol/proof_r07_a0_occurrence_quotient_invariant_span_v396.md
+- sol/proof_r07_compact_extension_presentation_a0_seed_reduction_v397.md
+- sol/proof_r07_a0_augmented_occurrence_exponent_repair_v398.md
+
+The implementation is being repaired concurrently.  Inspect the latest
+stable read and report only concrete production blockers or false-positive
+risks, with function/line pointers and the smallest correction.  Required
+focus:
+
+1. existing ABI names/signatures and runtime object/dict shape;
+2. correctness of the 44-relator pc/action/Q0 extraction;
+3. augmented eleven-occurrence plus two-exponent actor closure;
+4. exact 2+2+11 boundary closure and target sign;
+5. MEMBER/NONMEMBER linear algebra, literal correction ancestry, boundary
+   preimage, and exact exponent gate;
+6. top-level terminal propagation and checker independence;
+7. row density and unintended owner-to-worker or whole-basis copies;
+8. any phase that pointlessly restores the legacy checkpoint, enumerates Q0,
+   or runs the full task175 6,441 preflight before useful closure.
+
+Do not demand generalized infrastructure, extra SELFTESTs, mutation
+campaigns, SAT, a database, or style cleanup.  If code changes while you read,
+re-read once at the end and audit the newest hashes.  Return a concise verdict
+and exact bytes/SHA-256 inspected to the parent agent; no reply file is needed
+because this is an internal parallel audit.

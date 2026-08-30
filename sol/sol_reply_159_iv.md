@@ -6233,13 +6233,14 @@ OLD20 -> 616 AFFINE DATA TRANSPORT:            REFUTED
 OLD20/616 FULL-4096 TYPE SEPARATION:           CROSS_CHECKED
 760 RAW COMMUTATOR REBASE:                     EXPLICIT / SETTLED CROSS_CHECKED
 760 INDEPENDENT ALL-SETTLED REPLAY:             CROSS_CHECKED
-760 FRESH B0/B1/109 LEFT-FOX RHS:               IMPLEMENTATION STOP / NO MATH NEGATIVE
+760 V3 FULL B0/B1/109 LEFT-FOX RHS:             REJECTED MIXED-BASE / NO MATH NEGATIVE
 760 FIRST TARGET6 FULL-LEGAL L3 GATE:           IMPLEMENTATION IN PROGRESS
 REL-DIHEDRAL -> LITERAL A18 NATURAL SHEAR:      PAPER_PROOF
 760 NEXT-CHIEF ACTUAL A18 MATRIX/RHS:           NOT YET COMPUTED
 760 NORMALIZED BRUNNIAN CLASS:                 NOT YET COMPUTED
 CHARMING PRESERVATION UNDER [F,F] CORRECTIONS: PAPER_PROOF
 ONTO ON COFINAL 3-PRIMARY REFINEMENTS:         PAPER_PROOF
+COMPATIBLE SPELLING OF NESTED CORRECTIONS:     PAPER_PROOF
 ALL ACTUAL ABELIAN HT1--HT5:                  OPEN
 ALL NONABELIAN ACCEPTED SETS NONEMPTY:         OPEN
 COMPATIBLE COFINAL R07 LIFT:                   NOT YET CONSTRUCTED
@@ -6254,7 +6255,7 @@ nonabelian accepted-set の全段非空性が必要である。
 
 ## 41. 760 fresh-RHS v3 の固定と GHA 裁定
 
-新しい760語を基底に settled replay、B0/B1、109本の target6 行を全て作り直す
+新しい760語を基底に settled replay、B0/B1、109本の target6 行を全て作り直すことを意図した
 producer・独立 checker・driver・preflight receipt を
 
     f3698fffd3b73370f753c4b0d9eb1e86751b1159
@@ -6307,6 +6308,19 @@ g760 FRESH 109-RHS RECEIPT: NOT PRODUCED
 MATHEMATICAL OBSTRUCTION: NOT CLAIMED
 ```
 
+続く source audit
+
+    sol/audit_r07_760_v3_full_lane_contamination_v97.md
+
+を commit `3e8b05f1` として publish した。この監査は、停止点より後にも二つの
+old20 汚染を確認した。`strong.build_fresh_prefix` は
+persistent source tuple を `old.FIXED_WORD` でなく hard-coded 20-letter `F0` から作り、
+`em.construct_fixed_B1` は historical old-qstar/B1 の hash・rank・translation を要求する。
+従って v3 full lane は「未完」より強く **mixed-base 実装として棄却**する。preflight の
+settled replay はこの call chain に入らないので維持する。修正版は base/source tuple を
+明示引数にし、各 checkpoint で target 全体を再 reduction し、current dual から B1 を
+選び直さなければならない。
+
 ## 42. relative dihedral から literal A.18 への exact shear
 
 新稿
@@ -6355,7 +6369,8 @@ S_{A18}=S_\rho T_A^{-1}
 
 これは相対 dihedral 一般化が明示リフトへ効く場所を確定したものである。pentagon
 変換そのものは全段で整合する閉形式になった。残る難所は actual residual-bearing
-class 上で theta/rho contraction と admissible word section を作ることである。
+class 上で theta/rho contraction を作ることである。補正値を普通の共通語に綴り、
+全段で整合させる部分は次節の v98 により独立の未解決事項ではなくなった。
 また (42.2) は同じ word から作る theta/rho と五 coface A.18 の比較であって、
 left-Fox presentation target6 を A.18 と同一視するものではない。
 
@@ -6383,3 +6398,204 @@ full は GHA の一ジョブだけで走らせ、ローカルは bounded serial 
 死亡する。MEMBER なら単に死亡を免れたにすぎず、次に (42.2) の二経路
 （五 literal coface からの直接構成と theta/rho shear）で actual A.18 matrix/RHS を
 作る。いずれの出目も全 base・全972・fake・井原反例を単独では宣言しない。
+
+## 44. compatible word section は新しい仮定ではない
+
+既存の v64, v82, v94 と上の v96 を統合して
+
+    sol/proof_r07_nested_word_section_elimination_v98.md
+
+を commit `fceac6e7` として publish した。各 level までの mark、二 hexagon、五 coface、
+side-gate 評価を一つの有限写像
+
+\[
+\Psi_n:\widehat F_2\twoheadrightarrow H_n,
+\qquad U_n=\ker\Psi_n,
+\qquad U_{n+1}\le U_n
+\tag{44.1}
+\]
+
+へ累積する。actual commutator correction value
+
+\[
+d_n\in\Psi_{n+1}\bigl(U_n\cap[\widehat F_2,\widehat F_2]\bigr)
+\tag{44.2}
+\]
+
+が一つ得られれば、有限 Cayley image 上の shortlex 悉皆により
+
+\[
+c_n\in F_2\cap U_n\cap[F_2,F_2],
+\qquad \Psi_{n+1}(c_n)=d_n
+\tag{44.3}
+\]
+
+を決定的に選べる。後続補正は全て $U_m\le U_n$ に入るので、語の綴り方を refinement
+ごとの自然 section にする必要はない。積
+
+\[
+f_\infty=f_0c_0c_1c_2\cdots
+\tag{44.4}
+\]
+
+は自動的に Cauchy かつ全有限段で整合する。v96 により theta/rho を殺す同じ correction
+value が literal A.18 も殺すので、pentagon 用に別の語 section も要らない。さらに
+commutator 条件は charming を、v94 は cofinal 3-primary lane の onto を一様に保つ。
+
+従って、現在の abelian 本丸は「compatible $(c_n)$ をどう選ぶか」ではなく
+
+\[
+\boxed{\text{各 actual active edge で theta/rho 補正値そのものが
+actual common-word image 内に存在すること}}
+\tag{44.5}
+\]
+
+である。一段の成功だけでは (44.5) の全段版は出ないが、class-specific natural
+contraction が (44.5) を証明すれば、語への materialization と逆極限 assembly は既に
+完了している。target6 の MEMBER は過大近似 screen の通過にすぎず、(44.2) をまだ
+与えないことにも注意する。
+
+## 45. target6 gate の clean-checkout 修理と GHA 本走
+
+最初の二回の GHA selftest は数学計算へ入る前に停止した。run
+`32879297297` は workflow preamble の文字列引用符が消えたため
+`python3` が GAP の未束縛変数として解釈され、run `32879752404` は dirty local
+`provenance/CLAIMS.md` の hash を pin したため clean checkout の HEAD blob と一致しなかった。
+どちらも producer/checker receipt、rank、separator、数学 terminal を一つも出していない。
+
+この梱包境界を修理した。producer は必要な C-13 PC/Jennings core を authorized source
+内へ最小自己完結化し、branch HEAD に存在しない旧 C-13 六資産は audit-only provenance
+へ移した。独立 checker は従来どおり新 producer を import せず、tracked seedspan 実装から
+E4/PC arithmetic を別経路で再構成する。clean `git archive` 相当環境で runtime path は
+14/14 present、missing 0、producer/preflight/checker/driver は全て serial PASS した。
+旧 core との開発時 calibration も PC 積16、逆元4、Fox 6、Jennings projection 16 で一致した。
+重い full はローカルで実行していない。
+
+修理 commit は
+
+    c1e7eb8fcd08676d5a6efad82add2c1c832a22c0
+
+であり、主要 pin は
+
+```text
+producer  53284   7048e73a02e76df5d49fd359c52d5be70ae99d70aa95ebe74b28c4a18f130fde
+checker   42005   355b01a67447cd371f6a1e2ebbaed73e1408181717d9ce857aecb8723bfe98ea
+driver    12380   1c0d374dfd61306a7f9f4777a65469e454cc77d5b0f0d5c7272123e293f9e73a
+preflight 663780  4d305a1af415ffb5acf1d029a69c1b720961fce88dc86575d8fde2d504a787ab
+```
+
+である。GHA selftest run `32900915774` は同じ head で success、terminal は
+
+```text
+R07_760_L3_TARGET6_V1_GHA_DRIVER_PASS mode=selftest
+preflight_mutations=11
+```
+
+であった。続いて full producer→独立 direct checker を run `32901384400`、同じ
+head `c1e7eb8f...`、360分枠、Python 一プロセスずつの直列実行として投入した。
+workflow 自体は success で完了したが、数学 terminal は
+
+```text
+R07_760_L3_TARGET6_UNKNOWN_RESOURCE
+reason = shared wall-clock budget exhausted
+stage = j=9:D2-relator-7
+requested_seconds = 10200
+producer_elapsed = 11728
+receipt bytes = 3239
+receipt SHA-256 = 1c739559eee368ba676c694960be21db94d6bc2292a6136d89b97bedfef3e15b
+```
+
+であった。checker は停止 receipt と mutation 3 本だけを fail-closed に受理し、
+`full_replay=false` である。従って workflow の success を数学的 success と読んではならない。
+`J_ORDER=(2,\ldots,12)` と first-terminal control flow から、producer は $j=2,\ldots,8$ を
+NONMEMBER なしで通過して $j=9$ へ到達したことまでは従うが、この進捗は独立 full replay を
+欠く candidate である。$j=9$ 以降について membership/nonmembership の主張は一つもない。
+従って g760 はまだ死亡も lift もしていない。次走は $j=2$ から三時間を再演するのでなく、
+$j=2,\ldots,8$ の lossless receipt を束ねた $j=9$ checkpoint/resume としなければならない。
+NONMEMBER はこの一本の g760 prefix だけを殺し、MEMBER は actual A.18 へ進むための screen
+通過にすぎないという主張境界は不変である。
+
+## 46. HT1・HT2・HT5 の structural 部分は別の存在仮定ではない
+
+新稿
+
+    sol/proof_r07_structural_ht1_ht2_ht5_discharge_v99.md
+
+を commit `68a82c91` として publish した。nested matched normal diagram-chief ladder
+を固定すると、任意の abelian edge で actual common-word correction module `C_n` と
+actual residual module `R_n` の間に exact affine Fox map
+
+\[
+\Omega_n(F_n\star c)=\beta_n+D_nc
+\tag{46.1}
+\]
+
+が細かい lift の存在を仮定せず定まる。literal relator identity を同じ任意 lift に
+評価し、補正後との差を取れば
+
+\[
+E_n\beta_n=0,\qquad E_nD_n=0
+\tag{46.2}
+\]
+
+も全段で従う。さらに residual、Fox Jacobian、literal syzygy は refinement map と可換し、
+v96 の shear も同じ base change と可換する。従って HT1-STRUCT、HT2-STRUCT、
+HT5 の residual/Jacobian 部分は paper proof であり、各段で独立に仮定する必要はない。
+
+これは `ker E_n = im D_n` を証明しない。現在の abelian 本丸はより正確に、actual defect
+を含む閉部分系上で
+
+\[
+D_nh_n=1,\qquad q_{mn}h_m=h_nq_{mn},\qquad \beta_n\in\operatorname{dom}h_n
+\tag{46.3}
+\]
+
+を満たし、値が actual common-word domain と side gate に入る class-specific contraction
+`h_n` を構成することである。これが得られれば v96 が printed A.18 へ運び、v98 が値を
+普通の commutator word に綴って逆極限積を作る。従って structural naturality や語の
+compatible choice へ戻る必要はない。
+
+## 47. field-outer full-pair restriction の quarantine 解除
+
+独立照合 v3 が停止した原因は数学的な $Q$-action ではなく、147 座標の cocycle を
+先頭58行だけで商座標へ落としていた reducer defect であった。修正版の独立再構成
+
+    sol/luna_reply_162_field_outer_full_pair_return_crosscheck_v4.md
+
+は全147行の overdetermined solve を用い、両候補 $A9,A12$ で
+
+\[
+\operatorname{rank}(U^3-I)=0,
+\qquad
+\operatorname{rank}\!\left[
+H^1(Q,H^1(H,V))\longrightarrow H^1(Q,H^1(D,V))
+\right]=0
+\tag{47.1}
+\]
+
+を得た。さらに target 側で
+
+\[
+\dim V^D=21,\qquad H^2(Q,V^D)=H^3(Q,V^D)=0
+\tag{47.2}
+\]
+
+を独立に再構成したので、target relative LHS は $(1,1)$ piece だけを持ち、両候補で
+
+\[
+\boxed{
+\operatorname{im}\bigl[
+K^2(P_0,H;V_{\rm mix})\longrightarrow K^2(R,D;V_{\rm mix})
+\bigr]=0.}
+\tag{47.3}
+\]
+
+従って v84 の action canary quarantine は、この constructed field-outer module の
+restriction-zero 主張について解除でき、有限主張の grade は cross-checked へ上がる。
+source の signed left-transgression rank は今回も `UNKNOWN` だが、(47.3) には不要である。
+
+ただし (47.3) は actual A.18 residual そのものの消滅ではない。v83 Theorem 3.1 を適用するには、
+同じ literal residual が full-pair class と cyclic class の双方を与える B1--B4 chain comparison
+がなお必要である。それが立てば field-outer cyclic survivor は消え、$J^8u=\beta$ の補正へ進める。
+現状は「抽象的 survivor の逃げ道を一つ cross-check で閉じた」段階であり、actual-image
+contraction、compatible cofinal lift、Ihara witness はまだ宣言しない。

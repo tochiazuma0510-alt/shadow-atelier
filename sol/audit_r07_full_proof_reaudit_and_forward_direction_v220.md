@@ -10971,3 +10971,278 @@ single transport repair required before continuation; it does not count the
   A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`** while its
   every-completed-row repair is independently code-audited.  No compatible
   lift, fake numerator or Ihara witness is promoted.
+
+### Delta 270 (2026-08-30): A0 memory terminal and the finite invariant-span replacement
+
+- A0 GHA run `33285081587`, job `99186755101`, at exact head
+  `5088ca66c941c28b3f7f88f8b343964db7d8176f` completed its workflow and
+  uploaded artifact `9724831121` (compressed artifact size 102,992,888
+  bytes).  Its mathematical producer and checker terminals agree on
+
+  ```text
+  UNKNOWN_RESOURCE:phase=positive_search_cap=rss_bytes_value=14534844416_limit=5700000000
+  ```
+
+  The raw-row repair itself succeeded: the owner restored
+  `retained_columns=8727`, `dag_nodes=29336` and
+  `boundary_pairs=22912880`.  It found no new candidate word
+  (`candidate_words=0`) before the stop.  The terminal checkpoint is
+  1,663,424,523 bytes with SHA-256
+  `b052519e8a8ec79d957e2d2974f9bc3b62b0caa88f34053a8c6b1c1388eaa0b5`;
+  it preserves the durable semantic frontier but adds no retained discovery
+  column.
+- The failure is not the removed whole-file JSON DOM.  Sampled parent RSS
+  peaked at 4,860,358,656 bytes while the two fork workers' sampled peak sum
+  was 9,714,638,848 bytes.  Thus the streamed semantic state was rebuilt in
+  the parent and then effectively replicated by the parallel owner.  The
+  batch-64 path accelerates fixed-dual scanning but is not a memory
+  reduction.  Redispatching the same owner would reproduce the resource
+  boundary rather than continue mathematical work.
+- Added the paper theorem
+  `proof_r07_a0_occurrence_quotient_invariant_span_v396.md`, 10,597 bytes,
+  SHA-256
+  `f88f72b2dc6f55e11318c0e56bc647e6806f9fe24824b0c4d0adb24e0f694b09`.
+  It specializes v140/v308 to standalone A0 before the nonlinear A5 state.
+  If `J` is the full separately tagged eleven-occurrence Fox map, then
+
+  \[
+   J(\Omega)=
+   \operatorname{span}_{\mathbf F_3\langle x^{\pm1},y^{\pm1}\rangle}
+      \{J(r_i):1\le i\le6441\}.
+  \]
+
+  Hence the infinite normal-word/conjugator family is exactly the sparse
+  invariant closure of 6,441 seeds under four signed source actions.  If its
+  rank is `r`, at most `6441+4r` insertion attempts are required; no Q0
+  section, joint-state or global conjugator enumeration occurs.
+- The complete A0 boundary is independently the full marked-action closure
+  of fifteen typed seeds: two PB3 relations in each of H1/H2 and eleven PB4
+  relations in P.  For terminal ranks `b1,b2,b3`, the exact producer bound is
+  `15+6(b1+b2)+12*b3` insertion attempts.  This replaces a changing-dual
+  support-by-104-descriptor scan; that scan may remain as an independent
+  checker.
+- V396 also proves the safe pruning criterion.  An occurrence-level invariant
+  subspace `B` may be quotiented before closure exactly after the physical
+  gate `L_g(B) subset D` is authenticated.  Aggregating the eleven
+  occurrences or moving one common action through `L_g` before that gate is
+  forbidden.  A MEMBER ancestry gives a literal mod-three correction, and
+  v156/v265 exactification plus selected-support replay gives the exact
+  integer-zero common word.
+- The replacement execution contract combines speed and memory reduction:
+  H1/H2/P closures, literal-seed evaluation and four frontier actions may be
+  sharded, while one central reducer alone owns rank and compact
+  seed/parent/action ancestry.  Workers receive sparse frontier rows and
+  read-only action tables; they do not inherit the 1.66 GB checkpoint or the
+  full reducer.  This owner is specified on paper but not yet implemented or
+  executed.
+
+**v220 mapping**:
+
+- A0 is **0/1 UNKNOWN_RESOURCE, DURABLE 8,727-COLUMN FALLBACK**.  The v29
+  transport/replay defect is closed, but the legacy parallel memory model is
+  not a viable redispatch.  V396 supplies the preferred exact finite search
+  and its implementation boundary; it supplies no actual COMMON terminal.
+- A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`** and A9 remains
+  **0/3 actual**.  No compatible cofinal lift, fake numerator or Ihara
+  witness is promoted.
+
+### Delta 271 (2026-08-30): compact extension presentation cuts A0 to at most 44 roof seeds
+
+- Added
+  `proof_r07_compact_extension_presentation_a0_seed_reduction_v397.md`,
+  10,452 bytes, SHA-256
+  `806c0e7015866edc917a9c07c8a3c340a6a5a29c75b751f25b91b534155936b2`.
+  It replaces v190's complete Gamma Cayley table as a presentation device by
+  an exact power--conjugate presentation of the same finite extension.
+- The pinned task157ee receipt gives
+
+  \[
+   |\Gamma|=243=3^5,
+   \quad |\Phi(\Gamma)|=27,
+   \quad \dim_{\mathbf F_3}\Gamma/\Phi(\Gamma)=2,
+  \]
+
+  and 19 complete marked \(Q_0\) relators.  The Frattini dimension records
+  substantial redundancy in the 26 correction records; the new proof uses
+  only the safer order fact and chooses a five-step pc sequence.
+- For a length-five pc sequence, at most five power plus ten conjugation
+  relations present \(\Gamma\).  Ten more relations record the \(x,y\)
+  action on the five generators, and nineteen adjusted \(Q_0\) relators
+  retain the nonsplit extension cocycle.  A finite-order comparison followed
+  by Tietze elimination proves
+
+  \[
+   \boxed{
+   \langle\!\langle\mathcal R_{\rm pc}\rangle\!\rangle
+   =\ker\Theta
+   =\langle\!\langle\mathcal R_{6441}\rangle\!\rangle,
+   \qquad |\mathcal R_{\rm pc}|\le44.}
+  \]
+
+  This is equality of normal closures, not a sampled-relator heuristic.
+- Substitution in v396 sharpens the correction closure from at most
+  `6441+4r` to at most `44+4r` row-insertion attempts.  The independently
+  complete boundary remains the fifteen-seed invariant closure.  The old
+  6,441 words are retained only as a streaming equivalence oracle; neither
+  they nor the 1.66 GB adaptive checkpoint belong in the new owner state.
+- The remaining mechanical gate is finite and deterministic: extract a
+  five-step pc sequence from the authenticated 243-state table, collect the
+  at-most-15 internal, ten marked-action and nineteen corrected quotient
+  relations, substitute literal source representatives, independently replay
+  presentation equality, and run the v396 occurrence-level sparse owner.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE** because the compact literal roster and
+  actual membership terminal do not yet exist.  Its paper search universe is
+  nevertheless reduced from the legacy global conjugator/boundary-pair
+  search, first to v396 invariant closure and now to at most 44 roof seeds
+  plus four actions per retained rank.
+- This is the speed-plus-memory route: workers receive only immutable sparse
+  frontier batches, and a single owner retains the echelon and compact word
+  ancestry.  No worker may inherit the legacy checkpoint/reducer.
+- A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`** and A9 remains
+  **0/3 actual**.  No compatible lift, fake numerator or Ihara witness is
+  promoted.
+
+### Delta 272 (2026-08-30): compact-roster candidate and mandatory exponent augmentation
+
+- Luna task411's first return deterministically materialized a candidate
+  five-step pc chain with state IDs `[1,30,12,60,3]` and a 44-word roster:
+  fifteen internal, ten marked-action and nineteen corrected quotient
+  relators.  Producer and separately coded checker agree on roster SHA-256
+  `7612682d024b61f873928ad122c9a5d7462c812a6633112f08706cda4412b6c8`;
+  bounded reconstruction completed locally in under two seconds.
+- This first return is **not accepted as task411 completion**.  It stopped
+  before the eleven-occurrence closure, the fifteen-seed boundary closure,
+  and A0 membership, claiming a missing physical ABI.  That ABI already
+  exists in the frozen task179/task175 owner and the task399 occurrence
+  closure.  Luna was returned to the same task with exact function-level
+  pointers and a minimal boundary reconstruction which omits task175's
+  expensive 6,441-row preflight.
+- Added the mandatory paper correction
+  `proof_r07_a0_augmented_occurrence_exponent_repair_v398.md`, 4,817 bytes,
+  SHA-256
+  `ff3d3363bd0520b84a9a978e22864e9c77d0cdce9765027a6e9c3d7d017dcea2`.
+  V396's occurrence state must be augmented by the two source exponent
+  coordinates:
+
+  \[
+   \widetilde J(c)=\bigl(J_{\rm occ}(c),\bar\epsilon(c)\bigr),
+   \qquad
+   \widetilde\rho(s)=\rho_{\rm occ}(s)\oplus\mathrm{id}_{\mathbf F_3^2}.
+  \]
+
+  Conjugation fixes exponent sums, so the invariant-span theorem and v397's
+  at-most-44 seed reduction remain unchanged.  Physical aggregation carries
+  the two coordinates unchanged, while all fifteen PB boundary seeds have
+  exponent pair zero.  The exact decision is
+
+  \[
+   -T\in D+\widetilde L_g(\widetilde W).
+  \]
+
+  An exponent-free occurrence implementation can produce a false MEMBER and
+  is forbidden.  Task411 must replay every compact seed against the frozen
+  task179 `occurrence_column`, including both exponent keys.
+
+**v220 mapping**:
+
+- The compact 44-word roster is an implementation candidate with matching
+  producer/checker digest, not yet a cross-checked A0 input or numerator.
+  A0 stays **0/1 UNKNOWN_RESOURCE** until the augmented occurrence and full
+  boundary queues produce an independently accepted terminal.
+- The v396/v397 speed and memory bounds survive v398; only two invariant
+  coordinates were restored.  A4 remains **1/3 UNKNOWN_RESOURCE** and A9
+  **0/3 actual**.  No compatible lift, fake numerator or Ihara witness is
+  promoted.
+
+### Delta 273 (2026-08-30): raw exponent augmentation is vacuous; normalized lattice rows are mandatory
+
+- Re-reading v156 against the task411 implementation exposed a stronger
+  correction than Delta272.  V156 proves
+
+  \[
+   \epsilon(\Omega)=18\mathbf Z^2.
+  \]
+
+  Therefore v398's raw pair `epsilon mod 3` is identically zero on every
+  allowed correction.  It cannot distinguish a correction of exponent
+  `(18,0)` from one of exponent `(54,0)` and cannot certify zero-cost exact
+  commutator repair.
+- Added
+  `proof_r07_a0_normalized_exponent_lattice_repair_v399.md`, 5,653 bytes,
+  SHA-256
+  `1322195a097176f64ff4ea46f87999074b5f2aa0b9c742510f6019b36d26db1e`.
+  It supersedes v398's coordinate convention by
+
+  \[
+   \nu(c)=\left(\epsilon_x(c)/18,\epsilon_y(c)/18\right)\bmod3.
+  \]
+
+  This is additive on \(\Omega\) and fixed by conjugation, so v396's
+  invariant-span proof and v397's `44+4r` bound remain unchanged.
+- The corrected A0 system attaches `nu` to every compact correction seed and
+  zero to all boundary/target rows.  MEMBER then gives
+  \(\epsilon(c_*)\in54\mathbf Z^2\).  With the authenticated v156 words
+
+  \[
+   v_0=r_9r_{12}r_3^{-2},\qquad u_0=r_9v_0^{-8},
+  \]
+
+  a correction of exponent `(54A,54B)` is exactified by
+  `u0^(-3A) v0^(-3B)`.  The helper-nonshared checker must reconstruct these
+  words and directly require final integer exponent `(0,0)` and the same
+  all-seven boundary equality.
+- Luna task411 was stopped before GHA and returned again for this repair.
+  Any producer using task179's raw mod-three exponent keys as its acceptance
+  gate is rejected; those keys are canaries only.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE**.  The paper search reduction is intact,
+  and the exact-commutator gate is now the correct normalized two-row system.
+  No raw-exponent implementation result is accepted.
+- A4 remains **1/3 UNKNOWN_RESOURCE** and A9 **0/3 actual**.  No compatible
+  lift, fake numerator or Ihara witness is promoted.
+
+### Delta 274 (2026-08-30): discharge the occurrence-boundary quotient gate before A0 closure
+
+- Added
+  `proof_r07_a0_full_boundary_occurrence_quotient_v400.md`.  It discharges
+  v396's previously conditional safe-quotient gate for the canonical full
+  relation boundary.  If $B_3,B_4$ are the full left-translation spans of
+  the two PB3 and eleven PB4 Fox presentation rows, then every occurrence
+  actor preserves its copy of (B_3) or (B_4).
+- The frozen physical map on each occurrence is a registered sign and left
+  prefix translate followed by insertion into H1, H2 or P.  Full relation
+  boundaries are left invariant, so for the direct sum $B$ of the eleven
+  occurrence copies,
+
+  \[
+   \boxed{L_g(B)\subseteq D}.
+  \]
+
+  Therefore the exact A0 decision may be made after reducing every E3
+  occurrence modulo one shared $B_3$ basis and every E4 occurrence modulo
+  one shared $B_4$ basis.  The two normalized v399 exponent coordinates
+  are left untouched.
+- If the quotient correction rank is \(\bar r\), the correction owner needs
+  at most `44+4*bar_r` insertion attempts, with \(\bar r\le r\) for the
+  unquotiented rank.  This cannot enlarge the live state and may reduce both
+  rank and row density.  The same already-required B3/B4 closures are reused;
+  no preliminary search or extra universe is introduced.
+- Positive word information is not lost.  The quotient closure retains only
+  compact correction ancestry.  After expansion of the selected literal
+  word, its full all-seven row is replayed once and the residual is solved in
+  the three tagged physical boundary bases, recovering the typed boundary
+  preimage.  V399 exactification remains mandatory.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE** until an independently accepted actual
+  closure terminal exists.  Its preferred implementation is now the compact
+  44-seed invariant closure *after* the exact shared E3/E4 boundary quotient,
+  rather than the unquotiented occurrence closure.
+- A4 remains **1/3 UNKNOWN_RESOURCE** and A9 **0/3 actual**.  No compatible
+  lift, fake numerator or Ihara witness is promoted.
