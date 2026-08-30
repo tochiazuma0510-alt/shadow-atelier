@@ -3422,3 +3422,9 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 ## 2026-08-30 UNKNOWN 閉鎖便の台帳訂正 2 件(裁定 1817)
 - **papers/ihara-ICM1990-braids-galois-arithmetic-functions.pdf は ICM 1990 Vol.II であり井原講演を含まない**。講演本体 = papers/ihara-ICM1990-vol1-braids-galois-arithmetic.ocr.pdf(印刷ページ = PDF ページ − 88)。参照壊れ回避のため改名せず本注記で対応。完全版 = Desktop\文献リスト\ICM1990.1.ocr.pdf / ICM1990.2.ocr.pdf。
 - 「Ihara の f」引用時は論文明記(ICM 1990 §2.3 と Annals 123 p.55 で正規化が異なる: 後者は t=f⁻¹)。Anderson–Ihara Ann.Math.128 は既遠征・取得不能(裁定 286)— 文献要請 3 は凍結。
+
+## 2026-08-30 GHA artifact の期限切れ対策(裁定 1819)— Sol R07 round-648 checkpoint のローカル退避
+- Sol の設計(checkpoint 本体 129 MB は git 外・GHA artifact 9730051236 を SHA 固定取得)は正 — ただし **artifact 保持期限 = 2026-11-28**(90 日・gh api 実測)で以後自動削除。
+- 退避先: C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/artifact_9730051236_gap-run-out.zip(98,493,406 B・repo 外)。内容 = d972_r07_a0_batch_lazy_owner_v4.checkpoint(129,119,626 B)+ driver/log 一式。
+- **checkpoint sha256 = 1deed5488a8051102a3fbc80d65432b6f461fdf35c7db46e51261610b7e4a3d5**(Sol 申告の 1deed548… と一致・機械突合)。再開 driver = commit 74282588be7e3056569cd057e7818bb10a3646b7・再開地点 rank 60,258。
+- 期限後の再開手順: 本 zip を展開し checkpoint を GHA へ再投入(または Release 昇格 = 無期限・2GB/file・必要時に司令塔実行)。
