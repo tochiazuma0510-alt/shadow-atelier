@@ -12345,3 +12345,31 @@ single transport repair required before continuation; it does not count the
   replay if the target reduces to zero.
 - All non-A0 numerators are unchanged.  No compatible lift, fake numerator,
   or Ihara witness is promoted.
+
+### Delta 293 (2026-08-31): packed phase-separated A0 v12 enters production
+
+- Task431/v12 closed its independent dispatch audit with `GO`.  The audited
+  producer, checker, and driver pins are committed at immutable head
+  `572dd0b94c77a18abce53328a79fe926ad38e2a1`; no workflow file was changed.
+- Generic GHA run `33328233304`, job `99302076654`, was dispatched from that
+  head with a 9,000-second owner limit and 4.8 GB RSS cap.  It uses the
+  permanent v11 release asset and its exact zip/checkpoint/payload pins.
+- Before constructing the heavy runtime, v12 must authenticate and atomically
+  cache that asset, delete the redundant v11 physical echelon, pack the
+  occurrence echelon, preserve cursors `44/86/344` and frontier `258`, and
+  seal a phase-separated sequence-11 checkpoint.  Only after those gates may
+  it resume occurrence closure.  Deferred physical construction and the six
+  action families remain later phases; a positive terminal still requires
+  fresh literal-DAG replay and all exactification gates.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta292, packed migration is no
+  longer merely a design/task: the bounded implementation and independent
+  audit are complete, and the exact production run is active.  No migration
+  or search milestone is counted until it appears in the GHA artifact/log.
+- The A0 open chain is now: authenticated packed migration, remaining
+  occurrence closure, deferred physical build, six-action decision, and
+  strict positive replay if the target reduces to zero.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.

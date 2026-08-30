@@ -73,3 +73,32 @@ search, real migration download, workflow edit, commit, push, or
 dispatch was performed.
 
 V12_LOCAL_GO_FOR_PARENT_AUDIT_AND_DISPATCH
+
+## Parent dispatch record (2026-08-31)
+
+The independent Sol re-audit ended in `GO`.  The three executable pins above
+were committed without further code changes as
+`572dd0b94c77a18abce53328a79fe926ad38e2a1` and pushed to
+`sol/r07-explicit-lift-20260825`.
+
+The parent dispatched the unchanged generic workflow `.github/workflows/gap-run.yml`
+with the exact inputs
+
+```text
+script=search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g
+preamble=D972_R07_A0_PB34_V12_RUN:=true;;
+out_dir=ci/out
+timeout_min=180
+with_pquot_packages=false
+```
+
+Production identifiers:
+
+- run: `33328233304`
+- job: `99302076654`
+- immutable head: `572dd0b94c77a18abce53328a79fe926ad38e2a1`
+- run URL: `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33328233304`
+
+At dispatch recording time the job is `in_progress` in GAP setup.  This is
+not yet a migration result, common word, compatible lift, fake numerator, or
+Ihara witness.
