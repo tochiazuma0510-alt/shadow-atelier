@@ -5,7 +5,7 @@ if not IsBound(D413Mode) then D413Mode:="PRODUCTION"; fi;
 if D413Mode<>"PRODUCTION" then Error("task413 production-only mode"); fi;
 D413Producer:="search/d972_r07_a0_compact_positive_lazy_owner_v2.py";;
 D413Checker:="crosscheck/check_d972_r07_a0_compact_positive_lazy_owner_v2.py";;
-D413ProducerBytes:=26424;; D413ProducerSHA:="435f2a3e10dca0ce0ce9a2109c4ee34282105f52750dd4c68a63cb18b7ea15e4";;
+D413ProducerBytes:=26148;; D413ProducerSHA:="72cb540056bd812d466e22f90f8ed048b9cfe4821806b0a9e0cab82059c1b403";;
 D413CheckerBytes:=5117;; D413CheckerSHA:="9998192818fd8ba780e7329df552fd8a5df60c7a3da9e9ec8781abc708bb519c";;
 D413Receipt:="ci/out/d972_r07_a0_compact_positive_lazy_owner_v2.json";;
 D413Verdict:="ci/out/d972_r07_a0_compact_positive_lazy_owner_v2.checker.ok";;

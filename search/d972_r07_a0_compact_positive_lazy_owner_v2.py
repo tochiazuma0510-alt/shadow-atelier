@@ -168,7 +168,7 @@ def lazy_boundary(owner,rt,old,e3,e4,base_rows,dual,monitor):
         if k[:1]!=b"R": continue
         block=int(k[1]); comp=int(k[2]); width=int.from_bytes(k[3:5],"big"); blob=k[5:5+width]
         support.setdefault((block,comp),[]).append((blob,c))
-    accum={}; contributors={}
+    accum={}
     for block,count in ((1,2),(2,2),(3,11)):
         q=e3 if block<3 else e4
         for index in range(1,count+1):
@@ -180,17 +180,20 @@ def lazy_boundary(owner,rt,old,e3,e4,base_rows,dual,monitor):
                     x=(accum.get(key,0)+int(hc)*int(lc))%3
                     if x: accum[key]=x
                     else: accum.pop(key,None)
-                    contributors.setdefault(key,[]).append([int(comp),gblob.hex(),hblob,int(lc),int(hc)])
+                    monitor.bump()
     active=[k for k,v in accum.items() if v%3]
     if not active: return None
     block,index,tblob=min(active,key=lambda x:(x[0],x[2],x[1])); q=e3 if block<3 else e4
     t=rt["p176"].value_from_blob(tblob,0 if block<3 else 5); row={}
     for comp,hblob,hc in base_rows[(block,index)]:
         h=rt["p176"].value_from_blob(bytes.fromhex(hblob),0 if block<3 else 5)
-        key=owner["row_key"](block,int(comp),rt["p176"].packed_joint_blob(q.mul(t,h),"task413 translated boundary")); row=row_add(row,{key:int(hc)})
+        key=owner["row_key"](block,int(comp),rt["p176"].packed_joint_blob(q.mul(t,h),"task413 translated boundary"))
+        value=(row.get(key,0)+int(hc))%3
+        if value: row[key]=value
+        else: row.pop(key,None)
     scalar=sum(int(c)*int(row.get(k,0)) for k,c in dual.items())%3
     if scalar!=accum[(block,index,tblob)]%3 or not scalar: fail("lazy_boundary_scalar")
-    return row,{"family":"boundary","block":block,"base_relator_index":index,"translation_word":[],"translation_hex":tblob.hex(),"scalar":scalar,"contributing_pairs":contributors[(block,index,tblob)]}
+    return row,{"family":"boundary","block":block,"base_relator_index":index,"translation_word":[],"translation_hex":tblob.hex(),"scalar":scalar}
 
 def base_boundary(owner,rt,old,e3,e4):
     out={}
@@ -254,7 +257,6 @@ def correction_oracle(model, relators, dual, rel_cursor, delta_cursor, guard_fn,
     candidates are generated on demand and never materialized as a roster.
     """
     for ri in range(rel_cursor,len(relators)):
-        support=weighted_support(model,relators[ri],dual)
         deltas=fair_delta_stream(relators)
         for di,delta in enumerate(deltas):
             if ri==rel_cursor and di<delta_cursor: continue
@@ -264,7 +266,7 @@ def correction_oracle(model, relators, dual, rel_cursor, delta_cursor, guard_fn,
             row=normalized_correction_row(row,relators[ri])
             scalar=sum(int(v)*int(dual.get(k,0)) for k,v in row.items())%3
             if scalar:
-                return row,{"family":"correction","seed":ri+1,"delta_word":list(delta),"candidate_cursor":di,"support":support,"replay":replay}
+                return row,{"family":"correction","seed":ri+1,"delta_word":list(delta),"candidate_cursor":di,"replay":replay}
     return None
 
 def fixture():
@@ -310,7 +312,10 @@ def run(args):
     for block,count in ((1,2),(2,2),(3,11)):
         for index in range(1,count+1):
             row={}
-            for comp,blob,coef in bases[(block,index)]: row= row_add(row,{owner["row_key"](block,comp,bytes.fromhex(blob)):coef})
+            for comp,blob,coef in bases[(block,index)]:
+                key=owner["row_key"](block,comp,bytes.fromhex(blob)); value=(row.get(key,0)+int(coef))%3
+                if value: row[key]=value
+                else: row.pop(key,None)
             echelon.add(row,{"family":"boundary","block":block,"base_relator_index":index,"translation_word":[]})
     for ordinal,rel in enumerate(pres["relators"],1):
         row,replay=model.direct_column([],rel)
@@ -325,18 +330,14 @@ def run(args):
         echelon.rows=dict(state["rows"]); echelon.order=list(state["order"]); echelon.ancestry=dict(state["ancestry"]); echelon.sources=list(state["sources"]); echelon.originals=list(state["originals"])
         if len(echelon.order)!=len(echelon.rows) or len(echelon.order)!=len(echelon.ancestry) or len(echelon.order)!=len(echelon.originals): fail("checkpoint_echelon_shape")
     round_no=int(state.get("round",0)) if state else 0; rel_cursor=int(state.get("compact_relator_cursor",0)) if state else 0; delta_cursor=int(state.get("correction_candidate_cursor",0)) if state else 0
-    boundary_pairs=0; last_save=started; saved=False; max_rounds=max(1,args.rounds)
+    boundary_pairs=0; max_rounds=max(1,args.rounds)
     def save_state(force=False):
-        nonlocal last_save
-        if not checkpoint: return
-        now=time.monotonic()
-        if not force and now-last_save<60.0: return
+        if not checkpoint or not force: return
         cp_write(checkpoint,{"phase":"positive_lazy","round":round_no,
           "compact_relator_cursor":rel_cursor,"correction_candidate_cursor":delta_cursor,
           "rows":echelon.rows,"order":echelon.order,"ancestry":echelon.ancestry,
           "sources":echelon.sources,"originals":echelon.originals,
           "binding":digest([pres["relators_sha256"],BASE])})
-        last_save=now
     def guarded(phase):
         try:
             guard(started,args.seconds,args.rss_bytes,phase)
@@ -345,7 +346,6 @@ def run(args):
     def scan_progress(ri,di):
         nonlocal rel_cursor,delta_cursor
         rel_cursor=ri; delta_cursor=di
-        save_state(False)
     while round_no<max_rounds:
         guarded("positive_lazy"); round_no+=1; dual,rem,coeff=echelon.dual(target)
         progress(round_no,len(echelon.order),boundary_pairs,rel_cursor,delta_cursor,len(rem),sum(map(len,echelon.rows.values())),started)
@@ -359,14 +359,12 @@ def run(args):
             row,prov=hit; if_added=echelon.add(row,prov)
             if if_added[0]:
                 rel_cursor=0; delta_cursor=0
-                save_state(False)
                 continue
         hit=correction_oracle(model,pres["relators"],dual,rel_cursor,delta_cursor,guarded,scan_progress)
         if hit: rel_cursor=int(hit[1]["seed"])-1; delta_cursor=int(hit[1]["candidate_cursor"])
         if hit:
             if echelon.add(*hit)[0]:
                 rel_cursor=0; delta_cursor=0
-                save_state(False)
                 continue
         return {"status":UNKNOWN_RESOURCE,"reason":"lazy positive schedule exhausted without hit","round":round_no,"compact_relator_cursor":rel_cursor,"correction_candidate_cursor":delta_cursor,"boundary_pairs":boundary_pairs,"rank":len(echelon.order),"progress":{"phase":"positive_lazy","owner_rss_bytes":rss(),"elapsed":time.monotonic()-started}}
     return {"status":UNKNOWN_RESOURCE,"reason":"positive round bound","round":round_no,"rank":len(echelon.order),"boundary_pairs":boundary_pairs}

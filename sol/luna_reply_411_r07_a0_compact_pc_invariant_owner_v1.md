@@ -51,23 +51,30 @@ immediately, and uses a maintained pivot order. Dependent candidates are
 not retained in the ancestry store. Phase metrics expose row nnz/max nnz,
 total pivot nnz, frontier nnz, worker-batch bytes, and owner/worker RSS
 slots. This first implementation is explicitly sequential: no worker RSS
-or parallel speedup is claimed. Canonical v2 checkpoints now serialize full
-sparse pivots, orders, live DAG/frontier, correction image, input digest, and
-result with an atomic self-hash. After closure, the checkpoint also stores
-the occurrence interner, compact pivots/order, physical pivots, remainder,
-and an authenticated closure-state digest. During the 6,441-row oracle it is
-atomically refreshed every 128 rows; `--resume` rebuilds the pinned runtime,
-revalidates that digest, and continues at the saved cursor. The driver allows
-at most two same-job continuation slices, only for `UNKNOWN_RESOURCE` with a
-checkpoint. The advertised resume scope is therefore the oracle cursor with
-revalidated compact closure (not arbitrary mid-closure process recovery).
-Correction closure checkpoints at cursor zero and then on a bounded adaptive
-cadence (512 pivots or five minutes), while progress remains visible every 32
-pivots. The checkpoint stores the occurrence interner reverse table,
-pivot/order/expression state, live frontier references, reachable nodes, and
-binding digests; frontier entries store pivot references rather than duplicate
-row copies. Oracle checkpoints include the occurrence expression map and an
-explicit exhausted frontier.
+or parallel speedup is claimed. Stream checkpoints now marshal typed state
+directly into a gzip payload temporary, hash that payload in chunks, and
+atomically install an ASCII magic/hash/size header followed by the payload.
+Reads verify the header and payload hash before gzip/marshal decoding and fail
+closed on schema/type mismatch; the old JSON encode/decode path is removed.
+After closure, the checkpoint also stores the occurrence interner,
+compact pivots/order, physical pivots, remainder, and an authenticated
+closure-state digest. During the 6,441-row oracle it is atomically refreshed
+at most once per slice after the 80%-deadline point; `--resume` rebuilds the
+pinned runtime, revalidates that digest, and continues at the saved cursor.
+The driver allows at most two same-job continuation slices, only for
+`UNKNOWN_RESOURCE` with a checkpoint. The advertised resume scope is
+therefore the oracle cursor with revalidated compact closure (not arbitrary
+mid-closure process recovery). Correction and boundary closures save at
+cursor zero/phase transition and at most once after the same time threshold;
+progress remains visible every 32 pivots. Boundary frontiers save only
+`[pivot_id, expression_ref]` pairs and restore rows through the pivot table,
+avoiding duplicate row copies. The checkpoint stores the occurrence interner
+reverse table, pivot/order/expression state, live frontier references,
+reachable nodes, and binding digests. Oracle checkpoints include the
+occurrence expression map and an explicit exhausted frontier.
+Boundary B3/B4 checkpoints use the same time-based cadence, strict phase
+labels, and preserve completed B3/B4 snapshots across correction/oracle
+resume.
 Boundary and occurrence sparse rows now use one canonical integer interner;
 serialization retains the tagged coordinate table for replay.
 
@@ -90,7 +97,7 @@ Passed:
 
 ```text
 python -m py_compile search/d972_r07_a0_compact_pc_invariant_owner_v1.py crosscheck/check_d972_r07_a0_compact_pc_invariant_owner_v1.py
-R07_A0_COMPACT_PC_OWNER FIXTURE_PASS
+R07_A0_COMPACT_PC_OWNER FIXTURE_PASS (stream roundtrip + one-byte mutation rejection)
 R07_A0_COMPACT_PC_CHECKER_FIXTURE_PASS
 task198 direct bootstrap symbol gate: PASS (`Runtime`, `Meter`, 11-row layout)
 bounded cap probe: `R07_A0_COMPACT_PC_OWNER UNKNOWN_RESOURCE`
@@ -106,14 +113,14 @@ lift, fake, or Ihara witness is claimed locally.
 
 ```text
 search/d972_r07_a0_compact_pc_invariant_owner_v1.py
-  bytes=59733
-  sha256=0c5e364a3ba3946081ea2551f2cc75331f29d4d570ed8b0613ffeccd1928c55f
+  bytes=68222
+  sha256=be17be107103a218123cd0e1eb8455377ca2b52a2e54ec629f3744ad4c2d32f
 crosscheck/check_d972_r07_a0_compact_pc_invariant_owner_v1.py
   bytes=44831
   sha256=7c1aea086ce264ad6f51983554a3a371ac481d07a2ec5f5d9a96ee270af6dfcf
 search/d972_r07_a0_compact_pc_invariant_owner_gha_driver_v1.g
   bytes=3168
-  sha256=075c3eec66029f2ffd4ea3a24ffdd3d6635ad2cbe6e9c33a54d076beff418f05
+  sha256=0fa345f5c0c7c69f7a7ac2fa6548fd7892e0711d97b984f8f9873ce938231b99
 ```
 
 The driver pins the current producer/checker hashes and guards stale output.

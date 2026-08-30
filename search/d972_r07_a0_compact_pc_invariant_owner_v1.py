@@ -9,7 +9,7 @@ consumer of this roster; absent its accepted boundary ABI this program emits
 UNKNOWN_INPUT rather than silently falling back to the old search.
 """
 from __future__ import annotations
-import argparse, base64, hashlib, importlib.util, json, struct, sys, time
+import argparse, base64, gzip, hashlib, importlib.util, io, json, marshal, shutil, struct, sys, time
 import os, tempfile
 from types import SimpleNamespace
 from pathlib import Path
@@ -70,34 +70,62 @@ def emit_progress(phase: str, seed: int, rank: int, cursor: int, started: float)
     print("R07_A0_PROGRESS phase=%s seed=%d rank=%d cursor=%d rss=%s elapsed=%.3f" %
           (phase, seed, rank, cursor, resident_bytes(), time.monotonic()-started), flush=True)
 
-def checkpoint_encode(value: Any) -> Any:
-    if isinstance(value, bytes): return {"@bytes": value.hex()}
-    if isinstance(value, tuple): return {"@tuple":[checkpoint_encode(x) for x in value]}
-    if isinstance(value, list): return [checkpoint_encode(x) for x in value]
-    if isinstance(value, dict): return {"@dict":[[checkpoint_encode(k),checkpoint_encode(v)] for k,v in value.items()]}
-    return value
-def checkpoint_decode(value: Any) -> Any:
-    if isinstance(value, list): return [checkpoint_decode(x) for x in value]
-    if not isinstance(value, dict): return value
-    if "@bytes" in value: return bytes.fromhex(value["@bytes"])
-    if "@tuple" in value: return tuple(checkpoint_decode(x) for x in value["@tuple"])
-    if "@dict" in value: return {checkpoint_decode(k):checkpoint_decode(v) for k,v in value["@dict"]}
-    return {k:checkpoint_decode(v) for k,v in value.items()}
 def checkpoint_write(path: str, state: dict[str, Any]) -> None:
     target=Path(path)
     if target.is_absolute() or target.parent != Path("ci/out"): fail("checkpoint_path")
-    body={"schema":"d972-r07-a0-checkpoint/v2","state":checkpoint_encode(state)}
-    body["self_sha256"]=shab(canon(body))
     target.parent.mkdir(parents=True,exist_ok=True)
+    with tempfile.NamedTemporaryFile(dir=target.parent,prefix=".a0cp-payload-",delete=False) as stream:
+        payload_path=Path(stream.name)
+        # Stream marshal directly into gzip: production checkpoints never
+        # materialize a second full payload in a BytesIO/string object.
+        with gzip.GzipFile(fileobj=stream,mode="wb",compresslevel=1,mtime=0) as packed:
+            marshal.dump({"schema":"d972-r07-a0-checkpoint/v2","state":state},packed)
+        stream.flush(); os.fsync(stream.fileno())
+    digest=hashlib.sha256(); size=0
+    with payload_path.open("rb") as stream:
+        for chunk in iter(lambda:stream.read(1024*1024),b""):
+            digest.update(chunk); size+=len(chunk)
     with tempfile.NamedTemporaryFile(dir=target.parent,prefix=".a0cp-",delete=False) as stream:
-        stream.write(canon(body)); temporary=Path(stream.name)
+        header=("D972-A0-CP2 "+digest.hexdigest()+" "+str(size)+"\n").encode("ascii"); stream.write(header)
+        with payload_path.open("rb") as source: shutil.copyfileobj(source,stream,1024*1024)
+        temporary=Path(stream.name)
+    payload_path.unlink(missing_ok=True)
     os.replace(temporary,target)
 def checkpoint_read(path: str) -> dict[str, Any]:
     target=Path(path)
     if target.is_absolute() or target.parent != Path("ci/out"): fail("resume_path")
-    body=json.loads(target.read_bytes()); claimed=body.pop("self_sha256",None)
-    if claimed != shab(canon(body)) or body.get("schema") != "d972-r07-a0-checkpoint/v2": fail("checkpoint_seal")
-    return checkpoint_decode(body["state"])
+    with target.open("rb") as stream:
+        try:
+            header=stream.readline().decode("ascii",errors="strict").rstrip("\n").split(" ")
+            if len(header)!=3 or header[0]!="D972-A0-CP2" or len(header[1])!=64:
+                fail("checkpoint_seal")
+            expected,size=header[1],int(header[2])
+            if size < 0 or any(c not in "0123456789abcdef" for c in expected): fail("checkpoint_seal")
+        except (UnicodeError,TypeError,ValueError,RuntimeError) as exc:
+            fail("checkpoint_header:"+str(exc))
+        digest=hashlib.sha256(); seen=0
+        for chunk in iter(lambda:stream.read(1024*1024),b""):
+            digest.update(chunk); seen+=len(chunk)
+    if seen!=size or digest.hexdigest()!=expected: fail("checkpoint_payload_hash")
+    with target.open("rb") as stream:
+        stream.readline()
+        try:
+            with gzip.GzipFile(fileobj=stream,mode="rb") as packed: body=marshal.load(packed)
+        except Exception as exc: fail("checkpoint_payload_decode:"+str(exc))
+    if not isinstance(body,dict) or body.get("schema")!="d972-r07-a0-checkpoint/v2" or not isinstance(body.get("state"),dict): fail("checkpoint_payload_schema")
+    return body["state"]
+def checkpoint_payload(state: dict[str, Any]) -> bytes:
+    if not isinstance(state,dict): fail("checkpoint_state_type")
+    output=io.BytesIO()
+    with gzip.GzipFile(fileobj=output,mode="wb",compresslevel=1,mtime=0) as packed:
+        marshal.dump({"schema":"d972-r07-a0-checkpoint/v2","state":state},packed)
+    return output.getvalue()
+def checkpoint_payload_read(payload: bytes) -> dict[str,Any]:
+    try:
+        with gzip.GzipFile(fileobj=io.BytesIO(payload),mode="rb") as packed: body=marshal.load(packed)
+    except Exception as exc: fail("checkpoint_payload_decode:"+str(exc))
+    if not isinstance(body,dict) or body.get("schema")!="d972-r07-a0-checkpoint/v2" or not isinstance(body.get("state"),dict): fail("checkpoint_payload_schema")
+    return body["state"]
 def pin(rel: Path) -> bytes:
     p = ROOT / rel; size, digest = PINS[str(rel)]
     if not p.is_file() or p.is_symlink(): fail("pin_missing:" + str(rel))
@@ -393,7 +421,14 @@ def fixture() -> dict[str, Any]:
            "mutations_rejected":["relator","action_endpoint","checkpoint_node"]}
     if row["checkpoint"] != row["resume"]: fail("fixture_resume")
     full_state={"phase":"occurrence","pivots":{1:{2:1}},"order":[1],"frontier":[({"k":1},"n")],"dag":{"n":{"kind":"LEAF"}},"cursor":1}
-    if checkpoint_decode(checkpoint_encode(full_state)) != full_state: fail("fixture_checkpoint_codec")
+    if checkpoint_payload_read(checkpoint_payload(full_state)) != full_state: fail("fixture_stream_roundtrip")
+    mutated=bytearray(checkpoint_payload(full_state)); mutated[0] ^= 1
+    try:
+        checkpoint_payload_read(bytes(mutated))
+    except RuntimeError:
+        pass
+    else:
+        fail("fixture_stream_mutation_accepted")
     row["status"] = "FIXTURE_PASS"; return row
 
 def add_sparse(left: dict[Any, int], right: dict[Any, int], scale: int = 1) -> dict[Any, int]:
@@ -568,7 +603,7 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
     if resume:
         resume_state=checkpoint_read(resume)
         if isinstance(resume_state.get("result"),dict): return resume_state["result"]
-        if resume_state.get("phase") not in ("legacy_oracle", "correction"):
+        if resume_state.get("phase") not in ("boundary_B3","boundary_B4","correction","legacy_oracle"):
             fail("checkpoint_phase_missing")
     # Build the task198 runtime from the authenticated v12/v6 bootstrap and
     # bind the physical owner directly, keeping only the small bridge receipt.
@@ -591,16 +626,74 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
     del authority, roof
 
     def close_boundary(quotient: Any, degree: int, count: int, letters: tuple[int, ...], label: str):
+        phase_name="boundary_"+label
+        restored_state=None
+        if resume_state is not None and label=="B3" and isinstance(resume_state.get("completed_b3"),dict):
+            if resume_state.get("phase") not in ("boundary_B4","correction","legacy_oracle"): restored_state=None
+            else: restored_state=resume_state.get("completed_b3")
+        if resume_state is not None and label=="B4" and isinstance(resume_state.get("completed_b4"),dict):
+            if resume_state.get("phase") in ("correction","legacy_oracle"): restored_state=resume_state.get("completed_b4")
+        if isinstance(restored_state,dict):
+            if resume_state.get("input_roster_sha256") != sha(compact_presentation["relators"]): fail("checkpoint_input_drift")
+            if resume_state.get("source_pin_binding") != sha(PINS) or resume_state.get("ledger_binding") != sha(ledger): fail("checkpoint_boundary_binding_drift")
+            saved=restored_state; inter=KeyInterner(); inter.reverse=list(saved["inter_reverse"])
+            inter.forward={value:index for index,value in enumerate(inter.reverse)}
+            pivots=dict(saved["pivots"]); order=list(saved["order"]); expr=dict(saved["expr"]); nodes=dict(saved["nodes"])
+            if len(order)!=len(pivots) or len(expr)!=len(pivots): fail("checkpoint_boundary_shape")
+            if any(not isinstance(pivot,int) or pivot<0 or pivot>=len(inter.reverse) or row.get(pivot)!=1
+                   for pivot,row in pivots.items()): fail("checkpoint_boundary_pivot")
+            if any(ref not in nodes for ref in expr.values()): fail("checkpoint_boundary_expr")
+            return (inter,pivots,order,expr,nodes,list(saved["basis"]),[None for _ in saved.get("frontier",[])])
         inter = KeyInterner(); pivots: dict[int, dict[int, int]] = {}; order: list[int] = []
         expr: dict[int, str] = {}; nodes: dict[str, dict[str, Any]] = {}; frontier=[]; basis=[]
-        for index, relation in enumerate(old.pure_relations(degree)[:count], 1):
-            grad, value = old.fox_gradient_without_sections(relation, quotient)
-            if value != quotient.identity: fail(label + "_seed_value")
-            raw = inter.encode({(int(c), e): int(v) % 3 for (c,e),v in grad.items() if int(v)%3})
-            rise, row, ref = expression_insert(raw, pivots, order, expr, ("LEAF", {"family":label,"index":index}), nodes)
-            basis.append({"index":index,"rank_rise":rise,"nnz":len(raw)})
-            if rise: frontier.append((row, ref))
-        cursor=0
+        restoring = (resume_state is not None and resume_state.get("phase")==phase_name
+                     and (label != "B4" or "pivots" in resume_state))
+        if restoring:
+            saved=resume_state
+            if saved.get("input_roster_sha256") != sha(compact_presentation["relators"]): fail("checkpoint_input_drift")
+            if saved.get("source_pin_binding") != sha(PINS) or saved.get("ledger_binding") != sha(ledger): fail("checkpoint_boundary_binding_drift")
+            inter.reverse=list(saved.get("inter_reverse",[])); inter.forward={value:index for index,value in enumerate(inter.reverse)}
+            pivots=dict(saved.get("pivots",{})); order=list(saved.get("order",[])); expr=dict(saved.get("expr",{})); nodes=dict(saved.get("nodes",{})); basis=list(saved.get("basis",[]))
+            raw_frontier=saved.get("frontier",[])
+            if not isinstance(raw_frontier,list): fail("checkpoint_boundary_frontier_type")
+            if any(not isinstance(entry,(list,tuple)) or len(entry)!=2 or not isinstance(entry[0],int)
+                   for entry in raw_frontier): fail("checkpoint_boundary_frontier_shape")
+            if any(entry[0] not in pivots or entry[1] not in nodes for entry in raw_frontier): fail("checkpoint_boundary_frontier_ref")
+            frontier=[(pivots[entry[0]],entry[1]) for entry in raw_frontier]
+            cursor=int(saved.get("cursor",0))
+            if cursor != 0 or len(order)!=len(pivots) or len(expr)!=len(pivots): fail("checkpoint_boundary_shape")
+            if any(not isinstance(pivot,int) or pivot<0 or pivot>=len(inter.reverse) or row.get(pivot)!=1
+                   for pivot,row in pivots.items()): fail("checkpoint_boundary_pivot")
+            if any(not isinstance(entry,tuple) or len(entry)!=2 or not isinstance(entry[0],dict) or not entry[0]
+                   or pivots.get(min(entry[0])) != entry[0] or entry[1] not in nodes
+                   for entry in frontier): fail("checkpoint_boundary_frontier")
+            if any(ref not in nodes for ref in expr.values()): fail("checkpoint_boundary_expr")
+        else:
+            for index, relation in enumerate(old.pure_relations(degree)[:count], 1):
+                grad, value = old.fox_gradient_without_sections(relation, quotient)
+                if value != quotient.identity: fail(label + "_seed_value")
+                raw = inter.encode({(int(c), e): int(v) % 3 for (c,e),v in grad.items() if int(v)%3})
+                rise, row, ref = expression_insert(raw, pivots, order, expr, ("LEAF", {"family":label,"index":index}), nodes)
+                basis.append({"index":index,"rank_rise":rise,"nnz":len(raw)})
+                if rise: frontier.append((row, ref))
+            cursor=0
+        checkpoint_due=started+(0.80*seconds if seconds is not None else 300.0)
+        progress_saved=False
+        def save_boundary_checkpoint(position: int) -> None:
+            nonlocal progress_saved
+            if not checkpoint: return
+            if position != 0 and (progress_saved or time.monotonic() < checkpoint_due): return
+            remaining=[[min(entry[0]),entry[1]] for entry in frontier[position:] if entry is not None]
+            state={"phase":phase_name,"degree":degree,"count":count,"cursor":0,
+                "frontier":remaining,
+                "input_roster_sha256":sha(compact_presentation["relators"]),"source_pin_binding":sha(PINS),
+                "ledger_binding":sha(ledger),"inter_reverse":inter.reverse,"pivots":pivots,
+                "order":order,"expr":expr,"nodes":nodes,"basis":basis}
+            if label=="B4":
+                state["completed_b3"]=b3_snapshot
+            checkpoint_write(checkpoint,state)
+            if position != 0: progress_saved=True
+        if not restoring: save_boundary_checkpoint(0)
         while cursor < len(frontier):
             resource_guard(started, seconds, rss_limit, label + "_actions"); row,parent=frontier[cursor]; frontier[cursor]=None; cursor+=1
             if cursor == 1 or cursor % 32 == 0: emit_progress(label, 0, len(pivots), cursor, started)
@@ -609,10 +702,20 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
                 candidate=inter.encode(boundary_translate(decoded, quotient, quotient.eval([letter])))
                 rise,new,ref=expression_insert(candidate,pivots,order,expr,("CONJUGATE",{"letter":letter,"parent":parent}),nodes)
                 if rise: frontier.append((new,ref))
+            save_boundary_checkpoint(cursor)
         return inter,pivots,order,expr,nodes,basis,frontier
 
+    def freeze_boundary(data: tuple[Any,...]) -> dict[str,Any]:
+        return {"inter_reverse":list(data[0].reverse),"pivots":dict(data[1]),"order":list(data[2]),
+                "expr":dict(data[3]),"nodes":dict(data[4]),"basis":list(data[5]),"frontier":[]}
     b3=close_boundary(e3,3,2,(1,2,3),"B3")
+    b3_snapshot=freeze_boundary(b3)
+    if checkpoint and (resume_state is None or resume_state.get("phase")=="boundary_B3"):
+        checkpoint_write(checkpoint,{"phase":"boundary_B4","degree":4,"count":11,"cursor":0,
+            "input_roster_sha256":sha(compact_presentation["relators"]),"source_pin_binding":sha(PINS),
+            "ledger_binding":sha(ledger),"completed_b3":b3_snapshot})
     b4=close_boundary(e4,4,11,(1,2,3,4,5,6),"B4")
+    b4_snapshot=freeze_boundary(b4)
     def tagged_boundary(data, block):
         inter,pivots,order,expr,nodes,basis,frontier=data; out={}; out_order=[]
         for pivot in order:
@@ -678,6 +781,7 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
     resume_closure = resume_state is not None and resume_state.get("phase") in ("correction","legacy_oracle")
     if resume_closure:
         if resume_state.get("input_roster_sha256") != sha(compact_presentation["relators"]): fail("checkpoint_input_drift")
+        if resume_state.get("source_pin_binding") != sha(PINS) or resume_state.get("ledger_binding") != sha(ledger): fail("checkpoint_closure_binding_drift")
         saved_reverse=resume_state.get("occurrence_inter_reverse")
         if not isinstance(saved_reverse,list): fail("checkpoint_interner_missing")
         occ_inter.reverse=list(saved_reverse); occ_inter.forward={value:index for index,value in enumerate(occ_inter.reverse)}
@@ -700,20 +804,24 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
             correction_basis.append({"seed":ordinal,"rank_rise":rise,"nnz":len(parsed)})
             if rise: frontier.append((min(row),ref))
         cursor=0
-    last_checkpoint_at=started
+    checkpoint_due=started+(0.80*seconds if seconds is not None else 300.0)
+    progress_saved=False
     def save_correction_checkpoint(position: int) -> None:
-        nonlocal last_checkpoint_at
+        nonlocal progress_saved
         if not checkpoint: return
-        if position != 0 and position % 512 != 0 and time.monotonic()-last_checkpoint_at < 300: return
-        checkpoint_write(checkpoint,{"phase":"correction","frontier_cursor":position,
-            "frontier":[list(entry) if entry is not None else None for entry in frontier],
+        if position != 0 and (progress_saved or time.monotonic() < checkpoint_due): return
+        remaining=[list(entry) for entry in frontier[position:] if entry is not None]
+        checkpoint_write(checkpoint,{"phase":"correction","frontier_cursor":0,
+            "frontier":remaining,
             "input_roster_sha256":sha(compact_presentation["relators"]),
+            "source_pin_binding":sha(PINS),"ledger_binding":sha(ledger),
             "boundary_state_sha256":sha({"pivots":boundary_physical,"order":boundary_physical_order}),
             "occurrence_inter_reverse":occ_inter.reverse,"occurrence_pivots":occurrence,
             "occurrence_order":occurrence_order,"occurrence_expr":occurrence_expr,
             "nodes":nodes,"boundary_pivots":boundary_physical,"boundary_order":boundary_physical_order,
+            "completed_b3":b3_snapshot,"completed_b4":b4_snapshot,
             "actor_binding_sha256":sha([(int(item["ordinal"]),int(item["ten_index"]),item["type"]) for item in ledger])})
-        last_checkpoint_at=time.monotonic()
+        if position != 0: progress_saved=True
     if not resume_closure: save_correction_checkpoint(0)
     while cursor<len(frontier):
         resource_guard(started,seconds,rss_limit,"correction_actions"); entry=frontier[cursor];frontier[cursor]=None;cursor+=1
@@ -724,7 +832,7 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
             candidate=quotient_occurrence(parse_occurrence(augmented_actor(mod,occurrence_strings(row),letter,ledger)))
             rise,new,ref=expression_insert(candidate,occurrence,occurrence_order,occurrence_expr,("CONJUGATE",{"letter":letter,"parent":parent}),nodes)
             if rise: frontier.append((min(new),ref))
-        if cursor % 32 == 0: save_correction_checkpoint(cursor)
+        save_correction_checkpoint(cursor)
     correction_physical={}; correction_physical_order=[]; correction_physical_expr={}; physical_nodes={}
     for pivot in occurrence_order:
         row=aggregate_augmented(mod,occurrence_strings(occurrence[pivot]),ledger)
@@ -781,17 +889,25 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
         resume_cursor=int(resume_state.get("legacy_cursor",0))
         if resume_cursor < 0 or resume_cursor > 6441: fail("checkpoint_cursor")
     if work:
+        checkpoint_due=started+(0.80*seconds if seconds is not None else 300.0)
+        progress_saved=False
         def save_oracle_checkpoint(cursor: int) -> None:
+            nonlocal progress_saved
             if not checkpoint: return
+            if cursor != 0 and (progress_saved or time.monotonic() < checkpoint_due): return
             checkpoint_write(checkpoint,{"phase":"legacy_oracle","legacy_cursor":cursor,
                 "input_roster_sha256":sha(compact_presentation["relators"]),
+                "source_pin_binding":sha(PINS),"ledger_binding":sha(ledger),
                 "closure_state_sha256":state_digest(),"boundary_pivots":boundary_physical,
                 "boundary_order":boundary_physical_order,"occurrence_pivots":occurrence,
                 "occurrence_order":occurrence_order,"occurrence_expr":occurrence_expr,
                 "occurrence_inter_reverse":occ_inter.reverse,"frontier":[],"frontier_cursor":0,
                 "correction_pivots":correction_physical,"correction_order":correction_physical_order,
                 "correction_expr":correction_physical_expr,"nodes":{**boundary_nodes,**nodes,**physical_nodes},
-                "remainder":work,"actor_binding_sha256":sha([(int(item["ordinal"]),int(item["ten_index"]),item["type"]) for item in ledger])})
+                "remainder":work,"completed_b3":b3_snapshot,"completed_b4":b4_snapshot,
+                "actor_binding_sha256":sha([(int(item["ordinal"]),int(item["ten_index"]),item["type"]) for item in ledger])})
+            if cursor != 0: progress_saved=True
+        save_oracle_checkpoint(0)
         oracle=load(ROOF); rows=oracle.get("Delta0",{}).get("presentation",{}).get("rows",[])
         if len(rows)!=6441: fail("legacy_oracle_roster_count")
         for ordinal,item in enumerate(rows):
@@ -805,14 +921,14 @@ def actual_a0(compact_presentation: dict[str, Any], checkpoint: str | None = Non
                 result={"status":UNKNOWN_INPUT,"reason":"legacy_6441_seed_outside_compact_span","legacy_cursor":ordinal,"boundary_rank":len(boundary_physical),"occurrence_rank":len(occurrence),"remainder_nnz":len(work),"remainder_sha256":sha(sorted((k.hex(),int(v)) for k,v in work.items())),"phase_metrics":hot_metrics(),"normalized_exponent_coordinates_included":True,"seed_direct_replay_checked":True}
                 break
             rows[ordinal]=None
-            if (ordinal + 1) % 128 == 0: save_oracle_checkpoint(ordinal + 1)
+            save_oracle_checkpoint(ordinal + 1)
         else:
             separator,target_pair=separating_functional(work)
             serial=[[key.hex(),int(value)] for key,value in sorted(separator.items(),key=lambda item:item[0])]
             result={"status":"NONMEMBER","member":False,"reason":"6441 legacy occurrence oracle exhausted","legacy_oracle_exhausted":True,"boundary_rank":len(boundary_physical),"occurrence_rank":len(occurrence),"remainder_nnz":len(work),"remainder_sha256":sha(sorted((k.hex(),int(v)) for k,v in work.items())),"separator":serial,"separator_sha256":sha(serial),"target_pair":target_pair,"phase_metrics":hot_metrics(),"normalized_exponent_coordinates_included":True,"seed_direct_replay_checked":True}
         del oracle,rows
         if checkpoint:
-            checkpoint_write(checkpoint,{"phase":"closures_exhausted","input_roster_sha256":sha(compact_presentation["relators"]),"result":result,"boundary_pivots":boundary_physical,"boundary_order":boundary_physical_order,"correction_pivots":correction_physical,"correction_order":correction_physical_order,"correction_expr":correction_physical_expr,"nodes":{**boundary_nodes,**nodes,**physical_nodes},"frontier_cursor":len(frontier)})
+            checkpoint_write(checkpoint,{"phase":"closures_exhausted","input_roster_sha256":sha(compact_presentation["relators"]),"source_pin_binding":sha(PINS),"ledger_binding":sha(ledger),"result":result,"boundary_pivots":boundary_physical,"boundary_order":boundary_physical_order,"correction_pivots":correction_physical,"correction_order":correction_physical_order,"correction_expr":correction_physical_expr,"nodes":{**boundary_nodes,**nodes,**physical_nodes},"completed_b3":b3_snapshot,"completed_b4":b4_snapshot,"frontier_cursor":len(frontier)})
         return result
     def dag_atoms(root: str) -> dict[tuple[int, tuple[int, ...]], int]:
         """Flatten one expression DAG without recursive literal expansion."""

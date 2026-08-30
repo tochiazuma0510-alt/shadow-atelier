@@ -57,6 +57,14 @@ boundary/all-seven sparse replay is not claimed by this bounded discovery
 owner. Thus this output is positive-discovery only and is not an exhaustive
 negative oracle.
 
+The focused dispatch audit removed one unused `weighted_support` pass whose
+runtime lacked the full task179 section ABI.  Correction selection now uses
+only the exact `direct_column` scalar that was already decisive.  It also
+removed periodic full-echelon checkpoint copies: one sealed snapshot is
+written on the controlled resource stop.  The lazy boundary hot loop updates
+sparse rows in place and no longer retains contributor lists for inactive
+translations.
+
 ## F4 Remaining ABI blocker
 
 The direct task411 adapter exposes the exact occurrence model and lazy
@@ -73,8 +81,8 @@ ABI is supplied. No common word, fake, or Ihara witness is claimed.
 
 ```text
 search/d972_r07_a0_compact_positive_lazy_owner_v2.py
-  bytes=26424
-  sha256=435f2a3e10dca0ce0ce9a2109c4ee34282105f52750dd4c68a63cb18b7ea15e4
+  bytes=26148
+  sha256=72cb540056bd812d466e22f90f8ed048b9cfe4821806b0a9e0cab82059c1b403
 
 crosscheck/check_d972_r07_a0_compact_positive_lazy_owner_v2.py
   bytes=5117
@@ -82,7 +90,7 @@ crosscheck/check_d972_r07_a0_compact_positive_lazy_owner_v2.py
 
 search/d972_r07_a0_compact_positive_lazy_owner_gha_driver_v2.g
   bytes=2286
-  sha256=5fe0044a14c970aa3705cbc59f82f337f9152d19ccb91ad54e0e94c453a1f7f0
+  sha256=f6f7c979825e38f9a1e1d1121c89f99f84e6460eb1617130d5f51bfb30a80d1e
 ```
 
 The driver is intentionally not marked production-ready while the exact

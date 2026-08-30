@@ -5,7 +5,7 @@ if not IsBound(D411Mode) then D411Mode:="PRODUCTION"; fi;
 if D411Mode<>"PRODUCTION" then Error("task411 production-only mode"); fi;
 D411Producer:="search/d972_r07_a0_compact_pc_invariant_owner_v1.py";;
 D411Checker:="crosscheck/check_d972_r07_a0_compact_pc_invariant_owner_v1.py";;
-D411ProducerBytes:=59733;; D411ProducerSHA:="0c5e364a3ba3946081ea2551f2cc75331f29d4d570ed8b0613ffeccd1928c55f";;
+D411ProducerBytes:=68222;; D411ProducerSHA:="be17be107103a218123cd0e1eb8455377ca2b52a2e54ec629f3744ad4c2d32f9";;
 D411CheckerBytes:=44831;; D411CheckerSHA:="7c1aea086ce264ad6f51983554a3a371ac481d07a2ec5f5d9a96ee270af6dfcf";;
 D411Receipt:="ci/out/d972_r07_a0_compact_pc_invariant_owner_v1.json";;
 D411Verdict:="ci/out/d972_r07_a0_compact_pc_invariant_owner_v1.checker.ok";;
