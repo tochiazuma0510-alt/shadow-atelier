@@ -11958,3 +11958,143 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE** with run `33303302455` active. A9
   remains **0/3 actual**. No common word, compatible lift, fake numerator,
   or Ihara witness is promoted by this paper theorem alone.
+
+### Delta 287 (2026-08-30): task419 v1 is rejected and the six-action oracle is closed on paper
+
+- The fresh task419 implementation was audited before dispatch.  Version v1
+  is **NO-GO** and has not been sent to GHA.  The defects are load-bearing:
+
+  1. its PB4 Tietze image of an old `A12` term begins the five inverse
+     prefixes with `h*A12`; v402 (2.2) requires `h*z`, where
+     `z=A12*A13*A23*A14*A24*A34`;
+  2. it stores the central scalar as the sum of all three coordinates on
+     every central orbit.  This vanishes on a nonzero constant orbit in
+     characteristic three.  The exact retained coordinate is
+     \(\tau=\sum_{h_0}Z'(h_0\zeta^2)\);
+  3. it uses a lexicographic PB4 central-orbit representative instead of
+     the authenticated \(h_0=h\zeta^{-\kappa(h)}\in H_0\);
+  4. its production loop inserts only the 44 identity-conjugator correction
+     columns, never generates a translate from the six PB4 action families,
+     and then returns `UNKNOWN_RESOURCE`;
+  5. its checkpoint writer records only cursor/rank, although its loader
+     expects the echelon rows; and
+  6. its reducer retains no source ancestry, so quotient zero cannot be
+     converted into the v403 literal positive certificate.
+
+  Consequently the task419 reply's 15--30 minute estimate measured only a
+  bootstrap-sized loop and is not an A0 production estimate.  No v1
+  fixture/checker PASS is counted as A0 progress.
+- Added `proof_r07_a0_six_action_support_hitting_v404.md`, 8,121 bytes,
+  SHA-256
+  `de3d9aeea9f1794eba7e2476ecbb86a0d34fed04aa68f62847e6f37aad6b2e07`.
+  For each of the six fixed action Fox rows
+  \(R_j=\sum a^{(j)}_{i,h}e_i(h)\) and a current sparse dual \(\lambda\),
+  every possibly active translation is obtained directly from a matching
+  support pair by
+
+  \[
+    t=gh^{-1},\qquad
+    A_j(t)=\sum_{gh^{-1}=t}a^{(j)}_{i,h}\lambda_{i,g}.
+  \]
+
+  These accumulators are exactly the pairings
+  \(\langle\lambda,L_tR_j\rangle\).  Hence an empty accumulator proves that
+  this dual annihilates the *entire* six-family space \(D_0\), without
+  enumerating \(H_0\); a nonzero entry supplies a rank-raising column.  The
+  work for one dual is support-times-support, not \(6|H_0|\).
+- The same theorem proves that central-power translates give the same
+  contracted action row, using the Fox identity \(d_1R_j=0\), and fixes the
+  exact \(H_0\) canonicalization and \(\tau\) canary.  Thus the mathematical
+  six-action oracle is no longer an open design item.  The remaining live
+  search is the compact literal-correction schedule plus v403 positive
+  replay.
+- Versioned repair task
+  `luna_task_420_r07_a0_pb34_direct_quotient_owner_v2_repair.md`, 7,241
+  bytes, SHA-256
+  `380b0bb572b065df2550bf6fcb467270de5ac7fd6abf915f5635248352abc640`,
+  is in implementation.  It forbids patching/dispatching v1, fixes the
+  three quotient formulas, implements the real six-action and correction
+  schedules, and requires a full resumable echelon with positive ancestry
+  and a helper-nonshared replay.  No heavy local run is authorized.
+- A4 GHA run `33303302455`, job `99235283814`, remains in the `Run GAP
+  script` step at 20:31 JST.  This status is unchanged and is not a
+  mathematical terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, durable through round 648**.  Relative
+  to Delta286, the purported fresh implementation was prevented from
+  producing a false positive, and the exact remaining six-family boundary
+  oracle is now a paper theorem.  A0 advances to a versioned production
+  repair, but still has no common word.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**,
+  and A4 **1/3 UNKNOWN_RESOURCE** with run `33303302455` active.
+- A5--A8 remain **0/3 actual**.  A9 remains **0/3 actual**.  No compatible
+  lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 288 (2026-08-30): remove the bounded conjugator schedule from A0
+
+- Added `proof_r07_a0_partial_boundary_occurrence_selector_v405.md`, 8,727
+  bytes, SHA-256
+  `c244203e1694330015a3d03172fa6a32678f0761ff73e5ee11ddc1cf8d3d926a`.
+  It applies the already closed normal maps *before* the correction closure
+  but keeps all eleven correction occurrences separate:
+
+  \[
+    \bar U=
+    \bigoplus_{6\ {m PB3}}Y_3
+    \oplus\bigoplus_{5\ {m PB4}}Y_4^{\rm cen}
+    \oplus\mathbf F_3^2.
+  \]
+
+  The six PB3 occurrence kernels are their full relation boundaries; the
+  five PB4 occurrence kernels are only the central five-family spans.  Both
+  are invariant under each frozen prefix-conjugated occurrence actor, so the
+  four distinct semilinear source actions descend exactly to this quotient.
+- In that eleven-tag quotient, the 44 accepted compact relators are closed
+  under `x,x^-1,y,y^-1`.  A dependent candidate's four descendants are
+  linear combinations of the four descendants of retained basis rows.
+  Therefore enqueuing children only after an occurrence-rank rise is exact,
+  and the entire correction image is exhausted in at most
+
+  \[
+    \boxed{44+4r}
+  \]
+
+  insertion attempts, where \(r\) is the resulting occurrence-quotient
+  rank.  Every pivot retains a literal seed/conjugate/product/inverse DAG.
+  This eliminates task413's arbitrary length-six conjugator cap without
+  enumerating the joint image or its word representatives.
+- Physical aggregation is performed only on retained occurrence pivots and
+  never controls their occurrence frontier.  Its image spans the complete
+  correction image in
+
+  \[
+    \bar Z=Y_3^{(1)}\oplus Y_3^{(2)}
+      \oplus Y_4^{\rm cen}\oplus\mathbf F_3^2.
+  \]
+
+  The only boundary left in this physical space is v404's six-action
+  \(D_0\).  After the 44-seed queue exhausts, a nonzero target dual either
+  returns a rank-raising `t=g*h^-1` action row or, when all six accumulators
+  are empty, is an exact separator.  Thus v405 gives a complete finite A0
+  MEMBER/NONMEMBER selector on paper without any unregistered search range.
+- Task420 addendum v1, 2,302 bytes, SHA-256
+  `a49fb5df2ad9c5bbc403e350f52abbba77d5fb9a4f7da25a812eee0a5990b588`,
+  replaces the v2 implementation's bounded conjugator iterator by this exact
+  two-echelon architecture.  It requires an occurrence echelon/frontier/DAG
+  and a separate physical correction-plus-six-action echelon.  No heavy
+  local production run or workflow change is authorized.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE, durable through round 648** because the
+  v405 selector has not yet run.  Relative to Delta287, however, both live
+  search universes are now complete on paper: corrections use the exact
+  `44+4r` occurrence queue and the remaining boundary uses the exact v404
+  support oracle.  The open A0 item is now implementation/execution and
+  positive replay, not a missing finite search bound.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**,
+  A4 **1/3 UNKNOWN_RESOURCE**, and A5--A9 have no new actual numerator.
+- No common word, compatible lift, fake numerator, or Ihara witness is
+  promoted by the selector theorem alone.
