@@ -51,3 +51,16 @@ component-origin helper and use, its bounded fixture assertions, and bounded
 unexpected-`UNKNOWN` telemetry.
 
 V10_LOCAL_GO_FOR_PARENT_DISPATCH
+
+## Parent dispatch receipt
+
+- independent Sol final verdict: `GO`;
+- dispatch commit: `a6c32f379fcaafc32d030eeb4da7c325bb9695c3`;
+- branch: `sol/r07-explicit-lift-20260825`;
+- workflow: `gap-run.yml`;
+- run id: `33319489870`;
+- job id: `99278843069`;
+- script: `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v10.g`;
+- fresh input checkpoint: absent;
+- timeout: owner `9000` seconds; workflow `180` minutes;
+- initial state at dispatch: `in_progress`.
