@@ -38,3 +38,15 @@ receipt check, and a distinct final marker. No production
 search, workflow edit, commit, push, or dispatch was performed.
 
 TRACE_V1_LOCAL_GO_FOR_PARENT_DISPATCH
+
+## Parent dispatch receipt
+
+- independent Sol verdict: `GO` for the bounded Linux traceback gate;
+- dispatch commit: `501b8787903c3ee1ac46bb38b8b6d6b59fa0a630`;
+- branch: `sol/r07-explicit-lift-20260825`;
+- workflow: `gap-run.yml`;
+- run id: `33318852115`;
+- job id: `99277131484`;
+- preamble: `D972_R07_A0_V9_BOOTSTRAP_TRACE_V1_RUN:=true;;`;
+- workflow timeout: `15` minutes;
+- initial state at dispatch: `in_progress`.
