@@ -1,0 +1,75 @@
+# Luna reply 431 — phase-separated packed owner v12
+
+Read the complete task431 brief and `proof_r07_a0_phase_separated_packed_echelon_v407.md`.
+Implemented only the four v12 outputs.
+
+The owner keeps occurrence closure and physical insertion in separate phases.
+The final re-audit repair adds a durable `frontier_length` equality gate and
+requires the occurrence-queue physical echelon to be entirely empty. In every
+phase the physical row map, order, expression/source arrays, and packed nnz
+counters must agree exactly; physical sources are checked through a single
+order-index map for strict processed-prefix order. The positive replay uses
+the shared top-level atom helper, applying each prefix with
+`for letter in reversed(prefix)`, and the same replay is used for the fresh
+physical row and literal ancestry. The checker fixture now includes frontier,
+physical-shape, and order mutation rejection.
+Stored pivot rows use an owner-local little-endian uint32 registry and aligned
+coefficient bytes; candidate rows remain byte-keyed sparse dictionaries. The
+payload nnz counters are incremental. Physical rows are not inserted during
+occurrence closure; after queue exhaustion, physical rows are built in fixed
+occurrence order and consumed occurrence payloads are released. The v11
+release migration path is URL/zip/seal pinned and accepts only the registered
+checkpoint input, then packs occurrence rows while discarding redundant
+physical fields.
+
+The checker independently validates the packed contract, registry/index/order
+and pivot normalization, phase-specific physical/occurrence state, queue and
+expression/source references, physical source digests, and false claim flags.
+Producer and checker now share strict phase gates: unique orders, exact
+physical suffixes, processed-prefix PHYSICAL sources, and PHYSICAL-before-action
+ordering. Durable output/checkpoint fields are compared phase-by-phase,
+including all cursors, frontier length and both payload counters. Checkpoint
+seal I/O is streaming and cached; packed uint32 iteration uses memoryview.
+The migration constants distinguish the extracted checkpoint (275905469 bytes,
+SHA-256 `3ac222801a1a91b8e0f163554835e569a26c2cac0f3f8bea481e1825e5f911b8`)
+from its header-excluded gzip payload (275905379 bytes, SHA-256
+`36da75dc8e5c21a84b26e35e4adbc9ac47e94f6c1fabbfcddddac03fd81d7ddf`).
+Migration discards physical state before packing occurrence rows, seals that
+same v12 state before runtime bootstrap, and resumes by explicit phase.
+
+Final pins:
+
+- `search/d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 50017 bytes, SHA-256 `ff856827e462c9cd09fe6068fed7930b06bbf9de0d04b78e1f20bbf3965063a8`
+- `crosscheck/check_d972_r07_a0_pb34_direct_quotient_owner_v12.py`: 13334 bytes, SHA-256 `e6a16f63725cd23bb1cd8469e2a0d93c7774c979079b7314b653b7ffa439f891`
+- `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v12.g`: 3140 bytes, SHA-256 `4e1550da1b28bf42b2871838b5213e6296b5a3e046607a526daa256c5bf03340`
+
+The driver uses fresh v12 paths, requires external
+`D972_R07_A0_PB34_V12_RUN:=true`, passes the exact registered v11 release URL,
+uses one producer/checker with live `tee`, 9000 seconds, and the 4.8 GB cap.
+
+Bounded local gates:
+
+```text
+python -B -c "import py_compile; py_compile.compile(..., cfile=TEMP, doraise=True)"
+PASS (exit 0)
+
+python -B search/d972_r07_a0_pb34_direct_quotient_owner_v12.py --mode FIXTURE
+R07_A0_PHASE_SEPARATED_PACKED_OWNER_V12 FIXTURE_PASS
+PASS (exit 0)
+
+python -B crosscheck/check_d972_r07_a0_pb34_direct_quotient_owner_v12.py --self-test
+R07_A0_PHASE_SEPARATED_PACKED_CHECKER_V12_PASS {"fresh_object_mutation_gates":3,"packed_corruption_gates":4,"phase_mutation_gates":5,"status":"FIXTURE_PASS"}
+PASS (exit 0)
+```
+
+The requested GAP wrapper parse was attempted; this Windows host's GAP binary
+failed before parsing with `fatal error - couldn't create signal pipe, Win32
+error 5` (exit `-1073741502`). This is an environment gate, not a producer
+run; GHA Linux remains the intended driver target.
+
+The fixture additionally covers the separated-phase suffix/six-action resume
+invariants, shared registry and direct packed-parent iteration. No production
+search, real migration download, workflow edit, commit, push, or
+dispatch was performed.
+
+V12_LOCAL_GO_FOR_PARENT_AUDIT_AND_DISPATCH
