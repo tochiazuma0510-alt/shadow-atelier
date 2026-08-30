@@ -177,3 +177,21 @@ Final driver-only gate: the recovery receipt text is passed as one quoted shell
 argument, so GAP's exact one-line comparison is preserved; fresh zip/input/seal
 installation rejects both existing paths and dangling symlinks (`! -e` and
 `! -L` paired for each path).
+
+## Sequence-40 production continuation
+
+The recovery repair and its final independent GO audit were committed and
+pushed at immutable head
+`cf1e83e1671ae83de1da244e9143d9a18cb42c24`.  The unchanged generic
+`gap-run.yml` workflow was dispatched with the v12 driver, external preamble
+`D972_R07_A0_PB34_V12_RUN:=true;;`, `ci/out`, a 180-minute job limit, and no
+optional p-quotient packages:
+
+- run: `33337628476`
+- job: `99327291932`
+- dispatch head: `cf1e83e1671ae83de1da244e9143d9a18cb42c24`
+
+Checkout and the pinned GAP 4.16.0 setup passed, and the production step
+started.  Strict recovery, the first restored cursor line, and the eventual
+mathematical terminal remain pending; none is inferred merely from the running
+workflow.

@@ -12466,3 +12466,38 @@ single transport repair required before continuation; it does not count the
   strict positive replay if the target reduces to zero.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake
   numerator, or Ihara witness is promoted.
+
+### Delta 296 (2026-08-31): strict sequence-40 recovery dispatched
+
+- The one-time recovery admits `phase="parent"` only for the exact sequence-40
+  checkpoint recorded in Delta295: whole-file bytes/SHA, all cursors, rank,
+  frontier, both occurrence nnz counters, coordinate-key count, and empty
+  physical state are pinned before the in-memory change to
+  `occurrence_queue`.  Every ordinary v12 checkpoint gate then runs.  Future
+  resource guards serialize the enclosing canonical phase rather than their
+  event label.
+- The recovery driver independently authenticates the permanent six-file
+  release zip and extracted checkpoint through temporary same-directory
+  paths.  A distinct, initially absent, hash-bound completion receipt is
+  atomically installed only after either the fresh or pre-existing validation
+  branch succeeds, then exactly compared by GAP.  This closes the stale-seal
+  path caused by GAP `Exec` discarding shell exit status.  Final independent
+  dispatch audit verdict: **GO**.
+- The repair was committed and pushed at immutable head
+  `cf1e83e1671ae83de1da244e9143d9a18cb42c24`.  Generic workflow run
+  `33337628476`, job `99327291932`, was dispatched with the unchanged v12
+  universe, 9,000-second owner window, 4.8 GB RSS limit, and distinct recovery
+  input/output checkpoints.  Checkout and pinned GAP 4.16.0 setup passed and
+  the production step started.  Strict restored-state output is still pending.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual, RUNNING**.  Relative to Delta295, the exact
+  sequence-40 recovery path has passed bounded and independent pre-dispatch
+  gates and entered GHA; it is not yet counted as a cross-checked restored
+  state until the artifact/checker is available.
+- The A0 open chain remains: strict sequence-40 restore/check, remaining
+  occurrence closure, deferred physical build, six-action decision, and
+  strict positive replay if the target reduces to zero.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake
+  numerator, or Ihara witness is promoted.
