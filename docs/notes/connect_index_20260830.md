@@ -26,9 +26,11 @@
 4. 便2(測定: 事前登録格子の全通過による宣言)
 5. **事後検証(CONFIRMED・独立 3 実装)** — 強化 5 点: T-2 data-pin(6 割当中 (X̄,Ȳ) のみ 18/18)・二面体窓の自由度ゼロ・**T-1/T-4 共通モード定理**(972/972 両 block 再現 ⟹ 片側ズレ不可能)・m(γ₁)=INV の解析的証明・**Thm 4.3 完全除去**(LR-2 降格)
 
-## 4. 残る仮定(A-1〜A-11・正本リスト = 裁定 1816/connect_ben2 cert)
+## 4. 残る仮定(v2・UC 閉鎖便反映 = 裁定 1817)
 
-**A-1** 補題 BR(自前 paper-proof・符号規約は共通モード相殺・文献照合 = UC 閉鎖便走行中)/**A-2** census 完全性(Frob の shadow は 972 行のいずれか — 全 fail-closed の土台)/A-3 c₀=−27/2(u_meas レーンから 9 乗類独立裏取り)/A-4 c_dih(passport 一意性で模型強制)/A-5 ε_B=+1(便1)/A-6 T-2 コード外 2 段(+18 セル data-pin)/A-7 roster 同定(ハッシュ再現)/**A-8** x↔y 入替部未試験(UC-3″(ii)・閉鎖便走行中)/**A-9** 2401 原文 f 規約未照合(UC-5′・同)/**A-10 Lean ゼロ = verified ではない**/A-11 648 補集合の genuineness は別問題(SELECT は非算術の同定のみ)。
+**閉鎖済み(2026-08-30 閉鎖便・connect_uc_closure_v1.md)**: ~~A-6/A-8(T-2)~~ = x=γ₀ が Ihara ICM p.106+Annals p.46 の**逐語 2 本**・鏡映 pin は f_c=1+χ_c=−1 で**強制**・さらに **NN-12 を出す T-2 分岐は存在しない**(代替割当は UNDECIDABLE にしかならない — 機械)。~~A-9(2401 f 規約)~~ = ページ画像直読で正本と逐語一致・Dolgushev (3.13) = Ihara (3.1.1)(II) の巡回回転(同一積規約)。**A-1 格上げ**: 補題 BR の枠組みは ICM 1990 §2.3(印刷 p.105)に逐語 = literature-backed・T-4(dir1)も p.103 の合成規約から文献裏取り(54 組機械)。
+
+**残る実仮定**: **A-2** census 完全性(Frob の shadow は 972 行のいずれか)/A-3 c₀=−27/2・A-4 c_dih=±2⁻⁷(機械・厳密・独立裏取りつき)/A-5 ε_B=+1(便1 cert)/A-7 roster 同定(ハッシュ再現)/**A-1′ 補題 BR の閉形式(Kummer コサイクル)の逐語出典**(最有力 = Anderson–Ihara Ann.Math.128 — **既遠征・取得不能[裁定 286]・要請凍結**)/**A-10 Lean ゼロ = verified ではない**/A-11 648 補集合の genuineness は別問題。
 
 ## 5. 文書・証明書(全 commit 済)
 
@@ -38,8 +40,8 @@
 - erratum: pilot2_ben1_…_ERRATUM_CC9.md(割当反転の supersede)
 - 裁定: 1808〜1816。訂正の主要録: CC-14(u₀ 逆数欄・正しい帰属 = D-5 既閉・伝播漏れの実例)・CC-11〜16。
 
-## 6. 後続(このターン以降)
+## 6. 後続
 
-- UNKNOWN 閉鎖便(UC-5 = 補題 BR ↔ ICM 1990・UC-5′ = 2401 f 規約・UC-3″ = 二面体非対称論証)走行中 — 帰投で A-1/A-8/A-9 の格上げ見込み。
+- ~~UNKNOWN 閉鎖便~~ **完結(裁定 1817)** — §4 v2 参照。司令塔の二面体非対称案は不成立(27-block = 3 被覆直和で block 間共役・正直記録)・井原逐語で別ルート閉鎖。spec v1.2 への訂正 4 件+ICM ファイル台帳訂正(papers/ の braids 版は Vol.II — 講演は vol1 版・LEDGER 記載)。
 - connect_ben2 cert の次版追記(census 完全性を still_load_bearing へ・Thm 4.3 削除・衛生 3 件)。
 - Lean 形式化(paper-style-lean 方針)・648 放電後の下流(Sol Δ36 の消費 = Sol 側・不介入継続)・DICHOT-972 / genuineness は別 campaign。

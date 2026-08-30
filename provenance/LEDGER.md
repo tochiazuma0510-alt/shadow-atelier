@@ -3412,3 +3412,13 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 ## 2026-08-29 文献取得(PILOT-1 延長・裁定 1792)
 - papers/voight-willis-1205.0045-power-series-expansions.pdf(316,408B・sha256 141e6555ced67e9f040e20c167caae2fc58eec0274cb868a1c4f35a1f09f1386・arXiv v2)— KMSV [60] = 冪級数展開法の原典(cocompact Fuchsian 群上の modular form を FD+線形代数で数値計算)。PILOT-1 L5 の正本。
 - KMSV [28] = Michael Klug 修士論文(Vermont 大 2013)は **取得不能のまま記録のみ要請 PILOT-L28 として凍結**(UVM ScholarWorks は JS 描画で直接取得失敗・本人サイトに不掲載)。引用実体は「echelonized basis [28,§4.4]」の 1 文のみ = 展開係数行列の階段化(標準線形代数)。L5 実装で規約曖昧が出た場合のみ再執行。
+
+## 2026-08-29 文献取得(PILOT-2 U-3・裁定 1797)
+- papers/nugent-voight-1510.04637-arithmetic-dimension-triangle-groups.pdf(556,207B 前後・sha256 0668a69b5755040a206d107494f3f818d235b5b689194cfe60fb2a02c598a41c)— Takeuchi 85 算術三角群リストの再録表。**U-3 決着: (9,9,9)・(3,3,9)・(2,3,18) すべて算術的**(通約類も同時確認)・CAL 用 (7,7,7) も所収 ⟹ PILOT-2 L7′ の係数代数性は定理裏づけ・KMSV Remark 5.3 の警告は非適用。
+
+## 2026-08-29 KMSV erratum 候補台帳(記録のみ・publication-hold・裁定 1794/1804)
+- kmsv-1311.2081 の誤植 3 件(いずれも機械+紙面内部整合で立証・工房計算の訂正裏取りつき): (1) p.34 「C−A−B=1/c」→ 正 = 1/b(PILOT-1 便5・裁定 1794)(2) p.49 Ex 5.26 f の v⁵ 係数分子 120 → 1(3) p.50 Ex 5.26 φ=(y+1)/(2x³) → (y+x³)/(2x³)(次数 5 の Belyi にはこれが必要・(2)(3) は PILOT-2 便4 step 0・裁定 1804)。公表・著者連絡は研究者裁可待ち。
+
+## 2026-08-30 UNKNOWN 閉鎖便の台帳訂正 2 件(裁定 1817)
+- **papers/ihara-ICM1990-braids-galois-arithmetic-functions.pdf は ICM 1990 Vol.II であり井原講演を含まない**。講演本体 = papers/ihara-ICM1990-vol1-braids-galois-arithmetic.ocr.pdf(印刷ページ = PDF ページ − 88)。参照壊れ回避のため改名せず本注記で対応。完全版 = Desktop\文献リスト\ICM1990.1.ocr.pdf / ICM1990.2.ocr.pdf。
+- 「Ihara の f」引用時は論文明記(ICM 1990 §2.3 と Annals 123 p.55 で正規化が異なる: 後者は t=f⁻¹)。Anderson–Ihara Ann.Math.128 は既遠征・取得不能(裁定 286)— 文献要請 3 は凍結。
