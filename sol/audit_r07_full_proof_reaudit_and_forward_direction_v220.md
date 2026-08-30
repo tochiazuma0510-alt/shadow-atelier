@@ -11269,6 +11269,126 @@ single transport repair required before continuation; it does not count the
   **0/3 actual**.
 - No compatible lift, fake numerator, or Ihara witness is promoted.
 
+### Delta 280 (2026-08-30): occurrencewise pivot section and corrected A4 resume launch
+
+- Added `proof_r07_semilinear_instruction_section_v397.md`, 11,979 bytes,
+  SHA-256
+  `2344408d7cfcc8125f3dba802a03cd9396dd3c6e640b29a3b1ce6b91aea3faf9`,
+  at commit `f212667a1512341cf7bc3f6b1a1a9518d7d901c9`.  It replaces v396's
+  common-\(R\)-action route by the free \(\mathbf F_3\)-space \(U\) on
+  literal occurrence-tagged instruction trees.  The physical relative
+  source is pulled back exactly:
+
+  \[
+    U^{\rm rel}=\{u:r_De(u)=0\},\qquad q=Be.
+  \]
+
+  For the actual class-defect space \(C_\chi\), the necessary and sufficient
+  finite gate is now only
+
+  \[
+    \boxed{C_\chi\subseteq q(U^{\rm rel})}.
+  \]
+
+  A fixed pivot solution for each defect-basis vector defines a
+  word-bearing right inverse \(h=e\sigma\).  It does not require the naive
+  coefficient formula to be independent of every representative.  Hence
+  orbit freeness, equality of source and target orbit-relation modules, and
+  the separate orbit-saturation equality are sufficient shortcuts but are
+  no longer necessary gates.  The occurrencewise reduction square remains
+  load-bearing.
+- On the inverse limit, the exact promotion hypothesis is the single strict
+  image equality
+
+  \[
+    q(\mathcal F^rU^{\rm rel}_{C})=\mathcal F^rC
+    \quad\text{for every }r.
+  \]
+
+  The strict filtered section lemma of v357 then constructs one compatible
+  continuous instruction section.  The eleven-occurrence base-transport
+  term is filtration-raising, so v357's additive Neumann correction applies
+  without a common group-ring action.  This closes the abstract section
+  construction, not the actual image equality.
+- The same theorem identifies the exact dual alternative.  If an actual
+  defect is not in the instruction image, a functional \(\lambda\) annihilates
+  every registered relative instruction column but not that defect.  For
+  translated boundary terms, collecting by \(t=gh^{-1}\) computes all
+  pairings with one dual before dense materialization.  A nonzero pairing
+  returns a missing column; an all-zero table is a separator only after the
+  registered instruction roster is exhaustive.  This is the mathematical
+  interpretation of the A0 batch computation now running as GHA run
+  `33300457583`.
+- Added `proof_r07_commutator_subtraction_connection_lift_v398.md`, 11,475
+  bytes, SHA-256
+  `d814f9f913d6782a9d520425c45f35833362be75ea15bca7404120dd1195d90f`,
+  at commit `3c070869b7483d181de5c442eab3d7ff78134c74`.  For a legal literal
+  commutator instruction (c), its actual occurrencewise Fox split is
+  (Bc=V+K).  Therefore ([K]=-[V]) in the cokernel of the same actual
+  relative operator.  If (d_V) is an actual legal preimage of (V), then
+  (d_K=c-d_V) is a literal legal preimage of the field-outer connection
+  term.  A separate connection homotopy is not necessary for this paired
+  class; an endpoint-only value lift is not sufficient.
+- Added `proof_r07_dihedral_spectral_commutator_split_v399.md`, 9,516 bytes,
+  SHA-256
+  `605262e1e1b45ebddac402701775e924bbcacc3a9d18618995cc397e93eaf8c7`,
+  at commit `875132b19ab6d5fa80d5896f441f1867eddf7471`.  If the typed involutions
+  satisfy
+
+  \[
+    B\theta_D=\theta_LB,
+    \qquad \theta_LV=-V,
+    \qquad \theta_LK=K,
+  \]
+
+  then both preimages are closed form over (mathbf F_3):
+
+  \[
+    d_V=2(c-\theta_Dc),
+    \qquad d_K=2(c+\theta_Dc).
+  \]
+
+  Compatible involutions and literal trees make these formulas compatible
+  at every refinement.  This removes an independent value solve and an
+  independent connection homotopy for the paired history, conditional on
+  the still-open actual equivariance, odd/even replay, and legality gates.
+  An abstract return-parity candidate does not discharge them.
+- A4 run `33300657751` stopped before Python with
+  `Error, task410 replacement cardinality`.  The first five v33 wrapper
+  needles had one excess escape layer and therefore cardinality zero in the
+  transformed v30 source.  Versioned driver v34 changes only those five
+  escaped strings; local bounded construction and generated-inner GAP parse
+  both pass.  Commit `4b8d777a7b6a5ec93ef3df9bf59ad2e068f07d5f`
+  was dispatched as run `33301169451`; it exposed an unpublished v18 owner
+  dependency.  After publishing the exact producer and checker owner chains,
+  run `33301305430` reached the producer and returned `UNKNOWN_INPUT`, reason
+  `delta:head_seal`: the legacy full checkpoint had incorrectly been
+  installed as a delta HEAD.  Run `33301706270` corrected that type but the
+  inherited shell preflight rejected an absent HEAD before Python.  Driver
+  v37 now installs the immutable row-25 full checkpoint only as the base and
+  a separately sealed zero-segment HEAD (`bytes=544`, SHA-256
+  `4502b160527ece801ffea235251b49dce1bddbf42cc68d42b2ab4bbf3afcd672`).
+  Commit `bb802f6d4e8b1758b00593fdc3aa0e3f13ecd57a` is dispatched as run
+  `33302323678`.  These are launch/transport corrections; none is an A4
+  mathematical terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING** on run `33300457583`.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+- A4 remains **1/3 UNKNOWN_RESOURCE, durable next_row=25**; run
+  `33302323678` is the active exact resume from the authenticated base plus
+  zero-segment delta HEAD.
+- A5--A8 remain **0/3 actual**.  A9 remains **0/3 actual**, but its finite
+  target is now the occurrencewise image test
+  \(C_\chi\subseteq q(U^{\rm rel})\), followed by strictness across the
+  filtration; v396's three stronger orbit gates are not prerequisites.  On
+  commutator-generated columns, v398--v399 further replace a separate
+  field-outer homotopy by the actual dihedral equivariance/parity replay and
+  the two explicit spectral projections.
+  B, C, W and F remain **0/3 actual**.
+- No compatible lift, fake numerator, or Ihara witness is promoted.
+
 ### Delta 275 (2026-08-30): first compact-owner production run reaches the B3 resource boundary
 
 - The compact v396--v400 owner was published at exact head
@@ -11517,3 +11637,42 @@ single transport repair required before continuation; it does not count the
   (automatic for a free orbit), and class-orbit saturation.  B, C, W and F
   remain **0/3 actual**.
 - No compatible lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 281 (2026-08-30): bind the A4 delta-restore mode and relaunch row 25
+
+- A4 run `33302323678`, job `99232645300`, completed on immutable head
+  `bb802f6d4e8b1758b00593fdc3aa0e3f13ecd57a`.  The outer driver and the
+  authenticated base-plus-zero-head transport passed, but the producer stopped
+  before its first membership query with
+
+  ```text
+  R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V6_PRODUCER_STOP
+  NameError: name 'delta_mode' is not defined
+  durable_checkpoint_row = 0
+  membership_queries = 0
+  ```
+
+  This is a restore-wrapper connection failure, not a mathematical terminal;
+  in particular it neither advances nor invalidates the durable legacy
+  `next_row=25` base.
+- Versioned producer v20 adds exactly the missing local binding
+  `delta_mode = bool(state.get("_delta_transport"))` immediately before the
+  frozen boundary-state restore.  It changes no row, action, reducer,
+  membership oracle, resource cap, or checkpoint arithmetic.  Checker v26
+  changes only its frozen producer-code pin.  Driver v38 binds those two
+  wrappers and preserves the authenticated legacy base plus sealed empty
+  delta HEAD.
+- Commit `d809fb7615c9e309637efda460479994312ddd68` was pushed and dispatched as
+  GHA run `33303009846`, job `99234502612`, with
+  `D386Mode:="RESUME"`, `timeout_min=250`, and the p-quotient packages enabled.
+  This is the active exact continuation from row 25.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING** on run `33300457583`.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+- A4 remains **1/3 UNKNOWN_RESOURCE, durable next_row=25** while run
+  `33303009846` is active.  Launching the repair does not change its
+  numerator.
+- A5--A9, B, C, W and F receive no new actual numerator.  No compatible lift,
+  fake numerator, or Ihara witness is promoted.
