@@ -1,0 +1,1155 @@
+{
+ "schema": "connect-ben1/v1",
+ "title": "CONNECT ben1: convention freeze + calibration -- [G-C2] numerical analytic continuation, exact c0, DC-21 (the life of eps_B), and the repaired controls",
+ "date": "2026-08-30",
+ "ruling": "coordinator ruling 1813 (ben1 dispatch)",
+ "machine_output_only": true,
+ "author": "shadow-atelier mathematician (Opus 5)",
+ "spec": {
+  "path": "scratchpad/connect_spec_v1.md",
+  "version": "v1.2",
+  "sha16": "78da8fa13469955d",
+  "sections": [
+   "3.2 frozen table",
+   "3.3' T-4/DIR",
+   "3.5 c0",
+   "3.8 archaeology",
+   "5.2' gates",
+   "5.4' controls",
+   "5.5 root selection",
+   "6' ben割り"
+  ]
+ },
+ "scope": {
+  "this_ben_does_NOT_declare_SELECT": true,
+  "reason": "eps_D is unmeasured; SELECT is the exit of ben2 ([CONN-DIH]).",
+  "out_of_scope": [
+   "eps_D / [CONN-DIH]",
+   "the 3-prime run p=19,37,73",
+   "any SELECT statement or hint"
+  ]
+ },
+ "kummer_object": "c0 = (phi/s^9)(P_0)",
+ "word_convention": "W-1: paper AB = GAP B*A (anti-hom)",
+ "equivariance_dir": "dir1: m(sigma g) = rho^-1 m(g) rho ; rho: P -> sigma P",
+ "branch_assignment": "Xbar=m(g_0), Ybar=m(g_1), z_census=(Ybar*Xbar)^-1=m(g_inf)",
+ "word_order": "gap_left_to_right",
+ "root_prime_P": {
+  "gamma_min_poly_over_Fp": "X^9 + 3",
+  "gamma_min_poly_coeffs_asc": [
+   3,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   0,
+   1
+  ],
+  "residue_field": "F_7^9",
+  "X9_minus_c0_factorisation": [
+   "X^9 + 3"
+  ],
+  "canonical_factor_rule": "smallest by (degree, coefficient vector)",
+  "zeta_9bar_as_poly_in_gamma": "X^3",
+  "zeta_9bar_min_poly_over_Fp": "X^3 + 3",
+  "zeta_9bar_equals": "(gamma^{p-1})^5",
+  "reading": "zeta_9bar^{e0} = gamma^{p-1}",
+  "e0": 2,
+  "e0_mod_3": 2
+ },
+ "input_artifacts": {
+  "search/certs/pilot2_ben1_hyperbolic_v1_20260829.json": "0d6d590d5dda602f",
+  "search/certs/pilot2_ben1_hyperbolic_v1_20260829_ERRATUM_CC9.md": "105a2e87234b08fe",
+  "search/certs/pilot2_ben5_L7_v1_20260829.json": "a54d2f07fd4c8da3",
+  "search/certs/pilot2_ben6_final_v1_20260829.json": "d39deaabdc9f8ebf",
+  "search/certs/d972_b4_word_key_artifact_v1_20260816.json": "564a921be8114bde",
+  "scratchpad/connect_spec_v1.md": "78da8fa13469955d",
+  "docs/week1-定義ノート.md": "24db1372fd191659"
+ },
+ "FINAL_VERDICT": {
+  "G-C2_analytic_continuation": "PASS",
+  "G-C2_exit_condition_of_ben1_(i)": "MET -- Y_geom reproduced by numerical monodromy",
+  "DC-21_exit_condition_of_ben1_(ii)": "MET -- dir2 returns 0 census hits in all 8 chi != +-1 layers; W-C7 does NOT fire",
+  "eps_B": "+1 stands (T-1 and T-4 and T-2 and T-3); DC-21 was run before this line was written",
+  "G-C0": true,
+  "G-C3_i_c0_exact": true,
+  "G-C4_Lemma_SYM": true,
+  "G-C5prime_kappa": true,
+  "G-C8_CAL_CC": true,
+  "G-C9_a_to_e": "PASS",
+  "controls": {
+   "DC-16prime": true,
+   "DC-11prime2": true,
+   "DC-19": true,
+   "CONT-1": true,
+   "CONT-2": true
+  },
+  "UC-4_resolved": "yes -- [c0] in Q^x/(Q^x)^9 is now known exactly",
+  "grade": "candidate / cross-checked. Exact rational arithmetic (c0, kappa, all permutation work) + an independent numerical analytic continuation whose fibre at t* coincides with the ben6-certified fibre polynomial. NOT verified (no Lean).",
+  "ben2_may_proceed": true
+ },
+ "part_frozen_conventions": {
+  "single_point_of_truth": "scratchpad/connect_ben1_conv.py (sha16 2336cece326487bd)",
+  "rule": "every ben1 script imports this module and re-declares nothing",
+  "table": {
+   "base_point": "tangential 01vec (from 0 towards 1 along the real axis)",
+   "generators": "x = loop around 0, y = loop around 1, xyz = 1 (paper word order)",
+   "orientation": "zeta_9 = exp(2*pi*i/9) via the fixed complex embedding; loops counter-clockwise",
+   "GT_action": "sigma(x) = x^chi ,  sigma(y) = f^-1 y^chi f",
+   "word_convention": "W-1: paper AB = GAP B*A (anti-hom)",
+   "equivariance_dir": "dir1: m(sigma g) = rho^-1 m(g) rho ; rho: P -> sigma P",
+   "branch_assignment": "Xbar=m(g_0), Ybar=m(g_1), z_census=(Ybar*Xbar)^-1=m(g_inf)",
+   "word_order": "gap_left_to_right",
+   "kummer_object": "c0 = (phi/s^9)(P_0)",
+   "perm_compose": "left_to_right (GAP) ; conjugation a^b = b^-1 a b",
+   "galois_perm": "rho(sigma) : j^rho = label of sigma(s_j)   [Lemma BR]",
+   "monodromy_equivariance": "m(sigma(gamma)) = rho(sigma)^-1 m(gamma) rho(sigma)",
+   "L": [
+    2,
+    5,
+    9,
+    6,
+    7,
+    4,
+    1,
+    8,
+    3
+   ],
+   "rho_mir": [
+    6,
+    2,
+    5,
+    7,
+    3,
+    1,
+    4,
+    9,
+    8
+   ],
+   "Y_geom_predicted": [
+    4,
+    8,
+    9,
+    6,
+    7,
+    2,
+    1,
+    3,
+    5
+   ],
+   "CC-8": "ben1 Zbar=(Xbar*Ybar)^-1 is the MIRROR of census z=(Ybar*Xbar)^-1; never mix",
+   "CC-9": "supersedes pilot2_ben1 cert conventions.reading_used / target.workshop_xyz",
+   "CC-10": "d972 artifact `word` column is GAP order (not the paper order of W-3)"
+  },
+  "derived_anchors_1based": {
+   "Xbar": [
+    8,
+    5,
+    2,
+    1,
+    9,
+    7,
+    4,
+    3,
+    6
+   ],
+   "Ybar": [
+    2,
+    6,
+    7,
+    5,
+    8,
+    4,
+    1,
+    9,
+    3
+   ],
+   "Zbar_ben1_(Xbar*Ybar)^-1": [
+    6,
+    4,
+    5,
+    9,
+    7,
+    3,
+    8,
+    2,
+    1
+   ],
+   "z_census_(Ybar*Xbar)^-1": [
+    6,
+    9,
+    5,
+    3,
+    1,
+    8,
+    2,
+    7,
+    4
+   ],
+   "SH": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    1
+   ],
+   "INV": [
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2
+   ],
+   "L": [
+    2,
+    5,
+    9,
+    6,
+    7,
+    4,
+    1,
+    8,
+    3
+   ],
+   "rho_mir": [
+    6,
+    2,
+    5,
+    7,
+    3,
+    1,
+    4,
+    9,
+    8
+   ],
+   "Y_geom": [
+    4,
+    8,
+    9,
+    6,
+    7,
+    2,
+    1,
+    3,
+    5
+   ],
+   "Z_geom": [
+    3,
+    7,
+    6,
+    8,
+    1,
+    9,
+    4,
+    5,
+    2
+   ]
+  },
+  "reconstruction": "Xbar, Ybar are rebuilt from the GF(8) marking S=[[1,0],[1,1]], T=[[4,3],[1,5]] (worker L286-292), not read from any cert",
+  "selftest": {
+   "orders_9_9_9": true,
+   "XYZ_ben1_is_id": true,
+   "zyx_census_is_id": true,
+   "Zben1_ne_zcensus": true,
+   "L_pin_i_SH_to_Xbar": true,
+   "L_pin_ii_INV_to_RMIR": true,
+   "X_geom_is_SH": true,
+   "Y_geom_value": true,
+   "Zgeom_Ygeom_SH_is_id": true
+  },
+  "CC-9_applied": "the ben1 cert's conventions.reading_used / target.workshop_xyz are SUPERSEDED by the erratum (sha16 105a2e87234b08fe); this ben1 uses Xbar<->sigma_0, Ybar<->sigma_1, z_census<->sigma_inf"
+ },
+ "part_G_C2_analytic_continuation": {
+  "what_it_is": "the only true calibration of the CONNECT campaign; the independent check of the two out-of-code steps of T-2 (UC-3'')",
+  "method": "exact ben5 model phi = k X4^3/B on X = {Q=0} cap {C=0}; chart X_4=1, (a,v,b)=(X1,X2,X3)/X4; the 9 fibre points are followed by predictor-corrector Newton on (Q_aff, C_aff, k - t B_aff) with a no-swap acceptance test; labels come from the tangential base point via Lemma BR",
+  "path_convention": {
+   "orientation": "counter-clockwise (positive), zeta_9 = exp(2*pi*i/9)",
+   "base_point_t_star": "1/5",
+   "labelling_point_t_start": "1.0e-18",
+   "gamma_0": "t* --real--> 0.05 ; |t|=0.05 arg 0->2pi ; back",
+   "gamma_1": "t* --real--> 1-0.1 ; |t-1|=0.1 arg pi->3pi ; back",
+   "label_rule": "s_j = zeta_9^j c0^{-1/9} t^{1/9} + O(t^{2/9}) , s = X2/X1 , c0^{1/9} = real root",
+   "chart": "X_4 = 1 ; (a,v,b) = (X1,X2,X3)/X4",
+   "chart_escape_avoided": "t = phi(R) = 2"
+  },
+  "labelling": {
+   "unambiguous": true,
+   "min_margin_ratio": "1.9331395e+8",
+   "rule": "s_j*c0^{1/9}/t^{1/9} -> zeta_9^j ; c0^{1/9} = the REAL 9th root (corollary BR-3)"
+  },
+  "RESULT_m_gamma_0": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   1
+  ],
+  "PREDICTED_SH": [
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   1
+  ],
+  "RESULT_m_gamma_1": [
+   4,
+   8,
+   9,
+   6,
+   7,
+   2,
+   1,
+   3,
+   5
+  ],
+  "PREDICTED_Y_geom": [
+   4,
+   8,
+   9,
+   6,
+   7,
+   2,
+   1,
+   3,
+   5
+  ],
+  "gamma_0_equals_SH": true,
+  "gamma_1_equals_Y_geom_P_CONN_D": true,
+  "Xbar_recovered": true,
+  "Ybar_recovered": true,
+  "homotopy_control": {
+   "r0": 0.12,
+   "r1": 0.3,
+   "same_permutations": true,
+   "m_gamma_0": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    1
+   ],
+   "m_gamma_1": [
+    4,
+    8,
+    9,
+    6,
+    7,
+    2,
+    1,
+    3,
+    5
+   ]
+  },
+  "independent_crosscheck": {
+   "against": "pilot2_ben6 cert part_CONN1.fibre_polynomials['1/5'] (Groebner elimination from the ben5 equations only)",
+   "result": {
+    "max_rel_residual": "1.90625e-58",
+    "pass": true
+   },
+   "meaning": "the 9 numerically tracked points ARE the 9 roots of the certified degree-9 fibre polynomial; the tracker and ben6 share no code"
+  },
+  "UC-3''_step_(i)_complex_conjugation": {
+   "measured_1based": [
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2
+   ],
+   "predicted_INV_1based": [
+    1,
+    9,
+    8,
+    7,
+    6,
+    5,
+    4,
+    3,
+    2
+   ],
+   "BR3_confirmed": true,
+   "pullback_equals_rho_mir": true
+  },
+  "UC-3''_step_(i)_status": "CLOSED BY MEASUREMENT -- corollary BR-3 was not assumed but measured: conjugating the 9 tracked fibre points over the RATIONAL base point t* permutes the labels by INV (j -> -j), and pulls back to rho_mir exactly",
+  "K13_redone_from_geometry": {
+   "g0,g1": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 1,
+    "L": [
+     2,
+     5,
+     9,
+     6,
+     7,
+     4,
+     1,
+     8,
+     3
+    ]
+   },
+   "g0,ginf": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 0,
+    "L": null
+   },
+   "g1,g0": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 1,
+    "L": [
+     2,
+     6,
+     4,
+     5,
+     8,
+     9,
+     3,
+     7,
+     1
+    ]
+   },
+   "g1,ginf": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 0,
+    "L": null
+   },
+   "ginf,g0": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 0,
+    "L": null
+   },
+   "ginf,g1": {
+    "n_analytic_pin": 1,
+    "n_analytic_plus_mirror": 0,
+    "L": null
+   }
+  },
+  "K13_frozen_assignment_survives": true,
+  "UC-3''_step_(ii)_GT_normalisation": "STILL OPEN. Of the 6 orderings of the MEASURED triple, exactly TWO survive the analytic+mirror pins: (Xbar,Ybar)=(m(g0),m(g1)) giving the frozen L, and (Xbar,Ybar)=(m(g1),m(g0)) giving L' = the alternative already named in spec sec.3.8.2. Geometry cannot choose between them, because the question is what the CENSUS's symbol x denotes, not what the covering does. Only the GT normalisation (x = the loop around 0) separates them. See part_corrections CC-11.",
+  "gamma_inf_both_tails": {
+   "upper_tail_m_gamma_inf_1based": [
+    6,
+    5,
+    7,
+    9,
+    8,
+    3,
+    4,
+    1,
+    2
+   ],
+   "lower_tail_m_gamma_inf_1based": [
+    3,
+    7,
+    6,
+    8,
+    1,
+    9,
+    4,
+    5,
+    2
+   ],
+   "upper_tail_realises_ben1_relator": true,
+   "lower_tail_realises_census_relator": true,
+   "tails_differ": true,
+   "reading": "CC-8 made concrete: the two mirror relator conventions are the two lasso tails; geometry alone cannot select between them. The (star) pipeline never uses z, so the sign of a is unaffected."
+  },
+  "tracking_log": [
+   {
+    "path": "t_start -> t* (geometric, in (0,1))",
+    "steps": 1905,
+    "h_min": "2.441e-04",
+    "worst_swap_ratio": "0.9993",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "gamma_0 (r0=0.050,r1=0.100)",
+    "steps": 39,
+    "h_min": "3.906e-03",
+    "worst_swap_ratio": "0.7127",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "gamma_1 (r0=0.050,r1=0.100)",
+    "steps": 92,
+    "h_min": "3.906e-03",
+    "worst_swap_ratio": "0.7906",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "gamma_0 (r0=0.120,r1=0.300)",
+    "steps": 34,
+    "h_min": "3.906e-03",
+    "worst_swap_ratio": "0.6693",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "gamma_1 (r0=0.120,r1=0.300)",
+    "steps": 100,
+    "h_min": "3.906e-03",
+    "worst_swap_ratio": "0.8999",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "big loop, tail upper (t* -> 0.5+0.7i)",
+    "steps": 159,
+    "h_min": "9.766e-04",
+    "worst_swap_ratio": "0.9516",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "big loop, tail lower (t* -> 0.5-0.7i)",
+    "steps": 181,
+    "h_min": "9.766e-04",
+    "worst_swap_ratio": "0.9874",
+    "min_sep_end": "3.713962e+00"
+   },
+   {
+    "path": "gamma_0*gamma_1",
+    "steps": 115,
+    "h_min": "3.906e-03",
+    "worst_swap_ratio": "0.9690",
+    "min_sep_end": "3.713962e+00"
+   }
+  ],
+  "fibre_v_values_at_t_star": [
+   "(1.32415271890165353489748 + 0.0j)",
+   "(-0.405900769449518443185609 - 2.10457264046400342343711j)",
+   "(-5.45481737258081017514931 + 1.16002032403269073437213j)",
+   "(-2.26769384111714806639476 + 0.944537563337911684688162j)",
+   "(0.84133562369664991728094 + 1.56476351036291278067022j)",
+   "(0.84133562369664991728094 - 1.56476351036291278067022j)",
+   "(-2.26769384111714806639476 - 0.944537563337911684688162j)",
+   "(-5.45481737258081017514931 - 1.16002032403269073437213j)",
+   "(-0.405900769449518443185609 + 2.10457264046400342343711j)"
+  ],
+  "verdict": "PASS",
+  "robustness_probe": {
+   "why": "a convention or tracking artefact would not survive all of these",
+   "t_start_variation_1e-12_1e-18_1e-24": {
+    "1e-12": {
+     "m_gamma_0": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+     ],
+     "m_gamma_1": [
+      4,
+      8,
+      9,
+      6,
+      7,
+      2,
+      1,
+      3,
+      5
+     ]
+    },
+    "1e-18": {
+     "m_gamma_0": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+     ],
+     "m_gamma_1": [
+      4,
+      8,
+      9,
+      6,
+      7,
+      2,
+      1,
+      3,
+      5
+     ]
+    },
+    "1e-24": {
+     "m_gamma_0": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      1
+     ],
+     "m_gamma_1": [
+      4,
+      8,
+      9,
+      6,
+      7,
+      2,
+      1,
+      3,
+      5
+     ]
+    }
+   },
+   "stable_under_t_start": true,
+   "stricter_no_swap_margin_4_to_10": {
+    "m_gamma_0": [
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     1
+    ],
+    "m_gamma_1": [
+     4,
+     8,
+     9,
+     6,
+     7,
+     2,
+     1,
+     3,
+     5
+    ],
+    "pass": true
+   },
+   "non_circular_gamma_1_square_contour": {
+    "m_gamma_1": [
+     4,
+     8,
+     9,
+     6,
+     7,
+     2,
+     1,
+     3,
+     5
+    ],
+    "pass": true
+   },
+   "group_fingerprint_of_measured_triple": {
+    "order": 504,
+    "cycle_types": [
+     [
+      9
+     ],
+     [
+      9
+     ],
+     [
+      9
+     ]
+    ],
+    "pass": true
+   },
+   "verdict": "PASS"
+  }
+ },
+ "part_c0_exact": {
+  "gate": "[G-C3](i) + [G-C4] + UC-4",
+  "local_parameter": "s := X2/X1  (ord_P0 = 1)",
+  "well_definedness": "[c0] in Q^x/(Q^x)^9 is independent of the choice of Q-rational local parameter (corollary BR-1: s -> lambda s + O(s^2) sends c0 -> c0 lambda^-9, lambda in Q^x)",
+  "orders_at_P0": {
+   "X2/X1": 1,
+   "X3/X1": 2,
+   "X4/X1": 3,
+   "B/X1^3": 0,
+   "phi": 9
+  },
+  "gamma_3": "1",
+  "c0_EXACT": "-27/2",
+  "check_against_spec_sec_3_5": "spec sec.3.5 derived c0 = -27/2 * gamma_3^3 on paper; the series computation gives gamma_3 = 1, hence c0 = -27/2 exactly",
+  "c0_class_mod_cubes": "4",
+  "c0_class_mod_cubes_is_2_squared": true,
+  "c0_class_mod_9th_powers_UC4": "6912",
+  "c0_class_mod_9th_factorisation": "6912 = 2^8 * 3^3  (note -1 = (-1)^9 is a 9th power)",
+  "UC-4_status": "RESOLVED -- gamma_3 = 1 makes the full 9th-power class explicit; SELECT only needs mod 3, but the mod 9 class is now recorded",
+  "Lemma_SYM_G_C4": {
+   "c1": "-27/524288",
+   "c_inf": "27/524288",
+   "c1_class_mod_9th": "6912",
+   "c_inf_class_mod_9th": "6912",
+   "all_three_classes_agree_mod_9th": true,
+   "all_three_classes_agree_mod_cubes": true,
+   "method": "INDEPENDENT local expansions at P_1 and P_inf with their own Q-rational local parameters -- the S_3 identity phi o A = 1/(1-phi) was NOT used"
+  },
+  "phi_at_R": "2",
+  "phi_at_R_meaning": "R = (3:0:-4:0) is the second point of X on X_4 = 0; it is the chart-escape locus of the (a,v,b) chart and explains why ben6's fibre polynomial at t0 = 2 has degree 4 and fails shape position",
+  "phi_over_s9_series": [
+   "-27/2",
+   "0",
+   "0",
+   "0",
+   "-2187/16",
+   "0",
+   "-6561/32",
+   "0",
+   "-741393/512",
+   "-729/8",
+   "-2027349/512",
+   "0"
+  ]
+ },
+ "part_DC21_and_DIR": {
+  "why": "T-4 (DIR) is the sign carrier; its non-circular pin is VACUOUS at chi = +-1 and the measurement primes 19/37/73 all have chi = 1. DC-21 is the only instrument that touches DIR with real data (ruling 1812 C2 / W-C7).",
+  "K20_pin": {
+   "1": {
+    "rho_inv_SH_rho": "SH^1",
+    "rho_SH_rho_inv": "SH^1",
+    "selected": "dir1/dir2"
+   },
+   "2": {
+    "rho_inv_SH_rho": "SH^2",
+    "rho_SH_rho_inv": "SH^5",
+    "selected": "dir1"
+   },
+   "4": {
+    "rho_inv_SH_rho": "SH^4",
+    "rho_SH_rho_inv": "SH^7",
+    "selected": "dir1"
+   },
+   "5": {
+    "rho_inv_SH_rho": "SH^5",
+    "rho_SH_rho_inv": "SH^2",
+    "selected": "dir1"
+   },
+   "7": {
+    "rho_inv_SH_rho": "SH^7",
+    "rho_SH_rho_inv": "SH^4",
+    "selected": "dir1"
+   },
+   "8": {
+    "rho_inv_SH_rho": "SH^8",
+    "rho_SH_rho_inv": "SH^8",
+    "selected": "dir1/dir2"
+   }
+  },
+  "K20_e0_cancels_from_both_expressions": true,
+  "DC-21": {
+   "pass": true,
+   "control_layers": [
+    2,
+    3,
+    5,
+    6,
+    11,
+    12,
+    14,
+    15
+   ],
+   "dir1_one_hit_per_layer": {
+    "2": 9,
+    "3": 9,
+    "5": 9,
+    "6": 9,
+    "11": 9,
+    "12": 9,
+    "14": 9,
+    "15": 9
+   },
+   "dir2_one_hit_per_layer": {
+    "2": 0,
+    "3": 0,
+    "5": 0,
+    "6": 0,
+    "11": 0,
+    "12": 0,
+    "14": 0,
+    "15": 0
+   },
+   "dir2_zero_hit_per_layer": {
+    "2": 9,
+    "3": 9,
+    "5": 9,
+    "6": 9,
+    "11": 9,
+    "12": 9,
+    "14": 9,
+    "15": 9
+   },
+   "monomial_layers_are_vacuous": {
+    "0": [
+     9,
+     9
+    ],
+    "8": [
+     9,
+     9
+    ],
+    "9": [
+     9,
+     9
+    ],
+    "17": [
+     9,
+     9
+    ]
+   }
+  },
+  "four_readings_x_directions": {
+   "B_dir1": {
+    "one_hit_cells": 108,
+    "zero_hit_cells": 0
+   },
+   "B_dir2": {
+    "one_hit_cells": 36,
+    "zero_hit_cells": 72
+   },
+   "A_dir1": {
+    "one_hit_cells": 12,
+    "zero_hit_cells": 96
+   },
+   "A_dir2": {
+    "one_hit_cells": 4,
+    "zero_hit_cells": 104
+   }
+  },
+  "K19": {
+   "B_dir1_gives_a_plus_e0": true,
+   "B_dir2_gives_a_minus_e0": false
+  },
+  "VERDICT": "PASS -- in all 8 layers with chi != +-1, dir1 gives exactly 1 census hit in 9/9 cells and dir2 gives 0 hits in 9/9 cells. W-C7 does NOT fire. eps_B = +1 may stand.",
+  "explicit_prime_run": {
+   "prime": 7,
+   "chi": 7,
+   "layer_m": 3,
+   "c0_mod_p": 4,
+   "pi_hit_1based": [
+    5,
+    8,
+    4,
+    6,
+    9,
+    3,
+    2,
+    7,
+    1
+   ],
+   "gates": {
+    "a_single_hit": true,
+    "b_non_monomial": true,
+    "c_L_shift_moves": {
+     "pass": true,
+     "count": 6
+    },
+    "d_DC21_dir2_zero": true,
+    "e_root_prime_recorded": true
+   }
+  }
+ },
+ "part_G_C9": {
+  "verdict": "PASS",
+  "gates": {
+   "a_single_hit": true,
+   "b_non_monomial": true,
+   "c_L_shift_moves": {
+    "pass": true,
+    "count": 6
+   },
+   "d_DC21_dir2_zero": true,
+   "e_root_prime_recorded": true
+  },
+  "control_prime": 7,
+  "chi": 7,
+  "layer_m": 3,
+  "root_prime_P": {
+   "gamma_min_poly_over_Fp": "X^9 + 3",
+   "gamma_min_poly_coeffs_asc": [
+    3,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    1
+   ],
+   "residue_field": "F_7^9",
+   "X9_minus_c0_factorisation": [
+    "X^9 + 3"
+   ],
+   "canonical_factor_rule": "smallest by (degree, coefficient vector)",
+   "zeta_9bar_as_poly_in_gamma": "X^3",
+   "zeta_9bar_min_poly_over_Fp": "X^3 + 3",
+   "zeta_9bar_equals": "(gamma^{p-1})^5",
+   "reading": "zeta_9bar^{e0} = gamma^{p-1}",
+   "e0": 2,
+   "e0_mod_3": 2
+  },
+  "note": "(e) is ruling 1812 C7: without a recorded prime P | p of L = Q(zeta_9, c0^{1/9}) the chi != 1 control is not reproducible, because a different 9th root shifts e0 by (chi-1)j."
+ },
+ "part_G_C0": {
+  "pass": true,
+  "group_order": 504,
+  "centraliser_S9": 1,
+  "selftest": {
+   "orders_9_9_9": true,
+   "XYZ_ben1_is_id": true,
+   "zyx_census_is_id": true,
+   "Zben1_ne_zcensus": true,
+   "L_pin_i_SH_to_Xbar": true,
+   "L_pin_ii_INV_to_RMIR": true,
+   "X_geom_is_SH": true,
+   "Y_geom_value": true,
+   "Zgeom_Ygeom_SH_is_id": true
+  }
+ },
+ "part_G_C5prime_kappa": {
+  "pass": true,
+  "kappa_from_Thm43": {
+   "0": 0,
+   "2": 7,
+   "3": 4,
+   "5": 6,
+   "6": 3,
+   "8": 1,
+   "9": 1,
+   "11": 3,
+   "12": 6,
+   "14": 4,
+   "15": 7,
+   "17": 0
+  },
+  "kappa_from_census": {
+   "0": [
+    0
+   ],
+   "2": [
+    7
+   ],
+   "3": [
+    4
+   ],
+   "5": [
+    6
+   ],
+   "6": [
+    3
+   ],
+   "8": [
+    1
+   ],
+   "9": [
+    1
+   ],
+   "11": [
+    3
+   ],
+   "12": [
+    6
+   ],
+   "14": [
+    4
+   ],
+   "15": [
+    7
+   ],
+   "17": [
+    0
+   ]
+  },
+  "X_18_rederived": [
+   0,
+   2,
+   3,
+   5,
+   6,
+   8,
+   9,
+   11,
+   12,
+   14,
+   15,
+   17
+  ],
+  "full_product_structure": true
+ },
+ "part_G_C8": {
+  "pass": true,
+  "layer": 17,
+  "pi": "identity",
+  "limitation": "BR-3 forces e0(c.c.)=0; the gate never exercises the sign"
+ },
+ "part_controls": {
+  "DC-16prime": {
+   "pass": true,
+   "changed_b_count_per_layer": {
+    "0": 0,
+    "2": 8,
+    "3": 6,
+    "5": 8,
+    "6": 6,
+    "8": 8,
+    "9": 0,
+    "11": 8,
+    "12": 6,
+    "14": 8,
+    "15": 6,
+    "17": 8
+   }
+  },
+  "DC-11prime2": {
+   "pass": true,
+   "table": {
+    "1": {
+     "u_inv": 1,
+     "u_inv_mod3": 1,
+     "both": "NN-12",
+     "one_side": "NN-12"
+    },
+    "2": {
+     "u_inv": 5,
+     "u_inv_mod3": 2,
+     "both": "NN-12",
+     "one_side": "NN-09"
+    },
+    "4": {
+     "u_inv": 7,
+     "u_inv_mod3": 1,
+     "both": "NN-12",
+     "one_side": "NN-12"
+    },
+    "5": {
+     "u_inv": 2,
+     "u_inv_mod3": 2,
+     "both": "NN-12",
+     "one_side": "NN-09"
+    },
+    "7": {
+     "u_inv": 4,
+     "u_inv_mod3": 1,
+     "both": "NN-12",
+     "one_side": "NN-12"
+    },
+    "8": {
+     "u_inv": 8,
+     "u_inv_mod3": 2,
+     "both": "NN-12",
+     "one_side": "NN-09"
+    }
+   }
+  },
+  "DC-19": {
+   "pass": true,
+   "readingA_dir1_zero_hits": 96,
+   "readingA_dir2_zero_hits": 96
+  },
+  "CONT-1": {
+   "pass": true
+  },
+  "CONT-2": {
+   "pass": true
+  }
+ },
+ "part_corrections": {
+  "CC-11": {
+   "target": "spec v1.2 sec.2.8 K-19 (and the table in sec.3.4')",
+   "old": "'B x dir2 -> a = -e0 (36/36 cells with exactly 1 hit)'",
+   "new": "The count 36/36 is correct. The sign statement is NOT: B x dir2 gives a = -e0 only on the 18 cells with chi = +1 (layers m = 0, 9). On the 18 cells with chi = -1 (layers m = 8, 17) dir2 gives a = +e0, the SAME as dir1.",
+   "proof": "for chi = -1 the label map rho_lab : j -> -j - e0 is an INVOLUTION, so rho = rho^-1 and the dir1 and dir2 right-hand sides rho^-1 Ybar rho and rho Ybar rho^-1 are literally the same permutation. At chi = -1 DIR is vacuous not merely as a pin but as a DISTINCTION.",
+   "machine": "connect_ben1_arch_out.txt, block 'monomial layers: value of a'",
+   "already_visible_in": "the second prescout's own output fal_c2_bits_out.txt B1 says 'mixed/none' for B x dir2, and fal_c2_bits2_out.txt B6 prints the m=8 / m=17 rows as +e0. The v1.2 PROSE over-summarised machine output that was already finer.",
+   "impact_on_conclusions": "NONE. The measurement primes 19/37/73 sit in layer m = 9 (chi = +1) where dir1 and dir2 genuinely differ (+e0 vs -e0), so the DIR bit is live exactly where it matters, and DC-21 kills dir2 in the chi != +-1 layers.",
+   "sharpened_statement": "the three regimes are disjoint: chi = +1 -> DIR distinction LIVE, DIR pin VACUOUS (this is the measurement layer); chi = -1 -> distinction DEAD and pin VACUOUS; chi != +-1 -> distinction LIVE and pin NON-VACUOUS (this is DC-21). This is a sharper reason why DC-21 is indispensable."
+  },
+  "CC-12": {
+   "target": "spec v1.2 sec.3.8.2 residual declaration and sec.8 UC-3''",
+   "old": "'[G-C2] inspects the two out-of-code steps TOGETHER'",
+   "new": "[G-C2] CLOSES step (i) and does NOT close step (ii). Step (i) (complex conjugation acts as rho_mir) is now MEASURED: conjugating the 9 tracked fibre points over the rational base point permutes the labels by INV exactly. Step (ii) (the GT normalisation x = gamma_0) survives: among the 6 orderings of the MEASURED monodromy triple, exactly two pass the analytic+mirror pins, and they differ by swapping gamma_0 and gamma_1. Geometry cannot decide which of them the CENSUS's symbol x denotes.",
+   "machine": "connect_ben1_conn_out.txt, steps 5b and 5d",
+   "impact": "UC-3'' shrinks from 2 out-of-code steps to 1. eps_B still depends on it."
+  },
+  "CC-13": {
+   "target": "spec v1.2 sec.3.8.1, paragraph 'T-1 の独立な構造的裏付け(census 所属を使わない)'",
+   "old": "'reading A is excluded by combining the BelyiDB relator with the census z convention, independently of census membership'",
+   "new": "That argument carries a hidden path convention of its own and should be DOWNGRADED from 'independent structural backup' to 'consistency check under a declared lasso convention'. Measured fact: the loop around infinity is a big circle joined to t* by a TAIL, and the tail's homotopy class is free. With the tail through the UPPER half-plane the geometric triple satisfies Xbar*Ybar*Z = id with Z = (Xbar*Ybar)^-1 = the ben1 relator; with the tail through the LOWER half-plane it satisfies Z*Ybar*Xbar = id with Z = (Ybar*Xbar)^-1 = the census relator. BOTH were measured on the same model.",
+   "machine": "connect_ben1_conn_out.txt, step 5c",
+   "impact_on_conclusions": "NONE for the sign of a: the (star) pipeline uses only Xbar, Ybar and pi_m and never uses z. Reading B continues to rest on the four VERBATIM producer citations A-0/A-1/A-2/A-4, which are statements about how the workshop's code evaluates paper words and are untouched by geometry. But sec.3.8.1's extra paragraph should no longer be counted as independent evidence.",
+   "positive_content": "this makes CC-8 concrete: the two mirror relator conventions are not a bookkeeping quirk, they are the two lasso tails, and both are legitimately 'the loop around infinity'."
+  }
+ },
+ "not_reached": [
+  "eps_D and [CONN-DIH] (ben2, [G-C7]) -- the single remaining measurement bit",
+  "the 3-prime run p = 19, 37, 73 (ben2)",
+  "SELECT: NOT declared, NOT hinted (ruling 1730 / ben1 dispatch)",
+  "DC-20 (the u0 trap) and DC-9/DC-10'/DC-13/DC-17: they need the SELECT pipeline (ben2)",
+  "T-3 / UC-5': the original 2401.06870 sec.3 wording of T_{m,f} (still unread)",
+  "UC-5: a citable source for Lemma BR (still an own paper-proof)",
+  "any Lean formalisation (UC-8)"
+ ],
+ "unknowns": {
+  "UC-2_eps_D": "UNKNOWN -- the only remaining measurement bit; ben2",
+  "UC-3''_step_(ii)": "OPEN -- the GT normalisation x = gamma_0 is neither in the producer code nor in the definition note; geometry cannot supply it (see part_corrections CC-12)",
+  "UC-5_Lemma_BR_citation": "UNKNOWN in the corpus (literature request 1 stands)",
+  "UC-5'_T-3": "UNKNOWN -- original wording of 2401.06870 sec.3 not read",
+  "UC-9": "CLOSED by DC-21 in this ben (dir2 returns 0 hits in all 8 control layers)"
+ },
+ "grade": "candidate / cross-checked (NOT verified -- verified is reserved for Lean)",
+ "artifacts": {
+  "scratchpad/connect_ben1_conv.py": "2336cece326487bd",
+  "scratchpad/connect_ben1_c0.py": "74edce1f2f0fbcf2",
+  "scratchpad/connect_ben1_conn.py": "9be64f82ead45d84",
+  "scratchpad/connect_ben1_arch.py": "21c5a75b60ebc553",
+  "scratchpad/connect_ben1_gc9.py": "50c29e2488604c5f",
+  "scratchpad/connect_ben1_robust.py": "71b5807053273d6e",
+  "scratchpad/connect_ben1_cert.py": "10a0122ac8072924",
+  "scratchpad/connect_ben1_conv_out.txt": "65bdf7a7fd3a372f",
+  "scratchpad/connect_ben1_c0_out.txt": "17b7c723c876e52b",
+  "scratchpad/connect_ben1_c0_out.json": "c80b1ad51774ceeb",
+  "scratchpad/connect_ben1_conn_out.txt": "d7894b9189ef5a20",
+  "scratchpad/connect_ben1_conn_out.json": "373bf947608dc80e",
+  "scratchpad/connect_ben1_arch_out.txt": "8ac5cda130aff347",
+  "scratchpad/connect_ben1_arch_out.json": "a64fbcc8f48fb31b",
+  "scratchpad/connect_ben1_gc9_out.txt": "ecbec9c88db8d0ba",
+  "scratchpad/connect_ben1_gc9_out.json": "79b9f0928d7bee79",
+  "scratchpad/connect_ben1_robust_out.txt": "17c8c00ce6fb77d4",
+  "scratchpad/connect_ben1_robust_out.json": "93d19373840f2faa"
+ },
+ "generated_by": {
+  "script": "scratchpad/connect_ben1_cert.py",
+  "software": "python 3.13 (fractions/integers, exact) + mpmath 1.3.0 (dps 60, seeds and cross-check) + IEEE double complex (path tracking core)",
+  "note": "every numeric value in this certificate is copied programmatically from the *_out.json machine outputs listed in artifacts; nothing was typed by hand.",
+  "runtime": "all five scripts complete in well under one minute each on the 8GB box"
+ }
+}
