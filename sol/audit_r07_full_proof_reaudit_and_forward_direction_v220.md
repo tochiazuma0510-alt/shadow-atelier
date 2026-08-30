@@ -11206,6 +11206,153 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE** and A9 **0/3 actual**.  No compatible
   lift, fake numerator or Ihara witness is promoted.
 
+### Delta 277 (2026-08-30): exact lazy boundary separation is live and the successor criterion is fixed
+
+- The compact A0 owner now keeps the full translated PB boundary image lazy.
+  For a current separating dual \(\lambda\), each supported target coordinate
+  \(g\), and each term \(h\) of the fifteen registered base boundaries, it
+  reconstructs the only possible translate
+
+  \[
+    t=gh^{-1}.
+  \]
+
+  Contributions with the same tagged `(block, base relation, t)` are summed
+  before testing, so characteristic-three cancellation is retained.  A
+  surviving scalar returns that exact translated boundary column.  If none
+  survives, \(\lambda\) annihilates the entire translated boundary span.
+  This is an exact separation oracle for the boundary side; it builds neither
+  the PB3 nor the PB4 global closure.
+- Task413's bounded positive owner was committed at
+  `101e41a771a4d878e640e7402c399e6550f3d52a`.  Its correction columns carry
+  the mandatory normalized coordinates
+  `(epsilon_x/18, epsilon_y/18) mod 3`; boundary and target columns carry
+  zero.  Every dual-changing rank rise resets the correction cursor, and
+  scan/resource stops write a sealed checkpoint.
+- GHA run `33298764612`, job `99222876015`, was dispatched on that exact
+  head.  The correction schedule is the finite length-at-most-six shortlex
+  discovery schedule over the 44 compact relators.  Consequently a hit is
+  deliberately typed `COMMON_CANDIDATE` pending strict all-seven replay, and
+  schedule exhaustion is `UNKNOWN_RESOURCE`, never NONMEMBER.
+- Added `proof_r07_instruction_tree_relative_layer_lift_v395.md`.  It replaces
+  v394's rejected common-action reduction by a source instruction tree whose
+  eleven occurrence evaluations retain their distinct actor paths.  For
+  adjacent levels it proves the exact lift criterion
+
+  \[
+    B_{n+1}(\ker r^D_n)=\ker r^L_n,
+  \]
+
+  and the explicit recursion
+
+  \[
+    c_{n+1}=s_n(c_n)+h_n\bigl(t_{n+1}-B_{n+1}s_n(c_n)\bigr)
+  \]
+
+  once a word-bearing right inverse \(h_n\) is supplied.  For the actual
+  \(\chi_{07}\) class the weaker necessary-and-sufficient test is membership
+  of its recursively produced defect in the restricted image.  The actual
+  relative-kernel equality/right inverse remains an A4/A9 finite gate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 RUNNING** on run `33298764612`; no candidate or accepted
+  word has yet been returned.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+  A2's last actual specialization still waits on the A0 word.
+- A4 remains **1/3 UNKNOWN_RESOURCE**, with the canonical durable row-25
+  state retained.  Its delta-checkpoint pin repair is independent and in
+  progress.
+- A5--A8 remain **0/3 actual** because their executable bridges still lack
+  actual upstream words.  A9 remains **0/3 actual**: v395 closes the abstract
+  one-step implication, not any actual tower edge.  B, C, W and F remain
+  **0/3 actual**.
+- No compatible lift, fake numerator, or Ihara witness is promoted.
+
+### Delta 275 (2026-08-30): first compact-owner production run reaches the B3 resource boundary
+
+- The compact v396--v400 owner was published at exact head
+  `1139493b319772d4cba3a0e18fb03226c940d785` and dispatched through generic
+  GHA run `33292395288`, job `99206202451`.  The workflow and independent
+  fail-closed envelope completed, but the mathematical producer terminal was
+
+  ```text
+  UNKNOWN_RESOURCE
+  reason = seconds:B3_actions
+  B3 rank = 211363
+  B3 cursor = 52992
+  RSS = 1142501376 bytes
+  elapsed = 5974.733 seconds
+  ```
+
+  Thus workflow success is not A0 success and supplies neither MEMBER nor
+  NONMEMBER.
+- Artifact `9727439619` contains the 116,207-byte producer receipt
+  (SHA-256
+  `1e94eda388c75344f98b8122d31de78f4835e3fbace756423b2847f370affda2`),
+  the checker PASS envelope and the live log.  The checker accepted only the
+  typed UNKNOWN receipt; `full_replay=false`.
+- The run stayed near 1.14 GB rather than reproducing the legacy 14.5 GB
+  parent-plus-workers terminal, so the compact owner fixes the old memory
+  architecture.  It nevertheless wrote no boundary checkpoint before the
+  time stop.  Therefore the 52,992 processed frontier entries are measured
+  progress but are not a durable resume point.  The missing checkpoint is an
+  implementation defect, not evidence that the accepted set is empty.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE**.  The compact 44-word roster has now
+  entered actual production and B3 growth is measured, but no accepted A0
+  terminal exists.
+- A4 remains **1/3 UNKNOWN_RESOURCE, DURABLE `next_row=25`** and A9 remains
+  **0/3 actual**.  No compatible lift, fake numerator or Ihara witness is
+  promoted.
+
+### Delta 276 (2026-08-30): PB3 boundary closure has a closed-form central-orbit quotient
+
+- Added
+  `proof_r07_a0_pb3_central_orbit_direct_quotient_v401.md`, 8,914 bytes,
+  SHA-256
+  `2d7dc89136b5c1bb6905aa1502cc0e74c257f1d7763c046d7e81a38a3d81e82a`.
+  The registered PB3 presentation is Tietze equivalent to
+
+  \[
+  PB_3=\langle b,c,z\mid[b,z],[c,z]\rangle,
+  \qquad z=A_{12}A_{13}A_{23}.
+  \]
+
+  In the actual matched E3 candidate reconstruction, (z\) has trivial
+  coarse permutation part and order three.  Independent receipt replay of
+  that finite specialization remains an implementation gate.
+- For every three-point central orbit
+  (O_r=\{r,rz,rz^2\}\), v401 eliminates the (b,c\) orbit differences by
+  two explicit commutator columns, then retains two differences of the
+  (z\)-coordinate and one global characteristic-three scalar.  The resulting
+  sparse map satisfies
+
+  \[
+  \boxed{\ker\Pi_3=D_3},
+  \]
+
+  where (D_3\) is the full span of all translated PB3 presentation
+  boundaries.  Its induced action is
+  `Pi3 -> canonical sparse lift -> left translate -> Pi3`; no global PB3
+  echelon is needed.
+- Consequently the measured 211,363-rank B3 closure can be removed after the
+  bounded Tietze/order/action gates.  Every E3 occurrence is then reduced in
+  time proportional to its sparse support.  This is exact for positive and
+  negative decisions; it is not a prefix heuristic.  B4 is not solved by
+  v401 and remains the next analogous triangular-contraction problem.
+
+**v220 mapping**:
+
+- A0 remains **0/1 UNKNOWN_RESOURCE** because the direct PB3 quotient is
+  paper grade and the B4/correction closures have not produced a terminal.
+  Relative to Delta275, one demonstrated production bottleneck now has an
+  exact closed-form replacement rather than only a resume plan.
+- A4 remains **1/3 UNKNOWN_RESOURCE** and A9 **0/3 actual**.  No compatible
+  lift, fake numerator or Ihara witness is promoted.
+
 ### Delta 274 (2026-08-30): discharge the occurrence-boundary quotient gate before A0 closure
 
 - Added
@@ -11246,3 +11393,39 @@ single transport repair required before continuation; it does not count the
   rather than the unquotiented occurrence closure.
 - A4 remains **1/3 UNKNOWN_RESOURCE** and A9 **0/3 actual**.  No compatible
   lift, fake numerator or Ihara witness is promoted.
+
+### Delta 278 (2026-08-30): A0 launch faults are removed and the exact lazy run is relaunched
+
+- Run `33298764612` did not enter Python: PowerShell dispatch quoting removed
+  the quotes around a redundant GAP preamble value.  Run `33298867921`
+  removed that preamble and reached the producer, but stopped immediately
+  with the typed terminal
+
+  ```text
+  UNKNOWN
+  reason = pin_mismatch:search/d972_r07_a0_compact_pc_invariant_owner_v1.py
+  ```
+
+  The task411 owner pinned by task413 was complete in the local tree but had
+  not been included in the preceding commit.  Neither run performed an A0
+  search, and neither terminal changes the mathematics.
+- Commit `6913dcbcc882d897c55e71744f1fff095c039160` publishes that exact task411
+  dependency.  The focused audit also removed an unused occurrence-support
+  pass which lacked the full section ABI and did not affect the scalar test.
+  The boundary oracle now updates sparse rows in place, discards inactive
+  contributor histories, counts examined support pairs, and writes one full
+  checkpoint only on the controlled resource stop instead of serializing the
+  echelon every sixty seconds.
+- The repaired A0 computation is GHA run `33299110020`, job `99223789860`, on
+  that exact head.  Its production path still uses the complete lazy
+  translated-boundary separation oracle and the bounded positive correction
+  schedule; no PB3/PB4 closure or SELFTEST precedes it.
+
+**v220 mapping**:
+
+- A0 is **0/1 RUNNING** on `33299110020`.  The two preceding launch/pin
+  terminals are not counted as mathematical progress or as evidence of
+  absence.
+- A1 is **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3 UNKNOWN_RESOURCE**;
+  A5--A9 and B/C/W/F have no new actual numerator.  No compatible lift,
+  fake numerator, or Ihara witness is promoted.
