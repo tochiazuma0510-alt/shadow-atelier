@@ -47,3 +47,22 @@ No production search, GHA dispatch, commit, or push was performed.
 The driver pins the exact producer/checker bytes and SHA values, uses distinct v9 input/output checkpoint names, preserves the 4.8 GB cap and live tee logs, and rejects stale output checkpoints.
 
 V9_LOCAL_NO-GO: Windows same-handle identity gate prevented the mandated bootstrap smoke from certifying the two markers; code is ready for Linux GHA verification after the namespace fix.
+
+## Parent Linux-GHA adjudication and dispatch
+
+Independent Sol audit found the v9 namespace correction, unchanged v8 memory
+logic, exact pins and fresh driver **GO for Linux GHA**.  The Windows
+same-handle stop above is platform-specific and remains honestly recorded.
+
+- superseded fail-closed run: `33317727481` / job `99274129809`, commit
+  `b7225a9d59495e19ab8a2d146a473e9254a91f62`, result `UNKNOWN`, reason
+  `"'load'"`, no checkpoint and no search work;
+- v9 dispatch commit: `530a29014fc0de20176d4f41a5032ffa787e973f`;
+- branch: `sol/r07-explicit-lift-20260825`;
+- workflow: `gap-run.yml`;
+- run id: `33318299384`;
+- job id: `99275661576`;
+- script: `search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v9.g`;
+- fresh input checkpoint: absent;
+- timeout: owner `9000` seconds; workflow `180` minutes;
+- initial state at dispatch: `in_progress`.
