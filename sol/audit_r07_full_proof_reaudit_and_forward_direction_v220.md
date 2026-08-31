@@ -13088,3 +13088,36 @@ single transport repair required before continuation; it does not count the
   no numerator.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 310 (2026-09-01): direct Q0 and three membership indices complete
+
+- Run `33407759683`, job `99539479086`, passed both known bootstrap ABI
+  boundaries and completed every 44 weighted formula.  It then built the
+  complete 1,469,664-state Q0 roster and scanned all 1,469,664 states in each
+  of S0, S1, and S2.  Formula completion to all four finite scans took about
+  51 seconds.  This is the first actual execution of the direct selector
+  runtime beyond formula compilation; no occurrence or boundary closure was
+  called.
+- The first singleton reconstruction stopped fail-closed with exact reason
+  `selective singleton replay`.  The pinned Task179 reference shows the
+  precise omitted condition: its coarse 36-byte inverse lookup is followed by
+  equality against the stored full 40-byte E-key; Task436 v1 replayed the
+  coarse match directly.  A coarse-equal/full-unequal row is not a valid
+  section witness and must simply be skipped.  Task439 v4 restores this exact
+  guard before word construction; it changes no dual, formula, Q0 state,
+  membership table, fibre order, or status gate.
+- Artifact `9764203230` has uploaded zip SHA-256
+  `257ad1a8dee6318db9980cbfb4fccd42444da3153d5714c7c5dbb54ec1ce921a`.
+  Its 212-byte result JSON has SHA-256
+  `f264ef2a31a221ea504edb521124b497c91b32b95deb4e2f3e0ea58c2f0b0858`.
+  There was no ACTIVE, EMPTY, resource-cap, or memory result.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task439 EXACT-SECTION HOTFIX ACTIVE**.  Relative to
+  Delta309, the direct finite Q0 and all three required membership indices are
+  now empirically complete and fast.  The only current blocker is a one-line
+  full-key guard at the first fibre witness reconstruction; the 588-year
+  occurrence lane remains operationally NO-GO and off-path.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.

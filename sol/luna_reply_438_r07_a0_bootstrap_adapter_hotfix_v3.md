@@ -46,3 +46,23 @@ The parent committed and pushed the audited v3 source as
 The run is the direct current-dual selector.  It does not resume or rebuild
 the operationally rejected occurrence closure.  Result classification and
 artifact hashes remain pending.
+
+## Parent broker result
+
+Run `33407759683`, job `99539479086`, ended after 9m48s.  It passed both
+bootstrap repairs, rebuilt all 44 formulae, completed all 1,469,664 Q0 states,
+and completed the S0, S1, and S2 membership scans.  Thus the direct finite
+objects are now measured and built in seconds after formula compilation; the
+588-year occurrence closure is not involved.
+
+The first singleton reconstruction then returned fail-closed `UNKNOWN` with
+exact reason `selective singleton replay`.  Comparison with the pinned
+Task179 reference localizes this to one omitted guard: after a 36-byte coarse
+permutation lookup, v1 did not reject a different full 40-byte E-key before
+word replay.  There is no ACTIVE, EMPTY, resource-cap, or memory result.
+
+Artifact `9764203230` (uploaded zip SHA-256
+`257ad1a8dee6318db9980cbfb4fccd42444da3153d5714c7c5dbb54ec1ce921a`)
+contains the 212-byte result JSON at SHA-256
+`f264ef2a31a221ea504edb521124b497c91b32b95deb4e2f3e0ea58c2f0b0858`.
+Versioned Task439 v4 restores only the reference full-key equality guard.
