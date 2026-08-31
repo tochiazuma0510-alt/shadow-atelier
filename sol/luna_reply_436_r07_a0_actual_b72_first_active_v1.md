@@ -73,3 +73,16 @@ checkpoint records compact counters, digests, and phase, but there is no
 mid-run resume path.  An interrupted selective scan therefore remains
 `UNKNOWN_RESOURCE` and is rebuilt from the authenticated prefix on a later
 run.
+
+## Parent broker dispatch
+
+- committed and pushed source commit
+  `695310b7a7c28462145fe3827eb5181869020701` on
+  `sol/r07-explicit-lift-20260825`;
+- dispatched unchanged `gap-run.yml` as run `33403284390`, job
+  `99524587327`;
+- inputs: driver
+  `search/d972_r07_a0_actual_b72_first_active_gha_driver_v1.g`, external
+  preamble `D972_R07_A0_ACTUAL_B72_FIRST_ACTIVE_V1_RUN:=true;;`, output
+  directory `ci/out`, job timeout 90 minutes;
+- production/checker result: pending at dispatch record time.

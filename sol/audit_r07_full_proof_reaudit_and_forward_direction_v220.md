@@ -12980,3 +12980,25 @@ single transport repair required before continuation; it does not count the
   resumed as the completion strategy.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 306 (2026-08-31): Task436 dispatched on the audited source
+
+- Parent broker committed and pushed Task436 at
+  `695310b7a7c28462145fe3827eb5181869020701` on
+  `sol/r07-explicit-lift-20260825` and dispatched unchanged generic
+  `gap-run.yml` as run `33403284390`, job `99524587327`.  The job uses the
+  externally gated Task436 driver, `ci/out`, and a 90-minute workflow cap;
+  the producer retains its 2,400-second and 4.8-GB fail-closed caps.
+- The run is the 72-point/current-dual positive selector, not continuation of
+  the rank-1,985 occurrence closure.  Its result and artifact hashes remain
+  pending.  Dispatch itself changes no mathematical numerator.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task436 RUNNING**.  Relative to Delta305, the
+  audited implementation has moved from dispatch-ready to the actual GHA
+  computation.  The next accepted event is checked `ACTIVE_COLUMN_READY`
+  with rank `[43,44]`; cap/exhaustion without independent EMPTY remains
+  `UNKNOWN_RESOURCE`.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
