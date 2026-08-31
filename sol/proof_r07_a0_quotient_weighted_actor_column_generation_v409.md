@@ -289,7 +289,7 @@ exhaust.
 
 Every row returned in steps 3 or 4 pairs nontrivially with a dual which
 annihilates the current echelon, so its insertion strictly raises physical
-rank.  The ambient (ar Z) is finite-dimensional.  If the target never
+rank.  The ambient \(\bar Z\) is finite-dimensional.  If the target never
 becomes zero, the process reaches a dual for which neither oracle returns a
 row.  V404 then proves annihilation of all of (D_0), and Theorem 4.1 proves
 annihilation of the complete correction span.  Since the same dual is

@@ -80,4 +80,41 @@ The parent broker committed and pushed the audited files at
 `cadbe6eda7159889279fbf63c24641d026df97d9`, then dispatched the unchanged
 generic `gap-run.yml` workflow as run `33391325650`.  Inputs were the driver
 above, its exact external preamble, `out_dir=ci/out`, and
-`timeout_min=60`.  Production result and artifact remain pending.
+`timeout_min=60`.
+
+The run completed successfully.  Producer and checker both passed.  The
+producer's computational prefix took 108.573 seconds; the whole GHA job,
+including the independent reconstruction, took about 204 seconds after GAP
+setup.  Artifact `9757686821` contains:
+
+| item | bytes | SHA-256 |
+|---|---:|---|
+| result JSON | 172,845,608 | `b317d5207d9e37553e78190916a5afddc7bd404f4cdd52fdb04847c32b24b99d` |
+| resource checkpoint | 695,382,832 | `bc129172ad2471c5daebeb3d821f963b01c750febc3fcd606cedd8bde3032594` |
+| producer log | 5,938 | `38ece6ea780d68b25ba955f5387eceb15f62254d0ef246375279fe14442ae0f4` |
+| checker log | 50 | `b129b3b0bdbf8b5c2d997564c7ca178b7d05850fbb1d31aa25a80579f29371f4` |
+
+Cross-checked actual result:
+
+```text
+terminal                              PROFILE_READY
+identity compact attempted/retained   44 / 43
+physical rank / payload nnz            43 / 1,813,674
+v404 candidates/retained/final         0 / 0 / EMPTY
+dual support                           24
+dual key roster                        24 x (PB3 block 1, label b, blob 40)
+dual digest                            c75895737537f157fbbfedcdc2c41ed31c8bf0ca9bddda060079ffcda7604efd
+dual/remainder pairing                 1
+tau coefficients                       0,0,0
+normalized exponent coefficients       0,0
+```
+
+The `support_by_label` values in the JSON are coefficient sums modulo three;
+the 24-key roster above was obtained by parsing every framed dual key and is
+not inferred from that sum.
+
+The result is computationally small but the v1 serializer unnecessarily
+duplicates the 43 full physical rows in both JSON and checkpoint, producing
+the large sizes above.  This does not affect the checked mathematics, but it
+is not reused as an artifact pattern: Task436 rebuilds the 108-second prefix
+and serializes only digests, formula records, and a selected literal source.

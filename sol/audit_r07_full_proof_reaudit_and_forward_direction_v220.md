@@ -12779,3 +12779,204 @@ single transport repair required before continuation; it does not count the
   dense occurrence closure is not the fallback.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
   or Ihara witness is promoted by this delta.
+
+### Delta 302 (2026-08-31): actual dual is tau-free and collapses to 72 PB3 points
+
+- Task435 run `33391325650`, job `99485397200`, completed successfully at
+  source commit `cadbe6eda7159889279fbf63c24641d026df97d9`.  Producer and
+  independently rebuilding checker both passed.  The actual prefix took
+  108.573 seconds and has
+
+  ```text
+  identity compact attempted/retained   44 / 43
+  physical rank / payload nnz            43 / 1,813,674
+  v404 candidates/retained/final         0 / 0 / EMPTY
+  normalized dual support                24
+  dual key roster                         24 x (block 1, label b, blob 40)
+  tau coefficients                        0,0,0
+  normalized exponent coefficients        0,0
+  dual/remainder pairing                  1
+  dual digest                              c75895737537f157fbbfedcdc2c41ed31c8bf0ca9bddda060079ffcda7604efd
+  ```
+
+  Thus the measured v410 gate is decisively tau-free.  All 24 keys are PB3
+  block-1 `b` keys; the JSON `support_by_label` field is only a coefficient
+  sum modulo three and was not misread as a support count.
+- Artifact `9757686821` has a 172,845,608-byte result JSON at SHA-256
+  `b317d5207d9e37553e78190916a5afddc7bd404f4cdd52fdb04847c32b24b99d`
+  and a 695,382,832-byte checkpoint at SHA-256
+  `bc129172ad2471c5daebeb3d821f963b01c750febc3fcd606cedd8bde3032594`.
+  Those sizes are serializer overhead: v1 duplicated the 43 full source rows.
+  The checked result is valid, but subsequent tasks explicitly rebuild the
+  108-second prefix and persist only digests/formulae/literal selections.
+- Added `proof_r07_a0_actual_b_dual_72_point_reduction_v412.md`.  For a
+  noncentral quotient key, v12 `contract` gives exactly
+
+  \[
+    N^*b(r)^*=\sum_{j=0}^2e_b(rz^j)^*.
+  \]
+
+  Therefore the actual quotient adjoint has at most (24\cdot3=72)
+  candidates, not the uniform v410 bound 360.  Pullback through the PB3
+  Tietze map has at most 144 old-coordinate candidates.  Since it remains
+  typed block 1, all 44 weighted formulae use only context coordinates
+  0,1,2, all have (K=0), and each singleton fibre has exact size nine.
+  The current-dual correction oracle is consequently a finite support-fibre
+  computation, not a Delta or occurrence scan.
+- Added `proof_r07_a0_actor_adapted_tau_phase_selector_v411.md` for later
+  rounds.  Even if a future dual has nonzero tau, an actor-adapted PB3 split
+  and the existing PB4 split reduce its full dependence to three
+  `exp_x mod 3` cell constants.  Dense tau adjoints are never the fallback.
+  This general theorem is not needed for the present tau-free round and still
+  awaits its separate implementation audit.
+- Issued Task436 to compile the 72-point adjoint, all 44 formulae, and the
+  first exact v142--v143 literal ACTIVE correction.  Its mechanical
+  implementation is delegated to the existing Luna owner.  Boundary
+  correlation, 6,441-row scans, occurrence closure, and global Delta scans
+  are forbidden.
+- Legacy positive probe run `33384440172` completed with
+  `UNKNOWN:positive_only_six_action_exhausted`; its 1,879-byte JSON has
+  SHA-256
+  `88b9cc0b3359e8ed866c6c374812becd989fc2535e6b857757b32c9a25449166`.
+  This is monotone nonpositivity of the rank-1655 prefix only, not A0
+  nonmembership.  Exact sequence-65 continuation run `33384438113` remains
+  in progress but is no longer on the A0 critical path.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but the direct route has crossed its first
+  numerical gate.  Relative to Delta301, the unknown adjoint size is now an
+  exact 24-key type and at most 72 new-coordinate points.  The next numerator
+  change is a rank-43-to-44 literal ACTIVE correction or a fully exhausted
+  exact separator; Task436 computes this directly.
+- The 588-year occurrence extrapolation is not being optimized or resumed as
+  the completion plan.  The measured direct prefix completed in minutes and
+  its remaining current-dual universe is finite singleton support.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 303 (2026-08-31): 72-point mathematics passes; selective-section and normalized-row gates fixed
+
+- The independent Task436 mathematical audit confirms the load-bearing
+  reductions: the actual quotient adjoint is exactly the three central phases
+  per `b(r)` key; the PB3 Tietze pullback has the displayed
+  `b@h += mu`, `a@(h*x^-1) -= mu` sign/orientation; only block-1 coordinates
+  0,1,2 occur; and every current formula has `K=0`.  It also accepts v411's
+  PB3/PB4 actor-phase table and tau invariance as mathematics.
+- The first implementation draft was rejected before commit or dispatch.  It
+  stopped unconditionally at a missing fibre adapter, and its checker accepted
+  that `UNKNOWN_RESOURCE` without rebuilding the adjoint/formula data.  It
+  therefore supplied no computation and no terminal evidence.
+- The audit isolated two concrete contract blockers.  First, task179
+  `build_runtime` necessarily executes task175 and reconstructs the complete
+  6,441-row roster, so permitting that function contradicted the new route's
+  prohibition.  Task436 now instead requires a local coordinate-0/1/2
+  task176 adapter: one shared Q0 enumeration, only three 40-byte section
+  stores, only `S0`--`S2` A/L/kernel data, and full ten-coordinate replay only
+  for selected literal words.  No task175 or 6,441-row path is allowed.
+- Second, task179's raw exponent-modulo-three occurrence row is not the v12
+  physical row.  Task436 now binds every ACTIVE digest, pivot, and rank rise
+  to v12 `seed_v12` plus exact actor replay, including
+  `N=(exp/18) mod 3`.  The formula scalar remains exponent-free because the
+  current dual has zero exponent coefficients, but this does not authorize
+  dropping normalized exponent coordinates from the rank test.
+- The final rise test must reduce against the live packed rank-43 echelon or
+  insert once and stop.  A deep copy of its 1,813,674 nonzeros and task435's
+  row-serializing checkpoint helper are forbidden.  The revised implementation
+  and a second independent audit remain pending; no GHA run has been
+  dispatched.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task436 IMPLEMENTATION REPAIR ACTIVE**.  Relative
+  to Delta302, the 72-point theorem is independently accepted and two ways of
+  silently falling back to the old heavy/incorrect ABI have been closed.
+- The next accepted event is still either one literal v12 row with strict
+  rank `43 -> 44`, or complete current-dual fibre exhaustion repeated by the
+  checker.  An adapter cap is only `UNKNOWN_RESOURCE`.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 304 (2026-08-31): legacy sequence-65 continuation reaches rank 1,985 and remains noncritical
+
+- Exact continuation run `33384438113`, job `99463763995`, completed with a
+  checked `UNKNOWN_RESOURCE` terminal after the 9,000-second owner window.
+  It resumed checkpoint sequence 65 at occurrence rank/frontier/action cursor
+  `1655/1132/2092` and durably stopped at sequence 92 with
+
+  ```text
+  occurrence rank       1,985
+  frontier length       1,352
+  action cursor         2,532
+  occurrence pivot nnz  302,999,839
+  owner RSS             about 3.94 GB at the last progress line
+  physical rank         0 (physical phase not reached)
+  ```
+
+  The frozen checker accepted terminal sequence 92, and the driver emitted
+  artifact content SHA-256
+  `498254e1b5828c47c2cf136c19eeb9c4c1df4aecbd8e2c30f2c04bebcb9e9d91`.
+  Workflow artifact `9759691739` is 413,868,304 compressed bytes; its upload
+  zip digest is
+  `8dcbcbc6a1220543b29331103c30469f450b97ab756d945ad692edf3035bf4ed`.
+- The run added 330 independent occurrence rows and 220 frontier entries to
+  the accepted monotone checkpoint.  It did not reach physical A0, a common
+  word, or a separator.  A local recovery attempt was stopped after seven
+  minutes of network transfer with no extracted file; the immutable GHA
+  artifact remains unexpired and no result classification depends on local
+  extraction.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task436 IMPLEMENTATION REPAIR ACTIVE**.  The old
+  occurrence lane has a newer resumable monotone state (`rank=1985`,
+  `seq=92`) but remains operationally NO-GO and off the completion path.
+- Relative to Delta303, the only critical-path state is unchanged: the next
+  accepted event must come from the 72-point current-dual selector, as a
+  strict literal rank `43 -> 44` or complete checked fibre exhaustion.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 305 (2026-08-31): Task436 frozen implementation passes dispatch audit
+
+- The positive-first current-dual consumer is complete at frozen pins:
+
+  ```text
+  producer  24,643 bytes  5eecdfbce8c3224e52e990fcb3e923e01394b22f0da106d2969aa7e1fb8436cc
+  checker   13,834 bytes  3c58382737317aa31fd5e94039730d8dc0c152a9c2be8f4c263ef31f90004916
+  driver     2,349 bytes  0be621eb16a11a0d17c02a18be4a428010ccaa7d86b365c1b0eb1c678f8759ce
+  ```
+
+  The independent frozen-byte audit ends `GO`.  Compile, bootstrap-free
+  fixture, ten-mutation checker self-test, and `git diff --check` pass.
+- The implementation rebuilds the authenticated rank-43 prefix without
+  retaining duplicate public rows, checks all 72 label-specific singleton
+  images through the actual `q.contract`, and checks the complete PB3
+  radius-one reverse neighbourhood in new coordinates.  The Tietze adjoint,
+  all 44 `K=0` formulae, and raw/physical dual scalars are independently
+  replayed.
+- The selector constructs Q0 once, retains exactly the three S0--S2 stores
+  (`176,359,680` bytes), and logs every 131,072 Q0/membership states.  It
+  does not call task179 full runtime, task175, the 6,441-row roster,
+  occurrence closure, boundary closure, or a global Delta scan.
+- An ACTIVE receipt is accepted only after the checker independently replays
+  the literal delta in all ten coordinates, the eleven occurrence row, exact
+  integer exponents and normalized `N=(exp/18) mod 3`, physical scalar, row
+  digest, pivot, and strict rank transition `[43,44]`.  EMPTY is not accepted;
+  unpromoted exhaustion and resource caps remain `UNKNOWN_RESOURCE`.
+- The checkpoint is terminal-only.  A cap therefore loses selector work and
+  requires a deterministic rebuild; this is a liveness limitation, not a
+  route to a false ACTIVE/EMPTY/member claim.  The independent audit judges
+  it nonblocking for the first positive-first GHA dispatch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task436 DISPATCH GO**.  Relative to Delta303, the
+  selective-section ABI, exact-exponent ABI, reverse-neighbourhood canary,
+  ACTIVE replay, EMPTY rejection, and memory/logging gates are closed.
+- The next accepted numerator event is a genuine literal rank `43 -> 44`
+  correction.  An `UNKNOWN_RESOURCE` result changes no numerator and will
+  motivate only a bounded resume repair; the 588-year occurrence lane is not
+  resumed as the completion strategy.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
