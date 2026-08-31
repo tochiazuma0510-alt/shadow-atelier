@@ -12609,3 +12609,45 @@ single transport repair required before continuation; it does not count the
   for occurrence closure or a separate invariant annihilator theorem.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
   or Ihara witness is promoted.
+
+### Delta 299 (2026-08-31): sequence-65 continuation and monotone probe dispatched
+
+- Task433 produced a continuation driver over unchanged v12 and a probe v2
+  which is an exact allowlisted fork of the audited task432 wrapper.  Both
+  consume the same one-entry sequence-65 release and authenticate the
+  461,087,575-byte checkpoint at SHA-256
+  `8918df4407e91a7b4ab1a29246a23ba5b0ed1a7b6011f4abf74775cc33d82705`.
+- Two transient pre-dispatch probe-driver defects were rejected before commit:
+  the old six-entry roster and an unexpanded GAP recovery-path token.  The
+  final 6,856-byte probe driver, SHA-256
+  `06c9f5f00a22c53f9f947eee2ce6b0a99089a4262bb9aef3e0675886b5edeee6`,
+  has exact one-entry checks in both branches and reconstructs the configured
+  concrete path.  The 6,988-byte continuation driver has SHA-256
+  `4238b358553cb1ee14d0861416184746e003f094a55bb638a62a85a910846896`.
+  Final independent dispatch audit verdict: **GO**; no extra hot diagnostic
+  or production work was added.
+- The exact files were committed and pushed at immutable head
+  `b93faa0155b424b7f536058da10d969cfc8f3f14`.  Without a workflow change,
+  generic GHA dispatched:
+
+  ```text
+  sequence-65 continuation  run 33384438113  job 99463763995
+  rank-1655 positive probe  run 33384440172  job 99463770166
+  owner/probe window         9000 seconds each
+  RSS cap                    4800000000 bytes each
+  ```
+
+  Both jobs entered setup on independent runners.  Terminal artifacts are
+  pending.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual, TWO ACTIVE RUNS**.  Relative to Delta298, the
+  sequence-65 checkpoint is no longer only stored: exact continuation and the
+  monotone positive shortcut are both executing.  Run start is not counted as
+  a numerator.
+- A positive probe still requires registered strict independent replay before
+  A0 promotion.  Probe UNKNOWN leaves the continuation untouched; a resource
+  stop on the continuation must return another canonical resumable checkpoint.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
+  or Ihara witness is promoted.

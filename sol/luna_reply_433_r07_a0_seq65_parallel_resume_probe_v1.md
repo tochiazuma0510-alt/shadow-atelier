@@ -39,3 +39,26 @@ result and never yields `NONMEMBER`; neither path promotes COMMON_WORD,
 compatible lift, fake, or Ihara witness without the registered strict replay.
 No download, checkpoint load, production run, workflow edit, release
 operation, commit, push, or dispatch was performed.
+
+## Parent dispatch record
+
+The independent final-pin audit returned `GO`.  The parent committed and
+pushed the exact audited files at immutable head
+`b93faa0155b424b7f536058da10d969cfc8f3f14`; no workflow file changed.
+Generic `gap-run.yml` dispatches are:
+
+```text
+continuation run/job  33384438113 / 99463763995
+script                search/d972_r07_a0_pb34_direct_quotient_owner_gha_driver_v13.g
+preamble              D972_R07_A0_PB34_V13_RUN:=true;;
+
+positive run/job      33384440172 / 99463770166
+script                search/d972_r07_a0_prefix_positive_probe_gha_driver_v2.g
+preamble              D972_R07_A0_PREFIX_POSITIVE_PROBE_V2_RUN:=true;;
+
+common inputs         out_dir=ci/out, timeout_min=180,
+                      with_pquot_packages=false
+```
+
+Both use the same immutable sequence-65 checkpoint in independent runners.
+The probe cannot mutate or replace the continuation.
