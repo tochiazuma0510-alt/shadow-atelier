@@ -12756,6 +12756,11 @@ single transport repair required before continuation; it does not count the
   pass, and the independent mathematical/implementation audit verdict is
   **GO**.  This task emits only `PROFILE_READY` or `UNKNOWN_RESOURCE` and has
   no A0/common/fake/Ihara promotion authority.
+- The audited profiler files were committed and pushed at
+  `cadbe6eda7159889279fbf63c24641d026df97d9`.  The parent broker dispatched
+  unchanged generic workflow `gap-run.yml` as run `33391325650` with a
+  60-minute external job cap and a 1,800-second producer cap.  The run result
+  is pending; dispatch itself changes no numerator.
 - The rank-1655 positive probe run `33384440172` has completed successfully at
   the workflow level; its artifact is being recovered for the unchanged
   strict result classification.  Exact sequence-65 continuation run

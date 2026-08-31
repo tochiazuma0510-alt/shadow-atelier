@@ -73,3 +73,11 @@ until GHA executes the real bootstrap.
 Untouched: task434 files, v12/task179 sources and checkers, all running A0
 jobs/checkpoints, workflows, v220, proofs, receipts, and earlier task/reply
 files.
+
+## Parent dispatch record
+
+The parent broker committed and pushed the audited files at
+`cadbe6eda7159889279fbf63c24641d026df97d9`, then dispatched the unchanged
+generic `gap-run.yml` workflow as run `33391325650`.  Inputs were the driver
+above, its exact external preamble, `out_dir=ci/out`, and
+`timeout_min=60`.  Production result and artifact remain pending.
