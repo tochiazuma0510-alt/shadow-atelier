@@ -31,3 +31,18 @@ adapters are installed before `m.run`, the loader is the identical
 authenticated `t413["load_json"]` object, the checker remains independent,
 and the v3 driver has fresh paths and exact wrapper pins.  Production remains
 unrun at this point.
+
+## Parent broker dispatch
+
+The parent committed and pushed the audited v3 source as
+`dac23cb75b69cedd448605de7988136d8dc9ca0a`, then dispatched unchanged
+`gap-run.yml` on `sol/r07-explicit-lift-20260825`:
+
+- run `33407759683`, job `99539479086`;
+- script `search/d972_r07_a0_actual_b72_first_active_gha_driver_v3.g`;
+- external preamble `D972_R07_A0_ACTUAL_B72_FIRST_ACTIVE_V3_RUN:=true;;`;
+- output directory `ci/out`, workflow cap 90 minutes.
+
+The run is the direct current-dual selector.  It does not resume or rebuild
+the operationally rejected occurrence closure.  Result classification and
+artifact hashes remain pending.

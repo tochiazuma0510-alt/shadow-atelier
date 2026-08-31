@@ -13063,3 +13063,28 @@ single transport repair required before continuation; it does not count the
   lane remains off-path.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 309 (2026-09-01): exact v3 wrapper passes audit and enters GHA
+
+- Task438 v3 is a thin, byte-pinned repair of the two bootstrap ABI defects
+  exposed by the first two runs.  It wraps p176 for both dictionary and
+  attribute access and injects the authenticated `t413["load_json"]` object
+  into a shallow base adapter before the unchanged v1 selector is called.
+  The producer fixture, checker ten-mutation self-test, exact hashes, and
+  `git diff --check` passed.  An independent read-only audit returned `GO`;
+  the mathematical selector, status gates, and ACTIVE replay are unchanged.
+- Parent commit `dac23cb75b69cedd448605de7988136d8dc9ca0a` was pushed and
+  dispatched as run `33407759683`, job `99539479086`, using unchanged
+  `gap-run.yml`, a 90-minute workflow cap, and the driver's 2,400-second /
+  4.8-GB producer caps.  It is the direct current-dual route, not continuation
+  of the occurrence closure whose measured extrapolation is about 588 years.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task438 v3 RUNNING**.  Relative to Delta308, both
+  known pre-Q0 ABI failures are closed and the repaired computation is now in
+  GHA.  The next mathematical event is still checked `ACTIVE_COLUMN_READY`
+  with strict rank `[43,44]`; a resource cap or unpromoted exhaustion changes
+  no numerator.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
