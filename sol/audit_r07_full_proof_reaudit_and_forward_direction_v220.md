@@ -12550,3 +12550,62 @@ single transport repair required before continuation; it does not count the
   physical build, six-action decision, and the same strict replay if zero.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 298 (2026-08-31): rank-1316 prefix is nonpositive; exact owner reaches sequence 65
+
+- Positive-only run `33339152288`, job `99331474026`, restored the exact
+  sequence-40 checkpoint at rank 1,316/frontier 906, completed its physical
+  build and the complete six-action support-hitting oracle, and returned
+  `UNKNOWN` with reason `positive_only_six_action_exhausted`.  The unchanged
+  v12 checker passed the fail-closed UNKNOWN envelope.  Thus
+
+  \[
+    -\bar T\notin \bar L_g(W_{1316})+\widetilde D_0,
+  \]
+
+  for this authenticated prefix.  Since `W_1316` is only a proper current
+  subspace and its frontier is nonempty, this is not full A0 nonmembership.
+  Artifact `9740537102` has size 133,083,510 bytes; its 1,876-byte result JSON
+  has SHA-256
+  `3e13a1f2f0bdf78168489349a79d5b2ff63c648a2c2ab6d8b1c813380e6216f2`.
+- Exact continuation run `33337628476`, job `99327291932`, authenticated the
+  sequence-40 state and ran for the full owner time window.  Its checker
+  accepted the canonical sequence-65 resource terminal:
+
+  ```text
+  seed / parent / action cursors       44 / 523 / 2092
+  occurrence rank / frontier          1655 / 1132
+  occurrence payload/pivot nnz        227591095 / 227591095
+  physical rank / payload             0 / 0
+  checkpoint bytes                    461087575
+  checkpoint SHA-256                  8918df4407e91a7b4ab1a29246a23ba5b0ed1a7b6011f4abf74775cc33d82705
+  terminal                             UNKNOWN_RESOURCE:time_limit
+  ```
+
+  Relative to sequence 40, 113 more parents and 452 actor trials produced
+  exactly 339 new independent pivots and net frontier growth 226.  The
+  observed three-rank/two-frontier gain per completed parent therefore
+  persists on this interval.  Peak logged RSS was 3,026,350,080 bytes, below
+  the 4.8 GB cap; the stop was time, not memory.
+- Artifact `9741582127` has size 312,882,446 bytes and uploaded-zip digest
+  `72633701affd6546e0aa12ba7f6bc10c252d2079b20421fb9f65e8e9429a4497`.
+  The extracted result and output checkpoint were independently hashed outside
+  the repository.  The output checkpoint was also placed in a one-entry
+  permanent release zip: 178,918,944 bytes, SHA-256
+  `b27a70ffe4095f9c9760c51694e7b56d68efb3e22d7df4ecaab4513f7328dbcc`;
+  reopening that zip reproduced the checkpoint bytes/SHA above.
+- Issued task433 for two minimal sequence-65 successors using unchanged v12
+  mathematics: an exact continuation and a positive-only rank-1655 probe.
+  They are to run in parallel after bounded implementation/audit gates.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta297, the rank-1316 shortcut is
+  now closed as nonpositive without any false negative promotion, while the
+  exact owner advanced 339 ranks and supplied a strictly accepted sequence-65
+  continuation point.  Neither result is an actual common word.
+- The next exact-owner state begins at `1655/1132`, and the next monotone
+  positive test uses that same prefix.  Full negative reasoning still waits
+  for occurrence closure or a separate invariant annihilator theorem.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
+  or Ihara witness is promoted.

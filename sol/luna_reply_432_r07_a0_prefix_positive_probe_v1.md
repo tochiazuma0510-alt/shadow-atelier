@@ -60,3 +60,28 @@ with_pquot_packages  false
 
 The exact continuation run `33337628476`, job `99327291932`, remains a
 separate active process.  The probe does not replace or mutate it.
+
+## Parent result record
+
+Run `33339152288`, job `99331474026`, completed successfully.  The probe
+authenticated and restored the exact sequence-40 state at rank 1316 and
+frontier 906, then completed physical aggregation and the six-action oracle.
+Its mathematical terminal is
+
+```text
+status  UNKNOWN
+reason  positive_only_six_action_exhausted
+```
+
+The unchanged checker returned `PASS {"fail_closed":true,"terminal":"UNKNOWN"}`.
+Artifact `9740537102` has size 133083510 bytes.  The extracted JSON is 1876
+bytes with SHA-256
+`3e13a1f2f0bdf78168489349a79d5b2ff63c648a2c2ab6d8b1c813380e6216f2`.
+The input checkpoint was independently rehashed to its pinned 326449173 bytes
+and SHA-256
+`0b3169fe6e7051fe46a28bb966ffd3dfeada841dce1a6fe2358959dd99402ff1`.
+
+This excludes a positive solution only inside the rank-1316 prefix plus the
+complete six-action space.  It is not a full A0 negative.  The current v12
+UNKNOWN envelope does not retain the completed physical rank/payload, so no
+numerical physical-size claim is extracted from this run.
