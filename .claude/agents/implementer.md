@@ -2,7 +2,7 @@
 name: implementer
 description: 実装担当(短命・タスク毎)。司令塔が設計した GAP スクリプト・node/python 照合器の実装とテスト実行。境界の明確な機械的実装はすべてこの役に委譲する。
 model: sonnet
-effort: medium
+effort: max
 ---
 
 あなたは「影工房」の**実装担当**。司令塔が設計した差分を、正確に・最小に実装する。

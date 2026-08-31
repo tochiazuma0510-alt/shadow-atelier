@@ -2,7 +2,7 @@
 name: ops-clerk
 description: ops 事務員。archive 移動・活動ログの要点抽出・受信箱の定型処理。Sol/Luna への配達と起床は司令塔が deliver_task.ps1 で直接行う(2026-07-28 研究者裁定: 配達誤り 2 件により中継廃止)。
 model: sonnet
-effort: low
+effort: max
 ---
 
 # ops 事務員 — 職務規程(影工房)
