@@ -12651,3 +12651,126 @@ single transport repair required before continuation; it does not count the
   stop on the continuation must return another canonical resumable checkpoint.
 - All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
   or Ihara witness is promoted.
+
+### Delta 300 (2026-08-31): compact weighted column generation removes occurrence-closure as a logical prerequisite
+
+- Added `proof_r07_a0_quotient_weighted_actor_column_generation_v409.md`.
+  For a physical quotient dual \(\lambda\), the load-bearing pullback is the
+  adjoint
+
+  \[
+    \widetilde\lambda=Q_{\rm ph}^{*}\lambda,
+    \qquad
+    \langle\widetilde\lambda,v\rangle
+      =\langle\lambda,Q_{\rm ph}v\rangle,
+  \]
+
+  not the sparse primal section used by the occurrence actor.  Correlating
+  this adjoint with one compact relator across all eleven frozen occurrences
+  gives the exact merged function
+
+  \[
+    F_i(\delta)=K_i+
+      \sum_{(j,t)}c^{(i)}_{j,t}{\bf1}_{\pi_j(\delta)=t}.
+  \]
+
+  Thus v142--v143 applies directly to every conjugate of each of the at-most
+  44 compact normal generators.  The singleton fibre sizes remain
+  `(9,9,9,9,9,1,1,1,3,3)` and every ACTIVE value carries a literal linked
+  section word and a fresh eleven-occurrence replay.
+- Combining that correction oracle with v404 gives a complete physical
+  column-generation selector: a nonzero dual first requests an ACTIVE one of
+  the six remaining PB4 action rows, then an ACTIVE compact conjugate.  Each
+  accepted row strictly raises physical rank.  If both complete oracles are
+  empty, the same dual annihilates the full right side of A0 and is an exact
+  separator.  Hence occurrence invariant closure is one valid construction
+  of the correction image, but it is no longer a logical prerequisite for
+  deciding A0.
+- This is not a return to the old task179 bottleneck.  Task179 production run
+  `33059993513` spent its 19,200-second cap in the complete raw
+  two-plus-two-plus-eleven boundary correlation.  V409 reuses only its
+  authenticated weighted-fibre machinery; v401/v402 remove the large
+  boundary parts and v404 handles the sole remaining six-action family.
+- The practical size of \(Q_{\rm ph}^{*}\lambda\), especially the global
+  `tau` adjoint, has not yet been measured.  A large or capped adjoint is
+  `UNKNOWN_RESOURCE`, never zero correlation.  Task434 was issued to build a
+  standalone single-physical-owner implementation, print the actual adjoint
+  and all 44 `(K,W)` values, and checkpoint after every direct rank rise.
+  It must use no occurrence descendants and may promote neither an empty cap
+  nor a fixture.
+- Sequence-65 continuation run `33384438113` and positive probe run
+  `33384440172` remain independently in their GHA computation steps.  V409
+  does not stop, mutate, or reinterpret either job.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual, TWO LEGACY-SELECTOR RUNS ACTIVE; DIRECT WEIGHTED
+  SELECTOR IMPLEMENTATION ACTIVE**.  Relative to Delta299, the unknown
+  occurrence-closure denominator is no longer the only exact route: the new
+  route asks directly for dual-active physical columns from the finite
+  44-by-Delta family.
+- The next numerical gate on the new route is not an occurrence rank.  It is
+  the measured current-dual adjoint support and the 44 exact weighted-fibre
+  sizes.  A first direct rank rise is genuine A0 progress; only target zero
+  plus strict replay changes the A0 numerator.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this paper reduction.
+
+### Delta 301 (2026-08-31): occurrence closure is operationally NO-GO; sparse dual-adjoint gate is ready
+
+- The independently recorded occurrence-module estimate gives the rigorous
+  terminal-rank **upper bound**
+
+  \[
+    r_{\max}=58{,}569{,}049{,}736.
+  \]
+
+  At the current rank 1,655, the quotient (1655/r_{\max}=2.83\cdot10^{-8})
+  and the roughly 588-year extrapolation are not a theorem about the actual
+  terminal rank: closure could stabilize strictly below this upper bound.
+  They are nevertheless a decisive resource verdict.  No small stabilizer or
+  invariant-collapse theorem is presently available, the frontier is still
+  growing, and therefore exhaustive occurrence closure is **NO-GO as the A0
+  completion strategy**.  Its checkpoints and already running jobs remain
+  valid monotone data, but no further A0 plan may quote (r_{\max}) as a
+  progress denominator or make this route the critical path.
+- Task434 was rejected before dispatch: it was only a fixture/skeleton and
+  unconditionally stopped at a missing compact-runtime adapter.  The adapter
+  already exists in the byte-pinned v12 bootstrap, so no repair of task434 is
+  being pursued.
+- Added `proof_r07_a0_tau_free_sparse_quotient_adjoint_v410.md`.  For the
+  actual quotient dual, if all three global `tau` coefficients vanish, the
+  exact pullback (Q_{\rm ph}^{*}\lambda) is computable locally.  Per localized
+  quotient-dual key its full reverse neighbourhood has at most 15 raw
+  singleton evaluations in a PB3 block and 33 in the PB4 block.  This includes
+  the actual transversal and nonsplit PB3 cocycle; it performs no Q0, Delta,
+  E3, E4, PB3, PB4, or occurrence-roster enumeration.  A nonzero `tau` is not
+  silently dropped and remains the separate global-adjoint gate.
+- Task435 implements the bounded actual-data measurement needed to choose the
+  next formula: build only the 44 identity compact physical columns, exhaust
+  the already proved six-action v404 oracle, normalize the resulting real
+  dual against its remainder, and report its true label support and the three
+  `tau` coefficients.  Producer and independent checker both rebuild the
+  pinned v12 runtime; the checker recomputes the target, columns, actions,
+  remainder, normalized dual, and support profile.  Its bounded local tests
+  pass, and the independent mathematical/implementation audit verdict is
+  **GO**.  This task emits only `PROFILE_READY` or `UNKNOWN_RESOURCE` and has
+  no A0/common/fake/Ihara promotion authority.
+- The rank-1655 positive probe run `33384440172` has completed successfully at
+  the workflow level; its artifact is being recovered for the unchanged
+  strict result classification.  Exact sequence-65 continuation run
+  `33384438113` remains in progress.  Neither legacy job controls the new
+  sparse-dual route.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta300, the infeasible exhaustive
+  closure denominator has been removed from the critical path and the direct
+  selector's first genuine gate is implemented: measure whether the actual
+  dual lies in the tau-free locally pullable sector.
+- If Task435 returns three zero `tau` coefficients, the next implementation is
+  the exact 15/33 local adjoint plus v142--v143 weighted selector.  If any is
+  nonzero, the next mathematics is only the symbolic global-tau correlation;
+  dense occurrence closure is not the fallback.
+- All non-A0 numerators remain unchanged.  No compatible lift, fake numerator,
+  or Ihara witness is promoted by this delta.
