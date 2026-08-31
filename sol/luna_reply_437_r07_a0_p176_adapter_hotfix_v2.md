@@ -22,3 +22,21 @@ Results: syntax compile PASS; producer v2 fixture PASS with schema v2;
 checker v2 self-test PASS with ten mutation rejections; exact driver pins
 match the two wrapper files; `git diff --check` PASS.  No production prefix
 or selector was run locally.
+
+## Parent broker result
+
+- committed/pushed source
+  `61aafa6b5cc1947debbe347d6f2584c9696cd970`;
+- dispatched run `33405554013`, job `99532138064`;
+- v2 passed the prior p176 failure and compiled all 44 formulae: 1,060,263
+  merged targets total, maximum 95,736, with 42 nonempty seeds;
+- it then stopped before Q0 with fail-closed `UNKNOWN`, exact reason
+  `KeyError('load_json')`.  Artifact `9763308344` contains the 197-byte JSON
+  at SHA-256
+  `c2ef040007a9ee82e599074f879e77343c2a984cf6e441f98cdfb01a58ea48f6`.
+
+The second mismatch is also bootstrap-local: v1 selective runtime reads
+`base["load_json"]`, whereas task435 authenticates the loader as
+`t413["load_json"]`.  There is no Q0, ACTIVE, EMPTY, cap, or memory result.
+Versioned Task438 v3 repairs that key and adds a toy fixture for both adapter
+requirements.

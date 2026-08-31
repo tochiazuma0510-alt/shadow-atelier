@@ -13026,3 +13026,40 @@ single transport repair required before continuation; it does not count the
   than mathematical progress.  The old occurrence lane remains NO-GO.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 308 (2026-09-01): v2 completes all formulae and isolates the selective loader key
+
+- Task437 v2 was committed at
+  `61aafa6b5cc1947debbe347d6f2584c9696cd970` and independently passed its
+  bounded wrapper audit.  Run `33405554013`, job `99532138064`, passed the
+  previous p176 ABI boundary and compiled every one of the 44 exact formulae.
+  Their measured merged-target profile is:
+
+  ```text
+  formulae                   44
+  nonempty formulae          42
+  merged targets total       1,060,263
+  maximum in one formula     95,736
+  ```
+
+  This is the actual weighted-formula size after the 72-point adjoint; 72 is
+  the adjoint input count, not the final merged target count.  The selector
+  remains positive-first and may stop on its first active fibre, so the total
+  is not yet an executed search count.
+- Immediately after formula 44 and before Q0 progress, the producer returned
+  fail-closed `UNKNOWN` with exact reason `KeyError('load_json')`.  Artifact
+  `9763308344` contains the 197-byte JSON at SHA-256
+  `c2ef040007a9ee82e599074f879e77343c2a984cf6e441f98cdfb01a58ea48f6`.
+  Task435's bootstrap authenticates the loader as `t413["load_json"]`; v1
+  selective runtime incorrectly looked for it in `base`.  Versioned Task438
+  v3 injects that authenticated function into a shallow base adapter and
+  exercises both this key and p176 attribute access in bootstrap-free toys.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task438 BOOTSTRAP HOTFIX ACTIVE**.  Relative to
+  Delta307, p176 is fixed and all 44 current formulae are now measured, but
+  Q0 and the first literal fibre have not yet run.  The 588-year occurrence
+  lane remains off-path.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
