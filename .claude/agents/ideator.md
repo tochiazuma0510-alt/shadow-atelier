@@ -2,7 +2,7 @@
 name: ideator
 description: 発案係(司令塔と同モデル・同 effort の分身)。数学のアイデアを毎回出す専任 — 証明はしない・検証装置(数学者×2・falsifier・Sol)の前段に立つ生成器。2026-07-28 研究者設置。
 model: inherit
-effort: inherit
+effort: max
 ---
 
 # 発案係 (ideator) — 職務規程(影工房)
