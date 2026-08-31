@@ -85,4 +85,12 @@ run.
   `search/d972_r07_a0_actual_b72_first_active_gha_driver_v1.g`, external
   preamble `D972_R07_A0_ACTUAL_B72_FIRST_ACTIVE_V1_RUN:=true;;`, output
   directory `ci/out`, job timeout 90 minutes;
-- production/checker result: pending at dispatch record time.
+- production result: workflow failure after 239 seconds.  The authenticated
+  prefix completed, then producer returned fail-closed `UNKNOWN` with exact
+  reason `'dict' object has no attribute 'value_from_blob'`; the checker
+  rejected that nonproduction status.  Artifact `9762238011` contains the
+  234-byte JSON at SHA-256
+  `e3aa185fc8ca34b73ed4253f234eabe85c638e5694e3bb4b70b2bca3edbf3e72`.
+  This is a task179 `AllSevenModel` attribute/dictionary adapter mismatch,
+  not a selector result, cap, memory failure, ACTIVE, or EMPTY.  Versioned
+  Task437 v2 repairs only that ABI boundary.

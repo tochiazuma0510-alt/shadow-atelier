@@ -13002,3 +13002,27 @@ single transport repair required before continuation; it does not count the
   `UNKNOWN_RESOURCE`.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 307 (2026-08-31): first Task436 run isolates one p176 ABI mismatch
+
+- Run `33403284390`, job `99524587327`, ended workflow `failure` after 239
+  seconds.  Setup and artifact upload passed.  The producer rebuilt the
+  authenticated prefix, then returned fail-closed `UNKNOWN` with exact reason
+  `'dict' object has no attribute 'value_from_blob'`; the checker correctly
+  rejected that status.  There was no ACTIVE, EMPTY, cap, or memory result.
+- Artifact `9762238011` contains a 234-byte result JSON at SHA-256
+  `e3aa185fc8ca34b73ed4253f234eabe85c638e5694e3bb4b70b2bca3edbf3e72`.
+  The defect is local: task179 `AllSevenModel` uses attribute access on
+  `runtime["p176"]`, while v1 passed the authenticated bound-module dictionary.
+  Task436 already contains a dict-plus-attribute adapter; versioned Task437
+  v2 will pin v1 and insert that adapter at the producer and independently at
+  the checker bootstrap boundary.  It does not alter mathematics, Q0,
+  selector order, memory layout, or the v1 failure record.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; Task437 ABI HOTFIX ACTIVE**.  Relative to Delta306,
+  the initial run supplied a precise pre-selector software failure rather
+  than mathematical progress.  The old occurrence lane remains NO-GO.
+- All non-A0 numerators remain unchanged.  No common word, compatible lift,
+  fake numerator, or Ihara witness is promoted by this delta.
