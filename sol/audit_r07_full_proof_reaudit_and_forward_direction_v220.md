@@ -14309,3 +14309,47 @@ single transport repair required before continuation; it does not count the
   Task193-v5 INPUT**.  Its actual numerator remains 0.
 - A0, A1, A2, A3, and A4 numerators remain exactly those in Delta338.  No
   common word, compatible lift, fake, or Ihara witness is declared.
+
+### Delta 340 (2026-09-02): prefix replay is implemented but two exact-artifact audits force narrow successors
+
+- Task472 v2 is independently audited **STOP / DO NOT DISPATCH**.  It is a
+  real rank-99 owner rather than the rejected zero-work stub, and it contains
+  append-only batches, input identities and segment seals.  However the first
+  frozen correction deterministically calls the one-argument rank-ladder-v2
+  `tau_free_adjoint(P)` with three arguments in both producer and checker.
+  The checker also fails to equate its top-level row lists with the durable
+  lists it actually replays; segment validation rereads cumulative ancestors
+  quadratically and lacks complete row-prefix/round binding; its VM hard limit
+  equals the internal RSS threshold; and v427 soft flush is absent.  Audit
+  `sol/sol_reply_480_audit_r07_rank99_actual_owner_v2.md` fixes the exact
+  repair gate.  Task482 v3 combines the ABI/durable binding repair, a rolling
+  chronological prefix digest, v427 short-batch flush and v426 resource-chain
+  policy.  Resource segments will not pay a full semantic checker; COMMON
+  still requires complete independent replay.
+- Task478 v30 is independently audited **STOP / DO NOT DISPATCH** against the
+  immutable row-26 release asset.  V428 equation (2.2) was false in exactly
+  the terminal transport coordinates
+  `{terminal_canonicalization,terminal_serialized_bytes,terminal_final_write}`:
+  the authenticated base has `(0,0,0)`, whereas terminal completed/semantic
+  has `(7,9300,1)`.  Outside those three coordinates, completed equals both
+  base maps; globally completed is at most terminal semantic.  V429 withdraws
+  only the false whole-domain equality and binds the three differences to
+  terminal serialization bookkeeping.  Task483 v31 implements that exact
+  predicate and immutable-asset fixture.  Row 26 remains producer-sealed.
+- Rank-99 checker-only run `33534267186`, rank-68 batch-64 run
+  `33527792145`, and rank-68 single-row run `33524681526` remain in their GAP
+  script steps at this snapshot.  No elapsed time or running state is counted
+  as mathematical progress.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**: 25 cross-checked rungs/rank 68 plus a separate
+  structurally authenticated rank-99 prefix whose checker-only GHA replay is
+  still running.  Prefix equality is now an explicit implemented requirement,
+  but Task472 v2 is rejected and Task482 v3 is in implementation.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW 26 PRODUCER-SEALED CANDIDATE / v31
+  EXACT-TRANSPORT REPAIR IN IMPLEMENTATION**.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**.
+  Compact A5 remains independently dispatch-safe but upstream-blocked on an
+  actual A0 COMMON/Task193 pair.  No compatible lift, fake, or Ihara witness
+  is declared.
