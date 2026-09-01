@@ -13435,3 +13435,33 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  All other
   fractions remain those in Delta318.  No common word, compatible lift, fake,
   or Ihara witness is declared.
+
+### Delta 320 (2026-09-01): the eight A0 rungs expose a finite PC plane and a safe batch acceleration
+
+- The eight Task448 S0 target blobs all have identity coarse permutation.
+  Their four PB3 PC bytes are exactly the eight nonzero values
+  `(a,0,c,0)` with `(a,c) in F3^2`.  Thus the literal selector swept one
+  structured two-dimensional target plane, rather than eight unrelated
+  points.  This does not yet prove that no other target fibre, context, or
+  seed is needed after rank 51.
+- New paper theorem `proof_r07_a0_dual_anchored_active_batch_v415.md` proves a
+  safe acceleration.  For a frozen separating dual, every directly replayed
+  column with nonzero pairing lies outside the pre-batch span.  All such
+  columns may be traversed and every rank-raising one inserted before the
+  expensive canonical target dual is recomputed.  Later rows are certified
+  against the frozen batch dual, not falsely against an intervening canonical
+  dual.
+- Positive membership, continued nonzero remainder, and exact-separator
+  outcomes are unchanged because every accepted row is a legal literal A0
+  column and membership depends only on the enlarged span.  The optimization
+  reduces dual computations from one per accepted row to one per nonempty
+  batch; its versioned certificate must replay the anchor scalar, every pivot
+  rise, and the single post-batch dual.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED RUNGS; RANK-51 SINGLE-ROW
+  CONTINUATION RUNNING**.  A batch successor is now **PAPER-CLOSED,
+  IMPLEMENTATION PENDING** and does not change the active run or numerator.
+- A4 and all other milestone fractions remain those in Delta319.  No common
+  word, compatible lift, fake, or Ihara witness is declared.
