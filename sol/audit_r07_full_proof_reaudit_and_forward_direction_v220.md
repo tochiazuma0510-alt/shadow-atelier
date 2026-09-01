@@ -14468,3 +14468,54 @@ single transport repair required before continuation; it does not count the
   checker remains running.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
   are unchanged.  No common word, compatible lift, fake, or Ihara witness is
   declared.
+
+### Delta 344 (2026-09-02): the closed rank-99 prefix is cross-checked; rank-84 v8 exposed only a preflight-envelope defect
+
+- Task475 checker-only run `33534267186`, job `99944586953`, immutable head
+  `e8546334158ef760bf441512d01298aff64076b9`, ended with a red workflow state
+  only after the independent recovered-v2 checker had completed.  Uploaded
+  artifact `9814122823` is 76,965 bytes with API zip digest
+  `81b2abef397cd3effa5d67d62fa9b5725ea77ead376532a7976aad8f0fb91083`.
+  Its retained checker log is 3,387 bytes / SHA-256
+  `0acc9a7567ea2d243d722d592b1a2fcac8b89355963f4c64861747c81e2b6776`:
+  exactly 44 expected selective-runtime progress lines followed by the unique
+  exact terminal
+  `R07_A0_DUAL_ANCHORED_ACTIVE_BATCH_RECOVERED_V2_CHECKER_PASS`, with no
+  error or negative marker.
+- Independent Sol(max) Task487 is **GO FOR CROSS-CHECKED PREFIX**.  The PASS
+  site is reachable only after authentication of the closed checkpoint and
+  complete semantic replay of the frozen eight records plus all three closed
+  16-row batches, including every reconstructed row, pairing, pivot, rank rise,
+  batch post-state and RESOURCE profile.  The checkpoint has
+  `rank=99`, `accepted_count=56`, `batch_count=3`, `round=12`, and state seal
+  `f2de40c3b16053464b8cf7d397f8fd05ca4439a46ca7e45df93e60bbc11a312d`.
+  The outer v4 GAP driver then falsely required the entire progress-bearing log
+  to equal the 60-byte one-line PASS transcript.  That post-check predicate,
+  not the semantic checker, caused the workflow failure; no rerun is needed
+  for this narrow promotion.
+- Consequently the separate rank-99 lane advances from structurally
+  authenticated candidate to **CROSS-CHECKED CLOSED PREFIX** through
+  `51 -> 67 -> 83 -> 99`.  Its producer terminal is still the typed
+  `UNKNOWN_RESOURCE:tau_free_candidate:time_limit`; this does not promote A0,
+  COMMON or NONMEMBER.  Task482 v3 may now use the immutable rank-99 prefix as
+  its actual continuation premise, subject to its still-pending implementation
+  audit and production run.
+- This delta also supersedes only Delta343's rank-84 running-state sentence.
+  Run `33543290399`, job `99974575290`, on head
+  `301307802e6b174a94c0f63f284d3af1983f9ce2` stopped in the release-member
+  preflight before copying any resume/result/log file.  Artifact `9814471992`
+  nevertheless contains the exact release zip and all seven extracted members;
+  their hashes reproduce the audited manifest.  Hence no rank-84 mathematics
+  ran and no stable rank-84 result changed.  Task488 is repairing only this
+  minimal dispatch envelope before a continuation redispatch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, with two non-nested stable descriptions:
+  **41 cross-checked literal rungs/rank 84** on the single-row lane and a
+  separate **56-source/rank-99 closed prefix cross-checked** on the batched
+  lane.  Neither is COMMON, and neither silently supersedes the other.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, A4
+  **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**, and compact A5
+  remains dispatch-safe but blocked on an actual A0 COMMON/Task193 pair.  No
+  compatible lift, fake, or Ihara witness is declared.
