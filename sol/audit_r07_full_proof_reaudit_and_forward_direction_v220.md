@@ -14636,3 +14636,29 @@ single transport repair required before continuation; it does not count the
   returned COMMON or RESOURCE.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 348 (2026-09-02): rank-99 durable-discovery v4 is dispatched on its immutable audited head
+
+- Parent committed the exact Task490/Task492-approved v4 trio and audit at
+  `15f8dce96c5bdbeac8a3c3fa3662606bcfe315b0`, pushed that head to
+  `sol/r07-explicit-lift-20260825`, and dispatched generic `gap-run` run
+  `33551170421`, job `100000701817`, on the same exact head.  The invocation
+  pins script
+  `search/d972_r07_a0_dual_anchored_rank99_durable_discovery_gha_driver_v4.g`,
+  preamble
+  `D972_R07_A0_DUAL_ANCHORED_RANK99_DURABLE_DISCOVERY_V4_RUN:=true;;`,
+  output directory `ci/out`, no optional p-quotient packages, and a 355-minute
+  job limit.  This budget covers the driver's separately bounded producer and
+  conditional-checker envelopes plus setup margin.
+- Dispatch/queue state is not mathematical progress.  The run must upload an
+  authenticated RESOURCE terminal or a checker-approved COMMON terminal
+  before the stable A0 state can change.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its rank-84 v9 and rank-99 v4 production lanes
+  are now both GHA-running alongside the older rank-68 continuation; stable
+  evidence remains rank 84/41 literal rungs and the separate rank 99/56-source
+  closed prefix, both cross-checked.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
