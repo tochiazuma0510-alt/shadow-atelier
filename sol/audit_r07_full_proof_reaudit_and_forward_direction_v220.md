@@ -14809,3 +14809,37 @@ single transport repair required before continuation; it does not count the
   post-COMMON handoff and cannot increase either numerator by SELFTEST.
 - A1 **4/4**, A3 **3/3**, and A4 **1/3** are unchanged.  No compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 354 (2026-09-02): the older rank-68 batch run finishes as an exact redundant reproduction
+
+- Run `33527792145`, job `99922978681`, on head
+  `69db2966a9f1a6acd4fabb10b28c9ad30eedaf0f` completed successfully after
+  the independent checker emitted
+  `R07_A0_DUAL_ANCHORED_ACTIVE_BATCH_V2_CHECKER_PASS`.  Its producer terminal
+  is `UNKNOWN_RESOURCE` with exact reason
+  `UNKNOWN_RESOURCE:tau_free_candidate:time_limit`, rank/count/round
+  `68/25/27`, and every A0/COMMON/NONMEMBER/fake/Ihara claim false.
+- Artifact `9818799994` is 12,051 bytes with API zip digest
+  `fea7fe4b144bb18ec7820e53b5da2b7a000764a6179ecafb8a3d832464631220`.
+  The result is 33,959 bytes / SHA-256
+  `73bce29641273b5e41921b82fc385e7fd20b06eb971f2cab47846ef61c1d1df1`;
+  the 33,114-byte checkpoint has SHA-256
+  `4143a846d454c0f3bba9340020d17a682bc435540c50fc7003d6207aa7a3f08a`
+  and state seal
+  `4df755dd2cc669a00bf041b5a8a401f8af6d634a04570225683e8505936fba32`.
+- Parent compared its complete ordered 25-record `accepted_sources` array to
+  `d972_r07_a0_actual_tau_free_rank68_input_v1.checkpoint` inside the permanent
+  rank-84 release
+  `artifact_9812928957_gap-run-out.rank84.zip`.  The arrays are byte-for-byte
+  equal after JSON parsing and canonical compression, and both have
+  rank/count/round `68/25/27`; only their versioned checkpoint envelopes and
+  state seals differ.  Hence this run independently reproduces a prefix
+  already strictly extended by the cross-checked rank-84/41 lane.  No audit or
+  continuation is needed for this dominated branch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  The completed rank-68 run adds no new stable
+  description beyond rank84/41.  Active A0 work is rank-84 v9 and rank-99 v5.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
