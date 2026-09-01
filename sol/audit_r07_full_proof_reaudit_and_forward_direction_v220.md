@@ -13309,3 +13309,37 @@ single transport repair required before continuation; it does not count the
 - A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
   A5--A9, B, C, W, and F remain unchanged.  No common word, compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 316 (2026-09-01): the general post-rise A0 selector is paper-closed
+
+- New paper theorem
+  `proof_r07_a0_actor_adapted_phase_cell_global_normalization_v413.md`
+  closes the three deliberate specialization gates of the running tau-free
+  producer.  In actor-adapted PB3 coordinates, v410's localized adjoint and
+  v411's three tau phases give the complete formula on all context coordinates
+  0--9, with an arbitrary constant on each `exp_x mod 3` cell.
+- The theorem records a load-bearing rebase boundary omitted from a naive use
+  of v411: an old least-serialization PB3 dual may not simply be relabeled.
+  Since the old and actor-adapted normal maps have the same boundary kernel,
+  their images are canonically isomorphic; the safe implementation rebuilds
+  the target and all retained rows from their word/action ancestry and then
+  recomputes pivots and the dual.  It never copies old pivot or dual bytes.
+- For the exact support union `U_e` in one phase cell, the map
+  `delta -> x^(-epsilon(delta))*delta` has fibres of size at most three.
+  Therefore the first `3*(|U_e|+1)` distinct authenticated global-roster
+  states produce at least `|U_e|+1` distinct states in any chosen phase cell;
+  one is outside the support and has the nonzero cell constant.  This proves
+  a finite positive-or-zero selector without a new cell BFS or a full Delta
+  scan.  Every positive remains subject to direct literal/eleven-occurrence/
+  physical-scalar replay.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; ONE CROSS-CHECKED CORRECTION RUNG; CURRENT v3 RUN
+  ACTIVE**.  Its general successor is now **PAPER-CLOSED, IMPLEMENTATION
+  PENDING** for nonzero tau, S3--S9, nonzero constants, and complete separator
+  exhaustion.  This paper result does not alter any terminal returned by the
+  running tau-free code.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  All other
+  fractions are unchanged.  No common word, compatible lift, fake, or Ihara
+  witness is declared.
