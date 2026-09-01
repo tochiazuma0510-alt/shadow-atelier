@@ -13467,3 +13467,49 @@ single transport repair required before continuation; it does not count the
   IMPLEMENTATION PENDING** and does not change the active run or numerator.
 - A4 and all other milestone fractions remain those in Delta319.  No common
   word, compatible lift, fake, or Ihara witness is declared.
+
+### Delta 321 (2026-09-01): dual-anchored rank-51 batch enters parallel production
+
+- Task451 implements v415 without changing the registered A0 universe.  It
+  reconstructs the exact eight-record rank-51 prefix, freezes one canonical
+  separating dual, traverses the deterministic
+  `(seed,coordinate,target,fibre_cursor)` roster, and inserts every directly
+  replayed rank-raising correction up to 16 rows before one post-batch target
+  reduction.  Only fully closed word-bearing batches are checkpointed; an
+  interrupted open batch is discarded from both the artifact and durable
+  state.  The 64-new-rise cap is cumulative across resume.
+- The independent checker does not call the v3 producer's update, pairing,
+  profile, adjoint, formula compiler, or scalar helper.  It uses the accepted
+  checker-side linear algebra and independently ordered adjoint, constructs
+  the formula locally, and directly evaluates the full ten-coordinate tuple
+  of every `delta_word`.  In particular it semantically replays the old eight
+  S0 `target_hex` values at their successive rank-43--50 duals rather than
+  inheriting that auxiliary metadata.  It also authenticates exact exponent
+  pairs, frozen-anchor scalars, pivots, one post-batch dual, the Task447/448
+  RESOURCE allowlist, phase-sensitive gate profiles, and the exact cumulative
+  rise cap.
+- Final pinned outputs are producer 13,834 bytes / SHA-256
+  `ca7fb15e06dd04881146c38d63d93015a9e630fbc334cf15098cbd8a32f22f9b`,
+  checker 13,725 bytes /
+  `5c2f76b825bd920245d0200f29ff860ba93a32663ef5db9567bc499a86f7ff8a`,
+  and driver 2,569 bytes /
+  `6910d38adc56a564b4cd80211bb994de72fd77bf2da6abd8df2df5597ab9a000`.
+  Parent compile, fixture, self-test, forbidden-helper scan, cap scan, and
+  diff gate passed.  Source commit is
+  `3316809e483223ec571ca7d6976dc1317c892441`.
+- GHA run `33512607989`, job `99871740592`, is executing this batch lane with
+  a 7,200-second producer cap, 4.8-GB RSS cap, batch cap 16, 64 cumulative
+  rises, and 240-minute workflow cap.  It runs in parallel with exact
+  single-row rank-51 continuation `33509311208` and A4 row-26 continuation
+  `33506331399`; neither earlier run was cancelled.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED LITERAL CORRECTION RUNGS;
+  DURABLE RANK 51; SINGLE-ROW AND BATCH CONTINUATIONS RUNNING IN PARALLEL**.
+  The batch dispatch is an acceleration, not a numerator.  Only a checker
+  PASS on target zero plus the strict positive literal replay closes A0.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  A1 stays
+  **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
+  B, C, W, and F remain unchanged.  No common word, compatible lift, fake,
+  or Ihara witness is declared.

@@ -61,3 +61,27 @@ Driver inspection confirmed one production process, external preamble, 7,200 sec
 Remaining resource risk is unchanged from v3: selective Q0 construction and its three S0--S2 stores dominate memory. Batching adds only compact row ancestry/receipts and does not copy the reducer or stores.
 
 No local heavy production, GHA dispatch, workflow edit, commit, push, or other git operation was performed. The active v6 continuation was not touched or interrupted.
+
+## Parent disposition and production dispatch
+
+Parent Sol reran the bounded compile, producer fixture, checker self-test,
+forbidden-helper scan, driver-cap scan, and `git diff --check`; all passed.
+The four Task451 outputs were committed and pushed at
+`3316809e483223ec571ca7d6976dc1317c892441`.
+
+The dual-anchored rank-51 production was dispatched without cancelling the
+single-row v6 continuation:
+
+```text
+workflow:   gap-run.yml
+run:        33512607989
+job:        99871740592
+head:       3316809e483223ec571ca7d6976dc1317c892441
+script:     search/d972_r07_a0_dual_anchored_active_batch_gha_driver_v1.g
+preamble:   D972_R07_A0_DUAL_ANCHORED_ACTIVE_BATCH_V1_RUN:=true;;
+out_dir:    ci/out
+timeout:    240 minutes
+pquot:      false
+```
+
+This dispatch is production in progress, not an A0 numerator or a terminal.
