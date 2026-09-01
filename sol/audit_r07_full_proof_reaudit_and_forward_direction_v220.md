@@ -14941,3 +14941,79 @@ single transport repair required before continuation; it does not count the
 - A0 remains **0/1 actual** with rank-84 v9 and rank-99 v5 GHA-running.  A1
   **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No compatible
   lift, fake, or Ihara witness is declared.
+
+### Delta 358 (2026-09-02): the literal single-row A0 ladder advances from rank 84 to rank 98
+
+- Rank-84 continuation v9 run `33548094849`, job `99990508106`, completed
+  successfully on exact head
+  `3d5cac391076553fe68a83343376194dbd9efb6d`.  Artifact `9821857621`
+  (`gap-run-out`, API size 74,814) contains one producer terminal and the
+  independent checker line
+  `R07_A0_ACTUAL_TAU_FREE_RANK_LADDER_V7_CHECKER_PASS`.
+- The producer ran 7,212.4805 seconds and returned the typed terminal
+  `UNKNOWN_RESOURCE:tau_free_localized_dual:time_limit`, not COMMON.  It
+  advanced rank/count/round from `84/41/44` to `98/55/59`: fourteen new
+  literal rungs and fourteen rank rises.  The complete ordered first 41
+  `accepted_sources` in the new checkpoint equal the old rank-84 prefix
+  exactly after JSON parsing.
+- The result is 70,365 bytes / SHA-256
+  `2bbe05d8c5c2b97177854e7cd77944e9b89af70cea7f50e7565a6faec3a70b1d`.
+  The durable checkpoint is 69,947 bytes / SHA-256
+  `c0fcb581f59c9ed665cf13cb852cb527ef13acdc9bf2102b89c2404bb080d37f`,
+  with binding
+  `6f179b061a010bb2a9b427dda6564c7418b18f44da17ea2f28e9e080655326a3`
+  and state SHA-256
+  `7fd45ecad90fda912df5dfdb15f2f422aa63dc8a3abfc992150079b44405685a`.
+  Its claims set A0, COMMON, NONMEMBER, fake and Ihara all to false.
+- Parent packed the eight exact flat replay members and uploaded permanent
+  release asset `artifact_9821857621_gap-run-out.a0-rank98.zip`, 30,758 bytes /
+  SHA-256
+  `d0293cdd3bab98b792af17064ace21594966a5610e30219842347466e9ade9e4`.
+  Task504, committed at `ade8760f`, commissions only the v10 driver migration
+  from this rank-98 checkpoint; it cannot change the search or count as a new
+  rung until another checked production artifact exists.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its single-row cross-checked stable prefix is
+  now **55 literal rungs / rank 98 / round 59**, superseding the old 41/rank84
+  prefix.  The separate batched prefix remains 56 sources/rank99 and its v5
+  production run `33553895281` remains active.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 359 (2026-09-02): the rank99-v5 COMMON-to-Task193 provenance firewall is independently GO
+
+- Task500 repaired Task498's only blocker with versioned Task193-v7 wrappers.
+  Exact pins are producer `9574 /
+  05cd9bd5c965941d89d09a7ea2a1438e99d7f9fed8effdb0241f1bc2a1a99bc2`,
+  checker `9539 /
+  4660de49dab3fbb4c749b7c0b841d812b22b77fc1d7ca625ca55755adff1ee48`,
+  and driver `2887 /
+  1fba473e278ec98bd33f1daaf5d515b1b92a6c5ec2e27e853ceac47f5bac6041`.
+  Their generated bodies are respectively `18194 / b5461b39...59dce87`
+  and `13831 / 4469ea68...677cb5`.
+- Independent Sol(max) Task501 returned
+  **GO_FOR_ADOPTION_PENDING_ACTUAL_COMMON**.  Its 6,724-byte reply has SHA-256
+  `5e2929b7f862c57c16be47812b1a5bd5b7f428c94971b3bbf73b8297e010d30a`.
+  It reached the real producer `firewall` before owner load and the real
+  checker `boundary` before owner replay, reversed all v7 patches to v6
+  byte-for-byte, and independently rejected 30 re-sealed receipt/verdict
+  mutations plus three final-output provenance drifts.  Two unrelated dynamic
+  positive-decimal artifact ids passed with `actual_common=false`.
+- The exact trust boundary is explicit: the local unkeyed provenance envelope
+  binds the artifact text consistently but cannot infer GitHub's object
+  namespace after a caller coordinately re-seals every field.  The parent/GHA
+  handoff must supply the actual API artifact id after upload.  No job id or
+  artifact id is hard-coded, defaulted, or used as the production fixture.
+  This is the same external dynamic binding used by the accepted carrier
+  driver, not a mathematical claim.
+
+**v220 mapping**:
+
+- A2 remains **2/3** because its third milestone is an actual specialization,
+  but the exact `rank99-v5 COMMON -> literal carrier -> Task193-v7` route is
+  now adoption-ready.  Compact A5 remains input-blocked only on an actual
+  checker-approved COMMON/Task193 pair, not on this provenance implementation.
+- A0 remains **0/1 actual**; A1 **4/4**, A3 **3/3**, and A4 **1/3** are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
