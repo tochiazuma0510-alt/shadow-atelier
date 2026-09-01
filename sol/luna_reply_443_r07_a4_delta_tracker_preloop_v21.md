@@ -144,3 +144,13 @@ As a JSON string, the preamble value is
 `"D386Mode:=\"RESUME\";;"`.
 
 `TASK443_R07_A4_DELTA_TRACKER_PRELOOP_V21_PASS`
+
+## Parent dispatch record (2026-09-01)
+
+- committed and pushed source SHA:
+  `0f3902147257c769de3035fadfeac6b365a160ca`;
+- workflow: `gap-run.yml` on `sol/r07-explicit-lift-20260825`;
+- run id: `33501365999`;
+- inputs: v39 driver, `D386Mode:="RESUME";;`, `ci/out`, 250 minutes,
+  pquot packages enabled;
+- dispatched at `2026-09-01T20:13:32+09:00`; result pending.
