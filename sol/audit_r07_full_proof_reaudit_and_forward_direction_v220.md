@@ -13756,3 +13756,58 @@ single transport repair required before continuation; it does not count the
   A4 row-26 run `33506331399` also remains in production. All fractions stay
   unchanged, and no common word, compatible lift, fake, or Ihara witness is
   declared.
+
+### Delta 328 (2026-09-02): the literal ladder reaches rank 68 and compact A5 starts before K exhaustion
+
+- The single-row rank-51 continuation completed successfully in GHA run
+  `33509311208`, job `99860860565`, source
+  `165ac51c6794d61f411266d6a72c043361365b64`, artifact id `9806575856`.
+  The independent v6 checker passed.  Starting from the exact eight-record
+  rank-51 checkpoint, the unchanged literal producer accepted 17 further
+  rank-raising corrections in rounds 10--26.  The durable state is therefore
+  rank 68 with 25 accepted literal corrections and resumes at round 27.
+- This run did not find COMMON.  Its typed terminal is
+  `UNKNOWN_RESOURCE:tau_free_formula_seed:time_limit`.  The exact output
+  checkpoint is 33,015 bytes / SHA-256
+  `73ad85624d079d01ecc824ab6adc699c51b0dabfddcc36c0f7d2bd4384f7d5a4`,
+  with canonical state seal
+  `d900bbb4f3b69ee66f9c2f4000b169f69a9202091a69fe0bbb8d33c4ae061537`.
+  Its current separating profile has target pair 1, zero tau and normalized
+  exponents, remainder digest
+  `9eed8114d9e3172c7a11153d9c5cd6e5fc2e5184a8d6e3681cce5c82a83b4326`,
+  and 39 localized block-1 `b` entries.  These are continuation data, not an
+  obstruction or a nonexistence result.
+- Task461 commissions only a byte-pinned rank-68 successor.  It must retain
+  the 25 accepted records as an exact prefix, delegate the complete v6
+  replay, and run the unchanged v3 producer from round 27.  No universe,
+  closure, selector, or search mathematics changes in this successor.
+- New theorem `proof_r07_compact_k_a5_positive_dovetail_v419.md` sharpens
+  v418's schedule without weakening its negative gate.  Each of the 44 legal
+  compact relators, and each subsequently generated legal conjugate, may be
+  streamed into the A5 positive engine immediately, before its independence
+  in the K quotient is decided.  K reduction controls only further
+  conjugation spawning and the eventual negative-completeness certificate.
+  Therefore a finite A5 MEMBER can win early; every miss before both K and A5
+  closures exhaust remains `UNKNOWN_INCOMPLETE`.  Task459a adds this schedule
+  to the complete two-level owner, and Task460 commissions a lightweight
+  44-seed positive-only race.  The theorem and commissions are fixed at
+  commit `225ea749`.
+- At this snapshot, A4 row-26 run `33506331399`, Task451 batch-16 run
+  `33512607989`, and Task453 batch-64 run `33516227668` are still executing.
+  Task458 is finalizing the inherited NONMEMBER quarantine; Task459/459a is
+  implementing the complete two-level owner; Task460 is implementing the
+  compact direct-relator positive owner.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its descriptive progress advances from
+  eight to **25 CROSS-CHECKED LITERAL CORRECTION RUNGS; DURABLE RANK 68;
+  ROUND-27 CONTINUATION COMMISSIONED**.  The completed rank growth is durable
+  and must not be reported again as rank 51.
+- The compact A5 branch advances from a merely sequential two-level design to
+  **PAPER-CLOSED IMMEDIATE POSITIVE DOVETAIL / IMPLEMENTATION RUNNING**.
+  This changes no A5--A7 numerator until an independently replayed MEMBER is
+  produced.
+- A1 stays **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and A4
+  **1/3 UNKNOWN_RESOURCE**.  No common word, compatible lift, fake, or Ihara
+  witness is declared.
