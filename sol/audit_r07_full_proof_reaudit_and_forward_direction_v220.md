@@ -15054,3 +15054,37 @@ single transport repair required before continuation; it does not count the
   parallel.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 361 (2026-09-02): the next rank99 nonzero-constant stop is removed on paper without a full roster store
+
+- Paper v431, 9,592 bytes / SHA-256
+  `7b08f2526b00f4b12e67b9de57e03b7e87936050bfe8c3f9200130ed1ef850a4`,
+  specializes v143/v414 to the actual rank99-v5 tau-free coordinates-0--2
+  branch.  For
+  `F(delta)=K+sum c_(j,t) 1[pi_j(delta)=t]` with `K != 0`, put
+  `W=sum |ker(pi_j)|=9*|R|`.  Among the first `W+1` distinct authenticated
+  `(Q0,Gamma)` roster words, one lies outside the support union and therefore
+  has value `K != 0`.
+- The implementation no longer needs the seven Q0 coordinate stores omitted
+  by the selective runtime.  For cursor `s`, it recovers
+  `(qid,gid)=divmod(s,243)`, constructs the literal Gamma/Q0 section word, and
+  directly evaluates all ten coordinates.  This uses no second BFS, global
+  cache, boundary closure, or large matrix copy.
+- The fresh-anchor condition is explicit.  If rows already exist when a
+  nonzero-K formula is reached, the existing v427 variable-length batch is
+  closed first.  At a fresh anchor the guaranteed row is retained and closed
+  as a one-row batch; otherwise nonzero pairing alone would not prove
+  independence from the enlarged within-batch span.
+- Task506, committed with v431 at `3d696938`, is implementing the surgical v6
+  successor and an independent checker.  It must preserve an authenticated
+  v5 resource prefix, use a disjoint global-selector cursor, and may not add
+  full Q0 stores, a cache, production, or GHA work.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  No new row is claimed, but
+  `NONZERO_CONSTANT_SELECTOR` is no longer a mathematical dead end on the
+  active tau-free S0--S2 branch; implementation is pending Task506.
+- Both active A0 GHA runs and all A1--A4/compact-A5 milestone numerators retain
+  the Delta360 states.  No compatible lift, fake, or Ihara witness is
+  declared.
