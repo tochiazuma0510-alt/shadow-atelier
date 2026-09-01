@@ -14566,3 +14566,33 @@ single transport repair required before continuation; it does not count the
   independent dispatch audit.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No common word, compatible lift, fake, or Ihara witness is declared.
+
+### Delta 346 (2026-09-02): the corrected rank-84 continuation is independently GO and redispatched
+
+- Independent Sol(max) Task491 reproduces Task488's diagnosis and is
+  **GO FOR GHA DISPATCH**.  Rejected v8 contains exactly three truncated
+  63-character SHA literals: the result JSON lacks its terminal `b`, while the
+  checkpoint member and resume-copy pins each lack their terminal `f`.  The
+  v9 SHA multiset repairs exactly those three values; producer/checker paths,
+  arithmetic, arguments and all other immutable source bindings are unchanged.
+- Task491 freshly authenticated the 23,004-byte permanent release and all
+  seven members, the 52,707-byte rank-84 resume, and canonical
+  rank/count/round `84/41/44`.  GAP parse and both generated-shell syntax gates
+  pass.  Its fail-closed sentinel replay reaches the producer exactly once,
+  checker zero times, and records the exact owned ERR diagnostic.  Static
+  gates retain one producer/one checker, `7500>7200`, checker timeout 3600,
+  and `5200000*1024>4800000000`.
+- Parent accepted v9 at commit
+  `3d5cac391076553fe68a83343376194dbd9efb6d` and dispatched generic `gap-run`
+  run `33548094849`, job `99990508106`, on that exact head.  Execution time is
+  not counted as progress; the stable rank-84 state remains unchanged until a
+  new producer result and independent checker terminal are uploaded.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** with stable **41 cross-checked literal
+  rungs/rank 84** and a separate **56-source/rank-99 cross-checked prefix**.
+  Rank-84 v9 is GHA-running; rank-99 Task490 v4 is in implementation after the
+  rejected v3.  No COMMON terminal has yet been obtained.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
