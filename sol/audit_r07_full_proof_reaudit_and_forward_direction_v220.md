@@ -13156,3 +13156,71 @@ single transport repair required before continuation; it does not count the
 - The 588-year occurrence lane remains off-path.  All non-A0 numerators are
   unchanged; no common word, compatible lift, fake numerator, or Ihara
   witness is promoted by this delta.
+
+### Delta 312 (2026-09-01): the first literal rank rise is cross-checked
+
+- The complete checker-context inventory found exactly three missing reduced
+  root objects: the returned physical `dual`, the adapted `base`, and the
+  authenticated `t413`.  Task441 v6 injects those identical objects while
+  leaving the exact v1 checker gates and the v4 producer unchanged.  Parent and
+  independent Sol static audits both returned GO.  Source commit is
+  `f74db79ab28c832152795f498b1069dca5093f5b`.
+- GHA run `33497321899`, job `99822399725`, completed in 15m07s and uploaded
+  artifact `9796746920`.  The producer again returned seed 1 / S0 / fibre 0,
+  scalar 1, a 146-letter literal prefix, row digest
+  `5e934d088f01d590ec280edf5c6480f5b6a2f49f545dae204adddf7e58c3ce7a`,
+  and strict rank transition `[43,44]`.  The independent terminal is exactly
+  `R07_A0_ACTUAL_B72_FIRST_ACTIVE_V6_CHECKER_PASS`.
+- The extracted 94,840,417-byte result JSON has SHA-256
+  `7b6ff4cc3c6bd49cc5472448c3ab56f10cf27ef8fc8a82dc1ee7b3bf835e6182`;
+  the 94,839,979-byte checkpoint has SHA-256
+  `285df0215d181acac67246650bf3e51ab2b846bb9d0ca428aadac9b50c0a9e3e`.
+  The correction-word SHA-256 remains
+  `92a51dce182e430f67e26eeef26e34577664c5a8aba6b2ae1f0e193a6a339043`.
+- Task440 v5 run `33496315594` was deliberately cancelled before a
+  mathematical terminal after a complete root-key inventory proved it would
+  later stop on the still-missing `base` and `t413`.  It contributes no result
+  and is superseded by v6.
+- V409 Theorem 5.1 now supplies the continuation invariant: add each
+  independently replayed ACTIVE row, recompute the target remainder and its
+  separating dual, and rerun the exact six-action/weighted-fibre oracles.  Each
+  accepted row raises rank, so the finite process ends in target zero or an
+  exact separator.  Task442 has returned a same-process implementation with
+  compact per-rise checkpoints; independent static audit is in progress and
+  is not counted here.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but now contains **one cross-checked literal
+  correction rung** rather than an unpromoted candidate.  The current target
+  is not zero, so this is not an exact common word and does not raise the A0
+  milestone numerator.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and
+  A4 **1/3 UNKNOWN_RESOURCE**.  A5--A9, B, C, W, and F receive no new actual
+  numerator.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 313 (2026-09-01): A4 unsafe apparent advance is rejected; local transport repair starts
+
+- Read-only inspection of A4 run `33303302455`, artifact `9732685962`, found
+  that its HEAD claim `next_row=27` is not replayable.  Segment 1 claims row 25
+  but contains no row digest, bridge digest, oracle record/event, or state
+  append; segment 2 contains only row 26.  The cause is local: the v18 delta
+  tracker is initialized inside `write_checkpoint` after row 25 has already
+  completed, so the first difference is taken against the post-row state.
+- The only safe resume input therefore remains run `33263899806`, artifact
+  `9720097578`: the 25,581-byte producer checkpoint with SHA-256
+  `595213bab8936ef10e94ce90ccf526c105d02d871d4dc5d02b6c76cb51593445`
+  and `next_row=25`, plus the 8,991-byte checker checkpoint with SHA-256
+  `b96919b38272d87a6885da98a18603065d1c2ccf805cd2c4f65dd22e32ed7af2`.
+- Task443 fixes only checkpoint transport: initialize the tracker after
+  restore and before the row loop, require the first segment to contain the
+  actual row-25 append, and independently replay cursor/row continuity.  It
+  preserves the existing v20 arithmetic and does not rebuild the 6,441-row
+  mathematics or consume the corrupt next-row-27 chain.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE at the canonical next_row=25**.  The
+  apparent row-27 progress is rejected rather than counted.  The local repair
+  is in parallel implementation and changes no actual numerator.
+- All other milestone fractions remain those in Delta312.
