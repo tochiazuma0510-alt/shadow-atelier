@@ -167,3 +167,27 @@ source commit was redispatched with escaped literal quotes:
   `D386Mode:=\"RESUME\";;` (GAP source `D386Mode:="RESUME";;`);
 - source SHA remains `0f3902147257c769de3035fadfeac6b365a160ca`;
 - result pending.
+
+## Corrected-run outcome
+
+Corrected run `33501732575`, job `99836406226`, checked out head
+`99f7ede48c5df97662b6dd3113c5adbb806f993f` (the v21/v27/v39 code itself was
+introduced at `0f3902147257c769de3035fadfeac6b365a160ca`). It completed the
+workflow and uploaded artifact `9798013200`, but its mathematical terminal is
+`UNKNOWN_INPUT`, reason `delta:one_row_terminal_pair`; workflow success is not
+A4 completion.
+
+The first new segment is safe and narrowly advances the durable producer
+cursor: delta 00000001 is `kind=row`, `ordinal=25`, `next_row=26`, with exactly
+one row digest, one bridge digest, and one R:25 record/event pair. Its HEAD is
+`last_row=25`, `next_row=26`, `segment_count=1`. The attempted row-26 segment
+was rejected before append and before HEAD replacement, so row 26 is not
+durable.
+
+Post-run diagnosis localized the remaining transport defect: the successful
+tracker update advances ordinary row/bridge/oracle cursors but omits the two
+`initial_terminal_records` / `initial_terminal_chain` cursors. Thus the row-26
+candidate segment sees both R:25 and R:26 on those two slices and is correctly
+rejected. Task446 is restricted to advancing those two integers after a
+successful HEAD and resuming from the exact row-26 chain; no arithmetic or
+claim is changed.
