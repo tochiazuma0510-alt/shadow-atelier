@@ -54,6 +54,26 @@ fixture proving the executed transformed loop receives a dict presentation
 and reaches the formula iteration without `AttributeError`.  A text-only
 presence check is insufficient.
 
+The same run log proves a second exact live inefficiency: the complete
+`selective_Q0`, `selective_membership_S0`, `S1`, `S2` construction occurred
+twice.  `replay_all(...)` already returns the authenticated `sf` built while
+replaying the C99 correction prefix, but v5 line 1155 unconditionally discards
+it with another `m.selective_runtime(...)` call.  In the transformed v7 live
+run, reuse that returned object:
+
+```python
+if sf is None:
+    runtime, sf = m.selective_runtime(P, p179, args)
+else:
+    runtime = sf.rt
+P["runtime_selective"] = runtime
+```
+
+The replay path already clears only its candidate cache, not its authenticated
+stores/kernel states.  Add a bounded call-count fixture proving a non-None
+replay `sf` causes zero additional construction calls, while `None` causes
+exactly one.  Do not rebuild/copy the Q0 stores.
+
 ## Repair A: independently recompute W
 
 The checker must not accept a producer-supplied `W` merely because the same
@@ -75,6 +95,17 @@ Add a bounded live-path mutation gate: a valid-shaped synthetic global record
 or narrowly mocked call with a re-sealed/copy-consistent wrong W in both
 record and cursor must be rejected specifically by the independent W check.
 Do not substitute an AST/text-only assertion for execution of that gate.
+
+The global scan must treat compiled scalar zero as an ordinary miss and
+continue to the next cursor.  It must not raise `global:zero_scalar` before a
+nonzero point is reached.  Only a retained record requires scalar in `{1,2}`.
+
+When replaying an old support-fibre row in a mixed compiled roster, require
+the row's independently selected formula to have `K==0`; do not require every
+other formula in the batch anchor to have zero K.  Conversely, a global row
+must be the sole row of its batch.  Reject two global rows and every
+support/action/global mixed batch even if all row digests and seals are
+recomputed consistently.
 
 ## Repair B: checker-gate RESOURCE transport
 
