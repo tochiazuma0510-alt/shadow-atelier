@@ -14165,3 +14165,147 @@ single transport repair required before continuation; it does not count the
 - A1 stays **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and A4
   **1/3 UNKNOWN_RESOURCE; ROW 26 PRODUCER-SEALED CANDIDATE**.  No common word,
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 337 (2026-09-02): the old batch-64 lane closes with zero rises; durability and A4 resource typing are corrected
+
+- Task453 GHA run `33516227668`, job `99883831511`, exact head
+  `7498d381de7180c8ca562fba5cf3bc15323d522c`, completed successfully as a
+  workflow.  Artifact id `9810932037` has digest
+  `sha256:ab66009472dbdfbef286c94b7f6ad9eef47426c71689f210552c50deaf70e658`.
+  Its producer terminal is the honest
+  `UNKNOWN_RESOURCE:tau_free_candidate:time_limit`; the durable state is
+  unchanged at `(rank,accepted,batches,round)=(51,8,0,9)`.  The independent
+  checker returned its exact PASS, so this is a **CROSS-CHECKED RESOURCE
+  FALLBACK AT RANK 51**, not a COMMON candidate and not a new rung.  The
+  result/checkpoint are respectively 11,876 bytes / SHA-256
+  `b79a216a0a080984ec77bac3a018da773c3ae6f01a92c7b4763f84ef20337705`
+  and 11,033 bytes / SHA-256
+  `cccb8fb8d6eceb84bd78fe33e11114589a13e4c2ad64ce2ff70caf14fb9d07a0`.
+- The same run supplies decisive performance evidence.  Base reconstruction
+  took about 13 minutes; the 1,469,664-state Q0 construction plus three
+  membership passes then took only about 21 seconds; the open candidate scan
+  consumed about one hour 49 minutes; and the resource checker consumed about
+  44 minutes.  Hence a persistent 176-MB selector cache is not the present
+  priority.  V426 keeps cache use positive-safe but defers its implementation,
+  permits candidate segments to chain without a full checker after every
+  resource stop, and keeps final full-prefix replay mandatory.
+- V427 closes the actual durability defect.  A soft deadline is caught inside
+  the batch owner; any `1..16` already literal-certified physical rises may be
+  updated, sealed, and atomically committed as a short batch.  Failure of that
+  close leaves the preceding checkpoint untouched.  Batch size 16 is an upper
+  bound, not a mathematical exactness premise.  This prevents another
+  two-hour run from discarding positive work merely because its nominal cap
+  was not reached.  No hidden Task453 row is retroactively recovered.
+- Rank-99 checker retry v3, run `33533502342` from head `3ea22a18`, did launch
+  Python but stopped before semantic replay with `FileNotFoundError`: after
+  changing cwd it passed an artifact path outside the checker-visible cone.
+  Task475 v4 copies and reauthenticates the artifact and checkpoint inside
+  the post-cd `ci/out` cone.  Commit `e8546334` was pushed and checker-only run
+  `33534267186`, job `99944586953`, exact head
+  `e8546334158ef760bf441512d01298aff64076b9`, is running.  This dispatch is
+  not yet a rank-99 cross-check.
+- Independent Sol(max) audit rejected Task469 v29/driver-v1 before dispatch.
+  The driver supplied no required checker arguments and copied inputs under a
+  cwd which the checker never owns.  More importantly, the immutable resumed
+  artifact correctly has a historical base `completed_counters` map and a
+  larger terminal semantic map; v28's `completed == semantic` assertion is
+  mistyped for a resumed delta chain.  V428 binds completed counters exactly
+  to the authenticated row-24 base, orders them below terminal semantic
+  counters, applies v423's unique wall excess only to genuine terminal typed
+  views, and keeps the row-25/26 delta replay separate.  Task478 implements
+  the v30 checker and explicit-argument/root-owned driver.  Row 26 remains
+  producer-sealed until that GHA replay passes.
+- V425 separately fixes future A4 durability: an open row may own sealed
+  physical-echelon shards and a pending query payload, while completed row
+  prefixes advance only on a unique terminal.  Producer resume may direct-load
+  structurally sealed shards; independent promotion still replays every raw
+  identity.  This does not recover the lost transient row-27 work.
+- Task473 v4 retained the actual 44-row compact A5 mathematics and repaired
+  its three prior ABI defects, but independent Sol(max) found one deterministic
+  preflight pin contamination: its named compact v3 driver was compared with
+  the bytes/SHA of the unrelated rank-99 driver.  Task476 v5 changes only that
+  tuple and is awaiting final independent audit.  No compact A5 production
+  has been dispatched.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its stable state is still **25 CROSS-CHECKED
+  LITERAL RUNGS / DURABLE RANK 68 on the single-row branch; separate rank-99
+  closed state structurally authenticated, with semantic checker v4 running**.
+  Task453's rank-51 resource fallback adds no rung.  The actual rank-99 owner
+  v2 remains under implementation/audit, and v427 is its next narrow
+  durability transform.
+- Compact A5 remains **PAPER-CLOSED ACTUAL 44-ROW POSITIVE DOVETAIL / v4
+  DRIVER-PIN STOP / v5 FINAL AUDIT RUNNING**.  No MEMBER is claimed.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and
+  A4 **1/3 UNKNOWN_RESOURCE; ROW 26 PRODUCER-SEALED CANDIDATE / v30 REPAIR IN
+  IMPLEMENTATION**.  No common word, compatible lift, fake, or Ihara witness
+  is declared.
+
+### Delta 338 (2026-09-02): rank 99 is a resume prefix, and compact A5 v5 is stopped before a dormant-shell false success
+
+- Independent Sol(max) audit rejects Task476 v5 **STOP / NOT DISPATCHABLE**.
+  Its inherited-v3 path/byte/SHA tuple, the v4 producer/checker pins, CLI,
+  caps, MEMBER-only checker policy, frontier typing, and intended command
+  cardinalities all pass.  The fatal defect is narrower: the GAP driver
+  closes the generated strict bash payload and prints `DRIVER_READY`, but
+  executes that payload zero times.  The generic `gap-run.yml` does not run a
+  shell emitted by a GAP script, so an ordinary dispatch could finish with
+  producer count zero and checker count zero.  No Task476 production was
+  dispatched and READY is not evidence.
+- Task479 is the minimal v6 repair: execute the owned shell exactly once after
+  `CloseStream`, then require the exact fresh COMPLETE sentinel before the GAP
+  terminal.  It does not change the accepted v4 producer/checker mathematics.
+  Even a dispatchable v6 remains upstream-blocked until a real authenticated
+  Task193-v5 receipt/verdict pair exists; no such pair is currently present.
+- The rank-99 object is exactly a closed physical continuation prefix with
+  56 accepted literal rows, rank 99, three closed 16-row batches, and round
+  12.  A PASS from checker-only run `33534267186` would promote that prefix
+  from structurally authenticated candidate data to a cross-checked resume
+  base.  It would **not** itself be `COMMON_CANDIDATE`, A0 completion, or a
+  Task193 input.  The actual continuation owner must still reduce the target
+  remainder to zero and its final complete prefix must receive independent
+  positive replay before the Task451 carrier and Task193-v5 compiler may run.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**: 25 cross-checked rungs/rank 68 on the single-row
+  lane, plus a separate rank-99 candidate prefix whose semantic checker is
+  still running.  Rank 99 is not added to the numerator.
+- Compact A5 remains **PAPER-CLOSED ACTUAL 44-ROW POSITIVE DOVETAIL / v5
+  DORMANT-SHELL STOP / v6 MINIMAL REPAIR IN IMPLEMENTATION / NO ACTUAL
+  TASK193-v5 INPUT**.  No MEMBER is claimed.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and
+  A4 **1/3 UNKNOWN_RESOURCE; ROW 26 PRODUCER-SEALED CANDIDATE**.  No compatible
+  lift, fake, or Ihara witness is declared.
+
+### Delta 339 (2026-09-02): compact A5 dormant-shell repair is independently GO, but remains correctly upstream-blocked
+
+- Task479 v6 is independently audited **GO FOR ADOPTION / NOT YET FOR
+  DISPATCH**.  Static reconstruction proves exactly one `CloseStream`, one
+  execution of the owned shell after it, no READY terminal, and an exact
+  existence/content check of the fresh COMPLETE file before the GAP COMPLETE
+  terminal.  The strict shell retains exactly one producer, one MEMBER-only
+  checker, and one small nonpositive frontier assertion.  No SELFTEST,
+  fixture, retry, worker pool, extra traversal, or workflow path was added.
+- V6 is 4,446 bytes / SHA-256
+  `c32d007f96d7c4e889ef56fac3c8f00aec49b9832c39b409d32a5aca918132d8`.
+  Its v3-driver, v4-producer, and v4-checker tuples independently reproduce
+  their registered bytes and hashes, and the generated producer/checker
+  bodies reproduce their sealed 61,376/47,875-byte ABIs.  This closes the
+  deterministic Task476 dispatch-envelope defect without changing the
+  compact 44-row mathematics.
+- The remaining dispatch premise is substantive and intentionally external:
+  explicit authenticated Task193-v5 receipt and verdict paths.  The driver
+  has no defaults or fixtures for them, and no actual Task193-v5 pair exists
+  yet.  A missing pair may only produce an `UNKNOWN_INPUT` envelope with all
+  six downstream claims NONE/false; the COMPLETE sentinel is a driver
+  completion marker, not a MEMBER marker.
+
+**v220 mapping**:
+
+- Compact A5 advances from **v6 repair in implementation** to **v6 DRIVER
+  ENVELOPE INDEPENDENTLY GO / PRODUCTION BLOCKED ON ACTUAL A0 COMMON ->
+  Task193-v5 INPUT**.  Its actual numerator remains 0.
+- A0, A1, A2, A3, and A4 numerators remain exactly those in Delta338.  No
+  common word, compatible lift, fake, or Ihara witness is declared.
