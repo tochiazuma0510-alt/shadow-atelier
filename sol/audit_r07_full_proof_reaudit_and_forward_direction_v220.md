@@ -14764,3 +14764,24 @@ single transport repair required before continuation; it does not count the
   and the older rank-68 lane remain GHA-running.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 352 (2026-09-02): rank-99 v5 is dispatched on the exact audited repair head
+
+- Parent adopted the Task494/Task495-approved v5 trio at immutable commit
+  `dd6d90b64e2bfba73d7f131f4da876235746f314`, pushed it to
+  `sol/r07-explicit-lift-20260825`, and dispatched generic `gap-run` run
+  `33553895281`, job `100009888831`, on that exact head.  The invocation pins
+  the v5 driver, preamble
+  `D972_R07_A0_DUAL_ANCHORED_RANK99_DURABLE_DISCOVERY_V5_RUN:=true;;`,
+  `ci/out`, no optional p-quotient packages, and a 355-minute job limit.
+- Queue/setup/execution time is not mathematical progress.  The first runtime
+  gate is whether v5 passes the frozen-prefix location at which v4 returned
+  `KeyError('constant')`; stable A0 changes only after an authenticated
+  RESOURCE checkpoint or checker-approved COMMON artifact is uploaded.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Rank-99 v5, rank-84 v9, and the older rank-68
+  lane are GHA-running; their starts do not increase the numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
