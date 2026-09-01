@@ -13972,3 +13972,63 @@ single transport repair required before continuation; it does not count the
 - A0 remains as in Delta332; A1 is **4/4 cross-checked**, A2 **2/3**, A3
   **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No common word,
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 334 (2026-09-02): a rank-99 closed state is recovered; Task463 is not a resumable production owner
+
+- The apparently failed Task451 batch-16 run `33512607989`, job
+  `99871740592`, source `3316809e483223ec571ca7d6976dc1317c892441`,
+  did not fail in its producer.  Starting from the rank-51/eight-record
+  prefix, it closed three 16-rise batches at elapsed times 2,449.680,
+  4,506.593, and 6,337.246 seconds.  The sealed durable state is therefore
+  rank 99, accepted count 56, round 12.  Production then stopped honestly at
+  `UNKNOWN_RESOURCE:tau_free_candidate:time_limit` after 7,230.891 seconds.
+- The subsequent checker alone crashed because its local assignment
+  `model,formulas,adj=compiled` makes the global function `formulas` an
+  unbound local at the immediately preceding call.  This is a Python
+  name-binding defect, not a rejected row or a missing candidate.  The
+  recovered result is 173,930 bytes / SHA-256
+  `5079ddfbffbfc00cac6b2672cbef80f7eb2cce069a2dba87aa04e7cbc420c29a`;
+  its checkpoint is 173,082 bytes / SHA-256
+  `bc435660b299f9d72cb2ac10f9765da4ff7f3a16a75242264451c391f20bd358`
+  with inner canonical seal
+  `f2de40c3b16053464b8cf7d397f8fd05ca4439a46ca7e45df93e60bbc11a312d`.
+  Parent checked the outer seal, inner seal, frozen eight-record prefix,
+  closed-batch counts, and ranks `67,83,99`.  Full semantic replay remains
+  pending, so this is **STRUCTURALLY AUTHENTICATED CANDIDATE**, not yet
+  cross-checked.
+- Original GHA artifact id `9808605601` has digest
+  `sha256:fb6b6b776b8b288952196f400a0d32d57fd2a5ddb9780a7718e55cffee8bafe1`.
+  Its exact six extracted files were repacked outside the repository and
+  uploaded to permanent release `archive-gha-checkpoints` as
+  `artifact_9808605601_gap-run-out.rank99.zip`, 27,959 bytes / SHA-256
+  `d707cf2553fae24863362d581ba4c09709c629a977ff772d95877dd18fdd5f48`.
+  Task467 commissions a producer-free, bounded checker-only replay from that
+  immutable asset; commission commit is `ae8dd1ef`.
+- Independent Sol(max) audit gives the Task463 execution bundle **STOP AS A
+  CONTINUATION OWNER**.  Its exact 25-record semantic prefix replay,
+  rank-68-relative 64-rise cap, and closed-batch certificate gates are
+  sound.  But driver v3 never passes `--resume`; a new closed checkpoint
+  cannot seed the following run.  For every nonzero-scalar correction it also
+  computes the full conjugate `seed_v12` and exponent before learning whether
+  the candidate is dependent, its initialization/replay resource failures do
+  not return a typed closed fallback, and its plain pipelines do not propagate
+  timeout/nonzero exit.  Thus run `33527792145` may still yield a usable
+  one-shot result, but the implementation is not adopted for repeated ladder
+  continuation.  The next owner must combine explicit INITIAL/RESUME,
+  retained-rise-only expensive checks, typed closed fallback, and a guarded
+  checker pipeline; short closed batches are required so a resource stop does
+  not discard a nearly complete 64-row open batch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its non-regressing description is now:
+  **25 CROSS-CHECKED LITERAL RUNGS / DURABLE RANK 68 ON THE SINGLE-ROW BRANCH;
+  SEPARATE TASK451 RANK-99 CLOSED STATE STRUCTURALLY AUTHENTICATED / FULL
+  CHECKER REPLAY COMMISSIONED**.  The two branches share only the frozen
+  rank-51/eight-record prefix and must not be numerically merged.
+- Task463's certificate mathematics is retained, but its current driver is
+  removed from the accepted repeated-continuation path.  This changes no
+  milestone numerator.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and
+  A4 **1/3 UNKNOWN_RESOURCE**.  No common word, compatible lift, fake, or
+  Ihara witness is declared.
