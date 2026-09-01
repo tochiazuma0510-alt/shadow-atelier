@@ -15179,3 +15179,52 @@ single transport repair required before continuation; it does not count the
   v6 implementation is rejected pending the versioned v7 repair and audit.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 364 (2026-09-02): the rank99 global-selector repair is independently GO and dispatched
+
+- Task509's versioned v7 repair has exact pins: producer `4,911 /`
+  `a66526af4b4f86019b1a4a9283212b9782f5793a21c518a93f04b9925e6bee22`,
+  checker `9,067 /`
+  `8de4f573a8a00da451c9518bbc87eb77c1c8cebfb2477ce38efb51e0e01c14f8`,
+  and driver `9,800 /`
+  `fd355c0428f95332c3c822e47b0e2368bfc07cbe4372c47a33fd1ebe24d5d8b7`.
+  It changes no selector mathematics: it repairs the live dictionary ABI,
+  reuses the selective runtime returned by replay instead of constructing it
+  twice, skips zero values before the first global hit, and binds v431 into
+  the durable state.
+- Independent Sol(max) Task510 returned **GO_FOR_GHA_DISPATCH**.  Its
+  8,441-byte reply has SHA-256
+  `55ecc04fd3994c96a172634523641ed08c16cbf8ad5d9d2bcab17db397244b41`.
+  It exercised the actual imported run path and confirmed zero extra
+  selective constructions when replay supplies `sf`, exactly one when it is
+  absent, zero-before-hit continuation, and invariant failure only after an
+  all-zero `0..W` exhaustion.
+- The checker independently recomputed W from its own compiled formula and
+  kernel orders.  A coordinated mutation of record W, cursor W and global
+  cursor, followed by recomputation of rolling prefix, segment ledger, end
+  core and top seal, still failed at `global:W_recompute`.  It also accepted
+  a selected K=0 support row with a later K=1 formula, rejected selected K=1,
+  and rejected two-row or mixed global batches.  Frozen-v5 migration changed
+  exactly `schema`, `binding`, and `state_sha256`.
+- The RESOURCE branch remains candidate transport rather than a proof: one
+  exact pinned producer, fresh fixed output paths, `pipefail`, one typed
+  terminal, nonempty receipt/checkpoint, resource marker/mode, state-seal
+  shape, and all A0/COMMON/NONMEMBER/fake/Ihara claims false.  It deliberately
+  runs no duplicate full checker.  COMMON alone runs the independent v7
+  checker with the audited 5,400-second bound and may write COMPLETE.
+- Parent adopted and pushed the audited bundle at exact commit
+  `4d57c024df74b257e5b4e724b69e6c4d51ff667f`.  Generic `gap-run` production
+  run `33570220633`, job `100062348518`, was dispatched from that exact head
+  with preamble
+  `D972_R07_A0_DUAL_ANCHORED_RANK99_DURABLE_DISCOVERY_V7_RUN:=true;;`,
+  canonical C99 input, `ci/out`, no optional p-quotient packages, and a
+  355-minute job limit.  Dispatch/setup is not a rank rise.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** pending an uploaded and independently accepted
+  result.  Its stable prefixes remain **56 sources / rank 99 / three closed
+  batches / round 12** on this dispatched lane and **55 literal rungs / rank
+  98 / round 59** on the separately running v10 lane.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
