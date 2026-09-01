@@ -14906,3 +14906,38 @@ single transport repair required before continuation; it does not count the
   invariant closure/word-bearing `K` remain open.
 - A0--A3 and compact A5 retain exactly the Delta355 states.  No compatible
   lift, fake, or Ihara witness is declared.
+
+### Delta 357 (2026-09-02): the first A4 shard implementation is rejected as unreachable, and the actual call graph is fixed
+
+- Task499 returned v23/v32/v42 wrappers, but independent Sol(max) Task502
+  returned **STOP / DO NOT ADOPT**.  Its 5,061-byte reply has SHA-256
+  `c747e61c83579b4f886f77d42d9989fcf48aabde4e9d4442b55e2a7c8b55db79`
+  and was recorded at commit `291f8749`.
+- The defect is executable and minimal.  V23 inserts one physical-shard helper
+  definition before `_delta_payload`, but its generated production AST has
+  zero calls to `_A4PhysicalShardStore`; deleting that definition restores the
+  v22 generated body byte-for-byte.  V32 analogously has zero production calls
+  to `_a4_checker_validate_shards` and otherwise equals v31.  Their isolated
+  SELFTESTs called the dead helpers directly, so their PASS did not exercise
+  `consume_row`, `Oracle.query`, producer resume or checker acceptance.
+- V42 independently fails transport reachability: it pins v41 text but never
+  executes/reads its inner production envelope; generated-source, release and
+  six row-26 member hashes are assignment-only constants.  Therefore no row27
+  production was dispatched from Task499 and no transient rank is claimed.
+- Paper v430 corrects the implementation type.  A shard owns the exact
+  `m=min(64,|C|)` fully examined candidate prefix and its accepted mask, not
+  64 accepted rows.  It fixes the required live graph
+  `build_kernel -> consume_row.prepare -> Oracle.query.close_batch ->
+  consume_row.commit`, direct physical restore, independently recomputed
+  checker replay, and executable Task483-style release transport.  Task503,
+  committed with v430 at `380f2d3b`, is the bounded v24/v33/v43 implementation
+  commission; it may not run production or change search mathematics.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Task499
+  adds no implementation-readiness milestone and is superseded for adoption
+  by the pending Task503 actual-wiring successor.
+- A0 remains **0/1 actual** with rank-84 v9 and rank-99 v5 GHA-running.  A1
+  **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No compatible
+  lift, fake, or Ihara witness is declared.
