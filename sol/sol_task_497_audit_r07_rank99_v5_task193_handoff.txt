@@ -1,0 +1,124 @@
+# Sol(max) task 497 - independent audit of rank99-v5 COMMON to Task193 handoff
+
+Role: independent Sol(max) code/mathematics auditor.  Read this instruction,
+Task493, Task496, v416, v417, the Task496 reply, and every implementation file
+listed below in full.  Do not trust Task496's tests or prose.  You may run only
+bounded read-only/temporary-fixture checks.  Do not run production, GHA, git,
+or the A0/Task193 heavy computation.  Write only
+`sol/sol_reply_497_audit_r07_rank99_v5_task193_handoff.md`.
+
+## 1. Exact audit subject
+
+Authenticate these current files before semantic work:
+
+- carrier producer, 17300 bytes / SHA-256
+  `52820ca1943075326ec8853f7b5e88c836e72f29b797f0d8b478cbf08501b851`:
+  `search/d972_r07_rank99_v5_task193_carrier_v1.py`;
+- carrier checker, 17410 /
+  `8abd8597b3fd3391e3945d8be92d5ca564a9913acc6c3f8384a67c3419f0ff9e`:
+  `crosscheck/check_d972_r07_rank99_v5_task193_carrier_v1.py`;
+- carrier driver, 3019 /
+  `577d7af82550bfe973e9e276c64346626a703c206858065d9bf8f7c818674b10`:
+  `search/d972_r07_rank99_v5_task193_carrier_gha_driver_v1.g`;
+- Task193-v6 producer wrapper, 5512 /
+  `f57abe72e64a3dc4e5ab18a43c9c7f2f2ffdaddc808ae08332e7a0d2e5e6f8fa`:
+  `search/d972_r07_second_frattini_affine_prefix_compiler_v6.py`;
+- Task193-v6 checker wrapper, 5428 /
+  `cd469461800618ae239fd88c3975e91390131f00b79f134ce58c1c8d03ea7bbf`:
+  `crosscheck/check_d972_r07_second_frattini_affine_prefix_compiler_v6.py`;
+- Task193-v6 driver, 2840 /
+  `a6b8e8622cce1e6eb06b79196185b55a963246a8bba8788893f6645bcdf45f8e`:
+  `search/d972_r07_second_frattini_affine_prefix_compiler_gha_driver_v6.g`;
+- Task496 reply, 4532 /
+  `dd3d0e9cb73bfb9cf163f05626116dfbe036f10931ff388866cd3e5e8cf3b653`.
+
+Generated Task193-v6 bodies must independently reproduce:
+
+- producer 12282 /
+  `d132c9fd774ad298428398709c4a81435bfda82f641e40525dedbe87916ee791`;
+- checker 7831 /
+  `082ee3cfc16c5e2f7ddd05baa7b6375486fb5d18e1d0db6014ee05802d050070`.
+
+Their only mathematical owners are exact Task193-v5 producer
+12207/`fab51e296170ac34ebe48b49d79d3460017a51cd797d524e7b0d89481f23960f`
+and checker
+7795/`941eab0d9c60726436c866427de04b7c25b4ae1934fbf0a1d464f2010a7e2b9e`.
+
+## 2. Upstream and provenance firewall
+
+Independently prove or refute that both carrier sides authenticate the exact
+rank99-v5 producer/checker/driver pins, binding
+`0e0123e99309a768910e150d5bf4725295a0dc35eab7e15eac66538a3a37d56b`,
+source head `dd6d90b64e2bfba73d7f131f4da876235746f314`, and run
+`33553895281`.  Job `100009888831` is not an artifact id.  Confirm there is
+no hard-coded artifact id: production `--artifact-id` must be a canonical
+positive decimal string supplied after upload, then bound without drift in
+receipt, upstream record, checker input and verdict.  Reproduce rejection of
+nonnumeric, zero, leading-zero and producer/checker-drift cases.
+
+For a positive input require canonical physical result/checkpoint/log
+identities, exact v5 schema/binding/pins/result seal, COMMON_CANDIDATE
+envelope and claims, exact producer marker, exact independent checker PASS
+line, closed durable-state identity, and a fresh call to the pinned v5 checker
+over the actual result.  RESOURCE/UNKNOWN, stale v4, missing/malformed inputs,
+or forged/duplicated marker-only input must never become ACCEPTED.
+
+## 3. Literal carrier mathematics
+
+Audit producer and checker independently; the checker must not import the new
+producer.  Reconstruct from `terminal_replay.literal_word`, not from a claimed
+carrier.  Check all of the following against the frozen owners:
+
+- freely reduced correction and exact exponent pair `(0,0)`;
+- all ten joint-kernel states;
+- exact 760-letter `g760` and right product
+  `freely_reduce(g760 + correction)`;
+- one fresh `direct_column` replay with eleven occurrences/all seven maps;
+- target row and quotient correction equality;
+- physical sparse row and legacy digest;
+- selected-action ancestry and its digest;
+- hexagon and printed-order pentagon flags;
+- sealed receipt/verdict and all downstream claims false except the literal
+  carrier replay claim.
+
+Mutate each load-bearing field separately and require rejection.
+
+## 4. Task193-v6 confinement
+
+Regenerate both wrappers from the exact v5 owners and audit every replacement
+cardinality.  The diff may change only carrier dialect/pins, v5-rank99
+provenance, versioned schema/marker/checkpoint names, and fixture wording.
+The affine-prefix algorithm, resource bounds, search order, replay arithmetic,
+result semantics and independent v5 checker core must be unchanged.  Confirm
+the v6 checker independently rebuilds the carrier firewall and translates to
+the frozen v5/v1 compatibility views before accepting.
+
+## 5. Driver and performance gates
+
+Both drivers must require explicit production inputs, invoke exactly one
+producer and one post-acceptance checker, require each exact owned positive
+sentinel as exactly one complete line, reject UNKNOWN/RESOURCE/ERROR/Traceback,
+and require nonempty fresh receipt/verdict files.  No fixture/default path,
+retry, worker pool, selector, search, checkpoint framework, compact-A5
+migration, or production fallback is allowed.  Confirm no unnecessary heavy
+work or duplicated Task193/A0 traversal was introduced: the bridge may perform
+only the already-required v5 positive replay and one carrier reconstruction,
+then delegate the unchanged Task193-v5 core.
+
+Run AST, pin/source-generation, both fixtures/self-tests, explicit stale-v4
+and artifact-id mutations, driver static cardinality, generated-shell syntax
+if applicable, and bounded GAP `ReadAsFunction` parse.  Temporary files must
+stay outside the repository and no bytecode cache may remain.
+
+## 6. Verdict and claim boundary
+
+Return one of:
+
+- `GO_FOR_ADOPTION_PENDING_ACTUAL_COMMON` only if every gate above passes; or
+- `STOP_DO_NOT_ADOPT`, with the smallest concrete repair and reproduction.
+
+A GO closes only the implementation/prefix-handoff readiness gate.  It does
+not say the active A0 run returned COMMON, does not increment A0 or A2, and
+does not construct a lift, fake or Ihara witness.  End with exactly
+
+`TASK497_R07_RANK99_V5_TASK193_HANDOFF_AUDIT`
