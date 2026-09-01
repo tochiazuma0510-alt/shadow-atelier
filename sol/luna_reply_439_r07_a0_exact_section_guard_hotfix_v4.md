@@ -22,3 +22,34 @@ Bounded gates only: external-cache syntax compilation, producer toy fixture,
 checker self-test, static driver reconstruction/pin check, and
 `git diff --check`. No local production, Q0, bootstrap, GHA, download,
 workflow edit, commit, push, or dispatch was run.
+
+## Parent broker result
+
+The audited source was committed/pushed as
+`b7b96996e7d4b88f0077c02de31d5d971325296e` and dispatched as run
+`33444570055`, job `99660612337`.  The producer crossed the repaired guard and
+returned `ACTIVE_COLUMN_READY` after 591.312 seconds:
+
+```text
+seed_index       1
+coordinate       0
+fibre_cursor     0 (first kernel element)
+checked_fibres   1
+scalar           1
+rank_transition  43 -> 44
+delta_word_len   146
+delta_word_sha   92a51dce182e430f67e26eeef26e34577664c5a8aba6b2ae1f0e193a6a339043
+row_digest       5e934d088f01d590ec280edf5c6480f5b6a2f49f545dae204adddf7e58c3ce7a
+```
+
+Artifact `9777922364` is 8,139,311 compressed bytes with uploaded zip
+SHA-256
+`522003b493dfbf90c19fc6c443f888387546c90a1ef06f4d43533798906d68f4`.
+Its 94,840,417-byte result JSON has SHA-256
+`9b03e2dbdac063bcd1aa53e0cca7bb2fc9fbe30713540118ec8e42fe4c29cbd8`.
+
+The checker then failed before ACTIVE replay with `KeyError: 'dual'`: its
+`check` function received the independently rebuilt dual from `prefix` but
+did not restore it as `P["dual"]` before calling `formulas`.  The ACTIVE is
+therefore still a candidate, not cross-checked.  Task440 v5 repairs only that
+checker dataflow edge; it does not change or promote the candidate.

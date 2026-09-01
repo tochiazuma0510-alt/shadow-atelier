@@ -13121,3 +13121,38 @@ single transport repair required before continuation; it does not count the
   occurrence lane remains operationally NO-GO and off-path.
 - All non-A0 numerators remain unchanged.  No common word, compatible lift,
   fake numerator, or Ihara witness is promoted by this delta.
+
+### Delta 311 (2026-09-01): first literal A0 ACTIVE candidate is produced
+
+- The exact-section v4 source passed independent audit, was committed at
+  `b7b96996e7d4b88f0077c02de31d5d971325296e`, and ran as `33444570055`, job
+  `99660612337`.  After the same complete formula/Q0/S0--S2 construction, the
+  restored full-key guard skipped false coarse matches and the producer found
+  an `ACTIVE_COLUMN_READY` in the first weighted formula, coordinate S0, at
+  the first kernel element.  The receipt records scalar 1, one checked fibre,
+  and strict physical rank transition `[43,44]`.
+- The explicit correction prefix has length 146 and canonical word SHA-256
+  `92a51dce182e430f67e26eeef26e34577664c5a8aba6b2ae1f0e193a6a339043`;
+  its direct physical row digest is
+  `5e934d088f01d590ec280edf5c6480f5b6a2f49f545dae204adddf7e58c3ce7a`.
+  Producer elapsed time was 591.312 seconds.  Artifact `9777922364` is
+  8,139,311 compressed bytes, uploaded zip SHA-256
+  `522003b493dfbf90c19fc6c443f888387546c90a1ef06f4d43533798906d68f4`;
+  its 94,840,417-byte JSON has SHA-256
+  `9b03e2dbdac063bcd1aa53e0cca7bb2fc9fbe30713540118ec8e42fe4c29cbd8`.
+- Independent checking did not yet complete.  It rebuilt the physical prefix
+  and reached formula replay, then raised `KeyError: 'dual'` because v1
+  checker `check` failed to put its returned local `dual` back into `P` before
+  `formulas` read `P["dual"]`.  Task440 v5 binds that identical object and
+  changes no producer, formula, ACTIVE receipt, or verification gate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; one literal ACTIVE candidate; Task440 CHECKER
+  HOTFIX ACTIVE**.  Relative to Delta310, existence is now witnessed on the
+  producer side at seed 1 / S0 / first kernel element.  It is not counted
+  until the independent checker replays the ten coordinates, formula scalar,
+  v12 row, normalized exponents, pivot, and strict rank rise.
+- The 588-year occurrence lane remains off-path.  All non-A0 numerators are
+  unchanged; no common word, compatible lift, fake numerator, or Ihara
+  witness is promoted by this delta.
