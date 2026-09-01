@@ -11,9 +11,9 @@ search/d972_r07_a0_dual_anchored_rank99_durable_discovery_v6.py
 14329 3173c9d99fc5a94713d3dbed1b2c90d4ed3a5723b428838ec0bd50d8aee3d90c
 ```
 
-Read Task506, paper v431, Task507 GO, and Task508.  Repair only two already
-identified acceptance-boundary defects while preserving the v6 schema and
-producer marker.
+Read Task506, paper v431, Task507 GO, and the completed Task508 STOP reply.
+Repair only the enumerated acceptance-boundary defects while preserving the
+v6 schema and producer marker.
 
 ## Required outputs
 
@@ -47,9 +47,9 @@ zip(formulas, P["pres"]["relators"])
 ```
 
 Do not change the old source-anchor string that must still match frozen v5.
-Preserve the v6 schema, binding and terminal marker so the existing rank99
-closed state migrates identically; the new file is a code-bundle version, not
-a checkpoint-schema rewrite.  Add a bounded production-shaped source-patch
+Preserve the v6 schema and terminal marker.  Strengthen the binding only as
+required below to include v431; the new file is a code-bundle version, not a
+checkpoint-schema rewrite.  Add a bounded production-shaped source-patch
 fixture proving the executed transformed loop receives a dict presentation
 and reaches the formula iteration without `AttributeError`.  A text-only
 presence check is insufficient.
@@ -107,18 +107,26 @@ must be the sole row of its batch.  Reject two global rows and every
 support/action/global mixed batch even if all row digests and seals are
 recomputed consistently.
 
-## Repair B: checker-gate RESOURCE transport
+## Repair B: restore the audited v5 transport envelope
 
-The driver must run the independent v7 checker for both producer terminals:
+Restore the pinned v5 driver's live shell execution and transport boundary,
+changing only the versioned paths, exact pins, binding/markers and preamble.
+The independent v7 checker is mandatory for `COMMON_CANDIDATE`.
 
-- `COMMON_CANDIDATE`; and
-- `UNKNOWN_RESOURCE`.
+For `UNKNOWN_RESOURCE`, do not spend another full semantic replay inside the
+same job.  Instead use the audited v5 claim-free transport boundary: require
+the unique exact RESOURCE terminal, nonempty receipt and checkpoint,
+RESOURCE candidate marker, `DISCOVERY_RESOURCE`, a 64-hex checkpoint state
+seal, all claims false, and a resource-only owned OK marker which contains no
+global COMPLETE marker.  The artifact is candidate transport and may not be
+resumed or adopted until independent authentication.  This is not checker
+approval or a mathematical milestone.
 
-It must reject plain UNKNOWN, ERROR, traceback, stale/missing output, or any
-producer/checker nonzero exit.  It may regard checker-approved
-`UNKNOWN_RESOURCE` as workflow transport success only after the checker has
-authenticated the closed checkpoint and false claim flags.  Then write the
-`.ok` marker so artifact upload can occur.  Do not exit before the checker.
+The driver must reject plain UNKNOWN, ERROR, traceback, stale/missing output,
+or any producer/checker nonzero exit.  It must actually execute the generated
+shell, not end at `bash -n`.  COMMON requires the exact v7 checker PASS
+terminal, nonempty verdict, and global COMPLETE owned marker.  RESOURCE must
+never print that marker.
 
 Keep the audited envelopes exactly:
 
@@ -128,14 +136,32 @@ Keep the audited envelopes exactly:
 ulimit -v 5000000
 ```
 
-Pin the new v7 producer, new v7 checker, and v431 proof in the driver.
+Pin the new v7 producer, new v7 checker, and v431 proof in the driver.  Also
+restore exact byte/SHA checks for C99, rank51, Task451 producer/checker, and
+v424/v426/v427.  Require canonical input realpath and a unique producer
+terminal.  Keep COMMON checker timeout 5400 seconds rather than 14400.
 Preserve ASCII-only GAP/driver text.
+
+## Repair C: bind the new theorem
+
+Task508 proved that the v6 producer/checker `PROOF` constants are dead: their
+`pins()` and durable binding remain the old seven-entry v5 set.  The v7
+producer and checker must each authenticate v431 independently, expose it in
+their public pins, and include its exact path/bytes/SHA in the binding from
+which migrated/new checkpoint seals are computed.  Producer and checker must
+derive the same strengthened binding without importing each other's helper.
+
+Authenticate a frozen v5 closed input under the old constants before changing
+only its top-level schema, strengthened v7 binding and state seal.  Historical
+rows, batches, segments, prefix, ready cores and ledger remain unchanged.
 
 ## Bounded gates
 
 Run only parse/pin/self-test/fixture and tiny mocked transport gates.  No
 production owner construction or unbounded search.  Report exact byte counts,
-SHA-256 values, commands, and whether both terminal paths reach the checker.
+SHA-256 values, commands, and bounded execution of both terminal paths:
+COMMON reaches the checker; RESOURCE reaches only the strict claim-free
+transport gate and never COMMON/COMPLETE.
 
 Final marker:
 
