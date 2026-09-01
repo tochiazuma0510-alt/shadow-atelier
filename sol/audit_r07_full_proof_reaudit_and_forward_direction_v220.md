@@ -13546,3 +13546,34 @@ single transport repair required before continuation; it does not count the
 - Actual fractions remain A0 **0/1**, A1 **4/4 cross-checked**, A2 **2/3**,
   A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No actual A2,
   compatible lift, fake, or Ihara witness is promoted.
+
+### Delta 323 (2026-09-01): Task451 needs only a tagged task193 pin migration
+
+- New theorem
+  `proof_r07_task451_carrier_task193_extensional_pin_migration_v417.md`
+  audits the accepted task193-v4 producer/checker boundary.  Both sides first
+  normalize an authenticated A0 adapter to the same minimal object consisting
+  only of `c_exact`, the corrected word, the direct all-seven sparse row and
+  its fixed replay flags.  Adapter receipt/verdict identities are used for
+  provenance and resume binding, not in the affine-prefix mathematics.
+- Consequently a checker-accepted Task451 positive does not require a new
+  task193 equality oracle.  It requires a dedicated Task451 carrier dialect,
+  followed by a versioned task193 successor that changes the accepted
+  schema/terminal/pins and fresh paths while retaining the v4 mathematical
+  core.  Forging a history-free-v5 envelope or moving a v5 checkpoint remains
+  forbidden.
+- Task452 commissions only that small carrier boundary in parallel.  It may
+  stop on a precise missing ABI, but it may not modify Task451, old adapters,
+  or run A0 locally.  A subsequent task193 pin successor is conditioned on an
+  accepted carrier implementation or an actual positive artifact.
+
+**v220 mapping**:
+
+- The Task451-positive -> task193/A2 handoff is now paper-closed through the
+  compiler's exact normalization boundary, not merely at the abstract word
+  level.  This removes a future algorithm-rewrite blocker.
+- Actual fractions remain A0 **0/1**, A1 **4/4 cross-checked**, A2 **2/3**,
+  A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  Task452 and the
+  active GHA runs do not change a numerator.  A5--A9, B, C, W, and F remain
+  unchanged; no common word, compatible lift, fake, or Ihara witness is
+  declared.
