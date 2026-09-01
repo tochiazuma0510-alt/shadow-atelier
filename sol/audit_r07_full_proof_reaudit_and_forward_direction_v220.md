@@ -13656,3 +13656,103 @@ single transport repair required before continuation; it does not count the
   A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No common word,
   compatible lift, fake, or Ihara witness is promoted by this interface
   implementation.
+
+### Delta 326 (2026-09-01): both active batch ABIs are connected through task193
+
+- Task454 implements the exact Task452-carrier to task193-v5 successor. It
+  keeps task193-v4's mathematical compiler core but authenticates the new
+  carrier schema, normalizes its inner keys, binds the three Task452 physical
+  pins, and emits the conventional task193-v5 receipt/checker ABI. Four
+  load-bearing wrapper defects found before adoption were repaired: inner key
+  normalization, final schema resealing, producer/checker firewall parity,
+  and the false `resumable=true` label. Final physical pins are producer
+  12,207 bytes /
+  `fab51e296170ac34ebe48b49d79d3460017a51cd797d524e7b0d89481f23960f`,
+  checker 7,795 bytes /
+  `941eab0d9c60726436c866427de04b7c25b4ae1934fbf0a1d464f2010a7e2b9e`,
+  and driver 2,269 bytes /
+  `d2cab901ae608d88bcff6dacdee6072c780b9157e1955cbaa740d227a8f2fe7a`.
+  The accepted source commit is `ae9220fc`.
+- Task455 is an exact provenance-pin successor for Task453's batch-64 head
+  `7498d381de7180c8ca562fba5cf3bc15323d522c`. It changes no Task451
+  mathematics and binds the actual run/artifact identity at consumption
+  time. Final physical pins are producer 3,530 bytes /
+  `abe7d2ad15a48d641a41f51fb69c1d989224e96d024b688859a6ab141b176bf3`,
+  checker 3,584 bytes /
+  `8a27b06155bf94a99a38a8fd891bb811e2c0958db5ac7f39312403337a8c878b`,
+  and driver 2,502 bytes /
+  `6c0b9cc285796f4c91987e2eacfb4907e7c27867379132fdf1f8194aa9505c67`.
+  The accepted source commit is `371fb298`.
+- Task457 connects that Task455 carrier to task193-v6 by an exact
+  source-cardinality and generated-body-hash sealed successor of task193-v5.
+  Final pins are producer 5,013 bytes /
+  `0b987286bdd8e4dd6bba539b00beecfdfd811a6d410de29c53edb7e7d9150687`,
+  checker 4,760 bytes /
+  `d41ed98fa134bbc4b5a7129f734812c67ae8f3ac5aeeb3953d451bf5be97c112`,
+  and driver 2,271 bytes /
+  `e88c81396b8b3cac415df3d776cf95fae3ac2f22460b0f2a451b27c6f66e25a2`.
+  The accepted source commit is `089287a5`.
+
+**v220 mapping**:
+
+- A checker-positive batch-16 result now has a complete physical
+  Task452→task193-v5 path; a checker-positive batch-64 result has a complete
+  Task455→task193-v6 path. The downstream interfaces are ready before either
+  active computation returns.
+- Actual fractions remain A0 **0/1**, A1 **4/4 cross-checked**, A2 **2/3**,
+  A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**. Interface
+  readiness is not an A0 or A2 numerator. No common word, compatible lift,
+  fake, or Ihara witness is declared.
+
+### Delta 327 (2026-09-01): direct-relator completeness is corrected to a two-level K/A5 closure
+
+- The physical Task411 artifact from run `33292395288`, job
+  `99206202451`, artifact `9727439619` was recovered and separated into its
+  two claim scopes. The overall A0 terminal is
+  `UNKNOWN_RESOURCE:seconds:B3_actions`, while its independently replayed
+  compact-presentation component is complete: 15 internal, 10 marked-action,
+  and 19 adjusted-Q0 relators, total 44, digest
+  `7612682d024b61f873928ad122c9a5d7462c812a6633112f08706cda4412b6c8`.
+- A first draft incorrectly inferred the one-sided equality
+  \(I=\sum A(b_i-1)\) directly from normal/module generation by the 44
+  images. Independent audit stopped that step. Normal generation proves only
+  \(K=\mathbf F_3[\Delta_0]\langle b_i\rangle\); it does not make right or
+  conjugate translates appear inside a one-sided left ideal.
+- Corrected v418 now proves the missing construction. Close the 44 images
+  under the four marked conjugation actors in the actual A4 quotient modulo
+  the complete typed PB boundary, keeping literal ancestry. On exhaustion
+  the retained rows are an ordinary \(\mathbf F_3\)-basis
+  \(k_1,\ldots,k_t\) of \(K\), and only then
+  \(I=\sum_\ell A(k_\ell-1)\). Stream each accepted word-bearing K pivot
+  immediately into the pre-C A5 action closure. A finite target hit is sound
+  before exhaustion; A5 NONMEMBER requires K action, A5 action, K-boundary,
+  and A5-boundary exhaustion. The corrected proof received independent GO
+  after this change.
+- This is also an erratum to v350 and the completeness-dependent part of
+  v351. Every old finite MEMBER remains sound, as do v351's conditional
+  lift-null absorption and every finite augmented hit. An old direct-relator
+  miss/NONMEMBER and the old-roster positive-complete assertion are withdrawn
+  until the word-bearing K closure is present.
+- Task456 completed the physical task193-v5 pin migration for the inherited
+  zero-base/fusion code and passed exact generated-body gates, but is not
+  adopted as a complete negative solver. Task458 is commissioned to make its
+  current positive-only boundary fail-closed as `UNKNOWN_INCOMPLETE`.
+  Task459 is commissioned to implement the actual compact K/A5 two-level
+  owner. The corrected proof and both commissions are fixed at commit
+  `7cf1e9bf`.
+
+**v220 mapping**:
+
+- The old full 6,441-row A4 computation is still not a prerequisite for an
+  early positive A5 hit. The complete finite replacement is now precisely
+  identified: 44 initial evaluations, at most four conjugation attempts per
+  accepted K pivot, quotient reduction modulo the typed PB boundary, and the
+  coupled A5 closure.
+- A5/A6/A7 numerators do not advance until an actual independently replayed
+  MEMBER exists. Task393/Task456 without the K closure are
+  **POSITIVE-ONLY / NONMEMBER QUARANTINED**.
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED LITERAL RUNGS; RANK 51**.
+  Runs `33509311208`, `33512607989`, and `33516227668` remain in production;
+  A4 row-26 run `33506331399` also remains in production. All fractions stay
+  unchanged, and no common word, compatible lift, fake, or Ihara witness is
+  declared.
