@@ -14728,3 +14728,39 @@ single transport repair required before continuation; it does not count the
   and the older rank-68 lane remain GHA-running.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 351 (2026-09-02): the compiled-formula replay repair is independently GO
+
+- Task494 returned the surgical v5 trio: producer `104031 /
+  25c308ec11b9f36cc9779dfec46058a4956068969d664ee582a26f9cb0db7c09`,
+  checker `71589 /
+  970ffe3a78687f3a27a222e089ae3d5e928bbfa048b9aef9f51fcf4c0b5d578d`,
+  and driver `9425 /
+  bed9105b36fef5e59120d954029ec507b16f393ab2859a7599867a19156b1b5d`.
+  Producer and checker agree on binding
+  `0e0123e99309a768910e150d5bf4725295a0dc35eab7e15eac66538a3a37d56b`.
+- Independent Sol(max) Task495 is **GO FOR GHA DISPATCH**.  It reproduced
+  `KeyError('constant')` through both exact v4 frozen-selector entry points
+  and showed that the corresponding v5 calls return the expected scalar.  It
+  found that the only remaining production `model.formula_scalar` calls act
+  on raw Task179 formulas, while every compiled `{K,merged}` call acts through
+  independently implemented producer/checker helpers.
+- An independent 11,664-case signed-`K`/signed-coefficient enumeration agrees
+  pointwise between both v5 helpers and the pinned rank-ladder-v2 compiled
+  formula.  Producer fixture, checker self-test/pin-check, AST/call-target
+  audit, exact driver pins, generated-shell `bash -n`, and GAP
+  `ReadAsFunction` all pass.  The complete v4-to-v5 diff leaves candidate
+  order, finite universe, action-first policy, batching, checkpoint/rollback,
+  resource caps and Task492 D1--D6 behavior unchanged.
+- V5's normalized C99 BOOTSTRAP state is producer/checker-identical, with
+  rank/count/batches/round `99/56/3/12` and v5 state seal
+  `ebf6ba72bd009aeefdc531d415a269cd9cf71fd3972022867ff347d300b57a56`.
+  This is a dispatch ruling only; no production row or COMMON was computed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** with the same two cross-checked stable prefixes.
+  Rank-99 v5 is now dispatch-safe from its rank99/56 C99 premise; rank-84 v9
+  and the older rank-68 lane remain GHA-running.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
