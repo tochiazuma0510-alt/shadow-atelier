@@ -14843,3 +14843,66 @@ single transport repair required before continuation; it does not count the
   description beyond rank84/41.  Active A0 work is rank-84 v9 and rank-99 v5.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 355 (2026-09-02): the v5 literal carrier is built, but the inherited Task193-v6 provenance firewall is stopped
+
+- Task496 built the bounded `rank99-v5 COMMON -> literal carrier ->
+  Task193` handoff.  Parent inspection rejected two pre-freeze defects before
+  audit: job `100009888831` had been mistaken for the not-yet-created artifact
+  id, and the drivers used substring rather than exact-line positive
+  sentinels.  The frozen repair makes the artifact id a canonical dynamic
+  production input, binds it independently on both carrier sides, and requires
+  one exact owned producer/checker line.  Carrier producer/checker/driver pins
+  are respectively `17290/34983cfa...`, `17400/fde1cf20...`, and
+  `3019/9bb7dc67...`.
+- Task497 was aborted at its pin preflight because the implementation was
+  still moving; it performed no semantic audit.  Task498 then authenticated
+  the frozen seven-file subject and independently reproduced both generated
+  Task193-v6 bodies, but returned **STOP / DO NOT ADOPT**.  Its 5,734-byte
+  reply has SHA-256
+  `faabdd5368d09db48f54e2e75d5242abb02f7498c92f0af66b7b560d72849d5b`.
+- The carrier itself rejects noncanonical artifact ids and binds the actual
+  v5 result/checkpoint/log.  The remaining defect is one layer later: the
+  generated Task193-v6 producer `firewall` and independent checker `boundary`
+  inherit the old carrier contract.  Both accepted a freshly sealed pair with
+  run `1`, artifact `01`, no `upstream` dictionary, and unbound checker inputs.
+  Thus the literal word could lose its exact v5 provenance at the Task193
+  boundary even though the actual carrier checker could never emit that pair.
+- Task500, committed at `71924732`, is the single versioned v7 repair.  It may
+  add only exact head/run, canonical dynamic artifact, complete v5
+  schema/binding/upstream, and receipt/verdict input-equality predicates to the
+  two independently implemented firewalls.  The frozen Task193-v5 mathematics,
+  carrier and every A0 search rule remain unchanged.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**; rank-84 v9 and rank-99 v5 remain GHA-running.
+- A2 remains **2/3** and compact A5 remains blocked on an actual A0
+  COMMON/Task193 pair.  The post-COMMON carrier is implemented but the
+  Task193-v6 successor is rejected pending v7; no readiness fixture changes a
+  numerator.
+- A1 **4/4**, A3 **3/3**, and A4 **1/3** are unchanged.  No compatible lift,
+  fake, or Ihara witness is declared.
+
+### Delta 356 (2026-09-02): A4 intra-query durability enters bounded implementation in parallel
+
+- V425 already proves the exact durability object needed after row 26: an
+  open-row payload plus append-only closed physical-echelon shards, not a
+  repeated whole-matrix snapshot and not a source-only ledger that reruns all
+  reductions.  The observed row-27 transient rank 138,592 was never durable
+  and is not claimed or reconstructed.
+- Task499, committed at `5337c533`, commissions a narrow v23/v32/v42
+  implementation.  It closes each fully examined 64-candidate correlation
+  batch, direct-loads authenticated pivot rows/formals on resume, and keeps the
+  completed row prefix at row 26 until row 27 has a unique terminal.  The
+  independent checker must recreate every physical entry from its raw identity.
+  No A4 arithmetic, source order, K/queue rule, resource cap or terminal
+  meaning may change, and no production run is authorized by the commission.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  The
+  physical-shard work is implementation readiness only; row 27 and the full
+  invariant closure/word-bearing `K` remain open.
+- A0--A3 and compact A5 retain exactly the Delta355 states.  No compatible
+  lift, fake, or Ihara witness is declared.
