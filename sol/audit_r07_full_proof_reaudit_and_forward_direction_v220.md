@@ -14418,3 +14418,53 @@ single transport repair required before continuation; it does not count the
   single-row lane and the separate rank-99 candidate still awaiting its
   checker.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.
   No common word, compatible lift, fake, or Ihara witness is declared.
+
+### Delta 343 (2026-09-02): A4 row 26 is cross-checked; the next rank-84 continuation is dispatched
+
+- This delta supersedes only Delta342's running-state sentence.  A4 attempts
+  `33542151751` and `33542546771` stopped before the checker because the
+  dispatch transport respectively truncated and stripped the quoted string
+  preamble.  Attempt `33542708735` passed the preamble but exposed one exact
+  packaging omission before semantic replay: v31's pinned frozen-v30 source
+  existed locally but was absent from the Git head.  No attempt consumed the
+  long checker budget.  The already audited frozen dependency, 19,871 bytes /
+  SHA-256
+  `660d71f34931d138a7d4fb9a4e3e2e17f7b10d3a73a32d59b90b85c9f2419529`,
+  was added unchanged at commit `fb8a06cf41947bab40aeb4108642810cd27f96f8`.
+- Corrected A4 run `33542940908`, job `99973415735`, on that exact head
+  completed successfully.  The checker emitted the unique exact terminal
+  `R07_WORD_INDEPENDENT_SUCCESSOR_KERNEL_V6_CHECKER_TERMINAL UNKNOWN_RESOURCE`,
+  and the driver emitted
+  `TASK483_R07_A4_ROW26_COUNTER_TRANSPORT_V31_PASS`.  The 8,744-byte verdict
+  has SHA-256
+  `5eb5b84aec7cf7e3778f27c2beb233a3d5877bc6bbdfd3aa4c552b36852f5b8c`
+  and its independently recomputed canonical self-digest is
+  `7bf75112ae937426498956dde644d86d56f7aefd74d14eaedb1b0c195e38db7c`.
+  It retains the typed `dual_pullback` wall-resource terminal and no complete,
+  fake, or Ihara claim.
+- Artifact `9814340368` is 133,818 bytes with API zip digest
+  `6d8350f3d612f967f7e1e33cc18ee22f81d892544753c3661727f550acb6a40c`.
+  An independent extraction reproduced all six immutable source members, the
+  exact receipt, one-checker/zero-producer process counts, the PASS marker,
+  verdict bytes/SHA, and verdict self-digest.  Thus durable row 26 advances
+  from producer-sealed candidate to **CROSS-CHECKED ROW 26**.  It does not
+  close the full invariant kernel or accepted word-bearing `K`, so the A4
+  milestone fraction does not increase.
+- Task484's rank-84 continuation envelope is independently audited **GO** by
+  Sol(max) Task486.  The permanent seven-member release, canonical
+  rank/count/round `84/41/44`, state seal, one producer/one checker,
+  `7500>7200` wall margin, and
+  `5200000*1024>4800000000` VM/RSS margin all reproduce.  Accepted driver
+  commit is `301307802e6b174a94c0f63f284d3af1983f9ce2`; parent dispatched run
+  `33543290399`, job `99974575290`, on that exact head.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE**, but its descriptive state is now
+  **CROSS-CHECKED THROUGH ROW 26 / NEXT ROW 27**.  Milestones 2 and 3 still
+  require full invariant closure and an accepted word-bearing `K`.
+- A0 remains **0/1 actual** with stable **41 cross-checked rungs/rank 84**;
+  the next rank-84 continuation is GHA-running and the separate rank-99
+  checker remains running.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
+  are unchanged.  No common word, compatible lift, fake, or Ihara witness is
+  declared.
