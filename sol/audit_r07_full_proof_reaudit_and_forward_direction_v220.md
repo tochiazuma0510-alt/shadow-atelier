@@ -15017,3 +15017,40 @@ single transport repair required before continuation; it does not count the
   checker-approved COMMON/Task193 pair, not on this provenance implementation.
 - A0 remains **0/1 actual**; A1 **4/4**, A3 **3/3**, and A4 **1/3** are
   unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 360 (2026-09-02): the rank-98 continuation is independently GO and dispatched in parallel
+
+- Task504 produced the surgical v10 continuation driver from the permanent
+  rank-98 release.  The driver is 8,662 bytes / SHA-256
+  `8903f315e26b909791dead7673c4eef358c3cca7a2ddba7871476a477d8c3d1e`;
+  its implementation reply is 3,410 bytes / SHA-256
+  `89271e329e104a3a5269103674e8f2b25e9870c3ad180bc3f7b9ff59a3787640`.
+- Independent Sol(max) Task505 returned **GO_FOR_GHA_DISPATCH**.  Its
+  6,147-byte reply has SHA-256
+  `2fe0d2f91f61fc40fe7f3ba2eb0bfd77238feb212b2d5c9e001dcd9393e54554`.
+  It independently authenticated the exact eight-member release, the
+  69,947-byte output checkpoint, binding/state seal, rank/count/round
+  `98/55/59`, all 55 accepted sources, and equality of the first 41 sources
+  with the archived rank-84 input prefix.
+- The audit boundary was made explicit before adoption: a checker-approved
+  `UNKNOWN_RESOURCE` is an intentional transport success so that its closed
+  checkpoint reaches `upload-artifact`; all A0/COMMON/NONMEMBER/fake/Ihara
+  claims remain false.  Plain `UNKNOWN`, ERROR, Traceback, stale output, or a
+  failed producer/checker cannot pass.  This preserves the working v9 resume
+  semantics and does not turn a resource receipt into A0 progress.
+- The adopted subject is commit
+  `c582f8d786012a668783790007b72c5c422c3db8`.  Generic `gap-run` production
+  run `33564845217`, job `100045550767`, was dispatched from that exact head
+  with the v10 preamble, `ci/out`, no optional p-quotient packages, and a
+  235-minute job envelope.  Its frozen producer remains one 7,200-second,
+  4.8-GB, at-most-64-rise continuation followed by one independent checker.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its cross-checked stable prefix is still
+  **55 literal rungs / rank 98 / round 59**; the new run is execution in
+  progress and contributes no numerator until its artifact is independently
+  checked.  The separate rank99-v5 run `33553895281` remains active in
+  parallel.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
