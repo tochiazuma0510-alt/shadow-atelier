@@ -35,3 +35,21 @@ Compile and self-test passed. Fixtures accepted both valid shapes:
 Mutations adding the field to a basic profile and deleting it from an adjoint profile were rejected. The complete inherited v4/v3 mutation suites also passed. Static driver inspection confirmed the unchanged caps, fresh paths, one production process, external v5 preamble, and absence of production fixture/self-test.
 
 No production, Q0, GHA, workflow, commit, push, or other git operation was performed.
+
+## Parent audit and production dispatch
+
+Parent bounded checks and a separate Sol read-only audit both returned GO.
+The exact v1--v5 dependency chain was committed and pushed at
+`6eb23ef7c8196ff93631051bb97e3696308ac6fe`. Parent dispatched
+`gap-run.yml` as run `33504248130`, job `99844420262`, with:
+
+```text
+script=search/d972_r07_a0_actual_tau_free_rank_ladder_gha_driver_v5.g
+preamble=D972_R07_A0_ACTUAL_TAU_FREE_RANK_LADDER_V5_RUN:=true;;
+out_dir=ci/out
+timeout_min=90
+with_pquot_packages=false
+```
+
+The driver gives the single producer 2,400 seconds, 4.8 GB RSS, and 64 new
+rank rises. Result pending; dispatch itself changes no A0 numerator.

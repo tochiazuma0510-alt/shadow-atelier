@@ -13224,3 +13224,50 @@ single transport repair required before continuation; it does not count the
   apparent row-27 progress is rejected rather than counted.  The local repair
   is in parallel implementation and changes no actual numerator.
 - All other milestone fractions remain those in Delta312.
+
+### Delta 314 (2026-09-01): single-update A0 ladder enters production; A4 row 25 is isolated
+
+- Task444's first continuing-ladder implementation was rejected before GHA for
+  two bounded reasons: the typed RESOURCE checker did not authenticate the
+  checkpoint/profile/claims completely, and each accepted rise recomputed the
+  same large physical dual up to three times.  The v410 reverse neighbourhood,
+  PB3/PB4 predecessors, normalized exponent constant, 92-hex pivot, and
+  rank-43-to-44 literal replay were not rejected.
+- Task445 v3 carries the post-add `(dual,remainder,coefficients)` state into the
+  next round.  Thus R new rises use exactly R+1 state computations, including
+  the initial state; the repeated singleton `q.transform` was also removed.
+  Budget checks now cover the adjoint and formula phases without adding a full
+  closure, eager cache, or production SELFTEST.
+- Tasks447--448 close the independent typed-terminal boundary: exact
+  checkpoint bytes/SHA/internal seal, complete artifact-state equality,
+  status/claims/dual boundaries, the exact twelve reachable budget phases,
+  and the two legitimate profile shapes are all checked.  The complete
+  adjoint shape has `localized_dual_support`; a pre-adjoint resource shape
+  does not.  Parent bounded tests and an independent read-only audit returned
+  GO.
+- The byte-pinned v1--v5 chain was committed at
+  `6eb23ef7c8196ff93631051bb97e3696308ac6fe`.  GHA run `33504248130`, job
+  `99844420262`, now executes the v3 producer plus v5 checker with a 2,400-second
+  producer cap, 4.8-GB RSS cap, 64-new-rise cap, and 90-minute workflow cap.
+- Separately, A4 corrected run `33501732575`, job `99836406226`, artifact
+  `9798013200`, safely wrote delta 00000001 for row 25 and an atomic HEAD with
+  `last_row=25,next_row=26,segment_count=1`.  Row 26 was rejected before its
+  segment append because the successful tracker update omitted only the two
+  initial-terminal cursors.  Task446 is restricted to those two cursor
+  increments and exact row-26 continuation.  The canonical base hash is the
+  already adjudicated
+  `595213bab8936ef10e94ce90ccf526c105d02d871c4dc5d02b6c76cb51593445`;
+  Delta313's displayed `...d871d4dc...` was a transcription error.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; ONE CROSS-CHECKED CORRECTION RUNG; SINGLE-UPDATE
+  LADDER RUNNING** on `33504248130`.  Only target zero plus strict positive
+  replay raises its numerator.  A typed resource identifies the next measured
+  selector extension and raises no claim.
+- A4 remains **1/3 UNKNOWN_RESOURCE**.  The producer transport cursor is now
+  safely at row 26, but neither that cursor movement nor workflow success is a
+  new A4 numerator; row 26 and later closure remain pending.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+  A5--A9, B, C, W, and F receive no new actual numerator.  No compatible lift,
+  fake, or Ihara witness is declared.
