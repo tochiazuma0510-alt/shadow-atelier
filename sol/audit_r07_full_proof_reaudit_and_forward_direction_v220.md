@@ -14388,3 +14388,33 @@ single transport repair required before continuation; it does not count the
   COMMON terminal.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3** and the compact-A5 numerator
   are unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 342 (2026-09-02): the corrected A4 row-26 transport checker is independently GO and dispatched
+
+- Task483 v31 replaces only the false resumed-counter equality rejected in
+  Delta340.  On the exact semantic domain its difference set is precisely
+  `{terminal_canonicalization,terminal_serialized_bytes,terminal_final_write}`:
+  the authenticated base values are `(0,0,0)`, the terminal values are
+  `(7,9300,1)`, all other completed counters remain base-bound, and the base
+  cursor remains `next_row=25`.  Transport bookkeeping cannot advance a row.
+- Independent Sol(max) Task485 is **GO FOR CHECKER-ONLY DISPATCH**.  In addition
+  to the bounded mutation suite, it downloaded the permanent immutable asset,
+  authenticated the zip and all six members, compared the nine embedded maps
+  with the actual producer/base JSON maps, and passed those actual payloads
+  through the generated production validator.  This is dispatch permission,
+  not row-26 promotion and not Lean verification.
+- The parent broker committed the accepted v31 envelope at
+  `d0e3a9d8c7b485c3349e626e18b0e3489f589f44` and dispatched generic `gap-run`
+  run `33542151751`, job `99970779086`, on that exact head.  It runs one
+  checker and zero producers with `15000>14400` seconds and
+  `8500000*1024>8000000000` bytes.  A4 remains unchanged until the external
+  replay emits its exact terminal and PASS markers.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE**, but advances from **v31 repair in
+  implementation** to **v31 INDEPENDENTLY GO / CHECKER-ONLY GHA RUNNING**.
+- A0 remains **0/1 actual**, with 41 cross-checked rungs/rank 84 on the
+  single-row lane and the separate rank-99 candidate still awaiting its
+  checker.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.
+  No common word, compatible lift, fake, or Ihara witness is declared.
