@@ -15228,3 +15228,42 @@ single transport repair required before continuation; it does not count the
   98 / round 59** on the separately running v10 lane.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 365 (2026-09-02): A4 live sharding is reached, but three resume/commit order defects are stopped before production
+
+- Task503's v24/v33/v43 candidate repaired the earlier dead-helper defect:
+  generated production really reaches `prepare`, batch `close`, direct
+  physical restore and terminal commit, and the driver really executes its
+  generated shell.  It was not adopted or dispatched before independent
+  audit.
+- Independent Sol(max) Task511 returned **STOP / DO NOT ADOPT**.  Its
+  8,078-byte reply has SHA-256
+  `45f7e56fb7d4695f5c399cc301d6ddfa5c16d211a910ef6210cc716b034ac864`.
+  A bounded actual `build_kernel` route closed three physical shards, resumed,
+  and reached a fourth close.  The last saved semantic counter
+  `active_keys=3` was first restored and then overwritten by the ordinary
+  row-26 value `0`, so the fourth shard incorrectly began at `0`.  The same
+  restore also changed the one query-level `live_duals` item to four by
+  appending one duplicate per physical batch.
+- Task511 found one independent completion-order defect: generated v24 wrote
+  the physical HEAD as `obsolete=true` before appending the completed
+  bridge/row/chunk/sample prefix and before the ordinary checkpoint delta.
+  A crash in that interval would remove the only durable open-row continuation
+  before its completed-row successor existed.
+- Versioned Task512 plus mandatory Task512a is now implementing only the three
+  smallest changes: install ordinary counters before one direct physical
+  restore, retain rather than duplicate the query-level live dual, and durably
+  write the ordinary completed-row delta before atomically obsoleting the
+  physical HEAD.  Its required regression is the reached three-shard resume
+  through fourth close plus failure injection around the ordinary-delta write.
+  It may not change A4 arithmetic, roster, resource caps or search order.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Task511
+  is a correct implementation STOP, not a mathematical negative and not an
+  invariant-closure or word-bearing-`K` milestone.
+- A0 remains **0/1 actual** with stable prefixes **55/rank98/round59** and
+  **56/rank99/three batches/round12**; both continuations remain GHA-running.
+  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
