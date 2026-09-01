@@ -45,11 +45,14 @@ Independently establish all of the following:
    timeout 7500 seconds and `ulimit -v 5200000`; the checker timeout remains
    3600 seconds.  There is no retry, worker pool, hidden SELFTEST, old-prefix
    re-search, or duplicate large-state copy.
-5. The successful path requires nonempty result/checkpoint, exactly one typed
-   producer terminal and exactly the one-line v7 checker PASS, and ends with
-   exactly `R07_A0_RANK98_CHECKPOINT_RESUME_V10_DRIVER_PASS`.  UNKNOWN,
-   RESOURCE, ERROR, Traceback, stale output and a failed producer/checker
-   cannot be promoted.
+5. The successful transport path requires nonempty result/checkpoint, exactly
+   one typed producer terminal and exactly the one-line v7 checker PASS, and
+   ends with exactly `R07_A0_RANK98_CHECKPOINT_RESUME_V10_DRIVER_PASS`.
+   A checker-approved `UNKNOWN_RESOURCE` is intentionally a successful
+   **transport** terminal so that its closed checkpoint reaches
+   `upload-artifact`; it must keep every A0/COMMON/NONMEMBER/fake/Ihara claim
+   false and is not mathematical promotion.  Plain `UNKNOWN`, ERROR,
+   Traceback, stale output and a failed producer/checker must fail closed.
 6. A bounded v9-to-v10 diff is confined to the immutable source release/member
    binding, v10-owned paths, preamble and markers.  Producer/checker pins,
    search order, mathematics and resource limits are unchanged.
@@ -57,7 +60,10 @@ Independently establish all of the following:
    exercise only a tiny fail-closed preflight mutation/fixture; do not execute
    the real producer or checker.
 
-Do not reject merely because a fully coordinated replacement with all pinned
+Do not reject a checker-approved `UNKNOWN_RESOURCE` merely because the driver
+prints its transport PASS: that is the required checkpoint-resume behavior,
+not A0 completion.  Do not reject merely because a fully coordinated
+replacement with all pinned
 hashes rewritten would be outside a local content-addressed trust boundary.
 The parent will bind the adopted commit SHA and actual GHA run/artifact ids.
 Do reject any actual production-path defect, unnecessary memory amplification,
