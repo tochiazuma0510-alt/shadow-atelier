@@ -14353,3 +14353,38 @@ single transport repair required before continuation; it does not count the
   Compact A5 remains independently dispatch-safe but upstream-blocked on an
   actual A0 COMMON/Task193 pair.  No compatible lift, fake, or Ihara witness
   is declared.
+
+### Delta 341 (2026-09-02): the single-row lane advances sixteen certified rungs to rank 84
+
+- Task461 run `33524681526`, job `99912387760`, immutable head
+  `dd67f12b0ee4f022061df27ed396ad3d3a37f264`, completed successfully.  The
+  real producer resumed the exact rank-68 checkpoint and closed sixteen
+  chronological literal corrections, reaching
+  `rank=84,accepted_count=41,round=44`.  It then returned the typed
+  `UNKNOWN_RESOURCE:tau_free_localized_dual:time_limit`; no target-zero or
+  negative claim was made.
+- The independent v7 checker emitted exactly
+  `R07_A0_ACTUAL_TAU_FREE_RANK_LADDER_V7_CHECKER_PASS`.  The durable output
+  checkpoint is 52,707 bytes / SHA-256
+  `eb1a6d69a855b88d2a934dbf8e58c0f539a7a4d6802cc4a5c7f544b0880da24f`,
+  with canonical state seal
+  `3c38d9021e20c04a24e99136e47902e8911658f244a202f9c49f4a4280e2f6a7`.
+  Thus the sixteen new rungs are cross-checked, not merely producer-sealed.
+- Artifact `9812928957` has API zip digest
+  `4b3239f35f6ec2a4859e6a81e2b49456702f0f22f695a7332089b407dbcb817d`.
+  Its seven files were independently hashed after download.  A permanent
+  release copy was uploaded as
+  `artifact_9812928957_gap-run-out.rank84.zip`, 23,004 bytes / SHA-256
+  `dde60bad768e20ead6ad08e8bd0a8e53fc97050a43f6c207552ba97d579c438a`.
+  Task484 prepares the next rank-84 single-row continuation without changing
+  its arithmetic.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its stable cross-checked descriptive state
+  advances from **25 rungs/rank 68** to **41 rungs/rank 84** on the single-row
+  lane.  The separate rank-99 object is still only a structurally
+  authenticated candidate pending its running checker.  Neither rank is a
+  COMMON terminal.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3** and the compact-A5 numerator
+  are unchanged.  No compatible lift, fake, or Ihara witness is declared.
