@@ -14785,3 +14785,27 @@ single transport repair required before continuation; it does not count the
   lane are GHA-running; their starts do not increase the numerator.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 353 (2026-09-02): v5 clears the former runtime stop and the positive handoff resumes on current pins
+
+- Rank-99 v5 run `33553895281` remains in the GAP-script step after passing
+  the former v4 failure time.  V4 reached its `'constant'` UNKNOWN 4 minutes
+  43 seconds after GAP-script start; v5 is still live beyond six minutes on
+  the same base and selective-runtime route.  This is runtime evidence that
+  the specific compiled/raw replay stop is cleared, not yet a stable prefix or
+  positive result.
+- Task493's paused v4-specific downstream work is superseded by Task496,
+  committed at `016b7cda`.  It exact-pins the adopted v5 trio and prepares only
+  `v5 COMMON -> literal carrier -> Task193-v6`, reusing v416/v417 and the
+  frozen Task193-v5 mathematical core.  It explicitly rejects stale v4 input
+  and adds no selector, search, checkpoint, compact-A5 migration or production
+  fallback.  Two aborted byte-identical v4 scratch copies may be removed only
+  behind their exact size/hash gate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and rank-99 v5 remains GHA-running.  A2 remains
+  **2/3** and compact A5 remains upstream-blocked; Task496 can only shorten the
+  post-COMMON handoff and cannot increase either numerator by SELFTEST.
+- A1 **4/4**, A3 **3/3**, and A4 **1/3** are unchanged.  No compatible lift,
+  fake, or Ihara witness is declared.
