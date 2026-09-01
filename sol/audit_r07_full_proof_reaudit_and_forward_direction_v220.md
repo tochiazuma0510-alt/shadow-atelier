@@ -13495,7 +13495,10 @@ single transport repair required before continuation; it does not count the
   and driver 2,569 bytes /
   `6910d38adc56a564b4cd80211bb994de72fd77bf2da6abd8df2df5597ab9a000`.
   Parent compile, fixture, self-test, forbidden-helper scan, cap scan, and
-  diff gate passed.  Source commit is
+  diff gate passed.  A final independent read-only audit returned GO and
+  confirmed that the three earlier STOPs (shared high-level helpers, open
+  RESOURCE typing, and resume-cap reset) are closed without a new full-state
+  copy or production self-test.  Source commit is
   `3316809e483223ec571ca7d6976dc1317c892441`.
 - GHA run `33512607989`, job `99871740592`, is executing this batch lane with
   a 7,200-second producer cap, 4.8-GB RSS cap, batch cap 16, 64 cumulative
@@ -13513,3 +13516,33 @@ single transport repair required before continuation; it does not count the
   **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
   B, C, W, and F remain unchanged.  No common word, compatible lift, fake,
   or Ihara witness is declared.
+
+### Delta 322 (2026-09-01): the current batch-positive ABI is connected to task193/A2 on paper
+
+- New theorem `proof_r07_a0_batch_positive_to_task193_a2_carrier_v416.md`
+  specializes v403 and v284 to the actual Task451 schema.  A checker-accepted
+  `COMMON_CANDIDATE` reconstructs the final echelon coefficients, literal
+  correction atoms, v399 exactification, ten-coordinate joint-kernel value,
+  selected six-action ancestry, and the exact physical zero equation.  Thus
+  its `terminal_replay.literal_word` is a legal exact correction `a`, and
+  `f=red(g760*a)` is the corresponding finite corrected common word.
+- The normalized downstream carrier is `(g760,a,f,omega)`, where `omega` is
+  a fresh direct eleven-occurrence/all-seven replay.  Task193 and v225 are
+  extensional in this literal carrier and the accepted task198 evaluator;
+  Task451's batches, discovery duals, pivots, and selector order are not
+  downstream inputs.
+- The existing adapter-v5 is deliberately not relabelled because it is pinned
+  to the old history-free-v22 envelope.  A future positive-only tagged branch
+  must physically bind the Task451 result/checkpoint/checker/run owners,
+  reconstruct `g760`, free-reduce `f`, and rerun the small direct all-seven
+  carrier gate.  No Q0 store or A0 echelon belongs in the task193/A2
+  specialization after the upstream checker PASS is bound.
+
+**v220 mapping**:
+
+- The **A0-positive -> task193/A2 semantic handoff is PAPER-CLOSED for the
+  current Task451 ABI**.  This removes a future interface-design blocker but
+  does not assert that any active run is positive.
+- Actual fractions remain A0 **0/1**, A1 **4/4 cross-checked**, A2 **2/3**,
+  A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No actual A2,
+  compatible lift, fake, or Ihara witness is promoted.
