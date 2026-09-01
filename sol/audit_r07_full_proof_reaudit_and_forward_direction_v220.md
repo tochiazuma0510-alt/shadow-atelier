@@ -14596,3 +14596,43 @@ single transport repair required before continuation; it does not count the
   rejected v3.  No COMMON terminal has yet been obtained.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 347 (2026-09-02): rank-99 durable-discovery v4 is independently GO for production
+
+- Task490 returned one versioned v4 repair of the six Task489 envelope
+  defects without changing the frozen search order or the cross-checked
+  rank-99 premise.  Its exact pins are producer `98576 /
+  5b8f3ae76abb64768decb14be50fbd6d75b5e84aeaad2b1a63fcb544933cf36f`,
+  checker `66212 /
+  cd0acf346d4f133dfaa8e047db6593511a5423c6a166060a37fc313504e928e7`,
+  and driver `9424 /
+  948f6254298eef51d524e834441c530ecb1a5a3a5cbefbdfe3dac9e7922d0ff8`.
+  Producer and checker agree on binding
+  `d5777bc12023298808fa7f0637de47e072af0bf8137c7922ce4c0cd17c7327be`.
+- Independent Sol(max) Task492 is **GO FOR GHA DISPATCH**.  It reproduced
+  producer FIXTURE, checker self-test and pin-check, an independent AST/call
+  audit, exact generated-shell `bash -n`, and GAP `ReadAsFunction`.  It found
+  no remaining defect in D1--D6: producer/checker marker ownership,
+  immediate-predecessor content and state-seal binding, zero-progress and
+  first-close carry-forward, the production-used retained-correction ABI,
+  exclusive RESOURCE/COMMON terminals, and post-batch profile/aggregate-rise
+  semantics all pass.
+- The additional base boundary is now literal rather than implicit.  Producer
+  and checker construct the same normalized C99 predecessor with phase
+  `BOOTSTRAP`, empty rolling ledger, and state seal
+  `b9761eefb702179ea547d57af3fe5489bff1e5d2a8102bb057f654bcaf0f74ff`;
+  own-schema `BOOTSTRAP`, `READY`, and `CLOSED` states have bounded first-close
+  and rollback tests.  RESOURCE exits before the checker with its own marker;
+  only checker-approved COMMON may emit the global COMPLETE marker.
+- This is a dispatch ruling, not a production result.  Task492 performed no
+  authority computation and changed no mathematical status; the first v4 GHA
+  run is recorded separately after the immutable commit is dispatched.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** with stable **41 cross-checked literal
+  rungs/rank 84** and a separate **56-source/rank-99 cross-checked prefix**.
+  Rank-84 v9 is GHA-running; rank-99 v4 is now dispatch-safe but has not yet
+  returned COMMON or RESOURCE.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
