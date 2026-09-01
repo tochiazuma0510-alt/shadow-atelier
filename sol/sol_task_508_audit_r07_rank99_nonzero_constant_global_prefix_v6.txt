@@ -1,0 +1,68 @@
+Task 508 -- independent Sol(max) audit of the Task506 rank99-v6 implementation
+
+Role: mathematics/software contract auditor only.  Do not edit implementation,
+run production/GHA, commit, push, or write any file except the reply named below.
+
+Read fully:
+
+1. `sol/proof_r07_rank99_tau_free_nonzero_constant_global_prefix_v431.md`
+   (9592 bytes,
+   `7b08f2526b00f4b12e67b9de57e03b7e87936050bfe8c3f9200130ed1ef850a4`).
+2. `sol/sol_reply_507_audit_r07_rank99_nonzero_constant_global_prefix_v431.md`
+   (7164 bytes,
+   `741c5be74245e1944ce497a2fdd101b099b57d580f12ab96577f07074546ccdb`).
+3. Task506 outputs:
+   - producer v6: 14329 bytes,
+     `3173c9d99fc5a94713d3dbed1b2c90d4ed3a5723b428838ec0bd50d8aee3d90c`;
+   - checker v6: 12191 bytes,
+     `2f579f818b7fff01a3af4764393ac2f2a3190767f0671e6d407c7fe2517e91da`;
+   - driver v6: 5291 bytes,
+     `bd51bb88295d2b1238233ab37de8a2bd69cf5ea598138772197dc2f2bf5f5395`;
+   - implementation reply: `sol/luna_reply_506_r07_rank99_nonzero_constant_global_prefix_v6.md`.
+4. Frozen v5 producer/checker and all pins that v6 loads.
+
+Audit the actual executable paths, not comments or fixture-only helpers.  At
+minimum decide all of the following:
+
+1. The source transformation is reached by production `main/run`, patches the
+   intended block exactly once, preserves action-first and zero-K support
+   paths, and cannot silently fall back to the old nonzero-K stop.
+2. At a nonfresh anchor it closes the existing nonempty certified prefix and
+   restarts; at a fresh anchor it scans exactly `0..W`, retains one actual
+   rise, closes it as a one-row batch, and does not continue using a stale
+   dual.
+3. Producer computes `W=sum |ker pi_j|` with target multiplicity, enforces the
+   global-roster bound, reconstructs the exact q-major/Gamma-minor literal
+   word, evaluates all ten coordinates directly, and never calls inherited
+   `global_candidate` or builds the seven omitted stores.
+4. Checker independently recompiles the selected formula and independently
+   recomputes the exact mathematical `W` from its own selective-runtime kernel
+   orders before accepting a row.  A producer-supplied `W` copied into both
+   record and cursor is not sufficient.  Test a re-sealed W mutation if the
+   boundary permits it.
+5. Checker independently reconstructs cursor/qid/gid/word/all ten blobs,
+   scalar, direct physical row, rank rise and fresh-anchor/one-row semantics;
+   old support cursors remain accepted under their old contract and cursor
+   ordering is type-safe across action/support/global records.
+6. v5 closed checkpoints are fully authenticated under frozen v5 constants
+   before migration; only top-level schema/binding/seal change; v6 checkpoints
+   and result input identities validate independently; historical segment and
+   rolling-ledger fields are neither rewritten nor weakened.
+7. Driver actually executes the v6 producer and v6 checker, accepts only
+   checker-approved COMMON_CANDIDATE or UNKNOWN_RESOURCE transport, uploads a
+   closed resumable checkpoint, and keeps the audited wall/RSS envelope.
+8. Mutation coverage is meaningful on live paths.  Bounded tests may be run,
+   but no unbounded search or production.
+
+Return exactly one verdict:
+
+- `GO_FOR_GHA_DISPATCH`, only if every load-bearing point passes; or
+- `STOP_DO_NOT_ADOPT`, with the minimal concrete repair list.
+
+Write only:
+
+`sol/sol_reply_508_audit_r07_rank99_nonzero_constant_global_prefix_v6.md`
+
+Include exact pins, commands/tests used, findings F1..., claim boundary, and a
+final marker `TASK508_R07_RANK99_NONZERO_CONSTANT_GLOBAL_PREFIX_V6_AUDIT_GO`
+or `..._STOP`.
