@@ -14690,3 +14690,41 @@ single transport repair required before continuation; it does not count the
   Task493 prepares only the honest bridge to that existing input gate.
 - A1 **4/4**, A3 **3/3**, and A4 **1/3** are unchanged.  No compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 350 (2026-09-02): the first rank-99 v4 run exposes one compiled-formula replay ABI defect before any new row
+
+- Run `33551170421`, job `100000701817`, on immutable audited head
+  `15f8dce96c5bdbeac8a3c3fa3662606bcfe315b0` completed selective-runtime
+  construction, then returned a 376-byte canonical `UNKNOWN` result with exact
+  reason `'constant'`.  It failed before READY, before a new row, and before
+  the independent checker.  Artifact `9817670360` is 26,203 bytes with API zip
+  digest
+  `8b1501cdaee7a305f9df161c12f80534236d28e32241c0e6922bcb0e847b1edb`.
+- The uploaded 356,146-byte checkpoint has SHA-256
+  `fc43d0bedd482ef029660fa86cf625a64ca1a26c9e2c4baf48f3229ff2ffac7a`
+  and exactly preserves normalized C99 BOOTSTRAP
+  rank/count/batches/round `99/56/3/12` with state seal
+  `b9761eefb702179ea547d57af3fe5489bff1e5d2a8102bb057f654bcaf0f74ff`.
+  Thus no stable prefix or mathematics changed.
+- The failure is localized to the first frozen correction replay.  The owner
+  correctly compiles a raw Task179 formula `{constant,merged,...}` to selector
+  shape `{K,merged,...}`, but producer and checker `selector_literal` pass the
+  compiled shape back to the raw `model.formula_scalar`, which requests the
+  absent `constant` member.  The compiled ABI is instead exactly
+  `K + sum(hit coefficients) mod 3`, already used by the pinned rank-ladder-v2
+  owner.  The raw identity check must remain on the raw evaluator.
+- Task494, committed at `1da73079`, commissions only a versioned v5
+  producer/checker/driver repair of this typed scalar call plus a regression
+  that distinguishes raw and compiled formulas.  V4's D1--D6, search order,
+  finite universe, batching, checkpoints and resource limits are frozen.
+  Task493's v4-specific downstream pin migration is paused until the accepted
+  v5 pins exist, preventing a knowingly stale handoff implementation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  The separate rank-99 stable prefix remains
+  **56-source/rank-99 cross-checked**; v4 production adds no numerator and is
+  superseded for production by the pending v5 surgical repair.  Rank-84 v9
+  and the older rank-68 lane remain GHA-running.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
