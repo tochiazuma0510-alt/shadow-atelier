@@ -14662,3 +14662,31 @@ single transport repair required before continuation; it does not count the
   closed prefix, both cross-checked.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
   No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 349 (2026-09-02): the positive rank-99 output is connected forward before production finishes
+
+- A direct ABI audit shows that rank-99 v4 already carries the data required
+  by v416: on `COMMON_CANDIDATE` the producer emits
+  `terminal_replay=v1.positive(P,m,coeff)`, and the independent v4 checker
+  requires `dual is None` and recomputes that entire positive object exactly.
+  In particular `terminal_replay.literal_word` is not a status-only claim.
+- The existing Task193-v5 firewall nevertheless exact-pins the old
+  Task451-v1 carrier dialect and therefore cannot honestly consume a future
+  v4 result.  Task493, committed at `5b986f94`, is a bounded implementation
+  commission for one rank99-v4 literal carrier plus a Task193-v6 pin migration.
+  It reuses the paper-closed v416/v417 extensional map and the frozen
+  Task193-v5 mathematical core; it adds no selector, search universe, boundary
+  closure, checkpoint framework, or compact-A5 migration.
+- This work is intentionally parallel to the active GHA lanes.  It may remove
+  handoff latency after a positive A0 result, but SELFTEST or fixture success
+  cannot increase any actual numerator.  Production still requires the exact
+  v4 result/checkpoint/checker log and immutable run/artifact identities.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and its three production lanes continue.  A2
+  remains **2/3**: its final actual specialization still requires an accepted
+  A0/Task193 result.  Compact A5 remains dispatch-safe but upstream-blocked;
+  Task493 prepares only the honest bridge to that existing input gate.
+- A1 **4/4**, A3 **3/3**, and A4 **1/3** are unchanged.  No compatible lift,
+  fake, or Ihara witness is declared.
