@@ -15088,3 +15088,37 @@ single transport repair required before continuation; it does not count the
 - Both active A0 GHA runs and all A1--A4/compact-A5 milestone numerators retain
   the Delta360 states.  No compatible lift, fake, or Ihara witness is
   declared.
+
+### Delta 362 (2026-09-02): the rank99 nonzero-constant prefix theorem is independently GO
+
+- Independent Sol(max) Task507 returned **GO_FOR_IMPLEMENTATION**.  Its
+  7,164-byte reply has SHA-256
+  `741c5be74245e1944ce497a2fdd101b099b57d580f12ab96577f07074546ccdb`.
+  It reproduced the v431 and v143/v414/v426/v427 pins and independently
+  inspected the frozen rank99-v5 producer/checker call sites.
+- The constant split is exact: `tau_free_adjoint` discards every physical
+  `N` key, hence the raw occurrence constant is zero; `formula_bundle`
+  separately supplies precisely
+  `K=n1*(ex/18)+n2*(ey/18) mod 3`.  The compiled selector is therefore exactly
+  `K+sum c_(j,t)1[blob[j]=t]`, not a dropped or double-counted constant.
+- The audit confirmed the `W+1` union bound, q-major/Gamma-minor cursor
+  bijection, literal section-word reconstruction, direct replay of all ten
+  coordinates, fresh-anchor one-row close, and disjoint typed cursor.  It
+  also independently reconstructed the v5-to-v6 migration: only top-level
+  schema, binding and state seal change; historical rows, batches, segments,
+  prefix, ready cores and ledger remain byte-for-byte fixed, with no extra
+  field needing rebinding.
+- Task506 may therefore implement the surgical v6 successor against this
+  audited contract.  A resource stop remains `UNKNOWN_RESOURCE`; only a
+  checker-approved positive terminal may advance A0.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  This delta changes the rank99 nonzero-constant
+  branch from paper-pending-audit to independently audited
+  implementation-ready; it does not claim a new row or COMMON.
+- The stable single-row prefix remains **55 literal rungs / rank 98 / round
+  59**, the separate batched prefix remains **56 sources / rank 99 / three
+  closed batches / round 12**, and both GHA continuations remain active.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
