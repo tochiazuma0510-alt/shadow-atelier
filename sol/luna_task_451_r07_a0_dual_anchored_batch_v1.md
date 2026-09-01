@@ -75,6 +75,9 @@ FIXTURE in the driver.
 - For every batch row, reconstruct the literal physical row, check the frozen
   anchor scalar, replay its pivot/rank rise, and require it belongs to the
   deterministic declared selector cursor.
+- Recompute the declared coordinate blob, especially S0 `target_hex`, from
+  the literal `delta_word`; do not inherit this auxiliary field from Task448
+  or the producer without semantic replay.
 - Recompute the post-batch remainder/dual once and compare the closed-batch
   receipt.
 - Delegate/reuse the existing positive reconstruction for a positive

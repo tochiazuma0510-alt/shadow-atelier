@@ -13438,12 +13438,14 @@ single transport repair required before continuation; it does not count the
 
 ### Delta 320 (2026-09-01): the eight A0 rungs expose a finite PC plane and a safe batch acceleration
 
-- The eight Task448 S0 target blobs all have identity coarse permutation.
-  Their four PB3 PC bytes are exactly the eight nonzero values
-  `(a,0,c,0)` with `(a,c) in F3^2`.  Thus the literal selector swept one
-  structured two-dimensional target plane, rather than eight unrelated
-  points.  This does not yet prove that no other target fibre, context, or
-  seed is needed after rank 51.
+- The eight sealed Task448 producer records report S0 target blobs with
+  identity coarse permutation and four PB3 PC bytes equal to the eight
+  nonzero values `(a,0,c,0)` with `(a,c) in F3^2`.  This is a structured
+  two-dimensional target-plane **candidate pattern**, not yet a cross-checked
+  semantic claim: v5 replays each literal row/scalar/rank rise but does not
+  recompute its auxiliary `target_hex`.  Task451 must derive S0 from the
+  literal `delta_word` before promotion.  Even after that check, the pattern
+  would not prove that no other target fibre, context, or seed is needed.
 - New paper theorem `proof_r07_a0_dual_anchored_active_batch_v415.md` proves a
   safe acceleration.  For a frozen separating dual, every directly replayed
   column with nonzero pairing lies outside the pre-batch span.  All such

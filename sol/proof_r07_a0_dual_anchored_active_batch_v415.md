@@ -4,13 +4,15 @@ Author: Sol / 2026-09-01
 
 Status: paper acceleration theorem for the finite A0 rank ladder.  It proves
 that all directly replayed columns detected by one separating dual may be
-inserted before that dual is recomputed.  It also records the exact eight
-S0 target values from Task448.  No new A0 terminal, common word, compatible
-lift, fake, or Ihara witness is asserted.  `verified=false`.
+inserted before that dual is recomputed.  It also records the eight sealed
+producer-reported S0 target values from Task448; their `target_hex` semantics
+have not yet been independently reconstructed.  No new A0 terminal, common
+word, compatible lift, fake, or Ihara witness is asserted.  `verified=false`.
 
 ## 1. Actual rank-43--51 target pattern
 
-Task448 run `33504248130` accepted eight correction records.  Every record has
+Task448 run `33504248130` accepted eight correction records.  Every sealed
+producer record reports
 
 ```text
 seed_index=1, coordinate=0, fibre_cursor=0,
@@ -40,6 +42,14 @@ Thus the first eight selected targets sweep the eight nonidentity points of
 one actual two-dimensional PC plane.  This is evidence of a small structured
 slice, not a claim that rank 51 already spans every state in each target
 fibre or every other seed/context.
+
+This last interpretation is presently a **producer-level observation**.  The
+v5 checker independently reconstructs each `delta_word`, physical row, anchor
+scalar, pivot, and post-rise dual, but its accepted-source validator does not
+recompute the auxiliary `target_hex` field.  Promotion of (1.1)--(1.2) to a
+cross-checked fact therefore requires the v415 batch checker to evaluate S0
+from the literal `delta_word` and compare the resulting 40 bytes.  The linear
+batch theorem below does not depend on the eight-point interpretation.
 
 ## 2. Linear batching lemma
 
