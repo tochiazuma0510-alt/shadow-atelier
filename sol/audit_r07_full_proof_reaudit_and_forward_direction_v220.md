@@ -15122,3 +15122,60 @@ single transport repair required before continuation; it does not count the
   closed batches / round 12**, and both GHA continuations remain active.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 363 (2026-09-02): rank99-v5 production isolates a live ABI crash; audited v6 is STOP and minimal v7 repair is underway
+
+- Rank99-v5 production run `33553895281`, job `100009888831`, finished on
+  exact head `dd6d90b64e2bfba73d7f131f4da876235746f314` after about 2 hours 21
+  minutes.  The workflow conclusion is failure, but artifact `9823442066`
+  (`gap-run-out`, API size 26,295, archive digest
+  `e40390530d8b8aa2491635bbe627bc48c2fbd281b796a0c7969077dbc2340558`)
+  uploaded successfully.
+- The 407-byte result has SHA-256
+  `bbe753c1d2653f5705a0cd0e6c88840d61b5b2bafa21c9c9b40910e1873b41c1`
+  and is plain `UNKNOWN`, with exact reason
+  `'dict' object has no attribute 'relators'`; all A0/COMMON/NONMEMBER/fake/
+  Ihara claims are false.  It is neither RESOURCE nor a mathematical
+  exhaustion terminal.
+- The uploaded closed READY checkpoint is 356,142 bytes / SHA-256
+  `9569b2f41dc2d3a040554cbed48ae62fac8e883bc2de415fceec81cec4572821`,
+  state seal
+  `27fe4e7968ba6f90440080ad05e913575a3a05e719a928a5cc5c28ccc18c564f`.
+  It remains exactly rank/count/batch/round `99/56/3/12`, with zero appended
+  batches and zero new rises.  No checkpoint promotion or permanent archive
+  is needed because it contains no progress beyond C99.
+- The live defect is exact and local: the transformed selector loop used
+  `P["pres"].relators`, while the v424 adapter exposes a dictionary and every
+  working call uses `P["pres"]["relators"]`.  The log also shows the complete
+  selective Q0/S0/S1/S2 construction twice.  `replay_all` already returned
+  the first authenticated `sf`, but the run discarded it and rebuilt the same
+  stores.  The v7 repair reuses `sf.rt`, eliminating the second construction.
+- Task506's v6 candidate is preserved only as a rejected predecessor.  Its
+  producer/checker/driver pins are respectively `14329 /
+  3173c9d9...e3d90c`, `12191 / 2f579f81...e91da`, and `5291 /
+  bd51bb88...f5395`.  Independent Sol(max) Task508 returned
+  **STOP_DO_NOT_ADOPT**; its updated 13,720-byte reply has SHA-256
+  `dd4900afa9b212cc6b1c5379003015ac7ae4669a9abc7b493f00de4dd48366ee`.
+- Besides the actual ABI crash, Task508 executed four decisive countertests:
+  zero scalar incorrectly raised instead of advancing the global cursor; a
+  consistently re-sealed false W passed because the checker did not
+  independently recompute W; an intended old-support preclose was rejected
+  in a mixed-K roster; and a two-row global batch was accepted despite the
+  fresh-anchor theorem.  It also found v431 absent from the durable binding
+  and the v6 driver stopping at `bash -n` rather than executing production.
+- Versioned Task509 is the bounded minimal repair: dict access, reuse of the
+  replayed selective runtime, zero-before-hit continuation, independent W,
+  selected-formula K typing, one-row global enforcement, live mutation
+  fixtures, v431 binding, and restoration of the audited v5 transport
+  envelope.  It does not change v431 mathematics or run production.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  The batched stable prefix is still **56 literal
+  sources / rank 99 / three closed batches / round 12**; run `33553895281`
+  adds no row.  The single-row stable prefix remains **55 literal rungs /
+  rank 98 / round 59**, with its v10 continuation still running.
+- The v431 nonzero-constant theorem remains independently GO; only the first
+  v6 implementation is rejected pending the versioned v7 repair and audit.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
