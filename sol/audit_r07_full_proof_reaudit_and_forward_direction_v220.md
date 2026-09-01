@@ -14519,3 +14519,50 @@ single transport repair required before continuation; it does not count the
   **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**, and compact A5
   remains dispatch-safe but blocked on an actual A0 COMMON/Task193 pair.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 345 (2026-09-02): rank-99 v3 is rejected before dispatch; the rank-84 preflight failure is exactly diagnosed
+
+- Task482 returned a substantive versioned rank-99 continuation with final
+  pins producer `100066 / 90bd58dce838eb518da7b32d8eaec210223efdee6a35d5f98d404e57517615a1`,
+  checker `66854 / 70540c60f0685539d21ca5a23c10cdacb840c4317b93b88fa57fb89fc7398c35`,
+  and driver `8488 / 8ee2253e244f45e27307d72f7cbacf613211c10381858340e29c7b52fc7ee616`.
+  It repairs the old one-argument adjoint call, literal top-level/durable
+  equality, flat chronological validation, soft/hard resource margins and
+  short-batch close path.  It was not dispatched.
+- Independent Sol(max) Task489 is **STOP / DO NOT DISPATCH**.  Six exact
+  implementation-envelope defects remain: producer/checker candidate-marker
+  namespaces disagree; the immediate predecessor's complete content and
+  actual READY/state seal are not bound to the next segment start; a resumed
+  zero-progress fallback rebinds the historical input identity and becomes
+  self-invalid; the production correction loop still duplicates rather than
+  calls the fixture-tested retained-candidate helper; RESOURCE and
+  checker-approved COMMON both cause the GAP wrapper to print the same global
+  COMPLETE marker; and post-batch COMMON/profile plus aggregate resource-rise
+  predicates disagree with the producer.  Each defect has a bounded concrete
+  reproduction.  All are certificate/envelope defects: the cross-checked
+  rank-99 prefix and v424/v426/v427 mathematics remain unchanged.
+- Task490 specifies one versioned v4 repair for those six items, including a
+  single production-used retain ABI, one-read immediate-predecessor equality,
+  valid zero-progress carry-forward, exclusive RESOURCE/COMPLETE terminals,
+  and post-batch profile/local-flush predicates.  It preserves the search
+  order and requires the entire Task480 F1--F6 battery before another audit.
+- Task488 independently traced rank-84 run `33543290399`'s first failing shell
+  command to the v8 manifest's 63-character result-JSON SHA literal: the exact
+  member digest ends in `b`.  The checkpoint member and copied-resume pins
+  independently omitted their final `f` as well.  Corrected v9 driver is 8,257
+  bytes / SHA-256
+  `d89cac926cfd3a0b44d0a3564e73c608035f6389f9240452d0017aa126156fd9`.
+  A bounded fail-closed preflight authenticated all sources, seven archive
+  members and the copied resume, then reached the producer sentinel exactly
+  once; it retains one producer/one checker and the accepted resource margins.
+  Task491 is independently auditing this narrow envelope before redispatch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its stable evidence remains **41 cross-checked
+  literal rungs/rank 84** and the separate **56-source/rank-99 closed prefix
+  cross-checked**.  Task482 v3 adds no numerator because it is rejected before
+  production; Task490 v4 is implementation work, and rank-84 v9 is awaiting
+  independent dispatch audit.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No common word, compatible lift, fake, or Ihara witness is declared.
