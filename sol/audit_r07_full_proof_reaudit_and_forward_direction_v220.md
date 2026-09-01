@@ -13271,3 +13271,41 @@ single transport repair required before continuation; it does not count the
 - A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
   A5--A9, B, C, W, and F receive no new actual numerator.  No compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 315 (2026-09-01): A4 resumes from the durable row-25 chain
+
+- Task446 v22 changes the generated producer only by advancing the two
+  `initial_terminal_records` / `initial_terminal_chain` cursors after the
+  segment append and atomic HEAD replacement.  Its independent v28 two-row
+  fixture sees only `R:26` in all six row/bridge/ordinary/terminal fields and
+  rejects the eight inherited mutations plus separate stale-record and
+  stale-event cursor mutations.  Parent replay and an independent read-only
+  audit returned GO; no arithmetic, cadence, queue, evaluator, or resource
+  contract changed.
+- The v40 continuation exact-pins run `33501732575`'s 25,581-byte canonical
+  base, 3,551-byte accepted row-25 delta, and 700-byte nonempty HEAD.  The
+  rebound HEAD remains `last_row=25,next_row=26,segment_count=1`, and seed
+  order is base, delta 00000001, HEAD, checker.  Source commit is
+  `deb8b844b758e3d06de11defcaa03b8466849075`.
+- First dispatch `33505699434`, job `99849096981`, received the correct quoted
+  preamble but stopped before the inner computation at a redundant static
+  post-replacement gate.  Pair 7 inserts delta/HEAD calls before the unchanged
+  checker seed, so its old checker substring intentionally remains once; the
+  generic gate incorrectly required zero.  Artifact `9799516297` contains no
+  new row result or checkpoint.
+- Task449 v41 exact-pins v40 and changes only that count from pair-7 old/new
+  `0/1` to the correct `1/1`; pairs 1--6 remain `0/1`.  The reconstructed
+  76,586-byte production inner driver and its SHA-256
+  `f407a306d25a0ace6bd347615195d94c2f4bc73625dbe9ac055fd02d5ea3961f`
+  are unchanged.  Commit `5dbc895552efdaffb13bb7b10e595430026f4c3c`
+  is running as `33506331399`, job `99851144256`, from row 26.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; ONE CROSS-CHECKED CORRECTION RUNG; SINGLE-UPDATE
+  LADDER RUNNING** on `33504248130`.
+- A4 remains **1/3 UNKNOWN_RESOURCE; DURABLE ROW 25; ROW-26 CONTINUATION
+  RUNNING** on `33506331399`.  Transport progress is not a numerator.
+- A1 remains **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.
+  A5--A9, B, C, W, and F remain unchanged.  No common word, compatible lift,
+  fake, or Ihara witness is declared.

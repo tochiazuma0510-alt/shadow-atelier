@@ -56,3 +56,19 @@ source bytes/SHA, write/readback identity, and the exact post-replacement
 counts above.
 
 `TASK449_R07_A4_POSTREPLACEMENT_GATE_V41_PASS`
+
+## Parent dispatch record (2026-09-01)
+
+- The v22/v28/v40 chain was committed and pushed at
+  `deb8b844b758e3d06de11defcaa03b8466849075`.  Run `33505699434`, job
+  `99849096981`, received the exact GAP source preamble
+  `D386Mode:="RESUME";;` and stopped before the inner production driver at the
+  diagnosed redundant `task446 post-replacement gate`.  Artifact
+  `9799516297` contains only the outer driver/log; no row computation or new
+  checkpoint was produced.
+- This v41 repair was committed and pushed at
+  `5dbc895552efdaffb13bb7b10e595430026f4c3c`.  It was dispatched through the
+  unchanged `gap-run.yml` as run `33506331399`, job `99851144256`, using the
+  v41 driver, `D386Mode:="RESUME";;`, `ci/out`, a 250-minute workflow cap, and
+  p-quotient packages enabled.  It entered the GAP-script step at
+  `2026-09-01T21:12:33+09:00`; result pending.
