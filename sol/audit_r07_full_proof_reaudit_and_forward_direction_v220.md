@@ -13577,3 +13577,38 @@ single transport repair required before continuation; it does not count the
   active GHA runs do not change a numerator.  A5--A9, B, C, W, and F remain
   unchanged; no common word, compatible lift, fake, or Ihara witness is
   declared.
+
+### Delta 324 (2026-09-01): the same Task451 finite lane gains a batch-64 race
+
+- Task453 exact-pins the accepted 2,569-byte Task451 v1 driver and constructs
+  a byte-pinned inner driver whose sole executable change is
+  `--batch-cap 16` to `--batch-cap 64`.  The total cap remains 64 accepted
+  rises, so the registered literal candidate universe, deterministic selector
+  order, direct replay gates, 7,200-second producer cap, 4.8-GB RSS cap,
+  closed-batch durability, and independent checker are unchanged.  This is
+  the finite frozen-dual optimization proved in v415, not a larger search.
+- Parent reconstruction found exactly one old literal and no new literal in
+  the v1 owner, and independently obtained the pinned 2,569-byte generated
+  inner SHA-256
+  `07ec885b719aea17e382a8dc9d5a1d94026c627c6d9c1f535842ebbb3fb41cf6`.
+  The versioned wrapper is 2,387 bytes with SHA-256
+  `8f8c803cff86fbb4bb774570cb596e9e5a8262c05321e955e2cf0de545df60dc`;
+  its bounded GAP load stopped at the distinct external guard before any
+  production call.  Source commit is
+  `7498d381de7180c8ca562fba5cf3bc15323d522c`.
+- GHA run `33516227668`, job `99883831511`, is executing from that exact head
+  with a 240-minute workflow cap.  It races the existing batch-16 run
+  `33512607989` and exact single-row run `33509311208`; neither was cancelled.
+  A larger open batch may use more transient memory, but the existing RSS
+  stop and open-batch discard remain authoritative.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED LITERAL CORRECTION RUNGS;
+  DURABLE RANK 51; SINGLE-ROW, BATCH-16, AND BATCH-64 LANES RUNNING**.  Only a
+  Task451 checker PASS on target zero plus strict literal positive replay can
+  change the numerator.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  A1 stays
+  **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
+  B, C, W, and F remain unchanged; no common word, compatible lift, fake, or
+  Ihara witness is declared.
