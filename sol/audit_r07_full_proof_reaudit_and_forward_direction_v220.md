@@ -13612,3 +13612,47 @@ single transport repair required before continuation; it does not count the
   **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
   B, C, W, and F remain unchanged; no common word, compatible lift, fake, or
   Ihara witness is declared.
+
+### Delta 325 (2026-09-01): the Task451-positive literal carrier is implemented
+
+- Task452 implements the v416--v417 positive-only boundary.  It accepts only
+  an exact Task451 `COMMON_CANDIDATE`, physically binds the supplied result,
+  durable checkpoint, checker log, run/head/artifact identities, and then
+  reruns the pinned Task451 checker.  Thus a log marker never substitutes for
+  reconstruction of the rank-51 prefix, all closed batches, the final
+  echelon, and strict positive replay.
+- From the checker-equal `terminal_replay.literal_word` it reconstructs the
+  pinned 760-letter `g760`, the right product `red(g760+a)`, exact exponent
+  zero, all ten joint-kernel identities, the direct eleven-occurrence/
+  all-seven row, target/correction ownership, and selected action ancestry.
+  Its sparse-row digest uses task193's historical
+  `u32be(length) || key || coefficient` serialization.  The carrier also
+  retains the complete fresh replay and fixes the hexagon and printed-order
+  pentagon conventions required by the task193 minimal input.
+- Parent compile/fixture/self-test passed with 18 rejected mutations.  A
+  helper-nonshared Sol audit returned GO and confirmed that no old adapter is
+  relabelled and no Q0 store, fibre, batch, dual, or echelon is copied into
+  the carrier.  Final pins are producer 8,553 bytes /
+  `18c4932cbff5fbd5885ea03e80cd7f5c9f9c10bdbf4c7cc043985d3196042644`,
+  checker 8,516 bytes /
+  `82c5e7caa314e530782843bef81e66c431198fdc2d1c479886a14166f0fa1e73`,
+  and driver 2,499 bytes /
+  `cdf8f4276740a18fc312de3dfca8669a0c8afd424d2551f00596e6d63251cf6a`.
+  Source commit is `05f8787203d3032d756fcf678ed7265190714521`.
+- This v1 carrier exact-pins the original Task451 v1 dispatch head
+  `3316809e483223ec571ca7d6976dc1317c892441`.  It is immediately applicable
+  to batch-16 run `33512607989`.  A positive from the later batch-64 wrapper
+  or the independent single-row lane requires a versioned provenance-pin
+  successor; it may not be passed by reporting the older head.
+
+**v220 mapping**:
+
+- `Task451 positive -> task193 literal carrier` advances from
+  **PAPER-CLOSED / IMPLEMENTATION PENDING** to
+  **IMPLEMENTED / BOUNDED CROSS-CHECKED / ACTUAL POSITIVE PENDING** for the
+  exact batch-16 provenance.  The next downstream implementation boundary is
+  a tagged task193-v5 firewall retaining the v4 mathematical core.
+- Actual fractions remain A0 **0/1**, A1 **4/4 cross-checked**, A2 **2/3**,
+  A3 **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No common word,
+  compatible lift, fake, or Ihara witness is promoted by this interface
+  implementation.
