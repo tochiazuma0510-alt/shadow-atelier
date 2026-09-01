@@ -14032,3 +14032,67 @@ single transport repair required before continuation; it does not count the
 - A1 remains **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and
   A4 **1/3 UNKNOWN_RESOURCE**.  No common word, compatible lift, fake, or
   Ihara witness is declared.
+
+### Delta 335 (2026-09-02): rank-99 semantic replay is dispatched; A4 seals row 26 but loses the open row-27 correlation
+
+- V422 proves the exact A0 optimization now required by the Task463 audit.
+  For a nonzero-scalar correction, compute the actual `replay_atom` row and
+  use the existing non-mutating physical `reduce` first.  A dependent row
+  changes no positive span and needs no second full `seed_v12` or conjugate
+  exponent computation.  An independent row receives every old literal,
+  exponent, scalar, digest, and predicted/actual-pivot check before its sole
+  mutation.  This preserves the retained sequence but makes no negative
+  exhaustion claim.
+- The same theorem fixes batch cap 16 as the measured durability default: a
+  resource stop loses at most 15 tentative rises, while the recovered run
+  actually closed three such batches.  Its resume cap is per invocation,
+  separated from the historical accepted count.  The exact 173,082-byte
+  rank-99 checkpoint is frozen in the repository with the load-bearing name
+  `d972_r07_a0_dual_anchored_rank99_candidate_v1.json`; paper/candidate commit
+  is `f659ffdc`.  Task468 implements the resumable owner but remains
+  dispatch-blocked until full rank-99 replay passes.
+- Task467's recovered checker differs mathematically from Task451 only by
+  removing the local name collision.  It keeps the original schema and
+  independently reconstructs the rank-51 prefix, all three closed batches,
+  selector literals, exponents, actual rows, pivots, and post-batch duals.
+  Its checker-only driver downloads and authenticates the permanent release,
+  runs no producer, uses isolated paths, and has a 6,600-second / 4.8-GB
+  bound.  Parent removed a pre-dispatch bug where the first implementation
+  rejected the generic workflow's own `ci/out/driver.g` and `run.log`.
+  Accepted implementation commit is `6a94424c`.
+- Parent dispatched checker-only GHA run `33530987296` from exact head
+  `6a94424c8fe2a62f329d95331ec679e9105a99ac`.  This dispatch is not yet a
+  cross-check result.
+- A4 run `33506331399`, job `99851144256`, source
+  `5dbc895552efdaffb13bb7b10e595430026f4c3c`, completed its outer workflow.
+  The producer added and sealed row 26 as delta 2, so its head is now
+  `last_row=26,next_row=27`, 700 bytes / SHA-256
+  `910cc8afcca333dab56d9fefe35e63066eab764ac6325e3130c43a3c3d6f0114`;
+  delta 2 is 3,625 bytes / SHA-256
+  `acb34c8c69863cc274df4a12c614b002101770d97292f2c0df8bb43158df8523`.
+  Row 27 then spent the remaining four hours in `dual_pullback`, reaching
+  46,789,964 correlation pairs and transient boundary/combined rank 138,592,
+  but no within-row state was durable.  Its typed producer terminal is
+  `UNKNOWN_RESOURCE` at 14,402.409 seconds; the open row-27 work must not be
+  counted.
+- The v28 checker returned `UNKNOWN_INPUT:checker:producer_terminal_resource_envelope`.
+  Its envelope simultaneously requires every counter to be at most its cap
+  and later requires the triggering resource witness to be strictly above
+  that cap.  Here wall time exceeded 14,400 by 2.409 seconds, so the two gates
+  are contradictory.  Row 26 is therefore **PRODUCER-SEALED CANDIDATE**, not
+  independently accepted.  Original artifact id `9809473723` / digest
+  `sha256:4a82302e49ddfdd7790df0e0082d0762de3238c0b4e0de23259d97bd1a2af445`
+  is permanently mirrored as
+  `artifact_9809473723_gap-run-out.a4-row26.zip`, 56,410 bytes / SHA-256
+  `5771806de2bfa769ef7d83364acd65d618be2a663d02a74497943c746a3360e3`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** with the exact status in Delta334; its rank-99
+  branch has moved from a repair commission to **CHECKER-ONLY GHA RUNNING**.
+- A4 remains **1/3 UNKNOWN_RESOURCE**.  Its descriptive cursor advances from
+  canonical row 25 to **ROW 26 PRODUCER-SEALED CANDIDATE / CHECKER ENVELOPE
+  REPAIR REQUIRED / ROW 27 OPEN WORK NOT DURABLE**.  This is not a new A4
+  numerator.
+- All other fractions remain unchanged.  No common word, compatible lift,
+  fake, or Ihara witness is declared.
