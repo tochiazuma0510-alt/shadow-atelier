@@ -14096,3 +14096,72 @@ single transport repair required before continuation; it does not count the
   numerator.
 - All other fractions remain unchanged.  No common word, compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 336 (2026-09-02): zero-work rank-99 owner rejected; actual transform fixed; checker launch failures remain pre-semantic
+
+- Rank-99 checker-only run `33530987296` failed before invoking Python.  The
+  GAP driver compared the recovered checker through a source-pin path which
+  failed on the runner even though the committed blob is exactly 14,442 bytes
+  / SHA-256
+  `1d1080cd3e130d987316feefd820215f495cd6320aa5eca764fd2f8997f0c424`.
+  Task470 moved that source authentication into the existing bash envelope.
+  Its first v2 GHA retry `33532584886`, exact head
+  `34974c04e246e75f9678b5c283e4999099cf3986`, also stopped before download or
+  checker: literal single quotes introduced inside the assembled shell command
+  were correctly rejected by its outer single-quote safety gate.  Task471 is
+  the narrow versioned quote repair.  Neither failure executed semantic
+  replay, so rank 99 remains structurally authenticated only.
+- Independent Sol(max) audit rejects Task468 v1 **STOP / NOT ADOPTED / NOT
+  DISPATCHED**.  Its default producer is a permanent zero-work contingent
+  stub, its advertised delayed helper is dead and calls the real packed
+  `reduce` ABI incorrectly, it has no appendable batch/resource owner, and its
+  checker accepts structural wrappers without replaying selector, literal,
+  row, pivot, anchor, or post-dual mathematics.  Therefore its prefix booleans
+  and COMPLETE marker are no evidence and contribute no A0 progress.
+- V424 replaces that stub by an exact transform of the actual Task451 owner.
+  The exact old rank-99 checkpoint is a frozen physical prefix reconstructed
+  as rank 51 plus the three real 16-row batches.  Appended own checkpoints
+  require literal equality of the first 56 records, contiguous segment
+  start/end seals, batches of at most 16, and at most 64 **new** rises per
+  invocation.  In the real correction loop the concrete order is
+  `replay_atom -> aggregate -> (remainder,_) = phys.reduce`; dependent rows
+  stop there, while retained rows receive every old full-seed, exponent,
+  scalar, digest and predicted/actual-pivot gate before one mutation.  V424
+  also places heavy construction/replay/search behind a prewritten physical
+  BOOTSTRAP fallback.  Task472 implements this actual-owner transform in
+  parallel, but remains dispatch-blocked on Task467 PASS and a fresh audit.
+- Independent Sol(max) audit rejects Task466 v2 **STOP / NOT ADOPTED / NOT
+  DISPATCHED**.  It does not restore chronological A5/PB/K state, cannot
+  restore dynamically created PB rows, resets rejected-source/counter state,
+  writes incompatible K action digests, bypasses native v17 validation, and
+  its checker does not independently prove rejected-row dependence.  The
+  complete compact K/A5 branch therefore remains paper-designed but not an
+  accepted resumable owner.
+- Independent Sol(max) audit also stops Task464 v3 before dispatch, but its
+  actual 44-row specialization and Task456 arithmetic survive.  Its three
+  deterministic boundary defects are isolated: driver MEMBER literal drift,
+  a checker producer tuple with v2 path but v3 bytes/SHA, and checker
+  Task193-verdict `/v3` versus the producer's frozen `/v5`.  Task473 is the
+  scoped ABI-only v4 repair; no search mathematics is changed.
+- V423 proves the correct A4 resource envelope: exactly the authenticated
+  triggering coordinate and its equal typed-view occurrence may exceed its
+  cap, while every other coordinate remains bounded and the independently
+  sealed checkpoint stays the earlier closed state.  Task469 implements a
+  v29 checker and producer-free replay of permanent artifact
+  `artifact_9809473723_gap-run-out.a4-row26.zip`.  Row 26 remains
+  producer-sealed until that replay passes; transient row-27 rank 138,592
+  remains non-durable.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its stable descriptive state is **25
+  CROSS-CHECKED LITERAL RUNGS / DURABLE RANK 68 ON THE SINGLE-ROW BRANCH;
+  SEPARATE RANK-99 CLOSED STATE STRUCTURALLY AUTHENTICATED / CHECKER LAUNCH v3
+  REPAIR IN PROGRESS / ACTUAL SHORT-BATCH OWNER v2 IMPLEMENTATION IN
+  PROGRESS**.  Task468's zero-work output is explicitly excluded.
+- Compact A5 remains **PAPER-CLOSED ACTUAL 44-ROW POSITIVE DOVETAIL / v3 ABI
+  STOP / SCOPED v4 REPAIR COMMISSIONED**.  Complete K/A5 resume remains
+  unimplemented after Task466 STOP.
+- A1 stays **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and A4
+  **1/3 UNKNOWN_RESOURCE; ROW 26 PRODUCER-SEALED CANDIDATE**.  No common word,
+  compatible lift, fake, or Ihara witness is declared.
