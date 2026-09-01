@@ -1,0 +1,104 @@
+Task 510 -- independent Sol(max) audit of the Task509 rank99-v7 minimal repair
+
+Role: mathematics/software contract auditor only.  Do not edit implementation,
+run production/GHA, commit, push, or write any file except the reply named below.
+Keep this audit bounded: static inspection plus tiny in-memory/fixture mutations
+only.  Reject unnecessary reconstruction of the production selective stores.
+
+Read fully and pin before judging:
+
+1. `sol/proof_r07_rank99_tau_free_nonzero_constant_global_prefix_v431.md`
+   (9592 bytes,
+   `7b08f2526b00f4b12e67b9de57e03b7e87936050bfe8c3f9200130ed1ef850a4`).
+2. `sol/sol_reply_507_audit_r07_rank99_nonzero_constant_global_prefix_v431.md`
+   (7164 bytes,
+   `741c5be74245e1944ce497a2fdd101b099b57d580f12ab96577f07074546ccdb`).
+3. The complete Task508 STOP audit and every stated counterexample:
+   `sol/sol_reply_508_audit_r07_rank99_nonzero_constant_global_prefix_v6.md`
+   (13720 bytes,
+   `dd4900afa9b212cc6b1c5379003015ac7ae4669a9abc7b493f00de4dd48366ee`).
+4. Task509 outputs:
+   - producer v7: `search/d972_r07_a0_dual_anchored_rank99_durable_discovery_v7.py`,
+     4911 bytes,
+     `a66526af4b4f86019b1a4a9283212b9782f5793a21c518a93f04b9925e6bee22`;
+   - checker v7:
+     `crosscheck/check_d972_r07_a0_dual_anchored_rank99_durable_discovery_v7.py`,
+     9067 bytes,
+     `8de4f573a8a00da451c9518bbc87eb77c1c8cebfb2477ce38efb51e0e01c14f8`;
+   - driver v7:
+     `search/d972_r07_a0_dual_anchored_rank99_durable_discovery_gha_driver_v7.g`,
+     9800 bytes,
+     `fd355c0428f95332c3c822e47b0e2368bfc07cbe4372c47a33fd1ebe24d5d8b7`;
+   - `sol/luna_reply_509_r07_rank99_v6_checker_driver_minimal_repair.md`,
+     2556 bytes,
+     `14fe9c4cec2b0a1bb55c990362dce6b1ad392d8acefde8ccd7995f2c04a5475c`.
+5. Frozen v6 and v5 producer/checker/driver sources and every inherited file
+   named by the v7 pin maps.  Do not trust Task509's prose in place of source.
+
+Audit actual executable paths, not comments or fixture-only helpers.  Decide
+all points below and reproduce each Task508 failure against the repaired live
+path where a bounded harness is possible:
+
+F1. The transformed production loop uses the actual dictionary ABI
+`P["pres"]["relators"]`; there is no live `.relators` access.  The object
+returned by `replay_all` is retained and its selective runtime reused; a new
+runtime is built only when that object is `None`.  Use bounded call counting
+or an equivalent live-path mutation to show that this removes the second
+full selective-store construction.
+
+F2. A compiled scalar 0 is a scan miss and is skipped.  A zero-before-hit
+schedule reaches and retains the first later nonzero actual rise; a complete
+zero schedule exhausts `0..W` and fails only at the invariant boundary.
+Action-first and old zero-K support paths remain reachable and unchanged.
+
+F3. The producer/checker independently bind the exact v431 size/hash in their
+public pin maps and durable binding.  Producer and checker compute the same
+binding from independently checked files; the proof constant must not be dead.
+
+F4. The checker independently recompiles the selected formula and recomputes
+`W=sum(sf.kernel_orders[j] for (j,target) in formula["merged"])`, preserving
+target multiplicity, enforcing coordinates in 0..2, order 9, and the exact
+bound.  It binds both record W and cursor W, and independently binds
+`record["global_cursor"]` to the cursor point.  A coordinated, fully re-sealed
+mutation of record W, cursor W, global_cursor, rolling prefix, segment ledger,
+end core, and state seal must still be rejected for mathematical mismatch.
+
+F5. A support-prefix batch selected from a zero-K formula remains accepted
+even when a later formula has K nonzero.  A selected support formula with K
+nonzero is rejected.  A global batch has exactly one row and cannot be mixed
+with support/action or contain two global rows.  Typed cursor ordering and
+fresh-anchor semantics remain fail-closed.
+
+F6. Migration first fully authenticates the frozen v5 state.  Only top-level
+schema, binding, and state seal change; historical prefix, rows, segments,
+ledger, identities, ready core, and counters remain byte/semantic equal.
+No historical material is silently recompiled or weakened.
+
+F7. The driver checks exact byte/hash pins for v7 producer/checker, v431, C99,
+rank51, Task451 producer/checker, and v424/v426/v427; enforces canonical
+realpaths and one terminal status; syntax-checks and then actually executes
+the generated shell.  COMMON alone runs the v7 checker with the audited 5400s
+timeout and GAP re-reads an owned checker-OK marker.  RESOURCE runs no full
+same-job checker, but requires a nonempty closed discovery checkpoint, strict
+state/identity gates, and all five A0/COMMON/NONMEMBER/fake/Ihara claims false;
+it never emits COMPLETE/COMMON.  Plain UNKNOWN/ERROR is rejected.  Confirm
+that no added audit/self-test path can precede or duplicate production work.
+
+F8. Run only the advertised bounded fixture/self-test/pin/parse gates plus
+small adversarial harnesses needed for F1--F7.  Do not build production stores,
+run GAP production, dispatch GHA, or perform an unbounded scan.  Check also for
+unnecessary copies, duplicate store construction, or other obvious slowdown;
+distinguish a blocking performance regression from a cosmetic optimization.
+
+Return exactly one verdict:
+
+- `GO_FOR_GHA_DISPATCH`, only if every load-bearing repair passes; or
+- `STOP_DO_NOT_ADOPT`, with the smallest concrete repair list.
+
+Write only:
+
+`sol/sol_reply_510_audit_r07_rank99_v7_repair.md`
+
+Include exact pins, commands/tests, findings F1--F8, claim boundary, and final
+marker `TASK510_R07_RANK99_V7_REPAIR_AUDIT_GO` or
+`TASK510_R07_RANK99_V7_REPAIR_AUDIT_STOP`.
