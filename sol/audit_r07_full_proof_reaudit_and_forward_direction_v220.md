@@ -13836,3 +13836,42 @@ single transport repair required before continuation; it does not count the
   ROUND-27 CONTINUATION RUNNING**.  Dispatch is not a numerator.
 - All other fractions remain those in Delta328.  No common word, compatible
   lift, fake, or Ihara witness is declared.
+
+### Delta 330 (2026-09-02): incomplete direct-relator negatives are quarantined; the first compact positive owner is rejected
+
+- Task458 adopts the Task456 Task193-v5 pin migration only behind a fail-closed
+  positive boundary.  Its zero-base v6 and fusion v8 successors leave every
+  finite MEMBER arithmetic/replay path unchanged, but translate the inherited
+  old-span NONMEMBER branch to
+  `UNKNOWN_INCOMPLETE:K_conjugation_closure_not_implemented`.  The checkers
+  are MEMBER-only, and the drivers never invoke a checker for the incomplete
+  terminal.  The unquarantined Task456 v5/v7 files are retained solely as
+  exact immutable transform bases, not as production negative solvers.
+  Parent compile, load-without-main, generated-body seals, cardinality gates,
+  and terminal-branch inspection passed.  Accepted source commit is
+  `abbbcf3b`.
+- Task460 v1 is **REJECTED / NOT ADOPTED / NOT DISPATCHED**.  Independent
+  Sol(max) audit confirmed that it invented singleton
+  `r<index>:<free-word>` coordinates instead of calling the Task456
+  occurrence-separated engine; its Task456 constants were inert, its PB
+  ledger and action edges were hand-written, Task193/Task198 and the target
+  were unbound, and its normal driver supplied no target.  Consequently it
+  could only finish a 44-key toy traversal and could not produce an actual
+  MEMBER.  Its claimed fixture/runtime evidence does not measure A5.
+- Task462 commissions a versioned replacement.  It must exact-transform the
+  adopted Task458 producer/checker, authenticate the full Task193/Task198
+  owners, give the actual DirectEngine a read-only 44-row Task411 proxy, and
+  retain the real occurrence action, target oracle, translated PB boundary,
+  MEMBER proof DAG, and literal M replay.  Its bounded miss remains
+  `UNKNOWN_INCOMPLETE`; no fabricated checkpoint is permitted.  The complete
+  resumable K/A5 lane remains Task459/459a.
+
+**v220 mapping**:
+
+- The old direct-relator negative path is now **PHYSICALLY QUARANTINED**.
+  This repairs claim hygiene but changes no numerator.
+- Compact A5 remains **PAPER-CLOSED IMMEDIATE POSITIVE DOVETAIL / ACTUAL v2
+  IMPLEMENTATION RUNNING**.  Task460's toy output contributes zero progress
+  and must not appear in runtime estimates.
+- A0 and every milestone fraction remain those in Delta329.  No common word,
+  compatible lift, fake, or Ihara witness is declared.

@@ -34,3 +34,11 @@ Passed:
 8. Final generated mathematical bodies are sealed as: zero producer `59232 / c478b41db2ae1aae96178e2d4d6d26489b9c7de3611fada93f1f061bf1fab3d8`; zero checker `45942 / 82641acb296573cb90fcf8a05048ce089e6b3e0355894f5c9e42fc3fd84d0e00`; fusion producer `57825 / bcc426b361d17d5de56fae9a16acabcb6474102b96cc71c42ab53be537c5f005`; fusion checker `29828 / 173e51a1c84b603fc3d7d75b6d3a58250c15e14a10f680cf5e67383ce53ecc88`.
 
 No production, GHA dispatch, workflow edit, network, commit, push, or credential use occurred.
+
+## Parent disposition
+
+The Task456 pin migration is retained as an immutable transform base only.
+Its inherited direct-span NONMEMBER theorem is superseded and must not be
+used.  The physically adopted production boundary is Task458 zero-v6/fusion-
+v8, which maps that branch to `UNKNOWN_INCOMPLETE`.  Task456 and Task458 were
+committed together at `abbbcf3b`; no Task456 production was dispatched.

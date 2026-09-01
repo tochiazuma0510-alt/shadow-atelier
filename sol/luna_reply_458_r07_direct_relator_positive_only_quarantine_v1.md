@@ -31,3 +31,12 @@ Status: **IMPLEMENTED / BOUNDED GATES PASS / PRODUCTION NOT RUN**
 ## Bounded gates
 
 Passed: repo-external-cache `py_compile`; four load-without-main executions; inherited-body and final generated-body byte/SHA gates; exact transform cardinality gates; synthetic NONMEMBER quarantine and MEMBER-checker pass-through source fixtures; static driver terminal/checker branching and pin scans. No production input, 6,441-row closure, GHA, workflow, network, git, commit, or push was used.
+
+## Parent adoption
+
+The parent repeated repo-external `py_compile`, all eight guarded
+load-without-main imports across the Task456/458 chain, exact physical and
+generated pin checks, and direct terminal/checker-branch inspection.  The
+quarantine was accepted and pushed at `abbbcf3b`.  No production was
+dispatched: this task repairs the claim boundary and supplies a positive-only
+downstream base; it does not by itself have an actual Task193 receipt to run.
