@@ -13411,3 +13411,27 @@ single transport repair required before continuation; it does not count the
   **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
   B, C, W, and F are unchanged.  No common word, compatible lift, fake, or
   Ihara witness is declared.
+
+### Delta 319 (2026-09-01): exact rank-51 continuation enters production
+
+- Task450 versions the 10,934-byte rank-51 checkpoint in the repository and
+  exact-pins its artifact and internal seals.  The v6 transport checker
+  requires the eight accepted records as an exact ordered prefix, rejects
+  rank/count/round regression, and then delegates the full v5 reconstruction
+  of every final row and terminal profile.
+- The production algorithm remains the unchanged v3 ladder.  The driver only
+  copies the pinned checkpoint to a fresh `ci/out` input and invokes
+  `--resume` with a 7,200-second producer cap, 4.8-GB RSS cap, and 64-new-rise
+  cap.  No actor-adapted rebase, eager store, closure, or universe change was
+  introduced.
+- Commit `165ac51c6794d61f411266d6a72c043361365b64` is running in GHA run
+  `33509311208`, job `99860860565`, with a 150-minute workflow cap.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED LITERAL CORRECTION RUNGS;
+  DURABLE RANK 51; EXACT CONTINUATION RUNNING**.  A resource stop or dispatch
+  is not a numerator.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  All other
+  fractions remain those in Delta318.  No common word, compatible lift, fake,
+  or Ihara witness is declared.

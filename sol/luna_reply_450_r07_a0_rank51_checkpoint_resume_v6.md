@@ -45,3 +45,24 @@ Compile and checker self-test passed. Mutations rejected:
 Static driver inspection confirmed the exact resume/cap command and absence of SELFTEST, FIXTURE, actor, or closure paths.
 
 No local heavy production, Q0 computation, checkpoint replay, GHA dispatch, workflow edit, commit, push, or other git operation was performed.
+
+## Parent audit and production dispatch
+
+Parent repeated the bounded compile/self-test, inspected the literal resume
+command and all three pins, and found no search-universe or algorithm change.
+The four Task450 outputs were committed and pushed at
+`165ac51c6794d61f411266d6a72c043361365b64`.
+
+The parent dispatched `gap-run.yml` as run `33509311208`, job `99860860565`,
+with the exact source SHA above and:
+
+```text
+script=search/d972_r07_a0_actual_tau_free_rank_ladder_gha_driver_v6.g
+preamble=D972_R07_A0_RANK51_CHECKPOINT_RESUME_V6_RUN:=true;;
+out_dir=ci/out
+timeout_min=150
+with_pquot_packages=false
+```
+
+The job entered setup at 2026-09-01 21:44 JST.  Dispatch itself changes no
+A0 numerator; the exact final artifact and v6 checker terminal remain pending.
