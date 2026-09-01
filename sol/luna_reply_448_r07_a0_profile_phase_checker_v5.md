@@ -53,3 +53,41 @@ with_pquot_packages=false
 
 The driver gives the single producer 2,400 seconds, 4.8 GB RSS, and 64 new
 rank rises. Result pending; dispatch itself changes no A0 numerator.
+
+## Parent production adjudication
+
+GHA run `33504248130`, job `99844420262`, completed successfully from exact
+source SHA `6eb23ef7c8196ff93631051bb97e3696308ac6fe`.  Artifact
+`9800544629` (`gap-run-out`) contained:
+
+| file | bytes | SHA256 |
+|---|---:|---|
+| `d972_r07_a0_actual_tau_free_rank_ladder_v5.json` | 11,349 | `0860248c0cc1abe1efbe26ef463d7f0efed1e6ff2886352c668cd28d6d7831fb` |
+| `d972_r07_a0_actual_tau_free_rank_ladder_v5_output.checkpoint` | 10,934 | `a83959e4c9fcfa79093c712e82164d47c31b78c9fc00b512f7adac9413c481f4` |
+| producer log | 4,402 | `035d94d8914feda217ea4e0fbcd467f5bbe4f2d7369e715799bddb5a19e84a5f` |
+| checker log | 51 | `0216f7abbf35ef1a2540d024a34d8e595d208c88d6fcdb593579451aacd697f4` |
+
+The checker emitted exactly
+`R07_A0_ACTUAL_TAU_FREE_RANK_LADDER_V5_CHECKER_PASS`.  The producer accepted
+eight literal correction rows, all from compact seed 1 and coordinate S0,
+and raised the physical rank successively
+
+```text
+43 -> 44 -> 45 -> 46 -> 47 -> 48 -> 49 -> 50 -> 51.
+```
+
+The rank-51 checkpoint has internal state SHA-256
+`22dcfdfb396524ea5853488aa2ad52d28b4f7d10164123bc83f121e59dd83159`,
+`accepted_count=8`, and `round=9`.  Its current separating dual has 29
+localized block-1 `b` keys, zero tau coefficients, zero normalized exponent
+coefficients, target pairing one, and no unrecognized keys.  The terminal is
+
+```text
+UNKNOWN_RESOURCE:tau_free_formula_seed:time_limit
+```
+
+after 2,411.2134498 producer seconds.  This is a resource stop while compiling
+round 9, not a mathematical selector gate or negative terminal.  Therefore
+A0 remains 0/1, but the durable cross-checked correction ladder is now eight
+rungs rather than one.  No common word, nonmembership, fake, or Ihara claim
+is promoted.

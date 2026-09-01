@@ -13343,3 +13343,71 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  All other
   fractions are unchanged.  No common word, compatible lift, fake, or Ihara
   witness is declared.
+
+### Delta 317 (2026-09-01): the A0 successor is stratified by the returned gate
+
+- New paper corollary
+  `proof_r07_a0_gate_stratified_minimal_successor_v414.md` uses the literal
+  v3 gate order to remove an unnecessary common prerequisite from Delta316.
+  Only `NONZERO_TAU_PHASE_SELECTOR` requires the actor-adapted PB3 rebase.
+  Every later gate is reached after all three tau coefficients have been
+  proved zero, so v410 is already exact in the current least-transversal
+  quotient.
+- An S3--S9 terminal can be completed one coordinate at a time: retain the
+  shared Q0 state/word roster, build only the current coordinate's packed
+  store and inverse index, and replay each selected literal word through all
+  ten coordinates.  Eager construction of all ten stores is neither required
+  for exactness nor permitted by this successor design.
+- A nonzero normalized-exponent constant is invariant under conjugation.  It
+  therefore uses the authenticated global roster with the ordinary
+  factor-one `W+1` argument; v413's factor-three phase normalization is only
+  for a nonzero tau coefficient.
+- Most importantly, if v3 returns its named separator-exhaustion terminal,
+  the producer has already enumerated the complete order-nine fibres on
+  S0--S2 and all constants are zero.  No additional producer search or
+  coordinate rebase is needed.  Promotion then requires only a versioned
+  separator certificate and an independent reconstruction of that finite
+  exhaustion.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; ONE CROSS-CHECKED CORRECTION RUNG; CURRENT v3 RUN
+  ACTIVE**.  The general successor remains paper-closed, and its implementation
+  is now gate-minimal rather than an unconditional actor-adapted rebuild.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  All other
+  fractions are unchanged.  No common word, compatible lift, fake, or Ihara
+  witness is declared.
+
+### Delta 318 (2026-09-01): A0 climbs eight literal correction rungs to rank 51
+
+- Task448 GHA run `33504248130`, job `99844420262`, source
+  `6eb23ef7c8196ff93631051bb97e3696308ac6fe`, completed with artifact
+  `9800544629`.  Its v5 checker returned PASS and independently rebuilt all
+  accepted rows and the final dual/profile boundary.
+- The producer accepted eight literal seed-1/S0 correction rows and raised
+  physical rank consecutively from 43 to 51.  The 10,934-byte durable
+  checkpoint has SHA-256
+  `a83959e4c9fcfa79093c712e82164d47c31b78c9fc00b512f7adac9413c481f4`,
+  internal state SHA-256
+  `22dcfdfb396524ea5853488aa2ad52d28b4f7d10164123bc83f121e59dd83159`,
+  `accepted_count=8`, and `round=9`.
+- The rank-51 dual remains in the favorable v410 sector: 29 localized
+  block-1 `b` keys, all three tau coefficients zero, both normalized exponent
+  coefficients zero, no unrecognized keys, and target pairing one.  The run
+  stopped only at
+  `UNKNOWN_RESOURCE:tau_free_formula_seed:time_limit` after 2,411.2134498
+  producer seconds.  It did not return a mathematical selector or separator
+  gate.
+- Task450 therefore preserves the exact rank-51 checkpoint and resumes the
+  unchanged v3 ladder with a longer producer window.  It makes no search-space
+  change and does not pre-emptively implement an actor-adapted branch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; EIGHT CROSS-CHECKED LITERAL CORRECTION RUNGS;
+  DURABLE RANK 51; RESOURCE-ONLY CONTINUATION PENDING**.  Only target zero
+  plus strict positive replay raises the numerator.
+- A4 remains **1/3 UNKNOWN_RESOURCE; ROW-26 CONTINUATION RUNNING**.  A1 stays
+  **4/4 cross-checked**, A2 **2/3**, and A3 **3/3 cross-checked**.  A5--A9,
+  B, C, W, and F are unchanged.  No common word, compatible lift, fake, or
+  Ihara witness is declared.
