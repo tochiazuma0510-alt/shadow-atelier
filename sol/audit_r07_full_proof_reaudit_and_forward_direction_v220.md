@@ -13902,3 +13902,73 @@ single transport repair required before continuation; it does not count the
   **PAPER-CLOSED ACTUAL ROW-VIEW SPECIALIZATION / IMPLEMENTATION RUNNING**.
 - No milestone numerator changes.  A0 remains the running rank-68 lane, and
   no common word, compatible lift, fake, or Ihara witness is declared.
+
+### Delta 332 (2026-09-02): rank-68 batch-64 continuation enters production
+
+- Task463 rebases the accepted Task451 closed-batch algorithm from the exact
+  rank-51/eight-record state to the cross-checked rank-68/25-record state.
+  The producer authenticates the 33,015-byte frozen checkpoint, canonical
+  seal, `(rank,accepted,round)=(68,25,27)`, and then semantically replays all
+  25 records before any new selector work.  Its cap is 64 **new** rises, so
+  `physical_rank=68+new_rises` and `accepted_count=25+new_rises`.
+- The independent checker reconstructs the same 25-record prefix through the
+  v7 authenticator, replays every closed batch, and rejects 63 rises for an
+  exact max-rise terminal and 65 rises as cumulative overflow while accepting
+  exactly 64.  Parent compile, fixture, self-test, cap, and path gates passed.
+- The first requested driver filename collided with the already committed
+  Task453 `driver_v2.g`.  It was restored byte-for-byte to 2,387 bytes /
+  SHA-256
+  `8f8c803cff86fbb4bb774570cb596e9e5a8262c05321e955e2cf0de545df60dc`;
+  Task463 alone moved to the new v3 driver.  No running Task453 source was
+  altered.  Accepted implementation commit is `69db2966`.
+- Parent dispatched GHA run `33527792145`, job `99922978681`, from exact head
+  `69db2966a9f1a6acd4fabb10b28c9ad30eedaf0f`.  It uses one producer,
+  7,200 seconds, 4.8-GB RSS, a 64-row closed batch, and then the independent
+  checker.  Dispatch is not a result.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; 25 CROSS-CHECKED LITERAL RUNGS; DURABLE RANK 68**.
+  Its descriptive status is now **single-row and batch-64 rank-68
+  continuations running in parallel**.  No numerator changes until a checked
+  COMMON candidate exists.
+- All other fractions remain those in Delta331.  No common word, compatible
+  lift, fake, or Ihara witness is declared.
+
+### Delta 333 (2026-09-02): Task459 v1 is rejected; direct-restore repair is paper-closed
+
+- Independent Sol(max) audit gives Task459 v1 **STOP / NOT ADOPTED / NOT
+  DISPATCHED**.  Its producer seals `self_digest` while its checker requires
+  `self_digest_sha256`, so every production receipt would fail before the
+  advertised independent replay.  Its first checkpoint occurs only after a
+  seed, and resume rebuilds from seed 1 through every saved K/A5 transition;
+  a wall/operation stop can therefore recur before the saved frontier.
+- The same audit found an early-MEMBER ancestry defect: a hit before the K
+  query records the preceding unrelated `k_events[-1]`; the checker never
+  checks that action ledger.  V1 also retains literal words for dependent
+  candidates and interpolates insufficiently typed input paths into a shell.
+  These are transport/state defects.  Its pinned actual v17 quotient,
+  Task456 A5 arithmetic, 44/immediate schedule, and only-K-pivot spawning were
+  not refuted.
+- New v421 replaces cursor replay by direct restoration.  The K half must use
+  the existing accepted v17 `restore_word_dag`, `restore_basis`, and
+  queue-prefix validators.  The A5 half is determined by its accepted source
+  words, topological proof DAG, ordered pre rank rises, ordered projected/PB
+  joint rises, PB translation words, and closed queues/cursors.  Rejected
+  candidates persist only as digests/counters and exact dependency ledgers.
+- V421 proves by induction on closed seed/four-action transitions that this
+  state resumes at the exact next transition.  An interrupted open transition
+  leaves the preceding closed checkpoint intact.  It also fixes the early hit
+  as `query_event=null` plus an exact terminal A5 source edge.  Task466 is the
+  bounded Luna implementation commission.  Paper/commission commit is
+  `6950aa4b`; no implementation or mathematical terminal is yet claimed.
+
+**v220 mapping**:
+
+- The complete compact K/A5 lane changes from **IMPLEMENTED CANDIDATE** to
+  **V1 REJECTED / HONEST DIRECT-RESTORE THEOREM CLOSED / V2 IMPLEMENTATION
+  RUNNING**.  This is forward progress in state correctness, not an A5
+  numerator.
+- A0 remains as in Delta332; A1 is **4/4 cross-checked**, A2 **2/3**, A3
+  **3/3 cross-checked**, and A4 **1/3 UNKNOWN_RESOURCE**.  No common word,
+  compatible lift, fake, or Ihara witness is declared.
