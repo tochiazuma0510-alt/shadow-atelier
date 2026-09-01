@@ -154,3 +154,16 @@ As a JSON string, the preamble value is
 - inputs: v39 driver, `D386Mode:="RESUME";;`, `ci/out`, 250 minutes,
   pquot packages enabled;
 - dispatched at `2026-09-01T20:13:32+09:00`; result pending.
+
+The first dispatch failed before computation because Windows native-argument
+quoting removed the quotes around `RESUME`; GAP received
+`D386Mode:=RESUME;;`. Run `33501365999`, job `99835240865`, stopped at the
+driver preamble with `Variable: 'RESUME' must have a value` and produced no
+mathematical result. After checking the actual native argv, the unchanged
+source commit was redispatched with escaped literal quotes:
+
+- corrected run id: `33501732575`;
+- corrected preamble received from the broker:
+  `D386Mode:=\"RESUME\";;` (GAP source `D386Mode:="RESUME";;`);
+- source SHA remains `0f3902147257c769de3035fadfeac6b365a160ca`;
+- result pending.
