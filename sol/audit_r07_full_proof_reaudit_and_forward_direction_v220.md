@@ -13811,3 +13811,28 @@ single transport repair required before continuation; it does not count the
 - A1 stays **4/4 cross-checked**, A2 **2/3**, A3 **3/3 cross-checked**, and A4
   **1/3 UNKNOWN_RESOURCE**.  No common word, compatible lift, fake, or Ihara
   witness is declared.
+
+### Delta 329 (2026-09-02): exact rank-68 continuation enters production
+
+- Task461 copied the cross-checked 33,015-byte rank-68 checkpoint into a
+  versioned repository certificate without changing a byte.  Its new v7
+  checker delegates the complete v6 replay, independently authenticates the
+  canonical state seal and all 25 accepted records, requires those records
+  as an exact ordered prefix, and enforces rank/count/round monotonicity from
+  `(68,25,27)`.  Its self-test rejected seal, prefix, rank, count, and round
+  mutations.
+- The v7 driver exact-pins the unchanged v3 producer, v7 checker, and frozen
+  checkpoint.  It starts one production process with `--resume`, 7,200
+  seconds, 4.8-GB RSS, and at most 64 further rises.  There is no new store,
+  closure, actor rebase, production self-test, or universe change.  Accepted
+  source commit is `dd67f12b0ee4f022061df27ed396ad3d3a37f264`.
+- Parent dispatched GHA run `33524681526`, job `99912387760`, from that exact
+  head.  It runs in parallel with batch-16 `33512607989`, batch-64
+  `33516227668`, and A4 row-26 `33506331399`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual; 25 CROSS-CHECKED LITERAL RUNGS; DURABLE RANK 68;
+  ROUND-27 CONTINUATION RUNNING**.  Dispatch is not a numerator.
+- All other fractions remain those in Delta328.  No common word, compatible
+  lift, fake, or Ihara witness is declared.

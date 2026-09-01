@@ -32,3 +32,28 @@ Passed:
 5. static driver inspection for one production process, resume input, caps, pins, fresh paths, and absence of production SELFTEST/FIXTURE or universe changes.
 
 No local production, GHA, network, workflow edit, git, commit, push, closure rebuild, eager store, or actor-adapted rebase was performed.
+
+## Parent adoption and production dispatch
+
+The parent repeated `py_compile`, the v7 self-test, exact pin checks, and the
+one-process/resume/cap/static scans.  The five synthetic mutations were again
+rejected.  A local full artifact replay reached the known Windows
+same-handle-identity platform stop inside the inherited Task198 runtime; no
+mathematical or v7-checker failure was observed, and the full replay remains
+assigned to the Linux production job.
+
+The four outputs were committed and pushed at
+`dd67f12b0ee4f022061df27ed396ad3d3a37f264`.  The parent dispatched
+`gap-run.yml` with that exact source as run `33524681526`, job `99912387760`:
+
+```text
+script=search/d972_r07_a0_actual_tau_free_rank_ladder_gha_driver_v7.g
+preamble=D972_R07_A0_RANK68_CHECKPOINT_RESUME_V7_RUN:=true;;
+out_dir=ci/out
+timeout_min=150
+with_pquot_packages=false
+```
+
+The job entered setup on 2026-09-02 JST.  Dispatch does not change the A0
+numerator; the first possible promotion is an exact v7 checker PASS on a
+COMMON terminal.
