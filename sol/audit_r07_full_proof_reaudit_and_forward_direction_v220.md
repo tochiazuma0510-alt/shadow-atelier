@@ -13875,3 +13875,30 @@ single transport repair required before continuation; it does not count the
   and must not appear in runtime estimates.
 - A0 and every milestone fraction remain those in Delta329.  No common word,
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 331 (2026-09-02): actual 44-row specialization is paper-closed
+
+- New v420 audits the accepted Task458 engine extensionally.  Once the full
+  Task193/Task198 authority is authenticated, the relator roster enters its
+  DirectEngine only through `relator_seed`, the finite seed loop, member word
+  expansion, and replay of those same words.  The pointed target, eleven
+  occurrence actors, marked action, outer universes, and translated PB
+  boundary are constructed independently from the authenticated owners.
+- It is therefore sound to construct Runtime and BoundaryLedger from the
+  original authority, and give only DirectEngine a read-only 44-word Task411
+  row view.  The Task198 6,441-row receipt is still fully authenticated, but
+  its old roster is not evaluated as 6,441 A5 seeds.  A finite actual target
+  hit expands through the inherited proof DAG to the literal
+  `sum a_gi ((w s_i)-w)` and is sound by v419.
+- The implementation gate forbids the exact Task460 defects: synthetic
+  coordinates, an external JSON target, assumed empty PB slack, or a proxy
+  installed before authority validation.  A compact miss remains
+  `UNKNOWN_INCOMPLETE`, and the short race must state `resumable=false` until
+  the complete actual engine state is serializable.
+
+**v220 mapping**:
+
+- The Task462 implementation target advances from an informal repair to
+  **PAPER-CLOSED ACTUAL ROW-VIEW SPECIALIZATION / IMPLEMENTATION RUNNING**.
+- No milestone numerator changes.  A0 remains the running rank-68 lane, and
+  no common word, compatible lift, fake, or Ihara witness is declared.
