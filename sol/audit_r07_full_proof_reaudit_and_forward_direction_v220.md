@@ -15535,3 +15535,79 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
   **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 372 (2026-09-02): the single-row A0 prefix advances by thirty-two rungs to rank 143
+
+- Eager rank111 continuation run `33579991982`, job `100092032846`, completed
+  successfully on exact head
+  `ae74e865ec7ba10d00eca263356afa01d23a2466`.  Artifact `9831153395`
+  (`gap-run-out`, API size 121,469, service digest
+  `6cf80ac0...62eeb9`) contains one typed producer RESOURCE terminal, one
+  exact independent v7 checker PASS and one v11 driver PASS.
+- The producer used 7,203.490 seconds and stopped only at
+  `UNKNOWN_RESOURCE:tau_free_formula_seed:time_limit`.  It appended exactly
+  thirty-two seed-1 literal corrections, all consecutive accepted rounds
+  74--105 and all unit rank rises, taking count/rank/checkpoint cursor from
+  `68/111/73` to `100/143/106`.  The new records use scalar 1 seventeen
+  times and scalar 2 fifteen times; checked-fibre counts range from 1 to
+  1,108.  The result is `126799 / 8c7072c3...47835`; the closed checkpoint
+  is `126377 / dff9cb18...1b4c`, with state seal `35c6d4e8...b9272`.
+- Independent Sol(max) Task530 returned
+  **GO_FOR_PREFIX_PROMOTION_AND_ARCHIVE**, `12886 /
+  638ddf59...4e4b2`.  It authenticated the API/run/job/head and exact
+  executable chain, all seventeen extracted regular files and the nested
+  prior release, recomputed both checkpoint seals and binding, proved exact
+  equality of the first 68 records, checked the 32-record round/rank chain,
+  integer types and pivot/row/source distinctness, and confirmed the final
+  profile `N1=N2=0`, all tau zero, target pair one and all five downstream
+  claims false.
+- Parent packed the nine exact top-level replay members and uploaded permanent
+  release asset `artifact_9831153395_gap-run-out.a0-rank143.zip`, asset id
+  `541141280`, `87387 / 4099856d...892b6`.  It is a continuation asset, not
+  a positive result.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its cross-checked single-row stable prefix is
+  now **100 literal sources / rank 143 / accepted through round 105
+  (checkpoint cursor 106)**, superseding rank111.  All 32 new rows were again
+  seed 1, so the independently pending 44-seed lazy implementation targets
+  an observed avoidable eager suffix on every new round; no wall-clock factor
+  is inferred before its production run.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26** pending
+  audit of its returned row27 RESOURCE artifact.  A1 **4/4**, A2 **2/3**,
+  A3 **3/3**, and compact A5 are unchanged.  No compatible lift, fake, or
+  Ihara witness is declared.
+
+### Delta 373 (2026-09-02): the exact-schema lazy K=0 lane is independently GO and dispatched
+
+- Task529 repaired exactly the two Task528 schema blockers.  Producer v6 is
+  `42434 / 43f5dac8...13b1c`, independent checker v10 is `33455 /
+  36db2a4e...5dd78`, and driver v14 is `8692 / c46fedb8...68bd4`.
+  New-record rounds are exact integers, start strictly after 73 and increase
+  strictly; every new record/checkpoint integer rejects Python bool/float.
+  The task's bounded 18-case re-sealed mutation suite passed in both owners.
+- Independent Sol(max) Task531 returned
+  **GO_FOR_GHA_DISPATCH_ACTUAL_K0**, `6766 / e0c58a00...c2abe`.  It
+  independently repeated the round/type mutations, confirmed legitimate
+  round gaps and `elapsed_seconds` floats, proved checker independence and
+  selector/hot-path confinement, authenticated the permanent rank111 release
+  and all eight members, and captured a syntactically valid v14 shell with no
+  production SELFTEST.
+- The audited candidate is exact commit
+  `22eec63821ec4b64e5030b7a48dcb28480c910e8`.  Parent pushed that commit and
+  dispatched generic `gap-run` run `33630254997`, job `100247663809`, with
+  v14 preamble `D972_R07_A0_LAZY_K0_RANK111_RESUME_V14_RUN:=true;;`,
+  `ci/out`, no optional p-quotient packages and a 240-minute job envelope.
+  It entered setup on the same exact head.  Dispatch is not a rank rise.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** with the promoted main prefix **100/rank143 /
+  accepted through round105**.  The new lazy production is a separate
+  rank111-origin continuation until its artifact is independently accepted;
+  its purpose is to traverse the observed seed-1 lane without eagerly
+  compiling the remaining 43 compact seeds at every round.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
+  **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
