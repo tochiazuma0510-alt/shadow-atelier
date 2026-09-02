@@ -152,3 +152,16 @@ a0_v2_errata_fill.py           367e2dd36afea514   this filler (literal word sha,
 ```
 
 `R07_A0_V2_ADDENDUM_ERRATA_FABLE_V1`
+
+---
+## Commander note (2026-09-03, ruling 1845) — qualification of R3's closing sentence
+The sentence "the two residuals are legitimate right-hand sides of the same Q_0 floor and must yield the same
+MEMBER/NONMEMBER verdict" holds only for residuals computed with the **same** chain map `A_g` (the hexagon-derived,
+identity-column-checked map of v2 §2).  The workshop falsifier found (three independent routes, incl. direct Fox
+differentiation of the whole hexagon word) that Luna 541's published Q_0 residual (support 82,965) uses a per-slot
+own-prefix translation in `payload_lift_v2.py::ag` that differs from the hexagon-derived prefixes in 4 of the 6 slots;
+the difference is invisible at the 504 level (all five prefixes are trivial on 9 points) and visible at Q_0.  With the
+hexagon convention Luna's 553 words give a residual of support 76,811; with Luna's convention the published 82,965 is
+reproduced exactly.  Hence the comparison claim applies to (T_res of this errata, hexagon-convention residual of Luna's
+words), not to Luna's published vector as-is.  The alternative payload of R3 itself is unaffected (three-route CONFIRMED).
+Which convention defines the intended physical quotient is Sol's decision (express 20260903_fable_sol_prefix_convention_discrepancy.md).
