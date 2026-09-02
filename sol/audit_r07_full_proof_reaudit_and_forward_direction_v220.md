@@ -15611,3 +15611,43 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
   **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 374 (2026-09-02): A4 row 27 hits the 8-GB boundary; only an index-consistent intraquery state survives
+
+- A4 run `33579631937`, job `100090966487`, completed its wrapper successfully
+  on exact head `efaa6234d5ea12c9f81dcb1f33f0609387964475`, but the unique
+  mathematical terminal is typed `UNKNOWN_RESOURCE`.  Artifact `9831693721`
+  has API size 841,367,330 and service digest
+  `2f77b0d3...dd0b7`; its exact reason is
+  `dual_pullback:rss_bytes:8001912832>8000000000:state=dual_pullback`.
+- The returned ordinary HEAD and independent-checker checkpoint are
+  byte-identical to the old row-26 state (`700 / 910cc8af...f0114` and
+  `8991 / b96919b...d7af2`).  There is no delta 3, checker result, completed
+  row 27, word-bearing K, or numerator.  Open-query telemetry reaching rank
+  112,099 and 33,535,212 pairs is not durable A4 progress.
+- Independent Sol(max) Task532 returned
+  **AUDITED_ZERO_DURABLE_PROGRESS_RESOURCE**, `7593 /
+  82458179...cb04`.  It authenticated the API/run/job/head and bounded ZIP
+  ranges, established the unique RESOURCE branch and exact zero ordinary
+  advancement, and rejected every positive, NONMEMBER, lift, fake and Ihara
+  interpretation (`verified=false`).
+- The artifact nevertheless contains an index-consistent physical resume
+  candidate for the unfinished query `R:27`: sequence 1,877, accepted/examined
+  `112355/112376`, physical and boundary rank 112,355, chain
+  `2844cddc...79ea3c`, and 1,877 consecutively named shard members with no
+  index gap.  Because no independent checker replayed the shard bodies, this
+  is **not yet cross-checked or continuation-ready**.  Full raw-artifact
+  preservation is in progress outside the repository; chain validation must
+  precede any resume.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**; the
+  row-27 state is a separately labelled physical resume candidate and changes
+  neither the numerator nor the durable row count.  Its promoted diagnosis is
+  specifically the 8-GB `dual_pullback` resource boundary.
+- A0 remains **0/1 actual**, with its main cross-checked prefix at
+  **100/rank143 / accepted through round105** and the audited lazy rank111
+  continuation running separately as run `33630254997`.  A1 **4/4**, A2
+  **2/3**, A3 **3/3**, and compact A5 are unchanged.  No compatible lift,
+  fake, or Ihara witness is declared.
