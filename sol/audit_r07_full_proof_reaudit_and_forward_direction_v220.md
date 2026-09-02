@@ -16361,3 +16361,31 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 393 (2026-09-03): production first grade reaches four parallel closures
+
+- The initial guarded-push run `33677024094` stopped in the producer fixture,
+  before any real phase, because the audited programs had been committed but
+  their 18 frozen runtime inputs were still local-only.  Commit
+  `22c6dddb43d107c05e65f53ad898823ae8ebe276` adds exactly that hash-pinned
+  dependency closure without changing either v3 program or the Task560
+  verdict.
+- Production run `33677346616` passed the program/audit hash gates and both
+  GHA fixtures.  Real prepare finished in 326.194140029 seconds with lower
+  ranks `[505,503,503,503]`, 8232 common defect origins, residual support
+  16254, state digest `1f191d88...c865`, and maximum printed RSS 453427200
+  bytes.  Its 204360988-byte immutable state artifact and logs are retained
+  for 90 days.
+- Character blocks 0, 1, 2, and 3 are now executing simultaneously as jobs
+  `100407172564`, `100407172576`, `100407172504`, and `100407172523`.
+  The complete launch receipt is `sol_reply_561_r07_a0_first_rung_grade1_gha_launch_v1.md`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung **0/6 grades decided**, but its
+  first grade has advanced from release readiness to live exhaustive closure.
+  The next numerator-changing event is an independently checked MEMBER or
+  NONMEMBER terminal after the four blocks and joint merge.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
