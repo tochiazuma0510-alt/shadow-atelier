@@ -15500,3 +15500,38 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
   **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 371 (2026-09-02): the actual K=0 selector is implemented, but two schema-only defects stop its first dispatch
+
+- Task527 replaced Task525's placeholder by an executable current-task445
+  K=0 owner.  Producer v5 is `34773 / 94e9079c...aa5aa`, independent checker
+  v9 is `27570 / 9b9bfbf7...f29c0`, and rank111 release driver v13 is `8683 /
+  8f034abc...5f63e`; the candidate bundle is exact commit
+  `3d98bab1c934cd90ae5a0cf644bb8d8b470524d7`.  Bounded tests reached the
+  actual PackedEchelon reduce/add/update path, whole-formula cancellation,
+  action-first and seed-1 lazy paths, durable-resource paths and exact member-5
+  transport.  This is implementation evidence, not an A0 result.
+- Independent Task528 returned **STOP_DO_NOT_ADOPT**, `12126 /
+  ce86531e...d10224`.  It accepted the mathematical selector, exact legacy
+  anchor, direct physical admission, checker independence, hot-path
+  confinement and v13 transport, but found two resealable schema defects:
+  new record rounds were not required to be greater than 73 and strictly
+  increasing, and Python boolean/float values could compare equal to promised
+  integer fields (`true == 1`, `0.0 == 0`).  No false physical row or rank99
+  semantic contamination was found.
+- Task529 is a strict versioned repair only: v6/v10/v14 will enforce the new
+  round chain and exact `type(x) is int` record/checkpoint typing, add the
+  corresponding resealed mutations, and otherwise preserve selector,
+  checkpoint and runtime semantics.  No v13 dispatch is authorized.
+- Eager rank111 run `33579991982` and A4 run `33579631937` remain active in
+  their GAP-script steps; elapsed time does not change a numerator.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, stable at **68/rank111/round73** plus the
+  separate **56/rank99/three-batch/round12** prefix.  The lazy lane is now
+  **mathematical/physical core implemented; schema repair running**, not
+  production-ready and not COMMON.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
+  **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
