@@ -1,0 +1,265 @@
+name: d972-r07-a0-first-rung-grade1-v4-recovery
+
+on:
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+    paths:
+      - 'search/d972_r07_a0_first_rung_grade1_v4.py'
+      - 'search/check_d972_r07_a0_first_rung_grade1_v4.py'
+      - 'sol/luna_task_562_r07_a0_first_grade_merge_hotloop_v4.md'
+      - 'sol/luna_reply_562_r07_a0_first_grade_merge_hotloop_v4.md'
+      - 'sol/sol_task_563_audit_r07_a0_first_grade_merge_hotloop_v4.md'
+      - 'sol/sol_reply_563_audit_r07_a0_first_grade_merge_hotloop_v4.md'
+      - '.github/workflows/d972-r07-a0-first-rung-grade1-v4-recovery.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: d972-r07-a0-first-rung-grade1-v4-recovery-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  TASK554_MAX_RSS: "7516192768"
+  TASK554_MERGE_SECONDS: "19800"
+  SOURCE_RUN_ID: "33677346616"
+  SOURCE_RUN_ATTEMPT: "1"
+  PRODUCER_SHA256: 1fb4b29691f448782e7f7f2e2282e7067282bc619fb34b7214089c5a73e24dc4
+  CHECKER_SHA256: ffd78b41fc9f7a1f59925eb8f07db7278b704c3580bb7e8fa3a586e85db9fe06
+  AUDIT_SHA256: 753437f782bc02196bccdf44dd6e8e346945ca3d8d39444d17542649b9fe86a9
+
+jobs:
+  merge:
+    name: optimized joint physical fibre from sealed v3 phases
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire-grade1-v4]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact recovery head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Authenticate audited recovery snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade1_v4.py | awk '{print $1}')" = "$PRODUCER_SHA256"
+          test "$(sha256sum search/check_d972_r07_a0_first_rung_grade1_v4.py | awk '{print $1}')" = "$CHECKER_SHA256"
+          test "$(sha256sum sol/sol_reply_563_audit_r07_a0_first_grade_merge_hotloop_v4.md | awk '{print $1}')" = "$AUDIT_SHA256"
+          test "$(grep -c '^FIRST_GRADE_MERGE_V4_PASS$' sol/sol_reply_563_audit_r07_a0_first_grade_merge_hotloop_v4.md)" -eq 1
+
+      - name: Run bounded release fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task562-logs"
+          python -B -m py_compile search/d972_r07_a0_first_rung_grade1_v4.py search/check_d972_r07_a0_first_rung_grade1_v4.py
+          python -B -u search/d972_r07_a0_first_rung_grade1_v4.py --fixture 2>&1 | tee "$RUNNER_TEMP/task562-logs/producer-fixture.log"
+          python -B -u search/check_d972_r07_a0_first_rung_grade1_v4.py --fixture 2>&1 | tee "$RUNNER_TEMP/task562-logs/checker-fixture.log"
+
+      - name: Download exact sealed v3 prepare
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-prepare-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task562-state
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact four exhausted v3 blocks
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task562-block-inputs
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Assemble and authenticate frozen fan-in
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/task562-block-inputs/"* "$RUNNER_TEMP/task562-state/"
+          test -f "$RUNNER_TEMP/task562-state/prepare.HEAD"
+          for block in 0 1 2 3; do
+            test -f "$RUNNER_TEMP/task562-state/block-$block.HEAD"
+            test "$(find "$RUNNER_TEMP/task562-state" -maxdepth 1 -type f -name "block-$block.*.json" | wc -l)" -eq 1
+            test "$(find "$RUNNER_TEMP/task562-state" -maxdepth 1 -type f -name "block-$block-basis.*.bin" | wc -l)" -eq 1
+          done
+          test ! -f "$RUNNER_TEMP/task562-state/merge.HEAD"
+
+      - name: Run optimized merge only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task562-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 335m \
+            python -B -u search/d972_r07_a0_first_rung_grade1_v4.py \
+              --merge "$RUNNER_TEMP/task562-state" \
+              2>&1 | tee "$RUNNER_TEMP/task562-logs/merge.log"
+          test -f "$RUNNER_TEMP/task562-state/merge.HEAD"
+          test -f search/certs/d972_r07_a0_first_rung_grade1_v4.json
+
+      - name: Stage v4 terminal state and certificate
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/task562-terminal"
+          mkdir -p "$out/state" "$out/certificate"
+          find "$RUNNER_TEMP/task562-state" -maxdepth 1 -type f \
+            \( -name 'merge.HEAD' -o -name 'merge.*.json' \
+               -o -name 'physical-grade-basis.*.bin' \
+               -o -name 'degree2-residual.*.bin' \) \
+            -exec cp -t "$out/state" -- {} +
+          cp search/certs/d972_r07_a0_first_rung_grade1_v4.json "$out/certificate/"
+          test -f "$out/state/merge.HEAD"
+          test "$(find "$out/state" -maxdepth 1 -type f -name 'physical-grade-basis.*.bin' | wc -l)" -eq 1
+
+      - name: Upload immutable v4 terminal
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task562-grade1-v4-terminal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task562-terminal/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload merge and fixture logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task562-grade1-v4-merge-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task562-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
+
+  checker:
+    name: independent v4 terminal checker
+    needs: merge
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact recovery head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Authenticate audited checker snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade1_v4.py | awk '{print $1}')" = "$PRODUCER_SHA256"
+          test "$(sha256sum search/check_d972_r07_a0_first_rung_grade1_v4.py | awk '{print $1}')" = "$CHECKER_SHA256"
+          test "$(sha256sum sol/sol_reply_563_audit_r07_a0_first_grade_merge_hotloop_v4.md | awk '{print $1}')" = "$AUDIT_SHA256"
+
+      - name: Download exact sealed v3 prepare
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-prepare-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task562-state
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact four exhausted v3 blocks
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task562-block-inputs
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+
+      - name: Download exact v4 terminal
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task562-grade1-v4-terminal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task562-terminal
+
+      - name: Assemble independent-check input
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/task562-block-inputs/"* "$RUNNER_TEMP/task562-state/"
+          cp "$RUNNER_TEMP/task562-terminal/state/"* "$RUNNER_TEMP/task562-state/"
+          cp "$RUNNER_TEMP/task562-terminal/certificate/d972_r07_a0_first_rung_grade1_v4.json" search/certs/
+          test -f "$RUNNER_TEMP/task562-state/merge.HEAD"
+          test -f search/certs/d972_r07_a0_first_rung_grade1_v4.json
+
+      - name: Run independent full v4 checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task562-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 335m \
+            python -B -u search/check_d972_r07_a0_first_rung_grade1_v4.py \
+              --state-dir "$RUNNER_TEMP/task562-state" \
+              2>&1 | tee "$RUNNER_TEMP/task562-logs/checker.log"
+
+      - name: Stage cross-checked evidence
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task562-checked"
+          cp search/certs/d972_r07_a0_first_rung_grade1_v4.json "$RUNNER_TEMP/task562-checked/"
+          cp "$RUNNER_TEMP/task562-logs/checker.log" "$RUNNER_TEMP/task562-checked/"
+          sha256sum "$RUNNER_TEMP/task562-checked/"* > "$RUNNER_TEMP/task562-checked/SHA256SUMS"
+
+      - name: Upload independently checked v4 terminal
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task562-grade1-v4-crosschecked-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task562-checked/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload checker log on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task562-grade1-v4-checker-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task562-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
