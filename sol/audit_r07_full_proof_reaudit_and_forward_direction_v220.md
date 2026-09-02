@@ -15355,3 +15355,61 @@ single transport repair required before continuation; it does not count the
   redispatch.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 368 (2026-09-02): A4 clears the complete clean preflight; rank111 A0 and the corrected lazy-selector lane run in parallel
+
+- Independent Task520 returned
+  **GO_FOR_GHA_REDISPATCH_CLEAN_PREFLIGHT**, `12621 /
+  cc305e53...aca08`.  From exact subject
+  `043475a339391403cabde2d971c4e4f91407f362` it followed the complete
+  producer and checker owner chains to their generated bases: 15 producer
+  nodes plus 18 checker nodes, **33/33 committed pins present**.  A clean
+  `git archive` passed v25/v35 source generation, the v35 mutation SELFTEST,
+  all 17 runtime-owner pins, actual release download and all six copied-member
+  gates through a unique marker immediately before producer launch.  No
+  production command was used in that audit.
+- The authenticated A4 v47 bundle was redispatched as run `33579631937`, job
+  `100090966487`, exact head
+  `efaa6234d5ea12c9f81dcb1f33f0609387964475`, with the char-code
+  `ACTUAL_PRODUCTION` preamble, `ci/out`, no optional p-quotient packages and
+  a 360-minute envelope.  Checkout/setup passed and the job entered the GAP
+  script.  Running time is not an A4 numerator.
+- Luna Task521 produced the rank111 continuation driver v11,
+  `8683 / 84db6c15...b5b7d`.  It selects archive member 5, the promoted
+  `85934 / 69a7ec3d...fd93` output checkpoint, rather than the older rank98
+  input member.  It preserves the v3 producer, v7 checker, 7,200-second/
+  4.8-GB/64-rise producer and 3,600-second checker limits.
+- Independent Task522 returned
+  **GO_FOR_GHA_DISPATCH_RANK111_CONTINUATION**, `9078 /
+  bb36bfbd...7feed`.  Its clean-export audit authenticated the permanent
+  eight-member release, actual run/job/head/API metadata, generated shell,
+  real pre-producer download/unzip/copy and exact v10-to-v11 transport-only
+  diff.  Parent dispatched run `33579991982`, job `100092032846`, exact head
+  `ae74e865ec7ba10d00eca263356afa01d23a2466`, with `ci/out`, no optional
+  packages and a 240-minute envelope.  It has entered the GAP script.
+- Paper v432 identified a sound positive optimization: a directly replayed
+  row with nonzero current separating-dual pairing raises rank without
+  compiling later seed formulae.  Task523 accepted that theorem but rejected
+  v432's count: the live owner has **44 compact seeds**, not the 6,441
+  Task198 roof rows.  Its `18807 / 629d9552...17de` verdict is
+  **GO_WITH_REQUIRED_PAPER_REPAIR**.  Corrected versioned paper v433 replaces
+  6,441/6,440 by 44/43, gives only exact avoided call counts, withdraws any
+  guarantee that reordering alone removes the round-73 stop, separates
+  RESOURCE from invariant failures, and types unsupported-seed skipping as
+  positive widening.  Final independent Task524 audit is running before any
+  lazy implementation.
+- The separate rank99-v7 run `33570220633`, job `100062348518`, remains in
+  its GAP script on exact head `4d57c024df74b257e5b4e724b69e6c4d51ff667f`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its stable descriptions remain **68 literal
+  rungs / rank 111 / round 73** and the separate **56 sources / rank 99 /
+  three batches / round 12**.  Two continuations are running; the corrected
+  44-seed lazy theorem is paper-level pending final audit.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  The
+  complete transport/runtime-dependency gate is now independently closed and
+  production is running, but no new invariant closure or accepted
+  word-bearing `K` has returned.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
