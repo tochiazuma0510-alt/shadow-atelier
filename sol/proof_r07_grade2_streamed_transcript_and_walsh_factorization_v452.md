@@ -150,8 +150,8 @@ Hadamard transform
 \[
 \begin{pmatrix}
 1&1&1&1\\
-1&1&-1&-1\\
 1&-1&1&-1\\
+1&1&-1&-1\\
 1&-1&-1&1
 \end{pmatrix}
 \begin{pmatrix}v_{00}\\v_{01}\\v_{10}\\v_{11}\end{pmatrix}.       \tag{3.3}
