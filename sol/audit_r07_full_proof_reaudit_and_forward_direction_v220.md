@@ -16389,3 +16389,37 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 394 (2026-09-03): all four closures finish; audited merge recovery runs in parallel
+
+- V3 run `33677346616` completed all four character closures.  Their exhausted
+  ranks are `[1509,1512,1512,1512]` and attempts are
+  `[14268,14280,14280,14280]`; together with old ranks
+  `[505,503,503,503]`, the joint merge consumes exactly 8059 physical input
+  rows before dependencies.  The original v3 merge remains live.
+- Static hot-loop analysis located the long runtime in repeated full-suffix
+  scans during packed physical elimination and one duplicate reduction of
+  every accepted lower row, not in a return to the old unbounded search.
+  Task562's v4 changes only those two operations while retaining the v3 state
+  schema, full-row AXPY, row order, pivots, DAG and mathematical terminal.
+  Its producer/checker identities are `1fb4b296...24dc4` and
+  `ffd78b41...9fe06`; serial fixtures include exact six-case equivalence to
+  the frozen v3 reducer.
+- Independent Sol(max) Task563 returned **FIRST_GRADE_MERGE_V4_PASS**,
+  `753437f7...86a9`.  Recovery run `33687595111`, exact commit
+  `28ec1587222b16c6adcad2ee085bfda973243fd2`, passed every hash/fixture gate,
+  downloaded and authenticated the existing v3 prepare plus four blocks, and
+  entered optimized merge without recomputing any completed phase.  Its
+  complete launch receipt is
+  `sol_reply_564_r07_a0_first_grade_v4_gha_launch_v1.md`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 grades decided**
+  until either production terminal passes its independent checker.  Relative
+  to Delta393, all source closures are now durably complete and two
+  semantics-equivalent merge executions are live; no earlier work has been
+  discarded or restarted.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
