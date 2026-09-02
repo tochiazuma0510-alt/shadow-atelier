@@ -15267,3 +15267,50 @@ single transport repair required before continuation; it does not count the
   **56/rank99/three batches/round12**; both continuations remain GHA-running.
   A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 366 (2026-09-02): the A4 physical-shard handoff is independently GO for production
+
+- Task512 repaired exactly the three defects stopped in Delta365.  Producer
+  v25 is `27075 / 8e5c16f2...a5015f`; its generated body is
+  `286439 / e4fb7ead...03098`.  It installs ordinary counters before the one
+  direct physical restore, retains the single query-level live dual, and
+  durably writes the ordinary completed-row delta before obsoleting the
+  physical HEAD.
+- Independent Task513 accepted those producer repairs but returned
+  **STOP_DO_NOT_ADOPT** for the then-current handoff: checker v34's mutation
+  evidence was not yet on the actual acceptance route, and driver v44 had
+  dropped v43's authority, elapsed, forbidden-token and typed JSON gates.
+  Its reply is `7599 / d648e0b6...cdd3`.
+- Task514 supplied only those missing gates.  Checker v35 is
+  `10246 / c8383a18...d5dd7`, generated
+  `312553 / 2ffcdede...1df75`; its bounded self-test reaches the actual
+  generated physical-chain validator twice and rejects re-sealed duplicate
+  live-dual and semantic-predecessor mutations as respectively
+  `physical:live_dual_history` and `physical:semantic_counter_order`.
+  Driver v45 restored the complete v43 dispatch envelope.
+- A final source-schema comparison found that positive producer/checker
+  outputs contain five false downstream keys, whereas RESOURCE outputs
+  contain three.  Task515's v46 changes exactly the two positive predicates
+  and no command: `12544 / d3a864e4...f97e7`.
+- Independent Sol(max) Task516 returned **GO_FOR_GHA_DISPATCH**.  Its
+  `6619 / 1b96ddd0...5d73` reply recomputed every transitive pin, extracted
+  both generated ASTs, found exactly one positive-five-key and one
+  RESOURCE-three-key constructor in each, mechanically confined v45-to-v46
+  to two replacement lines, reran the real v35 mutation route, and confirmed
+  that v46 adds no rebuild, copy, self-test or traversal overhead.  The
+  audited bundle was adopted at commit
+  `033641431bfbf53ac2c95ba3993ddd62e774e3ce`.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26** until an
+  actual v46 artifact is independently accepted.  This delta closes the
+  production implementation and dispatch gate only; it is not an invariant-
+  closure or word-bearing-`K` numerator.
+- A0 remains **0/1 actual**.  Rank98 run `33564845217` has finished and
+  uploaded, but its new artifact is not counted before authentication; the
+  stable declared prefix remains **55/rank98/round59**.  Rank99-v7 run
+  `33570220633` remains active with the stable **56/rank99/three-batch/round12**
+  prefix.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
