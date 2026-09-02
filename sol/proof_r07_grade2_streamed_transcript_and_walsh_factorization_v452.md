@@ -93,6 +93,20 @@ In particular, replacing nested Python lists and JSON arrays by authenticated
 binary files changes neither \(H^{[2]}_\lambda\), its row order, nor the
 transition presentation needed at the next grade.
 
+More explicitly, the basis expression attached to offer \(s\) is
+
+\[
+ E_s=\begin{cases}
+ q_s,&\bar v_s=0,\\
+ q_s\mathbin{\Vert}[(r_s,\sigma_s)],&\bar v_s\ne0.
+ \end{cases}                                                        \tag{2.4}
+\]
+
+Indeed \(\sigma_s^{-1}=\sigma_s\) in \(\mathbf F_3\), so (1.2) gives
+\(v_s=\sum q_s b+\sigma_s b_{r_s}\).  This coefficient is part of the
+semantic replay; recording only an accepted flag and pivot number is not
+lossless.
+
 #### Proof
 
 For a defect offer, (1.3) identifies the entry of `origin_reductions`; for an
@@ -110,7 +124,7 @@ deterministic first-lead reduction then gives the same \(q_s,\bar v_s\), and
 when the receipt contains
 
 \[
-  \#\mathrm{offers}=m+4\,\#\mathrm{accepted}.       \tag{2.4}
+  \#\mathrm{offers}=m+4\,\#\mathrm{accepted}.       \tag{2.5}
 \]
 
 This proves both directions. \(\square\)
@@ -122,6 +136,11 @@ memory.  It may authenticate the matrix, transcript and offset files once,
 then replay records sequentially.  Random access is needed only when a future
 consumer asks for one origin or transition expression; the authenticated
 offset table supplies it.
+
+The offset file contains every record start and one final EOF offset.  A
+checker sequentially parses the transcript, recomputes all starts and the EOF,
+and compares that complete list before allowing random access.  Merely hashing
+an offset table supplied by the producer is not a structural check.
 
 The checker must still recompute the rows and (1.1)--(1.2).  Comparing only
 hashes or producer summaries is insufficient.
@@ -197,13 +216,13 @@ Let \(C_t(\ell_i)\) be the degree-two crossed term obtained by applying the
 exact affine action to \((\ell_i,0)\).  Then the complete transition defect is
 
 \[
- \beta_{it}=C_t(\ell_i)+A_t^{(2)}g_i-sum_jq_{itj}g_j.                \tag{4.3}
+ \beta_{it}=C_t(\ell_i)+A_t^{(2)}g_i-\sum_j q_{itj}g_j.              \tag{4.3}
 \]
 
-Likewise, for seed \(a\) with reduction \(s_a^{\leq1}=\sum_jq_{aj}\ell_j\),
+Likewise, for seed \(a\) with reduction \(s_a^{\leq1}=\sum_j q_{aj}\ell_j\),
 
 \[
- \beta_a=\operatorname{gr}_2(s_a)-\sum_jq_{aj}g_j.                  \tag{4.4}
+ \beta_a=\operatorname{gr}_2(s_a)-\sum_j q_{aj}g_j.                \tag{4.4}
 \]
 
 ### Proposition 4.1
@@ -239,7 +258,7 @@ transducer, not a one-shot static matrix routine.  It must support:
    tail, basis/transcript/offset lengths and incremental digests;
 5. restart by authenticating those exact prefixes and rebuilding only the
    small lead-to-pivot map; and
-6. a sealed final receipt proving (2.4), unique normalized leads and exhausted
+6. a sealed final receipt proving (2.5), unique normalized leads and exhausted
    FIFO.
 
 The worker retains the current packed basis and one scratch row.  The caller
@@ -267,6 +286,21 @@ only when the lower remainder is zero offer that companion to the grade
 owner.  Accepted lower companions and both DAGs may use the transcript format
 of Theorem 2.1.
 
+Concretely, if lower reduction returns \(q_L\), the companion update is
+
+\[
+ g'=g-\sum_{(i,a)\in q_L}a g_i.                    \tag{6.1}
+\]
+
+If the lower remainder is accepted with scale \(\sigma_L\), both the lower
+row and its stored companion are multiplied by \(\sigma_L\).  If it is
+dependent, the unscaled \(g'\) is offered to the grade owner, whose record
+adds its own reduction \(q_G\) and, when accepted, scale \(\sigma_G\).  A
+single physical-offer identifier links the lower record, its companion and
+the possible grade record.  Consequently a grade DAG path recovers both
+\(q_L\) and \((q_G,\sigma_G)\); omitting that link would lose literal
+ancestry even if the two row spaces were correct.
+
 At the absolute dimension ceilings, the three packed row stores are bounded by
 
 \[
@@ -274,7 +308,7 @@ At the absolute dimension ceilings, the three packed row stores are bounded by
 32,260^2/4 &=260,176,900\ \text{bytes},\\
 32,260\cdot48,384/4&=390,216,960\ \text{bytes},\\
 48,384^2/4&=585,252,864\ \text{bytes}.
-\end{aligned}                                                        \tag{6.1}
+\end{aligned}                                                        \tag{6.2}
 \]
 
 Their sum is exactly 1,235,646,724 bytes.  An implementation must recompute
