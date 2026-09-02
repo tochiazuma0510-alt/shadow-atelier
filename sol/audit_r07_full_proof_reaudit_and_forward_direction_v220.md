@@ -15413,3 +15413,37 @@ single transport repair required before continuation; it does not count the
   word-bearing `K` has returned.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 369 (2026-09-02): the corrected 44-seed lazy theorem is independently closed and implementation starts on the rank111 ABI
+
+- Independent Task524 returned
+  **GO_FOR_LUNA_LAZY_SUCCESSOR_IMPLEMENTATION**, `13304 /
+  3b028e05...9af5`.  It checked all seven Task523 repairs and re-established
+  the one-hit rank-rise lemma, seed-at-a-time iterator, deferred identity
+  canary, K=0 fibre coverage, restricted v431 K-nonzero transfer, failure
+  typing and exact-legacy/new-schema boundary against the live v3/v7 call
+  graph.  The exact owner is 44 compact seeds; no wall-clock factor or
+  guaranteed next seed-1 hit is claimed.
+- A shelf check found the older Task415 formula-first and Task416 batch-lazy
+  owners.  They belong to the different full-boundary physical ambient whose
+  durable checkpoint reached rank 60,258 and whose occurrence extrapolation
+  was later taken off path.  Their code may supply an algorithmic pattern,
+  but their 129-MB `D972-A0-LAZY-CP2` checkpoint is **not** a compatible
+  rank111 state and will not be resumed or retyped.
+- Task525 therefore commissions a new versioned producer/checker/driver with
+  the current task445 rank111 ladder as the sole state/physical owner.  It
+  must migrate the exact 68-source rank111 prefix into a new schema, compile
+  the 44 seeds lazily, independently port both K=0 and fresh-single-row
+  K-nonzero selectors, preserve every durable rise, and use the existing
+  permanent rank111 release.  Luna implementation is running; no production
+  or GHA dispatch is authorized before independent audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, stable at **68/rank111/round73** plus the
+  separate **56/rank99/three-batch/round12** prefix.  The lazy selector
+  advances from corrected paper pending audit to **paper-closed / bounded
+  implementation running**, not an actual specialization or COMMON result.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26** with run
+  `33579631937` active.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
+  are unchanged.  No compatible lift, fake, or Ihara witness is declared.
