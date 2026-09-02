@@ -16465,3 +16465,61 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 396 (2026-09-03): grade-two mathematics is retained while the unbounded implementation shell is rejected
+
+- Luna Task565 produced the target-independent grade-two candidate
+  `d972_r07_a0_first_rung_grade2_prebuild_v1.py`, 145917 /
+  `acffa387...fffc8`, and a separately written checker, 80693 /
+  `fc6f9976...bdecf`.  Their bounded serial fixtures pass, but no real
+  prepare, source block, physical module or MEMBER join has run.
+- Independent Sol(max) Task568 returned
+  **GRADE2_PREBUILD_V1_AUDIT_PASS_AFTER_REPAIR**, 22018 /
+  `7f2deaf5...771680`.  It accepts the load-bearing mathematics: the complete
+  global `T1`, all 44 seed relations, all four transitions of every old/new
+  row, the exact `44+4*rank(B1)` defect roster, the affine/PB3/PB4/exponent
+  gates, and both direct and induced generators of the physical fibre.  The
+  release blockers are finite implementation defects: unchecked
+  zero/dependent/forward-DAG rows, incomplete independent MEMBER-join/resume
+  binding, a shared floor helper, and fixtures which did not reach those real
+  paths.
+- The same audit proves that v1's production representation is not admissible
+  under eight GiB/six hours.  One character can retain 177432 nested reduction
+  expressions plus DAG JSON; at only 500 pairs/expression the Python-list
+  lower bound is about 7.11 GB before bases and serialization.  The four
+  separate word projectors cost a measured median 0.333 s per defect, about
+  2.98 h over 32280 defects, and coefficient loops repeatedly unpack full
+  96776/145152-coordinate rows.  These are rejected overheads, not a new
+  search universe or a mathematical failure.
+- V452, 12975 / `754c5ae2...c3313c1`, replaces those lists by an exact
+  append-only basis/transcript/offset representation, factors all four
+  pure-grade projectors through one four-point character transform, and gives
+  packed defect and synchronized lower-companion formulas.  Independent
+  Task570 returned **GRADE2_STREAMED_TRANSCRIPT_V452_AUDIT_PASS_AFTER_REPAIR**,
+  13604 / `c7877c6b...289318`.  The initially swapped `chi01/chi10` display was
+  corrected; the final hash above passes the complete paper audit.  This is
+  exact serialization/factorization, not pruning.
+- Task567's first static C backend candidate was independently rejected by
+  Task569 as **PACKED_GF3_BACKEND_V1_AUDIT_FAIL**, 16313 /
+  `04af02f0...d90f4`.  Its algebraic echelon core is sound apart from an
+  aliased-`memcpy` C defect, but the one-shot ABI, 100000-row/512-MiB input
+  caps, 10-million-pair ledger, giant JSON receipt, 30-second wrapper timeout
+  and fake resume cannot accept the registered grade-two envelope.  It is not
+  wired into Task565 and will not be dispatched.  A persistent/resumable,
+  binary-transcript v2 is the required finite replacement.
+- At 08:29 JST, original run `33677346616` and optimized recovery run
+  `33687595111` both remained in their merge steps without failure.  They use
+  the same sealed prepare/four source blocks; no source computation has been
+  restarted and none of the rejected grade-two code affects them.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 grades decided**.
+  Relative to Delta395, grade-two's mathematical handoff and lossless bounded
+  representation are independently paper-closed, while the nonviable v1
+  execution shell has been prevented from consuming a production run.  The
+  next numerator-changing event is still an independently checked grade-one
+  MEMBER or NONMEMBER terminal.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
