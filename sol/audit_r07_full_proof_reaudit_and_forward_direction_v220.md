@@ -15447,3 +15447,56 @@ single transport repair required before continuation; it does not count the
 - A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26** with run
   `33579631937` active.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
   are unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 370 (2026-09-02): rank99 is closed as a contained zero-progress regression; the actual rank111 state selects the K=0 lazy lane
+
+- Rank99-v7 run `33570220633`, job `100062348518`, returned artifact
+  `9828236283` from exact head
+  `4d57c024df74b257e5b4e724b69e6c4d51ff667f`.  Its terminal is the canonical
+  claims-false `UNKNOWN / correction:scalar_gates`.  Independent Task526
+  returned **AUDITED_ZERO_PROGRESS_WITH_CONTAINED_REGRESSION**, `13134 /
+  9803bb24...f2c9`: the returned checkpoint preserves exactly 56 accepted
+  sources, rank 99, three closed batches and round 12, with no appended row,
+  batch or segment.
+- The artifact cannot distinguish a zero compiled scalar from a nonzero
+  scalar/direct-pair mismatch because both share one short-circuit gate and
+  the selected candidate was not persisted.  It does prove that the failure
+  is the inherited rank99 K=0 support-fibre path.  The rank99 custom
+  `model179`, formula bundle, scalar helper, literal selector and batch state
+  are quarantined: support-fibre membership alone does not prevent
+  cancellation in the whole formula.  The rank111 successor must evaluate
+  the complete current-task445 formula and then require the direct physical
+  pairing to equal its nonzero scalar.
+- Luna Task525 returned **STOP**, `1588 / 650c1fd7...37bf5`.  Its v4/v8/v12
+  files pass only compile/fixture/transport checks; the production function
+  is a fixed claims-false RESOURCE placeholder and contains neither the live
+  task445 replay nor the K=0 selector.  They are retained only as a rejected,
+  versioned predecessor and are not adopted or dispatched.
+- Parent re-downloaded the permanent rank111 release asset, recomputed its
+  exact `37586 / 8b740dbb...95de` archive identity and the member-5
+  checkpoint identity `85934 / 69a7ec3d...fd93`.  Its authenticated current
+  profile is `N1=N2=0`, all three tau coefficients zero, no unrecognized
+  keys, target pairing one, and `68/rank111/round73`.  Thus the K=0-only
+  successor is not an arbitrary universe restriction: it is the exact live
+  state to resume.
+- Under the researcher's explicit Sol-implementation authorization, Task527
+  now builds a versioned actual K=0 lazy successor directly on task445.  It
+  keeps six actions first, compiles one of the 44 seeds at a time, evaluates
+  the whole formula, reconstructs and directly pairs the physical row, makes
+  at most one add/update, checkpoints immediately, and leaves K-nonzero and
+  every unsupported case as claims-false `UNKNOWN_RESOURCE`.  No production
+  or GHA dispatch is authorized before an independent implementation audit.
+- The eager rank111 continuation run `33579991982`, job `100092032846`, and
+  A4 run `33579631937`, job `100090966487`, remain in their GAP-script steps.
+  Running time is not a numerator.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Its stable prefixes remain **68 literal sources
+  / rank 111 / round 73** and the separate **56 sources / rank 99 / three
+  batches / round 12**; rank99-v7 adds exactly zero.  The lazy lane advances
+  from a generic incomplete implementation to **paper-closed, live K=0 input
+  authenticated, actual implementation running**.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  A1
+  **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
