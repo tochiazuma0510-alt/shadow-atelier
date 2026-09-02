@@ -159,7 +159,7 @@ The sentence "the two residuals are legitimate right-hand sides of the same Q_0 
 MEMBER/NONMEMBER verdict" holds only for residuals computed with the **same** chain map `A_g` (the hexagon-derived,
 identity-column-checked map of v2 §2).  The workshop falsifier found (three independent routes, incl. direct Fox
 differentiation of the whole hexagon word) that Luna 541's published Q_0 residual (support 82,965) uses a per-slot
-own-prefix translation in `payload_lift_v2.py::ag` that differs from the hexagon-derived prefixes in 3 of the 6 slots (a fourth apparent difference cancels by the hexagon closure P_fuy·P_fxy^{-1}·P_fux^{-1} = 1 in Q_0; ruling 1847 gate: `ag` reproduces 0 of the 31 informative identity columns, the workshop A_g 44/44);
+own-prefix translation in `payload_lift_v2.py::ag` that differs from the hexagon-derived prefixes in 3 of the 6 slots (a fourth apparent difference cancels by the hexagon closure P_fuy·P_fxy^{-1}·P_fux^{-1} = 1 in Q_0; ruling 1847 gate: `ag` reproduces 0 of the 31 informative identity columns, the workshop A_g 44/44); ruling 1850 gate 2: the joint_floor_v1 (Luna 542) prefix table coincides with the hexagon-derived prefixes in 6/6 slots, its Q_0 residual 511,576 is the physical residual byte-for-byte, and the `ag` deviation is invisible at order 2,016 and first visible at order 54,432;
 the difference is invisible at the 504 level (all five prefixes are trivial on 9 points) and visible at Q_0.  With the
 hexagon convention Luna's 553 words give a residual of support 76,811; with Luna's convention the published 82,965 is
 reproduced exactly.  Hence the comparison claim applies to (T_res of this errata, hexagon-convention residual of Luna's
