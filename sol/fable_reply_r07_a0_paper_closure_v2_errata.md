@@ -29,8 +29,7 @@ pivot chords `p_1..p_505` whose columns form a basis (greedy over `F_3`), invert
 ```
 
 is an explicit basis of `ker ρ_*` — 1,469,665 − 505 = 1,469,160 vectors, each a chord vector minus ≤ 505 pivot chords.
-Cost: 1.47·10^6 walks of ≤ 45 steps plus 1.47·10^6 products by a 505 × 505 matrix over `F_3` (seconds to minutes; **not
-executed here** — specification only).  The cover-adapted-tree variant suggested by the ruling (lift the 503-edge tree of
+Cost: 1.47·10^6 walks of ≤ 45 steps plus 1.47·10^6 products by a 505 × 505 matrix over `F_3` (seconds to minutes).  **Executed part** (`scratchpad/a0_v2_rhomat.py`): scanning the Q_0-chords in BFS order, the columns of `M_ρ` reach rank 505 after 1628 chords (last pivot at vertex index 12368), confirming surjectivity numerically; pivot chord list (505 entries `[v, g, one-line]`) canonical sha256 `b2f15a9ae1c885d7d3fbe270df019f3c818a19bb4f746efcac0d74b793087cd7`.  The expansion `b(ẽ)` of the remaining 1,469,160 chords is **not executed** (specification only).  The cover-adapted-tree variant suggested by the ruling (lift the 503-edge tree of
 Cayley(G) to the 2,916 sheets `C_k`, `k ∈ K_rad`, and connect the sheets by 2,915 connector edges) gives the same kernel with
 `M_ρ` in the special form "`e + ν(k·m(e)) − ν(k)`" (`m(e) ∈ K_rad` the monodromy of the G-chord `e`, `ν(k)` the G-chord
 expansion of the connector path from sheet `k` to the root sheet); note that **differences of two lifts of the same G-chord
@@ -70,7 +69,7 @@ A solution `z` of (3.4) in the chord basis is a vector in `Z`; it carries **no**
 needs a **second solve** in the generator form — unknowns `c_{i,g}` (`44·|Q'|`; 22,176 at rung 1, 1,469,664·44 ≈ 6.5·10^7 at
 rung 4) with `Σ c_{i,g} A_g^{Q'}(g·J(r_i)) = π_H(T)` — or the closure/DAG route, which produces coefficients natively.
 
-**Procedure (rung 1, executed; `scratchpad/a0_v2_seedcoef504.py`, output `a0_v2_seedcoef504_output.txt`).**
+**Procedure (rung 1, executed; `scratchpad/a0_v2_seedcoef504.py`, output `a0_v2_seedcoef504_output.txt`).**  (Single run of 227.0 s wall clock, within the 4-minute rule by an early stop: the elimination order — seeds ascending, g in BFS order — is fixed, and the loop stops at the first seed after which T_G lies in the span; a first full-loop version (~10 min projected) was stopped at seed 23 and replaced, its per-seed ranks (394 after seed 3, 405 after seed 20) agreeing with the early-stop run.)
 
 1. BFS tree of Cayley(G) as in §4.2; for every `g ∈ G` its tree word `d_g ∈ F(x,y)` (`q_G(d_g) = g`).
 2. Columns `C_i(g) := direct G-level column of d_g r_i d_g^{-1}` (= `A_g^G(g·J_G(r_i))` by (2.3)), for `i = 1..44`, `g ∈ G`:
@@ -87,8 +86,19 @@ rung 4) with `Σ c_{i,g} A_g^{Q'}(g·J(r_i)) = π_H(T)` — or the closure/DAG r
 Result:
 
 ```text
-[[SEEDCOEF]]
+rank of the 44 x 504 correlated rows C_i(g):        405   (= dim A_g^G(K_G) of §4.2; 10080 columns, 6048 of them zero)
+T_G in their span:                                    YES  (consistent with §4.2 and Luna 538)
+seed-coefficient solution:                            262 terms c_{i,g} in {1,2}, seeds used [3, 20]
+   canonical sha256 of [[i, g_index, g one-line, d_g, c]]:   5b2ead5cff1c0ea79e4827a5c8a12a1f1bffb1dcfaafdea358748477ad8be70f
+   literal G-level correction word  prod (d_g r_i d_g^-1)^c: length 204422, canonical sha256 851fb55b8a6202abd19f243bd9d156bf07552749873dc035f8c40b4f2aa2bab7
+   nu(word) = [0, 2]  ->  cancel with r_1^2 r_2^2   (m1*(1,0) + m2*(2,2) = -nu over F_3)
+canonical Q_0-lift z_0 (same words over Q_0):         A_g(z_0) nnz 44806 ; T_res = pi_H(T) - A_g(z_0): nnz 45110
+   rho_*(T_res) == 0:  True      T_res canonical sha256 ee87518c2d89154deb7b9ee6bfe80e3d1fea8cb461ab6735b6e080456d7f0510
+   (T_res is the right-hand side of the fibre system (4.2) / of (3.4) after the shift by z_0)
+files: scratchpad/a0_v2_seedcoef504.py, .._output.txt, .._json (terms, shas)
 ```
+
+**Relation to Luna 541's residual (support 82,965, sha `92299592…`).**  The 504 solution set is the affine space `z_G + N_G` (`dim N_G = 98`), and a `Q_0`-lift of any of its points is determined only up to `ker ρ_*` (the `K_rad`-coset choice per term).  My `T_res` (262-term seed solution, tree-word lifts) and Luna's residual (DAG payload, its own lifts) therefore differ by `A_g(w)` with `w ∈ ρ_*^{-1}(N_G) ∩ K = (lift of N_G) ⊕ ker ρ_*` — an element of `A_g(K)`.  Both are legitimate right-hand sides of the same `Q_0` floor (`T_res ∈ A_g(K) ⟺ T_res' ∈ A_g(K)`), both satisfy `ρ_*(·) = 0`, and the MEMBER/NONMEMBER verdict of the `Q_0` floor must be the same for both; a different verdict would mean that one of the two lifts is not legal (not in `K`), which is the check to run first if they ever disagree.
 
 This solution (terms over the correlated rows `C_i(g)`, one shared `g` per term as required by Sol 537 F4) is an
 **alternative payload** for the 504 MEMBER in the form Sol 539 asks for; it is independent of the 538 DAG (different
@@ -130,7 +140,15 @@ solver.  Treat as unverified.
 ## Artifacts added by this errata (`scratchpad/`, sha16)
 
 ```text
-[[ARTIFACTS]]
+a0_v2_rungs.g                  12a8177898ebcccd   rungs 2/3: |Q'|, Gamma_{Q'}, d_3, H_1(N;F_3)
+a0_v2_rungs_output.txt         0e466f6d14e2f96b   
+a0_v2_seedcoef504.py           51890add83792ca1   504 chord solution -> seed coefficients; literal word; Q_0 lift; T_res
+a0_v2_seedcoef504_output.txt   187e3c7cd2c137ad   
+a0_v2_seedcoef504.json         6599046be22f50b7   the seed-coefficient solution (terms, shas)
+a0_v2_rhomat.py                1ece73d66e0799ab   M_rho pivot-chord scan (R1(b))
+a0_v2_rhomat_output.txt        d09e222834234998   
+a0_v2_rhomat_pivots.json       5b849bfe9178d163   505 pivot chords
+a0_v2_errata_fill.py           367e2dd36afea514   this filler (literal word sha, placeholders)
 ```
 
 `R07_A0_V2_ADDENDUM_ERRATA_FABLE_V1`
