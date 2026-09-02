@@ -15314,3 +15314,44 @@ single transport repair required before continuation; it does not count the
   prefix.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
   compatible lift, fake, or Ihara witness is declared.
+
+### Delta 367 (2026-09-02): the single-row A0 stable prefix advances by thirteen rungs to rank 111
+
+- Rank98 continuation run `33564845217`, job `100045550767`, completed
+  successfully on exact head `c582f8d786012a668783790007b72c5c422c3db8`.
+  Artifact `9826862037` (`gap-run-out`, API size 96,198, archive digest
+  `22aa0d83...d412c`) contains one producer RESOURCE terminal, one exact
+  independent v7 checker PASS, and one v10 driver PASS.
+- The producer ran 7,207.618 seconds and stopped only at the typed terminal
+  `UNKNOWN_RESOURCE:tau_free_formula_seed:time_limit`.  It appended thirteen
+  literal correction rows and raised rank at every round: count/rank/round
+  `55/98/59 -> 68/111/73`.  The result is
+  `86354 / 39434b6a...19279`; the closed checkpoint is
+  `85934 / 69a7ec3d...fd93`, binding
+  `6f179b061a010bb2a9b427dda6564c7418b18f44da17ea2f28e9e080655326a3`
+  and state seal `3e0d4bc8...79610`.
+- Independent Task517 returned **GO_FOR_PREFIX_PROMOTION_AND_ARCHIVE**.  Its
+  `7911 / 601b1414...223e` reply authenticated the API/run/head/artifact and
+  every outer/prior member, recomputed both canonical checkpoint seals,
+  checked exact equality of the first 55 accepted sources, all thirteen
+  appended source types and distinctness, result-to-checkpoint binding,
+  terminal cardinality, and false A0/COMMON/NONMEMBER/fake/Ihara claims.  A
+  redundant long local replay of the same already-completed GHA checker was
+  explicitly terminated; it is not part of the evidence.
+- Parent packed the eight exact flat replay members and uploaded permanent
+  release asset `artifact_9826862037_gap-run-out.a0-rank111.zip`, 37,586 bytes
+  / SHA-256
+  `8b740dbbc81f5d2e659371a81453ded56c6711ce8ace35a4af5255303e0095de`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its cross-checked single-row stable prefix is
+  now **68 literal rungs / rank 111 / round 73**, superseding rank98.  The
+  separate batched lane remains **56 sources / rank 99 / three batches /
+  round 12**, with run `33570220633` still active.
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Three
+  short v46/v47 launches stopped in pre-production transport gates and add no
+  A4 numerator; recursive clean-checkout preflight is underway before any
+  redispatch.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
