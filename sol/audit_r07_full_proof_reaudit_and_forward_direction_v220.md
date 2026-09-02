@@ -15686,3 +15686,678 @@ single transport repair required before continuation; it does not count the
 - A0 remains **0/1 actual, 100/rank143/round105**, with lazy production run
   `33630254997` active.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
   are unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 376 (2026-09-02): the full A4 row-27 resume candidate is preserved durably
+
+- The complete run-`33579631937` artifact was downloaded outside the
+  repository as
+  `Desktop/shadow-atelier-artifacts/gha/artifact_9831693721_gap-run-out.a4-row27-open-query.zip`.
+  Its local identity is **841,367,330 bytes / SHA-256
+  `2f77b0d3e24009a669761f1066e9e61dd79c88c14a85fd092e85cc11b70dd0b7`**,
+  exactly matching the GitHub Actions service digest.
+- Parent uploaded the same bytes to permanent release
+  `archive-gha-checkpoints` under the same asset name.  The release reports
+  size 841,367,330 and the same SHA-256 digest (asset node
+  `RA_kwDOTjTwzs4gQlsS`).  The 1,877-shard physical resume candidate therefore
+  no longer depends on Actions' retention window.
+- This preservation is not an A4 numerator.  Task533 is implementing v434's
+  one-large-echelon/bordered migration with streaming shard authentication;
+  no migrated row-27 state is adopted before its reply and audit.
+
+**v220 mapping**:
+
+- A4 remains **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Its
+  row-27 resume material advances from retention-risked to **permanently
+  archived with exact digest**; bordered migration remains in implementation.
+- A0 remains **0/1 actual, 100/rank143/round105** at this delta.  A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, and compact A5 are unchanged.  No compatible lift,
+  fake, or Ihara witness is declared.
+
+### Delta 377 (2026-09-02): Fable locates and Sol bridges an exact seed-1/2 coarse obstruction
+
+- Fable's full paper reply
+  `sol/fable_reply_r07_a0_paper_closure_v1.md`, 27,097 bytes / SHA-256
+  `24ce12d320b56e732f84f97c781f335e8f338af8d3f83dbe33f51131fef471c9`,
+  identifies the first compact relator as a central order-three power
+  relation and proves that every seed-1 correction is invisible after the
+  `e3 -> Q0` coarse projection on H1/H2; seed 2 is invisible there already.
+  Its 12-key coarse functional separates the target from the identity span
+  plus both seed lanes.  This is a restricted-lane obstruction, not full A0
+  NONMEMBER.
+- Fable's errata
+  `sol/fable_reply_r07_a0_paper_closure_v1_errata.md`, 3,332 bytes / SHA-256
+  `20588380b7b77cc5648a101dac76d9e2c0a82534f8d27a7af64fe6df4c70ce1d`,
+  leaves Theorems A--C and that verdict unchanged.  It removes a
+  non-load-bearing Lyndon claim, separates correction rank from boundary
+  rank, records that physical full `C` has coarse-visible seed-16
+  conjugates, and qualifies the production run as seed-1-first rather than
+  seed-1-only.
+- Task535 independently returned **SEED1_CENTRAL_C3_AUDIT_PASS**, `7225 /`
+  `e1e9ed1a...5d71c`.  A raw-table replay recovered the PC chain
+  `[1,30,12,60,3]`, the central order-three state, literal
+  `r_1=w^3`, the PB3 central image independent of `z3`, and the Fox norm
+  identity.  These finite inputs are cross-checked; `verified=false`.
+- Sol v436 pulled Fable's 12-key functional back directly to the actual
+  v12 ABI and streamed the full **695,382,832-byte** rank-43 checkpoint with
+  no owner/helper import.  All 43 stored basis rows paired zero, while the
+  target and its stored remainder both paired one.  The actual roster is
+  exactly retained identity sources 1--43; seed 44 is empty and no
+  six-action row is retained.  This closes Fable's two declared live-owner
+  gaps `GAP-1` and `GAP-P5`.
+- The rank-143 checkpoint contains exactly 100 added seed-1 sources.  Hence
+  the paper theorem plus the live bridge proves
+  `T notin V0 + D + span(seed1 orbit, seed2 orbit)`: no continuation confined
+  to seeds 1/2 can finish A0.  V435 additionally observes that the projected
+  seed-1 coefficient has augmentation
+  `28+2*28=84=0 mod 3`, so its earlier possible-unit shortcut is ruled out.
+- Task534 independently returned **DUAL_ORDER_SOUND**, `8027 /`
+  `b1746e94...a4144`: despite 45 chronological pivot inversions, the
+  least-support pivot invariant makes descending-key back substitution
+  sound.  The accepted rank-143 rows, target remainder and stored dual are
+  not demoted.
+- Parent cancelled the now-proved-blind current suffix of lazy run
+  `33630254997`.  It completed
+  with GitHub conclusion `cancelled`; its producer log had reached only a
+  claims-false RESOURCE state and unadopted rank-175 telemetry.  Artifact
+  `9850129858` is not promoted.  The executable does contain later seeds,
+  but after every hit it restarts at seed 1; all observed post-prefix hits
+  were seed-1 directions killed by the explicit functional, and a later
+  seed would be reached only after exhausting a seed-1 orbit bounded by
+  119,042,784 conjugators.
+
+**v220 mapping**:
+
+- A0 stays **0/1 actual**: no common word or full NONMEMBER is yet known.
+  Its progress is now structural rather than a larger prefix: **the entire
+  infinite seed-1/2 conjugacy lane is excluded**, and the unresolved coarse
+  target can be touched only by the 31 seeds
+  `3,4,14,16--43`.  The old rank143 prefix remains a cross-checked historical
+  span but is no longer the active search direction.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 378 (2026-09-02): the exact A0 coarse floor has a 504-element first quotient
+
+- A bounded structure probe of Fable's degree-36 `Q0` found four nine-point
+  orbits.  Their action-image orders are `504,18,18,18`; the first-action
+  kernel has order 2,916 and `|Q0|=1,469,664`.  A chief series has sizes
+  `[1469664,2916,1458,486,162,81,27,9,3,1]`.  Thus the first candidate floor
+  is the order-504 nine-point quotient rather than immediate linear algebra
+  in dimension 1,469,665.
+- Task537 returned **PSL504_FLOOR_SOUND_AFTER_N_SPLIT_REPAIR**, `11015 /`
+  `b331fea7...9d002`.  It proves `Q0 = PSL(2,8) x G9`, with the order-2,916
+  kernel equal to the characteristic solvable radical; hence all five
+  Nielsen occurrence automorphisms descend and conjugators with the same
+  504-image give the same correlated six-occurrence row.
+- The audit caught one paper-bound error before execution.  The six Fox
+  components have rank at most 505, but normalized exponent does not factor
+  through that mod-3 relation module: seed 1 has zero Fox homology class and
+  nonzero `N=(1,0)`.  V437 and Task538 now keep N as a separate two-plane,
+  giving safe combined rank at most 507 and at most
+  `44+4*507 = 2,072` insertion attempts.
+- Luna Task538 is specified and running.  With the Task537 descent PASS,
+  it closes all 44 seed rows under the four source actions in the six-tag
+  occurrence space over the order-504 group, then applies the fixed
+  aggregation and tests the projected target.  Its occurrence ambient has
+  only `6*(2*504+1)+2 = 6,056` coordinates.  An exhausted NONMEMBER here
+  would imply exact full A0 NONMEMBER; MEMBER would only return the next
+  residual floor.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but the next exact full-seed necessary test is
+  reduced from the blind rank ladder and the 1,469,665-dimensional `Q0`
+  relation module to a **sound 6,056-coordinate, rank-at-most-507
+  order-504 occurrence floor**, pending Task538 execution.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 379 (2026-09-03): the 504 floor is cross-checked MEMBER and the exact post-floor tower is exposed
+
+- Luna Task538 completed the finite order-504 closure with terminal
+  `PSL504_FLOOR_MEMBER`: seed rank 21, exhausted correction rank 505,
+  2,020 four-actor attempts with 484 rises, physical image rank 407, and
+  zero target remainder.  Independent Sol(max) Task539 returned
+  **PSL504_MEMBER_CORE_PASS_PAYLOAD_REPAIR**, `11753 /`
+  `a82ef372...97a18`.  It rebuilt the marked group, six correlated
+  occurrences, all 44 direct columns, invariant closure and target with a
+  separate checker and reproduced every core number.  Thus the quotient
+  MEMBER is cross-checked (`verified=false`); it has no converse upstairs.
+- Task539 also isolated the one positive-side defect.  The producer's
+  temporary JSON contains 269 nonzero member coefficients, 407 image nodes
+  and an acyclic 505-node occurrence-basis DAG, but Task538's durable reply
+  persisted none of them and its checker did not replay them.  The payload is
+  therefore not yet a literal Q0 correction.  Task541 is a bounded repair:
+  it consumes the already-hashed 3,799,820-byte capture, flattens it to
+  literal seed/conjugator terms, independently replays the PSL equation, and
+  materialises the sparse order-2,916 Q0 residual without rerunning the
+  closure unless the capture is absent.
+- Fable's v2 addendum, `41174 / 3512347d...b2689`, independently formulates
+  the legal coarse system as `z in ker(tau)` with an explicit two-row
+  constraint and explicit semilinear chain map.  Its independent
+  chord-basis solve gives the same 504 MEMBER, with relation rank 503,
+  physical image rank 405 and a 122-chord solution; the two missing ranks in
+  Task538 are exactly its separately retained normalised-exponent plane.  It
+  exposes exact subsequent quotient orders **2,016**, **54,432**, and
+  **1,469,664**.  The full-Q0 system and both later rungs remain open.
+- Sol v438, `8512 / 52131115...b5a9d`, proposes a sharper implementation of
+  the order-2,016 rung.  Since `G9/G9' = C2^2` is semisimple over F3, it
+  separates the already-solved trivial character from the joint three
+  nontrivial characters, provisionally bounding the latter by 18,144
+  occurrence coordinates, 6,048 physical coordinates, rank at most 1,512
+  and at most 6,180 seed/action attempts.  Independent Task540 is auditing
+  the load-bearing point that compact-seed closure retains the full legal
+  `ker(tau)` image under semilinear occurrence transport.  These bounds are
+  not yet adopted before that verdict.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**: neither COMMON nor full NONMEMBER is known.  Its
+  active progress is now fixed as **first characteristic quotient fully
+  decided MEMBER**, with literal-payload repair running and the next exact
+  order-2,016 floor reduced on paper pending independent audit.  The old
+  **100/rank143/round105** lane remains historical evidence only; it is not
+  the active search route.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 380 (2026-09-03): the literal 504 payload is built and the exact 2016 test is paper-closed
+
+- Independent Sol(max) Task540 returned
+  **C2FOURIER_SOUND_AFTER_REPAIR**, 21385 /
+  3114977c...a31d.  It proves the characteristic quotient
+  Q1=PSL(2,8) x C2^2, the semilinear character transport
+  lambda -> lambda o alpha_o^-1, and the separation of the trivial source
+  character from the joint three nontrivial characters.  The three
+  nontrivial sectors must remain correlated through the six occurrences;
+  they are not three independent physical searches.
+- The corrected theorem is
+  sol/proof_r07_a0_c2fourier_joint_lift_v439.md, 9111 /
+  b18e27ac...f122.  The compact-presentation normal-generation theorem gives
+  the exact legal image directly from the 44 literal seeds, so no new
+  chord basis or tau_Q1 materialisation is needed.  The joint test has
+  18,144 occurrence coordinates, 6,048 physical coordinates, retained rank
+  at most 1,512, and the sharper exhausted-queue bound
+  44+4*1512 = 6,092 attempts.  These are paper consequences conditional on
+  the pinned finite presentation (verified=false), not a computed 2016
+  result.
+- Luna Task541 repaired the positive payload omitted by Task538 without
+  rerunning its closure.  Its producer flattened the audited DAG to 553
+  canonical (seed,conjugator,coefficient) terms of maximal conjugator length
+  three.  Producer and helper-nonshared checker both replay the PSL504 target
+  and the normalised exponent pair (0,0).
+- Lifting those same literal terms through the degree-36 marking materialises
+  the exact sparse full-Q0 residual problem with support 82,965, coefficient
+  counts 40794/42171, SHA-256
+  922995928c0616177a0c6dff45b1b7366b07258c4f202409e3e97f5080cd60fa,
+  and zero projection back to PSL504.  The certificate is 9701 /
+  29efa118...15f2; producer/checker are 9322 / d7a93f32...8a00 and
+  6675 / 95336395...3e01.  This is a machine cross-check candidate pending
+  the independent Task543 semantic audit; it does not solve the residual.
+- Task542 now implements the exact order-2016 joint system under the 6,092
+  bound.  On MEMBER it must combine the 504 trivial payload with the joint
+  payload through pure-C2^2 literal conjugators and return a residual whose
+  projection to Q1 is zero.  On NONMEMBER it must return a complete
+  6,048-coordinate separating dual.  No full-Q0 enumeration is part of this
+  rung.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta 379, the literal-payload
+  defect is **implemented and machine-replayed, independent audit pending**;
+  the next order-2,016 floor advances from provisional bounds to an
+  **independently repaired paper theorem with an implementation in progress**.
+  The first characteristic quotient remains cross-checked MEMBER; the
+  order-2,016, order-54,432 and full-Q0 terminals remain open.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 381 (2026-09-03): the two six-grade relative lifts are repaired and paper-closed
+
+- Sol v440 formulated the exact image fibre
+  \(K_d=\ker(\operatorname{im}C_{d+1}\to\operatorname{im}C_d)\) and showed
+  that it is the image of the complete output-filtered lower-solution
+  difference space \(D_d/D_{d+1}\).  This removes the false-negative risk
+  from lifting only one chosen lower solution or only visibly
+  degree-\(d\) source coefficients.
+- Independent Sol(max) Task544 returned
+  **RELATIVE_FIBRE_ECHELON_SOUND_AFTER_REPAIR**, 14931 /
+  7875fa26...7eb3.  It supplied three load-bearing repairs: group-algebra
+  grade dimensions have the missing factor \(|Q|\); actor closure must be
+  exhausted in the source or six-tag occurrence-separated module before
+  physical aggregation; and deterministic echelon chooses a representative
+  of the canonical fibre class rather than proving global surjectivity.
+  Task544 gave an explicit three-dimensional counterexample to physical-image
+  actor closure, so that prohibition is now part of the theorem and the
+  implementation contract.
+- The corrected paper is
+  sol/proof_r07_a0_relative_fibre_echelon_lift_v441.md, 11696 /
+  5cb52ffd...8fbb.  For each characteristic \(C_3^3\) extension it gives six
+  exact next-grade tests with multiplicities \(3,6,7,6,3,1\).  MEMBER keeps
+  coefficient-bearing literal ancestry and recomputes the actual residual;
+  NONMEMBER returns a full-grade dual against the complete fibre.
+- Applied conditionally after an order-2,016 MEMBER payload, the exact tower
+  is \(2016\to54,432\to1,469,664\), six positive grades at each arrow.  The
+  largest first-extension occurrence and physical grade blocks have 169,344
+  and 56,448 coordinates.  These are dimensions, not runtime claims.
+
+**v220 mapping**:
+
+- A0 stays **0/1 actual**.  The post-2016 lifting component advances from a
+  warning about retained lower-grade kernels to an **independently audited,
+  corrected finite algorithm for all twelve relative grades**.  Its twisting
+  data and computations have not yet been materialised, and it can start
+  only after Task542 returns an independently replayable literal
+  order-2,016 correction.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  A finite full-Q0 correction, compatible cofinal lift, fake and
+  Ihara witness are not declared.
+
+### Delta 382 (2026-09-03): the 504 literal payload is mathematically accepted; its durable checker is being repaired
+
+- Independent Sol(max) Task543 returned
+  **PSL504_PAYLOAD_LIFT_PASS_AFTER_REPAIR**, 12520 /
+  68077115...f1b9.  Its permutation-tuple replay independently recovered
+  the 269 member coefficients, 407 image expressions, 505 occurrence nodes,
+  278 nonzero roots and 553 literal terms.  All 553 actor-path identities
+  pass with prepend convention and fail with append convention; their direct
+  PSL504 aggregate is the exact target.
+- Task543 independently recomputed the normalized exponent as \((0,0)\),
+  all 264 seed/occurrence Q0 identities, all 3,318
+  literal/occurrence Q0 identities, and the residual support 82,965 / digest
+  92299592...60fa / zero PSL projection.  It also differentiated the two
+  actual PB3 relators and proved that the coarse normal map kills each base
+  row, hence every translate by equivariance.  The v2 payload is therefore
+  safe, when pinned, as the order-2,016 implementation input.
+- Three durable-packaging defects remain.  The v2 checker does not recompute
+  Q0 identity or normalized exponent, its stated PB3 gate is only a repeated
+  \(abc=1\) assertion, and only three of six claimed mutations enter a real
+  validation path.  Moreover 163 of 553 stored actor paths are not freely
+  reduced; free reduction and F3 combining leave 388 terms.  This changes no
+  represented row or Q0 residual but requires a new canonical digest.
+- Task545 is the bounded versioned repair.  It canonicalizes the 388 terms,
+  adds all missing identity/exponent/PB3 gates and routes all six mutations
+  through one actual validator.  It does not rerun the 504 closure.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta 380, the 504 positive payload
+  advances from audit-pending to **mathematically independently accepted and
+  safe for the 2016 rung**; only its durable canonical/checker packaging is
+  pending Task545.  The full-Q0 residual remains an unsolved problem.
+- The order-2,016 computation remains in corrected implementation.  A1
+  **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.
+  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 383 (2026-09-03): the canonical PSL504 literal payload is independently accepted
+
+- Luna Task545 replaced the non-reduced 553-term serialization by its exact
+  freely reduced and F3-collected form.  There are 408 distinct reduced
+  `(seed,conjugator)` keys, 20 cancel to zero, and 388 terms remain, with
+  canonical digest
+  `a795b9e00c464af4339835d456439a483a4c908bb9411be0829d92a9f8696148`.
+  The v3 certificate is 7544 bytes / `a97b3081...b37d`.
+- Independent Sol(max) Task547 returned
+  **PSL504_CANONICAL_PAYLOAD_PASS**, 12015 /
+  `84029c2f...b32f`.  A helper-independent FIFO/permutation-tuple replay
+  reproduced the reduction `553 -> 408 -> 388`, all 264 compact-seed and
+  2328 canonical-conjugate identities in both marked actions, the actor
+  equivariance and left-action convention, the normalized exponent
+  `(0,0)`, the exact PSL504 target, and both actual PB3 Fox/Tietze rows.
+- The independently reconstructed degree-36 residual remains support 82,965,
+  coefficient counts 40,794/42,171, digest
+  `922995928c0616177a0c6dff45b1b7366b07258c4f202409e3e97f5080cd60fa`,
+  with zero scalar residual and zero PSL504 projection.  Six semantic
+  mutations were rejected through the real validator.  The audit records
+  checker-diversity and non-load-bearing telemetry limitations but finds no
+  defect in the promoted literal payload.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta382, the durable canonical
+  packaging is no longer pending: the 388-term v3 payload is the
+  **cross-checked trivial-sector literal input** for subsequent runs.  A
+  Task542 run pinned to v2 is not retroactively rewritten, but v2 and v3
+  represent the same independently replayed correction.
+- The full-Q0 residual is still only a materialised problem.  A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.  No
+  compatible lift, fake, or Ihara witness is declared.
+
+### Delta 384 (2026-09-03): the A4 bordered theorem survives, but its v48 resume driver is stopped
+
+- Independent Sol(max) Task546 returned **A4_BORDERED_RESUME_STOP**, 20476 /
+  `2d2c4a69...bc68`.  It accepts v434's bordered membership theorem,
+  immutable K-roster rebase, coefficient-ledger signs, and dual pullback.
+  The rejection is of the concrete Task533 v26/v36/v48 continuation route,
+  not of that mathematics or the already cross-checked row-26 prefix.
+- The reached driver derives a nonexistent renamed ordinary base, and a
+  second checkpoint name cannot write a continuation against the immutable
+  base.  Its authenticated base replay also fails to install the open query,
+  oracle epoch and semantic counters into the live owner.  Legal scale-two
+  bordered deltas are accepted by one gate and then rejected by the obsolete
+  strict migration gate.
+- The claimed memory repair is not realized: each migrated B event retains
+  four distinct full sparse-row dictionaries, while positive serialization
+  rematerialises full B rows.  The positive producer omits the checker-required
+  `column` field, compares an obsolete pure-B view rather than the full
+  bordered `B+K` invariant, and the v48 positive branch never invokes the
+  physical base-plus-delta replay.  Supplied fixtures do not reach these
+  paths.  Therefore this version must not be committed as an adopted driver
+  or dispatched to GHA.
+
+**v220 mapping**:
+
+- A4 stays **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Its next
+  implementation is now fixed to a narrow v27/v37/v49 repair: preserve one
+  real ordinary chain, install authenticated live state, separate the two
+  scale contracts, store compact migrated references, define one truthful
+  bordered schema, and exercise those reached paths before another audit.
+- A0 remains **0/1 actual** and is unaffected.  A1 **4/4**, A2 **2/3**,
+  A3 **3/3**, and compact A5 are unchanged.  No compatible lift, fake, or
+  Ihara witness is declared.
+
+### Delta 385 (2026-09-03): the order-2016 floor is cross-checked MEMBER by a direct literal preimage
+
+- Luna Task542 returned candidate terminal `ORDER_2016_JOINT_MEMBER`.  Its
+  frozen payload has 3,936 distinct coefficient-bearing literal conjugates,
+  direct order-2016 remainder zero, and a lifted degree-36 residual of support
+  511,576, coefficient counts 255,518/256,058, digest
+  `19e8f27d5c655f8043d82ebc9546b57940b4b842bf6b569da994cb7f8ec89dd9`,
+  with zero projection to order 2,016.  The final official checker reran in
+  295.275 seconds and reproduced the literal count, residual and zero
+  projection.
+- Independent Sol(max) Task549 returned
+  **ORDER_2016_LITERAL_MEMBER_PASS_WITH_TELEMETRY_LIMIT**, 13003 /
+  `a088d272...256c`.  Its helper-independent permutation/Fox replay checked
+  all 264 seed occurrences and all 23,616 selected conjugate occurrences in
+  both Q1 and Q0.  It independently recovered the order-2,016 marked group,
+  six occurrence/character transports, prefix signs and shifts, the exact
+  four-sector target equality, both PB3 augmentation coordinates zero, and
+  normalized exponent `(0,0)`.
+- This is a direct legal preimage, so MEMBER does not depend on independently
+  reproducing the discovery echelon.  The producer figures seed rank 54,
+  occurrence rank 1,509, 6,036 actor attempts, 6,168 row attempts and physical
+  rank 1,254 remain explicitly **telemetry**, not cross-checked ranks.  The
+  official mutation Boolean is also weaker than advertised; Task549 instead
+  rejected coefficient, character-transport and downstream-flag mutations
+  through one independent acceptance predicate.
+- The nonzero Q0 residual is the input to the next characteristic lift, not
+  a full-Q0 solution.  Direct free reduction and F3 collection of the frozen
+  3,936-term list gives a candidate 2,622-term equivalent representation;
+  that preprocessing count is not promoted before its next consumer/audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but relative to Delta384 the **second exact
+  characteristic quotient is now cross-checked MEMBER**.  The stable explicit
+  lift has advanced
+  `PSL504 MEMBER -> order-2016 MEMBER -> nonzero Q1-kernel residual`.
+  The active next decision is the first of the six relative grades in
+  `2016 -> 54,432`; order 54,432 and full Q0 are still open.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No finite A0 COMMON word, compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+### Delta 386 (2026-09-03): both post-2016 extension laws are explicit and cross-checked
+
+- Sol v442, 8710 / `afa91b61...4de4`, reads the frozen three nine-point
+  affine blocks as
+  `G9=C9^3 semidirect C2^2`, with explicit pure-sign complement words,
+  signed-permutation kernel actions, and all six occurrence crossed terms.
+  It gives a zero multiplication cocycle for `Q2 -> Q1` and an integer
+  digit/carry cocycle for `Q0 -> Q2`; every negative kernel column is retained
+  as the full substitution `u -> 2u+u^2`.
+- Independent Sol(max) Task548 returned
+  **EXPLICIT_G9_TWO_RUNG_TWISTING_PASS**, 14444 /
+  `e0a6fedb...7f3c`.  Its separate affine/permutation replay recovered
+  `|G9|=2916`, `G9'=C9^3`, the complement, all six `(M_j,A_j,c_j)` tables,
+  and the right crossed-law convention.  It checked 11,664 carry products,
+  1,259,712 cocycle triples, 69,984 occurrence-compatibility pairs, all 264
+  relator occurrences, and all 162 signed polynomial substitutions.
+- Thus the two formerly abstract transversal/cocycle inputs of v441 are now
+  cross-checked closed formulas.  No generic multiplication table of order
+  54,432 or 1,469,664 is required.  This does not decide any of the twelve
+  positive-grade fibre memberships.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta385, the active
+  `2016 -> 54,432 -> 1,469,664` route no longer waits for twisting-data
+  materialisation; it waits on the actual grade tests.  The first grade is
+  the next finite gate.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No compatible lift, fake, or Ihara witness is declared.
+
+### Delta 387 (2026-09-03): transition reuse passes; the unsafe monomial split is withdrawn
+
+- Independent Sol(max) Task550 returned
+  **AFFINE_ENGINE_TRANSITION_DEFECTS_PASS_AFTER_REPAIR**, 20221 /
+  `329aa9b8...e4616`.  It independently accepts v443's section-left,
+  kernel-right affine and carry arithmetic, exact truncated substitutions,
+  Fox/action conventions and all stated dimensions.  It also accepts v444's
+  transition-defect identity
+  `U_(d+1) = span(lift B_d) direct_sum H_d`, including dependent seed defects,
+  dependent actor-edge defects, literal ancestry and the lower-first physical
+  fibre interface.
+- V445's associated-grade transport formulas and its degree-one `3+3+6`
+  coordinate orbit calculation survive, but its proposed independent closure
+  in all twelve character--monomial blocks does not.  Ambient monomial
+  invariance does not imply that the defect-generated module contains each
+  monomial projection: a diagonal rank-one defect can be enlarged to rank two
+  by that operation.  Such an enlargement could create a false MEMBER.
+- The exact fail-closed repair is now stated in candidate v446, 9262 /
+  `389ceee1...4756`: use the four legal `C2^2` character projectors furnished
+  by explicit actor words, retain all three degree-one monomials coupled in
+  four width-18144 source blocks, and use one complete width-24192 physical
+  fibre (or only a split certified by every actual-row hyperedge).  Task553 is
+  independently auditing this repair.  The obsolete twelve-block Task551 was
+  withdrawn before dispatch; Task554 is the versioned four-block
+  implementation commission and remains gated on Task553.
+- Task550's finite checker happened to overlap an unrelated local Python job
+  that started after the initial process check.  Its enumerated output is
+  therefore recorded only as candidate corroboration; Task550's static module
+  proofs, not that run, carry the paper verdict.  No further local audit run
+  was started.
+- Administrative pin correction: the final Task548 reply is 14448 /
+  `bd1b0239...cd834`; this supersedes the transient 14444 / `e0a6fedb...7f3c`
+  identity printed in Delta386.  Its
+  `EXPLICIT_G9_TWO_RUNG_TWISTING_PASS` verdict and mathematical contents are
+  unchanged.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  The route and next decision have not moved
+  backward: `PSL504 MEMBER -> order-2016 MEMBER -> nonzero Q1-kernel residual
+  -> first 2016-to-54,432 grade test`.  What is now complete is the exact
+  transition-reuse theorem and the identification/removal of one unsound
+  optimization before implementation.
+- The safe first-grade executable has four parallel source-character blocks,
+  not twelve independent monomial blocks.  No grade-one MEMBER/NONMEMBER
+  result exists yet, so order 54,432 and full Q0 remain open.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No finite A0 COMMON word, compatible cofinal lift, fake, or
+  Ihara witness is declared.
+
+### Delta 388 (2026-09-03): the four-character repair is paper-audited and implementation is released
+
+- Independent Sol(max) Task553 returned
+  **FIRST_RUNG_CHARACTER_BLOCKS_PASS_AFTER_REPAIR**, 16864 /
+  `9e06ae40...a1df`.  It proves the character idempotent algebra, the
+  coupled-monomial necessity, the widths `4 x 18144 = 72576` and physical
+  width 24192, v444 transition completeness, and the joint/actual-row
+  physical fibre rule without using the overlapped Task550 finite run.
+- Its one local repair is a factor-endpoint correction.  V442/Task548 prove
+  that the displayed complement words are pure in the `G9` factor, but that
+  citation alone does not bind their `PSL(2,8)` endpoints.  Task549 already
+  independently replayed four exact marked words with endpoints `(1_P,a)` in
+  the order-2016 quotient.  Their lifts may have a first-rung kernel
+  coordinate, but its factor has positive augmentation degree and therefore
+  acts trivially on the associated grade.  These legal correlated source
+  words furnish all four character projectors.
+- V447, 4415 / `3e4bb3e4...96c2`, incorporates exactly that accepted
+  source-word replacement and the repaired certificate gate.  The safe
+  theorem is now v446 plus v447: four character blocks, all monomials coupled,
+  and one joint width-24192 physical fibre for the first executable.
+- Luna Task554 has been released to implement the exact first grade with a
+  four-shard interface.  It must reconstruct the complete order-2016
+  seed/transition presentation once, persist the updated presentation for
+  grades 2--6, and return a direct literal MEMBER replay or a complete
+  NONMEMBER dual; otherwise UNKNOWN.  No Task554 computation or GHA run is
+  yet claimed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**.  Relative to Delta387, the mathematical gate for
+  the first `2016 -> 54,432` grade is no longer audit-pending; implementation
+  is active.  The first grade is still **0/6 decided** until a complete
+  terminal is independently checked.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54,432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 389 (2026-09-03): the complete six-grade first-rung induction is paper-audited
+
+- V448, 5881 / `168e3fc5...1182d`, packages the first extension as one
+  transition-presentation induction through the six positive grades of
+  `F3[C3^3]`.  The exact multiplicities are `(3,6,7,6,3,1)` and the maximum
+  new-grade workspaces are one width-42336 source block in each of four
+  characters and one width-56448 joint physical grade.  These are ambient
+  widths, not rank, runtime or total-memory claims.
+- Independent Sol(max) Task555 returned
+  **FIRST_RUNG_SIX_GRADE_SCHEDULE_PASS_AFTER_REPAIR**, 14309 /
+  `8dcdfbb4...2e45`.  It accepts v447's exact pure-Q1 word projectors, every
+  table entry, the complete seed/four-transition presentation, the v441/v444
+  MEMBER--NONMEMBER--UNKNOWN induction and the conditional endpoint: six
+  direct MEMBER replays imply exact order-54,432 equality because `I^7=0`.
+- Its sole repair is notation.  At the grade-`d` step the new closure is
+  `H^[d] := H_(d-1)^(v444)`, so the source identity is
+  `U_d = span(lift B_(d-1)) direct_sum H^[d]`.  V449, 1408 /
+  `0237572f...7ff9`, incorporates exactly this index correction.  No width,
+  algorithm, or claim boundary changes.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades
+  computed**.  Relative to Delta388, however, the route from one grade to all
+  six no longer has a paper-level recurrence gap: reconstruct the complete
+  order-2016 transition presentation once, then persist and lift it at each
+  grade.  Task554 is implementing the first step and reusable presentation.
+- The second six-grade rung, a compatible cofinal inverse-limit lift, and
+  finite A0 COMMON remain separate unresolved gates.  A1 **4/4**, A2 **2/3**,
+  A3 **3/3**, A4 **1/3**, and compact A5 are unchanged.  Fake and Ihara are
+  not declared.
+
+### Delta 390 (2026-09-03): the frozen A4 v27/v37/v49 snapshot is stopped before GHA
+
+- Luna Task552 wrote candidate v27/v37/v49 but did not reach its reply or
+  production.  The parent froze that snapshot rather than allow further
+  silent redesign.  Independent Sol(max) Task556 returned
+  **A4_BORDERED_RESUME_SNAPSHOT_STOP**, 22898 /
+  `98db0b0f...603b`.
+- The bounded checks themselves pass: both Python files compile; the reached
+  producer fixture finishes in 2.120 seconds with observed peak working set
+  61,030,400 bytes; the checker fixture finishes in 0.565 seconds with
+  51,650,560 bytes; v49 is ASCII, generates its shell through the GAP wrapper
+  in 3.364 seconds, and the shell passes `bash -n`.  These fixtures do not
+  cover the failing production paths.
+- The real ordinary restore carries the last query ID across row segments and
+  rejects the archived row-25-to-row-26 transition.  It does not recompute
+  membership-mask or normalized-coset truth and does not atomically compare
+  the reconstructed final local HEAD before new work.  The live physical
+  store also retains each fully decoded shard body in `self.shards`, so the
+  one-large-owner memory contract is not met.
+- The terminal paths fail independently: RESOURCE dereferences an absent
+  positive `kernel.K_roster`; the positive checker requires the original
+  ordinary `next_row=27` although a completed row advances it; and the
+  physical store never clears its row terminal, so it cannot commit the next
+  completed row.  Constant fixture booleans do not exercise these routes.
+  Consequently v49 must not be dispatched.
+
+**v220 mapping**:
+
+- A4 remains **1/3, cross-checked through row 26; row 27 not advanced**.  Its
+  v434 bordered mathematics still stands, but this second concrete resume
+  implementation is rejected.  A further repair is deferred behind the
+  active A0 first-grade implementation rather than beginning another A4
+  repair loop now.
+- A0 remains **0/1 actual** with first rung **0/6 computed**; Task554 is
+  unaffected.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are
+  unchanged.  No compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 391 (2026-09-03): the first-grade engine is complete modulo four local release repairs
+
+- Luna Task554 produced the phase-oriented first-grade engine and standalone
+  checker.  The frozen candidate identities are producer 114922 /
+  `df3aea9f...9ee4`, checker 55010 / `a11824ff...050d`, and reply 12957 /
+  `31a61f24...3b62`.  Its final fixtures pass; no real prepare, block, merge,
+  or certificate was run locally.
+- A bounded independent calibration exposed and repaired one actual staged
+  action bug before freeze.  For `seed=3`, conjugator `y^-1`, tag 0, the
+  direct v443 (3.1) value is coefficient 1.  A direct contribution and a
+  character-routed induced contribution had formerly collided by assignment;
+  both staged evaluators now add them in F3, and the counterexample is a
+  permanent canary.  After that repair, producer staged evaluation and the
+  checker's independent raw affine calculation agree on all 24192 physical
+  coordinates of the canonical 2622-term residual; its support is 16254.
+- Independent Sol(max) Task558 returned
+  **FIRST_GRADE_ENGINE_V2_PASS_AFTER_REPAIR**, 22080 /
+  `b61962bf...f6f`.  It accepts the affine/Fourier arithmetic, all
+  seed/transition defects, four coupled-monomial closures, the lower-first
+  physical fibre, compact MEMBER ancestry, and the mathematical MEMBER and
+  NONMEMBER terminals.  It found four bounded release-state defects: require
+  the full NONMEMBER origin roster, fully authenticate completed/resumed
+  state and current inputs, make final-certificate creation idempotently
+  resumable, and cover packet ingestion/lower replay by the existing
+  progress/resource gates.
+- Task559 is applying only those four repairs in a versioned v3 snapshot.
+  They do not change the finite row space, the residual, the four-way
+  decomposition, or the six-grade induction.  The prepared GHA graph is one
+  prepare job, four simultaneous character-block jobs, one merge, and one
+  independent checker; dispatch remains gated on the repaired hashes and a
+  narrow re-audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades
+  computed**.  Relative to Delta390, the complete first-grade executable now
+  exists and its load-bearing affine residual path is independently
+  calibrated; only four local release-state repairs and re-audit remain before
+  the first production dispatch.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 392 (2026-09-03): first-grade v3 is release-audited for production GHA
+
+- Luna Task559 implemented only Task558's four release repairs in a versioned
+  snapshot.  The frozen identities are producer 138202 /
+  `bf872b30...bcff`, checker 69193 / `67f56ee9...a012`, and reply 7931 /
+  `8ccb6304...e976`.  Serial compilation and both seconds-scale fixtures pass;
+  the producer fixture reaches state validation and idempotent certificate
+  recovery, and the checker fixture rejects a deliberately truncated origin
+  roster.  No real phase or production certificate was run locally.
+- Independent Sol(max) Task560 returned **FIRST_GRADE_ENGINE_V3_PASS** and
+  **GHA_RELEASE: ALLOWED**, 10225 / `5ba42f2a...ed64`.  It confirms that R1
+  complete NONMEMBER coverage, R2 bounded streaming authentication and exact
+  state binding, R3 deterministic recovery after the final-HEAD crash window,
+  and R4 progress/resource coverage all close.  It found no change to the
+  accepted affine/Fourier formulas, row universe, pivot policy, ancestry, or
+  MEMBER/NONMEMBER criteria.
+- The release workflow is now the exact v3 graph: one prepare job, four
+  simultaneous character-block closures, one lower-first merge, and one
+  independent terminal checker.  It pins both program hashes and the Task560
+  audit hash, preserves a 7 GiB engine RSS cap plus an 8 GiB virtual-memory
+  guard, streams progress to job logs, and retains successful states and all
+  failure logs as 90-day artifacts.  A first feature-branch run uses a guarded
+  `[fire-grade1-v3]` push because GitHub does not register a brand-new manual
+  workflow before it appears on the default branch.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, with the first rung still **0/6 grades decided**
+  until the production checker terminates.  Relative to Delta391, all four
+  release defects are closed and independently accepted: the exact first-grade
+  question has moved from implementation/audit to production execution.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.

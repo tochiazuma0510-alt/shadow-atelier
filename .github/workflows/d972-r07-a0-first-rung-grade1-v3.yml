@@ -1,0 +1,391 @@
+name: d972-r07-a0-first-rung-grade1-v3
+
+on:
+  # A brand-new workflow_dispatch file is not registered until it has reached
+  # the default branch.  For this first feature-branch run, the exact release
+  # commit uses the guarded push route established by the existing GHA lanes.
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+    paths:
+      - 'search/d972_r07_a0_first_rung_grade1_v3.py'
+      - 'search/check_d972_r07_a0_first_rung_grade1_v3.py'
+      - 'sol/sol_reply_560_audit_r07_a0_first_rung_grade1_engine_v3.md'
+      - '.github/workflows/d972-r07-a0-first-rung-grade1-v3.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: d972-r07-a0-first-rung-grade1-v3-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  TASK554_MAX_RSS: "7516192768"
+  TASK554_PREPARE_SECONDS: "900"
+  # Hosted jobs cap at six hours; stop computation at 5.5 hours so logs and
+  # completed phase artifacts still have time to upload.
+  TASK554_BLOCK_SECONDS: "19800"
+  TASK554_MERGE_SECONDS: "19800"
+  PRODUCER_SHA256: bf872b30149e1351762b243d590d7a1f876e048b92a053d8f9c17bba5c45bcff
+  CHECKER_SHA256: 67f56ee92aea7e17ce88303657ca519ee9539269eef44e6e5550da63d6a4a012
+  AUDIT_SHA256: 5ba42f2aadcf216a75df298d05657ce3fff27bbfd5c40226e6fcf2e7cee4ed64
+
+jobs:
+  prepare:
+    name: paired lower presentation and four packets
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire-grade1-v3]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Checkout exact dispatched head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+          python - <<'PY'
+          import numpy
+          assert numpy.__version__ == "2.5.1"
+          PY
+
+      - name: Authenticate audited snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade1_v3.py | awk '{print $1}')" = "$PRODUCER_SHA256"
+          test "$(sha256sum search/check_d972_r07_a0_first_rung_grade1_v3.py | awk '{print $1}')" = "$CHECKER_SHA256"
+          test "$(sha256sum sol/sol_reply_560_audit_r07_a0_first_rung_grade1_engine_v3.md | awk '{print $1}')" = "$AUDIT_SHA256"
+          test "$(grep -c '^FIRST_GRADE_ENGINE_V3_PASS$' sol/sol_reply_560_audit_r07_a0_first_rung_grade1_engine_v3.md)" -eq 1
+
+      - name: Run bounded release fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task554-logs"
+          python -B -m py_compile search/d972_r07_a0_first_rung_grade1_v3.py search/check_d972_r07_a0_first_rung_grade1_v3.py
+          python -B -u search/d972_r07_a0_first_rung_grade1_v3.py --fixture 2>&1 | tee "$RUNNER_TEMP/task554-logs/producer-fixture.log"
+          python -B -u search/check_d972_r07_a0_first_rung_grade1_v3.py --fixture 2>&1 | tee "$RUNNER_TEMP/task554-logs/checker-fixture.log"
+
+      - name: Build real prepare state
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task554-state" "$RUNNER_TEMP/task554-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 20m \
+            python -B -u search/d972_r07_a0_first_rung_grade1_v3.py \
+              --prepare "$RUNNER_TEMP/task554-state" \
+              2>&1 | tee "$RUNNER_TEMP/task554-logs/prepare.log"
+          test -f "$RUNNER_TEMP/task554-state/prepare.HEAD"
+
+      - name: Upload immutable prepare state
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-prepare-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-state/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload prepare logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-prepare-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
+
+  blocks:
+    name: character block ${{ matrix.block }}
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        block: [0, 1, 2, 3]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact dispatched head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Download exact prepare state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-prepare-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-state
+
+      - name: Run one exhausted character closure
+        shell: bash
+        env:
+          TASK554_BLOCK: ${{ matrix.block }}
+        run: |
+          set -euo pipefail
+          test -f "$RUNNER_TEMP/task554-state/prepare.HEAD"
+          mkdir -p "$RUNNER_TEMP/task554-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 335m \
+            python -B -u search/d972_r07_a0_first_rung_grade1_v3.py \
+              --block "$TASK554_BLOCK" --state-dir "$RUNNER_TEMP/task554-state" \
+              2>&1 | tee "$RUNNER_TEMP/task554-logs/block-$TASK554_BLOCK.log"
+          test -f "$RUNNER_TEMP/task554-state/block-$TASK554_BLOCK.HEAD"
+
+      - name: Stage only this completed block
+        if: ${{ success() }}
+        shell: bash
+        env:
+          TASK554_BLOCK: ${{ matrix.block }}
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/task554-block-output"
+          mkdir -p "$out"
+          find "$RUNNER_TEMP/task554-state" -maxdepth 1 -type f \
+            \( -name "block-$TASK554_BLOCK.HEAD" \
+               -o -name "block-$TASK554_BLOCK.*.json" \
+               -o -name "block-$TASK554_BLOCK-basis.*.bin" \) \
+            -exec cp -t "$out" -- {} +
+          test "$(find "$out" -maxdepth 1 -type f | wc -l)" -eq 3
+
+      - name: Upload immutable block state
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-state-block-${{ matrix.block }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-block-output/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload block log
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-log-block-${{ matrix.block }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
+
+  merge:
+    name: joint lower-first physical fibre
+    needs: blocks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact dispatched head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Download exact prepare state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-prepare-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-state
+
+      - name: Download all four block states
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-block-inputs
+          merge-multiple: true
+
+      - name: Assemble and authenticate fan-in
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/task554-block-inputs/"* "$RUNNER_TEMP/task554-state/"
+          for block in 0 1 2 3; do
+            test -f "$RUNNER_TEMP/task554-state/block-$block.HEAD"
+            test "$(find "$RUNNER_TEMP/task554-state" -maxdepth 1 -type f -name "block-$block.*.json" | wc -l)" -eq 1
+            test "$(find "$RUNNER_TEMP/task554-state" -maxdepth 1 -type f -name "block-$block-basis.*.bin" | wc -l)" -eq 1
+          done
+
+      - name: Solve joint fibre and finalize terminal
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task554-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 335m \
+            python -B -u search/d972_r07_a0_first_rung_grade1_v3.py \
+              --merge "$RUNNER_TEMP/task554-state" \
+              2>&1 | tee "$RUNNER_TEMP/task554-logs/merge.log"
+          test -f "$RUNNER_TEMP/task554-state/merge.HEAD"
+          test -f search/certs/d972_r07_a0_first_rung_grade1_v3.json
+
+      - name: Stage terminal state and certificate
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/task554-merge-output"
+          mkdir -p "$out/state" "$out/certificate"
+          find "$RUNNER_TEMP/task554-state" -maxdepth 1 -type f \
+            \( -name 'merge.HEAD' -o -name 'merge.*.json' \
+               -o -name 'physical-grade-basis.*.bin' \
+               -o -name 'degree2-residual.*.bin' \) \
+            -exec cp -t "$out/state" -- {} +
+          cp search/certs/d972_r07_a0_first_rung_grade1_v3.json "$out/certificate/"
+          test -f "$out/state/merge.HEAD"
+          test "$(find "$out/state" -maxdepth 1 -type f -name 'physical-grade-basis.*.bin' | wc -l)" -eq 1
+
+      - name: Upload terminal state
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-terminal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-merge-output/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload merge log
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-merge-log-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
+
+  checker:
+    name: independent terminal checker
+    needs: merge
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact dispatched head
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55 # v5.5.0
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Download exact prepare state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-prepare-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-state
+
+      - name: Download all four block states
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-block-inputs
+          merge-multiple: true
+
+      - name: Download terminal state and certificate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: task554-grade1-v3-terminal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-terminal
+
+      - name: Assemble independent-check input
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/task554-block-inputs/"* "$RUNNER_TEMP/task554-state/"
+          cp "$RUNNER_TEMP/task554-terminal/state/"* "$RUNNER_TEMP/task554-state/"
+          cp "$RUNNER_TEMP/task554-terminal/certificate/d972_r07_a0_first_rung_grade1_v3.json" search/certs/
+          test -f "$RUNNER_TEMP/task554-state/merge.HEAD"
+          test -f search/certs/d972_r07_a0_first_rung_grade1_v3.json
+
+      - name: Run independent full terminal checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task554-logs"
+          ulimit -v 8388608
+          set -o pipefail
+          timeout --signal=TERM --kill-after=60s 335m \
+            python -B -u search/check_d972_r07_a0_first_rung_grade1_v3.py \
+              --state-dir "$RUNNER_TEMP/task554-state" \
+              2>&1 | tee "$RUNNER_TEMP/task554-logs/checker.log"
+
+      - name: Stage checked evidence
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task554-checked"
+          cp search/certs/d972_r07_a0_first_rung_grade1_v3.json "$RUNNER_TEMP/task554-checked/"
+          cp "$RUNNER_TEMP/task554-logs/checker.log" "$RUNNER_TEMP/task554-checked/"
+          sha256sum "$RUNNER_TEMP/task554-checked/"* > "$RUNNER_TEMP/task554-checked/SHA256SUMS"
+
+      - name: Upload independently checked terminal
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-crosschecked-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-checked/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+
+      - name: Upload checker log on failure
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # v4.3.3
+        with:
+          name: task554-grade1-v3-checker-failure-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task554-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
