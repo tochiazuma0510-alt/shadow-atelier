@@ -15651,3 +15651,38 @@ single transport repair required before continuation; it does not count the
   continuation running separately as run `33630254997`.  A1 **4/4**, A2
   **2/3**, A3 **3/3**, and compact A5 are unchanged.  No compatible lift,
   fake, or Ihara witness is declared.
+
+### Delta 375 (2026-09-02): the duplicated A4 rank-112,355 store is eliminated on paper
+
+- V434 proves an exact bordered representation for the v272--v285 oracle.
+  If `B` is the one large discovered-boundary echelon and the immutable K
+  rows are `k_i`, reduce `k_i` modulo B, keep only their normally small
+  quotient echelon `Z`, and decide membership by `N_Z N_B`.  This has kernel
+  exactly `B+<k_i>`; reverse pullback through Z and then B gives the same
+  separating dual required by the complete full-D correlation.
+- When a new boundary column is found, it is inserted only into B and the K
+  border is deterministically rebased.  Full-D independence of the accepted
+  K classes proves that its rank is preserved.  V273's literal-word and
+  discrepancy certificates are recovered exactly from the B ledgers and the
+  coefficient-bearing Z rows, so this is not a heuristic quotient.
+- In the present `K_rank=0` state the theorem is stronger: the old boundary
+  and combined echelons are entrywise identical by induction.  Every combined
+  insertion has the same pivot/row/label, scale one, empty prior reduction,
+  and formal pair `(boundary_ledger,{})`.  Thus the second rank-112,355 row
+  store and its duplicate K-empty formals are mathematically redundant.
+- Migration still requires full authentication and replay of all 1,877 shard
+  bodies in artifact `9831693721`; the bounded Task532 audit established only
+  index consistency.  V434 supplies seven exact equality/chain gates for a
+  streaming migration and expressly makes no peak-RSS or wall-clock factor
+  claim before implementation.
+
+**v220 mapping**:
+
+- A4 stays **1/3 UNKNOWN_RESOURCE / cross-checked through row 26**.  Its
+  resource-repair lane advances from **8-GB cause isolated** to
+  **one-large-echelon replacement paper-closed; implementation and shard
+  validation pending**.  No row, invariant-closure, or word-bearing-K
+  milestone is added by a paper theorem.
+- A0 remains **0/1 actual, 100/rank143/round105**, with lazy production run
+  `33630254997` active.  A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5
+  are unchanged.  No compatible lift, fake, or Ihara witness is declared.
