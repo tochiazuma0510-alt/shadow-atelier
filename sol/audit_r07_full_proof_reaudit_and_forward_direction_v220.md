@@ -16423,3 +16423,45 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 395 (2026-09-03): the grade-one split states already determine the target-independent grade-two module
+
+- V450 isolated the exact handoff contained in the completed prepare plus
+  four character-block states.  Their lifted old bases, seed/actor relations,
+  defect-origin reductions, new block transitions and literal DAGs determine
+  one global precision-one basis and transition presentation.  No grade-one
+  physical merge row or target coefficient is needed to construct the next
+  transition defects and canonical linear fibre.
+- Independent Sol(max) Task566 returned
+  **GRADE1_TO_GRADE2_HANDOFF_PASS_AFTER_REPAIR**, 15828 /
+  `b8c04819...f2297a`.  It found no counterexample to directness, recovery of
+  the 44 original seeds, all old/new actor transitions, target independence,
+  or the NONMEMBER branch logic.  Its required repairs distinguish the full
+  filtered word-sums from pure-grade character idempotents, give the exact
+  global offsets and plus signs, and import every cocycle/PB3/PB4/exponent
+  preflight gate.
+- V451, 8050 / `3ec2d135...d933b4`, incorporates exactly those repairs.  The
+  grade-two consumer must reconstruct and directly replay the complete
+  presentation from the authenticated split states; the compact merge
+  summary alone is insufficient.  It may then build the target-independent
+  grade-two source closures and lower-first fibre before the grade-one
+  terminal.  The exact new widths are four source blocks of 36288, one joint
+  physical block of 48384, and a 32260-coordinate lower/auxiliary block.
+- A checked grade-one MEMBER remains necessary only for the result-dependent
+  join.  That join must independently evaluate the literal `c1`, prove all
+  32260 lower/auxiliary coordinates zero, and only then form and authenticate
+  the 48384-coordinate `rho2`; reading the stored next-residual blob is not
+  enough.  A checked grade-one NONMEMBER forbids this join.  Luna Task565 is
+  implementing the target-independent prebuild and bounded independent
+  fixtures; no real grade-two run is claimed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 grades decided**
+  while the two grade-one merges are live.  Relative to Delta394, the next
+  grade no longer has to wait for the current target decision to begin its
+  module-side construction, and it does not restart the historical actor
+  orbit.  This is a paper/interface advance, not a numerator change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
