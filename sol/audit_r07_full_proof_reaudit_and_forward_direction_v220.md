@@ -16523,3 +16523,37 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 397 (2026-09-03): the grade-two word-projector hot loop is removed on paper
+
+- V453, 3780 / `41390912...7a2e`, proves that Task565's first array axis is
+  already the common source Fourier-character axis.  For each exact pure
+  degree-two defect, the four legal v447 projectors therefore equal the four
+  direct character slices.  All six occurrence tags, both Fox components,
+  all six monomials and all 504 PSL coordinates remain coupled inside each
+  width-36288 packet; this is not a monomial or occurrence projection.
+- Independent Sol(max) Task571 returned
+  **GRADE2_DIRECT_CHARACTER_SLICE_V453_AUDIT_PASS**, 10659 /
+  `8e8af6cf...a1083b`.  It checked the actual Task565 layout, inverse
+  occurrence-character transport, all 24 tag endpoints, the harmless
+  upstairs-kernel term on the associated grade, the repaired character
+  order and the normalization `4=1` in F3.  It also fixes the release gate:
+  endpoint/transport/layout identities are replayed once per run, while every
+  one of the `44+4*rank(B1)` complete defect slices is still compared.
+- This exact replacement removes the measured approximately 2.98-hour
+  per-defect word-action/Walsh loop from the grade-two production design.
+  It changes no source row, closure universe, physical fibre, target or
+  membership criterion.  The current Task565 v1 code has not been promoted;
+  its streamed transcript, structural DAG, independent-helper and MEMBER
+  join repairs are still being implemented in the versioned v2 path.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 grades decided**.
+  Relative to Delta396, one previously measured three-hour grade-two overhead
+  is now eliminated by an independently accepted equality rather than a
+  heuristic optimization.  This is a paper/runtime-interface advance, not a
+  numerator change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
