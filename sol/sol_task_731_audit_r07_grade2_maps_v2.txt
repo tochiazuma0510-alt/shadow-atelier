@@ -1,0 +1,84 @@
+Sol(max) Task731 -- independent release audit of repaired grade-two maps v2
+
+Role declaration: you are Sol(max), mathematics/code auditor.  Do not edit
+the producer or checker, do not build the 40-table real artifact, do not run
+GHA, and do not perform git operations.  Bounded local selftests are allowed.
+Write only the requested reply.
+
+1. Read every input in full, first to last:
+
+   - `sol/sol_reply_719_audit_r07_task712_grade2_maps_v1.md`
+   - `sol/luna_reply_728_r07_grade2_maps_finite_repair_v2.md`
+   - `search/d972_r07_grade2_forward_adjoint_maps_v2.py`
+   - `search/check_d972_r07_grade2_forward_adjoint_maps_v2.py`
+   - the v474/v483/v486 mathematical papers referenced by those programs,
+     only to the extent needed to audit map direction and claim boundaries.
+
+   Parent byte receipts for the two executable inputs are:
+
+   ```text
+   producer v2
+     bytes 44667
+     LF 959
+     final LF yes
+     SHA256 fdcb9a8ca9804179f350500c02203cdde550498b5cc5912ff1b0bde1d92e4d84
+   checker v2
+     bytes 48459
+     LF 988
+     final LF yes
+     SHA256 e388300c88de674d6e4550a7f20a40031488e724e40e73cdc89189b472ae61f0
+   ```
+
+2. Re-audit all four Task719 blockers, not merely the changed lines:
+
+   - F719-1: immutable producer-path/SHA pin and manifest equality, including
+     a live changed-byte and wrong-literal rejection;
+   - F719-2: the bounded fixtures actually invoke the production actor
+     compiler for both `x,x^-1` and `y,y^-1` over all 36,288 source
+     coordinates, and carry a genuinely nonidentity g760 prefix through the
+     production occurrence aggregation path;
+   - F719-3: every fixed nested integer leaf rejects Python bool aliases and
+     table receipt key sets are exact;
+   - F719-4: checker output is fresh, outside both authenticated artifact and
+     repository trees, cannot traverse a symlink/junction ancestor, and does
+     not alter an existing target.
+
+3. Audit the preserved mathematical/executable core independently:
+
+   - dimensions `V_a=36288`, `P=48384` and exact source/physical orders;
+   - exactly 16 actor forwards, four aggregation forwards, and 20 mechanical
+     transposes;
+   - `(source,destination,c)` direction, mod-three reduction, duplicate
+     cancellation, inverse identities, and forward/adjoint word order;
+   - all six coupled monomials, all six occurrences, both components, and the
+     exact g760-derived shifts;
+   - canonical JSONL EOF/digests/counts, independent checker arithmetic, and
+     exclusive CLI modes;
+   - sparse/file-backed resource behavior.  Explicitly flag any avoidable
+     dense matrix, repeated full construction, retained duplicate copy, or
+     other processing that would make the real GHA build unnecessarily slow
+     or memory-heavy.  Do not demand unrelated hardening or stylistic repair.
+
+4. Run only bounded checks needed for the audit, with bytecode cache outside
+the repository.  At minimum independently reproduce SHA/line receipts,
+`py_compile`, producer `--selftest`, and checker `--selftest`.  State exact
+commands, elapsed times if readily available, and rejection counts.  Do not
+run the actual 40-table `--emit`/`--check` job locally.
+
+5. Give one terminal verdict:
+
+   - `PASS_GRADE2_MAPS_V2_SAFE_FOR_GHA`, with
+     `SAFE_TO_DISPATCH_GHA=yes`; or
+   - `FAIL_GRADE2_MAPS_V2`, with a minimal finite blocker list and
+     `SAFE_TO_DISPATCH_GHA=no`.
+
+   Reserve `verified` for Lean and state `verified=false`.  Do not infer a
+grade-two decision, A0, COMMON, compatible cofinal lift, fake, or Ihara from
+code/selftests.
+
+6. Reply only to:
+
+   `sol/sol_reply_731_audit_r07_grade2_maps_v2.md`
+
+Include byte/LF/final-LF/SHA receipts for all audited executable inputs and
+your sealed reply, plus a final machine-readable verdict marker.
