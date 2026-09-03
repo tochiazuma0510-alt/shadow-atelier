@@ -17296,3 +17296,48 @@ single transport repair required before continuation; it does not count the
   unchanged.  No actual fresh residual, complete first rung, order-54432
   solution, full-Q0 correction, compatible cofinal lift, fake or Ihara
   witness is declared.
+
+### Delta 416 (2026-09-03): the selected explicit grade-one SLP clears its final static release gate
+
+- Sol(max) Task614 returned **PASS_AFTER_REPAIR**, 13159 /
+  `4ab26ef6...c981720`, on the first Task601 release quartet.  The frozen
+  8059-offer route, ranks `1661/5044`, 3317-term MEMBER equation, selected
+  physical replay and independent router were sound, but four local release
+  defects remained: surplus non-reached source expressions, a split between
+  the semantically checked roots path and the reported roots receipt, missing
+  false/null claim gates, and execution of frozen v3 before its hash gate.
+  Its fixtures also did not yet exercise every commissioned mutation.
+- Luna Task615 made only those bounded repairs.  The canonical source graph
+  is now the least closure from selected physical refs alone; old nodes add no
+  expression, and only a reached block defect adds its exact single seed or
+  transition expression.  The quotient-derived state table cannot enlarge
+  that graph.  The checker parses the canonical authenticated roots receipt
+  itself, binds its pointer and digest, and independently rejects all eight
+  false/null claim-field mutations in both claim objects.  Frozen v3 is
+  hashed before execution in both scripts and in the workflow preflight.
+- The repaired producer/checker/workflow/reply hashes are respectively
+  `4cc5d6cc...e64bfe9`, `8355fda5...2595595`,
+  `3ddd2f53...4a6fbd`, and `f360beb5...b31609`.  Root reran serial
+  `py_compile`, both selftests and YAML parsing: all passed.  The checker
+  reports 8 claim, 3 root/receipt, 13 source and 11 transcript mutations,
+  including internally canonical edge deletion, acted-old omission and
+  same-key source duplication.
+- Independent Sol(max) Task616 returned **PASS**, 6749 /
+  `da9ee1e6...e5da52`, on those exact files.  It confirms that all four
+  Task614 repair groups are closed and that the physical route, MEMBER
+  arithmetic, all-8059 independent replay, four-entry block cache and bounded
+  60-minute/8-GiB candidate workflow are unchanged.  This is a static release
+  verdict; the actual Task601 payload has not yet been produced.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta415, the sole implementation and
+  independent-audit gates before the actual selected-SLP extraction are now
+  closed.  The next state-changing event is the one authenticated GHA
+  producer/checker run; on success its payload feeds the already paper-audited
+  endpoint-signature computation of the fresh precision-two residual.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual selected SLP, fresh residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
