@@ -1,0 +1,45 @@
+Role: Sol(max), independent hostile audit of the finite P1 literal-LF repair.
+Do not edit implementation/workflow or run the real replay/GHA/git.
+
+Read completely:
+
+- sol/proof_r07_p1_equality_literal_lf_repair_v489.md
+- search/d972_r07_grade2_p1_componentwise_semantic_replay_v4.py
+- search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py
+- crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v2.py
+- crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v3.py
+- sol/luna_reply_740_r07_p1_equality_literal_lf_v5.md
+- sol/sol_reply_726_audit_r07_p1_semantic_checker_v2.md
+
+The authenticated Task554 prepare body is available read-only outside the
+repository at:
+
+`C:/Users/81905/AppData/Local/Temp/task554-prepare-33677346616-1-pinextract/prepare.1f191d88a0453360021ec57d253a7d16c9a66ac059ddaaadb6db3e2b9293c865.json`
+
+Required checks, first to last:
+
+1. Hash the body and require the filename/pinned digest.  Independently
+   canonicalize each `old_blocks[i].record` with sorted compact JSON plus one
+   actual LF byte.  Confirm all four v5 literals and the equality-list digest
+   exactly, and confirm each old v4 literal instead appends bytes `5c 6e`.
+2. Prove the producer v4 -> v5 executable diff is restricted to those five
+   constants plus the bounded rejection fixture.  Lower/lifted pins,
+   canonical function, replay, DAG, packet, projector, caps, schemas and flags
+   must be unchanged.
+3. Prove checker v3 remains nonimporting and independently recomputes equality
+   records.  Its only substantive release change must be the v5 source
+   path/SHA provenance pin; it must not contain the five producer equality
+   constants.
+4. Run py_compile and both bounded selftests with external pycache.  Check the
+   old backslash-n coordinated mutation reaches the live equality validator
+   and rejects.  Do not run the actual five parents locally.
+5. Inspect for dense allocation, new concurrency/retry or avoidable slow path;
+   do not request unrelated refactors.
+6. Return one verdict:
+   PASS_P1_EQUALITY_LF_V5_SAFE_FOR_GHA, PASS_WITH_FINITE_REPAIR, or FAIL.
+   State exact bytes/LF/final-LF/SHA256, commands, limitations,
+   `SAFE_TO_DISPATCH_GHA=yes/no`, and `verified=false` unless Lean was used.
+
+Reply only to:
+
+sol/sol_reply_743_audit_r07_p1_equality_lf_v5.md
