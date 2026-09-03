@@ -17992,3 +17992,28 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible
   cofinal lift, fake or Ihara witness is declared.
+
+### Delta 433 (2026-09-03): verdict-layout v6 independently accepted and launched
+
+- Luna Task669 added the missing accepted-original verdict copy after the
+  already successful exact replay comparison and retained the replayed copy.
+  Sol(max) Task672 returned **PASS_LAYOUT_ONLY / SAFE_TO_DISPATCH_GHA=yes**,
+  4,180 bytes, SHA-256 `1e303632...32c06d`; after normalizing version labels,
+  artifact labels and the inert guard, that one copy is the entire semantic
+  v5-to-v6 delta.
+- Root removed only `false &&`, released commit/event head
+  `5be91ee2822ee5d88d125416cd296bcc1ff8e36d`, and dispatched run/attempt
+  `33754182010/1`, job `100644492138`.  Checkout, source authentication and
+  bounded fixtures passed at launch receipt time.  Same-head push run
+  `33754169970` was skipped, so there is one active calculation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta432, the finite final observed envelope
+  omission is independently repaired and the replacement has entered GHA.
+  Only an accepted fresh rho2 followed by a grade-two `MEMBER` can move the
+  numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
