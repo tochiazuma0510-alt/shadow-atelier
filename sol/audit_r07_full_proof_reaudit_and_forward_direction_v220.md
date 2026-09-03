@@ -17110,3 +17110,51 @@ single transport repair required before continuation; it does not count the
   unchanged.  No complete first rung, order-54432 solution, second six-grade
   rung, full-Q0 correction, compatible cofinal lift, fake or Ihara witness is
   declared.
+
+### Delta 411 (2026-09-03): the exact selected-SLP typing and replay theorem is independently accepted
+
+- V468 separated the canonical noncommutative source graph from the
+  quotient-specific adjoint coefficient flow.  Its first audit, Task607,
+  returned **PASS_AFTER_REPAIR**, 13098 / `2a7165dc...960008`: mixed
+  old/lower nodes could not be assigned a source associated-grade class from
+  physical lower-zero, and a terminal basis/MEMBER comparison did not by
+  itself authenticate every local origin, scale, ordered edge and companion.
+- V469, 8865 / `bae6864e...3f26f6`, makes the required typed replacement.  A
+  selected lower pivot replays to its generally nonzero complete lower row
+  and equally scaled grade companion; an old connection is then killed by
+  that exact ordered lower transcript and offered unscaled to the grade
+  owner; finally the separately scaled grade recurrence replays byte for byte
+  to its authenticated Task595 pivot.  The 3317 selected roots remain in
+  their original order.  No physical-zero statement is promoted to source
+  filtration or relative-kernel membership.
+- Independent Sol(max) Task609 returned **PASS**, reply
+  `f9f8fcf...e1837f`, with no load-bearing repair.  It confirms both the
+  typing and the selected-only deterministic replay: every reached local
+  record is compared with the rerouted or sealed authority before the MEMBER
+  equation is accepted.  A flat word and all unselected source nodes are not
+  required.  Together with the earlier Task605 PASS on v467, this closes the
+  conditional paper bridge from the authenticated selected SLP to the exact
+  eleven-occurrence current-quotient replay and fresh grade-two residual.
+- The actual Task601 payload is still unaccepted.  Root review rejected its
+  current producer/checker handoff before launch because the ancestry schema
+  was nested inconsistently, stale `old/block` fields survived, fixtures did
+  not exercise the production validator, and selected physical companions
+  were not replayed.  Luna Task608 is repairing precisely these four defects;
+  no GHA result or fresh grade-two residual is claimed yet.
+- The obsolete v4 recovery run `33687595111` reached its last registered row
+  in minutes but timed out after a post-roster stall.  It is only historical
+  corroboration and does not weaken the successful independent routing-v2
+  MEMBER receipt in Delta410.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta410, the mathematical and independent
+  audit gates for turning that one grade into a canonical explicit update
+  and then computing its fresh grade-two residual are closed.  The remaining
+  immediate gate is the corrected actual selected-SLP producer/checker run;
+  after that run the next numerator-changing decision is grade two.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No complete first rung, order-54432 solution, second six-grade
+  rung, full-Q0 correction, compatible cofinal lift, fake or Ihara witness is
+  declared.
