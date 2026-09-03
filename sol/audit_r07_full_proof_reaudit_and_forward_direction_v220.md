@@ -18071,3 +18071,28 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No rho2, grade-two decision, full A0/COMMON, compatible
   cofinal lift, fake or Ihara witness is declared.
+
+### Delta 436 (2026-09-03): typed Context repair independently accepted; v7 launched
+
+- Luna Task683 changed the fresh producer's sole stale `context.shifts`
+  reference to the authenticated grade1-v4 field `physical_shifts`, factored
+  the exact equality through the production path and added a live mutation.
+  Sol(max) Task685 returned **PASS_CONTEXT_ONLY /
+  SAFE_TO_DISPATCH_GHA=yes**, 6,248 bytes, SHA-256
+  `fdfa89a5...8b795b`; its full Context census and normalized source/workflow
+  comparison found no second stale access or unrelated semantic delta.
+- Root removed only the inert guard, released commit/event head
+  `8e5b492acfba7d53a8d36831776d8ec91749ea5c`, and dispatched run/attempt
+  `33756591288/1`, job `100652403037`.  Same-head push run `33756578543` was
+  skipped, leaving one active calculation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta435, the observed Context boundary is
+  repaired and independently accepted; the replacement is live.  A fresh
+  accepted rho2 and later grade-two `MEMBER` remain required to move the
+  numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No rho2, grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.
