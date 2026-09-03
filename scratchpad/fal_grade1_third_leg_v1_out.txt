@@ -1,0 +1,26 @@
+files: ['decision-v2-grade-basis.b562c980c22a25a932bae1b548f72aeede5637b9612afc908fff9a9aecff069d.bin', 'decision-v2-remainder.564cbfafc869a8c6eb761a392caa5e792b546bf577af7fe808177b2fdf13cbb0.bin', 'decision-v2.62412762b3a208d31febb6c6b8d4707f880471ed32cf62c79c18108065ab7b5d.json', 'decision-v2.HEAD']
+(i) sha256 head      = 07de7a817e8c5ae2e7346402a290c32631d05b0cc621d03702faa6cb43a948c0  expected=07de7a817e8c5ae2e7346402a290c32631d05b0cc621d03702faa6cb43a948c0  match=True
+(i) sha256 body      = 62412762b3a208d31febb6c6b8d4707f880471ed32cf62c79c18108065ab7b5d  expected=62412762b3a208d31febb6c6b8d4707f880471ed32cf62c79c18108065ab7b5d  match=True
+(i) sha256 basis     = b562c980c22a25a932bae1b548f72aeede5637b9612afc908fff9a9aecff069d  expected=b562c980c22a25a932bae1b548f72aeede5637b9612afc908fff9a9aecff069d  match=True
+(i) sha256 remainder = 564cbfafc869a8c6eb761a392caa5e792b546bf577af7fe808177b2fdf13cbb0  expected=564cbfafc869a8c6eb761a392caa5e792b546bf577af7fe808177b2fdf13cbb0  match=True
+(i) head.body_sha256 == body sha: True
+(i) sizes: body=56666 basis=30506112 remainder=6048
+(i) body.terminal=GRADE1_DECISION_MEMBER grade_rank=5044 lower_rank=1661 cursor=8059
+(i) body.residual_receipt.sha256=648696895595f479b6e2ccb65332589cf8a1a3bf4cf3f92be37e7910f72b79e6  body.residual_sha256=5503afc98809a92f5734e8b1ac198b60eef33d9c4751658c79ad6c3927884134
+(i) body.prepare_sha256=1f191d88a0453360021ec57d253a7d16c9a66ac059ddaaadb6db3e2b9293c865
+(i) body.block_sha256=['9ebcc7ad1141c20aeaff82eb4a83a9489dc492b30220547f23526b4fcdd8dc74', 'd783bbe6c92c15a241eb78d0b25bca5e7c00f60799ce82f6df8b1d3ee7a202f6', 'a6dcc904fc3e9daae008f72de7e83ffadcd39055d557621b9cdf06baea0e83ac', '642a4ec0ad6ad4ea659e84330e34006c767ca029203446cb64a17c151fefdb01']
+(ii) B shape=(5044, 24192) dtype=uint8 nonzero=53059359 max=2
+(ii) my leads: distinct=True min=0 max=14232 all_leading_coeff_1=True
+(ii) my leads == body.grade_pivot_leads: True
+(ii) S=B[sorted rows][:, sorted leads] : unit diagonal=True strictly-lower zero=True upper nonzeros=8450637
+(ii) own GF(3) forward elimination on lead-column minor: rank=5044 of 5044 (0.4s) -> rank(B)>=rank(minor)=5044, rank(B)<=rows=5044 => rank(B)=5044
+(iii) coefficient list: n=3317 pivots distinct=True in range=True coeffs in {1,2}=True
+(iii) coefficient list ordered by strictly increasing lead: True
+(iii) sum_i c_i*B[i] : support=16254
+(iii) packed sha256 = 648696895595f479b6e2ccb65332589cf8a1a3bf4cf3f92be37e7910f72b79e6  expected residual_receipt.sha256=648696895595f479b6e2ccb65332589cf8a1a3bf4cf3f92be37e7910f72b79e6  match=True  (body says True)
+(iii) dense  sha256 = 5503afc98809a92f5734e8b1ac198b60eef33d9c4751658c79ad6c3927884134  expected residual_sha256=5503afc98809a92f5734e8b1ac198b60eef33d9c4751658c79ad6c3927884134  match=True  (body says True)
+(iii) own reduction: remainder support=0 n_coeffs=3317 same ordered list as body=True
+(iv) remainder blob: bytes=6048 all_zero=True body.remainder_support=0 body.remainder_packed_support=[]
+(iv) sha256(zero 6048 bytes) = 564cbfafc869a8c6eb761a392caa5e792b546bf577af7fe808177b2fdf13cbb0  == expected remainder sha: True
+elapsed 3.3s
+THIRD_LEG_RESULT: AGREE
