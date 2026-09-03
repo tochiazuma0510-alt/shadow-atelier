@@ -17236,3 +17236,30 @@ single transport repair required before continuation; it does not count the
   unchanged.  No fresh grade-two residual, complete first rung,
   order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
   Ihara witness is declared.
+
+### Delta 414 (2026-09-03): external-owner v10 passes its compiler and wire interop gate
+
+- The sole bounded Task612 GHA campaign completed **success**: run
+  `33714077799`, head `9455b87af3d8bfaa8e7d44c08314868dd66e07d9`,
+  job `100519462958`, artifact `9877883277`.  The artifact was downloaded
+  outside the repository and its raw log, parsed report and zero exit receipt
+  were inspected.  The report records strict C11 compilation by
+  `/usr/bin/cc`, `interoperability=PASS`, `static_source=PASS`, exact
+  five-stream image, suffix-resume, cap and poison-path success, all four
+  semantic-mutation rejections, and all four clean resume controls.
+- This closes the v10 **compiler/wire/transactional-fixture** gate.  The run
+  deliberately used only 16 fixture offers and 3 acceptances and continues
+  to declare `production=false`, `verified=false`, and rank-8059 grade one
+  out of scope.  It is therefore a usable later-grade packed backend, not a
+  completed grade-two decision and not a new mathematical numerator.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta413, the packed service required after
+  the selected grade-one update has cleared its last implementation gate;
+  the next active mathematical/computational gate is still the authenticated
+  Task601 selected SLP followed by the fresh precision-two residual.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No complete first rung, order-54432 solution, full-Q0
+  correction, compatible cofinal lift, fake or Ihara witness is declared.

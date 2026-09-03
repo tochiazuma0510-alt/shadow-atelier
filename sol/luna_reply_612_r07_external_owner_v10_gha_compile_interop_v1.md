@@ -79,3 +79,43 @@ READY_FOR_ROOT_COMMIT_AND_ONE_BOUNDED_GHA_CAMPAIGN: YES
 PRODUCTION: false
 verified: false
 ```
+
+## Root launch and execution receipt
+
+The one authorized bounded campaign was launched and completed successfully.
+
+| field | value |
+|---|---|
+| workflow run | `33714077799` |
+| head SHA | `9455b87af3d8bfaa8e7d44c08314868dd66e07d9` |
+| job | `100519462958` / `strict-compile-interop` |
+| conclusion | `success` |
+| artifact ID | `9877883277` |
+| artifact name | `task612-external-owner-v10-interop-33714077799-1` |
+
+The downloaded artifact was inspected outside the repository.  Its receipts
+are:
+
+| file | bytes | SHA-256 |
+|---|---:|---|
+| `checker-exit.txt` | 2 | `9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa` |
+| `checker.log` | 2,826 | `50dfde6223d3c1af43c8d7a2f3077480a2e4bb06ac95d5ad2f9c8b3d27ac86ad` |
+| `report.json` | 3,302 | `1f6c28705406bde916e1180028a385f34276d9802c49890fa9f11449131cf9c6` |
+
+`checker-exit.txt` is exactly zero.  The parsed report records compiler
+`/usr/bin/cc`, strict C11 compilation with `-Wall -Wextra -Werror
+-pedantic`, `interoperability=PASS`, `static_source=PASS`, five-stream image
+`PASS`, suffix resume `PASS`, all cap branches closing cleanly, all four
+semantic mutations rejected under their exact names, and all four clean
+resume controls accepted.  The compiled fixture completed 16 offers with 3
+acceptances in 1.954765 seconds.  It continues to state
+`production=false`, `verified=false`, and
+`grade1_rank_8059_adapter=OUT_OF_SCOPE`.
+
+```text
+TASK612_BOUNDED_GHA_INTEROP: PASS
+RUN_ID: 33714077799
+HEAD_SHA: 9455b87af3d8bfaa8e7d44c08314868dd66e07d9
+PRODUCTION: false
+verified: false
+```
