@@ -36,7 +36,7 @@ jobs:
     timeout-minutes: 60
     env:
       GH_TOKEN: ${{ github.token }}
-      IDS: ${{ github.event.inputs.artifact_ids || '9875839905 9875840260 9865061266 9865062076 9865238399 9865242284 9865193269 9865239848 9865238843 9865242984 9865193905 9865240270 9875030711' }}
+      IDS: ${{ github.event.inputs.artifact_ids || '9877012663 9877012923' }}
       TAG: ${{ github.event.inputs.release_tag || 'archive-gha-checkpoints' }}
     steps:
       - name: Download, hash and upload
