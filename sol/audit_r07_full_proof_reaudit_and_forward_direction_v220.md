@@ -17774,3 +17774,80 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No fresh residual, grade-two decision, complete first rung,
   full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 427 (2026-09-03): explicit witnesses and complete presentations are dovetailed across the remaining grades
+
+- V479 separates the two products needed after a grade-`d` MEMBER.  The
+  exact selected word `C_d` alone determines the representative-dependent
+  fresh residual `rho_(d+1)`; independently, the exhausted seed/four-actor
+  transition presentation `P_d` determines the complete legal image at the
+  next grade.
+  Neither construction consumes the other's output, so they may execute in
+  parallel and meet only at the grade-`d+1` membership join.
+- The v470 conjugate-Fox formula and complete eleven-endpoint signature are
+  identities in the fixed first-rung group algebra before truncation.  V479
+  therefore extends their bounded explicit evaluator to every remaining
+  first-rung grade without replacing the noncommutative source graph.  The
+  exact fresh-residual lower/top widths for grades 2 through 6 are
+  `32260/48384`, `80644/56448`, `137092/48384`, `185476/24192`, and
+  `209668/8064`; their packed tops are 12096, 14112, 12096, 6048 and 2016
+  bytes.
+- Independent Sol(max) Task641 returned **PASS** on v479, 12,280 bytes,
+  SHA-256 `df6850c9...b22986`.  Its 12,498-byte reply has SHA-256
+  `498df880...adddf7`.  It confirms in particular that an early targeted
+  v474 MEMBER supplies an explicit selected update but is not a complete
+  transition presentation for the following grade.
+- Task641 also closes a concrete Task640 efficiency question.  Because the
+  immutable Task625 graph-to-leaf equation has already been recomputed by
+  its exact independent checker and accepted by Task639, the downstream
+  executables need not duplicate that thousand-line traversal.  The Task640
+  workflow must rerun and byte-compare the exact parent checker; both new
+  executables must still independently parse `R07LEAF1`, reconstruct the
+  prior root/order, and recompute all endpoint, all-seven, lower, top and
+  packing arithmetic.  The source graph remains bound as witness, and no
+  changed-quotient or cofinal reuse is licensed.  Task643 records this narrow
+  amendment and separately forbids the old checker's transitive shared-floor
+  import.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta426, no result has been counted early;
+  the advance is that after each future MEMBER the explicit next residual
+  and the complete next presentation no longer form an unnecessary serial
+  chain.  Task640 remains the immediate numerator-bearing computation.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, later-grade MEMBER, order-54,432 solution,
+  full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 428 (2026-09-03): the targeted primal/dual decision generalizes to every first-rung grade
+
+- Independent Sol(max) Task642 returned **GENERALIZES**, 19,930 bytes,
+  SHA-256 `7dacfaab...c98b24`.  V474's connection-kernel identity, four dual
+  actor-orbit criterion, raw-word transpose convention and strict-rank CEGAR
+  termination do not use degree two or the number 8,059 essentially.
+- At fresh grade `e`, with preceding complete occurrence rank `r_(e-1)`, the
+  exact image is
+  `M_e = g_e(ker ell_e) + sum_a B_(a,e)(H_(a,e))`.  Ordered lower-first
+  elimination supplies `Conn_e=g_e(ker ell_e)`, and the complete defect
+  roster has `44+4*r_(e-1)` origins.  A separator loop terminates, under
+  unlimited exact arithmetic, in at most `8064*h_e-s_0+1` solves.
+- The uniform theorem retains every grade-specific input: the full truncated
+  lift with quadratic negative-substitution and crossed terms, all monomials
+  coupled within each of four character blocks, PB3/PB4/exponent/auxiliary
+  gates, actual presentation rank, fresh residual, structural adjoints and
+  resource caps.  Thus later implementations change data and dimensions,
+  not the decision proof.  An early targeted MEMBER still does not certify
+  the complete transition presentation required by the next grade.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta427, grades 3--6 no longer need separate
+  new membership theorems after their two parents meet; the already audited
+  v474 scheme applies uniformly.  This removes a future paper dependency but
+  supplies no current residual or MEMBER numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, later-grade decision, order-54,432
+  solution, full A0/COMMON, compatible cofinal lift, fake or Ihara witness is
+  declared.
