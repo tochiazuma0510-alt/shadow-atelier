@@ -17930,3 +17930,34 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
   compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 431 (2026-09-03): exact parent cap binding repaired; v5 reached the full replay
+
+- Task640 v4 run/attempt `33750997558/1` crossed the corrected nested payload
+  path but stopped at the old checker's `manifest_binding`.  The accepted
+  Task625 manifest records `TASK625_ACCUMULATED_CAP=50000000`; without that
+  environment key the checker used its 2,000,000 default, below the accepted
+  replay's 2,605,954 accumulated states.  Task640 production again did not
+  start, so v4 produced no mathematical or resource result.
+- Luna Task662 added only the exact 50,000,000 cap binding to inert workflow
+  v5.  Independent Task663 returned **PASS_CAP_ONLY /
+  SAFE_TO_DISPATCH_GHA=yes**, 4,177 bytes, SHA-256
+  `6e5687e3...8b2216`.  Root removed only the inert guard and released v5 at
+  commit `392fc3080df0715b9654729d9deca532a37bc3ab`; event head is
+  `63e1565b0d0b3a7ee229ca3cf64882a2c8229f81`.
+- GHA run/attempt `33752047946/1`, job `100637599756`, passed all setup,
+  authentication, fixture and download steps and entered the full Task625
+  independent replay.  It remained active past both earlier immediate
+  connection failures.  Push run `33752017644` was skipped, so only this
+  production run is active.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta430, the parent replay is now genuinely
+  executing rather than failing at its envelope.  Task640 production and its
+  external audit still remain before a fresh rho2 exists; a later grade-two
+  `MEMBER` remains the only event that would move the numerator to `2/6`.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No rho2, grade-two decision, full A0/COMMON, compatible cofinal
+  lift, fake or Ihara witness is declared.
