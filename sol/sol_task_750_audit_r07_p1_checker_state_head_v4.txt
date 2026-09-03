@@ -1,0 +1,47 @@
+Sol(max) Task750 -- hostile finite audit of P1 checker state-head v4
+
+Role: Sol(max), code-release auditor.  Audit the implementation repair, not
+the already accepted P1 mathematics and not row-36/nonarithmetic typing.
+Do not edit implementation files, run large parents, use GHA/git, or require
+unrelated hardening.
+
+Read completely:
+
+- sol/proof_r07_p1_checker_state_head_schema_repair_v493.md
+- sol/luna_task_749_r07_p1_checker_state_head_v4.md
+- sol/luna_reply_749_r07_p1_checker_state_head_v4.md
+- crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v3.py
+- crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v4.py
+- search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py
+
+Actual motivating evidence is run/attempt 33814881435/1: all producer phases
+and join succeeded, but checker v3 rejected at `sealed_head:prepare` in 0.32 s.
+The real head schema is `d972.r07.a0.first-rung-grade1.v3.state.head`; v3
+incorrectly expected `STATE_SCHEMA + ".head"`.
+
+Audit exactly:
+
+1. v4 SHA/bytes/LF/final LF and the complete v3-to-v4 executable diff;
+2. prepare and all four block heads use the corrected literal while state-body
+   schema remains unchanged;
+3. positive fixture is independent of the checker expression and the old
+   `...v3.head` mutation is rejected;
+4. no producer import, arithmetic/receipt/CLI weakening, new shared oracle,
+   unnecessary resident copy, parallel local work, or slower production path
+   was introduced;
+5. bounded py_compile/selftest and exact counts;
+6. whether checker v4 is safe for a checker-only GHA rerun consuming the
+   original run's six receipts and five immutable Task554 parents.  Do not
+   demand a producer rebuild unless a precise dependency requires it.
+
+Reply only to:
+
+sol/sol_reply_750_audit_r07_p1_checker_state_head_v4.md
+
+End with exactly one verdict and safety token:
+
+VERDICT=PASS_P1_CHECKER_STATE_HEAD_V4_SAFE_FOR_GHA
+SAFE_TO_DISPATCH_CHECKER_ONLY_GHA=yes
+
+or a finite FAIL with exact blockers.  State `verified=false`.
+
