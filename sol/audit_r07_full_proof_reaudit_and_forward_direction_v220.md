@@ -17201,3 +17201,38 @@ single transport repair required before continuation; it does not count the
   unchanged.  No fresh grade-two residual, complete first rung,
   order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
   Ihara witness is declared.
+
+### Delta 413 (2026-09-03): the leaf-gated precision-two join is paper-audited and v10 is ready for its bounded interop run
+
+- Independent Sol(max) Task611 returned **PASS**, 9580 /
+  `4212afae...fccd92`, on v470, with no load-bearing repair.  It confirms
+  that every reached old or transition constructor terminates in conjugates
+  of the same 44 compact relators, that the sealed prior root has the same
+  literal-leaf form, and that the registered `Compose` is the ordered source
+  product.  The exact left Fox conjugate identity and the conservative
+  `44*11=484` endpoint ceiling therefore stand.
+- This is a conditional paper audit, not an execution receipt.  It authorizes
+  computing the fresh precision-two row from unique
+  `(relator, actor-path)` leaves only after the Task601 run authenticates the
+  complete selected graph and its physical transcript.  It does not delete
+  any source edge or turn the current grade-one result into a full rung.
+- Luna Task612 produced the sole bounded GHA wrapper for the independently
+  audited later-grade external owner v10: 11903 /
+  `f3b04580...a93c22`.  The wrapper pins all three Task610 source hashes,
+  runs exactly the audited checker under Python 3.13 with a 15-minute job
+  cap, rejects the honest no-compiler branch, enforces every compile/wire/
+  cap/resume/mutation field, and always uploads its raw log, parsed report
+  and exit receipt.  It is ready for the one authorized compile/interop
+  campaign; no production-grade or rank-8059 claim is attached to it.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta412, the precision-two shortcut has
+  moved from candidate to paper-audited, and the grades-two-through-six
+  packed service has moved from static audit to an executable bounded GHA
+  gate.  Neither change raises a numerator yet.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh grade-two residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
