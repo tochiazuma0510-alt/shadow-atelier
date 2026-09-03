@@ -17052,3 +17052,61 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No complete first rung, order-54432 solution, full-Q0
   correction, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 410 (2026-09-03): the first positive grade is independently regenerated and promoted
+
+- V1 run `33709557095` rebuilt all 8059 logical rows, reached lower/grade
+  ranks `1661/5044`, and passed the exact candidate basis and lead comparison,
+  but emitted no verdict: its terminal compared the NumPy remainder with raw
+  `bytes`.  Independent Task602 returned **PASS_AFTER_REPAIR**, 16570 /
+  `4c124a13...8930d`, and localized that failure outside the routing algebra.
+  It also specified four narrow package gates: a truthful lower-companion
+  fixture, explicit block exhaustion, first-nonzero search without a full
+  index array, and post-route/pre-verdict resource checks.
+- Luna Task604 made exactly those five repairs in versioned v2.  Root reran
+  `py_compile` and the seven real bounded fixtures.  Checker v2 is 27778 /
+  `a0504ae6...008e3`; reply is 1436 / `3e1961bd...e6c03`.  Exact commit
+  `13529ad947b82062bfa12e83107cb19ef303de6b` was pushed with the registered
+  fire marker.
+- GHA run `33710955262`, job `100510107151`, completed SUCCESS in 7m06s; the
+  independent calculation reports 396.511583604 seconds.  Its canonical
+  verdict has cursor 8059, lower offers/rank `2014/1661`, grade offers/rank
+  `6398/5044`, basis `b562c980...ff069d`, lead-list
+  `04c57e3b...c8f6faf`, coefficient count 3317 and coefficient digest
+  `c0aa1caf...67c3a`.  It independently matches packed/dense residuals
+  `64869689...b79e6` / `5503afc9...84134` and obtains the exact zero
+  remainder `564cbfaf...13cbb0`.  The four sealed block digests and prepare
+  digest `1f191d88...93c865` also match.
+- Immutable artifact IDs are verdict `9877012663` (archive 887 bytes) and
+  logs `9877012923` (archive 1142 bytes).  The extracted canonical verdict is
+  1318 bytes with SHA `47dfa455...55509`; replay log is 3166 bytes with SHA
+  `320f08ec...42d28`.  The verdict deliberately says `cross_checked:false`
+  and `verified:false`; it cannot promote itself.
+- Independent Sol(max) Task606 returned **PASS**, 10961 /
+  `ed939415...014a9`, on the exact launched v2.  It confirms that the v1-to-v2
+  delta contains all five Task602 repairs and no change to group, affine,
+  Fourier, physical aggregation, row order, GF3 owner, target or
+  reconstruction arithmetic.  Combining this audit, the immutable successful
+  receipt and the prior exact-file replay meets the fixed evidence rule.
+- Therefore the registered grade-one residual is now **MEMBER of the complete
+  registered lower-first 8059-row physical span, 1/6 cross-checked**.  This is
+  the first numerator change in the post-2016 first rung.  It is not Lean
+  verified and does not by itself supply the selected source word.
+- Independently, Sol(max) Task605 returned **PASS**, 10624 /
+  `dc69b814...18f916`, on v467's adjoint Fox replay.  Thus, once the selected
+  source SLP is extracted, its current-quotient eleven-occurrence image and
+  fresh grade-two residual can be evaluated by reverse DAG coefficient
+  propagation without flattening the ordered witness or retaining one ambient
+  row per SLP node.  Task601 remains under repair and has not been dispatched.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, but its first order-2016-to-54432 rung advances
+  from **0/6 to 1/6 cross-checked**.  Relative to Delta409, grade one is no
+  longer a candidate or a running gate; the active constructive continuation
+  is the selected SLP (C_1), followed by its fresh grade-two residual and
+  the remaining five MEMBER tests.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No complete first rung, order-54432 solution, second six-grade
+  rung, full-Q0 correction, compatible cofinal lift, fake or Ihara witness is
+  declared.
