@@ -18017,3 +18017,33 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
   compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 434 (2026-09-03): lossless lazy P1 representation removes the dense-family dependency
+
+- Sol(max) Task667 returned **PASS_LAZY_P1 / SAFE_TO_IMPLEMENT=yes**, 21,106
+  bytes, SHA-256 `cd6391f7...fd535`.  The complete 8,059-row precision-one
+  presentation can be read losslessly from typed old/new Task554 blob slices;
+  no resident `8059 x 96776` dense or packed assembled family is
+  mathematically required.
+- V480 proves coordinatewise equality with the old dense assembly.  An old
+  row consists of its owning 6,048-coordinate degree-zero block, its full
+  72,576-coordinate four-character degree-one companion and eight
+  auxiliaries; a new row has only its owning 18,144-coordinate degree-one
+  block.  The exact lazy backing is 67,011,332 bytes, avoiding a duplicate
+  194,979,446-byte packed or 779,917,784-byte dense family.
+- The shortening is a storage/interface theorem, not a waiver: all 8,059
+  global leads and lift truncations, 44 seed plus 32,236 actor equations,
+  DAG/scales, connection ancestry and independent replay remain required.
+  Task647 section 3.4 is corrected to call `96776` the full source
+  precision-one width (`24192+72576+8`), not “lower/auxiliary”; the physical
+  pair remains widths `32260` and `48384`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta433, the next-grade implementation no
+  longer depends on materializing a huge duplicate presentation matrix, but
+  no residual or MEMBER numerator is counted from the paper identity.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No grade-two terminal, full A0/COMMON, compatible cofinal lift,
+  fake or Ihara witness is declared.
