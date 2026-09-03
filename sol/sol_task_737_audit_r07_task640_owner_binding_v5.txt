@@ -1,0 +1,38 @@
+Role: Sol(max), independent hostile mathematical/code auditor.
+
+Audit only the finite A0 v4 -> v5 owner-binding repair.  Do not edit implementation,
+workflow, or any file other than the designated reply.
+
+Inputs:
+
+- sol/proof_r07_task640_v10_missing_owner_binding_v488.md
+- search/d972_r07_a0_fresh_precision2_endpoint_signature_v4.py
+- search/d972_r07_a0_fresh_precision2_endpoint_signature_v5.py
+- sol/luna_reply_735_r07_task640_owner_binding_v5.md
+- search/d972_r07_task640_fresh_endpoint_independent_checker_v4.py
+- search/d972_r07_grade2_explicit_v12f.py
+
+Required checks, first to last:
+
+1. Prove mechanically that the only executable v4 -> v5 change is
+   `validate_q3_literal_owner(q3)` ->
+   `module.validate_q3_literal_owner(q3)`; a comment-only difference is allowed.
+2. Confirm that `module` is exactly the authenticated/pinned v12f module supplied by
+   the existing payload registry and that v12f exports the named callable with the
+   expected one-argument contract.  Reject any global fallback or altered pin.
+3. Run py_compile and the bounded v5 SELFTEST.  Confirm it neither launches the real
+   endpoint build nor widens the pre-registered universe.
+4. Check protocol compatibility with the already accepted independent checker v4:
+   marker, payload names, result schema, and all mathematical assertions must be
+   unchanged.
+5. Inspect for any new dense allocation, full-boundary reconstruction, concurrency,
+   hidden retry, or unnecessary slow path.  This is a one-call binding audit, not a
+   request for enhancements or refactoring.
+6. Return one verdict:
+   PASS_A0_OWNER_BINDING_V5_SAFE_FOR_GHA, PASS_WITH_FINITE_TEXT_REPAIR, or FAIL.
+   State exact bytes/LF/final-LF/SHA256 for both audited v5 and your reply, commands,
+   limitations, and `verified=false` unless Lean was actually used.
+
+Reply only to:
+
+sol/sol_reply_737_audit_r07_task640_owner_binding_v5.md
