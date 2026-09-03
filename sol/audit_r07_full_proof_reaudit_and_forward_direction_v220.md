@@ -17851,3 +17851,49 @@ single transport repair required before continuation; it does not count the
   unchanged.  No fresh residual, later-grade decision, order-54,432
   solution, full A0/COMMON, compatible cofinal lift, fake or Ihara witness is
   declared.
+
+### Delta 429 (2026-09-03): the fresh precision-two residual consumer is released and running
+
+- Task647 fixed the exact post-Task640 contract.  A fresh accepted `rho2` is
+  the question for the v474 grade-two owner, not a numerator by itself.  Only
+  an independently accepted grade-two `MEMBER` changes the first-rung count
+  from `1/6` to `2/6`; `NONMEMBER` kills this selected witness branch while
+  leaving the count `1/6`.  The 37,363-byte contract has SHA-256
+  `def1be12...e5cfb` and verdict `READY_FOR_LUNA_CONTRACT`.
+- Tasks646, 649 and 652 rejected three successive release candidates for
+  finite live-fixture defects.  Tasks648, 651 and 654 closed exact parent
+  typing/receipt names, live ancestry binding, occurrence prefix order,
+  packing roundtrip, and the negative inverse choice.  The terminal Sol(max)
+  Task655 audit returned **PASS / SAFE_TO_DISPATCH_GHA=yes**, 4,503 bytes,
+  SHA-256 `78227745...575f0`; all five charged source mutations red-lit.
+- The audited inert workflow SHA-256 was `4d76e057...15f39`.  Root removed
+  only its `false &&` guard, giving released workflow SHA-256
+  `f0dabf6a...c8ac4`.  The exact release/event head is
+  `288c55af9f5cf30d4a58278680ec56ed2f4a51d7`.
+- GHA run/attempt `33749395427/1`, job `100629227826`, is the authorized
+  Task640 production run.  At this delta it is in progress.  Checkout,
+  source-pin authentication, serial fixtures and Task625 service
+  authentication passed before the accepted parent download began.  The
+  same-head push run `33749352446` was skipped, so no duplicate calculation
+  is running.
+- In parallel, the future grade-two presentation input was service-fixed from
+  Task554 run `33677346616/1`, head `22c6dddb...e276`: prepare artifact
+  `9865061266` (204,360,988 archive bytes) and block artifacts
+  `9865238399`, `9865242284`, `9865193269`, `9865239848` (81,729,645;
+  82,259,824; 82,200,189; 82,266,526 bytes) are unexpired and bind the five
+  accepted state-body hashes in Task647.  Task650/653 produced only a
+  fail-closed pre-join/partial structural scaffold and honestly returned
+  `NOT_READY`; it is not counted as a completed `P_1` ingest or grade-two
+  owner.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta428, the immediate fresh-rho2 computation
+  has moved from audited design to one authorized GHA run.  Its output must
+  still pass an external artifact audit and then the separate v474
+  MEMBER/NONMEMBER calculation before the numerator can change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, complete first rung,
+  order-54,432/full-Q0 solution, full A0/COMMON, compatible cofinal lift, fake
+  or Ihara witness is declared.
