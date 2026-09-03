@@ -17431,3 +17431,300 @@ single transport repair required before continuation; it does not count the
   unchanged.  No actual selected SLP, fresh residual, complete first rung,
   order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
   Ihara witness is declared.
+
+### Delta 419 (2026-09-03): the packed run clears memory but exposes pathwise adjoint re-expansion
+
+- Root committed and pushed the Task622-approved packed release at
+  `6e0f0488e0698713317cb4f9d18a7de5e81a2316`.  GHA run/attempt
+  `33723160379/1`, job `100546373059`, passed exact checkout, executable-hash
+  preflight, fixtures and both parent downloads.  Its main step ended after
+  40 minutes 1 second and the job after 40 minutes 28 seconds.  The payload
+  upload was skipped; the checker never ran.
+- The always-uploaded log artifact is id `9882116568`, name
+  `task601-selected-slp-logs-33723160379-1`, 41,996 compressed bytes, artifact
+  digest `sha256:16aa8dec...5b463c`.  Its 449,295-byte `producer.log` has
+  SHA-256 `b322c94d...afd65` and ends with
+  `{"status":"NOT_READY","error":"UNKNOWN_RESOURCE:time"}`.
+- This run closes the previous memory diagnosis.  The complete physical route
+  finished at 349.76 seconds with all 3,317 coefficients, ranks `1661/5044`
+  and cursor 8,059; the four selected source blocks finished at 389.06
+  seconds.  During the later exact-path adjoint expansion, current RSS stayed
+  near 1,420,152,832 bytes and the recorded peak was 2,686,074,880 bytes,
+  safely below the 7-GiB gate.  At 2,399.51 seconds it had processed
+  159,383,552 states while 4,440 remained pending; the current, nonterminal
+  leaf map had only 456 entries and maximum path length 21.
+- Source inspection localizes the time blow-up: the v1 `pending.popitem()`
+  expands a `(node, exact actor path)` before all of its incoming DAG
+  coefficients have arrived, so later contributions recreate and re-expand
+  it.  V473 (7,785 bytes, SHA-256 `c402a8db...d9177eb`) proves the exact
+  replacement: accumulate modulo three in the authenticated triangular order
+  `grade descending; lower descending; character blocks descending; defects;
+  old descending`.  Every identical exact state then meets before its sole
+  expansion.  No source edge is pruned and no quotient endpoint is used to
+  identify actor words.
+- Luna Task625 (6,177 bytes, SHA-256 `d3918ac3...4d858`) is implementing this
+  schedule in a new v2 producer/checker/workflow quartet, preserving all
+  Task622 gates.  The 40-minute cap is not being enlarged as a substitute for
+  the repair.  A fresh Sol(max) static audit and one new GHA run are required.
+- The v470--v471 precision-two consumer has also been materialized as a
+  provisional inert Task623 quartet (producer/checker/workflow hashes
+  `228262c5...30b27`, `220df4ca...05f36`, `21c21994...6360b`).  Because its
+  exact Task601 parent failed, it is **not launchable or adopted**; its pins
+  and implementation still require update and independent audit after a
+  successful Task625 parent.
+- In parallel, v472 (10,407 bytes, SHA-256 `41a189bd...d8b53d`) gives a
+  candidate residual-targeted primal/dual grade-two decision: a proposed
+  physical functional is certified by finite adjoint-orbit closures, and a
+  failed functional emits an explicit primal orbit row.  Sol(max) Task624 is
+  auditing its actual `M2` typing, word order, MEMBER ancestry and Task568
+  boundary.  This paper candidate changes no numerator.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta418, the second production run has ruled
+  out the prior memory failure, preserved the completed route/source prefix,
+  and exposed one sharply localized post-route scheduling obstruction.  The
+  next numerator-bearing chain is now Task625 staged extraction, independent
+  checker, then the fresh precision-two residual; neither a partial leaf map
+  nor elapsed computation is counted.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual selected SLP, fresh residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
+
+### Delta 420 (2026-09-03): a residual-targeted exact grade-two decision is paper-closed
+
+- V472 proposed a counterexample-guided decision of one fresh
+  `rho2 in F3^48384`: solve for a physical separator against the generated
+  span; certify a successful separator by its four finite adjoint actor
+  orbits; and turn each failed pairing into an explicit primal orbit row.
+  This can stop on a result-dependent proper part of the full Task565 module.
+- Independent Sol(max) Task624 returned **TARGETED_DUAL_PAPER_GO / current
+  v472 PASS_AFTER_REPAIR**, 20579 / `e6af1524...47bc6`.  It required six
+  finite repairs: type `B_a` and the lower-dependent connection space, retain
+  raw word-labelled dual representatives separately from normalized pivots,
+  fix transpose word order, derive complete adjoints rather than sampled
+  canaries, retain full MEMBER ancestry/scales, and narrow the Task568 bypass
+  and resource accounting.
+- V474 implements all six repairs in 12755 bytes, SHA-256
+  `a0ae6687...c08c9`.  It proves
+  `M2 = span(Conn) + sum_a B_a(H_a)`, the finite dual-orbit annihilator
+  criterion, and strict counterexample-guided termination in at most
+  `48384-r0+1` separator solves.  A MEMBER terminal expands physical,
+  orbit/defect/lift and lower-connection ancestry and replays all 48,384
+  coordinates.  A NONMEMBER terminal requires connection EOF, four closed
+  adjoint-orbit transcripts and the complete defect pairings.
+- Independent Sol(max) Task626 returned **PASS**, 6645 /
+  `b05e8a7e...e3430e`.  It found no counterexample to the strict-rank step,
+  recomputed all dimensions, pair counts and packed-store bounds, and confirms
+  that Task565 is only an arithmetic specification, not a hidden full-closure
+  oracle.  There is no uniform speedup theorem: in the worst case this route
+  can be as expensive as or slower than full primal closure; every cap remains
+  `UNKNOWN_RESOURCE`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta419, the post-fresh-residual grade-two
+  decision is no longer forced through an unaccepted 1.853-GiB full-module
+  prebuild: an exact result-dependent route with both positive literal
+  ancestry and negative separating certificates is now paper-closed.  Its
+  implementation and actual advantage await the selected SLP and fresh
+  residual.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual grade-two decision, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
+
+### Delta 421 (2026-09-03): the provisional precision-two consumer is rejected before launch
+
+- Luna Task623 returned a provisional inert quartet with producer/checker/
+  workflow hashes `228262c5...30b27`, `220df4ca...05f36`, and
+  `21c21994...6360b`.  Root inspection did not adopt it: both programs expect
+  the deliberately removed `derived.states`, neither parses Task601's compact
+  `R07LEAF1` stream, and the checker's live path ends unconditionally
+  `NOT_READY` rather than recomputing a residual.
+- Independent Sol(max) Task627 returned **FAIL**.  The producer aliases eleven
+  registered occurrences to six Task565 tags with `% 6`, does not consume the
+  Task554/Task595 arguments or perform the separate Task595/Task601
+  degree-one comparisons, and seals no complete path/signature tables.  The
+  checker contains only toy arithmetic fixtures, recomputes none of the
+  32,260 lower or 48,384 top coordinates, and can never emit its PASS marker.
+  The workflow is inert and success-only, but does not fully authenticate the
+  parent checker/run and has incomplete resource gates.
+- Consequently Task623 v2 is **not launchable, not a payload consumer, and not
+  a v220 numerator**.  Its repair is a new implementation, not removal of the
+  final `NOT_READY` line.  The exact seven-part repair list is fixed in
+  `sol/sol_reply_627_audit_r07_task623_endpoint_consumer_v2.md`: successful
+  staged parent pins, compact-parent parser, actual canonical graph replay,
+  eleven real contexts/trie, degree-one/rho2 receipt gates, full independent
+  checker, and production-path fixtures/resources.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta420, no mathematical route was lost;
+  an inadequate downstream implementation was stopped before commit or GHA.
+  The critical path stays Task625 selected-SLP extraction, followed by a new
+  Task627-compliant precision-two consumer and then the paper-closed v474
+  targeted grade-two decision.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
+
+### Delta 422 (2026-09-03): the staged exact selected-SLP release is paper- and code-closed and running on GHA
+
+- V473 replaced the pathwise `pending.popitem()` recurrence by the exact
+  triangular `G,L,B,D,O` staged adjoint: all contributions to one
+  `(node, exact actor word)` meet modulo three before that state is expanded.
+  Sol(max) Task628 found only a control-byte serialization defect and a
+  state-edge-count wording ambiguity.  Repaired v475 is 8,253 bytes,
+  SHA-256 `757ffab5...48148e`; Task629 returned **PASS** at 4,103 bytes,
+  SHA-256 `581a6242...dea90`.
+- Luna Task625 implemented a new producer, independent checker and inert
+  workflow.  Sol(max) Task631 found no mathematical or routing defect and
+  required exactly four finite production-path repairs: one checked
+  outgoing-edge batch per active node, direct exact-tuple leaf accumulation,
+  removal of a redundant canonical-product tuple copy, and inclusion of the
+  exact `manifest.json` bytes in both durable caps.
+- Luna Task632 made only those R1--R4 repairs.  The final producer/checker/
+  workflow/reply hashes are respectively
+  `ce036c4a...8fba0a`, `8c3dd039...787f9`,
+  `d5f724eb...e6109`, and `6ef38b64...8ab8`.  Root reran serial
+  `py_compile`, both nine-class selftests, YAML parsing, exact hash pins and
+  whitespace checks.  The two-path fixture records two provider calls but
+  four multiplicity-counted state-edge traversals, and the manifest fixture
+  accepts the exact cap and rejects one byte above it.
+- Independent Sol(max) Task634 returned **PASS**, 9,172 bytes, SHA-256
+  `ea8ecc3a...3fa95`, on those exact files.  It found no remaining finite
+  launch blocker; result-dependent time/path/leaf sizes remain honest
+  `UNKNOWN_RESOURCE` risks rather than negative mathematics.
+- Root committed and pushed the exact release at
+  `c4ae5094800d4acb812eefb21820b9998afc3804`.  GHA run/attempt
+  `33732940935/1`, job `100576830812`, authenticated the checkout and all
+  executable hashes, passed both fixtures, and downloaded the exact
+  Task554/Task595 parents.  At this delta it is inside the serial
+  producer/checker step; no success artifact or payload is yet counted.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta419, the identified post-route
+  re-expansion obstruction and every finite static release gate are closed.
+  The sole numerator-bearing gate on this branch is now the actual Task632
+  producer/checker terminal; a partial run, log, or static PASS changes no
+  numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual selected SLP, fresh residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
+
+### Delta 423 (2026-09-03): the staged run removes the 159-million re-expansion but meets a cumulative-work cap
+
+- GHA `33732940935/1`, job `100576830812`, ended after 7 minutes 52
+  seconds; its main step ran 7 minutes 30 seconds.  The producer completed
+  the exact route at 374.86 seconds and all four selected source copies at
+  416.67 seconds.  It then completed the physical-grade, physical-lower,
+  four character-block and defect stages by 448.46 seconds.
+- Across those completed staged-adjoint records it expanded only 11,652
+  exact states and made 5,391,606 multiplicity-counted state-edge
+  traversals, versus the 159,383,552 premature expansions seen before the
+  v475 schedule.  Peak RSS was 2,699,411,456 bytes, current RSS about 1.36
+  GiB, maximum simultaneous live entries 8,356, interned actor paths 29,
+  and durable data 231,680,287 bytes.  Thus neither the old re-expansion,
+  memory, durable storage, time, nor path population caused this terminal.
+- The completed stages used 1,812,080 cumulative new-state insertions.  The
+  following old stage crossed the workflow's separate fixed count
+  2,000,000 and returned exactly
+  `UNKNOWN_RESOURCE:staged_state_cap`.  No payload was published and the
+  checker did not run.  This is a work-counter exhaustion, not NONMEMBER or
+  an inconsistent selected word.
+- The always-uploaded log artifact is id `9884845034`, digest
+  `sha256:44429faf...bdfdf3`.  Its 4,534-byte `producer.log` has SHA-256
+  `e5c86f07...b68f37`.  Luna Task637 is preparing a versioned workflow-only
+  successor which raises only the cumulative insertion cap to 50,000,000;
+  the producer/checker, 7-GiB RSS/durable caps, path cap and all clocks stay
+  unchanged.  Sol(max) Task638 is independently auditing that exact finite
+  rerun decision.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta422, the production run supplies strong
+  actual evidence that v475 solved the former algorithmic blow-up, but an
+  honest resource terminal supplies no selected-SLP receipt and changes no
+  numerator.  The immediate gate is the cap-only v3 rerun, not another DAG
+  redesign.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, complete first rung, order-54432 solution,
+  full-Q0 correction, compatible cofinal lift, fake or Ihara witness is
+  declared.
+
+### Delta 424 (2026-09-03): the eleven-endpoint/six-row consumer interface is paper-closed
+
+- Sol(max) Task630 returned a semantic-contract **PASS**, 32,029 bytes,
+  SHA-256 `d64122da...dd1`.  The actual interpreter has eleven ordered typed
+  endpoint slots: six E3 hexagon occurrences followed by five E4 pentagon
+  occurrences, with coordinate materialization
+  `(0,1,2,3,0,4,5,6,7,8,9)`.  The current v437/v451 row is nevertheless the
+  explicit PB4-dropped two-hexagon projection.  After authenticating all
+  eleven slots, the correct operation is typed restriction to ordinals 1--6,
+  not `% 6` and not an E4-to-E3 action adapter.
+- V476 proved that grouping by the finer complete eleven-endpoint signature
+  preserves the six H-row Fox sum, while retaining the five P endpoints as
+  all-seven/future-B4 receipts and making no P-zero claim.  Tasks633 and 635
+  exposed two successive notation defects: a control byte/full-group-ring
+  ambiguity, then confusion of the bare six-dimensional kernel grade with
+  its induced 12,096-dimensional `Q1` module.
+- V478 fixes the type as
+  `G2 = k[Q1] tensor (I_V^2/I_V^3)`, distinguishes the full, truncated and
+  grade-two occurrence dimensions 653,184 / 241,920 / 145,152, and retains
+  the 241,928 source-with-auxiliary and 32,260 / 48,384 physical widths.  It
+  is 5,131 bytes, SHA-256 `a7e5df7f...f1e72b`.  Independent Sol(max) Task636
+  returned **PASS**, 7,089 bytes, SHA-256 `2cdecfcb...52c79`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta421, the rejected placeholder consumer
+  now has a paper-closed exact semantic replacement: authenticate all eleven
+  endpoints and the direct all-seven canary, restrict to the six H slots,
+  compare all 32,260 lower coordinates, and only then emit the fresh
+  48,384-trit residual.  Implementation remains inert until a successful
+  Task625 payload supplies its result-dependent pins.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual fresh residual, grade-two decision, complete first
+  rung, full PB4/A0 solution, compatible cofinal lift, fake or Ihara witness
+  is declared.
+
+### Delta 425 (2026-09-03): the cumulative-cap-only successor is independently cleared and launched
+
+- Luna Task637 produced a new v3 workflow without changing either audited
+  Python executable.  Relative to v2 its only non-label production delta is
+  `TASK625_ACCUMULATED_CAP=50000000`; the five other replacements are the
+  versioned workflow name/path, fire marker and two artifact labels.  The
+  6,078-byte workflow has SHA-256 `736f5f86...dd0f9f`; its 3,332-byte reply
+  has SHA-256 `ff54819b...149f91`.  Root reran YAML parsing, both serial
+  selftests and the exact six-replacement diff; all passed.
+- Sol(max) Task638 independently proved from the producer code and telemetry
+  that run `33732940935` hit the cumulative insertion guard: even under the
+  maximal no-pop increase its live count before failure was below 196,276,
+  far under 2,000,000.  It inspected the exact final workflow and returned
+  **PASS_CAP_ONLY_RERUN**, 9,496 bytes, SHA-256
+  `8a6edf71...e866059`, authorizing that workflow without a Python change.
+- Root committed and pushed the exact v3 release at
+  `b401d724bbdbef8cf67e96def22fc51c014ab546`.  GHA run/attempt
+  `33734643746/1` is the authorized cap-only rerun.  At this delta it is in
+  progress; no payload or checker verdict is yet counted.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta423 the sole observed resource guard has
+  a versioned, independently audited rerun in flight.  Only a sealed producer
+  payload plus its independent checker can advance the explicit-lift chain.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No selected-SLP result, fresh residual, complete first rung,
+  full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
