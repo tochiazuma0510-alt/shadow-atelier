@@ -17341,3 +17341,93 @@ single transport repair required before continuation; it does not count the
   unchanged.  No actual selected SLP, fresh residual, complete first rung,
   order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
   Ihara witness is declared.
+
+### Delta 417 (2026-09-03): the first selected-SLP run is resource-terminal and its bounded repair is adjudicated
+
+- Root committed and pushed the Task601 release quartet at
+  `69e95d7fc50f04691a41417c495e27f7064f470d`.  GHA run `33717064826`, job
+  `100528381356`, passed its exact-hash preflight, fixtures and parent
+  downloads, then ran the producer for 421 seconds and terminated with
+  `MemoryError`.  The checker never ran and no payload artifact exists.  The
+  always-uploaded log artifact is `9879043599`, name
+  `task601-selected-slp-logs-33717064826-1`; its 279-byte `producer.log` has
+  SHA `912596f1...21897` and contains only the outer line-234 traceback.
+- This terminal is `UNKNOWN_RESOURCE`, not NONMEMBER and not evidence against
+  the already cross-checked grade-one numerator.  Its timing is just after
+  the independently measured approximately 396.5-second all-8059 route, so
+  the failure is localized to post-route materialization/lifetime design,
+  while the exact allocating expression is not recorded.
+- Independent Sol(max) Task618 returned **PASS_REPAIR_SPEC**, 12980 /
+  `e97c2cfc...bdcc88`.  It licenses deleting only the quotient-specific
+  `derived.states` history and copied child dictionaries.  The least
+  canonical source graph, all physical transcripts, all 8059 offers, ranks
+  `1661/5044`, 3317 coefficients, three roots, complete exact-path leaf
+  result and standalone full reroute remain mandatory.
+- The exact-path result is retained as a compact sorted leaf receipt and is
+  independently rederived by the checker.  Physical edges/rows are kept in
+  one packed representation, block bodies and owners are consumed one
+  character at a time, expected transcript equality is checked by exact
+  cursors, and phase/RSS diagnostics make any second resource terminal
+  localizable.  The existing 60-minute/8-GiB envelope is not enlarged.
+- Luna Task619 is implementing precisely this bounded representation repair.
+  A fresh Sol(max) static audit is required before the single authorized GHA
+  rerun.  The already written fresh-precision-two consumer task remains
+  unlaunchable because it was pinned to the failed Task601 parent; it will be
+  versioned against a successful parent rather than treating this run as an
+  accepted selected SLP.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta416, the first production attempt has
+  produced a localized resource terminal and an independently adjudicated
+  finite repair specification, but no selected source payload or fresh
+  precision-two residual.  The active critical path is now Task619 static
+  acceptance, one rerun, then the v471 endpoint-signature consumer.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No complete first rung, order-54432 solution, full-Q0
+  correction, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 418 (2026-09-03): the packed selected-SLP repair passes its final static release audit
+
+- Luna Task619 replaced the post-route multiplicity without changing the
+  route.  Physical edges and rows now have one packed representation;
+  producer and checker block bodies/owners have character-wise lifetimes;
+  checker transcript equality uses exact online cursors; and the unneeded
+  quotient-specific `derived.states` history is absent.  The complete exact
+  leaf result remains a canonical binary receipt bound to the selected
+  ancestry digest and is independently rederived byte for byte.
+- Sol(max) Task620 returned **PASS_AFTER_REPAIR**, 15314 /
+  `3741a802...969552d`.  Its mathematical, leaf, block-lifetime and complete
+  8059-offer cursor audits all passed.  It isolated only four finite release
+  items: vectorize one producer byte scan, restrict the preliminary lower
+  recurrence replay to the declared least closure, reuse the already scanned
+  basis view, and add negative unfinished-cursor/forbidden-state fixtures.
+- Luna Task621 made exactly those repairs.  Root independently reran serial
+  `py_compile`, both selftests, YAML parsing, whitespace and workflow-pin
+  checks; all passed.  The checker now reports four compact-leaf mutations,
+  two forbidden-state mutations, eight false/null claim mutations, and both
+  content-mismatch and terminal-cursor-exhaustion gates.
+- The final producer/checker/workflow/reply hashes are respectively
+  `cfd581f8...a0d3ff`, `09ee8153...fa86c8`,
+  `7f1b5979...2e39cd`, and `a8511edc...7f16e2`.  The workflow retains its
+  60-minute job, 8-GiB virtual/7-GiB RSS envelope, exact parents and full
+  standalone reroute; its sole new launch marker is
+  `[fire-grade1-selected-slp-v2]`.
+- Independent Sol(max) Task622 returned **PASS**, 8106 /
+  `4eaf1f92...f151e0`, on those exact files.  It found no remaining finite
+  static repair and authorizes the single Task618 production rerun.  This is
+  still a release audit, not an actual selected-SLP receipt.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta417, every finite implementation and
+  independent static gate for the bounded rerun is closed.  The sole active
+  gate is now the actual producer/checker execution; success supplies the
+  selected explicit update needed by the already paper-audited fresh
+  precision-two consumer.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual selected SLP, fresh residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.

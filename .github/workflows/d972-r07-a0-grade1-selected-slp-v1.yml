@@ -24,15 +24,15 @@ env:
   CANDIDATE_RUN_ID: "33707397894"
   CANDIDATE_RUN_ATTEMPT: "1"
   CANDIDATE_COMMIT: "93f746ad1b649796e1bc28e00ff34993498929ee"
-  PRODUCER_SHA256: 4cc5d6ccb1bfdcb441b801a4826af04bbbdc9dc7f21d6f7c860d05929e64bfe9
-  CHECKER_SHA256: 8355fda531b9de41b37df811af932352f07546d6d0ec445764fedaced2595595
-  REPLY_SHA256: f360beb5a7c70608b48683183d01af3e262e0ce4b687c0cdb5ccb48c9cb31609
+  PRODUCER_SHA256: cfd581f8a71176f9252555a94028a8482ede862ee3430098270109e52fa0d3ff
+  CHECKER_SHA256: 09ee815345e9ad2cfd80799a5bf7daf4446cda0eb3d8bc79bd7b3d9c61fa86c8
+  REPLY_SHA256: a8511edcebff406af9a3b4fa0a0b2119d46f150741178379800cb1e88b7f16e2
   V3_PRODUCER_SHA256: bf872b30149e1351762b243d590d7a1f876e048b92a053d8f9c17bba5c45bcff
 jobs:
   selected-slp:
     if: >-
       github.event_name == 'workflow_dispatch' ||
-      contains(github.event.head_commit.message, '[fire-grade1-selected-slp-v1]')
+      contains(github.event.head_commit.message, '[fire-grade1-selected-slp-v2]')
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
