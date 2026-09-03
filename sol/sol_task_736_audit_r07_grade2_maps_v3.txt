@@ -1,0 +1,47 @@
+Sol(max) Task736 -- independent finite audit of grade-two maps v3 repair
+
+Role: independent mathematics/code auditor.  Do not edit implementation,
+create a workflow, run actual emit/check, use GHA, or perform git operations.
+Write only the requested reply.
+
+1. Read in full:
+
+   - `sol/luna_task_733_r07_grade2_maps_nonphysical_coverage_v3.md`
+   - `sol/luna_reply_733_r07_grade2_maps_nonphysical_coverage_v3.md`
+   - producer/checker v2 and v3 files;
+   - Task731 accepted audit;
+   - the failed GHA fact recorded in Task733.
+
+2. Authenticate the v3 receipts:
+
+   ```text
+   producer: bytes 46179, LF 989,
+     SHA256 7d6243901ef34b5c00e56e7be517beb8775fe83aedd277b23c4ed4fb29a72b84
+   checker: bytes 49727, LF 1013,
+     SHA256 d334b3cea69a2505a5c57794cedb9f40701881bf2801757606491dcd5d6feec6
+   ```
+
+3. Confirm the only mathematical change is the correctly typed split:
+   nonphysical destination `(tag,component,monomial,psl)` uses indices
+   1/2/3, while physical `(character,block,component,monomial,psl)` uses
+   2/3/4.  Confirm source checks and all v2 map arithmetic remain unchanged,
+   and checker v3 pins the exact producer-v3 bytes.
+
+4. Ensure both live selftests feed the actual 36,288-record character-zero
+   `T_fwd(x)` through the production coverage helper and reject a mutation
+   removing a required destination monomial.  Re-run only py_compile and both
+   bounded selftests, with cache outside the repository.  Check that all prior
+   Task731 security/independence/resource properties remain intact.  Do not
+   demand unrelated hardening.
+
+5. Return exactly one verdict:
+
+   - `PASS_GRADE2_MAPS_V3_SAFE_FOR_GHA`, `SAFE_TO_DISPATCH_GHA=yes`; or
+   - `FAIL_GRADE2_MAPS_V3`, minimal finite blockers,
+     `SAFE_TO_DISPATCH_GHA=no`.
+
+   No actual map/grade/A0/fake/Ihara/Lean claim.  `verified=false`.
+
+6. Reply only to
+   `sol/sol_reply_736_audit_r07_grade2_maps_v3.md`, with exact receipts,
+   commands/results and final machine-readable verdict marker.
