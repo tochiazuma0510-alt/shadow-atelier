@@ -18219,3 +18219,45 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No fresh checker-accepted rho2, grade-two MEMBER/NONMEMBER,
   full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 440 (2026-09-03): the complete 8,059-row P1 structural ingest is cross-checked
+
+- Task707 GHA run/attempt `33763384976/1`, job `100674995708`, exact event
+  head `6d02ad2fd1607cc4eb08a7705fd5f7ae5f266301`, completed SUCCESS.  All five
+  exact run-33677346616 source artifacts authenticated and downloaded into
+  distinct roots.  The repaired producer SHA-256
+  `38fcbe3757...064d73` passed its bounded fixtures and its one actual serial
+  all-five replay in 33.754113952 seconds with measured peak RSS
+  1,700,892,672 bytes.
+- The canonical result has terminal
+  `TASK554_ALL_FIVE_P1_STRUCTURALLY_INGESTED`, old/new ranks `2014/6045`,
+  offsets `[0,505,1008,1511,2014,3523,5035,6547,8059]`, and exactly 8,059
+  distinct normalized coefficient-one global leads.  Global, local,
+  coefficient-one and empty-collision digests are respectively
+  `508db9f3...80e9`, `eb6e16ae...23a7`, `dafd43d5...2d59`, and
+  `37517e5f...b570`, matching Task699 and Task702 independently.
+- Immutable result artifact `9896475929` is 7,138 archive bytes with digest
+  `sha256:8343f9e9...68004`; logs artifact `9896476386` is 1,248 bytes with
+  digest `sha256:090b753b...03a2`.  The extracted result is 4,637 bytes / SHA
+  `9aee4170...6aa1`; its receipt is 2,237 bytes / SHA `9557e9a4...3767` and
+  binds the event head, exact producer bytes/LF/SHA, all five artifact
+  identities and the terminal counters.  Producer stderr is empty and the
+  external time receipt reports exit status zero.
+- This successful code-bound replay supplies the final F702-3 condition left
+  by Task702.  Combined with Task702's helper-independent compact census and
+  Task705's accepted finite repair audit, the complete P1 **structural ingest
+  is now cross-checked**.  The terminal truthfully keeps
+  `semantic_equations_replayed=false`, `precision2=false` and
+  `verified=false`; v482/Task709 is the next semantic gate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta439, the next-grade P1 input has advanced
+  from a running structural candidate to a code-bound, independently matched
+  8,059-row structural presentation.  No grade-two numerator is counted until
+  the componentwise semantic replay, its independent checker, fresh rho2 and
+  membership decision are complete.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No full A0/COMMON, compatible cofinal lift, fake or Ihara
+  witness is declared.
