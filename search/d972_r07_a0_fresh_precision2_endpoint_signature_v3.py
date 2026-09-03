@@ -208,6 +208,8 @@ def extend_signature(parent,letter,model,v12f):
         left=v12f.producer_unpack_element(model.rt,left_raw,block); right=v12f.producer_unpack_element(model.rt,right_raw,block)
         answer.append((kind,v12f.producer_element_blob(model.rt,quotient.mul(left,right))))
     return tuple(answer)
+def first_six_shift_gate(context,expected_shifts):
+    if tuple(context.physical_shifts)!=expected_shifts: fail('first_six_prefix_table')
 def evaluate(roots,replaced,loaded,task601,candidate,out):
     candidate_body=auth_candidate(candidate,roots)
     words_path=ROOT/'scratchpad/a0_paper_words_v1.json'
@@ -216,7 +218,7 @@ def evaluate(roots,replaced,loaded,task601,candidate,out):
     if tuple(context.aggregate_table)!=((0,0,1),(1,0,2),(2,0,1),(3,1,2),(4,1,2),(5,1,1)): fail('first_six_sign_block_table')
     gtags=context.source_word_tags(tuple(map(int,words['g760']))); identity=(kernel.grade1.floor.ID9,0,0,(0,0,0))
     expected_shifts=(identity,gtags[2],gtags[2],kernel.grade1.affine_mul(gtags[5],kernel.grade1.affine_inv(gtags[4])),gtags[5],gtags[5])
-    if tuple(context.shifts)!=expected_shifts: fail('first_six_prefix_table')
+    first_six_shift_gate(context,expected_shifts)
     _v12f,all_seven,seven_runtime=load_all_seven()
     prior=roots.get('C_<1',{}).get('terms',[]); raw_terms=prior+replaced
     reached_seeds=raw_seed_gate(raw_terms); complete=terms(raw_terms); paths=sorted({tuple(x[1]) for x in complete})
@@ -285,12 +287,18 @@ def selftest():
     digest='11'*32; good=LEAF_HEADER.pack(b'R07LEAF1',1,1,0,0,bytes.fromhex(digest),1)+LEAF_RECORD.pack(10,1,2,1)+struct.pack('<b',1)
     if parse_literal_leaves(good,digest)!=[[1,[1],2]]: fail('fixture_leaf_live')
     if raw_seed_gate([[1,[],1],[2,[],1],[2,[],2]])!=[1,2]: fail('fixture_raw_seed_before_cancel')
+    class ShiftFixture:
+        physical_shifts=((1,2),(3,4))
+    first_six_shift_gate(ShiftFixture(),((1,2),(3,4)))
+    try: first_six_shift_gate(ShiftFixture(),((1,2),(4,3)))
+    except RuntimeError: shift_mutations=1
+    else: fail('fixture_first_six_shift_mutation')
     rejected=0
     for bad in (b'X'+good[1:],good[:-1],good+bytes(1),good[:LEAF_HEADER.size]+LEAF_RECORD.pack(11,1,2,1)+struct.pack('<b',1)):
         try: parse_literal_leaves(bad,digest)
         except RuntimeError: rejected+=1
         else: fail('fixture_leaf_mutation')
-    print(json.dumps({'fixture':'PASS','actor_multiplication':'PASS','inverse_action':'PASS','coefficient_2':'PASS','occurrence_components':11,'endpoint_ceiling':484,'leaf_live_mutations':rejected,'seed_cache_bytes':10644832,'rho2_bytes':PACKED},sort_keys=True))
+    print(json.dumps({'fixture':'PASS','actor_multiplication':'PASS','inverse_action':'PASS','coefficient_2':'PASS','occurrence_components':11,'endpoint_ceiling':484,'leaf_live_mutations':rejected,'first_six_shift_mutations':shift_mutations,'seed_cache_bytes':10644832,'rho2_bytes':PACKED},sort_keys=True))
 def main():
     global started
     ap=argparse.ArgumentParser(); ap.add_argument('--state',type=Path); ap.add_argument('--candidate',type=Path); ap.add_argument('--task601',type=Path); ap.add_argument('--out',type=Path); ap.add_argument('--selftest',action='store_true'); a=ap.parse_args()

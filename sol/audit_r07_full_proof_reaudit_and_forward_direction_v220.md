@@ -18047,3 +18047,27 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No grade-two terminal, full A0/COMMON, compatible cofinal lift,
   fake or Ihara witness is declared.
+
+### Delta 435 (2026-09-03): v6 closed parent layout and exposed one stale Context field before arithmetic
+
+- Task640 v6 run/attempt `33754182010/1`, job `100644492138`, again completed
+  the full accepted Task625 replay and byte comparison, and the two canonical
+  verdict copies passed.  It then stopped before rho2 arithmetic at the sole
+  fresh-producer reference `context.shifts`; the authenticated grade1-v4
+  Context names that typed field `physical_shifts`.
+- Root Task684 records the exact run/error.  This is a finite code-interface
+  name failure: no heavy arithmetic, resource terminal, residual/checker
+  decision or upload occurred.  Task683 preregisters the one-reference repair,
+  a live field-name mutation, and an inert v7 successor; the independent
+  checker owns a distinct local Context whose `shifts` name is valid and is
+  not changed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta434, both previously observed workflow
+  envelope defects are now known closed; the next observed boundary is a
+  single producer field name before arithmetic.  No numerator is counted.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No rho2, grade-two decision, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.

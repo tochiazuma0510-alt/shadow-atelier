@@ -1,0 +1,160 @@
+name: d972-r07-a0-fresh-precision2-endpoint-v7
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - search/d972_r07_a0_fresh_precision2_endpoint_signature_v3.py
+      - search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v3.py
+      - sol/luna_reply_640_r07_fresh_precision2_endpoint_signature_v3.md
+      - .github/workflows/d972-r07-a0-fresh-precision2-endpoint-v7.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  TASK640_SECONDS: "5400"
+  TASK640_MAX_RSS: "7516192768"
+  TASK640_DURABLE_CAP: "1073741824"
+  TASK640_PATH_CAP: "2000000"
+  TASK640_TRIE_CAP: "2000000"
+  TASK640_STATE_CAP: "50000000"
+  TASK640_RECORD_CAP: "100000"
+  TASK625_ACCUMULATED_CAP: "50000000"
+  TASK625_RUN: "33734643746"
+  TASK625_ATTEMPT: "1"
+  TASK625_JOB: "100582244001"
+  TASK625_HEAD: "b401d724bbdbef8cf67e96def22fc51c014ab546"
+  TASK625_WORKFLOW: "d972-r07-a0-grade1-selected-slp-staged-v3"
+  SOURCE_RUN: "33677346616"
+  PRODUCER_SHA256: "684c629eef8100175b676a4e4762db18f67e5a99672b4107facc7dad412acfc2"
+  CHECKER_SHA256: "889b7c7753e53e9c73c5edd575443446b0e3051794d6f20356809244c57cbd32"
+  REPLY_SHA256: "a187b207f4cbf97c0b20fe28c8edd33a39f60cbdf34909a5cfba56000dd4287b"
+  PREBUILD_SHA256: "acffa38731a28d85539f765537010e6bf20f55c7f7feae0099d56c58c808ffc8"
+jobs:
+  fresh-endpoint:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-fresh-precision2-endpoint-v7]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Setup Python
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+      - name: Authenticate v7 and pinned arithmetic source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum search/d972_r07_a0_fresh_precision2_endpoint_signature_v3.py | awk '{print $1}')" = "$PRODUCER_SHA256"
+          test "$(sha256sum search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v3.py | awk '{print $1}')" = "$CHECKER_SHA256"
+          test "$(sha256sum sol/luna_reply_640_r07_fresh_precision2_endpoint_signature_v3.md | awk '{print $1}')" = "$REPLY_SHA256"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade2_prebuild_v1.py | awk '{print $1}')" = "$PREBUILD_SHA256"
+          test "$(sha256sum search/d972_r07_a0_grade1_selected_slp_v2.py | awk '{print $1}')" = "ce036c4a1a92d16a78cb8da8c16dee282a6a981889f821e6df82eaecdd8fba0a"
+          test "$(sha256sum search/check_d972_r07_a0_grade1_selected_slp_v2.py | awk '{print $1}')" = "8c3dd039368f63d62ef79694a196f73d0b626134df39673c5e48c98c7c8787f9"
+          test "$(sha256sum sol/proof_r07_selected_slp_leaf_gated_precision2_join_v470.md | awk '{print $1}')" = "b56aa15ee87b4831cc999525233cfadbe8e62cd25c0503c0c98fce3106fb2b7a"
+          test "$(sha256sum sol/sol_reply_611_audit_r07_selected_slp_leaf_gated_precision2_join_v1.md | awk '{print $1}')" = "4212afae131eda13c8d1199bd2a41ad2b232957fd8de2d565fbfe24e34fccd92"
+          test "$(sha256sum sol/proof_r07_endpoint_signature_precision2_consumer_v471.md | awk '{print $1}')" = "38d271514baf838953b6003f954be60c689771f0fd1c9fec14de1dfc55daf99f"
+          test "$(sha256sum sol/sol_reply_613_audit_r07_endpoint_signature_precision2_consumer_v1.md | awk '{print $1}')" = "04acf864fd2fd95c13880510feb5087588f3f3970418f47ed44614f5bc74f75b"
+          test "$(sha256sum sol/sol_reply_622_reaudit_r07_task601_packed_memory_release_v3.md | awk '{print $1}')" = "4eaf1f92f4ef1fdd0a7f3289175d7c8b97c5ac85714b0b368d4aa66a20f151e0"
+      - name: Run bounded serial fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+          python -B -m py_compile search/d972_r07_a0_fresh_precision2_endpoint_signature_v3.py search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v3.py
+          python -B search/d972_r07_a0_fresh_precision2_endpoint_signature_v3.py --selftest
+          python -B search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v3.py --selftest
+      - name: Authenticate exact accepted Task625 run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN" --jq '.run_attempt')" = "$TASK625_ATTEMPT"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN" --jq '.head_sha')" = "$TASK625_HEAD"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN" --jq '.conclusion')" = "success"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN" --jq '.name')" = "$TASK625_WORKFLOW"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN/jobs?filter=all" --jq '.jobs[] | select(.id == 100582244001) | .name')" = "selected-slp"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$TASK625_RUN/jobs?filter=all" --jq '.jobs[] | select(.id == 100582244001) | .conclusion')" = "success"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.id')" = "9885925239"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.name')" = "task625-grade1-selected-slp-staged-v3-33734643746-1"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.size_in_bytes')" = "50793121"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.digest')" = "sha256:ac3121f3bc1a7e2a6c267f20352e953b7343f9085015dd74e4a67e4b90129a75"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.expired')" = "false"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.workflow_run.id')" = "$TASK625_RUN"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/9885925239" --jq '.workflow_run.head_sha')" = "$TASK625_HEAD"
+      - name: Download exact accepted Task625 parent
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: task625-grade1-selected-slp-staged-v3-${{ env.TASK625_RUN }}-${{ env.TASK625_ATTEMPT }}
+          path: ${{ runner.temp }}/task625
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.TASK625_RUN }}
+      - name: Download exact Task554 source state
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: task554-grade1-v3-*-${{ env.SOURCE_RUN }}-1
+          path: ${{ runner.temp }}/task554-state
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: "33677346616"
+      - name: Download exact Task595 MEMBER candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: task595-grade1-decision-v2-candidate-33707397894-1
+          path: ${{ runner.temp }}/task595-candidate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: "33707397894"
+      - name: Rerun exact Task625 checker and compare uploaded verdict
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s "$RUNNER_TEMP/task625/task625-verdict.json"
+          python -B search/check_d972_r07_a0_grade1_selected_slp_v2.py \
+            --state "$RUNNER_TEMP/task554-state" --candidate "$RUNNER_TEMP/task595-candidate" \
+            --payload "$RUNNER_TEMP/task625/task625-payload" --out "$RUNNER_TEMP/replayed-verdict.json"
+          cmp "$RUNNER_TEMP/task625/task625-verdict.json" "$RUNNER_TEMP/replayed-verdict.json"
+          cp "$RUNNER_TEMP/task625/task625-verdict.json" "$RUNNER_TEMP/task625/task625-payload/task625-verdict.json"
+          cp "$RUNNER_TEMP/replayed-verdict.json" "$RUNNER_TEMP/task625/task625-payload/task625-replayed-verdict.json"
+      - name: Produce and independently check fresh rho2
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task640-logs"
+          ulimit -v 8388608
+          timeout --signal=TERM --kill-after=60s 45m python -B -u search/d972_r07_a0_fresh_precision2_endpoint_signature_v3.py \
+            --state "$RUNNER_TEMP/task554-state" --candidate "$RUNNER_TEMP/task595-candidate" \
+            --task601 "$RUNNER_TEMP/task625/task625-payload" --out "$RUNNER_TEMP/task640-payload" \
+            2>&1 | tee "$RUNNER_TEMP/task640-logs/producer.log"
+          timeout --signal=TERM --kill-after=60s 45m python -B -u search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v3.py \
+            --state "$RUNNER_TEMP/task554-state" --candidate "$RUNNER_TEMP/task595-candidate" \
+            --task601 "$RUNNER_TEMP/task625/task625-payload" --payload "$RUNNER_TEMP/task640-payload" \
+            --out "$RUNNER_TEMP/task640-verdict.json" 2>&1 | tee "$RUNNER_TEMP/task640-logs/checker.log"
+          grep -Fq 'R07_FRESH_PRECISION2_ENDPOINT_SIGNATURE_V3_CHECKER_PASS' "$RUNNER_TEMP/task640-verdict.json"
+      - name: Upload residual only after checker marker
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task640-fresh-rho2-v7-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/task640-payload/
+            ${{ runner.temp }}/task640-verdict.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task640-fresh-rho2-v7-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task640-logs/
+          if-no-files-found: warn
+          retention-days: 90
