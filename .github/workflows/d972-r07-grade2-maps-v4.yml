@@ -1,0 +1,220 @@
+name: d972-r07-grade2-maps-v4
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - .github/workflows/d972-r07-grade2-maps-v4.yml
+
+permissions:
+  contents: read
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  PRODUCER_PATH: search/d972_r07_grade2_forward_adjoint_maps_v3.py
+  PRODUCER_BYTES: "46179"
+  PRODUCER_SHA256: 7d6243901ef34b5c00e56e7be517beb8775fe83aedd277b23c4ed4fb29a72b84
+  CHECKER_PATH: search/check_d972_r07_grade2_forward_adjoint_maps_v4.py
+  CHECKER_BYTES: "49643"
+  CHECKER_SHA256: 7ba94ee884db49bbe42d11a84228a6bdf7c88a3918407928af90c71b65fe4a29
+  PROOF_PATH: sol/proof_r07_grade2_maps_coverage_receipt_schema_v490.md
+  PROOF_BYTES: "1412"
+  PROOF_SHA256: e322c8e5546fc51e2d65e1fc85fa988bd92ce4475b3992aaf505fdfc668f48e4
+  TASK741_REPLY_PATH: sol/luna_reply_741_r07_grade2_maps_checker_receipt_v4.md
+  TASK741_REPLY_BYTES: "2792"
+  TASK741_REPLY_SHA256: cd73e4db862f5fbbc7972232ade9f560d607f203ee0862ff13ee4e072937b3f1
+  AUDIT_PATH: sol/sol_reply_744_audit_r07_grade2_maps_checker_v4.md
+  AUDIT_BYTES: "9111"
+  AUDIT_SHA256: b1e1a6fc307df0d417fcd718efa324009204081ed58d4fe7dbe44e6934a11a7c
+
+jobs:
+  build-and-check:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-grade2-maps-v4]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+
+      - name: Strict frozen-input preflight
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(python -c 'import sys; print(f"{sys.version_info.major}.{sys.version_info.minor}")')" = "3.13"
+          check_file() {
+            local path="$1" bytes="$2" digest="$3"
+            test -f "$path"
+            test "$(wc -c < "$path")" = "$bytes"
+            test "$(sha256sum "$path" | awk '{print $1}')" = "$digest"
+            test "$(tail -c 1 "$path" | od -An -t u1 | tr -d ' ')" = "10"
+          }
+          check_file "$PRODUCER_PATH" "$PRODUCER_BYTES" "$PRODUCER_SHA256"
+          check_file "$CHECKER_PATH" "$CHECKER_BYTES" "$CHECKER_SHA256"
+          check_file "$PROOF_PATH" "$PROOF_BYTES" "$PROOF_SHA256"
+          check_file "$TASK741_REPLY_PATH" "$TASK741_REPLY_BYTES" "$TASK741_REPLY_SHA256"
+          check_file "$AUDIT_PATH" "$AUDIT_BYTES" "$AUDIT_SHA256"
+          grep -Fxq 'VERDICT=PASS_GRADE2_MAPS_CHECKER_V4_SAFE_FOR_GHA' "$AUDIT_PATH"
+          grep -Fxq 'SAFE_TO_DISPATCH_GHA=yes' "$AUDIT_PATH"
+
+      - name: Prepare fresh external paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PYTHONPYCACHEPREFIX="$RUNNER_TEMP/r07-grade2-maps-v4-pycache"
+          echo "PYTHONPYCACHEPREFIX=$PYTHONPYCACHEPREFIX" >> "$GITHUB_ENV"
+          test ! -e "$RUNNER_TEMP/r07-grade2-maps-v4"
+          test ! -e "$RUNNER_TEMP/r07-grade2-maps-v4-checker.json"
+          test ! -e "$RUNNER_TEMP/r07-grade2-maps-v4-receipt.json"
+          test ! -e "$RUNNER_TEMP/r07-grade2-maps-v4-logs"
+          mkdir -p "$PYTHONPYCACHEPREFIX" "$RUNNER_TEMP/r07-grade2-maps-v4-logs"
+
+      - name: Run bounded selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=10s 3m \
+            python -B -u "$PRODUCER_PATH" --selftest \
+            2>&1 | tee "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer-selftest.log"
+          timeout --signal=TERM --kill-after=10s 3m \
+            python -B -u "$CHECKER_PATH" --selftest \
+            2>&1 | tee "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker-selftest.log"
+          grep -Fq '"fixture": "PASS"' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer-selftest.log"
+          grep -Fq '"fixture": "PASS"' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker-selftest.log"
+          if grep -E 'Traceback|UNKNOWN_|HARD_STOP|ERROR' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer-selftest.log" "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker-selftest.log"; then
+            exit 1
+          fi
+
+      - name: Build actual sparse map artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 30m \
+            /usr/bin/time -v -o "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer-time.txt" \
+            python -B -u "$PRODUCER_PATH" \
+              --emit "$RUNNER_TEMP/r07-grade2-maps-v4" \
+            2>&1 | tee "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer.log"
+          grep -Fq 'R07_GRADE2_FORWARD_ADJOINT_MAPS_V3_CANDIDATE' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer.log"
+          if grep -E 'Traceback|UNKNOWN_|HARD_STOP|ERROR' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/producer.log"; then
+            exit 1
+          fi
+
+      - name: Authenticate producer terminal and exact roster
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/r07-grade2-maps-v4" <<'PY'
+          import json, pathlib, sys
+          root = pathlib.Path(sys.argv[1])
+          assert root.is_dir()
+          marker = 'R07_GRADE2_FORWARD_ADJOINT_MAPS_V3_CANDIDATE'
+          assert (root / 'producer.marker').read_bytes() == (marker + '\n').encode('ascii')
+          manifest_raw = (root / 'manifest.json').read_bytes()
+          manifest = json.loads(manifest_raw)
+          assert manifest_raw.endswith(b'\n')
+          assert manifest['terminal'] == marker and manifest['marker'] == marker
+          names = ['manifest.json', 'producer.marker']
+          for character in range(4):
+              for actor in range(4):
+                  names += [f'T_fwd_a{character}_t{actor}.jsonl', f'T_adj_a{character}_t{actor}.jsonl']
+              names += [f'B_fwd_a{character}.jsonl', f'B_adj_a{character}.jsonl']
+          assert manifest['table_count'] == 40 and manifest['map_count'] == 20
+          assert manifest['table_roster'] == names[2:]
+          assert manifest['output_roster'] == names
+          assert sorted(path.name for path in root.iterdir() if path.is_file()) == sorted(names)
+          for name in names[2:]:
+              data = (root / name).read_bytes()
+              assert data.endswith(b'\n')
+              eof = json.loads(data.splitlines()[-1])
+              assert set(eof) == {'body_bytes','body_sha256','count','eof'} and eof['eof'] is True
+          PY
+
+      - name: Run independent checker
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --signal=TERM --kill-after=30s 30m \
+            /usr/bin/time -v -o "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker-time.txt" \
+            python -B -u "$CHECKER_PATH" \
+              --check "$RUNNER_TEMP/r07-grade2-maps-v4" \
+              --output "$RUNNER_TEMP/r07-grade2-maps-v4-checker.json" \
+            2>&1 | tee "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker.log"
+          test -s "$RUNNER_TEMP/r07-grade2-maps-v4-checker.json"
+          grep -Fq 'R07_GRADE2_FORWARD_ADJOINT_MAPS_V4_CHECKER_PASS' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker.log"
+          if grep -E 'Traceback|UNKNOWN_|HARD_STOP|ERROR' "$RUNNER_TEMP/r07-grade2-maps-v4-logs/checker.log"; then
+            exit 1
+          fi
+
+      - name: Assert checker result and write workflow receipt
+        shell: bash
+        env:
+          EVENT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/r07-grade2-maps-v4" \
+            "$RUNNER_TEMP/r07-grade2-maps-v4-checker.json" \
+            "$RUNNER_TEMP/r07-grade2-maps-v4-receipt.json" <<'PY'
+          import hashlib, json, os, pathlib, re, sys
+          root, checker_path, receipt_path = map(pathlib.Path, sys.argv[1:])
+          manifest_path = root / 'manifest.json'
+          manifest = json.loads(manifest_path.read_bytes())
+          checker_raw = checker_path.read_bytes()
+          checker = json.loads(checker_raw)
+          assert checker_raw.endswith(b'\n')
+          assert checker['marker'] == 'R07_GRADE2_FORWARD_ADJOINT_MAPS_V4_CHECKER_PASS'
+          assert checker['terminal'] == checker['marker']
+          assert checker['tables_checked'] == 40
+          flags = checker['claim_flags']
+          expected_flags = {'independent_checker':False,'precision2':False,'A0':False,'COMMON':False,'COMPATIBLE_LIFT':False,'FAKE':False,'IHARA':False,'verified':False}
+          assert flags == expected_flags and checker['verified'] is False
+          assert manifest['claim_flags'] == expected_flags and manifest['verified'] is False
+          assert checker['entries_checked'] == manifest['rows_emitted']
+          def sha(path): return hashlib.sha256(path.read_bytes()).hexdigest()
+          def timing(path):
+              text = path.read_text(encoding='utf-8', errors='strict')
+              elapsed = re.search(r'Elapsed \(wall clock\) time.*:\s*(.+)', text)
+              rss = re.search(r'Maximum resident set size \(kbytes\):\s*(\d+)', text)
+              assert elapsed and rss
+              return {'elapsed':elapsed.group(1).strip(),'peak_rss_kbytes':int(rss.group(1))}
+          receipt = {
+              'schema':'d972.r07.grade2.forward-adjoint-maps.v4.workflow-receipt',
+              'run_id':int(os.environ['RUN_ID']), 'run_attempt':int(os.environ['RUN_ATTEMPT']),
+              'commit_sha':os.environ['EVENT_SHA'],
+              'producer':{'sha256':os.environ['PRODUCER_SHA256'],'bytes':int(os.environ['PRODUCER_BYTES'])},
+              'checker':{'sha256':os.environ['CHECKER_SHA256'],'bytes':int(os.environ['CHECKER_BYTES'])},
+              'manifest_sha256':sha(manifest_path), 'checker_result_sha256':sha(checker_path),
+              'table_count':manifest['table_count'], 'map_count':manifest['map_count'],
+              'entry_count':checker['entries_checked'],
+              'producer_reported_elapsed_seconds':manifest['elapsed_seconds'],
+              'checker_reported_elapsed_seconds':checker['elapsed_seconds'],
+              'producer_process':timing(pathlib.Path(os.environ['RUNNER_TEMP'])/'r07-grade2-maps-v4-logs/producer-time.txt'),
+              'checker_process':timing(pathlib.Path(os.environ['RUNNER_TEMP'])/'r07-grade2-maps-v4-logs/checker-time.txt'),
+              'claim_flags':expected_flags, 'GRADE2_DECISION':'NOT_RUN', 'verified':False,
+          }
+          receipt_path.write_text(json.dumps(receipt,sort_keys=True,separators=(',',':'))+'\n', encoding='ascii')
+          PY
+
+      - name: Upload accepted map artifact and bounded logs
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: d972-r07-grade2-maps-v4-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/r07-grade2-maps-v4/
+            ${{ runner.temp }}/r07-grade2-maps-v4-checker.json
+            ${{ runner.temp }}/r07-grade2-maps-v4-receipt.json
+            ${{ runner.temp }}/r07-grade2-maps-v4-logs/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0

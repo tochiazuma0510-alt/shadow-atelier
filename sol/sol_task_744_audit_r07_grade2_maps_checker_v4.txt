@@ -1,0 +1,32 @@
+Role: Sol(max), independent narrow audit of the v490 coverage-receipt key
+repair.  Do not edit code/workflow or run the actual map build/GHA/git.
+
+Read fully:
+
+- sol/proof_r07_grade2_maps_coverage_receipt_schema_v490.md
+- search/d972_r07_grade2_forward_adjoint_maps_v3.py
+- search/check_d972_r07_grade2_forward_adjoint_maps_v3.py
+- search/check_d972_r07_grade2_forward_adjoint_maps_v4.py
+- sol/luna_reply_741_r07_grade2_maps_checker_receipt_v4.md
+- sol/sol_reply_736_audit_r07_grade2_maps_v3.md
+
+Check first to last:
+
+1. Mechanically show that the only executable checker changes are the four
+   source coverage key renames, corresponding selftest expected keys, and
+   versioned checker PASS marker.  The producer v3 path/SHA and all independent
+   arithmetic/parsing/comparisons must be unchanged.
+2. Compare v4 `verify_coverage` output field-for-field with producer v3 for
+   both nonphysical T and physical B cases.  Values and destination fields
+   must remain independent and exact.
+3. Run py_compile and bounded SELFTEST with external pycache.  Confirm the
+   live 36,288-row coverage path and malformed monomial mutation remain active.
+4. Inspect for dense allocation, new retry/concurrency/scan or unrelated slow
+   path; do not request enhancements.
+5. Return PASS_GRADE2_MAPS_CHECKER_V4_SAFE_FOR_GHA,
+   PASS_WITH_FINITE_REPAIR, or FAIL, with `SAFE_TO_DISPATCH_GHA=yes/no`, exact
+   bytes/LF/final-LF/SHA256, commands, limitations and `verified=false`.
+
+Reply only to:
+
+sol/sol_reply_744_audit_r07_grade2_maps_checker_v4.md
