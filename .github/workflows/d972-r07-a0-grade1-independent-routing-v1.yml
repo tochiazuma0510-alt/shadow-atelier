@@ -1,0 +1,119 @@
+name: d972-r07-a0-grade1-independent-routing-v1
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - crosscheck/check_d972_r07_a0_first_rung_grade1_full_routing_v1.py
+      - sol/luna_reply_599_r07_grade1_independent_full_routing_v1.md
+      - .github/workflows/d972-r07-a0-grade1-independent-routing-v1.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  TASK599_MAX_RSS: "7516192768"
+  TASK599_SECONDS: "2400"
+  SOURCE_RUN_ID: "33677346616"
+  SOURCE_RUN_ATTEMPT: "1"
+  CANDIDATE_RUN_ID: "33707397894"
+  CANDIDATE_RUN_ATTEMPT: "1"
+  CANDIDATE_COMMIT: "93f746ad1b649796e1bc28e00ff34993498929ee"
+  CHECKER_SHA256: 8e159cc262fd35d61018da4b30db45017534546f7bbe89ebd001b3dbff6286d8
+  REPLY_SHA256: 5823311daa5f5cbfd9ea6dfa186a850cef784058f8dcdcbd44984f8b9da45d15
+  V2_PRODUCER_SHA256: 5a445cf9a263c1968c004f04227d9f5bd5349e433f4dfd8776af80b1d53d9748
+  V3_PRODUCER_SHA256: bf872b30149e1351762b243d590d7a1f876e048b92a053d8f9c17bba5c45bcff
+
+jobs:
+  independent-routing:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire-grade1-independent-routing-v1]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+      - name: Authenticate checker and reply before downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$CANDIDATE_COMMIT" = "93f746ad1b649796e1bc28e00ff34993498929ee"
+          test "$SOURCE_RUN_ID" = "33677346616" && test "$SOURCE_RUN_ATTEMPT" = "1"
+          test "$CANDIDATE_RUN_ID" = "33707397894" && test "$CANDIDATE_RUN_ATTEMPT" = "1"
+          test "$(sha256sum crosscheck/check_d972_r07_a0_first_rung_grade1_full_routing_v1.py | awk '{print $1}')" = "$CHECKER_SHA256"
+          test "$(sha256sum sol/luna_reply_599_r07_grade1_independent_full_routing_v1.md | awk '{print $1}')" = "$REPLY_SHA256"
+          grep -Fq 'R07_GRADE1_FULL_ROUTING_REPLAY_V1_NOT_READY' sol/luna_reply_599_r07_grade1_independent_full_routing_v1.md
+      - name: Install pinned NumPy and run bounded selftest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+          python -B -u crosscheck/check_d972_r07_a0_first_rung_grade1_full_routing_v1.py --selftest
+      - name: Download exact source prepare
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: task554-grade1-v3-prepare-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task599-state
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Download exact source blocks
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task599-state
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Download exact Task595 candidate
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: task595-grade1-decision-v2-candidate-${{ env.CANDIDATE_RUN_ID }}-${{ env.CANDIDATE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task599-candidate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.CANDIDATE_RUN_ID }}
+      - name: Run one bounded full routing replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task599-logs"
+          ulimit -v 8388608
+          timeout --signal=TERM --kill-after=60s 45m \
+            python -B -u crosscheck/check_d972_r07_a0_first_rung_grade1_full_routing_v1.py \
+              --state "$RUNNER_TEMP/task599-state" \
+              --candidate "$RUNNER_TEMP/task599-candidate" \
+              --out "$RUNNER_TEMP/task599-verdict.json" \
+              2>&1 | tee "$RUNNER_TEMP/task599-logs/replay.log"
+          test -s "$RUNNER_TEMP/task599-verdict.json"
+          grep -Fq 'R07_GRADE1_FULL_ROUTING_REPLAY_V1_PASS' "$RUNNER_TEMP/task599-verdict.json"
+      - name: Upload independent verdict
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task599-grade1-independent-routing-verdict-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task599-verdict.json
+          if-no-files-found: error
+          retention-days: 90
+      - name: Upload replay logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task599-grade1-independent-routing-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task599-logs/
+          if-no-files-found: warn
+          retention-days: 90
