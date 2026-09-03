@@ -18132,3 +18132,44 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No rho2, grade-two terminal, full A0/COMMON, compatible
   cofinal lift, fake or Ihara witness is declared.
+
+### Delta 438 (2026-09-03): v8 stopped before arithmetic; minimal-deletion v9 accepted and launched
+
+- Task640 v8 run/attempt `33758447654/1`, job `100658504363`, exact event
+  head `ea76aad7a62a14ba19b1bb9194c9866385154270`, completed the accepted
+  Task625 parent replay in 11 minutes 51 seconds.  Before that replay ended,
+  the post-meter interface audit isolated the next deterministic producer
+  stop: the light runtime did not install callable `runtime["delete"]`, while
+  the first `ProducerAllSeven.coordinates()` call requires it.  Root cancelled
+  v8 during step 11 rather than spend the remaining bound on a run that could
+  not reach rho2 arithmetic.  No residual or checker output was produced.
+- Sol Task697 classified that boundary as `FAIL_POST_METER_API`.  Sol Task700
+  then proved that full `build_heavy()` is unnecessary: the byte/math-equal
+  deletion prefix alone builds the 59,049-entry fine table, reconstructs the
+  five marked Q0 permutations and installs the same deleter without retaining
+  the unrelated 1,469,664-state Q0 closure.  Its verdict was
+  `SAFE_TO_IMPLEMENT_MINIMAL_DELETE=yes`.
+- Luna Task701 installed only that prefix immediately after `build_light()`
+  and added typed order/callability/empty-word canaries.  The resulting
+  producer is 31,609 bytes / 383 LF lines / SHA-256
+  `8719929b...7206`.  Sol Task703 returned
+  **PASS_MINIMAL_DELETE_ONLY / SAFE_TO_DISPATCH_GHA=yes**, 4,570 bytes,
+  SHA-256 `c23d5aa...16ec5`; its reverse reconstruction, AST census and v8/v9
+  comparison found no `build_heavy()` call or unrelated arithmetic change.
+- Root released exact commit/event head
+  `3239708304a0b598cae54507ed617bee7f6a1e84`.  Task640 v9 run/attempt
+  `33761322235/1`, job `100668089672`, is live; checkout and exact source
+  authentication passed at launch receipt time.  The released workflow
+  SHA-256 is `732bd5d9...c8088`.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta437, the frozen wall contract is closed,
+  the next observed endpoint dependency is repaired by the minimal exact
+  deletion prefix, and the independently accepted v9 replacement is now
+  executing.  A fresh checker-accepted rho2 and then a grade-two `MEMBER`
+  remain necessary before the numerator can become `2/6`.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
