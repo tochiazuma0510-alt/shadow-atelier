@@ -1,0 +1,135 @@
+name: d972-r07-a0-first-rung-grade1-decision-v2-recovery
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py
+      - search/check_d972_r07_a0_first_rung_grade1_decision_probe_v2.py
+      - sol/luna_reply_595_r07_grade1_decision_probe_v2_and_gha.md
+      - .github/workflows/d972-r07-a0-first-rung-grade1-decision-v2-recovery.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  TASK595_MAX_RSS: "7516192768"
+  SOURCE_RUN_ID: "33677346616"
+  SOURCE_RUN_ATTEMPT: "1"
+  V3_PRODUCER_SHA256: bf872b30149e1351762b243d590d7a1f876e048b92a053d8f9c17bba5c45bcff
+  V2_PRODUCER_SHA256: 5a445cf9a263c1968c004f04227d9f5bd5349e433f4dfd8776af80b1d53d9748
+  V2_CHECKER_SHA256: 8d757763ff8ebd7787fef513c732a81411fdac43fb672787b028f8caedbd4696
+  REPLY_MARKER: GRADE1_DECISION_PROBE_V2_NOT_READY
+
+jobs:
+  candidate-decision:
+    name: candidate grade-one decision only
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[fire-grade1-decision-v2]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout exact candidate SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+      - name: Install pinned numpy
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+      - name: Authenticate candidate decision sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py | awk '{print $1}')" = "$V2_PRODUCER_SHA256"
+          test "$(sha256sum search/check_d972_r07_a0_first_rung_grade1_decision_probe_v2.py | awk '{print $1}')" = "$V2_CHECKER_SHA256"
+          test "$(sha256sum search/d972_r07_a0_first_rung_grade1_v3.py | awk '{print $1}')" = "$V3_PRODUCER_SHA256"
+          grep -Fq "$V3_PRODUCER_SHA256" search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py
+          grep -Fq "$REPLY_MARKER" sol/luna_reply_595_r07_grade1_decision_probe_v2_and_gha.md
+      - name: Run bounded candidate fixtures
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task595-logs"
+          python -B -m py_compile search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py search/check_d972_r07_a0_first_rung_grade1_decision_probe_v2.py
+          python -B -u search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py --fixture "$RUNNER_TEMP/task595-fixture" 2>&1 | tee "$RUNNER_TEMP/task595-logs/producer-fixture.log"
+          python -B -u search/check_d972_r07_a0_first_rung_grade1_decision_probe_v2.py 2>&1 | tee "$RUNNER_TEMP/task595-logs/checker-fixture.log"
+      - name: Download exact sealed v3 prepare
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: task554-grade1-v3-prepare-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task595-state
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Download exact four exhausted v3 blocks
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          pattern: task554-grade1-v3-state-block-*-${{ env.SOURCE_RUN_ID }}-${{ env.SOURCE_RUN_ATTEMPT }}
+          path: ${{ runner.temp }}/task595-block-inputs
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Assemble fresh candidate input
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp "$RUNNER_TEMP/task595-block-inputs/"* "$RUNNER_TEMP/task595-state/"
+          test -f "$RUNNER_TEMP/task595-state/prepare.HEAD"
+          for block in 0 1 2 3; do
+            test -f "$RUNNER_TEMP/task595-state/block-$block.HEAD"
+            test "$(find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f -name "block-$block.*.json" | wc -l)" -eq 1
+            test "$(find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f -name "block-$block-basis.*.bin" | wc -l)" -eq 1
+          done
+          test ! -e "$RUNNER_TEMP/task595-state/decision-v2.HEAD"
+      - name: Run candidate decision only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task595-logs"
+          ulimit -v 8388608
+          export TASK595_SECONDS=2400
+          timeout --signal=TERM --kill-after=60s 45m python -B -u search/d972_r07_a0_first_rung_grade1_decision_probe_v2.py --probe "$RUNNER_TEMP/task595-state" 2>&1 | tee "$RUNNER_TEMP/task595-logs/candidate-decision.log"
+          test -f "$RUNNER_TEMP/task595-state/decision-v2.HEAD"
+          test "$(find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f -name 'decision-v2.*.json' | wc -l)" -eq 1
+          test "$(find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f -name 'decision-v2-grade-basis.*.bin' | wc -l)" -eq 1
+          test "$(find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f -name 'decision-v2-remainder.*.bin' | wc -l)" -eq 1
+      - name: Stage candidate decision state
+        if: ${{ success() }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/task595-candidate"
+          mkdir -p "$out"
+          find "$RUNNER_TEMP/task595-state" -maxdepth 1 -type f \( -name 'decision-v2.HEAD' -o -name 'decision-v2.*.json' -o -name 'decision-v2-grade-basis.*.bin' -o -name 'decision-v2-remainder.*.bin' \) -exec cp -t "$out" -- {} +
+          test "$(find "$out" -maxdepth 1 -type f | wc -l)" -eq 4
+      - name: Upload candidate decision state
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task595-grade1-decision-v2-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task595-candidate/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 90
+      - name: Upload candidate logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task595-grade1-decision-v2-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task595-logs/
+          if-no-files-found: warn
+          compression-level: 0
+          retention-days: 90
