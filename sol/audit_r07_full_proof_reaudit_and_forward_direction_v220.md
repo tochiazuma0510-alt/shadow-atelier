@@ -17897,3 +17897,36 @@ single transport repair required before continuation; it does not count the
   unchanged.  No fresh residual, grade-two decision, complete first rung,
   order-54,432/full-Q0 solution, full A0/COMMON, compatible cofinal lift, fake
   or Ihara witness is declared.
+
+### Delta 430 (2026-09-03): v3 failed before production; path-only v4 replacement launched
+
+- Task640 v3 run/attempt `33749395427/1` passed checkout, code pins,
+  fixtures, accepted-parent service authentication and all three artifact
+  downloads, then failed before production.  The old Task625 checker looked
+  for `/task625/manifest.json`, while the two-root Task625 upload places
+  payload bytes under `/task625/task625-payload/` and leaves
+  `task625-verdict.json` at `/task625/`.  No rho2 arithmetic or heavy-memory
+  step ran, so this is a workflow path failure rather than a mathematical or
+  resource result.
+- Luna Task657 changed exactly the four payload consumers.  Task658 caught a
+  missing inert guard before commit; Task659 restored it.  Independent
+  Task660 then returned **PASS_PATH_ONLY / SAFE_TO_DISPATCH_GHA=yes**, 3,175
+  bytes, SHA-256 `73060e6f...396182`.  After normalization of version labels,
+  output labels and the guard, the four nested paths are the whole semantic
+  v3-to-v4 delta.
+- Root released v4 by deleting only the audited `false &&`.  Its release
+  commit is `436512709d9183d656827c0abfa926737abaae42`; the exact event head is
+  `91eff39e85b3e8e8b771e3ae17b86d224b3f04e9`.  GHA run/attempt
+  `33750997558/1`, job `100634274219`, is in progress.  Push run
+  `33750947320` was skipped, so the replacement has no duplicate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta429, the first authorized computation
+  produced no mathematical output; its exact path failure is repaired and a
+  single replacement run is active.  Only an externally accepted rho2 and a
+  later v474 `MEMBER` can move the numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
