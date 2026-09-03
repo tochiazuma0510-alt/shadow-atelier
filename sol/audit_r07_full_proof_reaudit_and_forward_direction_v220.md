@@ -16557,3 +16557,96 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 398 (2026-09-03): reject the v2 stream shell; derive a fourfold smaller grade-two envelope
+
+- Luna Task572 produced a persistent packed-worker v2 candidate, but
+  independent Sol(max) Task573 returned
+  **PACKED_GF3_STREAM_WORKER_V2_AUDIT_FAIL**.  The packed GF(3) row arithmetic
+  itself is sound; the live service is not.  In particular it fails to install
+  a newly accepted pivot in memory, writes malformed offsets after two
+  offers, cannot restore companion pivots, accepts a corrupted committed
+  prefix hidden by a longer suffix, blocks dependent rows at the rank cap,
+  can deadlock on unread stderr, and rehashes/fsyncs whole growing files per
+  offer.  The latter entails audited worst-case traffic of about 52.44 TB for
+  a source basis or 141.97 TB for the companion file.  V2 is frozen as a
+  rejected candidate and is not connected to Task565 or GHA.
+- V454 gives a new associated-grade Cayley--Fox containment.  Accounting for
+  the right-boundary action on the monomial sign characters, its candidate
+  cap is
+  `dim H[d,lambda] <= 504*h_d + m[d,lambda]`.  At grade two this is 3,027
+  in the trivial character and 3,025 in each nontrivial character.  It lowers
+  the certified per-character queue envelope from 177,432 to 44,388/44,380
+  offers and the retained packed primary basis to below 27.5 MB.  This is a
+  paper candidate under bounded Task575 audit; it is not yet used as an
+  accepted terminal premise.
+- Task574 is one versioned Luna repair of the worker protocol, using explicit
+  checkpoint boundaries and the smaller v454 envelope.  It excludes Task565
+  integration, workflow edits and optional optimization.  Task575 separately
+  audits only the right-Fox/character calculation and queue bound.
+- At this entry, original run `33677346616` remains in its joint lower-first
+  physical fibre and recovery run `33687595111` remains in its optimized
+  merge.  Both use the same sealed prepare and four exhausted grade-one
+  blocks; neither has failed or restarted a completed source phase.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 grades decided**.
+  Relative to Delta397, a false grade-two execution path has been removed and
+  a mathematically derived, audit-pending fourfold rank/offer envelope has
+  replaced the ambient-width bound.  The next numerator-changing event is
+  still a checked grade-one MEMBER or NONMEMBER terminal.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 399 (2026-09-03): the grade-two cap passes; persistence ownership is simplified
+
+- Independent Sol(max) Task575 returned
+  **ASSOCIATED_GRADE_CAYLEY_FOX_CAP_V454_AUDIT_PASS_AFTER_REPAIR**, 9386 /
+  `6d778039...ef5e`.  It confirms the right-Fox character calculation, all
+  six monomial multiplicity rows, the live Fourier label, the identity-tag
+  injection, caps `1512/1513`, `3027/3025`, `3529/3530`, their reflected
+  values, and packed byte products.  The grade-two unsaturated offer bounds
+  are therefore exactly `44388/44380` under the registered FIFO discipline.
+- V454, 10356 / `3fd8b9da...910c`, now includes the audit's sole local
+  qualification.  Saturation completes discovery of the row span only.  It
+  cannot certify arbitrary uncorrelated six-tag rows, and it cannot omit the
+  origin plus four-per-pivot reductions required by a v444/v451 next-grade
+  transition presentation.  This changes no cap or ordinary offer bound.
+- Luna Task574's v3 stream-worker candidate is rejected.  Independent
+  Task576 returned **PACKED_GF3_STREAM_WORKER_V3_AUDIT_FAIL**, 13747 /
+  `990ee898...b9a`: the C process never loads committed state, its checkpoint
+  publishes nothing, offsets and companion files have the wrong cardinality,
+  offer/byte caps are unenforced, and the checker hard-codes persistence PASS
+  labels while its thirteen purported mutations alter no candidate object.
+  The uninterrupted packed reducer has a narrow algebraic core, but no v3
+  result may be promoted or connected to Task565/GHA.
+- V455, 8086 / `784966e9...f6f`, replaces mixed C/Python persistence by a
+  smaller candidate contract.  C owns only the live echelon; Python alone
+  owns append files, incremental digests and the atomic manifest.  Resume
+  authenticates each committed prefix once, loads the normalized accepted
+  basis without re-eliminating committed offers, and reconstructs the unique
+  origins-first/FIFO cursor from the transcript.  Since every positive-grade
+  cap is below 4096, reduction references use a lossless uint16 encoding.
+  At grade two the live primary plus companion ceiling is 64,075,536 bytes.
+  Luna Task577 is implementing exactly this clean ownership split; it is not
+  a patch of v3 and has no Task565/workflow integration authority.
+- At 09:25 JST, original run `33677346616` remains in `Solve joint fibre and
+  finalize terminal`, and audited optimized recovery `33687595111` remains in
+  `Run optimized merge only`.  Both still use the same sealed prepare and four
+  exhausted source blocks.  Neither has failed or restarted a completed
+  source phase.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades decided**
+  until a production terminal passes its independent checker.  Relative to
+  Delta398, the grade-two rank/offer envelope is now independently accepted,
+  both false persistent-worker candidates are excluded, and the replacement
+  implementation has a strictly smaller ownership surface and a 64.1 MB live
+  source-basis ceiling.  These are theorem/interface advances, not a numerator
+  change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
