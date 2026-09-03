@@ -17263,3 +17263,36 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No complete first rung, order-54432 solution, full-Q0
   correction, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 415 (2026-09-03): the fresh precision-two consumer is reduced further to endpoint signatures
+
+- V471, 8819 / `38d27151...daf99f`, sharpens the Task611-accepted leaf
+  formula without changing the common-source SLP.  After the at-most-484
+  base endpoint checks, each exact actor path is evaluated in the complete
+  ordered tuple of eleven occurrence contexts.  Exact paths with the same
+  full tuple may then be coalesced for the **current Fox evaluation only**.
+  The source graph and every exact path remain in the witness receipt.
+- Independent Sol(max) Task613 returned **PASS**, 9923 /
+  `04acf864...74f75b`, with no load-bearing repair.  It confirms the left
+  Fox side, coefficient-two sign, prefix-endpoint-times-next-letter trie
+  order, inclusion of both prior and selected roots, and the occurrence-first
+  physical chain.  The exact dimensions are 32,260 lower coordinates,
+  48,384 fresh coordinates and 12,096 packed bytes; caching all 44 dense seed
+  tuples costs 10,644,832 row bytes before metadata.
+- The dense precision-two action count is now the number of nonzero
+  `(seed, complete endpoint signature)` buckets, no larger than the number of
+  exact leaf keys.  There is no `all SLP nodes x ambient row width` term.
+  Task568's independent-helper repair remains mandatory for the eventual
+  checker, and none of its unaccepted closure/resume join is used.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta414, the post-Task601 fresh-residual
+  computation is now paper-audited in a smaller endpoint-signature form.
+  The numerator still waits on the actual authenticated selected-SLP run and
+  then on the grade-two MEMBER decision.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No actual fresh residual, complete first rung, order-54432
+  solution, full-Q0 correction, compatible cofinal lift, fake or Ihara
+  witness is declared.
