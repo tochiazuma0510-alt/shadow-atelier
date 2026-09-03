@@ -1,0 +1,56 @@
+name: ops-mirror-artifacts
+
+# Workshop ops lane: mirror expiring GHA artifacts (90-day retention) into the
+# permanent release `archive-gha-checkpoints`, using the runner's network.
+# Fire by push with `[mirror-artifacts]` in the commit message (first use on the
+# feature branch) or by workflow_dispatch once the file is on the default branch.
+
+on:
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+    paths:
+      - '.github/workflows/ops-mirror-artifacts.yml'
+  workflow_dispatch:
+    inputs:
+      artifact_ids:
+        description: 'space-separated artifact ids to mirror'
+        required: true
+        type: string
+      release_tag:
+        description: 'release tag to upload into'
+        required: false
+        default: 'archive-gha-checkpoints'
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  mirror:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      contains(github.event.head_commit.message, '[mirror-artifacts]')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+      IDS: ${{ github.event.inputs.artifact_ids || '9875839905 9875840260 9865061266 9865062076 9865238399 9865242284 9865193269 9865239848 9865238843 9865242984 9865193905 9865240270 9875030711' }}
+      TAG: ${{ github.event.inputs.release_tag || 'archive-gha-checkpoints' }}
+    steps:
+      - name: Download, hash and upload
+        run: |
+          set -euo pipefail
+          mkdir -p mirror && cd mirror
+          for id in $IDS; do
+            name=$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" -q .name)
+            f="artifact_${id}_${name}.zip"
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id/zip" > "$f"
+            sha256sum "$f"
+          done
+          stamp=$(date -u +%Y%m%dT%H%M%SZ)
+          sha256sum *.zip > "SHA256SUMS_mirror_${stamp}.txt"
+          gh release upload "$TAG" *.zip "SHA256SUMS_mirror_${stamp}.txt" --clobber -R "$GITHUB_REPOSITORY"
+          echo "== release assets now"
+          gh release view "$TAG" -R "$GITHUB_REPOSITORY" --json assets -q '.assets[] | "\(.name) \(.size)"' | grep -E "grade1|SHA256SUMS" || true
