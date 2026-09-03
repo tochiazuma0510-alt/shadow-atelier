@@ -16982,3 +16982,29 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No full-Q0 correction, complete first rung, compatible cofinal
   lift, fake, or Ihara witness is declared.
+
+### Delta 408 (2026-09-03): the MEMBER coefficient witness passes exact-file replay
+
+- Luna Task598 supplied the helper-nonshared Node checker, 13729 /
+  `020daede...183ea`; its reply is 1781 / `4018ee88...0365e`.  Root reran its
+  syntax/selftest and pointed it at the immutable Task595 candidate plus the
+  exact 6048-byte residual from the sealed prepare artifact.  It returned
+  `R07_GRADE1_MEMBER_RESULT_REPLAY_V1_PASS` with `EXACT_FILE_PASS`.
+- The checker independently authenticates the four decision files, decodes
+  every packed basis row, checks all 5044 normalized distinct leads, and
+  subtracts the 3317 selected rows over F3.  It matches the exact residual
+  bytes and both packed/dense residual hashes and obtains the exact zero
+  remainder.  This durably implements Task597's artifact-level calculation.
+- This replay still consumes the emitted basis rather than regenerating it.
+  Therefore it does not replace the one Task599 full physical-routing replay
+  required for `cross-checked`; no numerator is promoted early.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 promoted**.
+  Relative to Delta407, the candidate coefficient witness has moved from an
+  auditor's ad hoc calculation to a reusable exact-file independent checker.
+  Only independent regeneration of the grade basis from all 8059 registered
+  rows remains before first-grade promotion.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged; no cofinal lift, fake or Ihara witness is declared.
