@@ -17961,3 +17961,34 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No rho2, grade-two decision, full A0/COMMON, compatible cofinal
   lift, fake or Ihara witness is declared.
+
+### Delta 432 (2026-09-03): v5 completed the exact parent replay; a final two-file layout omission stopped production
+
+- Task640 v5 run/attempt `33752047946/1`, job `100637599756`, completed the
+  exact Task625 checker replay and byte comparison successfully.  The replay
+  ran for 11 minutes 49 seconds, so the v4 nested-artifact path and v5
+  accumulated-cap repairs are both confirmed effective.
+- Fresh-rho2 step 11 then failed immediately before arithmetic.  The accepted
+  original `task625-verdict.json` remained at the Task625 artifact root, while
+  v5 copied only its byte-equal replay into the nested payload.  Both fresh
+  executables require the original and replayed canonical filenames inside
+  `task625-payload`.  No heavy computation, RSS failure, checker decision or
+  residual upload occurred.  Root Task670 records the exact run and error;
+  Luna Task669 preregisters the single missing-copy v6 repair.
+- Independently of the result-dependent join, Task666 authenticated the real
+  Task554 prepare artifact on the producer side: exact 15-file roster,
+  188,958,668 blob bytes, ranks `505/503/503/503`, 2,014 DAG nodes and 8,232
+  origins were replayed in about 3.8 seconds.  This remains a candidate until
+  the narrow Sol audit and independent parser close; it is not counted as a
+  complete `P_1` ingest.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta431, the expensive accepted-parent replay
+  is now known to pass, and the only observed Task640 launch defect is a
+  finite byte-equal verdict placement before the producer.  No rho2 numerator
+  is counted early.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.
