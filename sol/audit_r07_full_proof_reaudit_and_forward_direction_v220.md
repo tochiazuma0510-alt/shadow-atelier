@@ -17158,3 +17158,46 @@ single transport repair required before continuation; it does not count the
   unchanged.  No complete first rung, order-54432 solution, second six-grade
   rung, full-Q0 correction, compatible cofinal lift, fake or Ihara witness is
   declared.
+
+### Delta 412 (2026-09-03): the later-grade packed owner passes static audit and the precision-two replay is reduced to literal leaves
+
+- Independent Sol(max) Task610 returned **PASS**, 12898 /
+  `4ea1929e...d5626e`, on the exact external-owner v10 trio.  It closes the
+  former coefficient-one subtraction, ledger lifetime, full-write,
+  pipe/deadline poison, sequential durable replay and canonical lead/ID
+  bindings.  It also finds no avoidable dense copy, per-record reopen,
+  per-trit Python scan or blocking buffered read on the live path.  This owner
+  retains its intentional rank-4095 later-grade contract; it is not a new
+  grade-one rank-8059 route.
+- The audit authorizes exactly one bounded compiler-present GHA interop
+  campaign, not production.  Luna Task612 is implementing the 15-minute
+  wrapper which requires every compiled/wire/cap/resume/mutation field and
+  rejects the checker's honest no-compiler exit.  No compile receipt exists
+  yet.
+- V470, 8731 / `b56aa15e...6fb2b7a`, gives a new candidate shortening of the
+  immediate fresh-residual replay.  Once v469 has authenticated the canonical
+  graph, direct endpoint-one checks on the reached subset of the 44 compact
+  relators in each of the eleven registered occurrences imply endpoint one
+  for every product, inverse and conjugate node.  For a literal conjugate,
+  the exact left Fox rule gives
+  `D(P r P^-1)=eta(P)D(r)`; derivatives of the actor path cancel.  Hence the
+  current precision-two row can be accumulated from unique
+  `(relator,actor-path)` leaves without expanding the SLP or evaluating an
+  ambient row at every node.  The conservative endpoint ceiling is 484.
+- V470 does not authorize deleting source-graph edges: coalescence is only a
+  current-quotient evaluation receipt.  Sol(max) Task611 is auditing in
+  particular whether every old/transition terminal is indeed a compact
+  relator conjugate and whether the registered final composition preserves
+  the endpoint premise.  Until that audit returns, v470 is candidate only.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta411, no numerator changed; the work after
+  the selected-SLP run has become smaller and explicit, while the packed
+  service needed for grades two through six has cleared static audit and is
+  moving to its sole compile/interop gate.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh grade-two residual, complete first rung,
+  order-54432 solution, full-Q0 correction, compatible cofinal lift, fake or
+  Ihara witness is declared.
