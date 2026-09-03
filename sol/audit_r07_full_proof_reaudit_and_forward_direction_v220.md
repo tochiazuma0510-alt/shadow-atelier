@@ -17728,3 +17728,49 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No selected-SLP result, fresh residual, complete first rung,
   full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 426 (2026-09-03): the exact selected-SLP parent is accepted and fresh rho2 is unlocked
+
+- The cap-only GHA run/attempt `33734643746/1`, job `100582244001`, at
+  `b401d724bbdbef8cf67e96def22fc51c014ab546` completed successfully.  The
+  producer finished in 464.288 seconds and the independent checker in
+  711.175 seconds.  The checker peak RSS was 5,505,130,496 bytes, below its
+  7-GiB cap.  Both the success-only payload and always-uploaded logs were
+  published.
+- Payload artifact `9885925239` has archive digest
+  `sha256:ac3121f3...29a75`; log artifact `9885925893` has archive digest
+  `sha256:7cd8678a...b86e`.  The canonical manifest is 9,034 bytes with
+  SHA-256 `381f961f...5c22`; its fifteen receipts total 232,502,114 bytes,
+  and including the manifest the exact durable payload is 232,511,148
+  bytes.  The 1,120-byte checker verdict has SHA-256
+  `a650aa8d...d2740`.
+- The staged construction processed 14,920 nodes, expanded 46,629 exact
+  states over 7,682,296 state-edge traversals, interned 2,565 paths, reached
+  maximum path length 24 and maximum live population 25,267, and emitted
+  19,393 exact leaves.  Every `G,L,B0..B3,D,O0..O3,leaves` stage completed.
+  The roots are separately sealed as `C_T` with 3,317 ordered children,
+  `C_<1` with 2,622 registered terms, and
+  `C_1=Compose(C_<1,C_T)` in that order.
+- The independent checker reproduced the staged statistics and exact leaf
+  bytes and then exhausted the standalone 8,059-object physical route at
+  lower/grade ranks 1,661/5,044.  Its terminal marker is
+  `R07_GRADE1_SELECTED_SLP_V2_CHECKER_PASS`.  All stored self-promotion and
+  downstream claim flags remain false/null.
+- Independent Sol(max) Task639 recomputed all fifteen sizes and hashes,
+  closed the payload-size equation and returned
+  **PASS_SELECTED_SLP_PARENT**, 10,104 bytes, SHA-256
+  `b48fe4bf...db0a1b`.  The immutable selected word is therefore an accepted
+  input to a new Task630/v478 precision-two consumer; it is not itself a
+  grade-two result.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **1/6
+  cross-checked**.  Relative to Delta425, the selected grade-one correction
+  has moved from an in-flight computation to an accepted explicit
+  canonical-SLP parent.  The next numerator-bearing gate is now the fresh
+  32,260-lower / 48,384-top precision-two consumer, followed by the
+  paper-closed v474 targeted grade-two decision.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, complete first rung,
+  full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
