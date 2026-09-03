@@ -2,6 +2,10 @@ name: d972-r07-p1-componentwise-semantic-v1
 
 on:
   workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - .github/workflows/d972-r07-p1-componentwise-semantic-v1.yml
 
 permissions:
   contents: read
@@ -62,7 +66,7 @@ env:
 
 jobs:
   preflight:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-p1-semantic-v1]') }}
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
@@ -185,7 +189,7 @@ jobs:
           compression-level: 0
 
   prepare:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-p1-semantic-v1]') }}
     needs: preflight
     runs-on: ubuntu-24.04
     timeout-minutes: 360
@@ -297,7 +301,7 @@ jobs:
           compression-level: 0
 
   block:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-p1-semantic-v1]') }}
     needs: prepare
     name: block-${{ matrix.index }}
     runs-on: ubuntu-24.04
@@ -437,7 +441,7 @@ jobs:
           compression-level: 0
 
   join:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-p1-semantic-v1]') }}
     needs: [prepare, block]
     runs-on: ubuntu-24.04
     timeout-minutes: 30
@@ -588,7 +592,7 @@ jobs:
           compression-level: 0
 
   independent-check:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-p1-semantic-v1]') }}
     needs: join
     runs-on: ubuntu-24.04
     timeout-minutes: 360
