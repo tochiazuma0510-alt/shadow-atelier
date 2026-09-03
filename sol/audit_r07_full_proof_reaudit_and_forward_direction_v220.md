@@ -18096,3 +18096,39 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No rho2, grade-two terminal, full A0/COMMON, compatible
   cofinal lift, fake or Ihara witness is declared.
+
+### Delta 437 (2026-09-03): v7 passed the parent replay; frozen wall-contract mismatch isolated
+
+- Task640 v7 run/attempt `33756591288/1`, job `100652403037`, completed the
+  accepted Task625 checker replay and byte comparison in 11 minutes 46
+  seconds.  It then entered step 11 and the fresh producer stopped immediately
+  with `NOT_READY: wall_seconds_must_equal_9600`.  The hash-pinned v12f
+  `Meter` requires its frozen 9,600-second value, while v7 supplied 5,400.
+  No rho2 arithmetic, resource terminal, checker decision or residual upload
+  occurred.
+- Luna Task694 made a versioned v8 wrapper with exactly one semantic repair:
+  the fresh producer/checker step alone overrides `TASK640_SECONDS=9600`.
+  Global 5,400, both outer 45-minute process bounds, the 120-minute job bound,
+  every arithmetic source/hash, parent identity, cap and command are
+  unchanged.  The v8 workflow is 10,214 bytes / 162 LF lines / SHA-256
+  `ebc77080...5c5e6`; its v7/v8 diff contains only version labels plus the
+  two-line step environment.  Root Task695 records the exact failure and
+  release decision; no broadened audit is needed.
+- On the parallel grade-two presentation lane, Task690's exact prepare ingest
+  replayed 2,014 old DAG rows, 8,232 origins and 1,538,745 actor coefficient
+  pairs from 188,958,668 authenticated bytes in about 4.13 seconds, with
+  measured peak RSS 295,723,008 bytes.  Sol(max) Task691 accepted the frozen
+  pre-Task692 producer SHA `f0c5b08e...da543` with verdict
+  `PASS_PREPARE_PRODUCER_ENVELOPE`; Task692's later lead-scan delta is
+  explicitly outside that verdict.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta436, the expensive parent replay is again
+  confirmed and the next observed stop is reduced to one exact wrapper value;
+  a v8 run, accepted fresh rho2 and separate v474 grade-two `MEMBER` are still
+  required before the numerator can become `2/6`.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No rho2, grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.
