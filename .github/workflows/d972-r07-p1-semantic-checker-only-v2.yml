@@ -1,0 +1,421 @@
+name: d972-r07-p1-semantic-checker-only-v2
+
+on:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - .github/workflows/d972-r07-p1-semantic-checker-only-v2.yml
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMPY_VERSION: "2.5.1"
+  PRODUCER_V5_PATH: search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py
+  PRODUCER_V5_SHA256: dc5931c3fd3ad5d1a947346599824b02ad1d7b5f699361c05f1f051076dcbdcf
+  PRODUCER_V5_BYTES: "41619"
+  PRODUCER_V5_LF: "382"
+  CHECKER_PATH: crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v4.py
+  CHECKER_SHA256: cc9a27e8ab447ecd6e4fbebbd1240195e442d6c5eb14241a5f9d7c669154ee19
+  CHECKER_BYTES: "132129"
+  CHECKER_LF: "2719"
+  TASK493_PATH: sol/proof_r07_p1_checker_state_head_schema_repair_v493.md
+  TASK493_SHA256: 2feb9f83135cc4af234dfc7110128b2636fb12bd82e920ce3bdab19b02fddf5b
+  TASK493_BYTES: "2414"
+  TASK493_LF: "80"
+  TASK749_PATH: sol/luna_reply_749_r07_p1_checker_state_head_v4.md
+  TASK749_SHA256: 2d93e8e576633d5b8d5bfc9434c266266054c89ff0a808dec782493bb8b0a316
+  TASK749_BYTES: "3340"
+  TASK749_LF: "71"
+  TASK750_PATH: sol/sol_reply_750_audit_r07_p1_checker_state_head_v4.md
+  TASK750_SHA256: a4a738ac814a5470ee471416380c00a51f1cfef555e32d63c273404fb34ef517
+  TASK750_BYTES: "10046"
+  TASK750_LF: "216"
+  SOURCE_RUN: "33677346616"
+  SOURCE_ATTEMPT: "1"
+  SOURCE_HEAD: 22c6dddb43d107c05e65f53ad898823ae8ebe276
+  PRODUCER_RUN: "33814881435"
+  PRODUCER_ATTEMPT: "1"
+  PRODUCER_HEAD: 15778e83c52941040ef9d4289ab76d897ee30ebc
+  PRODUCER_RUN_STATUS: completed
+  PRODUCER_RUN_CONCLUSION: failure
+  PRODUCER_ARTIFACT_ID: "9916479231"
+  PRODUCER_ARTIFACT_NAME: task729-p1-semantic-six-receipts-33814881435-1
+  PRODUCER_ARTIFACT_BYTES: "8412"
+  PRODUCER_ARTIFACT_DIGEST: sha256:91281261a272e6ff48104a579a86e9cb300fc1543eaad1321b609e6d83564245
+  PREP_ID: "9865061266"
+  PREP_NAME: task554-grade1-v3-prepare-33677346616-1
+  PREP_SIZE: "204360988"
+  PREP_DIGEST: sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4
+  B0_ID: "9865238399"
+  B0_NAME: task554-grade1-v3-state-block-0-33677346616-1
+  B0_SIZE: "81729645"
+  B0_DIGEST: sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838
+  B1_ID: "9865242284"
+  B1_NAME: task554-grade1-v3-state-block-1-33677346616-1
+  B1_SIZE: "82259824"
+  B1_DIGEST: sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb
+  B2_ID: "9865193269"
+  B2_NAME: task554-grade1-v3-state-block-2-33677346616-1
+  B2_SIZE: "82200189"
+  B2_DIGEST: sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d
+  B3_ID: "9865239848"
+  B3_NAME: task554-grade1-v3-state-block-3-33677346616-1
+  B3_SIZE: "82266526"
+  B3_DIGEST: sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92
+  PRODUCER_JOB_PREFLIGHT_ID: "100844698807"
+  PRODUCER_JOB_PREPARE_ID: "100844805339"
+  PRODUCER_JOB_BLOCK0_ID: "100846454006"
+  PRODUCER_JOB_BLOCK1_ID: "100846453918"
+  PRODUCER_JOB_BLOCK2_ID: "100846453996"
+  PRODUCER_JOB_BLOCK3_ID: "100846453927"
+  PRODUCER_JOB_JOIN_ID: "100847550237"
+  PRODUCER_JOB_CHECK_ID: "100847634660"
+  D972_P1_CHECKER_SECONDS: "19800"
+  D972_P1_CHECKER_MAX_RSS: "8589934592"
+  AUDITED_CHECKER_MARKER: R07_GRADE2_P1_COMPONENTWISE_INDEPENDENT_CHECKER_V1_PASS
+
+jobs:
+  checker-only:
+    if: ${{ contains(github.event.head_commit.message, '[fire-r07-p1-checker-only-v2]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned NumPy
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==$NUMPY_VERSION"
+
+      - name: Authenticate checker, provenance, audits, producer run, and exact producer jobs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task754-checker-only-logs"
+          auth_file() {
+            local path="$1" digest="$2" bytes="$3" lf="$4"
+            test -f "$path"
+            test "$(sha256sum "$path" | awk '{print $1}')" = "$digest"
+            test "$(wc -c < "$path" | tr -d '[:space:]')" = "$bytes"
+            test "$(LC_ALL=C tr -cd '\n' < "$path" | wc -c | tr -d '[:space:]')" = "$lf"
+            test "$(tail -c 1 "$path" | od -An -t u1 | tr -d '[:space:]')" = "10"
+          }
+          auth_file "$PRODUCER_V5_PATH" "$PRODUCER_V5_SHA256" "$PRODUCER_V5_BYTES" "$PRODUCER_V5_LF"
+          auth_file "$CHECKER_PATH" "$CHECKER_SHA256" "$CHECKER_BYTES" "$CHECKER_LF"
+          auth_file "$TASK493_PATH" "$TASK493_SHA256" "$TASK493_BYTES" "$TASK493_LF"
+          auth_file "$TASK749_PATH" "$TASK749_SHA256" "$TASK749_BYTES" "$TASK749_LF"
+          auth_file "$TASK750_PATH" "$TASK750_SHA256" "$TASK750_BYTES" "$TASK750_LF"
+          grep -Fxq 'VERDICT=PASS_P1_CHECKER_STATE_HEAD_V4_SAFE_FOR_GHA' "$TASK750_PATH"
+          grep -Fxq 'SAFE_TO_DISPATCH_CHECKER_ONLY_GHA=yes' "$TASK750_PATH"
+          run_meta="$RUNNER_TEMP/task754-checker-only-logs/producer-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRODUCER_RUN" > "$run_meta"
+          test "$(jq -r '.id' "$run_meta")" = "$PRODUCER_RUN"
+          test "$(jq -r '.run_attempt' "$run_meta")" = "$PRODUCER_ATTEMPT"
+          test "$(jq -r '.head_sha' "$run_meta")" = "$PRODUCER_HEAD"
+          test "$(jq -r '.status' "$run_meta")" = "$PRODUCER_RUN_STATUS"
+          test "$(jq -r '.conclusion' "$run_meta")" = "$PRODUCER_RUN_CONCLUSION"
+          artifact_meta="$RUNNER_TEMP/task754-checker-only-logs/producer-artifact.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$PRODUCER_ARTIFACT_ID" > "$artifact_meta"
+          test "$(jq -r '.id' "$artifact_meta")" = "$PRODUCER_ARTIFACT_ID"
+          test "$(jq -r '.name' "$artifact_meta")" = "$PRODUCER_ARTIFACT_NAME"
+          test "$(jq -r '.size_in_bytes' "$artifact_meta")" = "$PRODUCER_ARTIFACT_BYTES"
+          test "$(jq -r '.digest' "$artifact_meta")" = "$PRODUCER_ARTIFACT_DIGEST"
+          test "$(jq -r '.expired' "$artifact_meta")" = "false"
+          test "$(jq -r '.workflow_run.id' "$artifact_meta")" = "$PRODUCER_RUN"
+          test "$(jq -r '.workflow_run.head_sha' "$artifact_meta")" = "$PRODUCER_HEAD"
+          source_run_meta="$RUNNER_TEMP/task754-checker-only-logs/source-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$source_run_meta"
+          test "$(jq -r '.id' "$source_run_meta")" = "$SOURCE_RUN"
+          test "$(jq -r '.run_attempt' "$source_run_meta")" = "$SOURCE_ATTEMPT"
+          test "$(jq -r '.head_sha' "$source_run_meta")" = "$SOURCE_HEAD"
+          auth_parent_artifact() {
+            local id="$1" name="$2" size="$3" digest="$4" label="$5"
+            local path="$RUNNER_TEMP/task754-checker-only-logs/${label}.json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" > "$path"
+            test "$(jq -r '.id' "$path")" = "$id"
+            test "$(jq -r '.name' "$path")" = "$name"
+            test "$(jq -r '.size_in_bytes' "$path")" = "$size"
+            test "$(jq -r '.digest' "$path")" = "$digest"
+            test "$(jq -r '.expired' "$path")" = "false"
+            test "$(jq -r '.workflow_run.id' "$path")" = "$SOURCE_RUN"
+            test "$(jq -r '.workflow_run.head_sha' "$path")" = "$SOURCE_HEAD"
+          }
+          auth_parent_artifact "$PREP_ID" "$PREP_NAME" "$PREP_SIZE" "$PREP_DIGEST" prepare-artifact
+          auth_parent_artifact "$B0_ID" "$B0_NAME" "$B0_SIZE" "$B0_DIGEST" block-0-artifact
+          auth_parent_artifact "$B1_ID" "$B1_NAME" "$B1_SIZE" "$B1_DIGEST" block-1-artifact
+          auth_parent_artifact "$B2_ID" "$B2_NAME" "$B2_SIZE" "$B2_DIGEST" block-2-artifact
+          auth_parent_artifact "$B3_ID" "$B3_NAME" "$B3_SIZE" "$B3_DIGEST" block-3-artifact
+          jobs_meta="$RUNNER_TEMP/task754-checker-only-logs/producer-jobs.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRODUCER_RUN/jobs?per_page=100" > "$jobs_meta"
+          python - "$jobs_meta" <<'PY'
+          import json
+          import sys
+          expected = {
+              "100844698807": ("preflight", "success"),
+              "100844805339": ("prepare", "success"),
+              "100846454006": ("block-0", "success"),
+              "100846453918": ("block-1", "success"),
+              "100846453996": ("block-2", "success"),
+              "100846453927": ("block-3", "success"),
+              "100847550237": ("join", "success"),
+              "100847634660": ("independent-check", "failure"),
+          }
+          jobs = json.load(open(sys.argv[1], encoding="utf-8"))["jobs"]
+          assert len(jobs) == len(expected)
+          actual = {str(job["id"]): (job["name"], job["status"], job["conclusion"])
+                    for job in jobs}
+          assert set(actual) == set(expected)
+          for job_id, (name, conclusion) in expected.items():
+              assert actual[job_id] == (name, "completed", conclusion)
+          PY
+
+      - name: Compile and run checker-v4 selftest before input downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PYTHONPYCACHEPREFIX="$RUNNER_TEMP/task754-checker-only-pycache"
+          mkdir -p "$PYTHONPYCACHEPREFIX"
+          ulimit -v 12000000
+          python -B -m py_compile "$CHECKER_PATH"
+          timeout --signal=TERM --kill-after=30s 10m \
+            python -B -u "$CHECKER_PATH" --selftest \
+            2> "$RUNNER_TEMP/task754-checker-only-logs/checker-selftest.stderr" \
+            | tee "$RUNNER_TEMP/task754-checker-only-logs/checker-selftest.stdout"
+          grep -Fq '"status":"PASS"' "$RUNNER_TEMP/task754-checker-only-logs/checker-selftest.stdout"
+          grep -Fq '"actual_five_artifact_check":"DEFERRED_TO_GHA"' "$RUNNER_TEMP/task754-checker-only-logs/checker-selftest.stdout"
+
+      - name: Download exact producer six-receipt artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.PRODUCER_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/task729-six-receipts
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.PRODUCER_RUN }}
+
+      - name: Require exactly six canonical producer receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/task729-six-receipts" <<'PY'
+          import json
+          import pathlib
+          import sys
+          root = pathlib.Path(sys.argv[1])
+          expected = {"prepare-receipt.json", "block-0-receipt.json",
+                      "block-1-receipt.json", "block-2-receipt.json",
+                      "block-3-receipt.json", "join-receipt.json"}
+          actual = {p.name for p in root.iterdir() if p.is_file()}
+          assert actual == expected
+          for name in sorted(expected):
+              raw = (root / name).read_bytes()
+              assert raw.endswith(b"\n")
+              value = json.loads(raw.decode("ascii"))
+              canonical = (json.dumps(value, sort_keys=True,
+                          separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+              assert raw == canonical
+          PY
+
+      - name: Download exact prepare root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/task729-prepare-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Download exact block 0 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B0_NAME }}
+          path: ${{ runner.temp }}/task729-block-0-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Download exact block 1 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B1_NAME }}
+          path: ${{ runner.temp }}/task729-block-1-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Download exact block 2 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B2_NAME }}
+          path: ${{ runner.temp }}/task729-block-2-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Download exact block 3 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B3_NAME }}
+          path: ${{ runner.temp }}/task729-block-3-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Run checker-v4 against immutable parents and receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/task754-checker-only-output"
+          test ! -e "$RUNNER_TEMP/task754-checker-only-output/independent-result.json"
+          ulimit -v 12000000
+          set +e
+          timeout --signal=TERM --kill-after=30s 345m \
+            /usr/bin/time -v -o "$RUNNER_TEMP/task754-checker-only-logs/checker-time.txt" \
+            python -B -u "$CHECKER_PATH" --check \
+              "$RUNNER_TEMP/task729-prepare-root" \
+              "$RUNNER_TEMP/task729-block-0-root" \
+              "$RUNNER_TEMP/task729-block-1-root" \
+              "$RUNNER_TEMP/task729-block-2-root" \
+              "$RUNNER_TEMP/task729-block-3-root" \
+              "$RUNNER_TEMP/task729-six-receipts/prepare-receipt.json" \
+              "$RUNNER_TEMP/task729-six-receipts/block-0-receipt.json" \
+              "$RUNNER_TEMP/task729-six-receipts/block-1-receipt.json" \
+              "$RUNNER_TEMP/task729-six-receipts/block-2-receipt.json" \
+              "$RUNNER_TEMP/task729-six-receipts/block-3-receipt.json" \
+              "$RUNNER_TEMP/task729-six-receipts/join-receipt.json" \
+              "$RUNNER_TEMP/task754-checker-only-output/independent-result.json" \
+            2> "$RUNNER_TEMP/task754-checker-only-logs/checker.stderr" \
+            | tee "$RUNNER_TEMP/task754-checker-only-logs/checker.stdout"
+          status=${PIPESTATUS[0]}
+          set -e
+          printf 'exit_code=%s\n' "$status" > "$RUNNER_TEMP/task754-checker-only-logs/status.txt"
+          if [[ "$status" -eq 124 || "$status" -eq 137 || "$status" -eq 143 ]]; then
+            printf '{"phase":"independent-check","status":"UNKNOWN_RESOURCE"}\n' \
+              > "$RUNNER_TEMP/task754-checker-only-logs/unknown-resource.json"
+          fi
+          test "$status" -eq 0
+          test -s "$RUNNER_TEMP/task754-checker-only-output/independent-result.json"
+          test "$(tail -n 1 "$RUNNER_TEMP/task754-checker-only-logs/checker.stdout")" = "$AUDITED_CHECKER_MARKER"
+
+      - name: Validate result and write canonical v2 workflow receipt
+        shell: bash
+        env:
+          EVENT_SHA: ${{ github.sha }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python - \
+            "$RUNNER_TEMP/task754-checker-only-output/independent-result.json" \
+            "$RUNNER_TEMP/task729-six-receipts" \
+            "$RUNNER_TEMP/task754-checker-only-output/workflow-receipt.json" \
+            "$RUNNER_TEMP/task754-checker-only-logs/producer-jobs.json" <<'PY'
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import re
+          import sys
+          result_path, receipt_root, workflow_path, jobs_path = map(pathlib.Path, sys.argv[1:])
+          raw = result_path.read_bytes()
+          result = json.loads(raw.decode("ascii"))
+          canonical = (json.dumps(result, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+          assert raw.endswith(b"\n") and raw == canonical
+          assert result["schema"] == "d972.r07.p1.componentwise.independent.v1"
+          assert result["terminal"] == "TASK554_P1_COMPONENTWISE_SEMANTICS_REPLAYED_INDEPENDENTLY"
+          assert result["marker"] == "R07_GRADE2_P1_COMPONENTWISE_INDEPENDENT_CHECKER_V1_PASS"
+          assert result["source_run"] == "33677346616" and result["source_attempt"] == "1"
+          assert result["source_head"] == "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+          assert result["old_ranks"] == 2014 and result["new_ranks"] == 6045
+          assert result["dag_nodes"] == 8059 and result["compound_obligations"] == 65340
+          assert result["global_relations"] == 32280 and result["old_local_relations"] == 8232
+          assert result["direct_packet_halves"] == 32928 and result["packet_basis_halves"] == 32928
+          assert result["new_actor_identities"] == 24180
+          assert result["producer_sha256"] == os.environ["PRODUCER_V5_SHA256"]
+          assert result["independent_checker"] is True
+          for key in ("precision2", "A0", "COMMON", "COMPATIBLE_LIFT", "FAKE", "IHARA", "verified"):
+              assert result[key] is False
+          expected_claims = {"A0": False, "COMMON": False, "COMPATIBLE_LIFT": False,
+                             "FAKE": False, "FULL_Q0": False, "IHARA": False,
+                             "ORDER_54432": False, "verified": False}
+          assert result["prepare"]["downstream_claim_flags"] == expected_claims
+          assert all(block["downstream_claim_flags"] == expected_claims for block in result["blocks"])
+          names = ["prepare-receipt.json"] + [f"block-{i}-receipt.json" for i in range(4)] + ["join-receipt.json"]
+          digests = [hashlib.sha256((receipt_root / name).read_bytes()).hexdigest() for name in names]
+          expected = {"prepare": digests[0], "blocks": digests[1:5], "join": digests[5]}
+          assert result["producer_receipt_sha256"] == expected
+          assert result["checker_digests"]["producer_receipts"] == expected
+          jobs_expected = {
+              100844698807: ("preflight", "completed", "success"),
+              100844805339: ("prepare", "completed", "success"),
+              100846454006: ("block-0", "completed", "success"),
+              100846453918: ("block-1", "completed", "success"),
+              100846453996: ("block-2", "completed", "success"),
+              100846453927: ("block-3", "completed", "success"),
+              100847550237: ("join", "completed", "success"),
+              100847634660: ("independent-check", "completed", "failure"),
+          }
+          jobs = json.loads(jobs_path.read_text(encoding="utf-8"))["jobs"]
+          actual_jobs = {int(job["id"]): (job["name"], job["status"], job["conclusion"]) for job in jobs}
+          assert actual_jobs == jobs_expected
+          producer_jobs = [{"id": job_id, "name": values[0], "status": values[1], "conclusion": values[2]}
+                           for job_id, values in jobs_expected.items()]
+          timing_path = pathlib.Path(os.environ["RUNNER_TEMP"]) / "task754-checker-only-logs" / "checker-time.txt"
+          timing_text = timing_path.read_text(encoding="utf-8", errors="strict")
+          elapsed = re.search(r"Elapsed \(wall clock\) time.*:\s*(.+)", timing_text)
+          rss = re.search(r"Maximum resident set size \(kbytes\):\s*(\d+)", timing_text)
+          assert elapsed and rss
+          workflow = {
+              "schema": "d972.r07.p1.componentwise.checker-only.v2.workflow-receipt",
+              "workflow_run_id": int(os.environ["RUN_ID"]), "workflow_run_attempt": int(os.environ["RUN_ATTEMPT"]),
+              "workflow_commit_sha": os.environ["EVENT_SHA"],
+              "producer_run": "33814881435", "producer_attempt": "1",
+              "producer_head": "15778e83c52941040ef9d4289ab76d897ee30ebc",
+              "producer_run_status": "completed", "producer_run_conclusion": "failure",
+              "producer_jobs": producer_jobs,
+              "producer_artifact": {"id": 9916479231, "name": "task729-p1-semantic-six-receipts-33814881435-1",
+                  "archive_bytes": 8412, "digest": "sha256:91281261a272e6ff48104a579a86e9cb300fc1543eaad1321b609e6d83564245"},
+              "producer_sha256": os.environ["PRODUCER_V5_SHA256"], "checker_sha256": os.environ["CHECKER_SHA256"],
+              "independent_result_sha256": hashlib.sha256(raw).hexdigest(), "producer_receipt_sha256": expected,
+              "checker_elapsed_seconds": result["elapsed_seconds"], "checker_peak_rss_bytes": result["peak_rss_bytes"],
+              "checker_process": {"elapsed_wall_clock": elapsed.group(1).strip(), "peak_rss_kbytes": int(rss.group(1))},
+              "claim_flags": {"A0": False, "COMMON": False, "COMPATIBLE_LIFT": False, "FAKE": False,
+                              "FULL_Q0": False, "IHARA": False, "ORDER_54432": False, "verified": False},
+              "independent_checker": True, "verified": False,
+          }
+          workflow_path.write_bytes((json.dumps(workflow, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii"))
+          PY
+
+      - name: Upload checker-only v2 success result and six receipts
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task754-p1-semantic-checker-only-v2-success-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/task754-checker-only-output/independent-result.json
+            ${{ runner.temp }}/task754-checker-only-output/workflow-receipt.json
+            ${{ runner.temp }}/task729-six-receipts/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+
+      - name: Upload checker-only v2 logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task754-p1-semantic-checker-only-v2-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task754-checker-only-logs/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
