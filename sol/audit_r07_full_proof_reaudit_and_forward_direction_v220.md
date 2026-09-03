@@ -17008,3 +17008,47 @@ single transport repair required before continuation; it does not count the
   rows remains before first-grade promotion.
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged; no cofinal lift, fake or Ihara witness is declared.
+
+### Delta 409 (2026-09-03): independent full routing is live and the selected SLP obtains a bounded Fox replay
+
+- Luna Task599 produced a helper-independent full-routing checker, 26358 /
+  `8e159cc2...286d8`, and reply 1587 / `5823311d...45d15`.  Root removed its
+  unused per-pivot ordered-key reconstruction, reran `py_compile` and all four
+  bounded arithmetic/echelon fixtures, and pushed exact commit
+  `5440d66d44f9ca937bc7f8a4958a54ad9f5eba4f` with the registered fire marker.
+  GHA run `33709557095`, job `100505941173`, authenticated and downloaded the
+  exact run-33677346616 prepare/four-block state and run-33707397894 MEMBER
+  candidate, then entered the one bounded 8059-row replay.  It independently
+  rebuilds the group, affine, Fourier and physical aggregation route and the
+  packed owner; it emits neither a dual nor an SLP.
+- Sol(max) Task602 is auditing that exact launched snapshot concurrently.  The
+  audit is not a prerequisite for starting the finite replay and cannot widen
+  its 40-minute internal/45-minute outer/60-minute job bounds.  Promotion still
+  requires both an authenticated successful receipt and acceptance of the
+  load-bearing independent path.
+- V467, 8481 / `f80a63b2...a8dc5`, closes a new constructive bridge from the
+  selected SLP to its current-quotient Fox replay.  The exact Fox-pair law
+  preserves the ordered word in general.  After direct identity-endpoint
+  checks at the current marked quotient, the Fox image is additive, so the
+  elimination transcript may be traversed backwards: root coefficients are
+  propagated to reached literal origins by the transpose of the stored DAG.
+  This computes the eleven-occurrence row and fresh grade-two residual without
+  flattening the word or retaining one ambient row per SLP node; the original
+  ordered SLP remains unchanged for finer quotients.  Actual extraction and
+  replay are still required.
+- Luna Task601 is now implementing the compact selected-ancestry extraction
+  from the 3317 nonzero roots.  In parallel, Task600 returned
+  **PASS_AFTER_REPAIR** on the separate external-owner v9 lane and isolated a
+  bounded v10 repair; that service work changes no A0 numerator and is not on
+  the Task599 critical path.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 promoted** while
+  run `33709557095` is live.  Relative to Delta408, the last promotion replay
+  is now executing, selected explicit-word extraction is under implementation,
+  and its next-degree direct evaluation no longer requires either a flat word
+  or an SLP-node-by-row memory product.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No complete first rung, order-54432 solution, full-Q0
+  correction, compatible cofinal lift, fake or Ihara witness is declared.
