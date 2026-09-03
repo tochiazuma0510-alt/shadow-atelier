@@ -16650,3 +16650,335 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
   unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
   word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 400 (2026-09-03): the liftable-cycle cap is independently accepted
+
+- V456 sharpens the audited v454 associated-cycle envelope by using the fact
+  that every v444 defect is the leading term of an actual filtered Fox cycle.
+  Independent Sol(max) Task578 returned
+  **LIFTABLE_CAYLEY_FOX_TRANSGRESSION_CAP_V456_AUDIT_PASS_AFTER_REPAIR**,
+  11005 / `fd51aad1...b2459`.  The accepted cap is
+  `504*h_d + m[d,lambda] - m[d+1,lambda]`; the grade-two values are
+  `3026/3023`, the ordinary offer bounds are `44384/44372`, and the largest
+  packed grade-two primary-plus-companion live pair is 64,054,368 bytes.
+- V456, 8051 / `69e44ddd...17029`, now includes both local audit repairs.  It
+  filters the unaugmented two-term complex, with augmentation identifying its
+  cokernel rather than acting as another differential, and it proves the
+  first-transgression ideal calculation by explicit **left** multiplication
+  `d1[u^beta*c_i]=u^beta*u_i`.  No right-module or independent-monomial
+  projector is inferred.
+- The sharp grade totals are `2014,6045,12095,14113,12099,6050,2017`, summing
+  to 54,433.  The sealed grade-zero and grade-one source ranks attain the
+  first two totals.  This agreement is a consistency check and an exact cap;
+  it does not by itself assert that the 44 compact seed orbits attain any
+  later cap or decide a physical residual.
+- At 09:36 JST, runs `33677346616` and `33687595111` both remained alive in
+  their respective final merge steps, with the same sealed prepare and four
+  exhausted source blocks and with no completed phase restarted.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades decided**
+  until a production terminal passes its independent checker.  Relative to
+  Delta399, every later-grade source envelope is now bounded by the exact
+  liftable-cycle dimensions rather than the larger associated-cycle kernel.
+  This is a theorem/resource advance, not a numerator change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 401 (2026-09-03): legality is paper-audited and the normalized-kernel scalar is reduced to an exact theorem
+
+- Independent Sol(max) Task580 returned **PASS_AFTER_REPAIR**, 11711 /
+  e54692fa...a28212. It accepts both exact sequences, the
+  7-e2 in {5,6,7} legality-row count and the
+  5-e2 in {3,4,5} later-grade deficit budget. V457, 8860 /
+  d4e56372...f5d9e4, now makes its full occurrence injection and six v444
+  transition short exact sequences explicit, and requires actual
+  kernel-witness and induced-normalization data before a constrained dual is
+  accepted.
+- V458, 6283 / 004b0206...283eee, gives a new candidate determination of
+  the formerly unknown scalar. From Q2_ab=C2^2,
+  epsilon(Omega2)=2 Z^2, epsilon(Omega)=18 Z^2, and
+  Gamma2_ab=C3^3 x C9^2 of exponent nine, integral abelianization exactness
+  constructs two classes in ker J whose normalized exponents form the
+  standard basis. Its conclusion is E2=F3^2, hence e2=2, exactly five
+  legality rows and total later-grade deficit three. This conclusion is
+  audit-pending under Task582; it is not yet used as a production premise.
+- Luna Task581's external-owner v6 returned honest
+  **EXTERNAL_OWNER_GF3_WORKER_V6_NOT_READY**. Static review found that the
+  malformed-frame termination and the requested dense/resume/cap checker
+  campaign were still incomplete, so v6 is frozen and not connected to
+  Task565. Task583 is a bounded v7 repair of only those residual defects.
+- At 10:06 JST, original run 33677346616 and optimized recovery run
+  33687595111 both remained alive in the same final merge steps. Neither
+  restarted any sealed prepare or source-block phase.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades
+  decided**. Relative to Delta400, source legality and the global later-rank
+  budget are independently paper-accepted; subject to Task582, the remaining
+  budget sharpens from three-to-five directions to exactly three. This is a
+  proof compression, not a physical terminal or numerator change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged. No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 402 (2026-09-03): the normalized-kernel two-plane now has literal word witnesses
+
+- V459 replaces v458's abstract abelianization preimages by the fixed words
+  `r_x=q_1 q_6^(-2) q_7^4 q_9`, `r_y=q_8^(-1) q_4^(-1)` and
+  `c_x=r_x^9`, `c_y=r_y^9`.  Their exact exponent vectors are respectively
+  `(18,0)` and `(0,18)`.  The pinned raw-Q0 roster puts `r_x,r_y` in
+  `Omega_0`, and `Exp(Gamma)=9` puts the literal ninth powers in `Omega`.
+  Since `Omega_0 subset Omega_2`, both ninth powers vanish in
+  `H_1(Omega_2;F3)` while their normalized exponents form the standard
+  two-plane.
+- Independent Sol(max) Task585 returned **PASS**, 4033 /
+  `3aba6f43...43c1e`.  It rebuilt all nineteen raw words independently and
+  matched the four reduced lengths and full SHA-256 values for `r_x,r_y,c_x,c_y`.
+  It also checked the kernel inclusions, literal Delta equality, Fox-homology
+  zero, and every v457 consequence.  Thus `e2=2`, exactly five legality rows,
+  `dim S2=54428`, and total later-grade deficit three no longer wait for an
+  unspecified word-preimage construction.  V459 is 5334 /
+  `9550faa4...95e7` and `verified=false`.
+- Candidate v460 observes that the same two words work for every quotient of
+  Q0: for `R_Q=ker(F->Q)`, `Omega_0 subset R_Q` gives
+  `[r_i^9]=0` in `H_1(R_Q;F3)`.  Hence
+  `N(c)=c c_x^(-nu_x(c)) c_y^(-nu_y(c))` is one stage-independent literal
+  zero-normalized selector at the 504, 2016, 54432 and Q0 floors.  Task586 is
+  auditing this exact finite-tower claim; v460 expressly does not extend it
+  to refinements below `Omega_0` or call it the full cofinal homotopy.
+- The two grade-one GHA runs were still alive in their unchanged merge steps
+  at 10:22 JST.  Luna's v7 external-owner candidate remains outside Task565
+  while Task584 audits concrete compiled-campaign defects found by root.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades
+  decided** until the running physical terminal passes its checker.  Relative
+  to Delta401, however, the formerly missing two literal normalization words
+  are complete and independently paper-audited; the exact five-row source
+  constraint can now be supplied constructively rather than existentially.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 are
+  unchanged.  The physical residual, full-Q0 correction, compatible cofinal
+  lift, fake, and Ihara witness remain open.
+
+### Delta 403 (2026-09-03): the coarse-tower normalizer is accepted; the owner repair is finitely bounded
+
+- Independent Sol(max) Task586 returned **PASS**, 3198 /
+  `ff0fc203...638b954`, on v460, 4011 /
+  `4ab676e8...065cf9b5`.  Thus the single literal suffix
+  `c_x^(-nu_x(c)) c_y^(-nu_y(c))` simultaneously preserves the inclusion
+  homology class and kills normalized exponent at the exact 504, 2016,
+  54432, and Q0 floors.  No stage-dependent choice remains on this finite
+  coarse tower.  The audit explicitly does not extend this statement below
+  `Omega_0` or promote it to a cofinal/profinite homotopy.
+- Independent Sol(max) Task584 returned **PASS_AFTER_REPAIR**, 13505 /
+  `5ec50e90...e5ccf7a`, on the frozen external-owner v7.  It accepts the
+  packed-elimination ownership split but finds a finite set of fail-closed
+  protocol, canonical-fixture, cursor, durability, and bounded-memory defects;
+  v7 is therefore not compiler/GHA-ready.  Task587 is now implementing only
+  those enumerated defects as v8, with no workflow or Task565 integration.
+- At 10:32 JST, original run 33677346616 remained in `Solve joint fibre and
+  finalize terminal`, and optimized recovery run 33687595111 remained in
+  `Run optimized merge only`.  All prepare and four character-block phases
+  remain sealed and successful; neither run has restarted them.  No physical
+  verdict is inferred while both terminal checkers are pending.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades
+  decided**.  Relative to Delta402, the finite coarse-tower normalization
+  claim has moved from audit-pending to independently accepted, while the
+  compiled external-owner path has moved from an unbounded repair loop to one
+  enumerated v8 gate.  Neither is a physical terminal, so the numerator does
+  not change.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  A full-Q0 correction, refinements below `Omega_0`, a compatible
+  cofinal lift, fake, and Ihara witness remain open.
+
+### Delta 404 (2026-09-03): the finite-tower normalizer is physically transparent, and the stalled grade-one terminal is factored at the decision point
+
+- V461, 8611 / `1c1d6baf...d8eff68`, proves that the literal v459/v460
+  normalizer is invisible not only to the abstract quotient but to each of
+  the eleven registered physical occurrence jets.  It factors every actual
+  substitution through Q0, uses the registered raw identity
+  `B_Q^raw=A_Q E_Q`, and separately proves `J_Q(ker nu)=J_Q(Omega)=K_Q`.
+  Thus normalization adds no source-legality row beyond the five v457 rows at
+  order 54432.  It asserts compatibility only by evaluation of one common
+  literal instruction at the registered floors, not by an ill-typed map on
+  ancestry-free defect spaces.
+- Independent Sol(max) Task589 returned final **PASS**, 16385 /
+  `5a56cc23...a9050c`, after the occurrence-wise factorization and raw-source
+  premise were made explicit.  It confirms the conclusion at 504, 2016,
+  54432 and Q0, while retaining the boundary below Omega0: no v395 relative
+  kernel equality or cofinal homotopy is inferred.
+- Original run `33677346616`, head `22c6dddb43...e276`, ended with exit 124
+  at its 335-minute outer bound.  Its prepare and four character blocks stay
+  sealed.  Merge-log artifact `9875030711` shows attempts/rank
+  `7168/5044`, `7424/5044`, `7680/5044`, and `7936/5044` at respectively
+  269.09, 294.17, 319.43 and 344.60 seconds.  It has no later phase marker.
+  Hence the log does not prove completion of the last 123 logical positions
+  and does not identify residual reduction, dual construction, state
+  serialization or literal expansion as the stall.
+- V463, 5104 / `13afd22c...074bc3`, gives the exact decision-first
+  factorization.  The grade-one predicate is already fixed by reducing the
+  sealed residual against the echelon after all 8,059 deterministic logical
+  inputs.  A compact checkpoint containing the input chain, basis digest and
+  leads, residual/remainder and selected coefficients loses no data: a
+  NONMEMBER branch can build its dual afterward and a MEMBER branch can
+  expand only its selected ancestry afterward.  Giant transition/DAG JSON
+  and degree-two replay are not prerequisites for the predicate.
+- The live v4 recovery `33687595111`, head `28ec158722...fd2`, remains in its
+  merge step.  Its purported hot-loop repair advances over zero packed bytes
+  in Python; across 8,059 logical positions of 6,048 packed bytes this admits
+  48,740,832 Python cursor iterations.  It therefore cannot yet be assumed
+  to have reached the same post-row location as v3.  Task592 is implementing
+  a bounded v3-reducer decision probe which stops and seals immediately after
+  the exact target reduction; it does not rebuild source blocks.
+- V462's resource arithmetic passed independent Task590 audit after one type
+  repair.  The final v462 is 6669 / `cc51a9c2...1fa5a5`; the audit is 9715 /
+  `2d3738fd...010bc7`.  The global logical cursor is 8,059, while lower-owner
+  offers are 2,014 and grade-owner offers are `8,059-lower_rank`.  All packed
+  matrix, uint16 transcript and 134,783,202-byte conservative durable
+  ceilings are unchanged.  This bounds a later external owner but does not
+  solve the presently observed terminal split.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades decided**
+  until an independently checked physical decision is available.  Relative
+  to Delta403, the common normalization instruction is now accepted on every
+  registered physical occurrence, the failed run has been localized without
+  falsely naming a subphase, and the next production calculation has been
+  reduced to the exact finite membership predicate before ancestry work.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No order-54432 solution, full-Q0 correction, cofinal lift,
+  fake, or Ihara witness is declared.
+
+### Delta 405 (2026-09-03): the exact grade-one decision race is launched; the positive SLP handoff is paper-fixed
+
+- Independent Sol(max) Task593 returned **PASS_AFTER_REPAIR**, 8340 /
+  `defa5878...ecc476`, on the decision-first theorem.  Final v463 is 5104 /
+  `13afd22c...074bc3`.  Its durable decision payload now reserves the
+  conservative post-route basis ceiling `(5044+123)*6048=31,250,016` bytes;
+  the separate `48,740,832` count is only the grade-owner roster-scan ceiling.
+  Thus neither number is misused as a proof of a completed v3 suffix.
+- Luna Task595 produced the narrow v2 candidate probe.  Root repaired its
+  checker SHA pin, reran `py_compile` and the bounded MEMBER/NONMEMBER fixture,
+  and obtained PASS with all three v2/v3 workflow SHA gates matching.  Commit
+  `93f746ad1b649796e1bc28e00ff34993498929ee` was pushed with the registered
+  fire marker.  GHA run `33707397894`, job `100499387350`, authenticated and
+  downloaded the exact sealed prepare plus four exhausted v3 blocks and
+  entered `Run candidate decision only` at 11:23 JST.  It routes exactly the
+  finite 8,059 logical inputs and stops immediately after target reduction;
+  it constructs no dual, full ancestry, degree-two state, or giant merge JSON.
+  Its output remains candidate pending Task597's independent code-path audit
+  and a result-specific replay.
+- Independent Task594 returned **PASS_AFTER_REPAIR**, 13700 /
+  `34b5c4c4...f73ce01`, on the selected-ancestry SLP theorem.  Successor v465,
+  9801 / `b779fca0...2c7693`, now states the actor-stable normal filtration,
+  induced actor action and commuting quotient triangles; separates complete
+  lower/auxiliary physical-fibre replay from source relative-kernel replay;
+  carries every reached non-DAG defect origin; and composes the selected update
+  with the authenticated prior correction in one ordered top root.  The same
+  finite SLP then evaluates naturally at every registered quotient and its
+  next residual is recomputed from that exact root.  This closes the paper
+  form of the positive handoff under its stated hypotheses, not the pending
+  grade-one MEMBER decision or all-edge relative-kernel surjectivity.
+- The older optimized v4 recovery `33687595111` remains alive in its merge
+  step and is not cancelled; the two implementations are being raced.
+  Separately, Luna Task596 is implementing only the already enumerated v9
+  external-owner repairs, with no workflow or production authority.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, and the first rung remains **0/6 grades decided**
+  until the production decision is independently accepted.  Relative to
+  Delta404, the exact decision calculation is now running rather than merely
+  specified, and the MEMBER continuation from selected coefficients to one
+  explicit common-source SLP is paper-fixed.  A MEMBER result will feed that
+  SLP handoff; a NONMEMBER result will feed the postponed dual construction.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 406 (2026-09-03): the complete grade-one target reduction returns MEMBER in 347.87 seconds
+
+- GHA run `33707397894` / attempt 1, exact commit
+  `93f746ad1b649796e1bc28e00ff34993498929ee`, completed SUCCESS in 6m34s.
+  Its calculation step consumed 347.872391497 seconds.  The log contains
+  `LAST_LOGICAL_ROW_END` at exactly 8059 followed by
+  `TARGET_REDUCTION_END member=true` and `DECISION_SEAL_DONE`; no dual,
+  ancestry expansion or degree-two phase was entered.
+- Candidate body `62412762b3a208d31febb6c6b8d4707f880471ed32cf62c79c18108065ab7b5d`
+  reports terminal `GRADE1_DECISION_MEMBER`, old ranks
+  `505,503,503,503`, block ranks `1509,1512,1512,1512`, lower
+  offers/rank `2014/1661`, grade offers/rank `6398/5044`, zero remainder,
+  and 3317 distinct nonzero selected coefficients.  Root independently
+  checked the HEAD/body chain and both blob receipts.  The 30,506,112-byte
+  basis has SHA `b562c980...ff069d`; the 6048-byte zero remainder has SHA
+  `564cbfaf...13cbb0`.  Immutable artifacts are candidate state
+  `9875839905` (30,569,936 bytes) and logs `9875840260` (3980 bytes).
+- The result remains a **candidate** while Sol(max) Task597 audits the exact
+  routing/code path and Luna Task598 builds a helper-nonshared Node replay of
+  the 3317-term linear witness against the authenticated residual digest.
+  The MEMBER label is therefore recorded but not yet called cross-checked.
+- V466, 6810 / `0a7f1cf9...0de308`, proves the next positive extraction step.
+  One reroute stores only compact ordered reduction edges; a reverse pass from
+  the 3317 selected roots returns the least ancestry-closed physical SLP.
+  It preserves noncommutative order, follows reached lower-owner and source
+  origins, and avoids full merge JSON and flat word expansion.  The complete
+  selected source SLP and degree-two replay remain to be produced.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and, by the fixed promotion rule, the first rung
+  remains **0/6 promoted** until the independent result replay is accepted.
+  Relative to Delta405, however, the pending grade-one predicate is no longer
+  unknown: its authenticated production candidate is MEMBER with an exact
+  zero remainder and explicit 3317-term coefficient witness.  The active work
+  has moved to promotion and selected-SLP extraction, not another search.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No order-54432 solution, full-Q0 correction, finite A0 COMMON
+  word, compatible cofinal lift, fake, or Ihara witness is declared.
+
+### Delta 407 (2026-09-03): Sol(max) accepts the MEMBER arithmetic and isolates one remaining promotion replay
+
+- Independent Sol(max) Task597 returned **PASS_AFTER_REPAIR**, 14635 /
+  `53900086...91afaf`.  It found no production path capable of emitting a
+  false MEMBER or false NONMEMBER: v2 routes the same 2014+6045 rows as the
+  frozen construction, removes only the duplicate lower reduction, and tests
+  the exact lower-zero grade span.  A 10,000-case bounded comparison also
+  matched the accept-after-reduction tail, including coefficient-two,
+  dependent and nonmonotone-lead cases.
+- Task597 independently decoded the production artifact without v2/v3 packed
+  helpers.  The 3317 selected basis coefficients reconstruct packed residual
+  SHA `64869689...b79e6` and dense residual SHA
+  `5503afc9...84134`, exactly the two authenticated target receipts; a second
+  independent reduction reproduces the same coefficient list and zero
+  remainder.  Thus the MEMBER seal is algebraically sound relative to the
+  emitted basis and registered residual digest.
+- Two fixture/protocol-only repairs remain: bind the actual fixture target and
+  authenticate fixture mutations, and add `DECISION_SEAL_BEGIN`.  They do not
+  change or invalidate run `33707397894`; no arithmetic rerun or timeout
+  enlargement is requested.  They are kept out of the critical path.
+- The only gate before `cross-checked` grade-one promotion is now a
+  helper-nonshared replay which independently aggregates and routes the exact
+  8059 physical rows and compares the final basis/span.  Luna Task599 has the
+  bounded implementation/workflow specification for precisely that replay:
+  no source-closure regeneration, dual, ancestry or degree-two computation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and the first rung remains **0/6 promoted** under
+  the fixed evidence vocabulary.  Relative to Delta406, the candidate's
+  internal linear witness and production route have passed independent
+  mathematical/code audit; exactly one independent physical-routing replay,
+  already commissioned, separates it from the `cross-checked` first-grade
+  numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No full-Q0 correction, complete first rung, compatible cofinal
+  lift, fake, or Ihara witness is declared.
