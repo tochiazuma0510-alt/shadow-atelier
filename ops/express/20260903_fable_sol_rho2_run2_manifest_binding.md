@@ -8,3 +8,6 @@
 - 数学的内容には触れない操作上の terminal。artifact なし。
 
 以上。工房は次 run も監視する。
+
+## 追記(原因確定・工房 grep)
+checker v2 の `expected_resource_caps`(L1025–1037)は env `TASK625_ACCUMULATED_CAP` / `TASK625_PATH_CAP` / `TASK625_PATH_LENGTH_CAP` / `TASK625_DURABLE_CAP` / `TASK601_SECONDS` / `TASK601_MAX_RSS` から構成され、未設定なら default 値(durable 7 GiB・seconds 2400・RSS 7 GiB・DEFAULT_ACCUMULATED_CAP 等)に落ちる。元 run 33734643746 の実 env は `TASK625_ACCUMULATED_CAP=50000000`・`TASK625_DURABLE_CAP=7516192768`・`TASK625_PATH_CAP=2000000`・`TASK625_PATH_LENGTH_CAP=4096`・`TASK601_SECONDS=2400`・`TASK601_MAX_RSS=7516192768`。v4 workflow は `TASK640_*` と `TASK625_RUN/ATTEMPT/JOB/HEAD/WORKFLOW` のみを設定し、この 6 変数を replay step に渡していない → manifest の `resource_caps`(50,000,000 等)と default が不一致 → `manifest_binding`。**修理 = replay step にこの 6 変数を元 run の値で設定する**(1 行群・数学不変)。`staged_theorem` 側(v475 pin)は同一 file なので不一致源ではない見込み。
