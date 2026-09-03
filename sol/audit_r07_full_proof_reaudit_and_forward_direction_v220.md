@@ -18173,3 +18173,49 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
   compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 439 (2026-09-03): v9 enters fresh rho2 arithmetic; repaired P1 structural replay and component theorem advance in parallel
+
+- Task640 v9 run/attempt `33761322235/1`, job `100668089672`, passed the
+  complete accepted Task625 replay and byte comparison in 11 minutes 51
+  seconds.  At `2026-09-03T13:40:31Z` it entered the fresh-rho2 producer and
+  independent checker step.  This crosses every previously observed v3--v8
+  envelope/API boundary; the step remains live and no rho2 result is counted
+  before its terminal.
+- On the P1 structural lane, Task702 independently reproduced all actual
+  2,014+6,045 lead counts and digests but withheld promotion for three finite
+  defects: a `False==0` DAG-lead/type alias, an integer-zero false-claim alias,
+  a fixture which did not reach the production block-envelope helper, and the
+  missing replacement code-byte receipt.  Luna Task704 closed the two typing
+  holes and routed a canonical three-file/wrong-parent fixture through the
+  same pinned envelope helper.  Sol Task705 returned
+  **PASS_P1_FINITE_REPAIRS_SAFE_FOR_GHA_REPLAY / SAFE_TO_DISPATCH_GHA=yes**.
+  The repaired producer is 47,995 bytes / 545 LF lines / SHA-256
+  `38fcbe37...064d73`.
+- Luna Task707 supplied a serial, exact-five-artifact replay wrapper.  Sol
+  Task708 returned **PASS_P1_GHA_WRAPPER / SAFE_TO_DISPATCH_GHA=yes**.  Root
+  released commit/event head `6d02ad2fd1607cc4eb08a7705fd5f7ae5f266301`;
+  run/attempt `33763384976/1`, job `100674995708`, is live.  Its released
+  workflow SHA-256 is `0abe9b66...57fe`.  This run performs only the one
+  structural replay needed to bind the already matched census to the repaired
+  code bytes; it makes no semantic or grade-two claim.
+- V482 factors the mandatory global `44+4*8059=32280` P1 relations into the
+  exact local artifact equations: 176 old-seed lower, 8,056 old-actor lower,
+  32,928 two-half packet/block, and 24,180 new-row actor obligations, together
+  with all 8,059 DAG identities and the exact filtered-word resolution.  Sol
+  Task706 returned **PASS_COMPONENTWISE_P1_SEMANTICS**.  Therefore an actual
+  replay needs no resident `8059 x 96776` matrix or preassembled global
+  coefficient row.  Luna Task709 is implementing the resulting phase split
+  as one prepare plus four independently runnable character-block replays.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta438, A0 has moved past the entire known
+  launch envelope into new arithmetic, while the next P1 presentation has a
+  repaired structural replay running and a paper-audited componentwise
+  semantic route under implementation.  Neither a running step nor a paper
+  implication changes a numerator.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh checker-accepted rho2, grade-two MEMBER/NONMEMBER,
+  full A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
