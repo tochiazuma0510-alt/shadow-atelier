@@ -93,7 +93,33 @@ def load_all_seven():
     snapshots={key:(ROOT/row[0]).read_bytes() for key,row in module.SOURCE_PINS.items()}
     registry=module.SourceRegistry(snapshots); registry.authenticate(meter); snapshots.clear()
     runtime=module.build_light(registry,meter)
-    return module,module.ProducerAllSeven(runtime),runtime
+    install_endpoint_deletion(runtime)
+    producer=module.ProducerAllSeven(runtime)
+    identity_e3=runtime['p176'].packed_joint_blob(runtime['e3'].identity,
+                                                   'endpoint zero E3 identity')
+    identity_e4=runtime['p176'].packed_joint_blob(runtime['e4'].identity,
+                                                   'endpoint zero E4 identity')
+    if producer.coordinates(()) != (identity_e3,)*5 + (identity_e4,)*5:
+        fail('endpoint_zero_canary')
+    return module,producer,runtime
+
+def install_endpoint_deletion(runtime):
+    """Install only the endpoint deletion prefix required by the producer."""
+    p176,old=runtime['p176'],runtime['old']
+    e3,e4=runtime['e3'],runtime['e4']
+    fine,fine_public=p176.build_fine_deletion(e3,e4,runtime['meter'])
+    if not isinstance(fine_public,dict) or fine_public.get('source_order')!=59049:
+        fail('endpoint_fine_source_order')
+    q0_marked=[p176.canonical_packed_permutation(
+        old.perm_from_row(row,36),36,'task640 Q0 mark')
+        for row in runtime['q3']['coarse_models']['Q0']['marked_permutations']]
+    delete,deletion_public=p176.make_deleter(old,e3,e4,fine,q0_marked)
+    if not callable(delete): fail('endpoint_delete_callable')
+    deletion_public['fine']=fine_public
+    runtime.update({'delete':delete,'deletion_public':deletion_public})
+    if 'delete' not in runtime or not callable(runtime['delete']):
+        fail('endpoint_delete_install')
+    return runtime
 def authenticate_paper_pins():
     for name,digest in PAPER_PINS.items():
         path=ROOT/name
@@ -298,7 +324,52 @@ def selftest():
         try: parse_literal_leaves(bad,digest)
         except RuntimeError: rejected+=1
         else: fail('fixture_leaf_mutation')
-    print(json.dumps({'fixture':'PASS','actor_multiplication':'PASS','inverse_action':'PASS','coefficient_2':'PASS','occurrence_components':11,'endpoint_ceiling':484,'leaf_live_mutations':rejected,'first_six_shift_mutations':shift_mutations,'seed_cache_bytes':10644832,'rho2_bytes':PACKED},sort_keys=True))
+    class FakeOld:
+        def perm_from_row(self,row,width):
+            if width != 36: fail('fixture_mark_width')
+            return row
+    class FakeP176:
+        def __init__(self,source_order=59049):
+            self.source_order=source_order; self.build_calls=0; self.make_calls=0
+        def build_fine_deletion(self,e3,e4,meter):
+            self.build_calls+=1
+            return {b'fine':b'image'}, {'source_order':self.source_order}
+        def canonical_packed_permutation(self,value,width,label):
+            if width != 36: fail('fixture_canonical_width')
+            return tuple(value)
+        def make_deleter(self,old,e3,e4,fine,q0_marked):
+            self.make_calls+=1
+            if fine != {b'fine':b'image'} or len(q0_marked)!=2:
+                fail('fixture_deleter_inputs')
+            def delete(value):
+                return (b'deleted',value)
+            return delete, {'fixture_deleter':True}
+    trap={'called':False}
+    def fake_build_heavy(*args,**kwargs):
+        trap['called']=True
+        fail('fixture_build_heavy_called')
+    fake_p176=FakeP176()
+    fake_runtime={'p176':fake_p176,'old':FakeOld(),'e3':object(),
+                  'e4':object(),'meter':object(),
+                  'q3':{'coarse_models':{'Q0':
+                      {'marked_permutations':[[0,1],[1,0]]}}},
+                  'build_heavy':fake_build_heavy}
+    install_endpoint_deletion(fake_runtime)
+    if not (fake_p176.build_calls==1 and fake_p176.make_calls==1 and
+            callable(fake_runtime.get('delete')) and
+            fake_runtime['delete'](b'sample')==(b'deleted',b'sample') and
+            fake_runtime['deletion_public']['fine']['source_order']==59049):
+        fail('fixture_endpoint_installer')
+    bad_p176=FakeP176(59048)
+    bad_runtime=dict(fake_runtime); bad_runtime['p176']=bad_p176
+    try: install_endpoint_deletion(bad_runtime)
+    except RuntimeError as exc:
+        if str(exc)!='endpoint_fine_source_order':
+            fail('fixture_wrong_fine_order_reason')
+        wrong_fine_order=1
+    else: fail('fixture_wrong_fine_order_accept')
+    if trap['called']: fail('fixture_build_heavy_trap')
+    print(json.dumps({'fixture':'PASS','actor_multiplication':'PASS','inverse_action':'PASS','coefficient_2':'PASS','occurrence_components':11,'endpoint_ceiling':484,'leaf_live_mutations':rejected,'first_six_shift_mutations':shift_mutations,'endpoint_installer':'PASS','endpoint_fine_source_order':59049,'wrong_fine_order_rejected':wrong_fine_order,'build_heavy_trap_called':False,'seed_cache_bytes':10644832,'rho2_bytes':PACKED},sort_keys=True))
 def main():
     global started
     ap=argparse.ArgumentParser(); ap.add_argument('--state',type=Path); ap.add_argument('--candidate',type=Path); ap.add_argument('--task601',type=Path); ap.add_argument('--out',type=Path); ap.add_argument('--selftest',action='store_true'); a=ap.parse_args()
