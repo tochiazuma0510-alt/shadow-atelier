@@ -1,0 +1,206 @@
+name: d972-r07-p1-structural-replay-v1
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+    paths:
+      - search/d972_r07_grade2_specific_owner_prejoin_v1.py
+      - .github/workflows/d972-r07-p1-structural-replay-v1.yml
+permissions:
+  contents: read
+  actions: read
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  SOURCE_RUN: "33677346616"
+  SOURCE_ATTEMPT: "1"
+  SOURCE_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  PRODUCER_SHA256: "38fcbe3757d1b14fd19f4f557f763c1f5f6a2e8da47e0e061707cf28c5064d73"
+  PRODUCER_BYTES: "47995"
+  PRODUCER_LF: "545"
+  PREP_ID: "9865061266"
+  PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  PREP_SIZE: "204360988"
+  PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  B0_ID: "9865238399"
+  B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  B0_SIZE: "81729645"
+  B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  B1_ID: "9865242284"
+  B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  B1_SIZE: "82259824"
+  B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  B2_ID: "9865193269"
+  B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  B2_SIZE: "82200189"
+  B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  B3_ID: "9865239848"
+  B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  B3_SIZE: "82266526"
+  B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+jobs:
+  structural-replay:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-p1-structural-replay-v1]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+      - name: Authenticate producer and exact source artifacts
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_HEAD: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(sha256sum search/d972_r07_grade2_specific_owner_prejoin_v1.py | awk '{print $1}')" = "$PRODUCER_SHA256"
+          test "$(wc -c < search/d972_r07_grade2_specific_owner_prejoin_v1.py)" = "$PRODUCER_BYTES"
+          test "$(LC_ALL=C tr -cd '\n' < search/d972_r07_grade2_specific_owner_prejoin_v1.py | wc -c)" = "$PRODUCER_LF"
+          test "$(tail -c 1 search/d972_r07_grade2_specific_owner_prejoin_v1.py | od -An -t u1 | tr -d ' ')" = "10"
+          auth_artifact() {
+            local id="$1" name="$2" size="$3" digest="$4"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.id')" = "$id"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.name')" = "$name"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.size_in_bytes')" = "$size"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.digest')" = "$digest"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.expired')" = "false"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.workflow_run.id')" = "$SOURCE_RUN"
+            test "$(gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" --jq '.workflow_run.head_sha')" = "$SOURCE_HEAD"
+          }
+          auth_artifact "$PREP_ID" "$PREP_NAME" "$PREP_SIZE" "$PREP_DIGEST"
+          auth_artifact "$B0_ID" "$B0_NAME" "$B0_SIZE" "$B0_DIGEST"
+          auth_artifact "$B1_ID" "$B1_NAME" "$B1_SIZE" "$B1_DIGEST"
+          auth_artifact "$B2_ID" "$B2_NAME" "$B2_SIZE" "$B2_DIGEST"
+          auth_artifact "$B3_ID" "$B3_NAME" "$B3_SIZE" "$B3_DIGEST"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" --jq '.id')" = "$SOURCE_RUN"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" --jq '.run_attempt')" = "$SOURCE_ATTEMPT"
+          test "$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" --jq '.head_sha')" = "$SOURCE_HEAD"
+      - name: Download exact five source roots
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/p1-prepare
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 0 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B0_NAME }}
+          path: ${{ runner.temp }}/p1-block-0
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 1 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B1_NAME }}
+          path: ${{ runner.temp }}/p1-block-1
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 2 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B2_NAME }}
+          path: ${{ runner.temp }}/p1-block-2
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 3 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B3_NAME }}
+          path: ${{ runner.temp }}/p1-block-3
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Check five root rosters
+        shell: bash
+        run: |
+          set -euo pipefail
+          PREP="$RUNNER_TEMP/p1-prepare"
+          test -f "$PREP/prepare.HEAD"
+          test "$(find "$PREP" -mindepth 1 -maxdepth 1 -type f | wc -l)" = "15"
+          for i in 0 1 2 3; do
+            ROOT="$RUNNER_TEMP/p1-block-$i"
+            test -f "$ROOT/block-$i.HEAD"
+            test "$(find "$ROOT" -mindepth 1 -maxdepth 1 -type f | wc -l)" = "3"
+          done
+      - name: Run serial compile and bounded selftest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m py_compile search/d972_r07_grade2_specific_owner_prejoin_v1.py
+          python -B search/d972_r07_grade2_specific_owner_prejoin_v1.py --selftest
+      - name: Run one serial all-five structural replay
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/p1-logs"
+          timeout --signal=TERM --kill-after=30s 40m /usr/bin/time -v -o "$RUNNER_TEMP/p1-logs/time-v.txt" \
+            python -B -u search/d972_r07_grade2_specific_owner_prejoin_v1.py \
+            --prepare-dir "$RUNNER_TEMP/p1-prepare" \
+            --block-dirs "$RUNNER_TEMP/p1-block-0" "$RUNNER_TEMP/p1-block-1" "$RUNNER_TEMP/p1-block-2" "$RUNNER_TEMP/p1-block-3" \
+            > "$RUNNER_TEMP/p1-result.json" 2> "$RUNNER_TEMP/p1-logs/producer.stderr"
+      - name: Assert result and write receipt
+        env:
+          EVENT_HEAD: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/p1-result.json" "$RUNNER_TEMP/p1-receipt.json" <<'PY'
+          import hashlib, json, os, pathlib, sys
+          result_path, receipt_path = map(pathlib.Path, sys.argv[1:])
+          result = json.loads(result_path.read_bytes())
+          assert result['terminal'] == 'TASK554_ALL_FIVE_P1_STRUCTURALLY_INGESTED'
+          assert result['block_ranks'] == [1509,1512,1512,1512]
+          assert result['offsets'] == [0,505,1008,1511,2014,3523,5035,6547,8059]
+          summary = result['global_summary']
+          assert summary['rows'] == 8059 and summary['distinct_global_leads'] == 8059
+          assert summary['coefficient_one_global_leads'] == 8059
+          assert summary['global_echelonicity'] is True
+          assert summary['global_leads_sha256'] == '508db9f3dd63a7a8db22e9e10604af6c0660179ce60e9f9919391e86d0cf80e9'
+          assert summary['local_leads_sha256'] == 'eb6e16ae954c0d64e8af1c4b144aaa172491ab51948184f5119143c6928823a7'
+          assert summary['coefficient_one_leads_sha256'] == 'dafd43d5795c88c1324ea5b104633f423f886b583a7e14877424961880402d59'
+          assert summary['duplicate_global_leads_sha256'] == '37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570'
+          expected_local = ['fb35de7583bc72ba21a21381e0acf45e1196ff31bab6a325806e4a005675d1f2','ed578063d507de2f83a75839e692ba9fdb194d46b8fcdeef16531fc8615234b0','ecf98d8170660028ddc5e12f01fcf84576c5772bdc6e19889e278652b849c1b7','d560e155db99283dafa8068537bc389248f6af66235478fd421bb09919e9dd57']
+          assert [x['local_leads_sha256'] for x in result['blocks']] == expected_local
+          assert result['resident_matrix'] is False and result['semantic_equations_replayed'] is False
+          assert result['precision2'] is False and result['verified'] is False
+          producer = pathlib.Path('search/d972_r07_grade2_specific_owner_prejoin_v1.py').read_bytes()
+          assert hashlib.sha256(producer).hexdigest() == os.environ['PRODUCER_SHA256']
+          assert len(producer) == int(os.environ['PRODUCER_BYTES'])
+          assert producer.count(b'\n') == int(os.environ['PRODUCER_LF']) and producer.endswith(b'\n')
+          artifacts = {}
+          for key in ('PREP','B0','B1','B2','B3'):
+              artifacts[key.lower()] = {'id':int(os.environ[key+'_ID']), 'name':os.environ[key+'_NAME'], 'bytes':int(os.environ[key+'_SIZE']), 'digest':os.environ[key+'_DIGEST'], 'source_run':os.environ['SOURCE_RUN'], 'source_attempt':os.environ['SOURCE_ATTEMPT'], 'source_head':os.environ['SOURCE_HEAD']}
+          receipt = {'schema':'d972.r07.p1.structural-replay.v1.receipt','event_head':os.environ['EVENT_HEAD'],'producer':{'path':'search/d972_r07_grade2_specific_owner_prejoin_v1.py','sha256':hashlib.sha256(producer).hexdigest(),'bytes':len(producer),'lf_count':producer.count(b'\n'),'final_lf':producer.endswith(b'\n')},'artifacts':artifacts,'result':{'sha256':hashlib.sha256(result_path.read_bytes()).hexdigest(),'bytes':result_path.stat().st_size,'terminal':result['terminal'],'block_ranks':result['block_ranks'],'offsets':result['offsets'],'rows':summary['rows'],'distinct_global_leads':summary['distinct_global_leads'],'coefficient_one_global_leads':summary['coefficient_one_global_leads'],'global_leads_sha256':summary['global_leads_sha256']},'resident_matrix':False,'semantic_equations_replayed':False,'precision2':False,'verified':False}
+          receipt_path.write_text(json.dumps(receipt,sort_keys=True,separators=(',',':'))+'\n', encoding='ascii')
+          print(json.dumps(receipt,sort_keys=True))
+          PY
+      - name: Upload result and receipt after assertions
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task707-p1-structural-replay-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/p1-result.json
+            ${{ runner.temp }}/p1-receipt.json
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+      - name: Upload replay logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task707-p1-structural-replay-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/p1-logs/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0

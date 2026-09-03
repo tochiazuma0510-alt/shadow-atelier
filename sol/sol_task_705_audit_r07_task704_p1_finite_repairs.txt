@@ -1,0 +1,9 @@
+You are Sol(max), narrow adversarial auditor.  Read this FULL mail and all named inputs.  Do no implementation, GHA, git, artifact download, or 1.7-GiB all-five replay.  Write only `sol/sol_reply_705_audit_r07_task704_p1_finite_repairs.md`.
+
+1. Audit inputs: `sol/sol_reply_702_audit_r07_task699_p1_structural_ingest.md`, `sol/luna_task_704_r07_p1_structural_finite_repairs.md`, `sol/luna_reply_704_r07_p1_structural_finite_repairs.md`, and exact candidate `search/d972_r07_grade2_specific_owner_prejoin_v1.py` (claimed 47,995 bytes / 545 LF / SHA-256 38fcbe3757d1b14fd19f4f557f763c1f5f6a2e8da47e0e061707cf28c5064d73).
+
+2. Decide each Task702 blocker separately.  F702-1: prove both the node-lead `False==0` hole and false-claim `0==False` alias are closed on the production helper and reached by rejecting fixtures.  F702-2: prove a bounded canonical three-file root and wrong-parent HEAD mutation both enter the same `validate_block_envelope` used by `ingest_all_five`; prove fixture parameters cannot weaken the default production `PARENTS`/basis/roster/canonical-byte pins.  F702-3 is not closable until a replacement actual all-five replay binds its terminal to exact code bytes; decide only whether the candidate is safe to send to that GHA replay.
+
+3. Run only bounded static/py_compile/selftest checks.  Inspect for unrelated semantic changes, avoidable dense allocation, parallelism, Task640/join changes, production-pin weakening, or a fixture-only path accidentally used in production.  Do not demand generic hardening.
+
+4. Report exact audited receipts and one verdict: `PASS_P1_FINITE_REPAIRS_SAFE_FOR_GHA_REPLAY` with `SAFE_TO_DISPATCH_GHA=yes`, or a minimal typed FAIL.  State explicitly that structural promotion still awaits the exact replacement replay/code receipt and later independent checker/semantic equality replay.  `verified=false`.

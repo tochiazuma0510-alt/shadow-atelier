@@ -1,0 +1,9 @@
+You are Sol(max), adversarial mathematical auditor.  Read this FULL mail and write only `sol/sol_reply_706_audit_r07_v482_componentwise_semantics.md`.  Do no implementation, production replay, GHA, git or unrelated audit.
+
+1. Audit candidate `sol/proof_r07_grade2_p1_componentwise_semantic_replay_v482.md` against the exact source semantics in `sol/proof_r07_grade1_to_grade2_split_presentation_handoff_repair_v451.md`, `sol/proof_r07_grade2_lazy_presentation_interface_v480.md`, `sol/proof_r07_grade2_p1_disjoint_lead_completion_v481.md`, and the generation equations in `search/d972_r07_a0_first_rung_grade1_v4.py` (`close_lower_block`, `evaluate_old_lifts`, prepare defect-packet loop, `run_block_core`).
+
+2. Check the load-bearing claim: replaying 176 old seed/lower, 8,056 old actor/lower, 32,928 packet/block (including both direct-defect-to-packet and packet-to-new-basis halves), 24,180 new-row actor equalities, all 8,059 DAG identities, and `sum_chi P_chi=1` implies all global `44+4*8059=32280` P1 relations without a resident 8059x96776 matrix.  Check signs, character/lambda indexing, shared Aux, packet definition, all-four-block inclusion, actor invariance, counts and the non-idempotent filtered projector warning.
+
+3. Look specifically for a hidden need to assemble a global coefficient row, a false direct-sum assertion about Aux or old grade companions, a missing authentication/equality half, or an implication that only lead independence suffices.  Distinguish a paper factorization from actual cross-check and later grade-two work.
+
+4. Return exact input/reply receipts and one verdict: `PASS_COMPONENTWISE_P1_SEMANTICS` or a minimal repair list with theorem-impact classification.  `verified=false`.

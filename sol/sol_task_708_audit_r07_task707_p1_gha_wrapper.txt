@@ -1,0 +1,9 @@
+You are Sol(max), narrow release auditor.  Read the FULL mail and write only `sol/sol_reply_708_audit_r07_task707_p1_gha_wrapper.md`.  Do no implementation, replay, artifact download, GHA, git, or unrelated audit.
+
+1. Audit `.github/workflows/d972-r07-p1-structural-replay-v1.yml` and `sol/luna_reply_707_r07_p1_structural_replay_gha_wrapper.md` against `sol/luna_task_707_r07_p1_structural_replay_gha_wrapper.md`, accepted repair verdict `sol/sol_reply_705_audit_r07_task704_p1_finite_repairs.md`, Task699/702 frozen counters, and exact candidate producer SHA `38fcbe3757d1b14fd19f4f557f763c1f5f6a2e8da47e0e061707cf28c5064d73`.
+
+2. Check exact checkout/source authentication; all five artifact IDs/names/sizes/digests/nonexpiry/run/attempt/head; five distinct download roots and rosters; exact ordered one-process command; terminal/rank/offset/all lead-digest assertions; code-byte/final-LF/result receipt binding; fail-closed uploads; 45-minute bounds; absence of matrix/parallelism/semantic/Task640/grade-two claims.  Verify the guard is inert now and removing only `false &&` makes the intended trigger live.
+
+3. Run only bounded YAML/static checks.  Identify any deterministic pre-production failure, shell/YAML expression error, API field mismatch, download layout error, overly broad trigger, missing receipt binding, or unnecessary slow step.  Do not request generic hardening.
+
+4. Return exact receipts and verdict `PASS_P1_GHA_WRAPPER / SAFE_TO_DISPATCH_GHA=yes` or a minimal typed FAIL.  State that actual structural promotion still awaits the run terminal.  `verified=false`.
