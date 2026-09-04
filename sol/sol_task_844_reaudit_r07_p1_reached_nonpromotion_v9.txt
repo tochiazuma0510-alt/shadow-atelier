@@ -1,0 +1,49 @@
+# Sol Task 844 — narrow hostile re-audit of reached nonpromotion boundary
+
+Role: Sol(max), independent mathematical/code auditor.  Do not edit source or
+workflow files, do not dispatch GHA, and do not broaden this commission.
+
+Read in full:
+
+1. `sol/sol_reply_838_audit_r07_p1_cross_runner_resume_v8.md`;
+2. `sol/luna_task_842_r07_p1_reached_nonpromotion_repair_v9.md`;
+3. `sol/luna_reply_842_r07_p1_reached_nonpromotion_repair_v9.md`;
+4. `search/d972_r07_canonical_p1_dag_degree2_lift_v10.py`;
+5. `.github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml`;
+6. the immediate predecessors named by the Task842 report, only as needed for
+   exact no-index source/AST comparison.
+
+Audit only the single blocker left by Task838, plus preservation of the four
+already-passed release gates:
+
+1. Confirm that production success and production
+   `except (ResourceStop, KeyboardInterrupt)` actually call the same factored
+   promotion/nonpromotion boundary.
+2. Confirm that the permanent ResourceStop fixture writes real
+   post-checkpoint orphans, invokes that same helper with the actual requested
+   output path and actual terminal object, authenticates rollback to the last
+   durable prefix, propagates the identical terminal object, and proves that
+   no requested output was promoted.  Reject a merely manual or vacuous path
+   absence check.
+3. Confirm that the permanent success fixture invokes the same helper and
+   really promotes the staging output.
+4. Confirm by normalized AST/source comparison that the mathematical build
+   loop, row order, schema, immutable inputs, false terminal claims, and P1
+   search universe were not changed by this repair.  Reconfirm only that the
+   previously-passed workflow heredoc, canonical cross-runner pins, and
+   literal producer SHA/bytes/LF authority remain intact.
+5. Run only bounded checks: external-output `py_compile`, producer
+   `--selftest`, YAML BaseLoader parsing, extraction of every workflow `run:`
+   scalar followed by `bash -n`, and the exact comparisons above.  Do not run
+   the 8,059-row calculation and do not request unrelated hardening.
+
+Write the complete ruling to
+`sol/sol_reply_844_reaudit_r07_p1_reached_nonpromotion_v9.md`.
+
+End with exactly one of:
+
+- `PASS` and `SAFE_TO_DISPATCH_GHA=yes`; or
+- `FAIL`, `SAFE_TO_DISPATCH_GHA=no`, and the smallest exact remaining blocker.
+
+Respect the repository terminology: outputs are not Lean-verified, and this
+audit makes no grade-two, A0, COMMON, cofinal-lift, fake, or Ihara claim.
