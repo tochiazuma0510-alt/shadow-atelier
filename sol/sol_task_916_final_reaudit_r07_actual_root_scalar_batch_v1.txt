@@ -1,0 +1,29 @@
+# Sol(max) Task916 -- final one-field re-audit of root-scalar batch v1
+
+Read Task912, Task914, Task915 and the current Task908 reply.  Re-audit only
+the sole Task914 blocker and retained Task913 fixes.  Write only
+`sol/sol_reply_916_final_reaudit_r07_actual_root_scalar_batch_v1.md`.
+
+Confirm that checker `validate_launch` now returns the SHA-256 of the exact
+authenticated canonical launch bytes, that `check_output` consumes that same
+value in its exact result reconstruction, and that the public checker
+selftest exercises this real launch-file handoff.  Reconfirm by source that
+complete terminal/result/manifest equality and all executed Task913 controls
+remain present, with no regression to the accepted scalar formula,
+one-pass/one-block memory form, workflow pins/caps, or conservative claims.
+
+Run only bounded compile and the two public selftests.  No actual parents,
+GHA, git, implementation or broad audit.  Report exact commands, elapsed
+time and current bytes/LF/SHA-256.  End exactly with PASS/safe or FAIL/unsafe:
+
+```text
+VERDICT=PASS
+SAFE_TO_PUSH_TRIGGER_GHA=yes
+```
+
+or
+
+```text
+VERDICT=FAIL
+SAFE_TO_PUSH_TRIGGER_GHA=no
+```

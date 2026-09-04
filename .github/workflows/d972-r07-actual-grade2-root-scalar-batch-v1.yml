@@ -1,0 +1,433 @@
+name: d972-r07-actual-root-scalar-batch-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  PRODUCER_CAP_MINUTES: "40"
+  CHECKER_CAP_MINUTES: "40"
+
+jobs:
+  actual-root-scalar:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[task908-r07-actual-root-scalar-v1]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout frozen task sources
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned numerical runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Query and authenticate exact live parents
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          test "$repo" = "tochiazuma0510-alt/shadow-atelier"
+          gh api "repos/$repo/actions/runs/$P1_RUN" > "$RUNNER_TEMP/p1-run.json"
+          gh api "repos/$repo/actions/runs/$TASK554_RUN" > "$RUNNER_TEMP/task554-run.json"
+          gh api "repos/$repo/actions/runs/$TASK712_RUN" > "$RUNNER_TEMP/task712-run.json"
+          gh api "repos/$repo/actions/runs/$SEPARATOR_RUN" > "$RUNNER_TEMP/separator-run.json"
+          for spec in \
+            "$P1_ARTIFACT_ID|$P1_ARTIFACT_NAME|$P1_ARCHIVE_BYTES|$P1_ARCHIVE_DIGEST|$P1_RUN|$P1_HEAD" \
+            "$TASK554_PREP_ID|$TASK554_PREP_NAME|$TASK554_PREP_BYTES|$TASK554_PREP_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B0_ID|$TASK554_B0_NAME|$TASK554_B0_BYTES|$TASK554_B0_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B1_ID|$TASK554_B1_NAME|$TASK554_B1_BYTES|$TASK554_B1_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B2_ID|$TASK554_B2_NAME|$TASK554_B2_BYTES|$TASK554_B2_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B3_ID|$TASK554_B3_NAME|$TASK554_B3_BYTES|$TASK554_B3_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK712_ARTIFACT_ID|$TASK712_ARTIFACT_NAME|$TASK712_ARCHIVE_BYTES|$TASK712_ARCHIVE_DIGEST|$TASK712_RUN|$TASK712_HEAD" \
+            "$SEPARATOR_ARTIFACT_ID|$SEPARATOR_ARTIFACT_NAME|$SEPARATOR_ARCHIVE_BYTES|$SEPARATOR_ARCHIVE_DIGEST|$SEPARATOR_RUN|$SEPARATOR_HEAD"; do
+            IFS='|' read -r id name bytes digest run head <<< "$spec"
+            gh api "repos/$repo/actions/artifacts/$id" > "$RUNNER_TEMP/artifact-$id.json"
+            jq -e --argjson id "$id" --arg name "$name" --argjson bytes "$bytes" \
+              --arg digest "$digest" --argjson run "$run" --arg head "$head" \
+              --argjson repo_id "$REPOSITORY_ID" \
+              '(.id == $id and .name == $name and .size_in_bytes == $bytes and
+                .digest == $digest and .expired == false and
+                (.expires_at|type) == "string" and .expires_at != "" and
+                .workflow_run.id == $run and .workflow_run.head_sha == $head and
+                .workflow_run.repository_id == $repo_id and
+                .workflow_run.head_repository_id == $repo_id)' \
+              "$RUNNER_TEMP/artifact-$id.json" > /dev/null
+          done
+          jq -e --arg repo "$repo" --argjson id "$P1_RUN" --argjson attempt "$P1_ATTEMPT" \
+            --arg head "$P1_HEAD" --arg path "$P1_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/p1-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK554_RUN" --argjson attempt "$TASK554_ATTEMPT" \
+            --arg head "$TASK554_HEAD" --arg path "$TASK554_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "failure")' "$RUNNER_TEMP/task554-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK712_RUN" --argjson attempt "$TASK712_ATTEMPT" \
+            --arg head "$TASK712_HEAD" --arg path "$TASK712_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/task712-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$SEPARATOR_RUN" --argjson attempt "$SEPARATOR_ATTEMPT" \
+            --arg head "$SEPARATOR_HEAD" --arg path "$SEPARATOR_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/separator-run.json" > /dev/null
+
+      - name: Download exact P1 cache and instruction roots
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.P1_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/p1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.P1_RUN }}
+
+      - name: Download exact Task554 prepare body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_PREP_NAME }}
+          path: ${{ runner.temp }}/task554-prepare
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 0 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B0_NAME }}
+          path: ${{ runner.temp }}/task554-block-0
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 1 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B1_NAME }}
+          path: ${{ runner.temp }}/task554-block-1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 2 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B2_NAME }}
+          path: ${{ runner.temp }}/task554-block-2
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 3 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B3_NAME }}
+          path: ${{ runner.temp }}/task554-block-3
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task712 maps
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK712_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/task712
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK712_RUN }}
+
+      - name: Download exact physical separator
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SEPARATOR_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/separator
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SEPARATOR_RUN }}
+
+      - name: Authenticate arithmetic sources and prepare canonical launch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/launch.json" <<'PY'
+          import hashlib, json, os, sys
+          from pathlib import Path
+
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":"),
+                                  ensure_ascii=True) + "\n").encode("ascii")
+          def digest(path):
+              h = hashlib.sha256()
+              with path.open("rb") as stream:
+                  for chunk in iter(lambda: stream.read(1 << 20), b""):
+                      h.update(chunk)
+              return h.hexdigest()
+          def find_root(base, required):
+              base = Path(base).resolve()
+              candidates = [base] + sorted((p for p in base.rglob("*") if p.is_dir()),
+                                           key=lambda p: str(p))
+              for item in candidates:
+                  if all((item / name).is_file() for name in required):
+                      return item
+              raise SystemExit("missing root: " + str(base))
+          def receipt(root, name):
+              path = (root / name).resolve()
+              if root.resolve() not in path.parents or not path.is_file():
+                  raise SystemExit("missing receipt: " + str(path))
+              return {"file": name, "bytes": path.stat().st_size, "sha256": digest(path)}
+          def state(base, stem, body_digest):
+              root = find_root(base, [stem + ".HEAD"])
+              body_name = stem + "." + body_digest + ".json"
+              head = receipt(root, stem + ".HEAD")
+              body = receipt(root, body_name)
+              body["sha256"] = body_digest
+              return {"root": str(root), "head": head, "body": body, "files": [head, body]}
+
+          project = Path.cwd().resolve()
+          producer_arith = project / "search/d972_r07_targeted_grade2_owner_generated_join_v15.py"
+          checker_arith = project / "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py"
+          assert digest(producer_arith) == "76546bef263ad260f24632c0da46cfb913ee48759e0533d591c507d072037632"
+          assert digest(checker_arith) == "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"
+          source_pin = {
+              "producer": {"path": producer_arith.as_posix(), "sha256": digest(producer_arith)},
+              "checker": {"path": checker_arith.as_posix(), "sha256": digest(checker_arith)},
+          }
+
+          p1_root = find_root(Path(os.environ["RUNNER_TEMP"]) / "p1",
+                              ["manifest.json", "degree2.cache.bin", "instructions.jsonl"])
+          p1 = {"root": str(p1_root), "manifest": {"file": "manifest.json", "bytes": 17472,
+              "sha256": "86e8b14cb0a60c86468ffb54a7bf14980366406a1e5bea17018fc6961f331feb"},
+              "files": [{"file": "degree2.cache.bin", "bytes": 292444992,
+                         "sha256": "b88edb9b12753cdb7a3629403f8ac14206595e03525fa2a201b6b00b985c1abf"},
+                        {"file": "instructions.jsonl", "bytes": 349055442,
+                         "sha256": "8b549337786b1f3b970a7250f1c326724ef957369c213c55af5a3d52a96f38ae"}],
+              "run": int(os.environ["P1_RUN"]), "attempt": 1,
+              "head": os.environ["P1_HEAD"], "artifact": 9931437113,
+              "artifact_name": os.environ["P1_ARTIFACT_NAME"], "archive_bytes": 641518300,
+              "archive_sha256": os.environ["P1_ARCHIVE_DIGEST"]}
+
+          body_digests = [
+              "1f191d88a0453360021ec57d253a7d16c9a66ac059ddaaadb6db3e2b9293c865",
+              "9ebcc7ad1141c20aeaff82eb4a83a9489dc492b30220547f23526b4fcdd8dc74",
+              "d783bbe6c92c15a241eb78d0b25bca5e7c00f60799ce82f6df8b1d3ee7a202f6",
+              "a6dcc904fc3e9daae008f72de7e83ffadcd39055d557621b9cdf06baea0e83ac",
+              "642a4ec0ad6ad4ea659e84330e34006c767ca029203446cb64a17c151fefdb01"]
+          states = [state(Path(os.environ["RUNNER_TEMP"]) / "task554-prepare", "prepare", body_digests[0])]
+          for index in range(4):
+              states.append(state(Path(os.environ["RUNNER_TEMP"]) / ("task554-block-" + str(index)),
+                                   "block-" + str(index), body_digests[index + 1]))
+          artifact_rows = [
+              (9865061266, os.environ["TASK554_PREP_NAME"], 204360988, os.environ["TASK554_PREP_DIGEST"]),
+              (9865238399, os.environ["TASK554_B0_NAME"], 81729645, os.environ["TASK554_B0_DIGEST"]),
+              (9865242284, os.environ["TASK554_B1_NAME"], 82259824, os.environ["TASK554_B1_DIGEST"]),
+              (9865193269, os.environ["TASK554_B2_NAME"], 82200189, os.environ["TASK554_B2_DIGEST"]),
+              (9865239848, os.environ["TASK554_B3_NAME"], 82266526, os.environ["TASK554_B3_DIGEST"])]
+          task554 = {"schema": "d972.r07.actual-grade2.root-scalar-batch.v1.task554-parent.v1",
+              "source_run": 33677346616, "source_attempt": 1,
+              "source_head": os.environ["TASK554_HEAD"],
+              "artifacts": [{"id": i, "name": n, "bytes": b, "sha256": d}
+                            for i, n, b, d in artifact_rows],
+              "prepare": states[0], "blocks": states[1:]}
+
+          task712_root = Path(os.environ["RUNNER_TEMP"]) / "task712"
+          task712 = [{"root": str(task712_root.resolve()), "run_id": 33814194630,
+                      "run_attempt": 1, "artifact_id": 9915928157,
+                      "artifact_digest": os.environ["TASK712_ARCHIVE_DIGEST"]} for _ in range(4)]
+          separator_root = find_root(Path(os.environ["RUNNER_TEMP"]) / "separator",
+                                     ["state/manifest.json", "state/physical.bin", "output/lambda.bin"])
+          separator = {"schema": "d972.r07.actual-grade2.root-scalar-batch.v1.separator-parent.v1",
+              "root": str(separator_root), "artifact": {"run": 33891714539, "attempt": 1,
+              "head": os.environ["SEPARATOR_HEAD"], "id": 9944214057,
+              "name": os.environ["SEPARATOR_ARTIFACT_NAME"], "bytes": 107195261,
+              "sha256": os.environ["SEPARATOR_ARCHIVE_DIGEST"]},
+              "manifest": {"file": "state/manifest.json", "bytes": 7780,
+                           "sha256": "d11d551c2b1a127bd900c013cbc684eef698372660ff733b10f82bb4793f227b"},
+              "physical": {"file": "state/physical.bin", "bytes": 16377984,
+                           "sha256": "1246ae0c23c7dcbfc2a1c2f73075f38968a4ab7b2e5c8fc006f0f8aafae2d57e",
+                           "rows": 1354},
+              "lambda": {"file": "output/lambda.bin", "bytes": 12096,
+                          "sha256": "7522ee1f00f386b229ea46bc0f2b9fdf2854cf03c262f40a2f60dd9ced0102ed"},
+              "internal": {"terminal": {"file": "output/terminal.json", "bytes": 0,
+                  "sha256": "098d5961cddc187d01c08e22f9f40ce55a7a02e8a1b1d088eca8c804957098cf"},
+                  "result": {"file": "output/result.json", "bytes": 0,
+                  "sha256": "d23892a4319a6d7eaa3d09af17a84e59cb6b0a1635f527fb77dc1038ae749968"},
+                  "checker": {"file": "checker-result.json", "bytes": 0,
+                  "sha256": "2cad883205a5a1dc6e8795567004e071c3a7868351cf1d801727a695b43aa433"}}}
+          # Internal JSON sizes are deliberately resolved from the downloaded
+          # files; the executable authenticates their fixed SHA-256 values.
+          for item in separator["internal"].values():
+              path = separator_root / item["file"]
+              item["bytes"] = path.stat().st_size
+          claims = {"ROOT_SCALAR_BATCH_CANDIDATE": True, "COMPLETE_DUAL_ORBITS": False,
+                    "GRADE2_MEMBER": "NOT_DECIDED", "GRADE2_NONMEMBER": "NOT_DECIDED",
+                    "A0": "NOT_DECLARED", "COMMON": "NOT_DECLARED", "COFINAL_LIFT": "NOT_DECLARED",
+                    "FAKE": "NOT_DECLARED", "IHARA": "NOT_DECLARED", "verified": False}
+          launch = {"schema": "d972.r07.actual-grade2.root-scalar-batch.v1.launch.v1",
+                    "fixture_only": False, "mode": "actual",
+                    "characters": [[0, 0], [0, 1], [1, 0], [1, 1]],
+                    "actors": [1, -1, 2, -2], "p1_parent": p1, "task554_parent": task554,
+                    "task712_parents": task712, "separator_parent": separator,
+                    "out": str((Path(os.environ["RUNNER_TEMP"]) / "output").resolve()),
+                    "claims": claims, "source_pin": source_pin}
+          Path(sys.argv[1]).write_bytes(canonical(launch))
+          PY
+          mkdir -p "$RUNNER_TEMP/receipts"
+          python -B - <<'PY' > "$RUNNER_TEMP/receipts/source-receipt.json"
+          import hashlib, json
+          from pathlib import Path
+          files = [Path("search/d972_r07_actual_grade2_root_scalar_batch_v1.py"),
+                   Path("search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py"),
+                   Path("search/d972_r07_targeted_grade2_owner_generated_join_v15.py"),
+                   Path("search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py")]
+          out = []
+          for path in files:
+              data = path.read_bytes()
+              assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n")
+              out.append({"path": path.as_posix(), "bytes": len(data), "lf": data.count(b"\n"),
+                          "sha256": hashlib.sha256(data).hexdigest()})
+          print(json.dumps({"schema": "d972.r07.actual-root-scalar-batch.source-receipt.v1",
+                            "files": out, "candidate": True, "verified": False},
+                           sort_keys=True, separators=(",", ":")))
+          PY
+
+      - name: Compile and run bounded selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m py_compile \
+            search/d972_r07_actual_grade2_root_scalar_batch_v1.py \
+            search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py
+          python -B -u search/d972_r07_actual_grade2_root_scalar_batch_v1.py --selftest
+          python -B -u search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py --selftest
+
+      - name: Run actual producer with minute-scale progress
+        id: producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$RUNNER_TEMP/producer.log"; progress="$RUNNER_TEMP/producer-progress.log"
+          : > "$progress"
+          timeout --signal=TERM --kill-after=30s "${PRODUCER_CAP_MINUTES}m" \
+            python -B -u search/d972_r07_actual_grade2_root_scalar_batch_v1.py \
+            --run-launch "$RUNNER_TEMP/launch.json" > "$log" 2>&1 &
+          pid=$!; next=$(date +%s)
+          while kill -0 "$pid" 2>/dev/null; do
+            now=$(date +%s)
+            if (( now >= next )); then
+              date -u +"producer-progress=%Y-%m-%dT%H:%M:%SZ" | tee -a "$progress"
+              du -sh "$RUNNER_TEMP/output" 2>/dev/null | tee -a "$progress" || true
+              tail -n 3 "$log" 2>/dev/null | tee -a "$progress" || true
+              next=$((now + 60))
+            fi
+            sleep 1
+          done
+          wait "$pid"; cat "$log"
+
+      - name: Run independent checker with minute-scale progress
+        id: checker
+        if: steps.producer.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$RUNNER_TEMP/checker.log"; result="$RUNNER_TEMP/checker-result.json"
+          progress="$RUNNER_TEMP/checker-progress.log"; : > "$progress"
+          timeout --signal=TERM --kill-after=30s "${CHECKER_CAP_MINUTES}m" \
+            python -B -u search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py \
+            --check-launch "$RUNNER_TEMP/launch.json" > "$result" 2> "$log" &
+          pid=$!; next=$(date +%s)
+          while kill -0 "$pid" 2>/dev/null; do
+            now=$(date +%s)
+            if (( now >= next )); then
+              date -u +"checker-progress=%Y-%m-%dT%H:%M:%SZ" | tee -a "$progress"
+              du -sh "$RUNNER_TEMP/output" 2>/dev/null | tee -a "$progress" || true
+              tail -n 3 "$log" 2>/dev/null | tee -a "$progress" || true
+              next=$((now + 60))
+            fi
+            sleep 1
+          done
+          wait "$pid"; cat "$log"; cat "$result"
+
+      - name: Upload diagnostics and candidate logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-actual-root-scalar-batch-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/launch.json
+            ${{ runner.temp }}/receipts
+            ${{ runner.temp }}/producer.log
+            ${{ runner.temp }}/producer-progress.log
+            ${{ runner.temp }}/checker.log
+            ${{ runner.temp }}/checker-progress.log
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/output
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 0
+
+      - name: Publish final candidate only after both executions pass
+        if: steps.producer.outcome == 'success' && steps.checker.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-actual-root-scalar-batch-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/checker-result.json
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0

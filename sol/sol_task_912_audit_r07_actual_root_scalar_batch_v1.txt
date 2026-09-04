@@ -1,0 +1,116 @@
+# Sol(max) Task912 -- hostile audit of actual R07 root-scalar batch v1
+
+## 1. Role and scope
+
+Act as Sol(max), independently and adversarially audit Luna Task908's four
+files:
+
+1. `search/d972_r07_actual_grade2_root_scalar_batch_v1.py`;
+2. `search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py`;
+3. `.github/workflows/d972-r07-actual-grade2-root-scalar-batch-v1.yml`;
+4. `sol/luna_reply_908_r07_actual_root_scalar_batch_v1.md`.
+
+Read Task908, v533, v534, v540, replies 878, 880, 907, 909--911, and the
+current v220 delta before ruling.  This is a narrow code/workflow audit.  Do
+not run the actual large parents, GHA or git, and do not add implementation.
+Write only `sol/sol_reply_912_audit_r07_actual_root_scalar_batch_v1.md`.
+
+## 2. Exact-parent and same-object gates
+
+Check every frozen run/attempt/head/artifact/archive and internal file pin for
+P1, Task554, Task712 and the actual separator.  Check that artifact roots are
+kept separate, exact file receipts are authenticated before interpretation,
+and the same separator generation/head/lambda and same P1/Task554/Task712
+objects reach scalar production and independent checking.  Reject any private
+16-row fixture, old A0 checkpoint, caller-selected semantic path or digest-only
+parent substitution.
+
+## 3. Covector and P1 kernel gates
+
+Check from source, not prose, that each root is `B_fwd^T lambda`, its four
+children are the four `T_fwd^T` actions in order `[1,-1,2,-2]`, and the exact
+Task909 hashes/supports are required.  A root RawDual has empty word and empty
+`actor_table_identities_along_w`; child table identities are not smuggled into
+that root.
+
+Audit the vectorized sparse packed-trit kernel against an independently coded
+dense bounded replay.  In particular check character slice byte offsets,
+trit slots, coefficients, chunk boundaries, final partial chunk, integer
+overflow and all 8,059 rows.  The three authenticated zero roots may be filled
+with deterministic zeros without projection; no uninitialized values may be
+hashed.  Require one producer P1 cache pass and one checker pass, not one pass
+per character or covector.
+
+## 4. Exact blockwise scalar gates
+
+Independently compare the implementation with v540/v15 entry by entry:
+
+- 44 seed accumulators;
+- 2,014 old rows times four actor slots;
+- 6,045 new rows times four actor slots;
+- 8,232 Task554 origins and 32,280 final scalars;
+- all 16 new-block seed contributions and all four new-block contributions
+  to every old actor relation;
+- same-block-only new actor transitions;
+- the minus sign and final seed-then-row/actor scan order.
+
+Look specifically for local/global offset confusion and for incrementing an
+old-row cursor inside rather than after its four slots.  Require prepare plus
+at most one parsed new block and a 32,280-trit accumulator.  A reconstructed
+global nested relation tree or simultaneous retention of four blocks is a
+FAIL.
+
+The fixed relation-source receipt must bind all exact Task554 expressions and
+parents in deterministic order and must not depend on q, character or direct
+seed scalar values.  Producer and checker must derive it independently.
+
+## 5. Terminal, continuation and claim gates
+
+Check first-violation/EOF scalar prefix replay, complete 32,280-origin EOF,
+file roster and launch/result joins.  For the actual char0 lead/value `3/2`,
+the normalized row is `2*q`; raw and normalized hashes must not be confused,
+and any published continuation state must contain or unambiguously reconstruct
+the normalized packed row and correct rolling receipt.  Zero characters are
+complete trivial orbits; a char0 root EOF is only one of 504 independent raw
+rows, not complete dual EOF.
+
+Require every upper claim to remain false/not-decided.  Neither terminal may
+declare grade-two MEMBER/NONMEMBER, A0, COMMON, a cofinal lift, fake or Ihara.
+`verified=false`.
+
+## 6. Workflow and performance audit
+
+Statically parse the YAML and inspect every download/query/launch path.  It
+must have the sole marker `[task908-r07-actual-root-scalar-v1]`, exact upstream
+conclusions (including Task554 `failure`), final publication only after both
+named executions succeed, diagnostic publication on failure, and honest
+process/job caps.
+
+Explicitly reject needless slow work: no 349 MB instruction JSON parsing, no
+P1/PB3/PB4 rebuild, no physical closure or target solve, no 504-orbit scalar
+scan, no old A0 exhaustive scan/SAT/nullspace, no duplicate cache read inside
+one executable, no 110-million-element Python hot loop, no dense
+`8059 x 145152` matrix, and no oversized audit SELFTEST.  Confirm bounded
+selftests/benchmark exercise the actual vectorized kernel and two-block offset
+and four-slot indexing controls rather than merely setting PASS booleans.
+
+## 7. Verdict
+
+Run only bounded compile/selftests/static checks.  Give exact commands,
+results, bytes/LF/SHA-256 of all audited files, and a concise resource estimate
+for one real workflow.  End with exactly one of:
+
+```text
+VERDICT=PASS
+SAFE_TO_PUSH_TRIGGER_GHA=yes
+```
+
+or
+
+```text
+VERDICT=FAIL
+SAFE_TO_PUSH_TRIGGER_GHA=no
+```
+
+For FAIL, state the smallest mathematical/implementation repair.  Do not
+expand the audit into unrelated hardening.

@@ -21453,3 +21453,44 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No complete character-zero orbit, grade-two
   MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake certificate
   or Ihara witness is declared.  `verified=false`.
+
+### Delta 523 (2026-09-05): the actual root-scalar batch is safe to dispatch
+
+- Luna Tasks908/913/915 implement the exact v540 prepare-plus-one-block
+  evaluator in
+  `search/d972_r07_actual_grade2_root_scalar_batch_v1.py` and an independent
+  output checker in
+  `search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py`.  Their final
+  byte/SHA-256 receipts are respectively
+  `78662/aa76f1ff16314f6e3b6253d3d0276a21934ae493c0bd0318065ec73c50b98d72`
+  and
+  `81753/dea105cd8c196565d95c6828c4afdfdd7f1d6395b5d85dfb7d3447fdfe4f0fa2`.
+  The workflow remains byte-identical at
+  `23735/cfa9814863e2c61db3158b5940854b72e9c0cd0bbd4b0ab53ea4a29fa7a238c3`.
+- Task912 first rejected unchecked coherently resealed upper claims/parent
+  joins and advertised-but-unexecuted test flags.  Task913 repaired these by
+  exact reconstruction of every terminal/result/manifest field and by real
+  bounded separator, Task712, P1, Task554, 32,280-origin EOF, seed/actor
+  order, and two-block/four-slot controls.  Task914 then caught the sole
+  remaining ordinary-path omission, the checker launch-SHA handoff; Task915
+  adds `launch_sha256=sha(raw)` from the authenticated canonical launch and
+  exercises that handoff through the real launch validator.
+- Task916's final narrow independent audit returns `VERDICT=PASS` and
+  `SAFE_TO_PUSH_TRIGGER_GHA=yes`.  Its bounded compile plus two public
+  selftests all pass in under five seconds.  It confirms no regression in
+  the accepted mod-3 formula, 32,280 relation order, vectorized cache
+  projection, one cache pass, prepare-plus-one-current-block residency,
+  exact parent pins, workflow caps or conservative claim boundary.
+
+**v220 mapping**:
+
+- Relative to Delta522, J3's actual character-zero root evaluation has moved
+  from independently audited mathematics to independently audited executable
+  and workflow, ready for its first real P1/Task554 run.  The run has not yet
+  supplied a scalar value: RootViolation would enter J2 materialization,
+  while RootScalarEOF would leave exactly 503 independent orbit rows.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.

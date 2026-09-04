@@ -1,0 +1,33 @@
+# Sol(max) Task914 -- narrow re-audit after Task913
+
+Read the complete Task912 reply and Luna Task913.  Re-audit only the repaired
+producer/checker and unchanged workflow against the two Task912 blockers.
+Write only `sol/sol_reply_914_reaudit_r07_actual_root_scalar_batch_v1.md`.
+
+1. Confirm checker reconstructs and exactly compares terminal, result and
+   manifest, including all claim fields, terminal kind/roster, and exact
+   launch/separator/P1/Task712 joins.  Demonstrate that coherently resealed
+   false upper claims and wrong joins are rejected.
+2. Confirm each advertised selftest flag follows an executed assertion:
+   separator, Task712, P1, Task554 mutations; relation/child/prefix reseals;
+   zero/four-root EOF; seed-first/actor-first order; full 32,280-origin EOF;
+   and actual two-block/four-slot traversal versus an independent reference.
+3. Re-run only bounded compile and both public selftests.  Ensure the accepted
+   scalar formula, vectorized production path, one-pass/one-block memory form,
+   parent pins, workflow caps and conservative claims did not regress.  No
+   actual parents, GHA, git, broad hardening or new implementation.
+4. Report exact commands, elapsed time, bytes/LF/SHA-256 for producer,
+   checker, workflow and Task908 reply.  End exactly with PASS/safe or
+   FAIL/unsafe.  A failure must identify the smallest remaining repair.
+
+```text
+VERDICT=PASS
+SAFE_TO_PUSH_TRIGGER_GHA=yes
+```
+
+or
+
+```text
+VERDICT=FAIL
+SAFE_TO_PUSH_TRIGGER_GHA=no
+```
