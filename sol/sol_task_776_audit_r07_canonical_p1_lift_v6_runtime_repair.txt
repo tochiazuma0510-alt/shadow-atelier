@@ -1,0 +1,62 @@
+# Sol Task776 — hostile audit of canonical P1 lift v6 runtime repair
+
+You are Sol(max).  Read every input completely and write only
+`sol/sol_reply_776_audit_r07_canonical_p1_lift_v6_runtime_repair.md`.
+
+Inputs:
+
+1. `sol/luna_task_773_r07_canonical_p1_lift_runtime_type_repair_v1.md`
+2. `sol/luna_reply_773_r07_canonical_p1_lift_runtime_type_repair_v1.md`
+3. `sol/sol_reply_769_reaudit_r07_canonical_p1_lift_v5_clock_repair.md`
+4. `sol/sol_reply_775_root_r07_canonical_p1_lift_v2_result.md`
+5. producer v5 and candidate v6, completely
+6. workflow v2 and candidate v3, completely
+7. extracted failure logs under external temp directory
+   `%TEMP%/shadow_atelier_lift_v2_logs_33824881796_1`
+
+The real run was `33824881796/1`, job `100875303915`, head
+`8bcc7182b4b6676ce4f752f61ad5ffee99d11926`; it stopped after 50.62 s,
+max RSS 5,196,492 KiB, with no checkpoint line and only
+`object supporting the buffer API required`.
+
+Audit adversarially:
+
+1. Byte/AST-diff v5->v6.  No arithmetic, row order, DAG, reduction, P1 gate,
+   cache, parent authentication, resource cap or false claim may change.
+2. Do **not** accept Luna's causal diagnosis by assertion.  The changed packet
+   expression is after all 2,014 old rows, whereas the actual log contains no
+   128-row checkpoint.  Root independently replayed the actual character-0
+   old DAG rows 0..127 using the actual packed P1 blobs: all 128 passed in
+   15.452 s.  Root also confirmed on local NumPy that a C-contiguous memmap row
+   gives identical `bytes(row)` and `row.tobytes(order="C")`.  Decide whether
+   the packet conversion can really explain the reached failure, or label it
+   only harmless hardening.
+3. Regardless of causal certainty, confirm that v6's bounded traceback and
+   phase always survive every ordinary Exception on the real build path and
+   cannot make a second failure opaque.  Inspect cleanup exception masking,
+   JSON serialization and the 8192-character bound.
+4. Re-run only bounded compile/selftest/exception controls.  No full parents,
+   production replay, local high-memory parse, GHA, git, network or delegation.
+5. Audit workflow v3 exact pins/schemas/fire token, seriality, parent/checker
+   provenance, 7-GiB/38-minute gates, success-only candidate and always logs.
+6. Inspect for new dense copies/full passes/heavy selftests.  Do not request
+   unrelated cleanup.
+
+The useful ruling may distinguish:
+
+- `SAFE_TO_DISPATCH_GHA=yes` when v6 is arithmetic-neutral and guarantees an
+  exact traceback even if the proposed packet fix was not causal;
+- `ROOT_CAUSE_PROVED=yes/no` separately.
+
+End with an exact blocker, or all applicable lines:
+
+```text
+VERDICT=PASS_CANONICAL_P1_LIFT_V6_RUNTIME_REPAIR
+SAFE_TO_DISPATCH_GHA=yes
+ARITHMETIC_AST_UNCHANGED=yes
+ROOT_CAUSE_PROVED=<yes-or-no>
+SECOND_OPAQUE_FAILURE_PREVENTED=yes
+CANONICAL_P1_LIFT=NOT_CLAIMED
+FAKE_IHARA=NOT_CLAIMED
+verified=false
+```
