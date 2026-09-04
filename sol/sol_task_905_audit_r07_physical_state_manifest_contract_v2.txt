@@ -1,0 +1,40 @@
+Sol Task905 -- hostile audit of rho2-v17 manifest-contract repair v2
+
+Role: independent Sol(max) release auditor.  Read AGENTS.md, Task904/reply904,
+Tasks899/900/902/903 and replies, v1/v2 producer/checker/workflows, flat-stager
+v4, run `33889253581/1` failure record, and the exact rho2-v17 manifest at the
+temporary path named by Task904.  Write only
+`sol/sol_reply_905_audit_r07_physical_state_manifest_contract_v2.md`.
+Do not implement, use Git/GHA, or broaden the repair.
+
+Audit exactly:
+
+1. Recompute the live manifest 26,047-byte SHA and independently census its
+   actual top-level/nested/dictionary shape.  Confirm v2 authenticates the
+   whole receipt before interpretation and accepts this exact contract, not a
+   weakened/wildcard surrogate.
+2. Confirm exact seven-role-to-filename normalization, all frozen payload
+   receipts, dimensions, lower-zero, packing roundtrip, nested hashes,
+   verdict/acquisition/roster checks are retained independently in producer
+   and checker.  The old v1 synthetic shape must be a rejecting mutation.
+3. Diff v1/v2 and prove no mathematical state/elimination/reverse algorithm,
+   parent authority, claim boundary or public-resume semantics changed.  Run
+   only bounded selftests/benchmark and mutation controls.
+4. Audit workflow v2 hashes, commands, exact parents, fail-closed publication,
+   1-second polling, caps, no unnecessary copying/old scan/SAT/nullspace, and
+   exactly one inert marker.  A fresh recomputation of the 82-second state is
+   intentional; no unauthenticated live resume may be introduced.
+
+Give exact receipts and compact gate table.  PASS authorizes one root marker
+commit/push/GHA rerun and does not decide Grade 2.  End:
+
+```text
+VERDICT=PASS or FAIL
+IMPLEMENTATION_ACCEPTED=yes or no
+WORKFLOW_ACCEPTED=yes or no
+SAFE_TO_PUSH_TRIGGER_GHA=yes or no
+ACTUAL_CONNECTION_STATE=false
+GRADE2_MEMBER/NONMEMBER=NOT_DECIDED
+A0/COMMON/COFINAL_LIFT/FAKE/IHARA=NOT_DECLARED
+verified=false
+```

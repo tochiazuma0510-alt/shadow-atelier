@@ -21197,3 +21197,74 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
   compatible cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 516 (2026-09-05): run 1 completes the physical state and isolates an old-fixture rho2 ABI fault
+
+- Root committed the accepted workflow at
+  `1a7bbdeb5be0b5c80fcf9bec2c72940d972f186a` and fired its sole marker.
+  GHA run/attempt `33889253581/1`, job `101076608011`, passed all authority,
+  download, staging, source-authentication and bounded-test steps.  The live
+  producer ran for 82 seconds and wrote the complete physical state before
+  failing closed with `rho2_manifest_shape`; checker and final publication
+  were correctly skipped.
+- Unchecked artifact `9943198098` (106,041,813 archive bytes, digest
+  `sha256:4b9b6cc4581b7f222dcd4783593b3d5eab1c558c2088315831a4d08b92002f87`)
+  records `cursor=offers=authenticated_offers=generation=8059`,
+  `physical_offers=rank=1354`, `skipped=6705`, `dependent=0`, and
+  `physical_reduction_bound=915981`.  Its state stores are complete, but this
+  unchecked run does not promote `ACTUAL_CONNECTION_STATE`.
+- The exact rho2-v17 manifest (26,047 bytes, SHA-256
+  `55c42f06e70b2150d324ed8649fe4af0e6db1bf0e87e315db570d1fa80f61488`)
+  uses `dimensions.lower`, `lower_all_zero`, nested `rho2` hashes, and a
+  role-keyed `files` dictionary.  The v1 producer/checker instead required the
+  obsolete synthetic fixture's top-level zero/hash fields and list-valued
+  `files`.  Flat-stager v4 correctly preserves the exact live manifest, so
+  this is one deterministic reader/fixture ABI mismatch, not a mathematical,
+  memory, or search failure.  Tasks904/905 are restricted to that versioned
+  repair and hostile audit; a fresh 82-second rebuild is preferred to adding
+  a new live-resume authority.
+
+**v220 mapping**:
+
+- Relative to Delta515, the actual state construction has succeeded once and
+  exposed the next failing predicate exactly.  Target reduction has not run,
+  so neither MEMBER nor Separator is declared.  The repair surface is now the
+  live rho2 manifest reader plus its mirrored producer/checker fixtures, not
+  another closure construction or search.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 517 (2026-09-05): the exact rho2-v17 ABI repair passes live-object and hostile audits
+
+- Luna Task904 produced versioned producer/checker/workflow v2 files.  On
+  both independent live-reader paths, the 26,047-byte manifest receipt is
+  authenticated before JSON interpretation; the actual nested dimensions,
+  zero flag, rho2 hashes and seven-role receipt dictionary are then checked.
+  The obsolete v1 list/top-level-hash shape is now a named rejecting control.
+- In addition to synthetic MEMBER/Separator and mutation tests, the exact
+  accepted rho2 artifact was staged through adapter v4 outside the repository.
+  Both v2 live readers returned the same 12,096-byte packed target.  This
+  closes the precise predicate which stopped run 1 without rebuilding the
+  physical state locally.
+- Sol(max) Task905 returned `PASS`, with implementation/workflow accepted and
+  `SAFE_TO_PUSH_TRIGGER_GHA=yes`.  AST comparison changes only the target
+  reader, target fixture and selftest on each side; all physical elimination,
+  insertion-order reduction, reverse substitution, authority and claim code
+  is unchanged.  Workflow v2 retains fresh `resume=false`, the 30/30/75
+  minute caps and marker `[task904-r07-physical-state-separator-v2]`.
+
+**v220 mapping**:
+
+- Relative to Delta516, the sole observed live ABI failure is closed both on
+  the exact object and under an independent audit.  The next permitted action
+  is one fresh GHA rerun, expected to repeat the approximately 82-second state
+  build and then for the first time execute target reduction and the
+  independent terminal checker.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged until that final publication.  No grade-two
+  MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake certificate
+  or Ihara witness is declared.  `verified=false`.
