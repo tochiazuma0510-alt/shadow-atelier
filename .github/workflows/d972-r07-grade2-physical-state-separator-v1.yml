@@ -1,0 +1,405 @@
+name: d972 r07 grade2 physical state separator v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  CONNECTION_RUN_ID: "33876776771"
+  CONNECTION_RUN_ATTEMPT: "1"
+  CONNECTION_HEAD: "b44ec9bd078ce0a6ca596a38cfea5012f4fee4d2"
+  CONNECTION_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-physical-connection-v11.yml"
+  CONNECTION_JOB_ID: "101035535909"
+  CONNECTION_ARTIFACT_ID: "9939860701"
+  CONNECTION_ARTIFACT_NAME: "d972-r07-canonical-p1-physical-connection-v11-candidate-33876776771-1"
+  CONNECTION_ARTIFACT_BYTES: "245546516"
+  CONNECTION_ARTIFACT_DIGEST: "sha256:0c3753d7384a7850aadab41c9ec2755114475862a0b03fd806e875005a72995a"
+  CONNECTION_ARTIFACT_EXPIRES: "2026-12-03T13:12:28Z"
+  RHO2_RUN_ID: "33839962829"
+  RHO2_RUN_ATTEMPT: "1"
+  RHO2_HEAD: "17a8439c766d92719d7ae7d35846ea444da598fa"
+  RHO2_WORKFLOW: ".github/workflows/d972-r07-a0-fresh-precision2-endpoint-v17.yml"
+  RHO2_WORKFLOW_ID: "349904905"
+  RHO2_ARTIFACT_ID: "9925190479"
+  RHO2_ARTIFACT_NAME: "task640-fresh-rho2-v17-33839962829-1"
+  RHO2_ARTIFACT_BYTES: "6049643"
+  RHO2_ARTIFACT_DIGEST: "sha256:01722bfda081e577195aa6ca9c0bba3425a50dcfd829eca6ac23e33cb5d79ca4"
+  RHO2_ARTIFACT_EXPIRES: "2026-12-03T05:17:47Z"
+  PRODUCER_SHA256: "5f1267a7296a6f613f46a1d431c807da22239419362f32ea7c08b51fd7d6e13f"
+  PRODUCER_BYTES: "75934"
+  PRODUCER_LF: "1407"
+  CHECKER_SHA256: "01df70e8c6be4bfdff4fbedc227488edce47b1e9c195466ea7658d36b63ee107"
+  CHECKER_BYTES: "57325"
+  CHECKER_LF: "734"
+  STAGER_SHA256: "ce84baea0bc18380af8a20e32eb8862f9adc20ad596c2012e127f8b7b8341a4b"
+  STAGER_BYTES: "29738"
+  STAGER_LF: "659"
+  PHYSICAL_CONNECTIONS: "1354"
+  PHYSICAL_REDUCTION_BOUND: "915981"
+  PRODUCER_CAP_MINUTES: "30"
+  CHECKER_CAP_MINUTES: "30"
+
+jobs:
+  physical-state:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[task902-r07-physical-state-separator-v1]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 75
+    steps:
+      - name: Checkout frozen task sources
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned numerical runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Query and authenticate exact live parents
+        id: authorities
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          test "$repo" = "tochiazuma0510-alt/shadow-atelier"
+          digits() { [[ "$1" =~ ^[0-9]+$ ]] && [[ "$1" != 0* || "$1" == "0" ]]; }
+          digits "$CONNECTION_RUN_ID"; digits "$CONNECTION_RUN_ATTEMPT"; digits "$CONNECTION_JOB_ID"
+          digits "$CONNECTION_ARTIFACT_ID"; digits "$CONNECTION_ARTIFACT_BYTES"
+          digits "$RHO2_RUN_ID"; digits "$RHO2_RUN_ATTEMPT"; digits "$RHO2_WORKFLOW_ID"
+          digits "$RHO2_ARTIFACT_ID"; digits "$RHO2_ARTIFACT_BYTES"
+          [[ "$CONNECTION_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$RHO2_HEAD" =~ ^[0-9a-f]{40}$ ]]
+          [[ "$CONNECTION_ARTIFACT_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]
+          [[ "$RHO2_ARTIFACT_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]
+
+          gh api "repos/$repo/actions/runs/$CONNECTION_RUN_ID" > "$RUNNER_TEMP/connection-run.json"
+          gh api "repos/$repo/actions/jobs/$CONNECTION_JOB_ID" > "$RUNNER_TEMP/connection-job.json"
+          gh api "repos/$repo/actions/artifacts/$CONNECTION_ARTIFACT_ID" > "$RUNNER_TEMP/connection-artifact.json"
+          gh api "repos/$repo/actions/runs/$RHO2_RUN_ID" > "$RUNNER_TEMP/rho2-run.json"
+          gh api "repos/$repo/actions/artifacts/$RHO2_ARTIFACT_ID" > "$RUNNER_TEMP/rho2-artifact.json"
+
+          jq -e --arg repo "$repo" --argjson id "$CONNECTION_RUN_ID" \
+            --argjson attempt "$CONNECTION_RUN_ATTEMPT" --arg head "$CONNECTION_HEAD" \
+            --arg path "$CONNECTION_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' \
+            "$RUNNER_TEMP/connection-run.json" > /dev/null
+          jq -e --argjson id "$CONNECTION_JOB_ID" --argjson run "$CONNECTION_RUN_ID" \
+            '.id == $id and .run_id == $run and .conclusion == "success"' \
+            "$RUNNER_TEMP/connection-job.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$CONNECTION_ARTIFACT_ID" \
+            --arg name "$CONNECTION_ARTIFACT_NAME" --argjson bytes "$CONNECTION_ARTIFACT_BYTES" \
+            --arg digest "$CONNECTION_ARTIFACT_DIGEST" --argjson run "$CONNECTION_RUN_ID" \
+            --arg head "$CONNECTION_HEAD" --arg expires "$CONNECTION_ARTIFACT_EXPIRES" \
+            --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .name == $name and .size_in_bytes == $bytes and
+              .digest == $digest and .expired == false and .expires_at == $expires and
+              .workflow_run.id == $run and .workflow_run.head_sha == $head and
+              .workflow_run.repository_id == $repo_id and
+              .workflow_run.head_repository_id == $repo_id)' \
+            "$RUNNER_TEMP/connection-artifact.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$RHO2_RUN_ID" \
+            --argjson attempt "$RHO2_RUN_ATTEMPT" --arg head "$RHO2_HEAD" \
+            --arg path "$RHO2_WORKFLOW" --argjson workflow_id "$RHO2_WORKFLOW_ID" \
+            --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .workflow_id == $workflow_id and .status == "completed" and
+              .conclusion == "success")' \
+            "$RUNNER_TEMP/rho2-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$RHO2_ARTIFACT_ID" \
+            --arg name "$RHO2_ARTIFACT_NAME" --argjson bytes "$RHO2_ARTIFACT_BYTES" \
+            --arg digest "$RHO2_ARTIFACT_DIGEST" --argjson run "$RHO2_RUN_ID" \
+            --arg head "$RHO2_HEAD" --arg expires "$RHO2_ARTIFACT_EXPIRES" \
+            --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .name == $name and .size_in_bytes == $bytes and
+              .digest == $digest and .expired == false and .expires_at == $expires and
+              .workflow_run.id == $run and .workflow_run.head_sha == $head and
+              .workflow_run.repository_id == $repo_id and
+              .workflow_run.head_repository_id == $repo_id)' \
+            "$RUNNER_TEMP/rho2-artifact.json" > /dev/null
+
+          python - "$RUNNER_TEMP/rho2-acquisition.json" <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          run = json.loads(Path(os.environ["RUNNER_TEMP"], "rho2-run.json").read_text("ascii"))
+          artifact = json.loads(Path(os.environ["RUNNER_TEMP"], "rho2-artifact.json").read_text("ascii"))
+          value = {
+              "schema": "d972.r07.targeted-grade2.rho2-v9.acquisition.v1",
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "run_id": int(run["id"]), "run_attempt": int(run["run_attempt"]),
+              "head_sha": run["head_sha"], "workflow_path": run["path"],
+              "workflow_id": int(run["workflow_id"]), "event": run["event"],
+              "conclusion": run["conclusion"], "artifact_id": int(artifact["id"]),
+              "artifact_name": artifact["name"],
+              "artifact_archive_bytes": int(artifact["size_in_bytes"]),
+              "artifact_digest": artifact["digest"],
+          }
+          Path(sys.argv[1]).write_bytes((json.dumps(value, sort_keys=True,
+              separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii"))
+          PY
+
+      - name: Reserve fresh runner temporary roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          test ! -e "$RUNNER_TEMP/connection-download"
+          test ! -e "$RUNNER_TEMP/rho2-download"
+          test ! -e "$RUNNER_TEMP/rho2-flat"
+          test ! -e "$RUNNER_TEMP/state"
+          test ! -e "$RUNNER_TEMP/output"
+          mkdir -p "$RUNNER_TEMP"
+
+      - name: Download exact connection candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.CONNECTION_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/connection-download
+          github-token: ${{ github.token }}
+          run-id: ${{ env.CONNECTION_RUN_ID }}
+
+      - name: Download exact rho2-v17 candidate
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.RHO2_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rho2-download
+          github-token: ${{ github.token }}
+          run-id: ${{ env.RHO2_RUN_ID }}
+
+      - name: Authenticate frozen executable sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          expected = {
+              "search/d972_r07_grade2_physical_state_separator_v1.py":
+                  (os.environ["PRODUCER_SHA256"], int(os.environ["PRODUCER_BYTES"]), int(os.environ["PRODUCER_LF"])),
+              "search/check_d972_r07_grade2_physical_state_separator_v1.py":
+                  (os.environ["CHECKER_SHA256"], int(os.environ["CHECKER_BYTES"]), int(os.environ["CHECKER_LF"])),
+              "search/stage_d972_r07_targeted_grade2_rho2_v9_flat_v4.py":
+                  (os.environ["STAGER_SHA256"], int(os.environ["STAGER_BYTES"]), int(os.environ["STAGER_LF"])),
+          }
+          for relative, (wanted, size, lines) in expected.items():
+              data = Path(relative).read_bytes()
+              assert len(data) == size
+              assert hashlib.sha256(data).hexdigest() == wanted
+              assert data.count(b"\n") == lines and b"\r" not in data
+              assert not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n")
+          PY
+
+      - name: Stage rho2 through the accepted flat adapter
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/stage_d972_r07_targeted_grade2_rho2_v9_flat_v4.py \
+            --input "$RUNNER_TEMP/rho2-download" \
+            --output "$RUNNER_TEMP/rho2-flat" \
+            --acquisition "$RUNNER_TEMP/rho2-acquisition.json" \
+            2>&1 | tee "$RUNNER_TEMP/rho2-stager.log"
+
+      - name: Prepare canonical fresh live launch
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/launch.json" "$RUNNER_TEMP/workflow-input-receipt.json" <<'PY'
+          import json, os, sys
+          from pathlib import Path
+          def load(name):
+              return json.loads(Path(os.environ["RUNNER_TEMP"], name).read_text("ascii"))
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":"),
+                                  ensure_ascii=True) + "\n").encode("ascii")
+          connection_run = load("connection-run.json")
+          connection_artifact = load("connection-artifact.json")
+          rho2_run = load("rho2-run.json")
+          rho2_artifact = load("rho2-artifact.json")
+          live_parent = {
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "workflow": os.environ["CONNECTION_WORKFLOW"],
+              "run": os.environ["CONNECTION_RUN_ID"],
+              "attempt": os.environ["CONNECTION_RUN_ATTEMPT"],
+              "head": connection_run["head_sha"],
+              "job": os.environ["CONNECTION_JOB_ID"],
+              "producer_v6_sha256": "6c450c2d82f7ad5795d9188e2912a4587882ae3fb9351217f33393c96f75526a",
+              "checker_v7_sha256": "b5b210f6063a8fed6172417d350510eeccbafa0f60e5e676aa2732fee5e8757e",
+              "workflow_sha256": "c7f3c9a8b728fa5ab0bd6be0b550b381e5b33d8ce1f59523dc04fb82b306fb74",
+          }
+          final_artifact = {
+              "repository": os.environ["GITHUB_REPOSITORY"],
+              "run": os.environ["CONNECTION_RUN_ID"],
+              "attempt": os.environ["CONNECTION_RUN_ATTEMPT"],
+              "head": connection_run["head_sha"], "job": os.environ["CONNECTION_JOB_ID"],
+              "status": connection_run["status"], "conclusion": connection_run["conclusion"],
+              "artifact_id": int(connection_artifact["id"]),
+              "artifact_name": connection_artifact["name"],
+              "archive_bytes": int(connection_artifact["size_in_bytes"]),
+              "digest": connection_artifact["digest"],
+              "expires_at": connection_artifact["expires_at"],
+          }
+          rho2_adapter = {
+              "schema": "d972.r07.targeted-grade2.rho2-v9.acquisition.v1",
+              "run_id": int(rho2_run["id"]), "run_attempt": int(rho2_run["run_attempt"]),
+              "head_sha": rho2_run["head_sha"], "artifact_id": int(rho2_artifact["id"]),
+              "artifact_name": rho2_artifact["name"],
+              "artifact_archive_bytes": int(rho2_artifact["size_in_bytes"]),
+              "artifact_digest": rho2_artifact["digest"],
+              "adapter_sha256": os.environ["STAGER_SHA256"],
+          }
+          launch = {
+              "schema": "d972.r07.physical-state-separator.launch.v1",
+              "fixture_only": False, "live_parent": live_parent,
+              "resume": False,
+              "connection_root": str(Path(os.environ["RUNNER_TEMP"], "connection-download").resolve()),
+              "rho2_root": str(Path(os.environ["RUNNER_TEMP"], "rho2-flat").resolve()),
+              "state_root": str(Path(os.environ["RUNNER_TEMP"], "state").resolve()),
+              "output_root": str(Path(os.environ["RUNNER_TEMP"], "output").resolve()),
+              "rho2_adapter": rho2_adapter,
+              "final_artifact": final_artifact,
+              "producer": {"bytes": 68202, "lf": 690,
+                           "sha256": "6c450c2d82f7ad5795d9188e2912a4587882ae3fb9351217f33393c96f75526a"},
+              "checker": {"bytes": 100990, "lf": 1768,
+                          "sha256": "b5b210f6063a8fed6172417d350510eeccbafa0f60e5e676aa2732fee5e8757e"},
+          }
+          Path(sys.argv[1]).write_bytes(canonical(launch))
+          receipt = {"schema": "d972.r07.physical-state-separator.workflow-input.v1",
+                     "launch": launch, "stager": {"bytes": int(os.environ["STAGER_BYTES"]),
+                     "lf": int(os.environ["STAGER_LF"]), "sha256": os.environ["STAGER_SHA256"]},
+                     "physical_connections": int(os.environ["PHYSICAL_CONNECTIONS"]),
+                     "physical_reduction_bound": int(os.environ["PHYSICAL_REDUCTION_BOUND"]),
+                     "candidate": True, "verified": False}
+          Path(sys.argv[2]).write_bytes(canonical(receipt))
+          PY
+          test ! -e "$RUNNER_TEMP/state"
+          test ! -e "$RUNNER_TEMP/output"
+
+      - name: Compile and run bounded executable checks once
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u -m py_compile \
+            search/d972_r07_grade2_physical_state_separator_v1.py \
+            search/check_d972_r07_grade2_physical_state_separator_v1.py
+          python -B -u search/d972_r07_grade2_physical_state_separator_v1.py --selftest
+          python -B -u search/check_d972_r07_grade2_physical_state_separator_v1.py --selftest
+          python -B -u search/d972_r07_grade2_physical_state_separator_v1.py --benchmark
+
+      - name: Run fresh authenticated physical-state producer
+        id: producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "physical_connection_offers=$PHYSICAL_CONNECTIONS physical_reduction_bound=$PHYSICAL_REDUCTION_BOUND"
+          log="$RUNNER_TEMP/producer.log"
+          progress="$RUNNER_TEMP/producer-progress.log"
+          : > "$progress"
+          timeout --signal=TERM --kill-after=30s "${PRODUCER_CAP_MINUTES}m" \
+            python -B -u search/d972_r07_grade2_physical_state_separator_v1.py \
+            --run-launch "$RUNNER_TEMP/launch.json" > "$log" 2>&1 &
+          pid=$!
+          next_progress=$(date +%s)
+          while kill -0 "$pid" 2>/dev/null; do
+            now=$(date +%s)
+            if (( now >= next_progress )); then
+              date -u +"producer-progress=%Y-%m-%dT%H:%M:%SZ" | tee -a "$progress"
+              du -sh "$RUNNER_TEMP/state" 2>/dev/null | tee -a "$progress" || true
+              tail -n 3 "$log" 2>/dev/null | tee -a "$progress" || true
+              next_progress=$((now + 60))
+            fi
+            sleep 1
+          done
+          set +e
+          wait "$pid"
+          rc=$?
+          set -e
+          cat "$log"
+          if [[ "$rc" == 124 || "$rc" == 137 || "$rc" == 143 ]]; then
+            printf '{"status":"UNKNOWN_RESOURCE","phase":"producer","verified":false}\n' > "$RUNNER_TEMP/producer-status.json"
+          fi
+          exit "$rc"
+
+      - name: Run independent checker on completed candidate
+        id: checker
+        if: steps.producer.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          log="$RUNNER_TEMP/checker.log"
+          result="$RUNNER_TEMP/checker-result.json"
+          progress="$RUNNER_TEMP/checker-progress.log"
+          : > "$progress"
+          timeout --signal=TERM --kill-after=30s "${CHECKER_CAP_MINUTES}m" \
+            python -B -u search/check_d972_r07_grade2_physical_state_separator_v1.py \
+            --check-launch "$RUNNER_TEMP/launch.json" > "$result" 2> "$log" &
+          pid=$!
+          next_progress=$(date +%s)
+          while kill -0 "$pid" 2>/dev/null; do
+            now=$(date +%s)
+            if (( now >= next_progress )); then
+              date -u +"checker-progress=%Y-%m-%dT%H:%M:%SZ" | tee -a "$progress"
+              du -sh "$RUNNER_TEMP/state" 2>/dev/null | tee -a "$progress" || true
+              tail -n 3 "$log" 2>/dev/null | tee -a "$progress" || true
+              next_progress=$((now + 60))
+            fi
+            sleep 1
+          done
+          set +e
+          wait "$pid"
+          rc=$?
+          set -e
+          cat "$log"
+          cat "$result"
+          if [[ "$rc" == 124 || "$rc" == 137 || "$rc" == 143 ]]; then
+            printf '{"status":"UNKNOWN_RESOURCE","phase":"checker","verified":false}\n' > "$RUNNER_TEMP/checker-status.json"
+          fi
+          exit "$rc"
+
+      - name: Upload unchecked state and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-grade2-physical-state-separator-v1-candidate-unchecked-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/state
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/producer.log
+            ${{ runner.temp }}/producer-progress.log
+            ${{ runner.temp }}/producer-status.json
+            ${{ runner.temp }}/rho2-stager.log
+            ${{ runner.temp }}/rho2-acquisition.json
+            ${{ runner.temp }}/launch.json
+            ${{ runner.temp }}/workflow-input-receipt.json
+            ${{ runner.temp }}/checker.log
+            ${{ runner.temp }}/checker-progress.log
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/checker-status.json
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 0
+
+      - name: Upload final candidate after producer and checker success
+        if: steps.producer.outcome == 'success' && steps.checker.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-grade2-physical-state-separator-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/state
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/checker-result.json
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0

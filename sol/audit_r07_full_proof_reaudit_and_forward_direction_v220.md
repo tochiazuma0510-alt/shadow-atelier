@@ -21165,3 +21165,35 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
   compatible cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 515 (2026-09-05): the 1,354-row live state/separator workflow is release-accepted
+
+- Luna Task902 built the single fresh workflow which authenticates the exact
+  cross-checked v11 connection artifact and the accepted rho2-v17 artifact,
+  stages rho2 through flat-adapter v4, and launches only the accepted
+  file-backed physical-state producer followed by its independent checker.
+- Sol(max) Task903 returned `PASS` and
+  `SAFE_TO_PUSH_TRIGGER_GHA=yes`.  Its hostile audit found no PB3/PB4
+  reconstruction, old A0 exhaustive scan, SAT/nullspace solve, live resume,
+  checkpoint reuse, redundant workflow-level connection replay, or
+  memory-heavy dense state.  Final publication is gated on both named
+  successes; resource exits remain `UNKNOWN_RESOURCE`.
+- The one performance fault found during audit was removed before acceptance:
+  completion is polled each second while progress is emitted about once per
+  minute, reducing the serial monitor tail from at most 120 seconds to at
+  most about two seconds total.  Producer/checker caps are 30 minutes each
+  inside a 75-minute job; the physical bound remains only 915,981
+  reductions.  The sole release marker is
+  `[task902-r07-physical-state-separator-v1]`.
+
+**v220 mapping**:
+
+- Relative to Delta514, the accepted executable has acquired an independently
+  accepted, exact-authority GHA launch surface.  One marker run may now return
+  either an actual initial MEMBER or the canonical initial Separator.  That
+  run and its final independent publication are not yet counted here.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
