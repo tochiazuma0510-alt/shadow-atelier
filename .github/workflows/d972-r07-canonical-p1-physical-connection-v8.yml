@@ -1,0 +1,366 @@
+name: d972 r07 canonical P1 physical connection v8
+
+on:
+  workflow_dispatch:
+    inputs:
+      p1_run_id: {description: exact completed P1 workflow run id, required: true, default: "33851744070", type: string}
+      p1_run_attempt: {description: exact P1 run attempt, required: true, default: "1", type: string}
+      p1_head: {description: exact P1 workflow head sha, required: true, default: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f", type: string}
+      p1_artifact_id: {description: exact P1 candidate artifact id, required: true, default: "9931437113", type: string}
+      p1_artifact_name: {description: exact P1 candidate artifact name, required: true, default: "task809-canonical-p1-degree2-lift-v9-33851744070-1", type: string}
+      p1_artifact_archive_bytes: {description: exact P1 artifact archive bytes, required: true, default: "641518300", type: string}
+      p1_artifact_digest: {description: exact P1 artifact digest, required: true, default: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c", type: string}
+      resume_artifact_run_id: {description: optional prefix run id, required: false, default: "", type: string}
+      resume_artifact_run_attempt: {description: optional prefix run attempt, required: false, default: "", type: string}
+      resume_artifact_head: {description: optional prefix run head sha, required: false, default: "", type: string}
+      resume_artifact_name: {description: optional prefix artifact name, required: false, default: "", type: string}
+      resume_artifact_id: {description: optional prefix artifact id, required: false, default: "", type: string}
+      resume_artifact_archive_bytes: {description: optional prefix archive bytes, required: false, default: "", type: string}
+      resume_artifact_digest: {description: optional prefix digest, required: false, default: "", type: string}
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+
+permissions: {contents: read, actions: read}
+
+env:
+  SOURCE_RUN: "33677346616"
+  SOURCE_ATTEMPT: "1"
+  SOURCE_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  PREP_ID: "9865061266"
+  B0_ID: "9865238399"
+  B1_ID: "9865242284"
+  B2_ID: "9865193269"
+  B3_ID: "9865239848"
+  PREP_BYTES: "204360988"
+  B0_BYTES: "81729645"
+  B1_BYTES: "82259824"
+  B2_BYTES: "82200189"
+  B3_BYTES: "82266526"
+  PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK554_EXPIRES: "2026-12-01T20:06:55Z"
+  CHECKER_RUN: "33819301663"
+  CHECKER_ATTEMPT: "1"
+  CHECKER_HEAD: "e8a4de593700a81fb2a026366e349b89b640a6e8"
+  CHECKER_NAME: "task757-p1-semantic-checker-only-v3-success-33819301663-1"
+  CHECKER_ID: "9918207444"
+  SEMANTIC_ARTIFACT_BYTES: "24694"
+  CHECKER_DIGEST: "sha256:f99fd6ce1172cc349b249ead8dbb8e75c8c8bd8a1b8a0493dfd4596aee5fbf0c"
+  CHECKER_EXPIRES: "2026-12-02T23:50:18Z"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_ID: "9915928157"
+  TASK712_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_BYTES: "22404961"
+  TASK712_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  TASK712_EXPIRES: "2026-10-03T22:41:38Z"
+  P1_V10_SHA: "af99dbb399a0f98ab70e240498fb7b934ce8e0af93e4930cd1dbd549177f750f"
+  P1_V10_BYTES: "154825"
+  P1_V10_LF: "3273"
+  P1_FIXED_RUN_ID: "33851744070"
+  P1_FIXED_RUN_ATTEMPT: "1"
+  P1_FIXED_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_FIXED_ARTIFACT_ID: "9931437113"
+  P1_FIXED_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_FIXED_ARTIFACT_BYTES: "641518300"
+  P1_FIXED_ARTIFACT_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  P1_RUN_ID_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_run_id || '33851744070' }}"
+  P1_RUN_ATTEMPT_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_run_attempt || '1' }}"
+  P1_HEAD_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_head || '6673eb2ea15ca6022acc2ddc5a8a204a0380172f' }}"
+  P1_ARTIFACT_ID_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_artifact_id || '9931437113' }}"
+  P1_ARTIFACT_NAME_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_artifact_name || 'task809-canonical-p1-degree2-lift-v9-33851744070-1' }}"
+  P1_ARTIFACT_BYTES_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_artifact_archive_bytes || '641518300' }}"
+  P1_ARTIFACT_DIGEST_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.p1_artifact_digest || 'sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c' }}"
+  RESUME_RUN_ID_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_run_id || '' }}"
+  RESUME_RUN_ATTEMPT_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_run_attempt || '' }}"
+  RESUME_HEAD_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_head || '' }}"
+  RESUME_ARTIFACT_NAME_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_name || '' }}"
+  RESUME_ARTIFACT_ID_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_id || '' }}"
+  RESUME_ARTIFACT_BYTES_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_archive_bytes || '' }}"
+  RESUME_ARTIFACT_DIGEST_RESOLVED: "${{ github.event_name == 'workflow_dispatch' && inputs.resume_artifact_digest || '' }}"
+  G1_SHA: "1fb4b29691f448782e7f7f2e2282e7067282bc619fb34b7214089c5a73e24dc4"
+  G1_BYTES: "144552"
+  G1_LF: "3326"
+  P2_SHA: "acffa38731a28d85539f765537010e6bf20f55c7f7feae0099d56c58c808ffc8"
+  P2_BYTES: "145917"
+  P2_LF: "3499"
+  SEM_SHA: "dc5931c3fd3ad5d1a947346599824b02ad1d7b5f699361c05f1f051076dcbdcf"
+  SEM_BYTES: "41619"
+  SEM_LF: "382"
+  STRUCT_SHA: "38fcbe3757d1b14fd19f4f557f763c1f5f6a2e8da47e0e061707cf28c5064d73"
+  STRUCT_BYTES: "47995"
+  STRUCT_LF: "545"
+  FLOOR_SHA: "6201ae0b5c1d648529ac648a574c5096b8088fe341423724556860d9d3f23fba"
+  FLOOR_BYTES: "26235"
+  FLOOR_LF: "508"
+  WORDS_SHA: "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"
+  WORDS_BYTES: "115928"
+  WORDS_LF: "0"
+  TASK712_V3_SHA: "7d6243901ef34b5c00e56e7be517beb8775fe83aedd277b23c4ed4fb29a72b84"
+  TASK712_V3_BYTES: "46179"
+  TASK712_V3_LF: "989"
+  PRODUCER_SHA: "26fee30c0f7934c7da85751ecff3c2e8f3d087a4ac8f338d1592f0290de10330"
+  PRODUCER_BYTES: "68162"
+  PRODUCER_LF: "689"
+  CHECKER_SHA: "c2f82d7fb68d765d585d3feda2e093f1b1b1d09a04d9a66c9f56239b5c895422"
+  CHECKER_BYTES: "98787"
+  CHECKER_LF: "1735"
+  CHECKER_V5_SHA: "9bffba99beefc9393246e15662fca84fc59cfdb7f40f9a105d5541a2e9d57744"
+  CHECKER_V5_BYTES: "93450"
+  CHECKER_V5_LF: "1629"
+  PRODUCER_MEASURED_RPS: "4330.934728491989"
+  CHECKER_MEASURED_RPS: "4318.534826636804"
+  FULL_REDUCTION_ENVELOPE: "32469711"
+  CAP_SAFETY_FACTOR: "1.25"
+  CAP_PRODUCER_MINUTES: "124.952668"
+  CAP_CHECKER_MINUTES: "125.311447"
+  CAP_COMBINED_SAFETY_MINUTES: "312.830145"
+  CAP_HEADROOM_MINUTES: "17.169855"
+  CAP_COMMAND_MINUTES: "330"
+  CAP_JOB_MINUTES: "360"
+  PYTHONUNBUFFERED: "1"
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+
+jobs:
+  connection:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-canonical-p1-physical-connection-v8]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - name: Install pinned numerical runtime
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+      - name: Query and authenticate every artifact authority
+        id: authorities
+        env:
+          GH_TOKEN: "${{ github.token }}"
+          P1_RUN_ID: "${{ env.P1_RUN_ID_RESOLVED }}"
+          P1_RUN_ATTEMPT: "${{ env.P1_RUN_ATTEMPT_RESOLVED }}"
+          P1_HEAD: "${{ env.P1_HEAD_RESOLVED }}"
+          P1_ARTIFACT_ID: "${{ env.P1_ARTIFACT_ID_RESOLVED }}"
+          P1_ARTIFACT_NAME: "${{ env.P1_ARTIFACT_NAME_RESOLVED }}"
+          P1_ARTIFACT_BYTES: "${{ env.P1_ARTIFACT_BYTES_RESOLVED }}"
+          P1_ARTIFACT_DIGEST: "${{ env.P1_ARTIFACT_DIGEST_RESOLVED }}"
+          RESUME_RUN_ID: "${{ env.RESUME_RUN_ID_RESOLVED }}"
+          RESUME_RUN_ATTEMPT: "${{ env.RESUME_RUN_ATTEMPT_RESOLVED }}"
+          RESUME_HEAD: "${{ env.RESUME_HEAD_RESOLVED }}"
+          RESUME_ARTIFACT_ID: "${{ env.RESUME_ARTIFACT_ID_RESOLVED }}"
+          RESUME_ARTIFACT_NAME: "${{ env.RESUME_ARTIFACT_NAME_RESOLVED }}"
+          RESUME_ARTIFACT_BYTES: "${{ env.RESUME_ARTIFACT_BYTES_RESOLVED }}"
+          RESUME_ARTIFACT_DIGEST: "${{ env.RESUME_ARTIFACT_DIGEST_RESOLVED }}"
+        shell: bash
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          test "$P1_RUN_ID" = "$P1_FIXED_RUN_ID"; test "$P1_RUN_ATTEMPT" = "$P1_FIXED_RUN_ATTEMPT"; test "$P1_HEAD" = "$P1_FIXED_HEAD"
+          test "$P1_ARTIFACT_ID" = "$P1_FIXED_ARTIFACT_ID"; test "$P1_ARTIFACT_NAME" = "$P1_FIXED_ARTIFACT_NAME"
+          test "$P1_ARTIFACT_BYTES" = "$P1_FIXED_ARTIFACT_BYTES"; test "$P1_ARTIFACT_DIGEST" = "$P1_FIXED_ARTIFACT_DIGEST"
+          digits() { [[ "$1" =~ ^[0-9]+$ ]] && [[ "$1" != 0* || "$1" == 0 ]]; }
+          run_query() {
+            local id="$1" attempt="$2" head="$3" expected_conclusion="$4" out="$5"
+            digits "$id"; digits "$attempt"; [[ "$head" =~ ^[0-9a-f]{40}$ ]]
+            gh api "repos/$repo/actions/runs/$id" > "$out"
+            case "$expected_conclusion" in
+              success|failure)
+                jq -e --arg repo "$repo" --argjson id "$id" --argjson attempt "$attempt" --arg head "$head" --arg conclusion "$expected_conclusion" '(.id==$id and .repository.full_name==$repo and .run_attempt==$attempt and .head_sha==$head and .status=="completed" and .conclusion==$conclusion)' "$out" >/dev/null
+                ;;
+              ANY_COMPLETED)
+                jq -e --arg repo "$repo" --argjson id "$id" --argjson attempt "$attempt" --arg head "$head" '(.id==$id and .repository.full_name==$repo and .run_attempt==$attempt and .head_sha==$head and .status=="completed")' "$out" >/dev/null
+                ;;
+              *)
+                return 1
+                ;;
+            esac
+          }
+          artifact_query() {
+            local id="$1" name="$2" bytes="$3" digest="$4" run="$5" head="$6" expires="$7" out="$8"
+            digits "$id"; digits "$bytes"; [[ "$digest" =~ ^sha256:[0-9a-f]{64}$ ]]
+            gh api "repos/$repo/actions/artifacts/$id" > "$out"
+            if [[ -n "$expires" ]]; then
+              jq -e --arg repo "$repo" --argjson id "$id" --arg name "$name" --argjson bytes "$bytes" --arg digest "$digest" --argjson run "$run" --arg head "$head" --arg expires "$expires" '(.id==$id and .name==$name and .size_in_bytes==$bytes and .digest==$digest and .expired==false and .expires_at==$expires and .workflow_run.id==$run and .workflow_run.head_sha==$head and .workflow_run.head_repository.full_name==$repo)' "$out" >/dev/null
+            else
+              jq -e --arg repo "$repo" --argjson id "$id" --arg name "$name" --argjson bytes "$bytes" --arg digest "$digest" --argjson run "$run" --arg head "$head" '(.id==$id and .name==$name and .size_in_bytes==$bytes and .digest==$digest and .expired==false and (.expires_at|type)=="string" and (.expires_at|length)>0 and .workflow_run.id==$run and .workflow_run.head_sha==$head and .workflow_run.head_repository.full_name==$repo)' "$out" >/dev/null
+            fi
+          }
+          run_query "$SOURCE_RUN" "$SOURCE_ATTEMPT" "$SOURCE_HEAD" "failure" "$RUNNER_TEMP/task554-run.json"
+          run_query "$CHECKER_RUN" "$CHECKER_ATTEMPT" "$CHECKER_HEAD" "success" "$RUNNER_TEMP/semantic-run.json"
+          run_query "$TASK712_RUN" "$TASK712_ATTEMPT" "$TASK712_HEAD" "success" "$RUNNER_TEMP/task712-run.json"
+          artifact_query "$PREP_ID" "$PREP_NAME" "$PREP_BYTES" "$PREP_DIGEST" "$SOURCE_RUN" "$SOURCE_HEAD" "$TASK554_EXPIRES" "$RUNNER_TEMP/task554-prepare.json"
+          artifact_query "$B0_ID" "$B0_NAME" "$B0_BYTES" "$B0_DIGEST" "$SOURCE_RUN" "$SOURCE_HEAD" "$TASK554_EXPIRES" "$RUNNER_TEMP/task554-block-0.json"
+          artifact_query "$B1_ID" "$B1_NAME" "$B1_BYTES" "$B1_DIGEST" "$SOURCE_RUN" "$SOURCE_HEAD" "$TASK554_EXPIRES" "$RUNNER_TEMP/task554-block-1.json"
+          artifact_query "$B2_ID" "$B2_NAME" "$B2_BYTES" "$B2_DIGEST" "$SOURCE_RUN" "$SOURCE_HEAD" "$TASK554_EXPIRES" "$RUNNER_TEMP/task554-block-2.json"
+          artifact_query "$B3_ID" "$B3_NAME" "$B3_BYTES" "$B3_DIGEST" "$SOURCE_RUN" "$SOURCE_HEAD" "$TASK554_EXPIRES" "$RUNNER_TEMP/task554-block-3.json"
+          artifact_query "$CHECKER_ID" "$CHECKER_NAME" "$SEMANTIC_ARTIFACT_BYTES" "$CHECKER_DIGEST" "$CHECKER_RUN" "$CHECKER_HEAD" "$CHECKER_EXPIRES" "$RUNNER_TEMP/semantic-artifact.json"
+          artifact_query "$TASK712_ID" "$TASK712_NAME" "$TASK712_BYTES" "$TASK712_DIGEST" "$TASK712_RUN" "$TASK712_HEAD" "$TASK712_EXPIRES" "$RUNNER_TEMP/task712-artifact.json"
+          run_query "$P1_RUN_ID" "$P1_RUN_ATTEMPT" "$P1_HEAD" "success" "$RUNNER_TEMP/p1-run.json"
+          artifact_query "$P1_ARTIFACT_ID" "$P1_ARTIFACT_NAME" "$P1_ARTIFACT_BYTES" "$P1_ARTIFACT_DIGEST" "$P1_RUN_ID" "$P1_HEAD" "" "$RUNNER_TEMP/p1-artifact.json"
+          resume_fields=("$RESUME_RUN_ID" "$RESUME_RUN_ATTEMPT" "$RESUME_HEAD" "$RESUME_ARTIFACT_ID" "$RESUME_ARTIFACT_NAME" "$RESUME_ARTIFACT_BYTES" "$RESUME_ARTIFACT_DIGEST")
+          if [[ -n "$RESUME_RUN_ID" ]]; then
+            for field in "${resume_fields[@]}"; do test -n "$field"; done
+            run_query "$RESUME_RUN_ID" "$RESUME_RUN_ATTEMPT" "$RESUME_HEAD" "ANY_COMPLETED" "$RUNNER_TEMP/resume-run.json"
+            artifact_query "$RESUME_ARTIFACT_ID" "$RESUME_ARTIFACT_NAME" "$RESUME_ARTIFACT_BYTES" "$RESUME_ARTIFACT_DIGEST" "$RESUME_RUN_ID" "$RESUME_HEAD" "" "$RUNNER_TEMP/resume-artifact.json"
+          else
+            for field in "${resume_fields[@]}"; do test -z "$field"; done
+          fi
+      - name: Download authenticated P1, parents, semantic receipts, and Task712 tables
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.P1_ARTIFACT_NAME_RESOLVED }}
+          path: ${{ runner.temp }}/p1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.P1_RUN_ID_RESOLVED }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: task554-grade1-v3-prepare-33677346616-1
+          path: ${{ runner.temp }}/prepare
+          github-token: ${{ github.token }}
+          run-id: "33677346616"
+      - uses: actions/download-artifact@v4
+        with:
+          name: task554-grade1-v3-state-block-0-33677346616-1
+          path: ${{ runner.temp }}/block-0
+          github-token: ${{ github.token }}
+          run-id: "33677346616"
+      - uses: actions/download-artifact@v4
+        with:
+          name: task554-grade1-v3-state-block-1-33677346616-1
+          path: ${{ runner.temp }}/block-1
+          github-token: ${{ github.token }}
+          run-id: "33677346616"
+      - uses: actions/download-artifact@v4
+        with:
+          name: task554-grade1-v3-state-block-2-33677346616-1
+          path: ${{ runner.temp }}/block-2
+          github-token: ${{ github.token }}
+          run-id: "33677346616"
+      - uses: actions/download-artifact@v4
+        with:
+          name: task554-grade1-v3-state-block-3-33677346616-1
+          path: ${{ runner.temp }}/block-3
+          github-token: ${{ github.token }}
+          run-id: "33677346616"
+      - uses: actions/download-artifact@v4
+        with:
+          name: task757-p1-semantic-checker-only-v3-success-33819301663-1
+          path: ${{ runner.temp }}/semantic
+          github-token: ${{ github.token }}
+          run-id: "33819301663"
+      - uses: actions/download-artifact@v4
+        with:
+          name: d972-r07-grade2-maps-v4-33814194630-1
+          path: ${{ runner.temp }}/task712
+          github-token: ${{ github.token }}
+          run-id: "33814194630"
+      - name: Authenticate immutable source bytes and line endings
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import hashlib, os
+          from pathlib import Path
+          expected = {
+              "search/d972_r07_canonical_p1_dag_degree2_lift_v10.py": (os.environ["P1_V10_SHA"], int(os.environ["P1_V10_BYTES"]), int(os.environ["P1_V10_LF"])),
+              "search/d972_r07_a0_first_rung_grade1_v4.py": (os.environ["G1_SHA"], int(os.environ["G1_BYTES"]), int(os.environ["G1_LF"])),
+              "search/d972_r07_a0_first_rung_grade2_prebuild_v1.py": (os.environ["P2_SHA"], int(os.environ["P2_BYTES"]), int(os.environ["P2_LF"])),
+              "search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py": (os.environ["SEM_SHA"], int(os.environ["SEM_BYTES"]), int(os.environ["SEM_LF"])),
+              "search/d972_r07_grade2_specific_owner_prejoin_v1.py": (os.environ["STRUCT_SHA"], int(os.environ["STRUCT_BYTES"]), int(os.environ["STRUCT_LF"])),
+              "search/d972_r07_a0_c2fourier_joint_floor_v1.py": (os.environ["FLOOR_SHA"], int(os.environ["FLOOR_BYTES"]), int(os.environ["FLOOR_LF"])),
+              "scratchpad/a0_paper_words_v1.json": (os.environ["WORDS_SHA"], int(os.environ["WORDS_BYTES"]), int(os.environ["WORDS_LF"])),
+              "search/d972_r07_grade2_forward_adjoint_maps_v3.py": (os.environ["TASK712_V3_SHA"], int(os.environ["TASK712_V3_BYTES"]), int(os.environ["TASK712_V3_LF"])),
+              "search/d972_r07_canonical_p1_physical_connection_v5.py": (os.environ["PRODUCER_SHA"], int(os.environ["PRODUCER_BYTES"]), int(os.environ["PRODUCER_LF"])),
+              "search/check_d972_r07_canonical_p1_physical_connection_v5.py": (os.environ["CHECKER_V5_SHA"], int(os.environ["CHECKER_V5_BYTES"]), int(os.environ["CHECKER_V5_LF"])),
+              "search/check_d972_r07_canonical_p1_physical_connection_v6.py": (os.environ["CHECKER_SHA"], int(os.environ["CHECKER_BYTES"]), int(os.environ["CHECKER_LF"])),
+          }
+          for relative, (wanted, size, lines) in expected.items():
+              data = Path(relative).read_bytes()
+              assert len(data) == size and hashlib.sha256(data).hexdigest() == wanted
+              assert data.count(b"\n") == lines and b"\r" not in data and not data.startswith(b"\xef\xbb\xbf")
+          PY
+      - name: Prepare canonical launch and fresh/resume boundary
+        shell: bash
+        env:
+          P1_RUN_ID: "${{ env.P1_RUN_ID_RESOLVED }}"
+          P1_ARTIFACT_ID: "${{ env.P1_ARTIFACT_ID_RESOLVED }}"
+          P1_ARTIFACT_NAME: "${{ env.P1_ARTIFACT_NAME_RESOLVED }}"
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/launch.json" <<'PY'
+          import hashlib, json, os, sys
+          from pathlib import Path
+          repo = os.environ["GITHUB_REPOSITORY"]
+          def load(name): return json.loads(Path(os.environ["RUNNER_TEMP"], name).read_text("ascii"))
+          def fixed(role, run, attempt, head, artifact):
+              return {"role": role, "repository": repo, "run": str(run["id"]), "attempt": str(run["run_attempt"]), "head": run["head_sha"], "id": int(artifact["id"]), "name": artifact["name"], "archive_bytes": int(artifact["size_in_bytes"]), "digest": artifact["digest"], "expires_at": artifact["expires_at"], "run_status": run["status"], "run_conclusion": run["conclusion"]}
+          def source(path):
+              data = Path(path).read_bytes()
+              return {"path": path, "sha256": hashlib.sha256(data).hexdigest(), "bytes": len(data), "lf": data.count(b"\n"), "bom": data.startswith(b"\xef\xbb\xbf"), "cr": b"\r" in data}
+          source_paths = ["search/d972_r07_canonical_p1_dag_degree2_lift_v10.py", "search/d972_r07_a0_first_rung_grade1_v4.py", "search/d972_r07_a0_first_rung_grade2_prebuild_v1.py", "search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py", "search/d972_r07_grade2_specific_owner_prejoin_v1.py", "search/d972_r07_a0_c2fourier_joint_floor_v1.py", "scratchpad/a0_paper_words_v1.json", "search/d972_r07_grade2_forward_adjoint_maps_v3.py", "search/check_d972_r07_canonical_p1_physical_connection_v6.py"]
+          executable_paths = ["search/d972_r07_canonical_p1_physical_connection_v5.py", "search/check_d972_r07_canonical_p1_physical_connection_v5.py"]
+          task554_run = load("task554-run.json"); semantic_run = load("semantic-run.json"); task712_run = load("task712-run.json"); p1_run = load("p1-run.json")
+          roots = [fixed(role, task554_run, os.environ["SOURCE_ATTEMPT"], os.environ["SOURCE_HEAD"], load(name)) for role, name in (("prepare", "task554-prepare.json"), ("block-0", "task554-block-0.json"), ("block-1", "task554-block-1.json"), ("block-2", "task554-block-2.json"), ("block-3", "task554-block-3.json"))]
+          semantic = fixed("semantic-checker", semantic_run, os.environ["CHECKER_ATTEMPT"], os.environ["CHECKER_HEAD"], load("semantic-artifact.json"))
+          task712 = fixed("task712", task712_run, os.environ["TASK712_ATTEMPT"], os.environ["TASK712_HEAD"], load("task712-artifact.json"))
+          p1_artifact = load("p1-artifact.json")
+          p1 = {"role": "p1-candidate", "repository": repo, "run": str(p1_run["id"]), "attempt": str(p1_run["run_attempt"]), "head": p1_run["head_sha"], "id": int(p1_artifact["id"]), "name": p1_artifact["name"], "archive_bytes": int(p1_artifact["size_in_bytes"]), "digest": p1_artifact["digest"], "expires_at": p1_artifact["expires_at"], "run_status": p1_run["status"], "run_conclusion": p1_run["conclusion"], "workflow_run_id": int(p1_run["id"]), "workflow_run_attempt": int(p1_run["run_attempt"]), "workflow_head_sha": p1_run["head_sha"], "api_verified": True}
+          query = {"p1_run": p1_run, "p1_artifact": p1_artifact, "task554": [load("task554-prepare.json"), load("task554-block-0.json"), load("task554-block-1.json"), load("task554-block-2.json"), load("task554-block-3.json")], "semantic_checker": {"run": semantic_run, "artifact": load("semantic-artifact.json")}, "task712": {"run": task712_run, "artifact": load("task712-artifact.json")}}
+          value = {"schema": "d972.r07.canonical-p1-physical-connection.launch.v5", "repository": repo, "p1_artifact": p1, "task554_artifacts": roots, "semantic_checker_artifact": semantic, "task712_artifact": task712, "source_files": [source(x) for x in source_paths], "executable_files": [source(x) for x in executable_paths], "query_receipts": query}
+          Path(sys.argv[1]).write_bytes((json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii"))
+          PY
+          if [[ -n "${{ env.RESUME_RUN_ID_RESOLVED }}" ]]; then
+            test ! -e "$RUNNER_TEMP/connection-stage"
+            gh run download "${{ env.RESUME_RUN_ID_RESOLVED }}" --name "${{ env.RESUME_ARTIFACT_NAME_RESOLVED }}" --dir "$RUNNER_TEMP/connection-stage"
+            test -f "$RUNNER_TEMP/connection-stage/checkpoint.json"
+          else
+            test ! -e "$RUNNER_TEMP/connection-stage"
+          fi
+      - name: Compile and bounded producer/checker selftests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -m py_compile search/d972_r07_canonical_p1_physical_connection_v5.py search/check_d972_r07_canonical_p1_physical_connection_v6.py
+          python -B search/d972_r07_canonical_p1_physical_connection_v5.py --selftest
+          python -B search/check_d972_r07_canonical_p1_physical_connection_v6.py --selftest
+      - name: Run authenticated producer
+        id: producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          args=(--build --p1-root "$RUNNER_TEMP/p1" --prepare-root "$RUNNER_TEMP/prepare" --block-roots "$RUNNER_TEMP/block-0" "$RUNNER_TEMP/block-1" "$RUNNER_TEMP/block-2" "$RUNNER_TEMP/block-3" --launch-manifest "$RUNNER_TEMP/launch.json" --staging "$RUNNER_TEMP/connection-stage" --out "$RUNNER_TEMP/connection-candidate" --p1-v10 search/d972_r07_canonical_p1_dag_degree2_lift_v10.py --grade1 search/d972_r07_a0_first_rung_grade1_v4.py --prebuild search/d972_r07_a0_first_rung_grade2_prebuild_v1.py --semantic search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py --structural search/d972_r07_grade2_specific_owner_prejoin_v1.py --floor search/d972_r07_a0_c2fourier_joint_floor_v1.py --words scratchpad/a0_paper_words_v1.json --task712-root "$RUNNER_TEMP/task712" --semantic-receipts "$RUNNER_TEMP/semantic/prepare-receipt.json" "$RUNNER_TEMP/semantic/block-0-receipt.json" "$RUNNER_TEMP/semantic/block-1-receipt.json" "$RUNNER_TEMP/semantic/block-2-receipt.json" "$RUNNER_TEMP/semantic/block-3-receipt.json" "$RUNNER_TEMP/semantic/join-receipt.json" --semantic-checker-result "$RUNNER_TEMP/semantic/independent-result.json" --semantic-checker-workflow-receipt "$RUNNER_TEMP/semantic/workflow-receipt.json")
+          if [[ -f "$RUNNER_TEMP/connection-stage/checkpoint.json" ]]; then args+=(--resume-checkpoint "$RUNNER_TEMP/connection-stage/checkpoint.json"); fi
+          timeout --signal=TERM --kill-after=30s 330m python -B -u search/d972_r07_canonical_p1_physical_connection_v5.py "${args[@]}" 2>&1 | tee "$RUNNER_TEMP/producer.log"
+      - name: Upload exact unchecked prefix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-canonical-p1-physical-connection-v8-unchecked-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/connection-stage
+          if-no-files-found: ignore
+          retention-days: 90
+          compression-level: 0
+      - name: Independent replay checker
+        id: checker
+        if: steps.producer.outcome == 'success'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B search/check_d972_r07_canonical_p1_physical_connection_v6.py --check --candidate "$RUNNER_TEMP/connection-candidate" --launch-manifest "$RUNNER_TEMP/launch.json" --p1-root "$RUNNER_TEMP/p1" --prepare-root "$RUNNER_TEMP/prepare" --block-roots "$RUNNER_TEMP/block-0" "$RUNNER_TEMP/block-1" "$RUNNER_TEMP/block-2" "$RUNNER_TEMP/block-3" --p1-v10 search/d972_r07_canonical_p1_dag_degree2_lift_v10.py --grade1 search/d972_r07_a0_first_rung_grade1_v4.py --prebuild search/d972_r07_a0_first_rung_grade2_prebuild_v1.py --semantic search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py --structural search/d972_r07_grade2_specific_owner_prejoin_v1.py --floor search/d972_r07_a0_c2fourier_joint_floor_v1.py --words scratchpad/a0_paper_words_v1.json --task712-root "$RUNNER_TEMP/task712"
+      - name: Upload final candidate only after named successes
+        if: steps.producer.outcome == 'success' && steps.checker.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-canonical-p1-physical-connection-v8-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/connection-candidate
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
