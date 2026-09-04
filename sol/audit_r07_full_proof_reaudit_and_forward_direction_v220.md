@@ -21070,3 +21070,59 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
   cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 512 (2026-09-04): physical v11 producer succeeds; independent full replay is live
+
+- GHA `33876776771/1`, job `101035535909`, completed the authenticated
+  physical-connection producer successfully about 25 minutes after job start.
+  The unchecked-prefix upload also completed, and step 19 entered the
+  independent full replay checker.  Final publication remains gated on that
+  checker.
+- Luna Task899 has begun the downstream v536 physical-state/target-reduction
+  implementation against the accepted v6/v7 schemas and rho2 adapter v4.
+  It is forbidden to fabricate the pending final artifact tuple; all
+  file-backed state, insertion-order pivot replay, MEMBER and reverse
+  separator logic can proceed while the checker runs, and only the immutable
+  artifact binding waits.
+
+**v220 mapping**:
+
+- Relative to Delta511, J1 now has an actual successful producer terminal and
+  J0-to-state construction has started in parallel.  J1 is not counted as
+  cross-checked until step 19 and the final artifact publication succeed.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No accepted physical connection, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared. `verified=false`.
+
+### Delta 513 (2026-09-04): actual J1 physical connection is cross-checked
+
+- GHA `33876776771/1`, job `101035535909`, completed `success` from
+  `2026-09-04T13:12:30Z` to `13:58:58Z`.  The authenticated producer,
+  independent full replay checker, and final publication all succeeded.
+- The independently replayed terminal has `offers=8059`, `rank=6705`,
+  `dependent=1354`, `reductions=7665974`, and final rolling head
+  `3cb1bcf691038d71082b8d4774c5dd8898a239e71ef64da22ec486ba923cb8bd`.
+  Source and checker each evaluated all 8,059 pairs, including node 0 and
+  node 3523 exactly once.
+- Final artifact id `9939860701`, name
+  `d972-r07-canonical-p1-physical-connection-v11-candidate-33876776771-1`,
+  archive bytes `245546516`, digest
+  `sha256:0c3753d7384a7850aadab41c9ec2755114475862a0b03fd806e875005a72995a`,
+  expires `2026-12-03T13:12:28Z`.  The exact tuple has been sent to Luna
+  Task899's state/separator implementation.
+
+**v220 mapping**:
+
+- Relative to Delta512, J1 changes from live candidate to **cross-checked
+  actual input**.  The next actual question is now finite and direct: build
+  the physical echelon from the 1,354 connection rows and reduce the fixed
+  rho2, returning MEMBER or the canonical separator.  (The connection
+  artifact rank `6705` is its lower echelon rank; `dependent=1354` is the
+  number offered to the new physical state.)
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
