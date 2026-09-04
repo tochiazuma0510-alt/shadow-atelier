@@ -96,7 +96,8 @@ body hashes/parent joins using the already accepted grade1/semantic formats.
 Only the bodies needed by `_global_relations` are retained; do not mmap or
 replay the large basis/packet blobs, and do not rebuild PB3/PB4 closure.
 Require actual ranks `(505,503,503,503)` and `(1509,1512,1512,1512)`, exact
-origin count 8,100, global row count 8,059, and relation count 32,280.
+prepare defect-origin count 8,232, global row count 8,059, and relation count
+32,280.  Here `8232=4*44+4*(505+503+503+503)`; do not substitute 8,100.
 
 ### Actual Task712
 

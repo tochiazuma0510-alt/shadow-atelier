@@ -21393,3 +21393,29 @@ single transport repair required before continuation; it does not count the
   cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
   compact A5 unchanged.  Scalar values have not yet been read from P1, so no
   grade-two terminal or upper claim is declared.  `verified=false`.
+
+### Delta 521 (2026-09-05): the actual scalar relations admit an exact one-block memory normal form
+
+- V540 expands the v15 scalar formula into three explicit families: 44 seed
+  relations, 8,056 old-row actor relations, and 24,180 new-row actor
+  relations.  Their total is 32,280 in the unchanged canonical order.
+- Linearity over F3 permits the four target-block contributions to every
+  seed/old-actor accumulator to be added one block at a time.  New-actor
+  values are completed while their own block is resident.  This is exactly
+  the same entrywise result as `_global_relations` followed by `_pair`, but
+  its live Task554 data are one prepare body plus at most one block body; no
+  copied global relation tree or dense defect matrix is needed.
+- The count audit corrects an implementation-task typo before production:
+  the actual prepare has
+  `4*44 + 4*(505+503+503+503) = 8232` defect origins, not 8,100.  Each of
+  the four new blocks has exactly one reduction expression for every one of
+  those origins.  Luna Task908 has been notified to use the authenticated
+  roster rather than the stale number.
+
+**v220 mapping**:
+
+- Relative to Delta520, the remaining root-scalar run has both a finite
+  504-row outer bound and an exact low-memory inner evaluator.  This closes a
+  resource denominator only; actual scalar values are still required.
+- All v220 numerators and upper claim boundaries remain unchanged.
+  `verified=false`.
