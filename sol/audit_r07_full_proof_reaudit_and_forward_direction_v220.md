@@ -11944,7 +11944,40 @@ single transport repair required before continuation; it does not count the
   `e1588853db01d196a9bf60ed29d3073bdc71ad25f2aca4c706e51f6f593b4866`.
   The committed certificate terminal is
   `PB4_CENTRAL_SPLIT_CROSS_CHECKED`, with `cross_checked=true` and
+`verified=false`.
+
+### Delta 490 (2026-09-04): J3 loses both the generic separator solve and repeated connection scans
+
+- `proof_r07_canonical_separator_joined_driver_v536.md` proves a canonical
+  separator formula for the actual one-way physical echelon.  Reduce `rho2`
+  once, select the least nonzero free coordinate of its remainder, set that
+  free dual coordinate to its inverse, and recover pivot dual coordinates by
+  reverse insertion-order substitution.  This gives
+  `lambda(S)=0, lambda(rho2)=1` without a generic nullspace solve or a dense
+  `48384 x 48384` matrix.  A zero remainder is already the MEMBER
+  back-substitution branch.
+- The complete v530 connection rows are inserted into `S_0` once.  Every
+  later state contains `S_0`, so every later separator automatically kills
+  `span(Conn)=g(ker ell)`.  Consequently the 8,059 P1 connection offers do
+  not have to be rescanned at each CEGAR generation; only the four dual
+  defect orbits restart when a violation changes the separator.
+- The joined finite driver is now paper-closed with the exact state order
+  `INIT_CONN -> TARGET_REDUCE -> DUAL/SCALAR -> VIOLATION+PIVOT`, and with
+  the same strict bound `48384-rank(S_0)+1` on separator constructions.
+  Durable stops remain `UNKNOWN_RESOURCE`; no actual terminal is inferred.
+
+**v220 mapping**:
+
+- Relative to Delta489, J3's mathematical design is closed and two avoidable
+  high-cost operations have been removed from its implementation
+  denominator.  J1, J2 and the scalar owner still require their current
+  independent gates before the driver can run, so no witness numerator moves.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
 - The replay byte-pins the accepted q3 receipt and the independent q3
   PC/permutation checker.  It does not import or execute the producer-side
   `d972_b345_seedspan_triple4_v1.py`.  It independently checks the PC power,
@@ -18261,3 +18294,2719 @@ single transport repair required before continuation; it does not count the
 - A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
   unchanged.  No full A0/COMMON, compatible cofinal lift, fake or Ihara
   witness is declared.
+
+### Delta 441 (2026-09-04): v9 timed out inside generic light construction; Task640-only exact runtime reduction is isolated
+
+- Task640 v9 run/attempt `33761322235/1`, job `100668089672`, exact event
+  head `3239708304a0b598cae54507ed617bee7f6a1e84`, completed the accepted
+  Task625 parent checker replay and byte comparison in 11 minutes 51 seconds.
+  Its fresh step began at `2026-09-03T13:40:31Z` and the outer producer bound
+  terminated it exactly 45 minutes later with exit 124.  The only producer
+  progress line was
+  `A0_PROGRESS side=producer phase=light_runtime_start elapsed_seconds=0`;
+  the independent checker was never entered and no result artifact was
+  uploaded.  Hence this run supplies neither rho2 nor a mathematical negative.
+- Static call-graph reduction v484 locates the entire observed cost before
+  Task640 arithmetic in the generic `build_light()` path: it constructs the
+  JointGroup closure, the 6,441 roster, H1/H2/P Fox rows, PB3/PB4 boundary
+  owners and a generic target/model.  The actual Task640 endpoint/signature
+  producer consumes only old/e3/e4/g760 evaluators, the 31 contexts, the exact
+  59,049-entry deletion map, and the resource meter.  Its sole JointGroup use
+  is the identity test of a conjugate.
+- V484 proves the exact replacement for that sole use: evaluate the same word
+  as its authenticated PB3 endpoint and all 31 E4 context endpoints and test
+  the resulting tuple against the identity tuple.  This preserves the full
+  fine deletion and every endpoint/signature coordinate while deleting only
+  runtime objects unreachable from the Task640 output.  The paper is 6,571
+  bytes / 159 LF / SHA-256
+  `25e292c8d996000c5dd442619f9afa269d83193ce5f58e4f3536c55b61f77492`;
+  Luna Task717 is implementing its versioned producer/checker successor.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta440, the ambiguous long v9 run is now a
+  classified pre-arithmetic resource stop, and the exact Task640-only runtime
+  surface is fixed on paper.  Implementation, independent audit, a fresh GHA
+  terminal, and checker acceptance are still required before the numerator
+  moves.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh residual, grade-two decision, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
+
+### Delta 442 (2026-09-04): P1 semantic producer is release-ready; its first independent checker is finitely rejected
+
+- The phase-separated P1 componentwise producer reached version v4, 41,259
+  bytes / 381 LF / SHA-256
+  `ff50d0ad50e080a15075bb52365987d9e389bf59e5e39666002b710947287a17`.
+  It pins all four equality records, recomputes their correct canonical digest
+  `99da0c4a...5dbf` in both prepare and join, pins all four exact block-DAG
+  digests, and preserves the complete 65,340-obligation factorization.  Sol(max)
+  Task721 returned **PASS_P1_SEMANTIC_V4_SAFE_FOR_GHA /
+  SAFE_TO_DISPATCH_GHA=yes**.  This accepts the code for a future actual replay;
+  it does not make the replay itself true.
+- The nonimporting Task713 checker independently reconstructs the intended
+  quotient/Fox/projector/echelon/actor/packet arithmetic and has the correct
+  bounded-memory architecture, but Sol(max) Task718 returned
+  **FAIL_P1_INDEPENDENT_CHECKER / SAFE_TO_DISPATCH_GHA=no**.  The complete
+  finite blocker list is: omitted `origin_reductions` in the exact block key
+  set; comparing every packet origin to the final stored origin; stale dynamic
+  producer-v2 binding and omission of the actual v4 join receipt; boolean
+  aliasing in the Walsh table; nonexclusive CLI modes; and fixtures which did
+  not enter those failing production branches.  Luna Task724 is repairing only
+  those points in a versioned checker v2.
+- Independently of both terminals, Task712 implemented the complete sparse
+  degree-two forward/adjoint map pair required by v474: four actors and one
+  aggregation map for each of four characters, together with all 20 exact
+  transposes.  Producer/checker bounded fixtures pass, but the actual map build
+  and its release audit remain pending, so this is still a candidate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta441, the target-independent P1 semantic
+  producer is independently release-ready and the checker failure is reduced
+  to a complete finite repair list; no actual semantic or grade-two terminal
+  has yet occurred.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No full A0/COMMON, compatible cofinal lift, fake or Ihara
+  witness is declared.
+
+### Delta 443 (2026-09-04): both immediate grade-two prerequisites are release-ready; canonical lift and connection are paper-closed
+
+- Luna Task717 implemented the v484 endpoint-minimal Task640 producer/checker
+  pair without the generic JointGroup/6,441-roster/boundary construction.  It
+  retains all 31 contexts, the full 59,049-entry deletion map and the exact
+  PB3-plus-E4 endpoint identity tuple.  The producer/checker are respectively
+  43,758 and 93,236 bytes with SHA-256 `faa63bfd...fd08` and
+  `581f9a5a...fd6f`; both bounded selftests pass.  Sol(max) Task723 returned
+  **PASS_TASK640_ENDPOINT_MINIMAL_V4_SAFE_FOR_GHA / SAFE_TO_DISPATCH_GHA=yes**.
+  It also established that the recurring 11-minute Task625 checker rerun may
+  be omitted in the v10 wrapper because each v4 executable independently
+  reauthenticates every pinned parent file and the exact previously accepted
+  replay verdict bytes, cursor and counts.  No rho2 has yet been produced.
+- Luna Task724 closed the six finite Task718 checker defects in a versioned
+  nonimporting P1 semantic checker v2.  Its SHA-256 is
+  `8636440c...e88`, and its actual-branch fixture suite accepts six canonical
+  cases and rejects 41 mutations.  Sol(max) Task726 returned
+  **PASS_P1_INDEPENDENT_CHECKER_V2_SAFE_FOR_GHA / SAFE_TO_DISPATCH_GHA=yes**.
+  Thus both the accepted v4 semantic producer and independent v2 checker are
+  ready for the one prepare/four-block/join GHA replay; the actual 65,340
+  equalities are not counted until that run succeeds.
+- V483 plus the finite Task716 text repair v486 gives a prior-only canonical
+  recursion for every one of the 8,059 precision-two source lifts.  The
+  packet branch applies the full filtered `P_lambda` before any homogeneous
+  slice; the legacy Task565 `origin_full_lift/full_lower_zero` packet branch
+  is explicitly excluded.  V485 then gives a one-pass lower-first transducer
+  whose dependent coefficient rows form a triangular basis of `ker(ell)` and
+  whose top companions span exactly `g(ker(ell))`.  Sol(max) Task725 accepted
+  the mathematics with one serialization clarification; v487 fixes the
+  8,059-trit row's unused fourth trit to canonical zero and defines exact
+  base-three packing.  The resulting maximum reusable transducer cache is
+  178,716,384 bytes.  Actual 8,059-row lift and connection EOF replays remain
+  pending.
+- The repaired grade-two forward/adjoint map pair v2 has producer/checker
+  SHA-256 `fdcb9a8c...e4d84` and `e388300c...e61f0`.  Sol(max) Task731 returned
+  **PASS_GRADE2_MAPS_V2_SAFE_FOR_GHA / SAFE_TO_DISPATCH_GHA=yes** after closing
+  all four Task719 blockers and rechecking the exact 40 sparse tables,
+  directions, transposes, inverse pairs, occurrence prefixes, independent
+  parser and output isolation.  No dense or quadratic resource defect was
+  found.  The real 40-table artifact is not yet built.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta442, both immediate actual inputs have
+  moved from finite repair to independently authorized GHA wrappers, while
+  the next lift/connection/map layer is paper-closed or release-ready.  The
+  counters move only after an accepted fresh rho2 and an independently
+  checked grade-two `MEMBER` terminal.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No grade-two terminal, full A0/COMMON, compatible cofinal lift,
+  fake or Ihara witness is declared.  `verified=false`.
+
+### Delta 444 (2026-09-04): three actual release paths reach finite local gates; no resource ambiguity remains
+
+- A0 endpoint-minimal run/attempt `33811630349/1`, job `100834536849`,
+  exact head `2468d38778a411544a366bb85593296263facd97`, authenticated all inputs and
+  entered the new endpoint-only builder.  It then stopped immediately at the
+  sole unqualified call `validate_q3_literal_owner(q3)`.  V488 proves the
+  required binding is the already authenticated v12f module parameter;
+  Luna Task735 produced v5 with the only executable change
+  `module.validate_q3_literal_owner(q3)`.  V5 is 43,838 bytes / 671 LF /
+  SHA-256 `2f8cb910...ad6b`; bounded selftest and import/callable checks pass.
+  Independent one-call audit and the corrected actual rerun are pending.
+- P1 semantic run/attempt `33811487696/1` completed the four old-block
+  reconstructions in about five minutes, including exact record, lower-basis,
+  lifted-grade and packet comparisons, before stopping at
+  `equality_record_pin`.  V489 authenticates the sealed Task554 prepare body
+  and identifies one common extraction bug: the four recorded hashes used
+  the two bytes `5c 6e` (literal backslash-`n`) instead of the canonical LF byte
+  `0a`.  Correct record hashes are `5b3f5dfd...cb4f`, `75aa31bf...54a6`,
+  `d732aa55...7e75`, `ad89a573...5022`; their canonical aggregate is
+  `e04c0d8d...3565`.  Thus Delta442/443's statement that the old
+  `99da0c4a...5dbf` literal was correct is superseded.  Producer v5/checker v3
+  finite implementation is in progress; no replay acceptance is inferred.
+- Grade-two map run/attempt `33811487764/1`, job `100834098415`, exact head
+  `b805d4089d76ca98b3bbbc63594ce053ec90e5fa`, emitted all 40 sparse tables
+  (20 forward/adjoint pairs) in about ten seconds, then failed only in a
+  nonphysical destination-coverage assertion that decoded
+  `(tag,component,monomial,psl)` with physical tuple indices.  Producer/checker
+  v3 repair only that index branch and add a live 36,288-row coverage fixture;
+  Sol(max) Task736 returned **PASS_GRADE2_MAPS_V3_SAFE_FOR_GHA**.  Root
+  released exact commit/head `8c460aff706b55821dfddb73c5598eec536a7b96`;
+  corrected run/attempt `33812912839/1` is queued/running.
+- Separately, Luna Task734 implemented the paper-closed v483+v486 canonical
+  prior-only degree-two lift producer.  Its file-backed output is exactly
+  8,059 rows x 36,288 bytes = 292,444,992 bytes and retains the nonzero-P1
+  packet projector plus actor triangular terms; producer SHA-256 is
+  `d660487a...1190`.  Its bounded selftest passes.  Independent audit and the
+  actual five-parent lift replay remain pending, so it is not yet a lift
+  certificate.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta443, all three released paths have now
+  entered their actual production branches.  Each stop has a finite,
+  localized cause with an exact repair; none was a memory/time exhaustion or
+  a mathematical negative.  The grade-two map repair is already rerunning;
+  the A0 and P1 reruns await only their finite code audits/wrappers.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, accepted P1 semantic terminal, grade-two
+  MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake or Ihara
+  witness is declared.  `verified=false`.
+
+### Delta 445 (2026-09-04): complete degree-two operator table is cross-checked; A0 enters endpoint arithmetic
+
+- Grade-two maps workflow v4 completed SUCCESS at run/attempt
+  `33814194630/1`, job `100842554416`, exact head
+  `5ff2c5a30b604536df12acba8801828a5a7e5fe0`.  Producer v3 emitted all 40
+  sparse tables (20 forward/adjoint maps) in 9.57 seconds with peak process
+  RSS 139,692 KiB.  Nonimporting checker v4 regenerated and compared all
+  1,451,520 entries, all exact table/roster/EOF receipts, transposes, actor
+  inverse pairs, occurrence prefixes and full coordinate coverage in 19.53
+  seconds with peak RSS 243,244 KiB.  Its terminal is
+  `R07_GRADE2_FORWARD_ADJOINT_MAPS_V4_CHECKER_PASS`.
+- The accepted artifact is `9915928157`, name
+  `d972-r07-grade2-maps-v4-33814194630-1`, 22,404,961 archive bytes, digest
+  `sha256:abedff07...a858`, expiry 2026-10-03.  Manifest/checker/workflow-receipt
+  hashes are respectively `48c5d1f4...dd47`, `3d9dc1a4...3160`, and
+  `3fc967d6...68c8`.  This is producer/independent-checker agreement and hence
+  the complete forward/adjoint map artifact is **cross-checked**.  The receipt
+  truthfully retains `GRADE2_DECISION=NOT_RUN` and all downstream flags false.
+- A0 endpoint producer v5 passed Task737's finite one-call audit.  Root
+  released exact head `c414c05eec660d9f88306ef4030bab4826dfc698` and run/attempt
+  `33813729918/1`.  All source audits, three exact artifacts and the accepted
+  1,120-byte Task625 verdict staging passed; the job entered
+  `Produce and independently check fresh rho2` at 2026-09-03T22:35:13Z.  It
+  is live in the endpoint-only arithmetic, without the deleted generic
+  JointGroup/boundary construction or the old 11m51 parent-checker replay.
+- P1 producer-v5/checker-v3 finite LF repair passed Sol(max) Task743 as
+  **PASS_P1_EQUALITY_LF_V5_SAFE_FOR_GHA / SAFE_TO_DISPATCH_GHA=yes**.  The
+  source hashes are `dc5931c3...bdcf` and `3cfdbe04...774e`; both bounded
+  fixtures pass and the checker remains nonimporting.  The phase-DAG rerun
+  wrapper is being prepared; this does not yet accept the 65,340 semantic
+  obligations.
+- Task738 upheld the v483+v486 lift mathematics but finitely rejected the
+  first producer implementation before GHA.  V491 freezes the minimal repair:
+  semantic-v5 plus independent-checker receipt binding, exact terminal join,
+  actor order `(1,-1,2,-2)`, on-demand seed evaluation, no
+  `assemble_b1_relations`, durable progress in both phases, and complete
+  ancestry receipts.  Luna Task746 is implementing this bounded v2 successor;
+  no 292,444,992-byte lift run is claimed.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, currently running, and first-rung grades remain
+  **1/6 cross-checked**.  Relative to Delta444, the complete degree-two
+  forward/adjoint operator prerequisite has advanced from a rerun to a
+  cross-checked actual artifact, while A0 has entered the fresh endpoint
+  arithmetic and P1's finite repair is independently release-authorized.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, accepted P1 terminal, connection EOF,
+  grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake or
+  Ihara witness is declared.  `verified=false`.
+
+### Delta 446 (2026-09-04): corrected P1 semantics passes its former failure point; connection release form is closed
+
+- Root released P1 semantic workflow v2 at exact commit/head
+  `15778e83c52941040ef9d4289ab76d897ee30ebc`; run/attempt
+  `33814881435/1` passed preflight and the complete authenticated prepare
+  replay.  Prepare receipt artifact `9916343771` reports 2,014 old DAG rows,
+  8,056 old actor-lower checks, 176 old seed-lower checks and 32,928 direct
+  packet halves in 395.944 seconds with peak process RSS 481,857,536 bytes.
+- In particular, the real replay now authenticates the four corrected
+  canonical-LF record hashes `5b3f5dfd...cb4f`, `75aa31bf...54a6`,
+  `d732aa55...7e75`, `ad89a573...5022` and their aggregate
+  `e04c0d8d...3565`.  Hence the stopped v1 run's `equality_record_pin` has
+  been crossed by actual arithmetic, not only by a fixture.  The four new
+  character blocks are running in parallel; no joined or independent terminal
+  is inferred yet.
+- V492 fixes the finite executable normal form for v485+v487's canonical
+  connection transducer.  It is one deterministic 8,059-offer pass over an
+  accepted lift cache, with no global presentation matrix or defect family.
+  Its three flat stores have exact maximum raw packed size 178,716,384 bytes,
+  it preserves every coefficient/lower/top recurrence and triangular kernel
+  coordinate, and it has durable 128-offer cursors.  The paper file is 7,650
+  bytes with SHA-256 `9c2e2ba5...18c3`; implementation and actual connection
+  EOF remain pending.
+- A0 run `33813729918/1` remains live in the same fresh-endpoint producer plus
+  independent-checker step.  It has not stopped or emitted a mathematical
+  terminal.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta445, P1 has advanced from merely
+  release-authorized to a real prepare acceptance past its exact former
+  failure, and the next connection stage has advanced from a theorem to a
+  bounded-memory release specification.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, accepted full P1 semantic terminal, actual
+  canonical lift, connection EOF, grade-two MEMBER/NONMEMBER, full
+  A0/COMMON, compatible cofinal lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 447 (2026-09-04): P1 producer family is complete; actual consumers expose three finite interface defects
+
+- P1 semantic run/attempt `33814881435/1`, head
+  `15778e83c52941040ef9d4289ab76d897ee30ebc`, completed all producer phases:
+  preflight, prepare, block-0..3 and join are individually SUCCESS.  The joined
+  six-receipt artifact is `9916479231`, archive size 8,412 bytes, digest
+  `sha256:91281261...64245`.  Its exact totals are old/new ranks `2014/6045`,
+  DAG nodes `8059`, global/old-local relations `32280/8232`, direct/packet
+  halves `32928/32928`, new actor identities `24180`, and compound obligations
+  `65340`.  Thus the complete producer semantic family exists; it is not yet
+  cross-checked.
+- The same run's old checker-v3 stopped before arithmetic at
+  `sealed_head:prepare`.  V493 identified that Task554 HEAD schema is
+  `...v3.state.head`, not `...v3.head`; checker-v4
+  (`cc9a27e8...ee19`) and its 42-rejection fixture passed independent Task750
+  audit.  Checker-only run `33817618040/1` then stopped only because its wrapper
+  incorrectly required the *whole* historical producer run to be SUCCESS even
+  though only the old checker job failed.  Workflow v2 repaired this by fixing
+  all eight exact job ids and their honest conclusions.
+- Checker-only run `33818161852/1`, head
+  `619b30a84d1585e5f377f34b7d28dd63ccfb3209`, passed that complete provenance
+  gate, selftest, all six receipts, and all five parent downloads.  Its actual
+  checker reached prepare and stopped in 0.87 seconds at
+  `prepare_body_metadata`, peak RSS 310,816 KiB.  V497 fixes the remaining
+  copied constant: Task554 body schema is `...v3.state`; the already repaired
+  HEAD schema remains `...v3.state.head`.  Checker-v5 and a producer-free
+  checker-only v3 wrapper are in finite implementation.  Neither stop spent
+  time on the 65,340 arithmetic obligations.
+- A0 run `33813729918/1`, job `100841127478`, completed every authentication,
+  parent staging and bounded fixture, built the 59,049-entry fine deletion in
+  16 seconds, and **passed** its zero-word canary in 17 seconds.  It then hit
+  the wrapper's 45-minute cap somewhere in the formerly unlogged region
+  containing all-prefix signature comparisons, direct columns and aggregation;
+  no rho2/checkpoint artifact exists.  V499 retracts the earlier over-localized
+  phrase “inside the zero-word canary.”  V495 proves that the eleven-slot
+  endpoint signature is a homomorphism: the empty signature is the explicit
+  identity, and four cached actor atoms determine every trie node by right
+  multiplication.  Luna Task753 implemented this with zero empty-word
+  evaluation, four atom evaluations and zero all-prefix replays.  Independent
+  checker compatibility and log-frequency audit are pending; A0 remains open.
+- Canonical lift producer v2 implemented the 8,059-row prior-only recursion and
+  292,444,992-byte file-backed cache, but Task752 correctly withheld release.
+  Two load-bearing finite defects are a weak consumer-side checker-result type
+  gate and projecting an old seed defect with the new target character rather
+  than its `lower_character`.  It also found receipt-only second decoding of
+  reduction parents.  Task755 v3 is repairing exactly those defects before any
+  large lift run.  V496 updates the later connection input to checker-v4-or-
+  later actual success and records that a complete lift row combines the
+  authenticated P0/P1/aux row with the packed degree-two cache row.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta446, the entire P1 producer family and
+  exact receipt set are actual successes, while the independent consumer has
+  advanced through HEAD and into the real prepare body.  A0's 45-minute stop
+  is localized to the post-canary unlogged region and its first repeated
+  endpoint hotspot has a paper-closed finite-generation replacement.  The
+  counters cannot move until the fresh
+  rho2 and an independently accepted grade-two decision exist.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No accepted P1 independent terminal, actual canonical lift,
+  connection EOF, grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.  `verified=false`.
+
+### Delta 448 (2026-09-04): P1 semantics is cross-checked; repaired A0 endpoint run is live
+
+- P1 checker-only workflow v3 completed SUCCESS at run/attempt
+  `33819301663/1`, job `100858263179`, exact head
+  `e8a4de593700a81fb2a026366e349b89b640a6e8`.  Checker-v5 independently
+  replayed the complete producer family against the immutable prepare and
+  four block parents.  It accepted old/new ranks `2014/6045`, `8059` DAG
+  nodes, `32280` global relations, `8232` old-local relations,
+  `32928/32928` direct/packet halves, `24180` actor identities and `65340`
+  compound obligations.  Its terminal marker is
+  `R07_GRADE2_P1_COMPONENTWISE_INDEPENDENT_CHECKER_V1_PASS`.
+- The checker took 1323.417 seconds and reported peak RSS 2,515,382,272
+  bytes.  Accepted success artifact `9918207444`, name
+  `task757-p1-semantic-checker-only-v3-success-33819301663-1`, has archive
+  size 24,694 bytes and digest `sha256:f99fd6ce...bf0c`.  Within it,
+  `independent-result.json` is 13,336 bytes with SHA-256
+  `405e1b26...99d5`; `workflow-receipt.json` is 2,310 bytes with SHA-256
+  `323ca260...28eb`.  The latter binds checker-v5 SHA-256
+  `bc60882b...f97`, the exact six producer receipts and producer artifact
+  `9916479231`.  Hence the P1 componentwise semantic family is now
+  **cross-checked** (not Lean-verified).
+- Sol(max) Task758 separately found that canonical-lift producer v3 closes
+  every Task752 recurrence, packet, instruction-stream and duplicate-decode
+  defect.  Its sole release blocker is now provenance only: v3 names
+  checker-v4 and cannot consume the actual checker-v5 workflow receipt.
+  Task761 is implementing the bounded v4 amendment and first GHA lift
+  wrapper; it changes no 8,059-row arithmetic.
+- Sol(max) Task760 accepted A0 endpoint producer v7 and workflow v12 as
+  `PASS_A0_ENDPOINT_V7_SAFE_FOR_GHA`.  The exact endpoint signature work is
+  reduced from the old empty-plus-2,096-prefix generic evaluations to four
+  signed actor atoms plus at most 44 reached seeds.  Direct columns and
+  precision-two aggregation retain their exact v5 arithmetic and now expose
+  bounded phase/rate telemetry.  Root released commit
+  `d96a10a0e87856ec2bca8b1a7768712333b4ab12`; run/attempt
+  `33820711511/1`, job `100862564074`, has authenticated all three actual
+  parents and is currently in the producer/checker step.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual**, now in the corrected real run, and first-rung
+  grades remain **1/6 cross-checked**.  Relative to Delta447, the P1 semantic
+  prerequisite has moved from an actual producer with a failed checker to a
+  complete producer/independent-checker agreement.  This does not itself
+  count a new grade: the actual canonical degree-two lift, connection EOF and
+  targeted grade-two MEMBER/NONMEMBER are still downstream.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, full A0/COMMON, compatible cofinal lift, fake or
+  Ihara witness is declared.  `verified=false`.
+
+### Delta 449 (2026-09-04): A0's exact bottleneck is measured; physical-jet connection repair replaces v503
+
+- A0 endpoint workflow v12 stopped by its outer timeout at run/attempt
+  `33820711511/1`, job `100862564074`, exact head
+  `d96a10a0e87856ec2bca8b1a7768712333b4ab12`.  Authentication, all parent
+  downloads, bounded fixtures, the 59,049-entry endpoint deletion, four actor
+  atoms and every reached-seed endpoint gate passed.  The producer entered
+  its old exact-key direct replay at elapsed 28 seconds with
+  `direct_total=21608`, and the log ended at `274/21608` after 2,685 seconds.
+  The steady portion was approximately four rows per 62 seconds, about 15.5
+  seconds per row; therefore this old loop would require roughly 92--93 hours,
+  not one GHA window.  No aggregation, rho2 or candidate terminal was reached.
+- The always-uploaded log artifact is `9919182955`, name
+  `task640-fresh-rho2-v12-logs-33820711511-1`, archive size 904 bytes, digest
+  `sha256:475f1509...fb2b`, expiry 2026-12-03.  Thus the failure is no longer an
+  unknown performance region: it is the per-exact-key H1/H2/P direct canary.
+  V500 proves that this complete direct row depends only on the seed and the
+  full typed eleven-slot signature.  Task768 is implementing the exact
+  substitution from `L=21608` direct calls to one call for each canonical
+  nonzero full-signature bucket `G`, while retaining all exact-key and trie
+  authentication.  No six-slot grouping or source pruning is allowed.
+- The canonical P1 lift v4 audit found one release-only blocker: the actual
+  accepted workflow receipt spells its elapsed clock as the one-field value
+  `03.76`.  Task767's versioned v5 accepts that exact value through the same
+  production validator, retains the colon forms, rejects 50 bounded
+  mutations, and has no recurrence/build-loop/class AST change.  Producer v5
+  is 104,788 bytes with SHA-256 `32ee4c53...6466`; workflow v2 is 27,574 bytes
+  with SHA-256 `be01039b...5d20`.  A deliberately narrow Sol(max) re-audit is
+  running before the 8,059-row, 292,444,992-byte actual lift replay.
+- Task765 rejected v503's path-bearing theorem for a mathematical reason, not
+  wording: the crossed-Fox commutator has the same-depth actor connection
+  `(1-pxp^{-1})d(p)`, and eleven occurrencewise remainders had not been shown
+  to share one tagged ancestor.  V504 replaces the value-only induction by a
+  connection-aware physical jet.  Its exact step keeps that actor term in the
+  leading jet and leaves
+  `(p-1)(dx-ell(x))+(1-[p,x])dx` one depth deeper.  It defines one inverse
+  system of finite target-independent instruction owners, one universal Fox
+  module and eleven specializations, then uses common-source compact cylinder
+  fibres.  The resulting one-member Newton theorem is explicitly conditional
+  on the still-open actual `PHYSICAL-JET-SATURATION` replay and initial full
+  member; hostile re-audit is pending.
+- A4's versioned bordered-resume v50 implementation remains under hostile
+  code/performance audit, including its reported-versus-actual hash drift.
+  Row 27 and the actual word-bearing legal closure have not advanced, so no
+  A4 numerator is counted.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta448, the A0 run has converted its last
+  broad runtime uncertainty into one measured finite loop with an exact
+  full-signature quotient replacement.  P1 lift release has only the narrow
+  clock-format re-audit left; the physical all-depth theorem has moved from a
+  false value-only Fox formula to a connection-aware conditional candidate.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, actual canonical lift, connection EOF,
+  grade-two MEMBER/NONMEMBER, full A0/COMMON, accepted physical-jet owner,
+  compatible cofinal lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 450 (2026-09-04): all-depth theorem passes; actual lift exposes one finite runtime type defect
+
+- Sol(max) Task770 accepted
+  `proof_r07_physical_jet_instruction_newton_lift_v504.md` as a conditional
+  paper theorem.  The exact relative commutator jet retains both leading
+  terms `(p-1)dx` and `(1-pxp^-1)dp`; its literal remainder is one filtration
+  step deeper.  All eleven occurrences specialize one universal tagged
+  instruction before aggregation.  Compact nested cylinders supply a single
+  compatible ancestry, and the Neumann transport preserves the fixed image.
+  Consequently one actual full path-bearing member plus one finite functorial
+  `PHYSICAL-JET-SATURATION` certificate implies one coherent lift on every
+  registered relative pro-3 refinement.  This closes the paper passage from
+  one successful level to all cofinal levels; it does not supply either open
+  finite premise.
+- Root released the separately audited canonical P1 degree-two lift at commit
+  `8bcc7182b4b6676ce4f752f61ad5ffee99d11926`.  Actual workflow run/attempt
+  `33824881796/1`, job `100875303915`, passed authentication, selftest,
+  checker provenance, all five parent downloads and launch construction.  Its
+  serial build stopped after `50.62 s` at the finite Python interface error
+  `object supporting the buffer API required`; maximum RSS was
+  `5,196,492 KiB`, below both memory gates.  Thus this was neither timeout nor
+  OOM and is not a mathematical negative.  No lift/checkpoint was produced.
+  Log artifact `9919602334` has API archive size `82,608` and digest
+  `sha256:a604edf4...6340`.  Task773 is making an arithmetic-neutral versioned
+  type repair with a non-opaque traceback/call-site terminal.
+- Task766's reached-path audit rejected A4 bordered-resume v50.  The reported
+  v50 hash drift is metadata-only, but every one of the six Task556 semantic
+  blockers still has a reached counterexample: row-query continuity, evolving
+  reducer/complete HEAD, bounded two-pass ownership and true scales, genuine
+  RESOURCE materialization, two-row/final-positive lifecycle, and independent
+  K reconstruction.  A4 therefore remains at row 27 and **1/3**; Task774 is
+  repairing precisely these paths with no production dispatch until re-audit.
+- A0 full eleven-slot signature-bucket producer/checker remains in hostile
+  Task772 audit.  Until that exact audit passes and a real v13 run produces a
+  fresh rho2, A0 remains open.
+
+**v220 mapping**:
+
+- The conditional all-refinement step is now paper-closed: after the two
+  finite actual gates succeed, no new membership solve is required at each
+  refinement.  The finite gates themselves remain `FULL PATH-BEARING INITIAL
+  MEMBER=OPEN` (A0) and `ACTUAL PHYSICAL-JET SATURATION=OPEN` (A4/P1).
+- A0 remains **0/1 actual**, first-rung grades remain **1/6 cross-checked**,
+  A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.
+  No actual canonical lift, fresh rho2, full A0/COMMON, compatible R07 lift,
+  fake or Ihara witness is declared.  `verified=false`.
+
+### Delta 451 (2026-09-04): A0 quotient replay and diagnostic canonical lift are live in parallel
+
+- Task779 independently accepted A0 producer-v8/checker-v6/workflow-v14.
+  The two formerly surviving source mutations are now killed by independent
+  literal anchors: reversed prefix multiplication is rejected at
+  `independent_trie_right_recurrence`, and an inverted pentagon factor is
+  rejected at `pentagon_literal_order_anchor`.  The audit found no new dense
+  owner, all-prefix loop, or parent replay.  Its production schedule remains
+  one direct evaluation for each nonzero canonical full typed eleven-slot
+  signature bucket `G`, with exact-key and trie authentication retained.
+- Root released exact head
+  `efa92ecae2ac9b7ef6085b20699bf98c9d063029`.  Actual A0 run/attempt
+  `33827097170/1`, job `100881980371`, passed checkout, bounded fixtures and
+  every immutable parent authentication/download and entered the actual fresh
+  rho2 producer plus independent checker.  This is the finite quotient run
+  replacing the measured 92--93-hour `21608`-key loop; its terminal is still
+  pending.
+- Task776 accepted canonical P1 producer-v6/workflow-v3 for a fresh bounded
+  dispatch.  The arithmetic AST is unchanged.  The v2 buffer error's root
+  cause is deliberately not claimed; v6 merely makes the suspected row
+  conversion explicit and guarantees that any ordinary recurrence records
+  its exact phase and bounded traceback.  Root released exact head
+  `bd1f092b8301e4a07cf0a3c8b228bff63e23276b`.  Actual run/attempt
+  `33827142944/1`, job `100882118138`, is live in its authenticated serial
+  8,059-row pipeline.
+- A4 remains at **1/3** while Task774 repairs all six reached-path defects.
+  Separately, v505 proposes a finite evaluated instruction-owner criterion as
+  a possible replacement for broad A4 enumeration; Task778 is auditing the
+  load-bearing distinction between a formal evaluated state and a correction
+  actually materializable by legal instruction words.  No saturation claim
+  is made before that audit.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** until run `33827097170` reaches an authenticated
+  terminal; first-rung grades remain **1/6 cross-checked** until the downstream
+  canonical lift/connection/grade decision closes.  Relative to Delta450,
+  both finite computational gates have moved from audit/failed-dispatch state
+  into new real GHA runs, while the already accepted v504 theorem still means
+  that successful initial membership plus physical-jet saturation would lift
+  through all registered cofinal refinements without a new solve per level.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No fresh rho2, actual canonical lift, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 452 (2026-09-04): P1 diagnostic localizes the old opaque stop to one integer/bytes boundary
+
+- Canonical P1 v3 run/attempt `33827142944/1`, job `100882118138`, exact head
+  `bd1f092b8301e4a07cf0a3c8b228bff63e23276b`, passed all source/checker
+  authentication, bounded selftest, five parent downloads and launch
+  construction, then stopped before the 8,059-row recurrence.  V6 reported
+  `phase=build.authenticate_inputs` and a full traceback: producer line 1302
+  passed `body_raw` to SHA-256, but the pinned structural block-envelope API
+  returns `len(br)` as its third value.  Thus the reached object was an integer
+  body length, not a byte buffer.  The former packet-row suspicion is
+  superseded as the actual failure cause.
+- This is a finite provenance-interface defect, not a mathematical negative,
+  resource stop, or failure of the canonical recursion.  Logs artifact
+  `9920389460`, name
+  `task773-canonical-p1-degree2-lift-v3-logs-33827142944-1`, has API size
+  `83,509` bytes and digest `sha256:28e8acad...8d3e`.  Task781's exact repair
+  retains the integer as an authenticated size, binds the already checked
+  parent digest, and relies on the existing registry's physical-file rehash;
+  it forbids rereading/canonicalizing the large block JSON and therefore adds
+  no memory-heavy copy.
+- A0 run/attempt `33827097170/1`, job `100881980371`, remains live in the
+  full-signature-bucket fresh-rho2 producer/checker while this P1 repair is
+  implemented independently.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta451, the P1 finite gate has changed from
+  an opaque recurring Python error to an exact one-site type repair before
+  recurrence; its numerator does not move until the repaired actual run
+  succeeds.  The A0 numerator likewise waits for its live authenticated
+  terminal.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  No canonical P1 lift, fresh rho2, full A0/COMMON, compatible
+  cofinal lift, fake or Ihara witness is declared.  `verified=false`.
+
+### Delta 453 (2026-09-04): P1 input ABI is repaired and live; bucket/source roles are fixed
+
+- Sol(max) Task784 accepted canonical P1 producer-v7/workflow-v4.  The reached
+  v3 failure is closed exactly: the structural envelope's third return is an
+  authenticated nonnegative byte count, not body bytes.  V7 records that
+  integer, checks the physical file identity and fixed digest, and retains the
+  later streaming registry rehash.  It adds no large body copy and leaves all
+  four 8,059-row build-loop ASTs unchanged.
+- Root released exact commit
+  `af6df45eba857234d5b6576e4bd0d0b86eac2181`.  Actual canonical P1
+  run/attempt `33829243641/1`, job `100888477356`, passed setup, immutable
+  source authentication, bounded selftest and accepted-checker staging and is
+  downloading its exact parent set before the serial bounded recurrence.  No
+  lift terminal is counted while that run is live.
+- Task778 rejected v505 as a replacement for A4: formally adjoining a
+  remainder constructor does not exhibit a legal same-owner word preimage.
+  The conditional physical-jet/Newton theorem v504 remains valid, but its
+  finite materializability premise remains open.
+- Task783 passed the two narrow bucket factorizations: the complete direct
+  row factors by v500 and the precision-two row factors separately by v471.
+  V507 repairs the section domain to the nonzero support
+  `Q_mu=k[supp(q mu)]`; thus the emitted last-path section preserves both
+  target consumers without claiming equality of literal source words.  The
+  authenticated exact origin/path vector and ancestry remain the source
+  track, while buckets are only the computation track.
+- The resulting next finite interface is now stated without ambiguity:
+  compile the exact source ancestry to an ordered legal R07 instruction DAG,
+  preserving coefficient two, all eleven typed paths, side/boundary/
+  localization gates, reduction compatibility and a common owner.  Task785
+  is locating the first exact missing join or constructor; bucket
+  representatives are forbidden in this source step.
+- A0 run/attempt `33827097170/1`, job `100881980371`, remains live in the
+  authenticated full-signature-bucket fresh-rho2 producer/checker.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked** pending the two live terminals.  Relative to Delta452, the
+  P1 one-site input defect is independently closed and the repaired actual
+  recurrence pipeline has launched; the bucket compression objection is
+  paper-closed only under retention of the exact source track.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  The one-success-to-all-levels passage remains conditionally
+  closed by v504, but its initial full path-bearing member and actual
+  same-owner physical-jet premises remain finite open gates.  No fresh rho2,
+  actual canonical P1 lift, full A0/COMMON, compatible cofinal lift, fake or
+  Ihara witness is declared.  `verified=false`.
+
+### Delta 454 (2026-09-04): v14 measures almost no bucket compression; all-path canary induction removes it
+
+- Actual A0 v14 run/attempt `33827097170/1`, job `100881980371`, exact head
+  `efa92ecae2ac9b7ef6085b20699bf98c9d063029`, reached its 45-minute
+  producer timeout with exit 124.  All setup, parent, fine-deletion, actor and
+  reached-seed endpoint gates passed.  The checker did not start and no
+  residual payload was uploaded.
+- The actual counts are `L=21608` exact keys, `U=13043` trie prefixes and
+  `G=21287` nonzero full-signature buckets.  Thus `G/L=98.5144%`; the v14
+  quotient leaves almost the entire expensive direct schedule.  It reached
+  `274/21287`; the late rate was about four calls per 61 seconds.  This is an
+  exact resource diagnosis, not a negative membership result.
+- Log artifact `9921293018`, name
+  `task640-fresh-rho2-v14-logs-33827097170-1`, has API size 925 bytes and
+  digest `sha256:64ca872c...3f69`.  The downloaded `producer.log` is 9,486
+  bytes with SHA-256 `c19fa274...905d`.
+- V509 proves the generic printed all-seven difference equals the eleven
+  occurrence sum for every conjugating path from the endpoint-one Fox
+  identity.  The four typed actor signatures propagate it by path induction.
+  Therefore production needs one generic anchor per reached seed, not per
+  bucket.  This actual source has 23 reached seeds, reducing the expensive
+  generic call count `21287 -> 23` (about 925.5-fold), while retaining every
+  exact source key, all eleven typed signatures and the complete
+  precision-two bucket aggregation.  V509 is pending hostile audit and
+  implementation.
+
+**v220 mapping**:
+
+- A0 remains **0/1 actual** and first-rung grades remain **1/6
+  cross-checked**.  Relative to Delta453, the live A0 uncertainty is now an
+  exact failed optimization with a theorem-level replacement; no old
+  21,287-call replay should be relaunched.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged.  Canonical P1 run `33829243641/1` remains independently live.
+  No fresh rho2, full A0/COMMON, compatible cofinal lift, fake or Ihara
+  witness is declared.  `verified=false`.
+
+### Delta 455 (2026-09-04): the actual literal frontier is split at the first finite legal-owner gate
+
+- Sol(max) Task785 audited the complete accepted Task625/Task601 source
+  payload rather than the derived leaf vector.  Its exact result is that
+  `source-ancestry.json` plus `roots.json` and `literal_dictionary` already
+  determine one finite ordered free-group SLP for the actual grade-one
+  correction.  The accepted roots are the 3,317-term update `C_T`, the
+  2,622-term prior `C_<1`, and `C_1=Compose(C_<1,C_T)`.  Hence the map from
+  authenticated ancestry to an ambient explicit word is DONE; neither the
+  quotient-specific 19,393-leaf vector nor a signature bucket is its source.
+- The first absent map is now pinned exactly as
+  `m_n:Syn(A_601^reached)->D_n^legal`.  At the update root it must prove
+  `r_D m_n(C_T)=1`, one complete legal-gate vector, one named owner and all
+  eleven typed occurrence evaluations of the same word.  Existing Task601
+  fields prove none of those source-owner assertions: physical lower zero is
+  not source-relative reduction.  Task785 classifies this as finite local
+  algebra plus finite replay on the reached graph, not a new cofinal argument
+  and not a broad A4 enumeration.
+- V510 (`proof_r07_targeted_grade2_literal_compiler_repair_v510.md`, 10,737
+  bytes, SHA-256 `85390170...40c83`) records the noncircular interface.  It
+  fixes v508's actor tuple order to outer `t_1`, ..., inner `t_m`; pins the
+  projector order to `CHARACTER_LABELS=((0,0),(0,1),(1,0),(1,1))`; separates
+  the P1 cache's six source tags from the eleven physical slots; and downgrades
+  the normal closure of the 44 relators from a legal owner to a common ambient
+  literal source.  The canonical P1/Task601 overlap has a derived partial join
+  by the shared Task554 parent set and global node id, but an explicit total
+  source-key/binding receipt remains open.
+- The later all-depth condition is not conflated with this first gate.  V504
+  remains the accepted conditional one-success-to-all-refinements theorem;
+  its `PHYSICAL-JET-SATURATION` premise still additionally needs functorial
+  same-owner remainder preimages, including v398's actual value preimage.
+- The v509 A0 reduction is now under the narrowly commissioned Task789
+  hostile audit.  Separately, Luna Task787 is implementing the target-specific
+  grade-two MEMBER/NONMEMBER join so that an accepted P1 and fresh rho2 can be
+  consumed without another design round.  Neither activity changes a
+  numerator before an actual checked terminal.
+
+**v220 mapping**:
+
+- Relative to Delta454, the ambiguous source-to-literal task has been reduced
+  from an apparent full compiler problem to one exact finite legal admission
+  map: ambient `C_1` is already explicit, and only its legal-owner/source-
+  reduction/eleven-slot receipt is missing.  The cofinal recursion itself is
+  still paper-closed conditionally by v504.
+- A0 remains **0/1 actual**, first-rung grades remain **1/6 cross-checked**,
+  A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.
+  Canonical P1 run `33829243641/1` remains live.  No fresh rho2, accepted
+  legal materializer, grade-two MEMBER, full A0/COMMON, compatible cofinal
+  lift, fake or Ihara witness is declared.  `verified=false`.
+
+### Delta 456 (2026-09-04): all-path induction reduces A0's measured direct schedule to 23 anchors
+
+- Sol(max) Task789 accepted the mathematical core of v509 with three finite
+  release repairs. For each side, the generic direct evaluator is needed only
+  on the 23 reached seed anchors, not on all 21,287 nonzero signature buckets.
+  This removes 21,264 generic calls per side, a factor of about 925.52, while
+  retaining the full 21,287-entry precision-two aggregation.
+- V512 installs the audit repairs on paper: the exact eleven g-dependent
+  occurrence-prefix table and signs, observable sorted 23-anchor and four
+  typed-atom receipts, right-extension recurrence, and the producer's
+  stronger 31-context joint guard. Its exact identity is 6,151 bytes,
+  SHA-256
+  `33997289c63c66392849ebdc81f4668172272f72057d54e383e50523059b2011`.
+- Task791 is implementing only that accepted schedule in versioned A0
+  producer/checker/workflow outputs. No generic call has been silently
+  replaced by a bucket representative, and no actual fresh rho2 is counted
+  before hostile audit and a new GHA terminal.
+
+**v220 mapping**:
+
+- Relative to Delta455, the measured A0 time blocker is paper-closed and in
+  implementation; A0 itself remains **0/1 actual**. First-rung grades remain
+  **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and
+  compact A5 is unchanged. No fresh rho2, full A0/COMMON, compatible lift,
+  fake or Ihara witness is declared. `verified=false`.
+
+### Delta 457 (2026-09-04): Task601's normal-closure DAG already supplies the direct relative owner
+
+- V511 separates three notions which v510 had bundled: compilation to an
+  ambient free word, membership in the accumulated kernel, and preferred
+  formation ancestry. If a finite relator roster normally generates
+  `U_n=ker(Psi_n)`, every reached DAG built from its conjugates, products and
+  inverses lies in `U_n` by a topological induction. No inverse physical-to-
+  P1 join or new source-reduction matrix is needed for that membership fact.
+- In the accepted Task601 parent, v397 plus Tasks540/580 state that the at
+  most 44 compact relators normally generate the first-rung kernel Omega,
+  while Task785 pins the ordered 3,317-term update DAG and its literal leaves.
+  Hence `word(C_T) in Omega`, and its value in every finer image reducing to
+  this rung lies in the relative kernel. The exact v511 identity is 11,993
+  bytes, SHA-256
+  `082e31f7a4d85a96b8c278f5a7dc21fdb478421ca4be7e2844593961abb81227`.
+- What remains finite is now smaller and explicit: the two normalized
+  exponent coordinates, the eleven same-word physical evaluations/fresh
+  rho2, and the targeted grade-two MEMBER ancestry. Preferred formation
+  ancestry and arbitrary physical-jet saturation remain separate stronger
+  gates.
+
+**v220 mapping**:
+
+- Relative to Delta456, Task601's current accumulated-kernel/source-
+  reduction admission is paper-closed; this removes a compiler blocker but
+  does not move a computational numerator. A0 remains **0/1 actual**,
+  first-rung grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**,
+  A4 **1/3**, and compact A5 is unchanged. The conditional one-success-to-
+  all-refinements mechanism remains v504; every-edge physical image
+  nonemptiness is still open. No compatible lift, fake or Ihara witness is
+  declared. `verified=false`.
+
+### Delta 458 (2026-09-04): canonical P1 reaches 79.4143%; only its 38-minute cap stops it
+
+- Actual run/attempt `33829243641/1`, job `100888477356`, exact head
+  `af6df45eba857234d5b6576e4bd0d0b86eac2181`, passed all input,
+  checker-provenance and parent gates and entered the accepted 8,059-row
+  recurrence. It ended with exit 124 and typed `UNKNOWN_RESOURCE` at the hard
+  38-minute producer cap.
+- Its last receipt is cursor `6400/8059` after 2,183.869 seconds, with
+  487,139,163 durable ephemeral bytes and RSS 5,206,851,584 bytes. Thus this
+  is neither OOM nor arithmetic rejection. The actual late rate projects
+  12.18 further minutes and about 48.58 minutes total to recurrence EOF.
+- Log artifact `9921870995`, API digest
+  `sha256:25ee5758...149f176`, contains no partial cache/checkpoint; producer
+  v7 deletes temporary output on failure. The smallest next release is the
+  identical accepted arithmetic under a versioned 60-minute workflow cap,
+  not another algorithm redesign. Root result 792 records the full hashes
+  and restart truth.
+- A4's six-path repair implementation is complete but remains at **1/3**
+  pending the commissioned Sol(max) Task793 hostile correctness/performance
+  audit. The owner-generated targeted grade-two join and A0 23-anchor
+  implementation continue independently.
+
+**v220 mapping**:
+
+- Relative to Delta457, canonical P1 has moved from a live unknown to a
+  measured 79.4143% finite prefix with a bounded time-only remedy. It is not
+  yet an accepted lift. A0 remains **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact
+  A5 is unchanged. No fresh rho2, grade-two MEMBER, full A0/COMMON,
+  compatible cofinal lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 459 (2026-09-04): normality closes the source side of every actual commutator constructor
+
+- V513 applies v511 to the literal v398 commutator tree
+  `Comm(P,A)=Act(P,A) A^-1`. If the reached correction word lies in the
+  accumulated kernel `U_n`, then `[p,a]` lies there for every recorded actor
+  word `p`, by normality. Its value at the finer level is therefore in the
+  relative kernel, and its two normalized exponent coordinates vanish
+  identically because it is a commutator.
+- This construction is word-bearing and natural under every registered
+  reduction. Products, inverses and conjugates of these records remain in the
+  same direct source domain. Therefore A4 does not need a separate broad
+  source-membership enumeration merely to legalize the connection
+  commutators of the actual Task601 history.
+- Combined with v398, once an actual same-eleven-occurrence-operator preimage
+  `B d_V=V` is returned, the connection preimage is the explicit relative
+  word `d_K=c(P,A)d_V^-1`, with `B d_K=K` in the elementary relative layer.
+  The remaining hard gate is the actual value preimage and physical replay,
+  not source legality. V513 does not infer filtered depth, PB/hexagon gates or
+  `PHYSICAL-JET-SATURATION` from normality.
+
+**v220 mapping**:
+
+- Relative to Delta458, the source-legality half of v398's actual
+  commutator-subtraction step is paper-closed. Numeric counters remain A0
+  **0/1 actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2
+  **2/3**, A3 **3/3**, A4 **1/3**, with compact A5 unchanged. The first new
+  mathematical target is now an actual word-bearing value lift through the
+  same complete physical operator; no fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 460 (2026-09-04): return symmetrization is explicit inside the same normal kernel
+
+- V514 uses v77's return-closed cofinal refinement to prove that each
+  accumulated kernel `U_n` is return-stable. Adjoining the returned copies of
+  a complete relator roster preserves the same normal closure and yields a
+  finite return-closed word owner; the first-rung at-most-44 roster grows to
+  at most 88 named leaves before literal coincidences.
+- In an elementary relative F3-layer, the return average of a word-bearing
+  instruction `T` has the explicit materialization
+  `Mat(T_+)=Mat(T)^-1 Mat(return(T))^-1`. Its value is
+  `2(d+theta d)=(d+theta d)/2`, hence is return-fixed, remains in `U_n`, and
+  reduces compatibly at every return-closed refinement. For v513
+  commutators, normalized exponent zero is automatic.
+- This closes the source-legality/ancestry side of v400's doubled-return
+  certificate without another A4 source enumeration. It deliberately leaves
+  the one arithmetic equality
+  `B ev(T_+)=-beta_+` open: both returned words must still be replayed through
+  the same eleven-occurrence physical operator and all side gates.
+
+**v220 mapping**:
+
+- Relative to Delta459, both the commutator and its return-symmetric
+  correction now have uniform explicit source words. The remaining
+  class-specific obstruction is a physical symmetric-image membership, not
+  construction of the source return pair. Counters remain A0 **0/1 actual**,
+  first-rung grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**,
+  A4 **1/3**, with compact A5 unchanged. No compatible lift, fake or Ihara
+  witness is declared. `verified=false`.
+
+### Delta 461 (2026-09-04): A0 reached-seed implementation is audit-ready and measured P1 v5 is live
+
+- Luna Task791 completed the v512 A0 successor. Producer v9 now performs
+  the unchanged generic empty-path direct evaluation once for each raw
+  reached seed (`S=23` on the authenticated parent), while retaining the
+  complete `G=21,287` precision-two bucket aggregation on each side. Its
+  independent checker v7 reconstructs the 23 base-row receipts, four typed
+  actor signatures, inverse/order/prefix contracts and full aggregation.
+  Bounded producer/checker fixtures pass, but this is only
+  `READY_FOR_HOSTILE_AUDIT`; no GHA launch or fresh rho2 is counted yet.
+- Root compared canonical P1 workflow v5 against v4. The only eight raw
+  changed lines are workflow/fire/artifact names and the measured resource
+  repair `2220 -> 3540` seconds, `38m -> 60m`, `45 -> 75` minutes; after
+  normalizing those fields the workflows are identical. Release commit
+  `011780dea7ced10f36b65f428616c453fe87cf8a` started actual run/attempt
+  `33833873366/1`, job `100902284260`, at the same head. This is the exact
+  arithmetic which reached `6400/8059` under v4, now with enough measured
+  wall-clock allowance; its terminal remains open.
+- A4 hostile audit has independently reached two release-blocking defects in
+  the proposed repair: a resumed nonempty ordinary basis is attached to a
+  fresh physical root without installing its base HEAD/chain, and the checker
+  still hard-codes `next_row == 27`. A4 therefore remains quarantined and is
+  not dispatched while the audit finishes the finite repair list.
+
+**v220 mapping**:
+
+- Relative to Delta460, the A0 speed theorem has moved from paper to a
+  bounded implementation awaiting hostile audit, and P1 has moved from a
+  time-capped 79.4143% prefix to a live measured-cap rerun. Neither is an
+  actual terminal yet: A0 remains **0/1 actual** and first-rung grades remain
+  **1/6 cross-checked**.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 remain
+  unchanged. No fresh rho2, grade-two MEMBER, compatible cofinal lift, fake
+  or Ihara witness is declared. `verified=false`.
+
+### Delta 462 (2026-09-04): return symmetry is no longer a second membership problem
+
+- V515 combines v400's solution-fibre orbit doubling with v514's literal
+  normal-kernel symmetrizer. At an actual return midpoint, any ordinary
+  correction `d` with `B d=-beta_plus` gives the fixed correction
+  `d_plus=(d+theta d)/2`; return-stability of the zero locus proves it solves
+  the same defect without requiring a target involution or separate
+  value/connection parity.
+- The construction is word-bearing: in the active F3 layer its explicit SLP
+  is `Mat(T)^-1 Mat(return(T))^-1`, remains in the same accumulated kernel and
+  commutes with reduction. More generally, ordinary strict coverage of a
+  return-fixed class target implies strict coverage by the fixed instruction
+  source, simply by averaging each chosen preimage.
+- Applying this at every v504 Newton depth proves that an unsymmetrized
+  full-path member plus `PHYSICAL-JET-SATURATION` already yields a
+  return-fixed compatible branch. Therefore `B ev(T_plus)=-beta_plus` remains
+  an open derived replay until A0/member evidence exists, but it is not an
+  independent image search or a second obstruction.
+
+**v220 mapping**:
+
+- Relative to Delta461, one apparent all-depth gate has been removed: no
+  separate symmetric MEMBER/strictness numerator is needed after the ordinary
+  A0 and physical-jet gates. Those underlying gates remain unchanged: A0 is
+  **0/1 actual**, first-rung grades **1/6 cross-checked**, and A4 **1/3**.
+- A1 **4/4**, A2 **2/3**, A3 **3/3**, and compact A5 are unchanged. No
+  compatible lift, fake or Ihara witness is declared. `verified=false`.
+
+### Delta 463 (2026-09-04): A0 is reduced to one checker wire; source-cycle materialization is separated from physical membership
+
+- Sol(max) Task795 rejected the audit-ready A0 v15 release for one exact
+  reached wiring defect only.  Checker v7 passes the twelve-field complete
+  `direct_canary` where `validate_direct_canary` expects the five-field
+  `base_receipt`, so an honest payload deterministically stops at
+  `checker_canary_base_rows` after its 23 direct calls and before the
+  21,287-bucket precision-two replay.  Replacing that final argument by the
+  already reconstructed `base_receipt` accepts the isolated honest case; all
+  registered mutations still reject.  The audit confirms that producer and
+  checker each have exactly 23 generic direct calls, retain every 21,287
+  precision-two bucket, and contain no resurrected 21,287-call generic or
+  new memory-heavy path.  Task800 is restricted to this one wire, one bounded
+  positive regression fixture and a versioned checker/workflow; producer v9
+  and its arithmetic remain frozen.
+- Luna Task790 removed the old inverse physical-row join from the targeted
+  grade-two consumer and authenticated the fresh-rho2, canonical P1 and
+  Task554 parents independently.  Its v2 owner reaches `lift2(0)` and stops
+  at `NOT_READY:implementation.lift2.source_precision2_replay`; it emits no
+  MEMBER/NONMEMBER.  The stop appears to have treated the P1 cache row as
+  lacking a source type even though v483 defines each 36,288-byte cache row
+  as the 145,152-trit source degree-two component.  Task799 is paused while
+  A0 is repaired, then will test the narrow composition of that authenticated
+  cache component with Task554's reconstructed degree-one row rather than
+  inventing a new field.
+- V516 gives a conservative noncircular replacement for the literal-word
+  half of rejected v505.  For a marked two-generator quotient
+  `F -> H`, the mod-three Crowell--Magnus map identifies
+  `U/U'U^3` with the standard Fox cycles `ker D1`.  A coefficient vector in
+  a complete normal-relator roster compiles to the ordered product of the
+  corresponding conjugates; a vector in the augmentation-ideal part compiles
+  to literal actor commutators and has exact exponent sum zero.  Hence, once
+  a *single* common source cycle `z` and the same-owner equality
+  `A(z)=epsilon` have been produced, no independent word search is needed and
+  compatibility of its relation classes is natural.  This does not construct
+  `z`, does not apply Crowell separately to eleven targets, and does not solve
+  the return-even/full-P0 physical image gate.  Task801 hostile audit is
+  queued after the return-fixed audit.
+- Canonical P1 v5 run/attempt `33833873366/1`, job `100902284260`, head
+  `011780dea7ced10f36b65f428616c453fe87cf8a`, remains in its unchanged
+  serial 8,059-row producer under the measured 60-minute cap.  No terminal is
+  counted while it is live.  A4 v5 is independently repairing the concrete
+  Task793 reached-path failures and remains quarantined from GHA.
+
+**v220 mapping**:
+
+- Relative to Delta462, A0's release blocker is now a one-argument checker
+  repair with no mathematical or performance redesign, while the downstream
+  grade-two source boundary has been localized to the already-produced P1
+  cache type.  The paper materialization problem has also split cleanly:
+  standard source-cycle coefficients imply a literal word, but existence of
+  the actual common source cycle and its eleven-occurrence physical equality
+  remain the substantive finite gate.
+- Numerators do not move before accepted terminals: A0 remains **0/1
+  actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**,
+  A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.  No fresh rho2,
+  accepted P1 lift, grade-two decision, compatible lift, fake or Ihara
+  witness is declared. `verified=false`.
+
+### Delta 464 (2026-09-04): A0 one-wire repair is ready for re-audit; repeated return averaging is made affine
+
+- Luna Task800 made the exact Task795 repair. Checker v8 now passes the
+  reconstructed five-field `base_receipt`, rather than the twelve-field
+  `direct_canary`, to the reached production validation call. One bounded
+  positive fixture keeps the two objects distinct and traverses the full
+  validation path. Producer v9 is byte-identical; its selftest and checker
+  v8's selftest pass. Workflow v16 changes only the versioned checker pins,
+  marker/fire/artifact labels and keeps the same 23 reached-seed direct calls,
+  four typed atom calls, every 21,287-bucket precision-two aggregation and
+  the single serial job. It is now under the deliberately narrow Sol(max)
+  Task802 hostile re-audit; no GHA release is counted before that verdict.
+- Sol(max) Task798 rejected v515's all-depth return claim while accepting its
+  one centred affine fibre lemma. At a later depth the partial word is fixed
+  only modulo the settled filtration, so return in the next correction
+  coordinate is `d -> delta_r + theta_r d`. V515 averaged only `d` and
+  `theta_r d`, dropping the generally nonzero translation `delta_r` created
+  by the preceding nonabelian correction.
+- V517 repairs this without a new membership search. For a right update
+  `w c`, the exact returned whole-point correction relative to `w` is the
+  literal word
+  `ARet_w(c)=w^-1 return(c) return(w)`, and
+  `return(w c)=w ARet_w(c)`. Its active class is
+  `delta_r+theta_r d`. The correct fixed cancelling class is
+  `(d+delta_r+theta_r d)/2`; over F3 it is materialized, in registered order,
+  by `c^-1 ARet_w(c)^-1`. Normality and return stability keep this word in the
+  same complete direct accumulated-kernel source, and its possible deeper
+  return discrepancy becomes the next explicit `delta`, rather than being
+  discarded. Thus the v504 implication remains conditionally symmetrizable,
+  but v517 itself is a fresh paper candidate awaiting hostile audit.
+- The owner-generated grade-two Task799 has resumed on the narrow existing
+  type bridge: the authenticated P1 cache supplies the 145,152-trit source
+  degree-two component, while Task554 independently supplies its 96,776-trit
+  precision-one truncation. It may neither invent a new field nor restore the
+  rejected inverse physical-row join. Canonical P1 v5 run/attempt
+  `33833873366/1`, job `100902284260`, head
+  `011780dea7ced10f36b65f428616c453fe87cf8a`, remains in the unchanged
+  8,059-row producer. A4 v5 remains a local repair and is not released before
+  a fresh hostile audit.
+
+**v220 mapping**:
+
+- Relative to Delta463, the A0 implementation blocker is removed locally and
+  only its narrow hostile release audit remains; the return-fixed Newton
+  argument has been corrected from an invalid linear repeat to the actual
+  whole-point affine formula. These are denominator reductions, not accepted
+  computation terminals. A0 remains **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact
+  A5 is unchanged. No fresh rho2, accepted P1 lift, grade-two decision,
+  compatible lift, fake or Ihara witness is declared. `verified=false`.
+
+### Delta 465 (2026-09-04): A0 v16 is audit-PASS and live; targeted grade-two reaches the physical occurrence boundary
+
+- Sol(max) Task802 passed the exact A0 checker repair. The honest distinct
+  five-key/twelve-key pair accepts, substituting the full object for the base
+  still rejects at `checker_canary_base_rows`, all 55 mutation fixtures pass,
+  and static production tracing confirms 23 generic direct calls per side,
+  four typed atom calls, every 21,287 aggregation bucket and no resurrected
+  slow/dense path. Root released only the audited files at commit/head
+  `f72d9173ce2b90b6ce8ad137d4d82ff7b059fe53`. Push-triggered workflow
+  `d972-r07-a0-fresh-precision2-endpoint-v16`, run/attempt
+  `33836732706/1`, job `100910685815`, passed checkout, source/proof pins,
+  bounded fixtures and all three exact parent downloads, then entered the
+  combined producer/independent-checker step at `2026-09-04T04:25:43Z`.
+  This is a live run, not yet a fresh-rho2 terminal.
+- Luna Task799 removed the false `lift2.source_precision2_replay` stop. Its
+  v3 consumer binds the P1 cache's 145,152-trit/36,288-byte source degree-two
+  component separately from Task554's 96,776-trit precision-one truncation,
+  preserving offset, row receipt, predecessor and ancestry. Bounded mutation
+  fixtures pass and no inverse physical-row source map was restored. The next
+  explicit stop is now
+  `NOT_READY:implementation.physical_lift.occurrence_aggregation`. Sol(max)
+  Task803 is auditing both correctness and hidden asymptotics, including
+  repeated prefix scans, before any physical successor is accepted.
+- V517 is the 12,474-byte affine-return repair of rejected v515, SHA-256
+  `4e845a72ab2dd001c2aa8995d9f4e481f63bb6903058a8c6630ddb32662b72bf`.
+  It carries the literal whole-point translation at every Newton depth.
+  V518 is the 11,119-byte direct-relative targeted MEMBER compiler, SHA-256
+  `3a08e4db897e9176d1a515f2dcd6248fcea2803d5ee1e333a7c2b1798b7a6963`.
+  It repairs v508's actor nesting and projector order, separates six source
+  tags from eleven physical replays, and compiles an accepted coefficient
+  transcript forward to one ordered accumulated-kernel SLP without claiming
+  a preferred formation owner. Both are fresh paper candidates awaiting
+  hostile audit.
+- Canonical P1 v5 run/attempt `33833873366/1`, job `100902284260`, remains in
+  its authenticated 8,059-row producer. A4 v5 remains under local repair and
+  has not been released.
+
+**v220 mapping**:
+
+- Relative to Delta464, A0 crossed its implementation/audit denominator and
+  is now an actual live production run. The grade-two source bridge crossed
+  the P1-cache typing blocker and exposed the next physical occurrence
+  implementation boundary. Neither is counted before a terminal: A0 remains
+  **0/1 actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2
+  **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged. No fresh
+  rho2, accepted P1 lift, grade-two decision, compatible lift, fake or Ihara
+  witness is declared. `verified=false`.
+
+### Delta 466 (2026-09-04): the grade-two source bridge survives, but quadratic rescans and unaudited terminals are removed before physical work
+
+- Sol(max) Task803 accepted Task799's narrow source-type result: one P1 cache
+  row is the distinct 145,152-trit/36,288-byte source degree-two component,
+  while Task554 reconstructs the separate 96,776-trit precision-one row; the
+  offset, length, row receipt, predecessor, ancestry and `p1_sha256` bindings
+  are correctly typed.  It also confirmed the honest first missing datum
+  `NOT_READY:implementation.physical_lift.occurrence_aggregation` and that the
+  old inverse physical-row source join is absent.
+- The same audit rejected v3 before any successor build.  Producer
+  `_instruction(i)` reopens and authenticates rows `0..i` at least four times
+  per lift, giving a lower bound of 129,911,080 cache-row reads, about 4.714
+  TB, before its recursively repeated DAG closures; a chain/dense closure can
+  become cubic.  The checker independently repeats 32,477,770 prefix row
+  reads, about 1.179 TB.  These are avoidable indexing defects, not the
+  mathematical size of the 8,059-row source.
+- Task803 also found correctness gates which prohibit promotion: asserted
+  booleans can currently pass NONMEMBER without a typed dual or complete
+  universe replay; MEMBER compares a producer-supplied row instead of
+  independently regenerating the selected physical expression; exact DAG
+  origin/reduction/scale semantics are not bound; a caller-supplied `lift=`
+  bypass remains; and the labelled row-swap fixture only mutates one byte.
+  The exact audit is 10,809 bytes, SHA-256
+  `61932166ae7b39d2b71c4cf5c97859d201d7dfba2657d72f533f714abf14ad00`,
+  with terminal `FAIL_TARGETED_GRADE2_OWNER_JOIN_V3` and
+  `SAFE_TO_BUILD_PHYSICAL_SUCCESSOR=no`.
+- Luna Task806 is now restricted to the finite repair: one authenticated
+  chronological producer cursor, one independent checker scan plus direct
+  fixed cache offsets, compact global DAG node/root references rather than
+  flattened histories, at-most-once Task554 descriptors, removal of the
+  caller bypass, and independently replayed complete MEMBER/NONMEMBER gates.
+  No GHA or physical successor is authorized until a new hostile audit.
+- A0 run/attempt `33836732706/1`, job `100910685815`, remains in its fresh
+  rho2 producer/checker step.  Canonical P1 run/attempt `33833873366/1`, job
+  `100902284260`, remains in its serial 8,059-row producer; the actual
+  workflow timeout is 75 minutes, correcting Delta463's stale phrase
+  “measured 60-minute cap”.  Neither live run has emitted a terminal.
+
+**v220 mapping**:
+
+- Relative to Delta465, the source-grade mathematical bridge is retained but
+  the proposed physical-successor denominator is honestly reopened as one
+  bounded linear-time implementation repair.  No numerator moves: A0 remains
+  **0/1 actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2
+  **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.  No fresh
+  rho2, accepted canonical P1 lift, grade-two decision, compatible lift,
+  fake or Ihara witness is declared. `verified=false`.
+
+### Delta 467 (2026-09-04): affine return is reduced from infinitely many source lifts to one base record and source-grade retyping
+
+- Sol(max) Task805 accepted v517's group algebra: for a right update the
+  partner is exactly `A_w(c)=w^-1 return(c) return(w)`, its active coordinate
+  is `delta_r+theta_r d`, and the ordered F3 midpoint word is
+  `c^-1 A_w(c)^-1`.  It nevertheless rejected v517's all-depth promotion:
+  group-kernel membership of `Delta_w=w^-1 return(w)` does not itself provide
+  a depth-filtered word-bearing record in v504's legal source.  V511 is only
+  the forward normal-closure compiler and v514 returns an already typed tree;
+  neither supplies this reverse ancestry.  The exact 11,875-byte audit has
+  SHA-256
+  `f3a758717dbae46f46aa8a828a7305e50a078b7fabb5146da291afc9d25112ff`
+  and terminal `FAIL_AFFINE_RETURN_NEWTON_V517`.
+- V519 gives the finite repair without reinstating a symmetric residual
+  membership search.  It requires one typed base record for
+  `Delta_0=w_0^-1 return(w_0)`, obtainable as a literal direct-kernel DAG by
+  deterministic Schreier rewriting plus separate side receipts.  Given a
+  typed `Delta_r` and ordinary correction `T_r`, it builds the partner and
+  midpoint only from registered return, arbitrary-actor conjugation, ordered
+  product and inverse.  The next discrepancy is the explicit existing tree
+  `E_r^-1 Theta_{W_r}(E_r) Delta_r`, whose word is exactly
+  `(w_r e_r)^-1 return(w_r e_r)`.
+- Affine fixedness makes that already materialized tree zero in the depth-r
+  **source** grade.  V519 therefore asks only for a source-grade-zero
+  `RetypeZero` receipt which changes neither its word nor physical value and
+  carries it into depth `r+1`.  Thus no later group-kernel-to-source inverse
+  choice is made.  The remaining actual structural gate is one base record
+  plus exactness/naturality of this source filtration, separate from the
+  still-open eleven-occurrence `PHYSICAL-JET-SATURATION` gate.  The
+  10,905-byte candidate has SHA-256
+  `35e36239a811d866b07dfcda350919cd661d0ef158be7f2c413fdd53b2a5d10a`
+  and is under hostile Task807 audit.
+
+**v220 mapping**:
+
+- Relative to Delta466, the prior assertion that return symmetrization was
+  automatically legal is withdrawn.  Its infinite source-ancestry burden is
+  now reduced on paper to one base certificate and a finite source-filtration
+  ABI, but no counter moves before Task807 and actual replay.  A0 remains
+  **0/1 actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2
+  **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.  No fresh
+  rho2, accepted canonical P1 lift, grade-two decision, compatible lift,
+  fake or Ihara witness is declared. `verified=false`.
+
+### Delta 468 (2026-09-04): both live runs reached non-mathematical terminals; their exact bounded repairs are isolated
+
+- A0 workflow `d972-r07-a0-fresh-precision2-endpoint-v16`, run/attempt
+  `33836732706/1`, job `100910685815`, head
+  `f72d9173ce2b90b6ce8ad137d4d82ff7b059fe53`, reached all 23/23 base
+  canaries and completed all 21,287/21,287 precision-two aggregations in 889
+  seconds.  The independent checker then stopped with the exact typed error
+  `{"error":"'coordinate'","status":"NOT_READY"}`.  Its production
+  `IndependentAllSeven.specs` constructor omitted the occurrence coordinate
+  which `occurrence_prefix_contract` already requires; the synthetic fixture
+  had included that field and therefore failed to exercise the actual
+  constructor.  This is a checker-constructor defect after a complete
+  producer, not an A0 MEMBER/NONMEMBER result.  Because v16 gated upload on
+  the checker marker, the candidate payload was not retained and the producer
+  must rerun.
+- The retained diagnostic artifact is id `9923837949`, name
+  `task640-fresh-rho2-v16-logs-33836732706-1`, size 932 bytes, digest
+  `sha256:1e75bd55703436e4a344113c026a7800d3de085824aeb3917d05a82a069e4c5c`,
+  archived outside the repository at
+  `C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/run33836732706-attempt1-task640-logs`.
+  Task808 is restricted to adding the eleven actual coordinates
+  `(0,1,2,3,0,4,5,6,7,8,9)` and splitting workflow v17 into producer,
+  explicitly unchecked-candidate upload, checker, and accepted-artifact
+  upload.  Producer v9 and its arithmetic are frozen; hence another completed
+  producer cannot be lost to a later checker defect.
+- Canonical P1 workflow v5, run/attempt `33833873366/1`, job
+  `100902284260`, head
+  `011780dea7ced10f36b65f428616c453fe87cf8a`, stopped only at its inner
+  60-minute shell cap with exit 124 and `UNKNOWN_RESOURCE`.  The last complete
+  checkpoint is cursor `7040/8059` (87.3558%), elapsed
+  `3537.254897481` seconds, durable bytes `538893700`, and RSS
+  `5223956480` bytes, stably below the 7.516 GB cap.  Thus this was not a
+  memory failure and emitted no mathematical terminal.  Artifact id
+  `9923765826`, name
+  `task794-canonical-p1-degree2-lift-v5-logs-33833873366-1`, size 87,139
+  bytes, digest
+  `sha256:ff9c47a2cad7ff888f6793ec68f0d0e0a81200324a3ea76474166b89019f4f7b`,
+  is archived at
+  `C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/run33833873366-attempt1-task794-logs`.
+  Task809 changes only the workflow time envelope to 100 minutes outer,
+  85 minutes inner and `D972_LIFT_SECONDS=5100`, retaining every code,
+  input, exactness and memory pin.
+
+**v220 mapping**:
+
+- Relative to Delta467, both live states have become completely diagnosed
+  finite reruns.  A0 has a complete but unchecked producer execution, not an
+  accepted fresh-rho2 output; P1 has a durable 87.3558% diagnostic cursor but
+  its present producer has no authenticated resume ABI, so that cursor is not
+  promoted to a partial proof object.  A0 remains **0/1 actual**, first-rung
+  grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4
+  **1/3**, and compact A5 is unchanged.  No fresh rho2, accepted canonical P1
+  lift, grade-two decision, compatible lift, fake or Ihara witness is
+  declared. `verified=false`.
+
+### Delta 469 (2026-09-04): recursive affine return passes as a conditional paper theorem
+
+- Sol(max) Task807 passed v519's noncommutative order, active F3 affine
+  midpoint and literal next-discrepancy recurrence.  In particular the
+  constructed record
+  `E_r^-1 Theta_{W_r}(E_r) D_r^Delta` materializes exactly
+  `(w_r e_r)^-1 return(w_r e_r)`, and its source-grade class is
+  `-[e_r]+A([e_r])=0`.  Every later discrepancy is therefore produced from
+  already typed trees; no later whole-point kernel-to-source inverse is
+  hidden in the induction.
+- The audit also fixes the strict scope of `RetypeZero`: it is legal only as
+  an explicitly open `SOURCE-GRADE-EXACT` ABI on the authenticated correction
+  source itself.  It must retain the identical literal SLP and all owner,
+  path, side and reduction tags, and zero after an eleven-occurrence physical
+  image or endpoint quotient is insufficient.  The actual base
+  `D_0^Delta`, source exactness/reduction replay, ordinary A0 and
+  `PHYSICAL-JET-SATURATION` remain open finite gates.  Thus the theorem is
+  noncircular but conditional and does not yet assert preferred ancestry,
+  fake or Ihara.
+- The audit is 10,872 bytes, SHA-256
+  `e2aa329c9e0b553f65cdfd7967f7518eda6429b7a875cee857acc7f060924a34`,
+  with terminal `VERDICT=PASS_RECURSIVE_AFFINE_SOURCE_V519`.  When excerpted,
+  the Schreier section is to be normalized by `s(1)=1`; source-grade
+  exactness is source-only and logically separate from physical-jet
+  saturation.
+
+**v220 mapping**:
+
+- Relative to Delta468, the all-depth return-fixed part is no longer an
+  unreviewed conjectural recursion: conditionally on one typed base record
+  and the exact source-filtration ABI, it is audit-PASS and requires no new
+  source membership choice at later depths.  The remaining uniform-lift
+  denominator is consequently concentrated in actual A0, the finite
+  first-rung physical/source gates, the base discrepancy receipt and
+  source/physical exactness.  Numerators remain unchanged: A0 **0/1 actual**,
+  first-rung grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**,
+  A4 **1/3**, compact A5 unchanged.  No compatible lift, fake or Ihara
+  witness is declared. `verified=false`.
+
+### Delta 470 (2026-09-04): measured P1 rerun is live; source exactness has a conservative candidate construction
+
+- The P1 v6 workflow is byte-identical to v5 after reversing exactly eight
+  version/time-label substitutions.  The producer, all executable/input and
+  exactness pins, 8,059-row universe, serial execution, 7.516 GB RSS guard,
+  candidate terminal checks and artifact policy are unchanged.  Root released
+  only this workflow and its Task809 instruction/reply at commit
+  `872d058a5bcf5357e4556516aaccf69de4fb9c9d`.  Push-triggered workflow
+  `d972-r07-canonical-p1-dag-degree2-lift-v6`, run/attempt
+  `33838625412/1`, job `100916141922`, is live at
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33838625412`.
+  Its sole computational change is the measured envelope: outer 100 minutes,
+  inner 85 minutes and `D972_LIFT_SECONDS=5100`.
+- V520 proposes a conservative discharge of v519's remaining source-typing
+  premise.  It replaces a syntactic depth assertion by a proof-carrying
+  record `(T,pi_r)` for the same already-existing literal tree.  If the
+  actual source quotient evaluates that tree to zero, exactness of
+  `1 -> C^(r+1) -> C^r -> C^r/C^(r+1) -> 1` retypes the identical tree at
+  depth `r+1`; no word, coefficient, physical value or physical column is
+  added.  Reduction naturality is the corresponding source-grade square,
+  not an eleven-occurrence assertion.
+- V520 also writes the one base discrepancy explicitly as
+  `Delta0=Prod(Inv(W0),Return(W0))`.  Since v77 gives the same coarse R07
+  value, adjoining `Delta0` and its return as redundant relator macros leaves
+  the complete direct kernel unchanged.  This supplies a base leaf without a
+  large Schreier enumeration; normalized/side data remain direct finite
+  replays.  The 12,338-byte candidate has SHA-256
+  `1e87fa041f3c7d6436cb0ef6074dca669e90560bb5671c92b755932a7aea4238`
+  and is queued for hostile Task811 audit.  It is not yet counted as an
+  accepted theorem.
+- Targeted grade-two v4 has meanwhile replaced v3's 4.714 TB/1.179 TB
+  prefix rescans by one 8,059-row producer pass and one independent checker
+  pass plus fixed offsets, and removes transitive-DAG flattening and public
+  MEMBER/NONMEMBER bypasses.  Its bounded selftests pass; Sol(max) Task810 is
+  now checking the actual call graph, hidden copies and terminal gates before
+  any physical successor work.
+
+**v220 mapping**:
+
+- Relative to Delta469, canonical P1 has returned from a diagnosed resource
+  stop to a measured live run, while the source-only remainder of the uniform
+  return recursion has been reduced to an auditable conservative construction
+  rather than a fresh inverse at every depth.  Neither changes a numerator
+  before its terminal/audit: A0 remains **0/1 actual**, first-rung grades
+  **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and
+  compact A5 is unchanged.  No accepted fresh rho2, canonical P1 lift,
+  grade-two decision, compatible lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 476 (2026-09-04): the endpoint branch is accepted, P1 exposes a time-only stop, and the actual-class lift theorem is closed conditionally
+
+- A0-v17 run/attempt `33839962829/1`, head
+  `17a8439c766d92719d7ae7d35846ea444da598fa`, completed its independent
+  checker.  Task824 found the accepted artifact internally coherent: its
+  26,047-byte manifest has SHA-256
+  `55c42f06e70b2150d324ed8649fe4af0e6db1bf0e87e315db570d1fa80f61488`
+  and the 12,096-byte packed rho2 has SHA-256
+  `b41b9e69fc1257bb1542062a2496bc94bd3cbe6b01e03aba653dae2e4af17c2e`.
+  The exact accepted scope is a checker-accepted, independently replayed
+  precision-two endpoint candidate for the fixed C1 word branch.  Its lower
+  32,260 coordinates are zero and its top has 48,384 trits.  The serialized
+  flags still say `cross_checked=false`, `grade2_MEMBER=false`, and
+  `A0=false`; this is therefore one completed input branch, not an A0
+  numerator.
+- Canonical P1-v6 run/attempt `33838625412/1` stopped at the 85-minute
+  resource cap.  Its final complete log checkpoint is
+  `7424/8059 = 92.12%` at 5015.255 seconds, with RSS 5,228,498,944 bytes.
+  Memory remained below the 8 GiB cap; the terminal is
+  `UNKNOWN_RESOURCE`, not NONMEMBER.  V6 uploaded only logs and deleted the
+  append-only prefix, so that particular prefix cannot be resumed.  Task827
+  now implements an authenticated prefix artifact and exact continuation
+  without changing the frozen 8,059-row mathematics or order.
+- Task820 cross-checked the exact g760 evaluation into the R07 row-36 carrier
+  in its commissioned scope.  The group-level carrier is no longer open, but
+  the literal source-level `Return/DeltaG` DAG receipt remains open; the two
+  statements are not conflated.
+- Tasks823, 825 and 826 accepted the relative-kernel and actual-defect
+  implications after narrow repairs.  The resulting v529 theorem states the
+  exact pointed obstruction
+  \(\beta_\sigma(u)\in q'(\ker r^U)\), the weaker actual-lane compiler
+  criterion, and the cofinal recursion.  Its compiler is now explicitly a
+  total terminating finite structural program with no hidden membership or
+  preimage oracle.  V228 is recorded only as a conditional theorem on its
+  different matched three-block target; its actual multiplier, three exact PB
+  endpoints, boundary chains, and comparison into the eleven-slot source ABI
+  remain open.  Thus this closes the all-depth implication on paper, not its
+  actual R07 premise.
+- Targeted grade-two v6 has implemented the two remaining contextual
+  source-owner equalities and bounded foreign-basis mutations.  It is under
+  Task828 code audit.  It deliberately does not yet ingest the accepted
+  endpoint-v9 dialect/layout and still stops at occurrence aggregation and the
+  physical-column generator.  A4 v6 remains in Task819's bounded production
+  repair.
+
+**v220 mapping**:
+
+- Relative to Delta475, the rho2 endpoint parent is now available, the exact
+  P1 resource boundary is measured to its last complete cursor, and the
+  abstract actual-class-to-cofinal implication has a citation-ready corrected
+  successor.  These reduce the denominator and remove ambiguity; they do not
+  supply the missing P1 parent, grade-two join, or actual compiler tables.
+  Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No compatible R07 lift, fake certificate, or Ihara
+  witness is declared.  `verified=false`.
+
+### Delta 471 (2026-09-04): A0 v17 and A4 v5 reach narrow hostile audits while P1 enters its measured producer
+
+- Luna Task808 repaired only the exact A0 v16 checker exception.  Checker v9
+  constructs the eleven production occurrence records with frozen coordinates
+  `(0,1,2,3,0,4,5,6,7,8,9)` before
+  `occurrence_prefix_contract`; both later production consumers read the bound
+  field.  Its bounded selftest retains the prior 55 mutations and adds one
+  coordinate mutation, for 56 total.  Producer v9 remains exactly 70,945
+  bytes with SHA-256
+  `1422bec44e1367c0ea22043cb7b5e844ba8e7df69e3da763bd08e372d5dc8046`.
+- Workflow v17 also separates the frozen producer and checker.  Immediately
+  after the producer marker it uploads the complete payload under an explicit
+  `unchecked-candidate` label; only a later independent checker-v9 marker can
+  create the accepted payload+verdict artifact.  Thus a checker defect cannot
+  again discard a completed producer, while an unchecked object cannot be
+  mistaken for a result.  Checker v9 is 113,012 bytes, SHA-256
+  `7b2beb39dbdc65494f85fa4451ed69d99a22685d11f1d4fef6e671322d24098d`;
+  workflow v17 is 13,818 bytes, SHA-256
+  `94ff396ed41ff5a6231d5b2fbe79648da921c02f809199542a7195080c7d5c75`.
+  Sol(max) Task813 is now restricted to the actual constructor, the upload
+  label/gating, and absence of duplicated expensive work before root release.
+- Luna Task797 completed the bounded A4 v5 state/certificate repair in
+  producer v30, checker v40 and driver v52.  Its fixtures reach fresh
+  nonempty-base/zero-local restore, R27-to-R28 lifecycle, arbitrary RESOURCE,
+  nonempty raw K and the final positive comparison, while reporting exactly
+  two physical passes.  Exact files are 126,082 bytes / SHA-256
+  `e86a07fe6a2f8fb3839e627bf1503890a78b470d7fc7d9d19193026333dbb69d`,
+  123,232 bytes /
+  `32c6b5c9c8d2759c5f474b5cbedc87d15bff15ea2e29858509dd97af7b04022f`,
+  and 13,267 bytes /
+  `d0ee420bd3e06ec9a7335060afa5ca4fefc59c38639508da66f0c3da01090450`.
+  No production/GHA result is inferred; Sol(max) Task812 is replaying all six
+  controlling Task793 repairs and the reached-path memory/asymptotic audit.
+- P1 v6 authenticated all sources and parents and entered its unchanged
+  serial 8,059-row producer at `2026-09-04T04:56:49Z`.  This is still live,
+  not a canonical-P1 terminal.
+
+**v220 mapping**:
+
+- Relative to Delta470, A0 and A4 have moved from implementation repair to
+  bounded audit-ready artifacts, and P1 has crossed setup into the measured
+  computation.  These are denominator advances only.  A0 remains **0/1
+  actual**, first-rung grades **1/6 cross-checked**, A1 **4/4**, A2 **2/3**,
+  A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.  No accepted fresh
+  rho2, P1 lift, grade-two decision, compatible lift, fake or Ihara witness
+  is declared. `verified=false`.
+
+### Delta 472 (2026-09-04): streaming grade-two architecture survives audit, but five finite semantic repairs are mandatory; the actual base word is fixed
+
+- Sol(max) Task810 rejected targeted grade-two v4 before physical-column
+  implementation.  The one-pass representation itself survived: after the
+  finite repairs it has exactly 8,059 chronological instruction reads, 8,059
+  cache-row reads, 10,073 fixed-offset Task554 blob-row reads, and compact
+  direct-parent DAG storage, with no quadratic/cubic prefix reconstruction.
+  The actual v4 path nevertheless misuses the segment length as the local row
+  index, so node zero asks for row 505 of a 505-row family and stops at
+  `presentation_old_lower:shape`.  It also evaluates the primal actor tuple
+  in the reverse operator order relative to v518, permits live raw-descriptor
+  injection, fails to compare basis/orbit semantics against independently
+  parsed P1/Task554 metadata, and indexes checker companions by a lead in a
+  pivot-ordered list.  Therefore its claimed first physical boundary was not
+  reached and `SAFE_TO_BUILD_PHYSICAL_SUCCESSOR=no`.
+- Task814 freezes a narrow v5 repair of exactly those defects plus the two
+  audited constant-factor copies.  It retains the hard public terminal
+  `NOT_READY:implementation.physical_column_generator`; no physical generator
+  or new framework is commissioned.  Its instruction is 4,585 bytes,
+  SHA-256
+  `293419840177856dc1e95a43b9cf3bbc2b6dc95ec65363e9679275e2e612ca68`.
+  Luna implementation waits only for an execution slot.
+- V521 specializes the abstract v520 base symbol without promoting current
+  grade one.  The Task625 root `C_1=Compose(C_<1,C_T)` is a correction prefix,
+  whereas the eventual initial whole point is
+  `W0=Compose(G760,C_A0)` after a full accepted A0 root exists.  If
+  `DeltaG=G760^-1 return(G760)`, its exact return discrepancy has the closed
+  literal factorization
+  `BaseDelta(A)=A^-1 Act(G760^-1,Return(A)) DeltaG`.
+  Thus adjoining only the fixed redundant `DeltaG` leaf lets the accepted
+  A0 SLP construct the full base discrepancy functorially; it does not require
+  a second post-A0 source-word search or a Schreier enumeration.  Current
+  `C_1` is explicitly forbidden as a full-A0 substitute.  The 7,821-byte
+  candidate has SHA-256
+  `b9207afc3381102549bb177b74338cd1d3c8131f8e446f610ff07f8106e9cdfa`;
+  hostile Task816 is queued behind the active v520 audit.
+
+**v220 mapping**:
+
+- Relative to Delta471, targeted grade two is not audit-ready for its physical
+  successor, but the reason is now a finite implementation list rather than
+  hidden asymptotic work.  On the uniform-lift side, the initial whole-point
+  ambiguity is removed and, conditional on full A0 plus audit of v520/v521,
+  the separate base-discrepancy source search disappears.  No numerator moves:
+  A0 remains **0/1 actual**, first-rung grades **1/6 cross-checked**, A1
+  **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and compact A5 is unchanged.
+  P1 v6 remains in its live 8,059-row producer.  No accepted fresh rho2,
+  canonical P1 lift, grade-two decision, compatible lift, fake or Ihara
+  witness is declared. `verified=false`.
+
+### Delta 473 (2026-09-04): conservative source exactification passes audit and A0 v17 is released
+
+- Sol(max) Task811 passes v520 as a conditional conservative source theorem.
+  A zero grade certificate retypes the same already-existing literal tree one
+  level deeper; it creates no new word, coefficient or physical column and
+  does not invoke a later kernel-to-source inverse.  The accepted scope is
+  proof-carrying source exactification only.  Actual finite source receipts,
+  filtration/tag/reduction serialization and `PHYSICAL-JET-SATURATION` remain
+  open.  In particular the result neither supplies an A0 member nor proves an
+  eleven-occurrence physical preimage.  Terminal:
+  `VERDICT=PASS_CONSERVATIVE_SOURCE_EXACTIFICATION_V520`.
+- Sol(max) Task813 passes the exact A0 coordinate repair and release workflow:
+  `VERDICT=PASS_A0_COORDINATE_V17`, `SAFE_TO_DISPATCH_GHA=yes`.  Root committed
+  only the audited checker/workflow and their narrow task records at
+  `17a8439c766d92719d7ae7d35846ea444da598fa` with fire token
+  `[fire-fresh-precision2-endpoint-v17]`, then pushed the work branch.  The
+  push-triggered production is run/attempt `33839962829/1`, job
+  `100920069417`, at
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33839962829`.
+  It is live; no mathematical result is inferred before the independent
+  checker terminal.  The workflow preserves an explicitly labelled unchecked
+  candidate immediately after producer completion, so a later checker failure
+  cannot erase completed A0 work.
+- The finite targeted grade-two v5 repair of Task814 has started in a Luna
+  implementation slot.  It is restricted to the five Task810 semantic faults
+  and two constant-factor copies; the one-pass architecture and hard
+  `NOT_READY:implementation.physical_column_generator` boundary stay fixed.
+- P1 v6 run `33838625412/1` remains independently live in the unchanged serial
+  8,059-row producer.
+
+**v220 mapping**:
+
+- Relative to Delta472, the source-only all-depth recursion has crossed hostile
+  paper audit and A0 has crossed release audit into a recoverable production
+  run.  These close denominator items, not mathematical numerators.  A0 remains
+  **0/1 actual** until run `33839962829` returns a checker-accepted terminal;
+  first-rung grades remain **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, and compact A5 is unchanged.  No accepted fresh rho2,
+  canonical P1 lift, grade-two decision, compatible lift, fake or Ihara witness
+  is declared. `verified=false`.
+
+### Delta 474 (2026-09-04): A0 emits a recoverable candidate; the all-depth gate is corrected to a finite physical transfer table
+
+- A0 v17 completed its frozen producer step in run `33839962829/1` at
+  `2026-09-04T05:33:30Z` and uploaded the payload under the explicit
+  unchecked-candidate label.  Its independent checker began at
+  `2026-09-04T05:33:33Z` and remains live.  Thus the expensive producer output
+  is now recoverable, but A0 is not promoted before the checker marker.
+- Sol(max) Task816 passed v521 conditionally.  The eventual whole point is
+  exactly `W0=Compose(G760,C_A0)`, and the identity
+  `BaseDelta(A)=A^-1 Act(G760^-1,Return(A)) DeltaG` removes a separate
+  post-A0 base-source membership search.  The one remaining base receipt is a
+  finite `G760_R07_ROW36_CARRIER_BINDING` tying the frozen 760-letter digest
+  `518f09820b8d7baee6b58ebf366cebf7b02a9a945cd1350cf8c701a4e6bc2b4d`
+  to the exact R07/row-36 and return/DeltaG owner tags; it requires no orbit
+  enumeration.
+- V522 is rejected and marked `DO NOT CITE`.  Its primitive-connection cover
+  incorrectly applied abstract `J`-translates directly to chosen source
+  preimages.  A literal actor commutator evaluates to the desired value term
+  **plus** the same-depth v398 connection, so that step was circular.
+- V523 replaces it by the finite physicalized transfer equation
+  `q T_j = A_j q` on the typed occurrence/path state.  Once selected literal
+  columns `T_j` satisfy this actual-owner equality, v398 gives the paired
+  connection operator `H_j=C_j-T_j`, and ordered compositions of `T_j,H_j`
+  materialize every registered coefficient.  A single A0 member propagates
+  only with the stronger physical cyclic receipt
+  `b_a=f_a(A)rho`, not an abstract module inclusion.  Constructor and
+  reduction-natural replay are still explicit premises.  Sol(max) Task817 is
+  hostile-auditing all types, semilinear compositions and possible circularity
+  before this is counted as a paper theorem.
+- Targeted grade-two v5 completed all eight commissioned finite repairs and is
+  in hostile Task818 audit.  It still intentionally stops before
+  `implementation.physical_column_generator`; no production result is
+  claimed.
+- A4 v5 failed Task812 hostile audit (`0/6` controlling Task793 repairs).  The
+  earliest reached bug initializes the 841 MB archive chronology from zero and
+  the final epoch rather than the authenticated row-27 origin; further reached
+  defects include fixed ordinals inside multi-accept shards, live scale
+  normalization, incomplete terminal/event binding, row-28 RESOURCE handling,
+  producer-trusted positive recurrence and duplicate full-B serialization.
+  Task819 now repairs those exact production paths in v6, including the
+  bounded-memory single-reader design; no GHA launch is authorized meanwhile.
+- P1 v6 run `33838625412/1` remains live in the serial 8,059-row producer.
+
+**v220 mapping**:
+
+- Relative to Delta473, A0 has advanced from a live producer to a durable
+  candidate under independent checking, the separate post-A0 base search is
+  conditionally eliminated, and the all-depth argument now has a
+  non-circular finite transfer-table target.  The latter is a candidate under
+  audit, not an actual numerator.  A0 remains **0/1 actual**, first-rung grades
+  **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and
+  compact A5 is unchanged.  No accepted fresh rho2, canonical P1 lift,
+  grade-two decision, compatible lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 475 (2026-09-04): the finite transfer criterion is type-corrected before aggregation
+
+- Sol(max) Task817 returned
+  `VERDICT=PASS_WITH_EXPLICIT_NARROW_REPAIRS` on v523.  It accepts the
+  non-circular core: an independently replayed word-bearing lift of the pure
+  value operator can be subtracted from the literal commutator, producing a
+  composable word-bearing lift of the paired connection.  It rejects two
+  shortcuts in the written notation: occurrence/path data need not descend
+  through the printed eleven-slot aggregate, and
+  `K_j : U -> E` is not a target endomorphism which can be inserted into an
+  arbitrary target polynomial.  It also requires the complete v504
+  constructor table and all-refinement reduction naturality to be emitted,
+  not named.
+- V524 implements those repairs.  Its actual state is the unaggregated tagged
+  sum `E_tilde = direct_sum_o E_o^tag`; pure actor blocks act there before the
+  final aggregation.  Selected source transfers satisfy
+  `q_tilde T_j = A_tilde_j q_tilde`, while
+  `H_j=C_j-T_j` satisfies
+  `q_tilde H_j=K_tilde_j` on the retained source prefix.  Mixed connection
+  expressions are evaluated by a two-sorted source tree, so no descent of
+  `K_tilde_j` is assumed.  The paper now lists the six mandatory constructor
+  families—relative commutator, fixed conjugation, cube, product, inverse and
+  moving prefix—and writes every reduction square required across registered
+  refinements.  File
+  `sol/proof_r07_unaggregated_actor_transfer_schema_v524.md` is 16,004 bytes,
+  419 LF lines, zero CR bytes, SHA-256
+  `136db6f152e01d3c172574d3907b59b25935d4c1c3b04c558466959a4ddce852`.
+  This closes the conditional paper implication only; actual A4/P1 selected
+  columns, constructor rows, cyclic/generator receipts and naturality remain
+  open.
+- The narrow `G760_R07_ROW36_CARRIER_BINDING` identified by Task816 is now in
+  independent Task820 audit.  It asks for direct evaluation of the exact
+  760 signed letters, a strict distinction between the G36 lift and reduced
+  G9 roof key, and the exact return/DeltaG word-DAG binding.  An existing
+  Boolean mark is not counted as that receipt.
+- A0 v17 run `33839962829/1` still has its completed recoverable producer
+  candidate in the independent checker step.  P1 v6 run `33838625412/1`
+  remains in its bounded 8,059-row producer.  Targeted grade-two v5 remains
+  under Task818 hostile audit, and A4 v6 remains under the narrowly scoped
+  Task819 repair.  No live workflow state is promoted to a mathematical
+  result.
+
+**v220 mapping**:
+
+- Relative to Delta474, the uniform-lift branch has moved from a promising but
+  ill-typed v523 notation to a precise unaggregated, two-sorted,
+  reduction-natural finite ABI.  This is a denominator/specification advance,
+  not an actual-table numerator.  A0 remains **0/1 actual**, first-rung grades
+  **1/6 cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, and
+  compact A5 is unchanged.  No accepted fresh rho2, canonical P1 lift,
+  grade-two decision, compatible lift, fake or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 477 (2026-09-04): actual grade-two physical input is made explicit; three release paths receive exact finite rulings
+
+- V530 identifies the current
+  `physical_lift.occurrence_aggregation` stop with one already fixed complete
+  filtered map, rather than a missing inverse construction.  For each P1
+  offer, the P1 cache supplies the `145,152`-trit degree-two source row and
+  Task554 independently supplies the `96,776`-trit precision-one row.  The
+  audited Task565 six-occurrence map gives
+  `ell_i in F3^32260` and `g_i in F3^48384`; these feed the v485/v487/v492
+  lower-first recurrence directly.  The homogeneous Task712 tables are a
+  structural restriction check, not a replacement for the full map, because
+  prefix polynomials send lower grades into `g_i`.  Luna Task833 is
+  implementing this exact resumable 8,059-offer connection pass and an
+  independent replay.  No actual offer has run yet.
+- V531 fixes the other physical-column source exactly.  The complete global
+  P1 seed and actor reductions are reconstructed from all four old and all
+  four new Task554 blocks, not from one local character record.  The grade-two
+  defect order is exactly `44+4*8059=32,280`; the old `8,232` Task554 packet
+  origins are only the grade-one old-to-new roster and cannot serve as the
+  v474 EOF count.  V531 gives an on-demand compiler for every character slice
+  after the full `96,776`-coordinate zero gate and fixes dual EOF at
+  `32,280*r_a` pairings.  Actual implementation and replay remain pending.
+- Sol(max) Task831 accepted the frozen mathematical equivalence of P1
+  producer-v8 and its one-pass checkpoint core, but returned
+  `PASS_WITH_EXPLICIT_NARROW_REPAIRS / SAFE_TO_DISPATCH_GHA=no`.  Workflow-v7
+  has an indented heredoc/unclosed `if`; its checkout producer gate self-pins;
+  and runner-local launch-file identity contaminates checkpoint pins, so an
+  honest cross-runner resume rejects.  Task835 is restricted to those release
+  repairs and complete tiny boundary/rollback fixtures.  Therefore no P1 run
+  was launched from this version.
+- Sol(max) Task832 accepted the static rho2-v9/P1-v8 adapter contract but
+  rejected its evidence.  The stager selftest never reached one successful
+  `stage_flat`, `copy_stream`, or atomic rename while printing PASS.  Task834
+  is restricted to a genuinely reached bounded positive path and production
+  mutation fixtures; both physical NOT_READY gates remain hard.
+- Sol(max) Task830 rejected A4-v6 and kept A4 at `1/3 THROUGH ROW26`.
+  Authenticated row-27 origin/arbitrary row-28 continuation and genuine EOF
+  pass, but the RESOURCE relation self-seals unequal ordinary/physical digest
+  triplets, terminal bodies are only partially bound, the result path builds
+  two O(B) metadata rosters, RESOURCE transiently constructs K, and the
+  purported nonempty-K fixture never reaches the independent positive path.
+  V31/v41/v53 were not dispatched.  Task836 freezes only those five repairs.
+
+**v220 mapping**:
+
+- Relative to Delta476, the accepted endpoint parent remains available and
+  the two next grade-two source maps are now explicit finite programs: the
+  8,059-offer `(ell,g)` connection pass and the exact 32,280-origin defect
+  compiler.  This is a denominator reduction; neither has an actual terminal.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  P1, A4 and the rho2 adapter are honestly held before
+  release at their exact finite blockers.  No grade-two MEMBER/NONMEMBER,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
+
+### Delta 478 (2026-09-04): the resumable canonical P1 production is released; A0 endpoint evidence is classified exactly
+
+- A0 v17 run/attempt `33839962829/1`, job `100920069417`, completed
+  successfully.  Its producer emitted the recoverable unchecked artifact
+  `9924875024`, and the independent endpoint checker emitted marker
+  `R07_FRESH_PRECISION2_ENDPOINT_SIGNATURE_V9_CHECKER_PASS` before the final
+  artifact `9925190479` was uploaded.  The frozen verdict checks all `32,260`
+  lower and `48,384` top coordinates and binds packed rho2 SHA-256
+  `b41b9e69fc1257bb1542062a2496bc94bd3cbe6b01e03aba653dae2e4af17c2e`.
+  Its own manifest nevertheless says `cross_checked=false`,
+  `direct_occurrence_replay=false`, `full_Q0=false`, and identifies the root as
+  the correction prefix `Compose(C_<1,C_T)`.  Thus this is an independently
+  checked endpoint-signature candidate, not a full A0 member and not the
+  eventual whole point `Compose(G760,C_A0)`.
+- Sol(max) Task840 passed the v3 rho2-to-P1 staging boundary as an adapter only:
+  all seven production copies, size/hash authentication and atomic rename are
+  reached.  Both physical aggregation gates remain hard `NOT_READY`, so this
+  result does not itself decide grade two.
+- The resumable canonical P1 producer crossed its last release audit.  Task838
+  left only a vacuous nonpromotion fixture; Luna Task842 routed production
+  success and `ResourceStop/KeyboardInterrupt` through one shared boundary and
+  reached both branches; hostile Task844 returned
+  `PASS / SAFE_TO_DISPATCH_GHA=yes`.  Root selectively committed the six
+  audited runtime/provenance files at
+  `6673eb2ea15ca6022acc2ddc5a8a204a0380172f` with fire token
+  `[fire-r07-canonical-p1-degree2-lift-v9]` and pushed the work branch.  GHA
+  run/attempt `33851744070/1`, job `100955880058`, entered the serial 8,059-row
+  producer at `2026-09-04T08:06:19Z`.  It will either atomically publish the
+  canonical P1 candidate or upload an authenticated exact-prefix checkpoint;
+  no live state is promoted here.
+- Task833's first physical-connection implementation was only an executable
+  skeleton.  V532 subsequently authenticated that all five Task554 payloads,
+  the semantic checker and Task712 maps are still available and fixed the
+  exact P1-cache adapter and file-backed resume contract.  Luna Task841 is now
+  implementing that actual 8,059-offer `(ell_i,g_i)` physical pass with packed
+  AXPY tables; it has not yet returned a candidate.
+- V533 replaces eager construction of the `32,280 x 36,288` source-defect
+  matrix by exact scalar formulas.  For each raw word-bearing dual `q`, one
+  chronological P1-cache pass produces the value vectors for `q` and its four
+  adjoint children; all `44+4*8059=32,280` pairings are then scanned in the
+  unchanged origin order.  Only the first nonzero defect is materialized with
+  full ancestry.  This changes representation, not the exhaustive NONMEMBER
+  criterion, and is in hostile Task846 mathematical audit.
+- Sol(max) Task843 rejected A4 v7: all five Task830 repairs were represented by
+  post-hoc fixture fields instead of being connected to production call paths.
+  The authenticated row-27/arbitrary row-28 and genuine EOF gates remain
+  `2/2`, but the five repaired gates are `0/5`; A4 stays `1/3 THROUGH ROW26`.
+  Luna Task845 is restricted to connecting exactly those five paths, with no
+  archive run or extra hardening.
+
+**v220 mapping**:
+
+- Relative to Delta477, A0 endpoint computation has a final, honestly typed
+  checked-candidate terminal, and canonical P1 has moved through release audit
+  into a recoverable GHA production.  The next physical map and the lazy defect
+  scalar compiler are now explicit finite work, while the A4 false fixture
+  advance has been rejected rather than counted.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 489 (2026-09-04): physical v4 reaches a bounded release candidate with an honest combined cap
+
+- Luna Task862 completed the five Task858 repair groups in physical v4.  The
+  corrected producer/checker/workflow share the exact grade1-v4 pin and one
+  six-key offer dialect; pivot stores are unbuffered for positioned reads and
+  no longer rescan entire rows inside the three hot AXPYs; checker replay is
+  lower-first and rejects duplicate leads, non-plain integers, forged parent
+  identities and extra files; Task712 checks the complete structural roster
+  and `sum_a B_a(d2[a])`; and resume pins are path-free, bind the prior HEAD
+  digest and measured RSS, and begin directly at cursor.
+- The actual bounded reduction callables measured `4382.61/s` for producer
+  and `4397.46/s` for checker.  On the deliberately pessimistic
+  `32,469,711`-reduction envelope this is `123.48 + 123.06` minutes; the
+  workflow records a 1.25 safety bound of `308.18` minutes under a `330m`
+  command and `360m` job cap.  This is capacity sizing, not a production
+  completion time or result.
+- Exact candidate receipts are producer SHA-256
+  `a6f0c20a9ababe3e041f563d9feb29245f2fe199d300148b914cdd3af00dc038`
+  (`62,422` bytes, `595` LF), checker SHA-256
+  `a01b898126dbc556a0d885f6913dbc318e5c09fd979b95ae7f7baa9e73c2e446`
+  (`84,379` bytes, `1,489` LF), and workflow SHA-256
+  `3836678f1431310cdc717477d64334e15abe3dcb068c19820e5ed52c359e5ffe`
+  (`24,157` bytes, `331` LF).  Sol(max) Task866 is now adversarially
+  auditing only these five groups.  No physical GHA run has been dispatched.
+
+**v220 mapping**:
+
+- Relative to Delta488, J1 has advanced from a rejected v3 to a bounded v4
+  release candidate with finite runtime and restart semantics.  A successful
+  Task866 audit is the sole gate before selective commit/push and exact P1
+  GHA dispatch; it is not counted in the numerator in advance.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 488 (2026-09-04): A4's four rejected call paths receive a bounded v10 implementation candidate
+
+- Luna Task861 completed v35/v45/v57 without opening the 841 MB archive or
+  running production.  Its bounded public fixtures report one common bridge
+  recurrence and known-answer digest, three equal per-kind bridge heads,
+  independent physical terminal authority, the real installed RESOURCE
+  chain with a nonempty local shard and zero K construction, and the
+  nonfixture positive result/comparator with independently built source and
+  checker objects including scale two.  The previously retained one-pass
+  O(B), row-27/row-28 and sequential EOF gates also print PASS.
+- Exact implementation receipts are producer v35 SHA-256
+  `707d0c0f092c78762f29cb385ae51734de6796361f5cfa8222ff7fe09de11ce4`
+  (`105,735` bytes, `1,849` LF), checker v45 SHA-256
+  `c96e39a9804a4cf7ae6ed69b1465be8e2f739452c7b53d67e82ab03395ec4d87`
+  (`175,026` bytes, `2,983` LF), and driver v57 SHA-256
+  `cf9d90c183dfed4b88643c62a2373503a229048a475c9274e85daebe69fe6b30`
+  (`5,877` bytes, `33` LF).
+- This remains an implementation candidate.  Task868 is prewritten to
+  adversarially replay exactly the four Task859 failures and three retained
+  gates.  V57 only emits an external shell; even a PASS will authorize a
+  dedicated workflow preparation, not imply that the generic GAP driver has
+  executed the production command.  A4 therefore remains `1/3 THROUGH
+  ROW26`.
+
+**v220 mapping**:
+
+- Relative to Delta487, the A4 all-stage-saturation lane has moved from a
+  failed v9 to a bounded v10 candidate without blocking the shorter coarse
+  MEMBER lane.  J2 implementation has now started separately under Task864.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 487 (2026-09-04): v13's lean scalar pass is retained, but false seed and receipt advances are removed
+
+- Sol(max) Task863 returned `FAIL / IMPLEMENTATION_ACCEPTED=no` for the v13
+  scalar owner.  The accepted component is real and useful: both public CLIs
+  reach one chronological cache/instruction pass with five value arrays, no
+  `Presentation1.lift2`, no 96,776-trit reconstruction, no per-row Task554
+  open and no dense defect matrix.  The bounded public EOF case used one
+  16-row pass, 108 scalar origins and zero extra opens.  Task857's resealed
+  wrong-RawDual EOF is also now rejected.
+- Six in-scope release faults remain.  The 44 direct seeds use an unrelated
+  coordinate-sampling formula (the registered seed-2/character-0/e0 value is
+  2 while both v13 sides return 0); current-S is eagerly retained and lacks
+  five resealed separator mutations; four scalar child edges do not join
+  their declared q digest/word node and DualPivot reduction is not replayed;
+  a genuine Violation reaches the checker but crashes on an EOF-only
+  `origins` lookup; canonically altered Task712 workflow/checker semantics are
+  accepted; and a completed resealed 15/16 cache is misclassified by the
+  producer as UNKNOWN_RESOURCE instead of REJECTED.
+- Luna Task865 is restricted to these faults in v14.  It must preserve the
+  one-pass hot path, replace the fake seeds by two independent copies of the
+  registered affine-Fox/projector evaluation, stream S, close child/DualPivot
+  joins, accept both legal terminal dialects, authenticate the full Task712
+  receipt semantics and align completed-truncation rejection.  No physical
+  provider, workflow or production run is included.
+
+**v220 mapping**:
+
+- Relative to Delta486, the scalar performance representation is retained but
+  the v13 implementation is not counted.  The direct witness route remains
+  active through a finite v14 repair; P1 and rho2 bytes remain fixed, physical
+  v4 and A4 v10 remain parallel.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 486 (2026-09-04): the exact rho2 target bytes are recovered and J0 is typed without promotion
+
+- Root downloaded the accepted endpoint-checker artifact `9925190479`
+  (`task640-fresh-rho2-v17-33839962829-1`, archive digest
+  `sha256:01722bfda081e577195aa6ca9c0bba3425a50dcfd829eca6ac23e33cb5d79ca4`)
+  outside the repository.  Its exact packed target is `rho2.bin`, `12,096`
+  bytes, SHA-256
+  `b41b9e69fc1257bb1542062a2496bc94bd3cbe6b01e03aba653dae2e4af17c2e`;
+  its 48,384-coordinate dense expansion has SHA-256
+  `abfafbc7521af43c75f1b5a73a6da5d37b90ec1648b649401d684a58cf16752e`.
+  The named checker verdict binds all `32,260` lower and `48,384` top
+  coordinates, and the v3 stager remains accepted as an adapter.
+- This closes target-byte availability, not J0 authority.  The payload
+  manifest itself says `cross_checked=false`,
+  `direct_occurrence_replay=false`, `A0=false`, and names the root
+  `Compose(C_<1,C_T)`.  V535 therefore allows these bytes as an exact
+  conditional CEGAR target while retaining the direct-occurrence/full-point
+  replay as J0.  A conditional MEMBER may guide and compile a correction, but
+  it is not silently promoted to the whole `Compose(G760,C_A0)` point.
+
+**v220 mapping**:
+
+- Relative to Delta485, neither P1 nor rho2 is now blocked by missing bytes:
+  both exact inputs are local and remotely pinned.  The shortest computation
+  is waiting on J1/J2/J3 owners rather than another large parent build; J0's
+  remaining issue is evidentiary type, not data availability.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 485 (2026-09-04): the noncircular route from Conn and one scalar violation to a literal MEMBER is paper-closed
+
+- V535 composes the previously separate v474, v530, v531, v534 and v518
+  interfaces.  Start the physical echelon with the path-bearing connection
+  rows `Conn=g(ker ell)`.  At each generation solve the canonical separator
+  `lambda(S)=0`, `lambda(rho2)=1`; a v13 scalar violation names exactly one
+  v531 row `G=B_a T_(a,w)d_(a,o)`.  V534 materialization proves the lower zero
+  gate and the equal nonzero pairings, so its PhysicalPivot raises the current
+  span strictly.  Consequently the loop has at most
+  `48384-rank(S_0)+1` separator solves and returns either an exact MEMBER
+  transcript or one separator plus four complete orbit EOFs proving
+  NONMEMBER, subject to the stated finite parents and no resource stop.
+- On MEMBER, reverse substitution through connection or violation origins
+  supplies precisely the v518 path-bearing ancestry and hence one ordered
+  literal relative correction word.  This route is noncircular: the on-demand
+  materializer uses Task554, the complete P1 cache and Task712 forward maps,
+  not A4 or a pre-existing primal closure.  Therefore full A4 is not needed
+  for the first coarse literal MEMBER; it is needed later for the v526/v504
+  physical-jet saturation that promotes one coarse member to all cofinal
+  stages.
+- V535 freezes the remaining actual gates as J0 endpoint-rho2 authority, J1
+  complete cross-checked Conn, J2 RawMaterialization/PhysicalPivot owner, J3
+  separator/orbit/CEGAR driver, J4 actual MEMBER or complete NONMEMBER, and J5
+  all-edge saturation for the cofinal lift.  P1 is complete, J1 is in v4
+  repair, the scalar half of J3 is in v13 audit, and J2 plus the joined-driver
+  half of J3 are the next implementation gates.
+
+**v220 mapping**:
+
+- Relative to Delta484, the witness route no longer has an ambiguous
+  dependency between A4 and the targeted grade-two loop.  The shortest coarse
+  route is fixed as `P1 -> Conn -> separator/scalar -> on-demand physical row
+  -> MEMBER -> v518 word`; A4 continues in parallel for the later cofinal
+  promotion.  This closes a proof-composition denominator but not an actual
+  computation numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 484 (2026-09-04): the repaired grade-two scalar primitive enters independent audit
+
+- Luna Task860 completed the scoped v13 producer/checker.  Its bounded public
+  `--scalar-run` / `--scalar-check` fixture traversed a nonempty two-row
+  separator parent, a four-edge raw-dual chain and separate DualPivot, one
+  16-row cache pass, and 108 scalar origins.  Producer and checker selftests
+  and both accepted-Task712 smoke paths exited zero; the scalar loop reported
+  one cache pass and zero extra opens.  Exact source receipts are producer
+  SHA-256
+  `2f4f7a4c9085908562cb637377a78d44536c3fbb6c7c1f0e75bd66625a4ce16c`
+  (`80,847` bytes, `1,443` LF) and checker SHA-256
+  `32bd9f564a61497f0fad3cb4e544cd4961778c79ed59f2a0330508f8a2ac938f`
+  (`93,148` bytes, `1,653` LF), with zero CR and no BOM.
+- This is an implementation candidate only.  It has not consumed a complete
+  production base-launch/separator/RawDual parent, and it provides neither
+  the physical materializer nor current-S insertion.  Root therefore opened
+  hostile Sol(max) Task863 on exactly the seven Task857 failures before any
+  release or actual 8,059-row scalar pass.
+
+**v220 mapping**:
+
+- Relative to Delta483, the grade-two scalar path has moved from a specified
+  repair to a bounded executable candidate, while its acceptance and actual
+  result remain pending.  P1 stays complete and immutable; A4 v10 and
+  physical v4 repairs continue independently.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 483 (2026-09-04): the P1 bytes are locally authenticated; physical v3 is rejected before an expensive run
+
+- Root downloaded artifact `9931437113` outside the repository and inspected
+  its three-file exact roster.  `manifest.json` has SHA-256
+  `86e8b14cb0a60c86468ffb54a7bf14980366406a1e5bea17018fc6961f331feb`;
+  `degree2.cache.bin` has the manifest-declared SHA-256
+  `b88edb9b12753cdb7a3629403f8ac14206595e03525fa2a201b6b00b985c1abf`;
+  and `instructions.jsonl` has the manifest-declared SHA-256
+  `8b549337786b1f3b970a7250f1c326724ef957369c213c55af5a3d52a96f38ae`.
+  The manifest fixes `8059` rows, `145152` trits / `36288` bytes per cache
+  row and `eof=true`.  It also honestly fixes `independent_checker=false` and
+  `A0=COFINAL=COMMON=FAKE=IHARA=verified=false`.  Thus downstream work now has
+  immutable complete input bytes without overtyping their status.
+- Sol(max) Task858 returned `FAIL / SAFE_TO_DISPATCH_GHA=no` for physical
+  connection v3 before any costly production dispatch.  The occurrence
+  aggregation arithmetic itself passed an independent dense comparison, and
+  immutable GitHub authority plus the file-backed three-buffer memory route
+  passed.  The release nevertheless had five exact defects: one wrong
+  grade1-v4 SHA and a six-key/five-key live receipt mismatch; buffered writes
+  followed by Linux `preadv` and redundant whole-row hot scans; a checker that
+  accepted duplicate leads and thereby overstated true rank one as rank two;
+  only four Task712 spot-vector checks instead of the full structural
+  restriction identity; and a resume route with path-bearing pins, no prior
+  HEAD digest, zero RSS and O(cursor) source recomputation.
+- The audit measured `32,469,711` upper-envelope reductions at approximately
+  `143.61` producer minutes and `114.14` checker minutes before the hot-scan
+  removal.  That cannot fit the v3 single-job `135m` producer cap / `155m`
+  job cap.  Luna Task862 therefore repairs only those five groups, measures
+  the corrected loops, and must either establish a safe combined cap or use
+  the smallest producer/checker job handoff.  No v3 GHA run is launched.
+
+**v220 mapping**:
+
+- Relative to Delta482, the complete P1 parent is authenticated down to its
+  extracted cache/instruction bytes, while an unsound and under-capped
+  physical run has been prevented rather than consuming hours.  The physical
+  implementation denominator is now five finite repair groups; the grade-two
+  scalar path and A4 path remain separately active.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 479 (2026-09-04): scalar mathematics closes its ABI; false production-path advances are removed before release
+
+- Sol(max) Task846 accepted the v533 scalar identities, signs, adjoint order,
+  one-pass representation and exact grade-two origin count, subject only to a
+  typed ancestry ABI repair.  V534 supplies that repair by separating
+  `RawDual`, `DualPivot`, `Violation`, `RawMaterialization` and
+  `PhysicalPivot`.  Sol(max) Task847 returned `PASS /
+  IMPLEMENTATION_AUTHORIZED=yes`.  Thus, on paper, one raw word-bearing dual
+  needs one chronological P1 pass for itself and four adjoint children, then
+  exactly `44+4*8059=32,280` scalar tests; a nonzero test forces a strict
+  physical-span rise once its joined receipts are materialized.  This does not
+  shorten the exhaustive negative EOF and does not itself decide grade two.
+- Luna Task850 produced a first v9 implementation and authenticated the real
+  Task712 JSONL dialect in a bounded smoke test, but its release status is
+  deliberately pending Task852.  The initial root inspection found that the
+  public `--run` and checker `--check` still enter the inherited v8 routes,
+  while the new scalar functions accept caller-supplied covectors and relation
+  dictionaries.  Consequently no live Task712-to-raw-dual construction or
+  Task554/v531-to-global-relation owner is counted before the independent
+  audit.  Printed fixture counts are not a numerator.
+- Sol(max) Task848 rejected physical-connection v2 before GHA release.  The
+  advertised fresh workflow precreates the staging directory which fresh
+  production requires to be absent, so it raises `FileExistsError` before
+  node zero.  It also fails to bind the actual P1 artifact/instruction
+  ancestry, never downloads or uses Task712, shares executable helpers with
+  its checker, leaves terminal store/EOF fields unchecked, and decodes three
+  stored rows per pivot reduction.  The measured latter path took 4.845 s for
+  8,128 reductions, projecting 322.6 minutes for the full triangular envelope.
+  Task853 is a direct v3 repair: real artifact binding, packed reusable reads,
+  one-pass resume, exact candidate EOF and a nonimporting checker.  No
+  connection offer has been accepted yet.
+- Sol(max) Task849 also rejected the A4 v8 wrappers.  The alleged physical
+  bridge rehashed only the ordinary stream copied inside the relation; its
+  terminal schemas were incompatible with real v31 terminals, its one-B-pass
+  fixture replaced the outer production result, its RESOURCE fixture never
+  entered the installed route, and its positive fixture called one toy
+  dictionary function twice.  Hence the five Task830 production blockers are
+  still `0/5`; only authenticated row-27/arbitrary row-28 and genuine EOF are
+  retained `2/2`.  Task851 now makes direct full-owner v34/v44 derivatives,
+  forbidding wrapper monkey-patches and post-hoc counters.
+- Canonical P1 run/attempt `33851744070/1`, job `100955880058`, remains in its
+  unchanged serial 8,059-row producer.  At this delta it has neither emitted a
+  candidate nor a checkpoint; live state is not promoted.
+
+**v220 mapping**:
+
+- Relative to Delta478, the grade-two scalar theorem and its exact receipt ABI
+  are paper-closed, while three misleading fixture advances have been kept out
+  of the numerator and replaced by explicit production-path repairs.  This is
+  a denominator/specification advance, not a witness advance.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No canonical P1 terminal, physical connection,
+  grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake
+  certificate or Ihara witness is declared. `verified=false`.
+
+### Delta 480 (2026-09-04): the first live scalar owner is connected, but its incomplete checker is not counted
+
+- Sol(max) Task852 returned `FAIL / IMPLEMENTATION_ACCEPTED=no` on the v9
+  grade-two scalar compiler.  Its new arithmetic routines were disconnected
+  from both public entrypoints, accepted caller-supplied covectors and
+  relations, and used a repeated-child toy presentation.  Therefore none of
+  its printed scalar counters entered the numerator.
+- Luna Task854 connected a distinct v10 `--scalar-run` route from the
+  authenticated v8 parents through the actual Task712 maps, the lambda-derived
+  raw dual and four right children, one chronological `Presentation1` pass,
+  all three v531 old/new relation cases and the 44 direct seeds.  This is a
+  genuine producer-path advance.  It is nevertheless withheld because its
+  `--scalar-check` does not yet perform the independent one-pass P1/32,280
+  replay, and its Task712 input still names a naked data root rather than the
+  accepted acquisition/checker/workflow envelope.  Task855 is restricted to
+  exactly those two repairs; no physical-provider work or generic redesign is
+  included.
+- The separate physical-connection v3 and direct A4 v9 repairs remain in
+  their implementation owners.  Their earlier failed versions are not
+  revived, and neither path is eligible for GHA before its exact production
+  route passes independent audit.
+- Canonical P1 run/attempt `33851744070/1`, job `100955880058`, was still in
+  step 18, the serial bounded 8,059-row producer, at `2026-09-04 17:49 JST`.
+  The step began at `17:06:19 JST`; no candidate or checkpoint had yet been
+  emitted, so elapsed live state is not counted.
+
+**v220 mapping**:
+
+- Relative to Delta479, the grade-two scalar producer has moved from a
+  disconnected library island to one live authenticated call path.  The
+  checker boundary remains open, so this is an implementation-denominator
+  reduction only.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No canonical P1 terminal, accepted physical
+  connection, grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal
+  lift, fake certificate or Ihara witness is declared. `verified=false`.
+
+### Delta 505 (2026-09-04): rho2-v9 flat J0 adapter passes its narrow release audit
+
+- Sol(max) Task894 accepted
+  `search/stage_d972_r07_targeted_grade2_rho2_v9_flat_v4.py`, exact SHA-256
+  `ce84baea0bc18380af8a20e32eb8862f9adc20ad596c2012e127f8b7b8341a4b`.
+  Relative to the v2 contract, its sole production correction is the
+  `records.values()` byte sum; the injected-contract roster and conditional
+  payload expressions are restored exactly.  The ordinary three-argument
+  promotion/return path, overwrite rejection, `2099/2092` fixtures and static
+  production total `75,319,124` all passed bounded independent replay.
+- Root committed and pushed this adapter alone at `678cf6f0`.  This accepts
+  the fixed rho2 parent staging boundary used by the physical-state
+  separator.  It is adapter-only: it neither computes the physical span nor
+  decides the grade-two target.
+
+**v220 mapping**:
+
+- Relative to Delta504, J0's rho2-v9 input adapter is closed.  The remaining
+  first-rung critical path is J1 physical-connection production, followed by
+  construction of the physical state/separator and the J2/J3/J4 joined
+  decision/materialization path.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 503 (2026-09-04): physical v9 authenticates every input, then exposes one executable conclusion mismatch before compute
+
+- Task889 passed the v9 repository-identity repair and authorized its exact
+  branch marker.  Root committed the workflow at
+  `0ce2b99e5e154720f21f78b4db5cea4e3d8aea49`, pushed marker head
+  `d735db258d5090aa92d75fd02bb1eccb71060fe0`, and launched run/attempt
+  `33873651024/1`, job `101025325091`.
+- Steps 1--16 passed: the live API authenticated all run and artifact
+  authorities, all eight fixed inputs downloaded, immutable source receipts
+  matched, and both bounded executable selftests passed.  The ordinary
+  producer then rejected immediately with `launch_task554:identity`.
+  Workflow v9 correctly typed Task554 run `33677346616/1` as
+  `completed/failure`; the v5 producer and checker still hard-coded
+  `completed/success` for its five exactly pinned partial artifacts.  No
+  connection computation ran and no prefix file existed to upload.
+- Luna Task891 is bounded to versioning that one conclusion-type repair in
+  both executables and the workflow, with a mutation that rejects flipping
+  the fixed Task554 conclusion back to success.  The already-passed
+  repository, arithmetic, O(B), resume and runtime paths are not reopened.
+
+**v220 mapping**:
+
+- Relative to Delta502, J1 has live-authenticated its entire production input
+  envelope and reduced its launch denominator to one paired literal.  It
+  remains open until the repaired actual run produces and independently
+  replays a physical connection candidate.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 504 (2026-09-04): the general stateful scalar DualPivot primitive passes hostile audit and is fixed in git
+
+- Sol(max) Task878 returned `PASS` for the v15 producer/checker.  The ordinary
+  public paths accept an authenticated file-backed rank-two prior, replay
+  live pivot factors `2,1`, normalize a raw offer whose leading scalar is
+  `2`, and perform the honest transition `rank 2 -> 3`.  Rank zero also
+  passes through the same validator as a specialization rather than defining
+  its universe.
+- Twenty independently resealed attacks were rejected by both executables,
+  including prior-row, pivot/order/coefficient/remainder/scale/rank/head,
+  dependent-zero, generation/character/lambda, false-child and zero-row
+  mutations.  The six earlier Task867 gates regress exactly, with one P1
+  pass, five value arrays and zero extra cache opens.
+- Root committed only the two audited v15 executables at
+  `4c93a206` and pushed them to `sol/r07-explicit-lift-20260825`.  This accepts
+  the scalar/general-DualPivot primitive, not a bounded fixture terminal as
+  an actual orbit result.
+
+**v220 mapping**:
+
+- Relative to Delta503, J3's stateful insertion primitive is accepted.  The
+  current-separator provider, actual 32,280-origin traversal and J2 material
+  join still precede a grade-two decision, so J3/J4 are not yet promoted as
+  a complete rung.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 497 (2026-09-04): J2 materializer v1 is withheld at four exact semantic joins
+
+- Sol(max) Task869 rejected the first executable J2 candidate.  The rejection
+  is not a demand for a larger framework: it isolates four concrete semantic
+  substitutions that must be removed.  The implementation fabricated both
+  96,776-coordinate lower sides as zero and did not evaluate the full four-
+  projector/145,152-column resolution; traversed a stored raw-dual actor path
+  in the wrong forward order; trusted rather than recomputed the scalar-parent
+  prefix and used a private v13 dialect; and accepted a physical current-S
+  rank/prefix without a unique normalized-pivot transcript.
+- The noncommuting authentic `(1,2)` control makes the actor-order fault
+  observable in 1,501 coordinates.  Its correct packed row has SHA-256
+  `63a8f0c01693088050ba4751f1898da6bd83663e42e4383dfb907a110f4d8bad`,
+  whereas the reversed semantic order has
+  `42275d9aff5f3c678f6a07a02e13a4da81f8883fe22573bc9686eec6937e26e6`.
+- Luna Task879 is restricted to these four repairs in a v2 materializer: real
+  Task554 lower reconstruction and all projectors, reverse application of the
+  stored primal actor tuple, byte-authenticated eventual v15 scalar parent,
+  and a durable file-backed physical-pivot transcript.  It may not implement
+  the full CEGAR loop or a new workflow.
+
+**v220 mapping**:
+
+- Relative to Delta496, J2 is no longer merely unaudited: its exact missing
+  joins and a discriminating actor-order witness are fixed.  No v1 fixture is
+  promoted, so J2/J4 remain outside the numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 498 (2026-09-04): physical v6 passes release audit; branch-native launch repair is isolated
+
+- Sol(max) Task876 passed the complete v6 release audit.  It independently
+  exercised the ordinary 145,152-column Task712 adapter path and all 48,384
+  physical coordinates, exact YAML/heredoc execution, resealed mutations,
+  O(B) transduction, checkpoint/resume and publication order.  The conservative
+  combined producer/checker projection is 312.83 minutes under the 360-minute
+  job cap.  The audited four files were committed alone as
+  `4eecb697c9f94da57874e466042bc7e9a413605e` and pushed to
+  `sol/r07-explicit-lift-20260825`.
+- The first dispatch request returned GitHub HTTP 404 before creating a run:
+  a newly introduced `workflow_dispatch`-only file is not registered until it
+  exists on the default branch.  No compute was consumed and there is no run
+  id.  Master is not being modified.  Luna Task881 is making only the
+  established exact-marker push trigger and push-event fixed-input resolution
+  in a versioned v7 workflow; the audited producer/checker and fixed P1 artifact
+  `9931437113` remain unchanged.  A fresh hostile audit is required before the
+  single marker push.
+
+**v220 mapping**:
+
+- Relative to Delta497, the implementation/audit part of J1 is closed; its
+  actual finite connection result still awaits the branch-native GHA run.
+  The 404 is a launch-registration denominator, not a mathematical or resource
+  failure and not a negative connection result.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No accepted physical connection, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
+
+### Delta 499 (2026-09-04): the targeted CEGAR architecture is extended on paper through grades 3--6
+
+- V538 rewrites the v474/v535/v536 finite decision in a degree-parametric
+  form.  At grade `d`, the lifted-old lower/top maps give the connection
+  summand `g_d(ker ell_d)`, while the four actor closures of all v444
+  seed/transition defects give the remaining summand.  The same one-pass
+  connection initialization, reverse-substitution separator, raw-dual orbit,
+  scalar violation and on-demand materializer therefore apply at every
+  remaining first-rung grade.
+- The exact `(source-character, physical-top, lower/auxiliary)` dimensions
+  for grades 2--6 are respectively
+  `(36288,48384,32260)`, `(42336,56448,80644)`,
+  `(36288,48384,137092)`, `(18144,24192,185476)`, and
+  `(6048,8064,209668)`.  Equal ambient widths at grades two and four do not
+  authorize reuse of table bytes: every monomial roster, presentation,
+  residual and receipt remains grade-typed.
+- After a MEMBER, the selected literal root can be evaluated one precision
+  higher at the same time that the complete target-independent transition
+  presentation is finished.  Both parents are required at the next join;
+  old actor histories need not be rediscovered.  The proof explicitly does
+  not say that one successful grade forces later membership.  Task883 is
+  prepared for hostile mathematical audit before this paper candidate is
+  relied on.
+
+**v220 mapping**:
+
+- Relative to Delta498, a successful J4 no longer leads to an unspecified
+  redesign for grades three through six: the same finite driver and two-parent
+  handoff have a precise conditional ABI.  This shortens the post-grade-two
+  denominator but completes no actual grade.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two or later-grade terminal, order-54,432
+  member, full A0/COMMON, compatible cofinal lift, fake certificate or Ihara
+  witness is declared.  `verified=false`.
+
+### Delta 500 (2026-09-04): audited physical connection production is live on GHA
+
+- Task882 passed every launch-only gate for v7.  The exact workflow commit is
+  `6ed7f1c4c1bab6077b9be239b08b5fd4159fd409`; its ordinary registration
+  push produced the required skipped run `33871056617` and consumed no
+  production compute.
+- The single authorized marker push has head
+  `168693c6c8b2539739a8f9a33ee421d07924ca59`.  It launched run/attempt
+  `33871455465/1`, job `101018169315`, against fixed P1 artifact
+  `9931437113`.  URL:
+  `https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33871455465`.
+  At the first observation the job was in progress and had passed checkout
+  and Python setup.  The audited conservative combined projection remains
+  312.83 minutes under the 360-minute job cap; its unchecked prefix is always
+  published for exact resume.
+
+**v220 mapping**:
+
+- Relative to Delta499, J1 has moved from implementation/audit complete to an
+  actual live finite computation.  It enters no numerator until producer and
+  independent checker both succeed on the final candidate.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
+
+### Delta 502 (2026-09-04): scalar v15 implements general nonempty DualPivot; rho2 stager fixes its sole return fault
+
+- Luna Task877 completed the v15 scalar owner with a file-backed prior dual
+  state and general ordered reduction.  Its public rank-two fixture uses two
+  prior pivots, live coefficients `[2,1]`, a scalar-two raw lead, and the
+  genuine transition `rank 2 -> 3`; the dependent-zero case and twenty
+  separately resealed attacks are rejected by both producer and checker.
+  The six Task867 gates remain represented, including one P1 pass, five live
+  value arrays and zero extra cache opens.  Sol(max) Task878 is independently
+  auditing these claims; no v15 terminal is yet promoted.
+- Luna Task870 made the single Task837 rho2 stager repair: the ordinary
+  `contract=None` return now sums receipt-record byte values.  Its bounded
+  public default path promotes and returns the exact seven-file roster with
+  `staged_output_bytes=2092`, while an existing destination still rejects.
+  Task884 remains the required independent audit before J0 acceptance.
+
+**v220 mapping**:
+
+- Relative to Delta501, the scalar portion of J3 has moved from one known
+  stateful blocker to an audit-ready general primitive; J0's adapter has moved
+  from one known exception to audit-ready.  Both remain denominator work and
+  neither changes an actual membership numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
+
+### Delta 501 (2026-09-04): physical v7 stops before compute on one overstrong parent-conclusion guard
+
+- Run `33871455465/1` ended at authority step 5 before downloads and before
+  the producer.  Every fixed artifact identity still matches.  The exact
+  failing fact is that Task554 run `33677346616/1` is
+  `completed/failure`, whereas the v3--v7 generic helper required
+  `conclusion=success` for every parent.  The five Task554 artifacts are
+  unexpired and exactly pinned, and canonical P1 v9 already authenticated
+  and consumed them without that conclusion assumption.
+- Luna Task886 is limited to a v8 authority typing: Task554=`failure`,
+  semantic/Task712/P1=`success`, with exact run id/attempt/head/repository/
+  completed status and all artifact pins retained.  An optional resumable
+  prefix remains permitted to come from an unsuccessful completed run, but
+  must still pass its exact artifact and downstream checkpoint validators.
+
+**v220 mapping**:
+
+- Relative to Delta500, J1 returns from live compute to a local launch repair;
+  zero producer work was lost.  This is a preflight false-negative, not a
+  connection or grade-two terminal.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
+
+### Delta 491 (2026-09-04): physical v4 is withheld; the retained fast kernel has three finite release repairs
+
+- Sol(max) Task866 returned `FAIL / SAFE_TO_DISPATCH_GHA=no`.  The v4
+  unbuffered positioned-I/O kernel, O(B) resident state, lower-first replay,
+  path-free checkpoint resume and publication boundary all pass.  Its measured
+  producer/checker worst-envelope projections are 120.82/124.03 minutes and
+  the 1.25 combined projection is 306.06 minutes, inside the 360-minute job
+  cap.  Those retained results are not a production terminal.
+- Dispatch is blocked by three concrete release faults: final producer/checker
+  bytes no longer match the workflow receipts; both Task712 readers split the
+  `a` in `adj` and reverse the genuine `B_adj : 48384 -> 36288` dimensions,
+  while the structural positive checks only one zero vector rather than the
+  full map; and the permanent duplicate-lead/forged-Task712 mutations do not
+  exercise their claimed rejection paths.
+- Luna Task872 is restricted to exactly those repairs in a versioned v5.  No
+  arithmetic redesign or additional hardening is authorized, and no GHA run
+  will be launched before a fresh Sol(max) release audit passes.
+
+**v220 mapping**:
+
+- Relative to Delta490, J1 remains open, but its memory/runtime architecture
+  is retained and the release denominator is reduced to three finite code
+  repairs.  No failed fixture or stale receipt enters the numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 492 (2026-09-04): a physical relative-fibre selector removes the arbitrary all-level target premise
+
+- `proof_r07_physical_relative_fibre_selector_v537.md` gives a distinct
+  physical-target route around v526's unaggregated-target premise.  For the
+  complete legal instruction owner `X_n` and complete physical target `L_n`,
+  the exact all-fibre edge condition is
+  `B_(n+1)(ker rX)=ker rL`.  Selected word-bearing source-kernel preimages of
+  a basis of `ker rL` give the same closed affine selector formula, without a
+  new membership search at each refinement.
+- The compatible physical target family is not guessed from the coarse
+  solution: it is defined by evaluating the one fixed literal base word
+  `w0` at every quotient.  Structural naturality of the eleven occurrence
+  maps and outer evaluator gives `rL z_(n+1)=z_n`.  This is a different and
+  potentially stronger physical kernel certificate; it makes no claim that
+  post-aggregation equality proves v526's unaggregated equality.
+- Conditional on a complete coarse literal A0 MEMBER (whose grade-two step
+  is compiled by v518, followed by the remaining graded updates), the
+  physical kernel basis cover and the separately required v504 physical-jet
+  saturation, the selector constructs the completed initial member needed by v504.  The
+  actual A4 v10 objects must still be typed against this ABI; hostile audit
+  Task873 is prepared and no alignment is assumed from their names.
+
+**v220 mapping**:
+
+- Relative to Delta491, the post-J4 all-refinement proof no longer requires
+  an independently chosen target at every level; its target is functorially
+  fixed by the actual word.  The remaining substantive denominator is the
+  finite physical kernel-column/saturation receipt and its word naturality.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 493 (2026-09-04): grade-two scalar v14 reaches its independent release audit
+
+- Luna Task865 completed the six Task863 repairs in the versioned v14
+  producer/checker.  Its bounded public paths now use the registered affine-
+  Fox 44-seed arithmetic (including the discriminator value `2`), stream the
+  current physical span, bind all four RawDual children and replay DualPivot,
+  accept both exact ScalarEOF and Violation dialects, authenticate the full
+  Task712 semantic envelope, and reject a coherently resealed completed
+  15/16 cache rather than calling it a resource stop.
+- The bounded public EOF and first-origin Violation runs both report one P1
+  cache pass and zero extra cache opens.  These are implementation receipts,
+  not actual 8,059-row scalar evidence.  Sol(max) Task867 is now auditing the
+  public paths and mutations independently; no v14 output is promoted before
+  that ruling.
+
+**v220 mapping**:
+
+- Relative to Delta492, the scalar half of J3 has moved from a rejected v13
+  owner to an audit-ready production path.  J3 itself and J4 remain open, so
+  this changes the implementation denominator only.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 494 (2026-09-04): physical v5 is reduced to two local release blockers
+
+- Sol(max) Task874 withheld v5.  All Task866 arithmetic, memory, resume,
+  Task712 roster/direction, full-map intent, duplicate-row, forged-identity
+  and capacity gates otherwise pass, with an independently measured 1.25
+  combined projection of 307.37 minutes and 52.63 minutes of job headroom.
+- The two fatal defects are local: one stray space makes the launch-builder
+  Python heredoc fail before production, and the independent checker's real
+  complete-map path references an undefined `physical_index`.  The latter is
+  hidden by a lower-level fixture and would fail before candidate replay.
+- Luna Task875 is restricted to defining the independent coordinate formula,
+  exercising the ordinary adapter call chain, fixing that one indentation,
+  compiling the exact extracted heredoc, and refreezing receipts.  The
+  unchanged fast v5 producer is retained.  No GHA dispatch is authorized
+  until Task876 passes.
+
+**v220 mapping**:
+
+- Relative to Delta493, J1 remains open but no mathematical or large-resource
+  redesign remains in this repair.  The failed v5 does not enter a numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 495 (2026-09-04): scalar v14 retains six gates and exposes one missing general DualPivot case
+
+- Sol(max) Task867 passed registered 44-seed arithmetic, streaming separator,
+  RawDual child joins, both ScalarEOF/Violation terminals, full Task712
+  semantics, completed-truncation/resource classification, and the one-pass
+  five-value-vector cache path with zero extra opens.
+- V14 is nevertheless withheld because its DualPivot accepts only the empty
+  prior basis: it hard-codes `prior_pivot_coefficients=[]`, insertion id zero
+  and rank one.  An honest later raw dual in the same orbit therefore cannot
+  replay reductions against earlier normalized pivots.  This is a genuine J3
+  blocker, not an adversarial value to reject.
+- Luna Task877 is restricted to a file-backed authenticated prior-dual state
+  and general ordered pivot replay in v15.  It must cover nonempty reductions,
+  scale two and arbitrary legal rank transitions while leaving the six passed
+  gates unchanged.
+
+**v220 mapping**:
+
+- Relative to Delta494, the scalar owner is narrowed to one exact stateful
+  orbit case; none of v14's bounded terminals is promoted.  J3/J4 remain open.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 496 (2026-09-04): the first direct Violation-to-PhysicalPivot J2 implementation enters audit
+
+- Luna Task864 implemented the named v531/v534 path
+  `Violation -> RawMaterialization -> PhysicalPivot` with separate producer
+  and checker.  Its bounded seed and actor paths reconstruct the complete
+  96,776-coordinate lower-zero defect, project one 36,288-trit character row,
+  traverse a noncommuting two-edge forward actor word, apply one forward
+  physical map, compare both nonzero scalar pairings, and insert against a
+  nonempty file-backed physical state with rank `2->3` and scale two.
+- The implementation explicitly remains joined to the unaccepted v13 scalar
+  dialect; it is not promoted and must be adapted to the eventual accepted
+  v15 parent.  Sol(max) Task869 is auditing whether its ordinary public path,
+  ancestry, physical pivot and independent replay actually meet J2.
+
+**v220 mapping**:
+
+- Relative to Delta495, J2 has changed from a paper-only ABI to an audit-ready
+  executable candidate.  Since neither its audit nor its scalar-parent join
+  is closed, J2/J4 remain outside the numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 482 (2026-09-04): canonical P1 finishes all 8,059 rows; A4 v9 is narrowed to four real call-path faults
+
+- Canonical P1 run/attempt `33851744070/1`, job `100955880058`, completed
+  successfully at `2026-09-04T09:37:37Z`.  The serial producer reached
+  `cursor=8059` and emitted
+  `CANONICAL_P1_DAG_DEGREE2_LIFT_CANDIDATE`; its exact wall time was
+  `1:31:07`, maximum resident set was `5,189,676 KiB`, durable record bytes
+  were `641,500,434`, and the packed degree-two cache was `292,444,992`
+  bytes.  The candidate artifact is id `9931437113`, name
+  `task809-canonical-p1-degree2-lift-v9-33851744070-1`, archive size
+  `641,518,300`, digest
+  `sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c`,
+  expiring `2026-12-03T08:05:26Z`.  Producer logs are artifact `9931437841`
+  with digest
+  `sha256:7d01c114d64b933fbe62872e869056b005c2460dc89f2e2bec18eaf6705f1c4e`.
+  This is a complete P1 cache candidate and removes recomputation/resource
+  uncertainty; it is not yet an independent whole-cache replay and is not a
+  grade-two MEMBER/NONMEMBER result.
+- Sol(max) Task859 rejected A4 v9 while retaining three exact gates: one
+  actual O(B) traversal with one packed owner, authenticated row-27 origin
+  with arbitrary row-28 continuation, and sequential EOF publish/reload.  The
+  four remaining production faults are now isolated: producer/checker use
+  unequal bridge recurrences and fail to compare all per-kind heads; the
+  terminal checker copies producer-owned expected bodies and has the wrong
+  ZERO key dialect; the RESOURCE fixture bypasses its advertised installed
+  path and a nonempty local shard recurses; and the positive fixture takes a
+  fixture-only path and copies checker kernel data into the producer.  Hence
+  A4 remains `1/3 THROUGH ROW26`; no fixture output is promoted.
+- Luna Task861 is restricted to those four faults in v35/v45/v57.  It must
+  preserve the three retained gates and O(B) resource bound, and is forbidden
+  to add a workflow, run the archive, or redesign the owner.  Physical
+  connection v3 remains in Task858 hostile audit, while the grade-two scalar
+  owner v13 remains in the narrow Task860 implementation repair.  These three
+  paths therefore continue in parallel without repeating the P1 build.
+
+**v220 mapping**:
+
+- Relative to Delta481, the canonical P1 finite input is no longer a live or
+  resource-uncertain computation: all 8,059 rows and its exact artifact have
+  been produced.  The next accepted operation can consume this fixed parent.
+  The grade-two decision, physical connection and A4 row-27 successor still
+  require their independent production-path gates, so this is one concrete
+  denominator closure and not yet a witness numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 481 (2026-09-04): live scalar arithmetic survives, but its proof-carrying owner is rejected before production
+
+- Sol(max) Task857 rejected the v11/v12 scalar live owner.  The five-value
+  formulas and all three Task554-derived global-relation cases agree with
+  v533, and the fixed production counts remain `8059` P1 rows and
+  `44+4*8059=32280` scalar origins.  These arithmetic facts are retained.
+- Four load-bearing owner failures prevent acceptance.  Both live seed paths
+  reference undefined `ROOT` and therefore raise `NameError` only after the
+  expensive P1 pass.  The launch accepts an arbitrary packed lambda and never
+  uses `current_S_head`, checks `lambda(S)=0`, or checks `lambda(rho2)=1`.
+  Its nonempty RawDual is a flat actor list with no per-edge parent/q/table
+  chain or accepted DualPivot.  Finally, the checker accepted a resealed
+  ScalarEOF whose `raw_dual_sha256` was changed.  The producer also performs
+  `10073` unnecessary Task554 file opens per RawDual through inherited
+  `Presentation1.lift2` although the scalar pass needs only the degree-two
+  cache slice.
+- Luna Task860 is restricted to those faults: independently runnable seed
+  evaluation; a file-backed authenticated separator parent; a topological
+  RawDual plus separate DualPivot parent; exact EOF/Violation joins; complete
+  selected Task712 receipt semantics; and a direct sequential P1 cache pass
+  with zero Task554 opens in its scalar loop.  It is forbidden to fabricate a
+  miniature 8,059-row production terminal or implement the still separate
+  physical/current-S pivot providers.
+- Canonical P1 run/attempt `33851744070/1`, job `100955880058`, remained in
+  step 18 at `2026-09-04 18:15 JST`.  The unchanged serial producer began at
+  `17:06:19 JST`; no candidate/checkpoint was promoted at this delta.
+- Audit tickets Task858 and Task859 are prewritten for the physical v3 and A4
+  v9 returns, so each can enter Sol(max) review immediately when its current
+  Luna owner finishes.  This records no implementation as accepted in
+  advance.
+
+**v220 mapping**:
+
+- Relative to Delta480, the scalar formula layer remains paper-closed but the
+  false live-owner advance has been removed, and its finite repair boundary is
+  now exact.  This is a denominator correction, not a witness numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No canonical P1 terminal, accepted physical
+  connection, grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal
+  lift, fake certificate or Ihara witness is declared. `verified=false`.
+
+### Delta 506 (2026-09-04): the grade-parametric first-rung CEGAR theorem passes hostile mathematical audit
+
+- Sol(max) Task883 returned `PASS` on
+  `sol/proof_r07_degree_parametric_targeted_cegar_ladder_v538.md`.  It
+  independently recomputed all grade dimensions, checked the arbitrary-grade
+  connection-plus-four-actor image decomposition, the dimension-free
+  v474/v536 separator loop, strict-rank termination, and the separate
+  witness/presentation successor join.
+- The accepted theorem is conditional but removes a genuine design gap: once
+  grade two terminates, grades three through six use the same typed CEGAR
+  architecture without reusing equal-width row bytes.  Every MEMBER still
+  requires direct replay in all grade-specific lower/auxiliary/top
+  coordinates; no later grade is inferred automatically.
+
+**v220 mapping**:
+
+- Relative to Delta505, the paper route from one grade-two terminal through
+  all five remaining first-rung decisions is closed.  Actual terminals at
+  grades two through six remain open, so the numerator does not change.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No full A0/COMMON, compatible cofinal lift, fake
+  certificate or Ihara witness is declared. `verified=false`.
+
+### Delta 507 (2026-09-04): physical-connection v10 is accepted and launched on GHA
+
+- Sol(max) Task892 passed all five release gates for producer v6, independent
+  checker v7 and workflow v10.  It confirmed that only the five immutable
+  Task554 partial artifacts use the exact parent conclusion
+  `completed/failure`; semantic checker, Task712 and canonical P1 remain
+  exact `completed/success`.  The source workflow's prepare and four block
+  jobs succeeded, while only its later joint-fibre job failed.
+- Root committed the audited three-file bundle at `cb9e97f6`, then fired the
+  sole authorized marker `[task891-physical-connection-v10]` at
+  `fd8f38c544caa5a4b64f81a7eefb90248b11d008`.  GHA run/attempt
+  `33875933747/1`, job `101032793346`, started at
+  `2026-09-04T13:03:13Z`; it has a 360-minute job cap and a 330-minute
+  producer cap.  This delta records a live computation, not a result.
+
+**v220 mapping**:
+
+- Relative to Delta506, J1 has moved from a rejected launch guard to an
+  independently accepted live production run.  A successful artifact and
+  checker terminal are still required before building `S_0`.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared. `verified=false`.
+
+### Delta 508 (2026-09-04): v10 reaches production and exposes one exact semantic-artifact path fault
+
+- GHA `33875933747/1`, job `101032793346`, passed setup, all authority
+  queries/downloads, immutable source checks, launch construction and both
+  bounded executable selftests (steps 1--16).  The authenticated producer
+  then rejected before its first connection offer because workflow v10 named
+  `/semantic/prepare-receipt.json`.
+- The pinned small semantic artifact was independently listed outside the
+  repository.  Its six receipts are under `task729-six-receipts/`, while the
+  independent result and workflow receipt are under
+  `task757-checker-only-output/`.  Thus this is an eight-path workflow wiring
+  fault, not an authority, mathematical, memory or long-compute failure.  The
+  unchecked upload completed, but contains no useful computed prefix.
+- Luna Task895 is restricted to a workflow-only v11 repair of those exact
+  paths; Sol(max) Task896 is prewritten to audit only that delta before one
+  new marker is fired.
+
+**v220 mapping**:
+
+- Relative to Delta507, J1 remains open but the next failure boundary is one
+  enumerated layout repair and no computation was lost.  All v10 executable
+  and authority gates remain accepted.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared. `verified=false`.
+
+### Delta 509 (2026-09-04): v11 clears the exact layout fault and enters real production
+
+- Luna Task895 changed only workflow labels and the eight semantic-artifact
+  paths; Sol(max) Task896 proved that reversing those substitutions recovers
+  v10 byte-for-byte and returned `SAFE_TO_PUSH_TRIGGER_GHA=yes`.
+- Root committed workflow v11 at `e01ffeae` and fired its sole marker at
+  `b44ec9bd078ce0a6ca596a38cfea5012f4fee4d2`.  GHA run/attempt
+  `33876776771/1`, job `101035535909`, passed steps 1--16 and entered the
+  authenticated producer.  It remained there beyond the old seven-second
+  missing-path failure interval.  Producer/checker caps remain 330/360
+  minutes.
+
+**v220 mapping**:
+
+- Relative to Delta508, J1 is again a live long computation, now past every
+  known launch and artifact-layout blocker.  The result is not counted until
+  producer, independent checker and final candidate publication all succeed.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No physical connection result, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared. `verified=false`.
