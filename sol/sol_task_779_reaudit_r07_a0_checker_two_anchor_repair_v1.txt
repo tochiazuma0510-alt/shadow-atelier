@@ -1,0 +1,46 @@
+# Sol Task779 — focused re-audit of A0 checker two-anchor repair
+
+You are Sol(max).  Read all inputs completely and write only
+`sol/sol_reply_779_reaudit_r07_a0_checker_two_anchor_repair_v1.md`.
+
+Inputs:
+
+1. `sol/sol_reply_772_audit_r07_a0_full_signature_bucket_replay_v1.md`
+2. `sol/luna_task_777_r07_a0_checker_two_anchor_repair_v1.md`
+3. `sol/luna_reply_777_r07_a0_checker_two_anchor_repair_v1.md`
+4. checker v5 and candidate checker v6
+5. workflow v13 and candidate workflow v14
+6. frozen producer v8 and proof v500 only as needed for pins
+
+Audit exactly the two F772 blockers and release boundary:
+
+1. Confirm the noncommuting E3/E4 two-letter expected values are evaluated
+   independently, the installed production `signature_extend_gate` is on the
+   reached side, and the exact left/right source mutation now fails the whole
+   selftest.  Ensure no production all-prefix direct replay was restored.
+2. Confirm the pentagon expected word `[-5,-3,1,4,2]` is independently fixed
+   by paper order `1,3,0,-2,-4`, the installed production helper is reached,
+   and the exact factor-inverse mutation now fails the whole selftest.
+3. AST-diff v5->v6.  Apart from the two bounded anchors and marker/schema,
+   every production helper/class, exact-key/full-signature/G schedule,
+   coefficients/representatives, direct/precision-two arithmetic, target,
+   lower/rho2 path and claim flag must be unchanged.
+4. Re-run bounded selftests and exact two mutants.  No parents, production
+   A0, GHA, git, network or delegation.
+5. Check v14 exact pins, paths, fire token, immutable parents, caps,
+   seriality, success-only residual and always logs.  Do not demand unrelated
+   infrastructure or additional mutations.
+
+End with one exact blocker or:
+
+```text
+VERDICT=PASS_A0_CHECKER_TWO_ANCHOR_REPAIR_V1
+SAFE_TO_DISPATCH_GHA=yes
+FINITE_BLOCKERS_CLOSED=2/2
+EXACT_KEY_AUTHENTICATION_RETAINED=yes
+DIRECT_REPLAY_SCHEDULE=G
+REAL_GHA_RUN=NOT_RUN
+A0=NOT_CLAIMED
+FAKE_IHARA=NOT_CLAIMED
+verified=false
+```

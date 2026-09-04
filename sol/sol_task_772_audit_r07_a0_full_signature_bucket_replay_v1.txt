@@ -1,0 +1,68 @@
+# Sol Task772 - hostile audit of A0 full-signature bucket replay v1
+
+You are Sol(max).  Read each input completely and write only
+`sol/sol_reply_772_audit_r07_a0_full_signature_bucket_replay_v1.md`.
+
+Inputs:
+
+1. `sol/luna_task_768_r07_a0_full_signature_bucket_replay_v1.md`
+2. `sol/luna_reply_768_r07_a0_full_signature_bucket_replay_v1.md`
+3. `sol/proof_r07_direct_all_seven_signature_bucket_replay_v500.md`
+4. `search/d972_r07_a0_fresh_precision2_endpoint_signature_v7.py`
+5. `search/d972_r07_a0_fresh_precision2_endpoint_signature_v8.py`
+6. `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v4.py`
+7. `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v5.py`
+8. `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v12.yml`
+9. `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v13.yml`
+
+Historical measured input: run `33820711511/1`, job `100862564074`, head
+`d96a10a0e87856ec2bca8b1a7768712333b4ab12` completed endpoint setup and all
+reached-seed checks by 28 s, then stopped at exact-key direct replay
+`274/21608` after 2,685 s.  It never reached aggregation.
+
+Audit every obligation, with no charitable inference:
+
+1. Recheck v500's theorem in the exact left-Fox convention and confirm that
+   equality of the full typed eleven-slot signature, including the repeated
+   coordinate as two slots, makes the complete serialized H1/H2/P direct row
+   equal for fixed seed.  Reject any six-slot or endpoint-only shortcut.
+2. Confirm producer v8 authenticates all exact keys and all trie signatures
+   before grouping, uses precisely `(seed, full 11-slot signature)`, preserves
+   v7's coefficient and deterministic representative convention, deletes
+   only mod-three zero buckets, and calls the unchanged direct column exactly
+   once per nonzero bucket.  Check the `done/G` completion/resource path.
+3. Confirm checker v5 is independent, does not import producer or share a
+   generated helper/table, independently reconstructs exact keys, reached
+   seeds, typed signatures, canonical buckets/representatives, direct gates,
+   precision-two aggregate, lower-zero condition and rho2 bytes.
+4. Check that removing the checker's all-prefix generic direct replay is
+   replaced by its own identity/four-atom typed recurrence and bounded direct
+   canaries, not by trusting producer receipts.
+5. Re-run bounded tests and examine all requested mutations: E4-slot split,
+   wrong representative, reversed pentagon factor, reversed prefix action,
+   zero bucket/no call, six-slot collision, and premature completion.
+6. Inspect v7->v8 and checker-v4->v5 AST/call graphs.  No source key, physical
+   arithmetic, lower gate, target, coefficient, claim flag, or precision-two
+   path may change outside the v500 scheduling substitution.
+7. Audit workflow v13 syntax, exact fire token, action/local/proof pins,
+   immutable parents, caps, seriality, success-only residual and always logs.
+8. Explicitly inspect for unnecessary copies, dense closure, accidental
+   all-prefix/all-key work, multiprocessing, or another reachable slow path.
+   Do not demand new infrastructure or stylistic cleanup.
+
+No real parents, production A0, GHA, git, es7ops or further agent may be used.
+This audit may authorize dispatch only; it may not promote rho2/A0/fake/Ihara.
+
+End with either an exact finite blocker or all of:
+
+```text
+VERDICT=PASS_A0_FULL_SIGNATURE_BUCKET_REPLAY_V1
+SAFE_TO_DISPATCH_GHA=yes
+EXACT_KEY_AUTHENTICATION_RETAINED=yes
+DIRECT_REPLAY_SCHEDULE=G
+REAL_GHA_RUN=NOT_RUN
+A0=NOT_CLAIMED
+FAKE_IHARA=NOT_CLAIMED
+verified=false
+```
+
