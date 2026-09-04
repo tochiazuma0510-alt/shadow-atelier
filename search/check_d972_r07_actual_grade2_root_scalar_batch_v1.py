@@ -235,11 +235,13 @@ def relation_source_sha256() -> str:
 
 
 def _expr(value: Any, bound: int, reason: str) -> None:
-    require(isinstance(value, list), reason + ":list"); previous = -1
+    require(isinstance(value, list), reason + ":list"); seen: set[int] = set()
     for pair in value:
         require(isinstance(pair, list) and len(pair) == 2 and plain_int(pair[0]) and
-                plain_int(pair[1]) and previous < pair[0] < bound and pair[1] in (1, 2), reason)
-        previous = pair[0]
+                plain_int(pair[1]) and 0 <= pair[0] < bound and pair[1] in (1, 2),
+                reason + ":entry")
+        require(pair[0] not in seen, reason + ":duplicate")
+        seen.add(pair[0])
 
 
 def _body(value: Any, index: int) -> None:
@@ -465,8 +467,8 @@ def _shift(expression: Any, bound: int, offset: int) -> list[list[int]]:
 
 def _subtract(accumulator: Any, expression: Any, values: np.ndarray, bound: int,
               offset: int, relation_hash: Any, label: dict[str, Any]) -> int:
-    # state_descriptor already checked strict local ordering and coefficients;
-    # reuse the canonical list instead of allocating a normalized copy.
+    # state_descriptor already checked authenticated unique local terms and
+    # coefficients; preserve source order without allocating a normalized copy.
     terms = expression; result = int(accumulator)
     for index, coefficient in terms:
         result = (result - int(coefficient) * int(values[offset + index])) % 3
@@ -1184,9 +1186,33 @@ def selftest() -> dict[str, Any]:
     require(all(item["schema"].endswith("RootZero") for item in zero_records), "checker_zero_root")
     require(terminal_kind(zero_records) == "AllFourRootEOF", "checker_all_four_root_eof")
 
-    # Relation syntax/order is the validator used for every Task554 body.
-    _expect_reject(lambda: _expr([[1, 1], [0, 2]], 2, "checker_relation_order"),
-                   "checker_task554_relation_order_control")
+    # Task554 preserves insertion order.  Syntax validation therefore accepts
+    # unsorted, unique terms and rejects only malformed/duplicate entries.
+    _expr([[2, 2], [0, 1]], 3, "checker_relation_unsorted")
+    for bad_expression, label in (
+            ([[2, 2], [2, 1]], "checker_relation_duplicate"),
+            ([[3, 1]], "checker_relation_out_of_range"),
+            ([[0, 0]], "checker_relation_coefficient")):
+        _expect_reject(lambda bad=bad_expression: _expr(
+            bad, 3, "checker_relation_invalid"), label)
+
+    # The exact Task554 body receipt still authenticates term order.  A
+    # semantically equivalent reordering is rejected at that boundary, rather
+    # than by the expression syntax validator above.
+    relation_order_control = False
+    with tempfile.TemporaryDirectory(prefix="d972-r07-task917-body-") as temp:
+        body_path = Path(temp) / "task554-body.json"
+        body = {"schema": "task554-order-fixture", "origin_reductions": [[2, 2], [0, 1]]}
+        body_raw = canonical(body); body_sha = sha(body_raw)
+        body_path.write_bytes(body_raw)
+        read_json_stream(body_path, len(body_raw), body_sha)
+        reordered_raw = canonical({"schema": body["schema"],
+                                   "origin_reductions": [[0, 1], [2, 2]]})
+        require(len(reordered_raw) == len(body_raw), "checker_relation_order_fixture_size")
+        body_path.write_bytes(reordered_raw)
+        _expect_reject(lambda: read_json_stream(body_path, len(body_raw), body_sha),
+                       "checker_task554_body_order_digest_control")
+        relation_order_control = True
 
     # The same exact-record validator used by check_output must reject
     # coherently resealed relation, child and scalar-prefix changes.
@@ -1287,7 +1313,7 @@ def selftest() -> dict[str, Any]:
             "zero_root": True, "separator_mutation_rejected": separator_control,
             "task712_transpose_mutation_rejected": table_control,
             "p1_truncation_digest_mutation_rejected": p1_control,
-            "task554_relation_order_mutation_rejected": True,
+            "task554_relation_order_mutation_rejected": relation_order_control,
             "result_q_child_scalar_prefix_resealing_rejected": True,
             "terminal_claim_and_parent_join_rejected": True,
             "launch_sha256_handoff": launch_handoff_control,

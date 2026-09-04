@@ -1,0 +1,34 @@
+# Sol(max) Task918 -- narrow audit of Task917 expression-order fix
+
+Read run `33902091912/1` diagnostics, Task917, the current Task908 reply, and
+the repaired producer/checker.  Write only
+`sol/sol_reply_918_audit_actual_task554_expression_order_fix.md`.
+
+Audit the single actual-contract repair:
+
+1. Both expression validators must accept authenticated unsorted unique
+   `[index, coefficient]` terms, require integer in-range indices,
+   coefficients in `{1,2}`, and reject duplicates.  They must neither sort
+   nor otherwise alter evaluation order.
+2. Confirm the exact pinned Task554 body receipts/hashes are still checked
+   before interpretation, so reordering a source expression cannot evade the
+   authentication boundary even though the scalar sum is commutative.
+3. Confirm bounded tests genuinely accept an unsorted expression and reject
+   duplicate/out-of-range/bad-coefficient values plus an exact-body/order
+   receipt mutation.  Check no accepted formula, relation-source receipt,
+   parent/workflow/memory/claim contract regressed.
+4. Run only compile and both bounded selftests.  No actual large bodies, GHA,
+   git, implementation or broader hardening.  Report receipts and end exactly
+   with PASS/safe or FAIL/unsafe.
+
+```text
+VERDICT=PASS
+SAFE_TO_PUSH_TRIGGER_GHA=yes
+```
+
+or
+
+```text
+VERDICT=FAIL
+SAFE_TO_PUSH_TRIGGER_GHA=no
+```

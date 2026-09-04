@@ -21494,3 +21494,44 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
   cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 524 (2026-09-05): run 1 exposes and closes the actual Task554 term-order mismatch
+
+- Commit `891207f63656d36b37313c3cd210b82d226d8888` launched GHA run
+  `33902091912/1`, job `101118303556`.  All exact-parent API checks,
+  downloads, launch construction and bounded selftests passed.  The actual
+  producer then stopped after 23 seconds with `task554_seed:entry`; the
+  independent checker was correctly not run.  Diagnostic artifact
+  `9948055636` has 55,523 archive bytes and digest
+  `sha256:e80610fae8319434448f9f4ea02f1c0099f059517c5dd481dd48d7a3a686b1d8`.
+- The failure is a finite input-contract error, not a resource failure or
+  scalar-formula failure.  Exact prepare inspection shows that Task554
+  reductions preserve pivot insertion order rather than increasing index
+  order: character-zero seed 3 is `[[2,2],[0,1]]`.  There are 32 unsorted
+  seed expressions, 8,015 unsorted old actor expressions and 1,955 unsorted
+  old DAG reductions, with no duplicate indices.  The erroneous validator
+  required strictly increasing indices.
+- Task917 changes both independent validators to accept unsorted unique
+  in-range indices with coefficients in `{1,2}` while preserving supplied
+  order.  The exact fixed body SHA continues to authenticate that order
+  before interpretation.  Both repaired validators directly accept the
+  actual 15.4 MB prepare body with four old blocks and 8,232 origins.
+  Task918 independently returns `VERDICT=PASS` and
+  `SAFE_TO_PUSH_TRIGGER_GHA=yes`.  Final producer/checker receipts are
+  `80161/ee5ba55668642caf4e77ae02a048745e627776ad60529aafa6adc9bda460f1d7`
+  and
+  `83273/b859e7acaee61490bf27deb49143dbbe66f3f524e628ff876a939c145480b500`;
+  the workflow is unchanged.
+
+**v220 mapping**:
+
+- Relative to Delta523, the first actual launch has crossed every parent and
+  P1 preflight and converted one hidden parent-format assumption into an
+  exact, independently audited contract.  A second actual dispatch is now
+  authorized.  This does not yet supply the root scalar or move an A0
+  numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.

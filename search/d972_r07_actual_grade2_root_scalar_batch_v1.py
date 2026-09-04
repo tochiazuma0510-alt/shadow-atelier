@@ -303,12 +303,13 @@ def relation_source_sha256() -> str:
 
 def _expression(value: Any, bound: int, reason: str) -> None:
     require(isinstance(value, list), reason + ":list")
-    previous = -1
+    seen: set[int] = set()
     for item in value:
         require(isinstance(item, list) and len(item) == 2 and
                 plain_int(item[0]) and plain_int(item[1]) and
-                previous < item[0] < bound and item[1] in (1, 2), reason + ":entry")
-        previous = item[0]
+                0 <= item[0] < bound and item[1] in (1, 2), reason + ":entry")
+        require(item[0] not in seen, reason + ":duplicate")
+        seen.add(item[0])
 
 
 def _validate_task554_body(body: Any, index: int) -> None:
@@ -436,8 +437,8 @@ def _subtract_expression(accumulator: Any, expression: Any, values: np.ndarray,
                          bound: int, offset: int, relation_hash: Any,
                          label: dict[str, Any]) -> int:
     """Apply a relation directly; no global relation list is materialized."""
-    # The body validator has already proved sorted, unique local terms with
-    # coefficients in {1,2}; avoid a second normalized list in the hot loop.
+    # The body validator has already authenticated unique, in-range local
+    # terms with coefficients in {1,2}; preserve source order in the hot loop.
     terms = expression
     result = int(accumulator)
     for index, coefficient in terms:
@@ -1306,9 +1307,33 @@ def selftest() -> dict[str, Any]:
             "selftest_zero_root")
     require(terminal_kind(zero_records) == "AllFourRootEOF", "selftest_all_four_root_eof")
 
-    # Relation syntax/order is the validator used for every Task554 body.
-    _expect_reject(lambda: _expression([[1, 1], [0, 2]], 2, "selftest_relation_order"),
-                   "selftest_task554_relation_order_control")
+    # Task554 preserves insertion order.  Syntax validation therefore accepts
+    # unsorted, unique terms and rejects only malformed/duplicate entries.
+    _expression([[2, 2], [0, 1]], 3, "selftest_relation_unsorted")
+    for bad_expression, label in (
+            ([[2, 2], [2, 1]], "selftest_relation_duplicate"),
+            ([[3, 1]], "selftest_relation_out_of_range"),
+            ([[0, 0]], "selftest_relation_coefficient")):
+        _expect_reject(lambda bad=bad_expression: _expression(
+            bad, 3, "selftest_relation_invalid"), label)
+
+    # The exact Task554 body receipt still authenticates term order.  A
+    # semantically equivalent reordering is rejected at that boundary, rather
+    # than by the expression syntax validator above.
+    relation_order_control = False
+    with tempfile.TemporaryDirectory(prefix="d972-r07-task917-body-") as temp:
+        body_path = Path(temp) / "task554-body.json"
+        body = {"schema": "task554-order-fixture", "origin_reductions": [[2, 2], [0, 1]]}
+        body_raw = canonical(body); body_sha = sha(body_raw)
+        body_path.write_bytes(body_raw)
+        read_json_stream(body_path, len(body_raw), body_sha)
+        reordered_raw = canonical({"schema": body["schema"],
+                                   "origin_reductions": [[0, 1], [2, 2]]})
+        require(len(reordered_raw) == len(body_raw), "selftest_relation_order_fixture_size")
+        body_path.write_bytes(reordered_raw)
+        _expect_reject(lambda: read_json_stream(body_path, len(body_raw), body_sha),
+                       "selftest_task554_body_order_digest_control")
+        relation_order_control = True
 
     # A coherently resealed child/prefix object is still rejected by the
     # exact expected-object comparison used by the producer's own seals.
@@ -1332,7 +1357,7 @@ def selftest() -> dict[str, Any]:
             "zero_root": True, "separator_mutation_rejected": separator_control,
             "task712_transpose_mutation_rejected": table_control,
             "p1_truncation_digest_mutation_rejected": p1_control,
-            "task554_relation_order_mutation_rejected": True,
+            "task554_relation_order_mutation_rejected": relation_order_control,
             "result_q_child_scalar_prefix_resealing_rejected": True,
             "dense_all_row_matrix": False, "p1_cache_passes": 1, "verified": False}
 

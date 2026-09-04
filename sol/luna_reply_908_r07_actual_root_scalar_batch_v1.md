@@ -29,11 +29,25 @@ workflow marker は `[task908-r07-actual-root-scalar-v1]`、job cap は90分、p
 
 | file | bytes | LF | SHA-256 |
 |---|---:|---:|---|
-| `search/d972_r07_actual_grade2_root_scalar_batch_v1.py` | 78662 | 1361 | `aa76f1ff16314f6e3b6253d3d0276a21934ae493c0bd0318065ec73c50b98d72` |
-| `search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py` | 81753 | 1321 | `dea105cd8c196565d95c6828c4afdfdd7f1d6395b5d85dfb7d3447fdfe4f0fa2` |
+| `search/d972_r07_actual_grade2_root_scalar_batch_v1.py` | 80161 | 1386 | `ee5ba55668642caf4e77ae02a048745e627776ad60529aafa6adc9bda460f1d7` |
+| `search/check_d972_r07_actual_grade2_root_scalar_batch_v1.py` | 83273 | 1347 | `b859e7acaee61490bf27deb49143dbbe66f3f524e628ff876a939c145480b500` |
 | `.github/workflows/d972-r07-actual-grade2-root-scalar-batch-v1.yml` | 23735 | 433 | `cfa9814863e2c61db3158b5940854b72e9c0cd0bbd4b0ab53ea4a29fa7a238c3` |
 
 The reply is the receipt document itself and is therefore not self-hashed.
+
+## Task917 update
+
+Task554 expressions now accept authenticated insertion order: every term is a
+two-integer `[index, coefficient]`, the index is in range, the coefficient is
+1 or 2, and indices are unique.  The evaluator preserves the supplied order;
+it does not sort terms.  Both bounded selftests accept `[[2,2],[0,1]]` and
+reject duplicate, out-of-range, and bad-coefficient terms.  A separate
+canonical-body receipt test reorders the same valid terms and rejects the
+mutation by the pinned body SHA, keeping source-order authentication intact.
+
+Task917 bounded timings were 0.120 s for `py_compile`, 1.950 s for the
+producer selftest, and 1.972 s for the independent checker selftest; all
+returned `status=PASS`.  No parent data, GHA, or Git was run.
 
 Claim boundary remains:
 
