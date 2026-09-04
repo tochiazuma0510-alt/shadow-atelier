@@ -1,0 +1,497 @@
+name: d972-r07-canonical-p1-dag-degree2-lift-v6
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [sol/r07-explicit-lift-20260825]
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONHASHSEED: "0"
+  PYTHONUNBUFFERED: "1"
+  OMP_NUM_THREADS: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+  NUMPY_VERSION: "2.5.1"
+  PRODUCER_V7_PATH: search/d972_r07_canonical_p1_dag_degree2_lift_v7.py
+  PRODUCER_V7_SHA256: b42cc67bf6c56110b6fb52d95bbbb0870a6c111da739eaf0e1401b4474325e3d
+  PRODUCER_V7_BYTES: "108071"
+  PRODUCER_V7_LF: "2304"
+  CHECKER_V5_PATH: crosscheck/check_d972_r07_grade2_p1_componentwise_semantics_v5.py
+  CHECKER_V5_SHA256: bc60882b3ee22aa449c51cc280491b3d66df384a814a7033e418454f66900f97
+  CHECKER_V5_BYTES: "133318"
+  CHECKER_V5_LF: "2740"
+  GRADE1_V4_PATH: search/d972_r07_a0_first_rung_grade1_v4.py
+  GRADE1_V4_SHA256: 1fb4b29691f448782e7f7f2e2282e7067282bc619fb34b7214089c5a73e24dc4
+  GRADE1_V4_BYTES: "144552"
+  GRADE1_V4_LF: "3326"
+  PREBUILD_V1_PATH: search/d972_r07_a0_first_rung_grade2_prebuild_v1.py
+  PREBUILD_V1_SHA256: acffa38731a28d85539f765537010e6bf20f55c7f7feae0099d56c58c808ffc8
+  PREBUILD_V1_BYTES: "145917"
+  PREBUILD_V1_LF: "3499"
+  SEMANTIC_V5_PATH: search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py
+  SEMANTIC_V5_SHA256: dc5931c3fd3ad5d1a947346599824b02ad1d7b5f699361c05f1f051076dcbdcf
+  SEMANTIC_V5_BYTES: "41619"
+  SEMANTIC_V5_LF: "382"
+  STRUCTURAL_V1_PATH: search/d972_r07_grade2_specific_owner_prejoin_v1.py
+  STRUCTURAL_V1_SHA256: 38fcbe3757d1b14fd19f4f557f763c1f5f6a2e8da47e0e061707cf28c5064d73
+  STRUCTURAL_V1_BYTES: "47995"
+  STRUCTURAL_V1_LF: "545"
+  FLOOR_V1_PATH: search/d972_r07_a0_c2fourier_joint_floor_v1.py
+  FLOOR_V1_SHA256: 6201ae0b5c1d648529ac648a574c5096b8088fe341423724556860d9d3f23fba
+  FLOOR_V1_BYTES: "26235"
+  FLOOR_V1_LF: "508"
+  WORDS_PATH: scratchpad/a0_paper_words_v1.json
+  WORDS_SHA256: 90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893
+  WORDS_BYTES: "115928"
+  WORDS_LF: "0"
+  CHECKER_RUN: "33819301663"
+  CHECKER_ATTEMPT: "1"
+  CHECKER_HEAD: e8a4de593700a81fb2a026366e349b89b640a6e8
+  CHECKER_ARTIFACT_ID: "9918207444"
+  CHECKER_ARTIFACT_NAME: task757-p1-semantic-checker-only-v3-success-33819301663-1
+  CHECKER_ARTIFACT_BYTES: "24694"
+  CHECKER_ARTIFACT_DIGEST: sha256:f99fd6ce1172cc349b249ead8dbb8e75c8c8bd8a1b8a0493dfd4596aee5fbf0c
+  CHECKER_RESULT_SHA256: 405e1b26f971f67cb73129071a77346b126d0228c84219c2c3b0d879c63c99d5
+  CHECKER_RESULT_BYTES: "13336"
+  CHECKER_WORKFLOW_RECEIPT_SHA256: 323ca2603b9ff7c42449fc0e2421c190eedcd7cd62471b695dee991fb1b728eb
+  CHECKER_WORKFLOW_RECEIPT_BYTES: "2310"
+  PRODUCER_RUN: "33814881435"
+  PRODUCER_ATTEMPT: "1"
+  PRODUCER_HEAD: 15778e83c52941040ef9d4289ab76d897ee30ebc
+  PRODUCER_ARTIFACT_ID: "9916479231"
+  PRODUCER_ARTIFACT_NAME: task729-p1-semantic-six-receipts-33814881435-1
+  PRODUCER_ARTIFACT_BYTES: "8412"
+  PRODUCER_ARTIFACT_DIGEST: sha256:91281261a272e6ff48104a579a86e9cb300fc1543eaad1321b609e6d83564245
+  PREPARE_RECEIPT_SHA256: 9caf8cbf04742b1400c5c63d765508308af72ef773050af5562221a082fd159a
+  BLOCK0_RECEIPT_SHA256: e9271d20739aee299620ef6e8d53dd940ea10ed1ab688bd61b69c7fb0ff4afc8
+  BLOCK1_RECEIPT_SHA256: 7f34bb964665078727c7ed2b5e5165c50b1763003d573789d7406a6b06445eca
+  BLOCK2_RECEIPT_SHA256: 6d8ebdf7b9495608c89779ecfd7ca8f3c1a84790fc8e2b6b6fc5dd292c530e6a
+  BLOCK3_RECEIPT_SHA256: a558c466862bf050bf8c850aaf47be633ae1f0bce9785f18b410cb0eff9f6d9d
+  JOIN_RECEIPT_SHA256: a3479e7ebc010fbfde4d42c95eebd8cf81cc5eeab9ef37ab77ba2284fb8b27c8
+  SOURCE_RUN: "33677346616"
+  SOURCE_ATTEMPT: "1"
+  SOURCE_HEAD: 22c6dddb43d107c05e65f53ad898823ae8ebe276
+  PREP_ID: "9865061266"
+  PREP_NAME: task554-grade1-v3-prepare-33677346616-1
+  PREP_SIZE: "204360988"
+  PREP_DIGEST: sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4
+  B0_ID: "9865238399"
+  B0_NAME: task554-grade1-v3-state-block-0-33677346616-1
+  B0_SIZE: "81729645"
+  B0_DIGEST: sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838
+  B1_ID: "9865242284"
+  B1_NAME: task554-grade1-v3-state-block-1-33677346616-1
+  B1_SIZE: "82259824"
+  B1_DIGEST: sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb
+  B2_ID: "9865193269"
+  B2_NAME: task554-grade1-v3-state-block-2-33677346616-1
+  B2_SIZE: "82200189"
+  B2_DIGEST: sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d
+  B3_ID: "9865239848"
+  B3_NAME: task554-grade1-v3-state-block-3-33677346616-1
+  B3_SIZE: "82266526"
+  B3_DIGEST: sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92
+  D972_LIFT_SECONDS: "5100"
+  D972_LIFT_MAX_RSS: "7516192768"
+
+jobs:
+  canonical-degree2-lift:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[fire-r07-canonical-p1-degree2-lift-v6]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    steps:
+      - name: Checkout exact event SHA
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+
+      - name: Setup Python 3.13
+        uses: actions/setup-python@8d9ed9ac5c53483de85588cdf95a591a75ab9f55
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned NumPy
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==$NUMPY_VERSION"
+
+      - name: Authenticate local sources and immutable remote ancestry
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          log_root="$RUNNER_TEMP/task761-logs"
+          mkdir -p "$log_root"
+          auth_file() {
+            local path="$1" digest="$2" bytes="$3" lf="$4" eof="$5"
+            test -f "$path" && test ! -L "$path"
+            test "$(sha256sum "$path" | awk '{print $1}')" = "$digest"
+            test "$(wc -c < "$path" | tr -d '[:space:]')" = "$bytes"
+            test "$(LC_ALL=C tr -cd '\n' < "$path" | wc -c | tr -d '[:space:]')" = "$lf"
+            test "$(tail -c 1 "$path" | od -An -t u1 | tr -d '[:space:]')" = "$eof"
+          }
+          auth_file "$PRODUCER_V7_PATH" "$PRODUCER_V7_SHA256" "$PRODUCER_V7_BYTES" "$PRODUCER_V7_LF" 10
+          auth_file "$CHECKER_V5_PATH" "$CHECKER_V5_SHA256" "$CHECKER_V5_BYTES" "$CHECKER_V5_LF" 10
+          auth_file "$GRADE1_V4_PATH" "$GRADE1_V4_SHA256" "$GRADE1_V4_BYTES" "$GRADE1_V4_LF" 10
+          auth_file "$PREBUILD_V1_PATH" "$PREBUILD_V1_SHA256" "$PREBUILD_V1_BYTES" "$PREBUILD_V1_LF" 10
+          auth_file "$SEMANTIC_V5_PATH" "$SEMANTIC_V5_SHA256" "$SEMANTIC_V5_BYTES" "$SEMANTIC_V5_LF" 10
+          auth_file "$STRUCTURAL_V1_PATH" "$STRUCTURAL_V1_SHA256" "$STRUCTURAL_V1_BYTES" "$STRUCTURAL_V1_LF" 10
+          auth_file "$FLOOR_V1_PATH" "$FLOOR_V1_SHA256" "$FLOOR_V1_BYTES" "$FLOOR_V1_LF" 10
+          auth_file "$WORDS_PATH" "$WORDS_SHA256" "$WORDS_BYTES" "$WORDS_LF" 125
+
+          checker_run="$log_root/checker-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$CHECKER_RUN" > "$checker_run"
+          test "$(jq -r '.id' "$checker_run")" = "$CHECKER_RUN"
+          test "$(jq -r '.run_attempt' "$checker_run")" = "$CHECKER_ATTEMPT"
+          test "$(jq -r '.head_sha' "$checker_run")" = "$CHECKER_HEAD"
+          test "$(jq -r '.status' "$checker_run")" = "completed"
+          test "$(jq -r '.conclusion' "$checker_run")" = "success"
+          checker_artifact="$log_root/checker-artifact.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$CHECKER_ARTIFACT_ID" > "$checker_artifact"
+          test "$(jq -r '.id' "$checker_artifact")" = "$CHECKER_ARTIFACT_ID"
+          test "$(jq -r '.name' "$checker_artifact")" = "$CHECKER_ARTIFACT_NAME"
+          test "$(jq -r '.size_in_bytes' "$checker_artifact")" = "$CHECKER_ARTIFACT_BYTES"
+          test "$(jq -r '.digest' "$checker_artifact")" = "$CHECKER_ARTIFACT_DIGEST"
+          test "$(jq -r '.expired' "$checker_artifact")" = "false"
+          test "$(jq -r '.workflow_run.id' "$checker_artifact")" = "$CHECKER_RUN"
+          test "$(jq -r '.workflow_run.head_sha' "$checker_artifact")" = "$CHECKER_HEAD"
+
+          producer_run="$log_root/producer-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRODUCER_RUN" > "$producer_run"
+          test "$(jq -r '.id' "$producer_run")" = "$PRODUCER_RUN"
+          test "$(jq -r '.run_attempt' "$producer_run")" = "$PRODUCER_ATTEMPT"
+          test "$(jq -r '.head_sha' "$producer_run")" = "$PRODUCER_HEAD"
+          test "$(jq -r '.status' "$producer_run")" = "completed"
+          test "$(jq -r '.conclusion' "$producer_run")" = "failure"
+          producer_artifact="$log_root/producer-artifact.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$PRODUCER_ARTIFACT_ID" > "$producer_artifact"
+          test "$(jq -r '.id' "$producer_artifact")" = "$PRODUCER_ARTIFACT_ID"
+          test "$(jq -r '.name' "$producer_artifact")" = "$PRODUCER_ARTIFACT_NAME"
+          test "$(jq -r '.size_in_bytes' "$producer_artifact")" = "$PRODUCER_ARTIFACT_BYTES"
+          test "$(jq -r '.digest' "$producer_artifact")" = "$PRODUCER_ARTIFACT_DIGEST"
+          test "$(jq -r '.expired' "$producer_artifact")" = "false"
+          test "$(jq -r '.workflow_run.id' "$producer_artifact")" = "$PRODUCER_RUN"
+          test "$(jq -r '.workflow_run.head_sha' "$producer_artifact")" = "$PRODUCER_HEAD"
+          jobs="$log_root/producer-jobs.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$PRODUCER_RUN/jobs?per_page=100" > "$jobs"
+          python - "$jobs" <<'PY'
+          import json, pathlib, sys
+          expected = {
+              100844698807: ("preflight", "completed", "success"),
+              100844805339: ("prepare", "completed", "success"),
+              100846454006: ("block-0", "completed", "success"),
+              100846453918: ("block-1", "completed", "success"),
+              100846453996: ("block-2", "completed", "success"),
+              100846453927: ("block-3", "completed", "success"),
+              100847550237: ("join", "completed", "success"),
+              100847634660: ("independent-check", "completed", "failure"),
+          }
+          rows = json.loads(pathlib.Path(sys.argv[1]).read_text())["jobs"]
+          actual = {int(row["id"]): (row["name"], row["status"], row["conclusion"])
+                    for row in rows}
+          assert actual == expected
+          PY
+
+          source_run="$log_root/source-run.json"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$SOURCE_RUN" > "$source_run"
+          test "$(jq -r '.id' "$source_run")" = "$SOURCE_RUN"
+          test "$(jq -r '.run_attempt' "$source_run")" = "$SOURCE_ATTEMPT"
+          test "$(jq -r '.head_sha' "$source_run")" = "$SOURCE_HEAD"
+          auth_parent_artifact() {
+            local id="$1" name="$2" size="$3" digest="$4" label="$5"
+            local meta="$log_root/${label}.json"
+            gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$id" > "$meta"
+            test "$(jq -r '.id' "$meta")" = "$id"
+            test "$(jq -r '.name' "$meta")" = "$name"
+            test "$(jq -r '.size_in_bytes' "$meta")" = "$size"
+            test "$(jq -r '.digest' "$meta")" = "$digest"
+            test "$(jq -r '.expired' "$meta")" = "false"
+            test "$(jq -r '.workflow_run.id' "$meta")" = "$SOURCE_RUN"
+            test "$(jq -r '.workflow_run.head_sha' "$meta")" = "$SOURCE_HEAD"
+          }
+          auth_parent_artifact "$PREP_ID" "$PREP_NAME" "$PREP_SIZE" "$PREP_DIGEST" prepare-artifact
+          auth_parent_artifact "$B0_ID" "$B0_NAME" "$B0_SIZE" "$B0_DIGEST" block-0-artifact
+          auth_parent_artifact "$B1_ID" "$B1_NAME" "$B1_SIZE" "$B1_DIGEST" block-1-artifact
+          auth_parent_artifact "$B2_ID" "$B2_NAME" "$B2_SIZE" "$B2_DIGEST" block-2-artifact
+          auth_parent_artifact "$B3_ID" "$B3_NAME" "$B3_SIZE" "$B3_DIGEST" block-3-artifact
+
+      - name: Compile and run bounded producer selftest before downloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          export PYTHONPYCACHEPREFIX="$RUNNER_TEMP/task761-pycache"
+          mkdir -p "$PYTHONPYCACHEPREFIX"
+          ulimit -v 8388608
+          python -B -m py_compile "$PRODUCER_V7_PATH"
+          timeout --signal=TERM --kill-after=30s 10m \
+            python -B -u "$PRODUCER_V7_PATH" --selftest \
+            2> "$RUNNER_TEMP/task761-logs/selftest.stderr" \
+            | tee "$RUNNER_TEMP/task761-logs/selftest.stdout"
+          grep -Fq '"selftest":"PASS"' "$RUNNER_TEMP/task761-logs/selftest.stdout"
+          grep -Fq '"actual_replay":"DEFERRED_TO_GHA"' "$RUNNER_TEMP/task761-logs/selftest.stdout"
+
+      - name: Download accepted checker result, workflow receipt, and six receipts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.CHECKER_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/task761-checker-artifact
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.CHECKER_RUN }}
+
+      - name: Authenticate and stage accepted checker files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/task761-checker-artifact" "$RUNNER_TEMP/task761-semantic" <<'PY'
+          import hashlib, json, os, pathlib, shutil, stat, sys
+          source, target = map(pathlib.Path, sys.argv[1:])
+          expected = {
+              "independent-result.json": (os.environ["CHECKER_RESULT_SHA256"], int(os.environ["CHECKER_RESULT_BYTES"])),
+              "workflow-receipt.json": (os.environ["CHECKER_WORKFLOW_RECEIPT_SHA256"], int(os.environ["CHECKER_WORKFLOW_RECEIPT_BYTES"])),
+              "prepare-receipt.json": (os.environ["PREPARE_RECEIPT_SHA256"], None),
+              "block-0-receipt.json": (os.environ["BLOCK0_RECEIPT_SHA256"], None),
+              "block-1-receipt.json": (os.environ["BLOCK1_RECEIPT_SHA256"], None),
+              "block-2-receipt.json": (os.environ["BLOCK2_RECEIPT_SHA256"], None),
+              "block-3-receipt.json": (os.environ["BLOCK3_RECEIPT_SHA256"], None),
+              "join-receipt.json": (os.environ["JOIN_RECEIPT_SHA256"], None),
+          }
+          entries = list(source.rglob("*"))
+          assert all(not entry.is_symlink() for entry in entries)
+          files = [entry for entry in entries if entry.is_file()]
+          assert len(files) == len(expected)
+          by_name = {entry.name: entry for entry in files}
+          assert len(by_name) == len(files) and set(by_name) == set(expected)
+          target.mkdir(parents=True)
+          for name, (digest, size) in expected.items():
+              path = by_name[name]
+              assert stat.S_ISREG(path.lstat().st_mode)
+              raw = path.read_bytes()
+              assert hashlib.sha256(raw).hexdigest() == digest
+              assert size is None or len(raw) == size
+              value = json.loads(raw.decode("ascii"))
+              canonical = (json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+              assert raw == canonical
+              (target / name).write_bytes(raw)
+          PY
+
+      - name: Download exact prepare root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.PREP_NAME }}
+          path: ${{ runner.temp }}/task761-prepare-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 0 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B0_NAME }}
+          path: ${{ runner.temp }}/task761-block-0-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 1 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B1_NAME }}
+          path: ${{ runner.temp }}/task761-block-1-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 2 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B2_NAME }}
+          path: ${{ runner.temp }}/task761-block-2-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+      - name: Download exact block 3 root
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          name: ${{ env.B3_NAME }}
+          path: ${{ runner.temp }}/task761-block-3-root
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: ${{ env.SOURCE_RUN }}
+
+      - name: Construct canonical v6 launch manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/task761-prepare-root" \
+            "$RUNNER_TEMP/task761-block-0-root" "$RUNNER_TEMP/task761-block-1-root" \
+            "$RUNNER_TEMP/task761-block-2-root" "$RUNNER_TEMP/task761-block-3-root" \
+            "$RUNNER_TEMP/task761-semantic" "$RUNNER_TEMP/task761-logs/launch-manifest.json" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          roots = [pathlib.Path(value) for value in sys.argv[1:6]]
+          semantic, output = pathlib.Path(sys.argv[6]), pathlib.Path(sys.argv[7])
+          body_digests = [
+              "1f191d88a0453360021ec57d253a7d16c9a66ac059ddaaadb6db3e2b9293c865",
+              "9ebcc7ad1141c20aeaff82eb4a83a9489dc492b30220547f23526b4fcdd8dc74",
+              "d783bbe6c92c15a241eb78d0b25bca5e7c00f60799ce82f6df8b1d3ee7a202f6",
+              "a6dcc904fc3e9daae008f72de7e83ffadcd39055d557621b9cdf06baea0e83ac",
+              "642a4ec0ad6ad4ea659e84330e34006c767ca029203446cb64a17c151fefdb01",
+          ]
+          stems = ["prepare", "block-0", "block-1", "block-2", "block-3"]
+          artifacts = []
+          for index, (root, stem, digest) in enumerate(zip(roots, stems, body_digests)):
+              root = root.resolve(strict=True)
+              body = root / f"{stem}.{digest}.json"
+              info = body.lstat()
+              assert stat.S_ISREG(info.st_mode) and not body.is_symlink()
+              raw = body.read_bytes()
+              assert hashlib.sha256(raw).hexdigest() == digest
+              artifacts.append({
+                  "role": "prepare" if index == 0 else f"block-{index - 1}",
+                  "root": str(root), "body_file": body.name,
+                  "body_sha256": digest, "body_bytes": len(raw),
+                  "identity": [int(info.st_dev), int(info.st_ino), int(info.st_size),
+                               int(info.st_mtime_ns), int(info.st_ctime_ns)],
+              })
+          receipt_names = ["prepare-receipt.json"] + [f"block-{i}-receipt.json" for i in range(4)] + ["join-receipt.json"]
+          receipt_values = [hashlib.sha256((semantic / name).read_bytes()).hexdigest() for name in receipt_names]
+          expected_receipts = [os.environ["PREPARE_RECEIPT_SHA256"], os.environ["BLOCK0_RECEIPT_SHA256"],
+                               os.environ["BLOCK1_RECEIPT_SHA256"], os.environ["BLOCK2_RECEIPT_SHA256"],
+                               os.environ["BLOCK3_RECEIPT_SHA256"], os.environ["JOIN_RECEIPT_SHA256"]]
+          assert receipt_values == expected_receipts
+          result_sha = hashlib.sha256((semantic / "independent-result.json").read_bytes()).hexdigest()
+          workflow_sha = hashlib.sha256((semantic / "workflow-receipt.json").read_bytes()).hexdigest()
+          assert result_sha == os.environ["CHECKER_RESULT_SHA256"]
+          assert workflow_sha == os.environ["CHECKER_WORKFLOW_RECEIPT_SHA256"]
+          imports = {
+              "grade1_v4": os.environ["GRADE1_V4_SHA256"],
+              "grade2_prebuild_v1": os.environ["PREBUILD_V1_SHA256"],
+              "semantic_v5": os.environ["SEMANTIC_V5_SHA256"],
+              "structural_v1": os.environ["STRUCTURAL_V1_SHA256"],
+              "floor_v1": os.environ["FLOOR_V1_SHA256"],
+          }
+          semantic_files = dict(imports)
+          semantic_files.update({"checker_v5": os.environ["CHECKER_V5_SHA256"],
+                                 "words": os.environ["WORDS_SHA256"]})
+          launch = {
+              "schema": "d972.r07.canonical-p1-dag-degree2-lift.launch.v6",
+              "raw_artifacts": artifacts,
+              "receipt_hashes": {"prepare": receipt_values[0],
+                                   "blocks": receipt_values[1:5],
+                                   "join": receipt_values[5]},
+              "checker_result_sha256": result_sha,
+              "checker_workflow_receipt_sha256": workflow_sha,
+              "checker_success_artifact": {
+                  "id": int(os.environ["CHECKER_ARTIFACT_ID"]),
+                  "name": os.environ["CHECKER_ARTIFACT_NAME"],
+                  "archive_bytes": int(os.environ["CHECKER_ARTIFACT_BYTES"]),
+                  "digest": os.environ["CHECKER_ARTIFACT_DIGEST"],
+              },
+              "source_run": os.environ["SOURCE_RUN"],
+              "source_attempt": os.environ["SOURCE_ATTEMPT"],
+              "source_head": os.environ["SOURCE_HEAD"],
+              "executable_hashes": {"producer_v7": os.environ["PRODUCER_V7_SHA256"],
+                                      "semantic_v5": os.environ["SEMANTIC_V5_SHA256"],
+                                      "checker_v5": os.environ["CHECKER_V5_SHA256"]},
+              "import_hashes": imports,
+              "semantic_file_hashes": semantic_files,
+          }
+          output.write_bytes((json.dumps(launch, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii"))
+          PY
+
+      - name: Run serial bounded 8059-row producer
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/task761-candidate"
+          test ! -e "$out"
+          ulimit -v 8388608
+          set +e
+          timeout --signal=TERM --kill-after=30s 85m \
+            /usr/bin/time -v -o "$RUNNER_TEMP/task761-logs/build-time.txt" \
+            stdbuf -oL -eL python -B -u "$PRODUCER_V7_PATH" --build \
+              --prepare-root "$RUNNER_TEMP/task761-prepare-root" \
+              --block-roots "$RUNNER_TEMP/task761-block-0-root" "$RUNNER_TEMP/task761-block-1-root" \
+                            "$RUNNER_TEMP/task761-block-2-root" "$RUNNER_TEMP/task761-block-3-root" \
+              --semantic-receipts "$RUNNER_TEMP/task761-semantic/prepare-receipt.json" \
+                                  "$RUNNER_TEMP/task761-semantic/block-0-receipt.json" \
+                                  "$RUNNER_TEMP/task761-semantic/block-1-receipt.json" \
+                                  "$RUNNER_TEMP/task761-semantic/block-2-receipt.json" \
+                                  "$RUNNER_TEMP/task761-semantic/block-3-receipt.json" \
+                                  "$RUNNER_TEMP/task761-semantic/join-receipt.json" \
+              --semantic-checker-result "$RUNNER_TEMP/task761-semantic/independent-result.json" \
+              --semantic-checker-workflow-receipt "$RUNNER_TEMP/task761-semantic/workflow-receipt.json" \
+              --launch-manifest "$RUNNER_TEMP/task761-logs/launch-manifest.json" --out "$out" \
+            2>&1 | stdbuf -oL tee "$RUNNER_TEMP/task761-logs/build.log"
+          status=${PIPESTATUS[0]}
+          set -e
+          printf 'exit_code=%s\n' "$status" > "$RUNNER_TEMP/task761-logs/build-status.txt"
+          if [[ "$status" -eq 124 || "$status" -eq 137 || "$status" -eq 143 ]]; then
+            printf '{"phase":"degree2-lift","status":"UNKNOWN_RESOURCE"}\n' > "$RUNNER_TEMP/task761-logs/unknown-resource.json"
+          fi
+          test "$status" -eq 0
+          test "$(tail -n 1 "$RUNNER_TEMP/task761-logs/build.log")" = '{"cache_bytes": 292444992, "instruction_rows": 8059, "rows": 8059, "status": "CANONICAL_P1_DAG_DEGREE2_LIFT_CANDIDATE"}'
+
+      - name: Validate exact candidate roster and terminal receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - "$RUNNER_TEMP/task761-candidate" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          root = pathlib.Path(sys.argv[1])
+          def file_sha(path):
+              digest = hashlib.sha256()
+              with path.open("rb") as stream:
+                  for chunk in iter(lambda: stream.read(1 << 20), b""):
+                      digest.update(chunk)
+              return digest.hexdigest()
+          entries = list(root.iterdir())
+          assert all(not entry.is_symlink() and stat.S_ISREG(entry.lstat().st_mode) for entry in entries)
+          assert {entry.name for entry in entries} == {"manifest.json", "degree2.cache.bin", "instructions.jsonl"}
+          manifest_raw = (root / "manifest.json").read_bytes()
+          manifest = json.loads(manifest_raw.decode("ascii"))
+          assert manifest_raw == (json.dumps(manifest, sort_keys=True, separators=(",", ":"), ensure_ascii=True) + "\n").encode("ascii")
+          assert manifest["schema"] == "d972.r07.canonical-p1-dag-degree2-lift.v6"
+          assert manifest["status"] == "CANONICAL_P1_DAG_DEGREE2_LIFT_CANDIDATE"
+          assert manifest["producer_sha256"] == os.environ["PRODUCER_V7_SHA256"]
+          assert manifest["checker_result_sha256"] == os.environ["CHECKER_RESULT_SHA256"]
+          assert manifest["checker_workflow_receipt_sha256"] == os.environ["CHECKER_WORKFLOW_RECEIPT_SHA256"]
+          cache = root / "degree2.cache.bin"
+          instructions = root / "instructions.jsonl"
+          assert cache.stat().st_size == 292444992
+          assert manifest["cache"] == {"path": "degree2.cache.bin", "rows": 8059,
+                                        "bytes": 292444992,
+                                        "sha256": file_sha(cache),
+                                        "final_lf": False, "eof": True}
+          receipt = manifest["instruction"]
+          assert receipt["path"] == "instructions.jsonl" and receipt["rows"] == 8059
+          digest = hashlib.sha256(); byte_count = row_count = 0; final_lf = False
+          with instructions.open("rb") as stream:
+              for line in stream:
+                  digest.update(line); byte_count += len(line); row_count += 1
+                  final_lf = line.endswith(b"\n")
+          assert receipt["bytes"] == byte_count and row_count == 8059
+          assert receipt["sha256"] == digest.hexdigest()
+          assert receipt["final_lf"] is True and receipt["eof"] is True
+          assert final_lf
+          assert manifest["rows"] == 8059 and manifest["row_bytes"] == 36288
+          assert manifest["independent_checker"] is False
+          for key in ("A0", "COMMON", "COFINAL", "FAKE", "IHARA", "verified"):
+              assert manifest[key] is False
+          PY
+
+      - name: Upload canonical degree-two candidate
+        if: ${{ success() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task809-canonical-p1-degree2-lift-v6-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task761-candidate/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 0
+
+      - name: Upload producer logs always
+        if: ${{ always() }}
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
+        with:
+          name: task809-canonical-p1-degree2-lift-v6-logs-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/task761-logs/
+          if-no-files-found: warn
+          retention-days: 90
+          compression-level: 0
