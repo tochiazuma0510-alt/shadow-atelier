@@ -21358,3 +21358,38 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No complete character-0 orbit, grade-two terminal,
   full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
   is declared.  `verified=false`.
+
+### Delta 520 (2026-09-05): the sole active raw-dual orbit has exactly 504 independent rows
+
+- Starting from the character-0 root fixed in Delta519, breadth-first closure
+  under the four authenticated Task712 adjoints visits exactly 504 distinct
+  packed vectors and closes after all 2,016 labelled outgoing edges.  Each T
+  table has exactly one nonzero entry in every source and destination
+  coordinate, so this is an exact finite monomial action computation rather
+  than a depth cutoff.  The SHA-256 of the lexicographically sorted packed
+  orbit is
+  `b651766655e28c82723b57df02858f910f37d3af1950c83df628c26da3e304dc`.
+- Restriction of the 504 orbit rows to coordinates 0 through 503 already has
+  F3 rank 504.  Elimination pivots in every one of those columns; the
+  little-endian uint32 pivot-list digest is
+  `ab653854bfb7d723efdafaad705d6ab7b88bdd865cb4b8474a5d3932f5b4f39d`.
+  Hence all 504 raw-dual orbit vectors are independent in the full
+  36,288-dimensional source space.  There is no hidden quotient that can
+  reduce the number of scalar rows before their values are known.
+- The producer-side v15 and independently implemented checker-side v15
+  readers reproduce the same orbit size, edge count, closure flag, rank,
+  pivots and both digests.  This fixes the complete character-0 scalar
+  denominator at 504 rows.  Task908 deliberately remains the cheapest first
+  root scan; if it returns EOF, precisely 503 further independent rows remain,
+  while a root Violation immediately moves to J2 materialization.
+
+**v220 mapping**:
+
+- Relative to Delta519, J3 is now a known finite 504-row problem, not an
+  open-ended word enumeration.  Together with the three zero character
+  orbits, these 504 rows are the entire actual dual closure for this initial
+  separator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  Scalar values have not yet been read from P1, so no
+  grade-two terminal or upper claim is declared.  `verified=false`.
