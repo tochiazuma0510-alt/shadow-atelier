@@ -21126,3 +21126,42 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
   compatible cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 514 (2026-09-04): the actual S0/target/canonical-separator implementation passes release audit
+
+- Luna Task899 implemented the file-backed physical state which authenticates
+  all `8059` v11 instructions but offers only the `1354` lower-dependent
+  connection rows.  Each physical elimination is applied synchronously to its
+  packed `8059`-coordinate P1 companion; no dense rank-by-`48384` matrix or
+  generic nullspace construction is retained.
+- The initial reduction now follows the mathematically required insertion
+  order even when pivot coordinates are not numerically ordered.  In
+  particular, a smaller free coordinate no longer stops elimination of a
+  later pivot coordinate.  The target uses the same rule, and a nonzero
+  remainder produces v536's reverse-insertion-order separator using
+  overflow-safe full-coordinate arithmetic.
+- Sol(max) Task900 returned `PASS`: producer/checker selftests, cross-directory
+  stop/resume, MEMBER, Separator, the free-before-pivot control, and all 19
+  mutation/roster/EOF controls passed.  Public fixture launches and live
+  resume without an artifact authority are rejected.  The implementation
+  binds the exact v11 candidate and accepted rho2-v4 receipts.
+- The honest live physical bound is only
+  `1354*1353/2=915981` reductions.  Maximum packed physical and P1 companion
+  stores are respectively `16377984` and `2728310` bytes.  Task902 is building
+  the single fresh GHA workflow which will return either an actual initial
+  MEMBER or the canonical initial Separator and then run the independent
+  checker.
+
+**v220 mapping**:
+
+- Relative to Delta513, J1 remains cross-checked and the next J0-to-J3 bridge
+  changes from an unaudited design to an **accepted executable**.  The actual
+  GHA terminal is still required.  If it is MEMBER, grade two closes directly;
+  if it is Separator, it becomes the first exact input to the already
+  paper-closed dual/scalar/materializer CEGAR loop and is not by itself a
+  NONMEMBER certificate for the full space.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two MEMBER/NONMEMBER, full A0/COMMON,
+  compatible cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.

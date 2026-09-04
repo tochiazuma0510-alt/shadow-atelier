@@ -1,0 +1,49 @@
+Sol Task900 -- hostile release audit of grade-two physical state / separator v1
+
+Role: independent Sol(max) code/authority auditor.  Read AGENTS.md,
+Luna Tasks871/899 and their final reply, v536, accepted connection v6/checker
+v7/audits, rho2 stager v4/audit, and both new executables completely.  Write
+only `sol/sol_reply_900_audit_r07_physical_state_separator_v1.md`.  Do not
+implement, use Git/GHA, download/open production artifacts locally, or request
+generic hardening.  Use bounded external temporary fixtures only.
+
+Audit exactly:
+
+1. Public authority pins the completed-success v11 run/head and its exact
+   final artifact id/name/archive bytes/digest/expiry, complete manifest/file
+   receipts and accepted v6/v7 plus rho2-v4 parents.  No caller-self-sealed,
+   fixture, wildcard, ANY or `NOT_READY` authority may reach a terminal.
+2. All 8,059 authenticated connection records are read once in P1 order.
+   Lower-dependent rows are offered to a file-backed physical echelon; each
+   physical reduction is applied synchronously to its 8,059-coordinate P1
+   coefficient row.  Dependent physical rows add no pivot.  Stored pivots
+   retain exact connection/P1 ancestry without a second dense coefficient
+   matrix.
+3. The echelon follows v536 insertion order: unique normalized leads and
+   `s_i[p_j]=0` for `j<i`, but no numerical lead ordering.  Replay every
+   raw origin, prior coefficients, remainder, scale, rank/generation/head and
+   atomic checkpoint/publication transition.
+4. Target reduction uses the fixed authenticated 48,384-trit rho2.  Zero
+   remainder emits a full P1 `ConnectionMember`; nonzero remainder chooses
+   the least free coordinate and computes lambda by reverse **insertion**
+   order.  Independently check all 48,384 coordinates,
+   `lambda(S_i)=0`, and `lambda(rho2)=1`.
+5. The checker shares no executable helper with the producer and independently
+   reconstructs S0, target reduction and terminal.  Run all commissioned
+   bounded positive cases, nonmonotone-lead control, cross-directory resume,
+   mutations and the honest packed-reduction benchmark.  Reject false EOF or
+   fixture-only acceptance; a resource cap is UNKNOWN, not NONMEMBER.
+
+Give exact receipts and a compact gate table.  PASS accepts the state/
+separator implementation only; it is not an actual production terminal.
+End exactly:
+
+```text
+VERDICT=PASS or FAIL
+IMPLEMENTATION_ACCEPTED=yes or no
+PHYSICAL_STATE_SEPARATOR_ACCEPTED=yes or no
+ACTUAL_CONNECTION_STATE=false
+GRADE2_MEMBER/NONMEMBER=NOT_DECIDED
+A0/COMMON/COFINAL_LIFT/FAKE/IHARA=NOT_DECLARED
+verified=false
+```

@@ -1,0 +1,45 @@
+Sol Task903 -- hostile audit of live physical-state / separator workflow v1
+
+Role: independent Sol(max) release auditor.  Read AGENTS.md, Luna Task902 and
+reply902, Task900, accepted state producer/checker, rho2 flat-stager v4/audit,
+and physical connection v11 result.  Write only
+`sol/sol_reply_903_audit_r07_physical_state_separator_workflow_v1.md`.  Do
+not implement, use Git/GHA, download production artifacts, or broaden the
+workflow.
+
+Audit exactly:
+
+1. Both external artifacts are queried by the exact completed-success
+   repository/run/attempt/head/id/name/bytes/digest/expiry tuples in Task902,
+   then downloaded by exact name and run id.  No wildcard, latest-run,
+   caller-selected, ANY, expired, fixture, or self-sealed authority reaches
+   production.
+2. Frozen state producer/checker/stager bytes, LF and SHA are authenticated.
+   The stager receives the exact API-derived rho2 acquisition and publishes a
+   fresh exact flat roster.  The launch is canonical, ordinary
+   (`fixture_only=false`, `resume=false`), and binds the exact v11 final tuple.
+3. The workflow runs only the 1,354-row file-backed physical state, target
+   reduction and independent checker.  It does not rebuild PB3/PB4 closures,
+   invoke old A0 exhaustive scans/SAT/nullspace, expose live resume, or perform
+   an unnecessary full connection rescan beyond the accepted artifact stream.
+4. Producer/checker steps are distinct, errors/resources fail closed, an
+   unchecked state/log upload cannot become a final result, and final
+   candidate publication requires both named successes.  Output rosters,
+   retention/compression, caps, progress logs and claim labels are exact.
+5. Run YAML/static checks plus only bounded executable checks.  Confirm there
+   is one inert audited marker, no automatic push execution, no secrets in
+   files/logs, and no avoidable serial delay or memory-heavy copy that would
+   materially slow this 1,354-row job.
+
+Give exact receipts and a compact gate table.  PASS authorizes root to commit,
+push and fire exactly one marker/GHA run; it does not decide Grade 2.  End:
+
+```text
+VERDICT=PASS or FAIL
+WORKFLOW_ACCEPTED=yes or no
+SAFE_TO_PUSH_TRIGGER_GHA=yes or no
+ACTUAL_CONNECTION_STATE=false
+GRADE2_MEMBER/NONMEMBER=NOT_DECIDED
+A0/COMMON/COFINAL_LIFT/FAKE/IHARA=NOT_DECLARED
+verified=false
+```
