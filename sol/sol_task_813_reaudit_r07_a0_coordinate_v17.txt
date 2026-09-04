@@ -1,0 +1,71 @@
+Sol(max) Task813: hostile release re-audit of A0 v17 coordinate repair
+
+Role: independent code/workflow auditor only. Process every numbered section
+below, first to last. Do not edit code/workflow, run GHA, commit, push, or run
+the production producer/checker. Write the complete ruling only to
+`sol/sol_reply_813_reaudit_r07_a0_coordinate_v17.md`.
+
+1. Read in full:
+
+- `sol/luna_task_808_r07_a0_checker_coordinate_v17.md`
+- `sol/luna_reply_808_r07_a0_checker_coordinate_v17.md`
+- `sol/sol_reply_802_reaudit_r07_a0_canary_wiring_v16.md`
+- `sol/sol_reply_804_root_r07_a0_v16_launch.md`
+- `search/d972_r07_a0_fresh_precision2_endpoint_signature_v9.py`
+- `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v8.py`
+- `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v9.py`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v16.yml`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v17.yml`
+- the retained v16 `producer.log` and `checker.log` at
+  `C:/Users/81905/Desktop/shadow-atelier-artifacts/gha/run33836732706-attempt1-task640-logs/`.
+
+2. Reproduce by static call tracing the exact old reached failure: the actual
+`IndependentAllSeven.specs` records lacked `coordinate`, whereas
+`occurrence_prefix_contract` required it. Confirm v9 constructs all actual
+records with exactly `(0,1,2,3,0,4,5,6,7,8,9)` before that contract and that
+`coordinates` and `occurrence_data` consume the bound field. Check actual
+block/label/order alignment, not merely a synthetic tuple. Reject any inferred
+late default, missing-field acceptance, or tautological fixture that does not
+exercise the production helper.
+
+3. Confirm no wider checker or producer change. Producer v9 must be exactly
+70,945 bytes/SHA-256
+`1422bec44e1367c0ea22043cb7b5e844ba8e7df69e3da763bd08e372d5dc8046`.
+Apart from honest v9 schema/marker changes, the checker delta must be the
+actual coordinate constructor/helper, its production consumers and one
+bounded regression only. Preserve the five-field `base_receipt` repair and
+all prior 55 mutations. Run only checker py_compile/selftest and the bounded
+actual-spec positive/mutation path; do not run producer arithmetic or a
+production-size checker replay.
+
+4. Hostile workflow audit. Confirm v17 keeps all immutable parents, source
+and proof pins, one serial job, 8-GiB virtual-memory cap, producer/checker caps,
+claim flags and 90-day retention. The exact frozen producer must complete in
+its own step; its marker must be authenticated before an explicitly named
+`unchecked-candidate` artifact is uploaded. That artifact must contain the
+complete producer payload, carry no accepted/cross-checked label or verdict,
+and never be consumed as a mathematical result. Checker v9 must then run in a
+separate step against exactly that same local payload; only its exact marker
+permits the accepted payload+verdict upload. Logs must upload always.
+
+5. Check for accidental new expensive or memory-heavy work. V17 may split
+steps and upload the already-produced payload, but may not duplicate the 23
+generic direct calls, rerun the 21,287 precision-two aggregations, copy a
+large payload into multiple live in-memory objects, add production fixtures,
+or resurrect any previously rejected dense/full-history path. Quantify the
+new work and reject only a concrete reached defect; do not request unrelated
+hardening.
+
+6. Verify exact bytes/LF/CR/BOM/SHA receipts for checker/workflow and the
+workflow's path/hash/marker/fire/artifact pins. Confirm a later checker failure
+cannot suppress the already completed unchecked-candidate artifact, while a
+producer failure cannot upload one.
+
+7. Give exactly one terminal:
+
+- `VERDICT=PASS_A0_COORDINATE_V17` and `SAFE_TO_DISPATCH_GHA=yes`; or
+- `VERDICT=FAIL_A0_COORDINATE_V17` and `SAFE_TO_DISPATCH_GHA=no`, naming the
+  smallest exact blocker and repair.
+
+Also state `FRESH_RHO2/A0/COMMON/COMPATIBLE_LIFT/FAKE/IHARA=NOT_CLAIMED` and
+`verified=false`.
