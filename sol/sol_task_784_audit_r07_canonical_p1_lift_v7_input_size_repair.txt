@@ -1,0 +1,48 @@
+# Sol Task784 — hostile audit of canonical P1 v7 input-size repair
+
+Read completely and write only
+`sol/sol_reply_784_audit_r07_canonical_p1_lift_v7_input_size_repair.md`.
+
+Inputs:
+
+1. `sol/sol_reply_782_root_r07_canonical_p1_lift_v3_result.md`
+2. `sol/luna_task_781_r07_canonical_p1_input_size_type_repair_v1.md`
+3. `sol/luna_reply_781_r07_canonical_p1_input_size_type_repair_v1.md`
+4. producer v6 and v7
+5. workflow v3 and v4
+6. pinned imported
+   `search/d972_r07_grade2_p1_componentwise_semantic_replay_v5.py` and
+   `search/d972_r07_grade2_specific_owner_prejoin_v1.py`
+7. Task776 audit of v6.
+
+The actual v3 traceback is controlling: the failure occurred before the
+8,059-row recurrence because the structural block-envelope returns
+`(root, body, len(br))` and v6 passed the integer to SHA-256.
+
+Audit without charitable inference:
+
+1. Prove from the pinned call chain that v7 consumes the third value with the
+   correct integer-size type on the actual reached path.  Check prepare and all
+   four blocks, bool/negative/wrong size, exact file identity and the later
+   physical registry rehash.
+2. Reject if replacing `sha(body_raw)` by a pinned digest weakens
+   authentication.  Trace the earlier structural canonical-byte/digest check,
+   the exact digest source, stable identity, and the later registry `file_sha`
+   call.  Check TOCTOU behavior and launch raw-artifact equality.
+3. Check that no block body is reread, reserialized, retained as raw bytes, or
+   duplicated by this repair; quantify production memory/performance delta.
+4. Compare v6/v7 ASTs for every arithmetic function and all build loops.
+   Check removal of returned unused keys cannot affect the recurrence.
+5. Adversarially reach the new tiny selftest path and inject bytes, bool,
+   negative, wrong length, physical-file mutation, wrong pinned digest and
+   forged launch artifact.  Do not run any full build or download parents.
+6. Audit workflow v4 mechanically: exact pins, one serial job, parent gates,
+   time/RSS limits, candidate success-only, logs always, schema/key/terminal,
+   and unique fire token.  No broader redesign request is allowed.
+
+If the exact cause is closed with no new blocker, authorize GHA immediately.
+Do not claim that a future run succeeds or that the arithmetic is proved.
+End with exact lines including `ROOT_CAUSE_CLOSED=yes/no`,
+`NO_LARGE_BODY_COPY=yes/no`, `SAFE_TO_DISPATCH_GHA=yes/no`, and
+`verified=false`.
+
