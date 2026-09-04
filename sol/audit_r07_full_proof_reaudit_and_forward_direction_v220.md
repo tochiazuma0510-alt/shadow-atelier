@@ -21010,3 +21010,63 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No physical connection result, grade-two terminal,
   full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
   is declared. `verified=false`.
+
+### Delta 510 (2026-09-04): materializer v2 retains actor reversal but fails three production-authority gates
+
+- Luna Task879's bounded producer and checker selftests passed in about 79
+  and 67 seconds on the root host.  Sol(max) Task880 nevertheless returned
+  `FAIL`, so neither result is promoted.
+- One genuine J2 correction is retained: the stored actor tuple remains in
+  raw-dual order while the primal maps run in reverse traversal order.  The
+  authentic `(1,2)` control reproduces the correct/wrong packed hashes and
+  all 1,501 differing coordinates, and the checker rejects the wrong full
+  row even when its scalar collides.
+- Three exact blockers remain.  The ordinary base is still the private
+  16-row/rank-two fixture rather than the authenticated 8,059-row Task554/P1
+  production boundary; the v15-shaped result does not bind its
+  `launch_sha256` or replay a nonempty prior DualPivot state; and current-S
+  records are self-sealed metadata which require numerically increasing
+  leads instead of replaying the v536 insertion-order echelon from raw
+  origins/reductions/scales.  The v15 `NOT_READY` fields are correctly only
+  negative scope markers, not provider authority.
+
+**v220 mapping**:
+
+- Relative to Delta509, J2 has one accepted semantic subgate (actor order)
+  and three now-fixed repair targets.  Its next production version must bind
+  the accepted scalar launch and the same authenticated current-S ABI built
+  after J1; no further private fixture promotion is allowed.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 511 (2026-09-04): the physical relative-fibre selector is type-closed on paper
+
+- Sol(max) Task873 accepted v537's one-edge fibre theorem, fixed-word target
+  family and inverse-limit selector, subject to one explicit owner bridge.
+  Root supplied that bridge in v539 by maps `q_n:X_n->P_n` satisfying
+  `q_n rX_n=rP_n q_(n+1)`, `B_n=B^504_(n,w0)q_n`, and
+  `z_n=Phi^504_n(w0)`.
+- Sol(max) Task898 returned `PASS`: for the already selected compatible
+  `x=(x_n)`, the componentwise family `p_n=q_n(x_n)` lies in v504's completed
+  source and satisfies
+  `B^504_(w0)(p)=Phi^504(w0)`.  No inverse-limit exactness, surjectivity of the
+  limit map, or value-to-word reconstruction is used.
+- This closes only the typed conditional theorem.  The complete first-rung
+  A0 member, generator-level fixed-word naturality, every all-edge physical
+  kernel cover, and v504 physical-jet saturation remain actual open gates;
+  the prepared historical A4 v10 object has a different type.
+
+**v220 mapping**:
+
+- Relative to Delta510, the cofinal half no longer has an `X` versus v504
+  `P` ambiguity: once the enumerated actual gates are supplied, one coarse
+  literal member is carried through all refinements by an explicit selector.
+  This does not raise any present numerator.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
