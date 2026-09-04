@@ -21268,3 +21268,48 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged until that final publication.  No grade-two
   MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake certificate
   or Ihara witness is declared.  `verified=false`.
+
+### Delta 518 (2026-09-05): the actual initial physical separator is cross-checked
+
+- The repaired live workflow completed end to end at commit
+  `7b7b9de20faaa3b8f26e331bb738b374f6f5708c`: run/attempt
+  `33891714539/1`, job `101084707867`, completed `success` in 199 seconds.
+  Its final artifact is id `9944214057`, name
+  `d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1`,
+  archive bytes `107195261`, digest
+  `sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017`,
+  expiring `2026-12-03T15:49:47Z`.
+- The terminal is `Separator`, not `ConnectionMember`.  The complete state
+  has 8,059 authenticated source offers, 1,354 physical rows, 6,705 skipped
+  lower-independent offers, zero physical dependents, and insertion-order
+  state head
+  `69fdcc8cd740f8ea11bd198aaf44bcf50d1c4980331f51aa7f792544b00f9d88`.
+  Target reduction used 884 nonzero pivot steps and left first free
+  coordinate/value `1417/2`.
+- Sol(max) Task907 independently replayed all 8,059 source/state records,
+  all 1,354 reverse-substitution records, and the 884 target reductions on
+  the same downloaded final object.  A third helper-independent base-three
+  calculation gives a 914-supported functional with SHA-256
+  `7522ee1f00f386b229ea46bc0f2b9fdf2854cf03c262f40a2f60dd9ced0102ed`,
+  zero dot product on every one of the 1,354 physical rows and dot product
+  one on the exact rho2 target.  Thus
+  `INITIAL_SEPARATOR_CROSS_CHECKED=yes`, `lambda(S0)=0`, and
+  `lambda(rho2)=1`.
+- This promotion is deliberately limited to the initial span `S0`.  It is
+  the exact input to J3's four-character dual/scalar orbit.  Until every
+  scalar violation has been materialized and inserted, or all four complete
+  dual orbits end at EOF, it is not a full grade-two NONMEMBER statement.
+
+**v220 mapping**:
+
+- Relative to Delta517, the J0--J1 output and J3 input are now actual and
+  cross-checked rather than merely implementation-ready.  The next finite
+  operation is to apply the accepted Task712 adjoints to this lambda and
+  scan the 44 seed plus `4*8059` actor relations for the resulting raw dual
+  rows; a violation advances J2/J4 by one physical insertion, while four
+  complete orbit EOFs would close grade-two NONMEMBER.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  The initial separator itself is not an A0 numerator;
+  no grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift,
+  fake certificate or Ihara witness is declared.  `verified=false`.

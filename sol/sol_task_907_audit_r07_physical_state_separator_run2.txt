@@ -1,0 +1,46 @@
+Sol Task907 -- hostile same-object audit of physical-state Separator run 2
+
+Role: independent Sol(max) result auditor.  Read AGENTS.md, Task904/reply904,
+Task905/reply905, frozen v2 producer/checker/workflow, and
+`sol/sol_reply_906_r07_physical_state_separator_run2.md` completely.  Audit
+the already downloaded final artifact at the exact external temporary path
+named in reply906.  Write only
+`sol/sol_reply_907_audit_r07_physical_state_separator_run2.md`.  Do not
+implement, use Git/GHA/credentials, mutate the artifact, or broaden the claim.
+
+Audit exactly:
+
+1. Recompute every final file byte count/SHA in reply906; require exact roster,
+   canonical JSON/JSONL, HEAD-to-manifest, state-to-terminal, result-to-terminal
+   receipt, and checker-result joins.  Confirm the final artifact, not the
+   unchecked artifact, is the object audited.
+2. Independently replay enough of the state/instruction and terminal records
+   to confirm offers 8059, physical rows/rank 1354, skipped 6705, dependent 0,
+   nonmonotone insertion order, 884 target reductions, complete 1,354-row
+   reverse transcript, free coordinate/value 1417/2, and all relevant rolling
+   heads/digests.  Do not trust declared counters alone.
+3. With a helper-independent base-3 unpack/dot implementation, prove the
+   12,096-byte lambda has zero pairing with every one of the 1,354 physical
+   rows and pairing one with the exact rho2-v17 vector.  Report lambda support
+   and exact SHA.  Independently check producer terminal and checker result
+   agree on `Separator` and their immutable parents.
+4. Audit the run/job/final publication receipt stated in reply906 against the
+   frozen workflow and downloaded final roster as far as possible without
+   credentials.  Treat any missing/failed checker or final join as FAIL.
+5. Enforce the claim boundary: PASS may promote only the *initial separator
+   against current S0* to cross-checked.  It is an input to the scalar/CEGAR
+   loop, not full grade-two NONMEMBER, A0, COMMON, cofinal lift, fake, or Ihara.
+
+Use only read-only/bounded checks and temporary helper code outside the repo.
+Give exact receipts and a compact gate table.  End:
+
+```text
+VERDICT=PASS or FAIL
+INITIAL_SEPARATOR_CROSS_CHECKED=yes or no
+CURRENT_S0_RANK=1354 or NOT_ACCEPTED
+LAMBDA_S0=0 or NOT_ACCEPTED
+LAMBDA_RHO2=1 or NOT_ACCEPTED
+GRADE2_MEMBER/NONMEMBER=NOT_DECIDED
+A0/COMMON/COFINAL_LIFT/FAKE/IHARA=NOT_DECLARED
+verified=false
+```
