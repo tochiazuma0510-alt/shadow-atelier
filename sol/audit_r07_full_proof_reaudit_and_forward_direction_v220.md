@@ -21313,3 +21313,48 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  The initial separator itself is not an A0 numerator;
   no grade-two MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift,
   fake certificate or Ihara witness is declared.  `verified=false`.
+
+### Delta 519 (2026-09-05): three of four actual dual-character orbits vanish identically
+
+- Root applied the accepted Task712 adjoints directly to the exact
+  cross-checked separator bytes.  Two independent implementations, the v15
+  producer-side map reader and its checker-side reimplementation, agree
+  byte-for-byte.  The roots `q_a=B_adj,a(lambda)` for characters 1, 2 and 3
+  are exactly zero; their packed SHA-256 is the zero-row digest
+  `8f23754a0b5b965d1b0e2e5a9b043586911a3f8283a36412c739dad14c500838`.
+  All four actor children are consequently zero as well.  By linearity every
+  later actor descendant is zero, so these are complete trivial dual-orbit
+  closures, not merely depth-one observations.
+- Character 0 is nonzero.  Its root has support 2,742, first nonzero
+  coordinate/value `3/2`, and packed SHA-256
+  `af62027aa99fbd1a4b7b53c6b380b4e7fa7403915ea91f9d51d7cb2198c7e053`.
+  The four children in actor order `[1,-1,2,-2]` each have support 2,742 and
+  packed hashes
+  `aa54bbed30791f3f771c5fb8d74e38329564101cbcd805db20e1e232595e7033`,
+  `1b98282910ed00d253cad00cbc389b9c85c6b84be9b8da0418ece4f8b0218cd8`,
+  `f98650b321a16e846539698d98710a544fd1953656afcaecbee995523f0def2b`,
+  and
+  `2245611c3efcef71758e281950ca4b23ba96d0991880cdb92ecafa0fac7aa8b4`.
+  Direct row reduction gives rank 5 with normalized leads
+  `[3,1,0,2,4]`, so no first child is redundant with the root/earlier
+  children.
+- Both independent registered seed evaluators give the same 44 direct
+  pairings for the nonzero root, with 15 nonzero entries.  This is not yet a
+  scalar violation: the canonical-P1 reduction terms must still be
+  subtracted.  Luna Task908 is therefore restricted to one active character
+  and five sparse covector pairings in one P1 pass; it must nevertheless
+  recompute and receipt the three zero roots rather than assuming them.
+
+**v220 mapping**:
+
+- Relative to Delta518, J3's four-character denominator collapses exactly to
+  the single character-0 orbit.  Three complete orbit EOF obligations are
+  discharged algebraically by an independently cross-checked zero result.
+  The remaining immediate test is the 32,280-relation scalar scan of the one
+  nonzero root; an actual violation would enter J2, while a root EOF would
+  enqueue its four independent children.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No complete character-0 orbit, grade-two terminal,
+  full A0/COMMON, compatible cofinal lift, fake certificate or Ihara witness
+  is declared.  `verified=false`.
