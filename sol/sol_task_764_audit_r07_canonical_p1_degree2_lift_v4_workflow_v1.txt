@@ -1,0 +1,88 @@
+Sol Task 764 — hostile finite audit of canonical P1 degree-two lift v4 and workflow v1
+
+Role: Sol(max), adversarial code/mathematics/performance audit only. Process
+every numbered section in order. Do not implement, edit candidate files, use
+git/GHA/es7ops, download real artifacts, or run the 8,059-row build. Write only
+`sol/sol_reply_764_audit_r07_canonical_p1_degree2_lift_v4_workflow_v1.md`.
+
+1. Read in full:
+
+- `sol/sol_reply_758_audit_r07_canonical_p1_degree2_lift_v3.md`
+- `sol/luna_task_761_r07_canonical_p1_degree2_lift_v4_and_workflow_v1.md`
+- `sol/luna_reply_761_r07_canonical_p1_degree2_lift_v4_and_workflow_v1.md`
+- `sol/proof_r07_canonical_lift_finite_release_normal_form_v491.md`
+- `sol/proof_r07_canonical_lift_checker_v4_input_amendment_v494.md`
+- `search/d972_r07_canonical_p1_dag_degree2_lift_v3.py`
+- `search/d972_r07_canonical_p1_dag_degree2_lift_v4.py`
+- `.github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v1.yml`
+
+2. Confirm exact bytes/SHA/LF and that v4 changes only the Task758 provenance
+blocker. Compare ASTs: all 8,059-row recurrence, character/actor maps, packet
+projection, packed-cache and instruction generation must be identical to v3.
+Check no production import, callable, schema, or manifest key accidentally
+uses checker-v4 or an unaccepted receipt.
+
+3. Audit the actual provenance chain against these accepted facts:
+
+- checker run `33819301663/1`, head
+  `e8a4de593700a81fb2a026366e349b89b640a6e8`, success artifact
+  `9918207444`, name
+  `task757-p1-semantic-checker-only-v3-success-33819301663-1`, API bytes
+  `24694`, digest
+  `sha256:f99fd6ce1172cc349b249ead8dbb8e75c8c8bd8a1b8a0493dfd4596aee5fbf0c`;
+- `independent-result.json` 13,336 bytes / SHA
+  `405e1b26f971f67cb73129071a77346b126d0228c84219c2c3b0d879c63c99d5`;
+- `workflow-receipt.json` 2,310 bytes / SHA
+  `323ca2603b9ff7c42449fc0e2421c190eedcd7cd62471b695dee991fb1b728eb`;
+- checker-v5 SHA
+  `bc60882b3ee22aa449c51cc280491b3d66df384a814a7033e418454f66900f97`;
+- producer run `33814881435/1`, head
+  `15778e83c52941040ef9d4289ab76d897ee30ebc`, six-receipt artifact
+  `9916479231`, bytes 8,412, digest
+  `sha256:91281261a272e6ff48104a579a86e9cb300fc1543eaad1321b609e6d83564245`;
+- receipt SHAs prepare `9caf8cbf04742b1400c5c63d765508308af72ef773050af5562221a082fd159a`,
+  blocks `e9271d20739aee299620ef6e8d53dd940ea10ed1ab688bd61b69c7fb0ff4afc8`,
+  `7f34bb964665078727c7ed2b5e5165c50b1763003d573789d7406a6b06445eca`,
+  `6d8ebdf7b9495608c89779ecfd7ca8f3c1a84790fc8e2b6b6fc5dd292c530e6a`,
+  `a558c466862bf050bf8c850aaf47be633ae1f0bce9785f18b410cb0eff9f6d9d`,
+  join `a3479e7ebc010fbfde4d42c95eebd8cf81cc5eeab9ef37ab77ba2284fb8b27c8`.
+
+Check exact workflow-receipt schema/types/jobs/artifacts/false flags, nested
+prepare input-manifest linkage, raw-byte registry, and launch/final manifest
+linkage. A coordinated self-written manifest must not bypass raw accepted
+receipts.
+
+4. Audit workflow reachability and exact artifact acquisition: event SHA,
+action pins, source-run artifacts, checker success artifact recursive roster,
+canonical JSON/LF, unique basenames, actual CLI arguments, output roster,
+terminal marker, and always-uploaded diagnostics. The push fire token must be
+exactly `[fire-r07-canonical-p1-degree2-lift-v1]`. Do not demand an
+independent lift checker in this producer workflow; that is a later stage.
+
+5. Audit resource behavior and unnecessary slowness. Reject any dense global
+matrix, decoded all-row duplicate, cache copy, repeated parent replay,
+unbounded JSON ancestry, concurrency, or hidden retry. Check that the
+292,444,992-byte cache is file-backed/streamed as specified, the instruction
+stream is bounded, peak estimates fit 8 GiB, and 37/38/45-minute caps are
+reachable and honest. Do not request extra audits or heavy tests unrelated to
+dispatch safety.
+
+6. Run only bounded sequential checks outside the repo: py_compile with
+external pycache, v4 selftest, YAML parse/inline-Python AST, exact static
+diff/AST/resource inspection, and small targeted mutations if needed. Record
+commands, runtimes, peak RSS when available, and all temp paths. Leave no
+process running.
+
+7. Continue past the first failure and give the smallest finite repair list.
+The terminal verdict must be exactly one of:
+
+`VERDICT=PASS_CANONICAL_P1_LIFT_V4_SAFE_FOR_GHA`
+
+or
+
+`VERDICT=FAIL_CANONICAL_P1_LIFT_V4`
+
+Also state exactly `SAFE_TO_DISPATCH_GHA=yes|no`, whether arithmetic AST is
+unchanged, whether provenance is honest, and whether any unnecessary slow or
+memory-heavy path remains. No actual lift, connection, grade-two terminal,
+A0/COMMON/cofinal/fake/Ihara claim may be made. `verified=false`.

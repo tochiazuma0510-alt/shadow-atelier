@@ -1,0 +1,50 @@
+# Sol Task769 - narrow re-audit of canonical P1 lift v5 clock repair
+
+You are Sol(max), the hostile mathematical/release auditor.  This is a narrow
+re-audit of the single blocker found by Task764.  Read every listed file in
+full and write only:
+
+`sol/sol_reply_769_reaudit_r07_canonical_p1_lift_v5_clock_repair.md`
+
+Inputs:
+
+1. `sol/sol_task_764_audit_r07_canonical_p1_degree2_lift_v4_workflow_v1.txt`
+2. `sol/sol_reply_764_audit_r07_canonical_p1_degree2_lift_v4_workflow_v1.md`
+3. `sol/luna_task_767_r07_canonical_p1_lift_elapsed_clock_repair_v1.md`
+4. `sol/luna_reply_767_r07_canonical_p1_lift_elapsed_clock_repair_v1.md`
+5. `search/d972_r07_canonical_p1_dag_degree2_lift_v4.py`
+6. `search/d972_r07_canonical_p1_dag_degree2_lift_v5.py`
+7. `.github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v1.yml`
+8. `.github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v2.yml`
+
+Audit obligations:
+
+1. Prove by executable/static inspection that the exact historical raw
+   workflow receipt with `checker_process.elapsed_wall_clock="03.76"` reaches
+   and passes the same production validator used before cache allocation.
+2. Check the one/two/three-field clock grammar and all relevant negative
+   cases, especially nonfinite, negative, seconds >=60, malformed fields, and
+   four-field strings.
+3. Re-run the bounded selftest and independently inspect the exact v4->v5 AST
+   delta.  Confirm that recurrence, packet projection, actor/character order,
+   cache construction, instruction output, arithmetic classes, resource caps,
+   parent/artifact pins, and claim boundary have no semantic drift.
+4. Check workflow v2 syntax, exact fire token, source hashes, schemas/markers,
+   8-file staging, action pins, seriality, and 8-GiB/7-GiB resource gates.
+5. Do not demand a redesign, new audit framework, or stylistic cleanup.  The
+   raw-body-retention point from Task764 is explicitly nonblocking.  Report a
+   blocker only if it is reachable and material to the actual release.
+6. Do not run GHA, real parents, the 8,059-row lift, git, agents, or es7ops.
+
+Give an explicit `PASS` or `FAIL` and end with machine-readable lines:
+
+```text
+VERDICT=PASS_CANONICAL_P1_LIFT_V5_CLOCK_REPAIR
+SAFE_TO_DISPATCH_GHA=yes
+ARITHMETIC_AST_UNCHANGED=yes
+ACTUAL_8059_ROW_LIFT_REPLAY=NOT_RUN
+verified=false
+```
+
+If and only if a finite blocker exists, replace PASS/yes as appropriate and
+identify its exact reachable call path and minimal repair.
