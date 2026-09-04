@@ -85,7 +85,7 @@ Allocate one 32,280-trit result array in the final order.
 2. From the same prepare body, initialize all 8,056 old-actor entries with
    `v^t_(o_a+p)` minus the old transition evaluation.
 3. For `b=0,1,2,3` in order, parse and authenticate only block b.
-   For every one of the 8,100 defect origins, subtract the evaluation of
+   For every one of the 8,232 defect origins, subtract the evaluation of
    `origin_reductions[O]` from the unique seed or old-actor accumulator named
    by the prepare `defect_origins[O]` record.
 4. While block b is resident, fill its 4*rank(b) new-actor positions using
@@ -100,9 +100,9 @@ old-actor slots: each old block contributes `44+4*r_a`, and
 sum_a (44+4*r_a) = 4*44 + 4*2014 = 8232,                       (3.1)
 ```
 
-while Task554's actual prepare has 8,232 defect origins.  (The full 8,100
-number sometimes attached to this lane is not the Task554 defect-origin
-count; production readers must use and check 8,232.)  Every target block has
+while Task554's actual prepare has 8,232 defect origins.  (The value 8,100
+in the first Task908 draft was a transcription error; production readers
+must use and check 8,232.)  Every target block has
 one `origin_reductions` expression for each of these 8,232 origins.
 
 Thus step 3 visits each pair `(b,O)` exactly once, exactly as the inner
