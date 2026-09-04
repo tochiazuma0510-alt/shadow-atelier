@@ -1,0 +1,72 @@
+# Sol(max) Task760: A0 endpoint-hotspot v7 finite release audit
+
+Role: hostile mathematical/code audit only.  Do not edit implementation,
+dispatch GHA, commit, push, or run real parents.
+
+Read in full:
+
+- `sol/proof_r07_endpoint_signature_monoid_cache_v495.md`
+- `sol/proof_r07_endpoint_timeout_localization_repair_v499.md`
+- `sol/sol_reply_756_audit_r07_a0_endpoint_hotspot_v6.md`
+- `sol/luna_task_759_r07_a0_endpoint_hotspot_v7_and_workflow_v12.md`
+- `sol/luna_reply_759_r07_a0_endpoint_hotspot_v7_and_workflow_v12.md`
+- `search/d972_r07_a0_fresh_precision2_endpoint_signature_v5.py`
+- `search/d972_r07_a0_fresh_precision2_endpoint_signature_v6.py`
+- `search/d972_r07_a0_fresh_precision2_endpoint_signature_v7.py`
+- `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v4.py`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v11.yml`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v12.yml`
+
+Audit only the finite release question below.  Do not request unrelated
+refactors, extra certificate layers, stronger negative claims, or a new
+algorithm.
+
+1. Recheck every Task756 blocker:
+   - v7 output must retain checker-v4's exact candidate schema, marker and
+     eight-key `occurrence` object;
+   - `extend_signature` must reject missing/mistyped E3/E4 parent and atom
+     slots and compute the same right recurrence as direct word evaluation;
+   - the order fixture must be genuinely noncommutative in both E3 and E4
+     and must kill the reversed multiplication mutant, including signed
+     atoms;
+   - workflow v12 must pin and invoke producer-v7 plus checker-v4 in the real
+     production step and preserve the exact immutable-parent gates.
+2. Recheck the v495 replacement on the production call graph, not merely by
+   string count: zero generic empty-word evaluations, exactly four generic
+   actor-atom evaluations, no generic full-prefix direct comparisons, and
+   at most one generic endpoint evaluation per reached seed (`4+R`,
+   `0<=R<=44`).  Confirm that exact key/path authentication, all direct
+   columns, bucket arithmetic, precision-two aggregation, lower-zero gate
+   and rho2 bytes are otherwise unchanged from accepted producer-v5.
+3. Audit performance narrowly and explicitly.  Look for accidental dense
+   materialization, whole-family copies, per-item forced logging, repeated
+   prefix evaluation, or another obviously avoidable pre-arithmetic loop.
+   There must be exactly four explicit large-phase boundary lines and only
+   the existing 60-second-throttled meter checks inside the two item loops.
+   A possible mathematical acceleration of the still-required direct rows
+   is outside this finite audit; do not block v7 merely because a future
+   acceleration exists.
+4. Run only bounded selftests/static probes.  No real artifacts or parents.
+5. Classify every finding as one of:
+   - load-bearing finite blocker to the one GHA release;
+   - nonblocking observation;
+   - out of scope.
+
+Write only `sol/sol_reply_760_audit_r07_a0_endpoint_hotspot_v7.md` with an
+explicit terminal:
+
+```text
+VERDICT=PASS_A0_ENDPOINT_V7_SAFE_FOR_GHA
+SAFE_TO_DISPATCH_GHA=yes
+```
+
+or
+
+```text
+VERDICT=FAIL_WITH_FINITE_BLOCKERS
+SAFE_TO_DISPATCH_GHA=no
+```
+
+If FAIL, give the complete minimal blocker list and smallest repair.  State
+truthfully that no fresh rho2/A0/COMMON/cofinal/fake/Ihara claim follows from
+this static audit and `verified=false`.
