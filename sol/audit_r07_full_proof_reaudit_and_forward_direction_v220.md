@@ -21419,3 +21419,37 @@ single transport repair required before continuation; it does not count the
   resource denominator only; actual scalar values are still required.
 - All v220 numerators and upper claim boundaries remain unchanged.
   `verified=false`.
+
+### Delta 522 (2026-09-05): the dual-orbit denominator and blockwise scalar formula pass independent audit
+
+- Sol(max) Task911 returned `PASS` on all four commissioned gates.  Its
+  standalone F3 parser imports neither v15 executable nor a producer orbit
+  helper.  From the exact Task712 tables and Task907 lambda it independently
+  reproduced the three zero character roots, the character-zero root and
+  four children, and their published packed hashes and rank-five first
+  insertion data.
+- Its raw packed BFS again exhausted exactly 504 character-zero rows and
+  2,016 labelled edges.  The sorted-orbit digest is
+  `b651766655e28c82723b57df02858f910f37d3af1950c83df628c26da3e304dc`;
+  independent F3 elimination on coordinates 0 through 503 has rank 504 and
+  pivot digest
+  `ab653854bfb7d723efdafaad705d6ab7b88bdd865cb4b8474a5d3932f5b4f39d`.
+- The audit expanded both v15 scalar implementations and matched v540
+  entry by entry: old/new ranks 2,014/6,045, 8,232 defect origins, 32,280
+  scalar relations, 32,928 new-block contributions, the same minus signs,
+  multiplicities and canonical scan order.  It therefore accepts the
+  prepare-plus-one-block evaluation and the reduction to the sole active
+  character zero.  Task911's reply has 6,520 bytes, 144 LF, and SHA-256
+  `33222beb9d73e06ff35c6c8dad1c1f32092ced0421372b2af89fbd98bf87904a`.
+
+**v220 mapping**:
+
+- Relative to Delta521, J3's finite denominator and its low-memory scalar
+  evaluator are now independently cross-checked rather than root-only paper
+  results.  Task908 still has to read the actual P1 values; this audit does
+  not supply a scalar value or terminal.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged.  No complete character-zero orbit, grade-two
+  MEMBER/NONMEMBER, full A0/COMMON, compatible cofinal lift, fake certificate
+  or Ihara witness is declared.  `verified=false`.
