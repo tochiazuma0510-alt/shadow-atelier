@@ -1,0 +1,54 @@
+Sol(max) Task802: hostile narrow re-audit of A0 canary wiring repair v16
+
+Role: mathematical/correctness auditor only. Read and process every numbered
+section below, first to last. Do not edit implementation, run GHA, commit, or
+push. Write the complete ruling only to
+`sol/sol_reply_802_reaudit_r07_a0_canary_wiring_v16.md`.
+
+1. Read these sources in full:
+
+- `sol/luna_task_800_r07_a0_canary_wiring_repair_v16.md`
+- `sol/luna_reply_800_r07_a0_canary_wiring_repair_v16.md`
+- `sol/sol_reply_795_audit_r07_a0_reached_seed_canary_v15.md`
+- `search/d972_r07_a0_fresh_precision2_endpoint_signature_v9.py`
+- `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v7.py`
+- `search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v8.py`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v15.yml`
+- `.github/workflows/d972-r07-a0-fresh-precision2-endpoint-v16.yml`
+- `sol/proof_r07_all_path_direct_canary_induction_repair_v512.md`
+- `sol/sol_reply_789_audit_r07_all_path_direct_canary_induction_v509.md`
+
+2. Reproduce the exact v7->v8 checker diff and v15->v16 workflow diff.
+Decide whether the production call now passes the reconstructed five-key
+`base_receipt`, rather than the twelve-key `direct_canary`, to the final
+argument of `validate_direct_canary`. Confirm that the bounded positive
+fixture actually exercises the complete honest argument wiring and cannot
+pass by using the same object for both roles.
+
+3. Run only bounded local checks needed for audit. Confirm honest fixture
+acceptance and rejection of the existing mutations/completion failures.
+Check that producer v9 is byte-identical to the Task795-audited producer and
+that neither arithmetic nor owner/source universe, target, schedule, caps,
+aggregation, or claim flags changed.
+
+4. Hostile performance/scope audit. Statically count the actual generic
+direct-column calls on production paths and ensure the repaired release still
+uses S=23 reached seeds plus four typed atom evaluations, not G=21,287 generic
+evaluations. Ensure all G=21,287 precision-two aggregations remain present.
+Reject any resurrected dense closure, full-history copy, unnecessary replay,
+hidden selftest in production, or other path likely to waste GHA time/memory.
+
+5. Audit workflow authentication byte counts/hashes, exact parent pins,
+single serial job, timeouts, artifact-on-success and logs-always behavior.
+Confirm no production/GHA result is being claimed by the bounded tests.
+
+6. Give exactly one terminal ruling:
+
+- `VERDICT=PASS_A0_CANARY_WIRING_V16` and
+  `SAFE_TO_DISPATCH_GHA=yes`; or
+- `VERDICT=FAIL_A0_CANARY_WIRING_V16` and
+  `SAFE_TO_DISPATCH_GHA=no`, with the smallest concrete blocker.
+
+Also state the exact generic-call count, whether all 21,287 aggregation
+buckets remain, file byte/SHA receipts, and
+`FRESH_RHO2/A0/COMMON/FAKE/IHARA=NOT_CLAIMED`, `verified=false`.

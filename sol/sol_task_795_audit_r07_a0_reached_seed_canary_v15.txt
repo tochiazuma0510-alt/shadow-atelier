@@ -1,0 +1,76 @@
+Sol Task 795 — hostile audit of A0 reached-seed canary v15
+
+Role: Sol(max), finite mathematics/code/performance audit only. Process every
+numbered section in order. Do not implement, edit candidate files, use
+git/GHA/es7ops, download production parents, or run production. Write only
+`sol/sol_reply_795_audit_r07_a0_reached_seed_canary_v15.md`.
+
+1. Read in full and in this order:
+
+- `sol/proof_r07_all_path_direct_canary_induction_v509.md`;
+- `sol/sol_task_789_audit_r07_all_path_direct_canary_induction_v509.txt`;
+- `sol/sol_reply_789_audit_r07_all_path_direct_canary_induction_v509.md`;
+- `sol/proof_r07_all_path_direct_canary_induction_repair_v512.md`;
+- `sol/luna_task_791_r07_a0_reached_seed_canary_v9_v7_v15.md`;
+- `sol/luna_reply_791_r07_a0_reached_seed_canary_v9_v7_v15.md`;
+- frozen producer v8, checker v6, workflow v14;
+- candidate producer v9, checker v7, workflow v15.
+
+2. Check exact bytes/SHA/LF and every inherited production pin. Compare the
+candidate AST/call graph and workflow structurally with v8/v6/v14. Permit only
+the audited all-path canary schedule, its receipts/checks, versioned schema and
+ordinary resource/output wiring. Flag any arithmetic, source, target,
+precision-two, parent, cap, or claim-boundary drift.
+
+3. Audit the producer reached path, not fixture constants. Require exactly one
+generic empty-path direct call for each raw reached seed (23 on the actual
+parent) and no generic direct call per signature bucket. Independently trace
+the exact eleven g-dependent prefixes and signs from v512, unsigned derivative
+convention, right extension `parent * atom`, inverse actors, coefficient two,
+and the stronger six-E3 plus 31-E4-context base guard.
+
+4. Require all computation which must remain: exact Task601 graph/root/source
+ancestry, raw exact-key collection before cancellation, full eleven-slot trie,
+all nonzero `(seed,signature)` buckets, and every one of the 21,287
+precision-two bucket aggregations per side. Reject sampling, source replacement
+by a bucket representative, or treating equal physical rows as equal words.
+
+5. Audit the observable certificate and independent checker. The sorted raw
+seed roster, 23 base row count/nnz/digests, four typed atom signatures, inverse
+equalities, noncommuting order anchor, eleven prefix/sign labels, rolling digest
+and EOF must be emitted and independently reconstructed. Checker must not
+import the producer or trust its row/digest. Drive live mutations for slot-10
+sign/prefix, E4-to-E3 slot, pentagon order, actor order, missing/duplicate seed,
+base-row change, atom change and truncated EOF. Continue past first failure.
+
+6. Audit avoidable slowness and memory. Confirm there is no hidden second
+generic 21,287-call pass, repeated full direct evaluation inside the retained
+bucket loop, repeated construction of all group contexts, dense per-bucket
+copy, concurrency, parent replay, archive DOM, or heavy SELFTEST. Require a
+bounded fixture only. Report the exact generic call counts and distinguish them
+from the retained 21,287 cheap precision-two aggregations. Do not demand
+speculative optimization unrelated to the measured v14 blocker.
+
+7. Audit workflow fail-closed behavior, independent checker launch, artifact
+gates, progress visibility, and false downstream claim flags. A resource stop
+is UNKNOWN, never NONMEMBER. No fresh rho2 or A0 result may be declared by a
+fixture.
+
+8. Run only bounded sequential checks outside the repo: py_compile, producer
+and checker fixtures/selftests explicitly authorized by Task791, static call
+counts, structural diff, mutations, and local YAML parse if already available.
+Record exact commands/runtimes/peak RSS when readily available. Leave no
+process running.
+
+9. Give the smallest finite repair list. End with exactly one of:
+
+`VERDICT=PASS_A0_REACHED_SEED_CANARY_V15_SAFE_FOR_GHA`
+
+or
+
+`VERDICT=FAIL_A0_REACHED_SEED_CANARY_V15`
+
+Also state `SAFE_TO_DISPATCH_GHA=yes|no`, actual generic calls per side,
+retained precision-two bucket count per side, whether any unnecessary
+slow/memory-heavy path remains, and `A0: 0/1 ACTUAL`. No rho2, COMMON,
+compatible lift, fake or Ihara promotion. `verified=false`.
