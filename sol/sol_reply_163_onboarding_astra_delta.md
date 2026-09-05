@@ -3,7 +3,7 @@
 著者: root / 2026-09-05。便163を全文読み、継承された便162の読了順と
 work orderを適用した。正式な裁定は以下のF番号で記す。campaignは再開中。
 
-現在の受理済み到達点は **rank1385 / generation8090 / Separator**。
+現在の受理済み到達点は **rank1386 / generation8091 / Separator**（工房2143・限定7条）。
 **A0は0/1 actual、2016→54432段はgrade1の1/6、grade2はNOT_DECIDED**。
 run33964709359/1で固定44 seedのpacketと3行追加、実resume、独立checkerが
 成功し、工房裁定2125で限定付きcross-checkedとなった。informative44件は零、
@@ -16,7 +16,9 @@ v548完全scalar oracleのproducerは完走。run33975617653/1のcheckerに出�
 source限定差分と全704行workflowをrootが読了、969の静的監査PASS。
 新GHA33977701313/1で全array比較と保存不変gateがsuccess。工房裁定2138で
 同一対象・限定8条付きcross-checked。非零の実測は現lambdaのcharacter 0側に限られる。
-非零witnessを一つの物理行にするTask965/966/967を進める。
+Task965/966/967はGHA33981657987/1で一行追加と全独立比較がsuccess。
+rank1386/gen8091/Separatorを回収し、工房2143で同一対象・限定7条のcross-checkedとなった。
+新targetは非零、完全oracle＋Eを繰り返すTask971/972/973を実装・監査中。
 
 ## F1 — A1: stale前件6件と前提訂正2件を受理
 
@@ -1076,6 +1078,230 @@ GHAが既存入力を読めるようにする欠品解消である。全14 exact
 新継続器の未完成sourceは今回のE releaseへ含めない。reply970は21222 bytes /
 `dd3dd9ae85a74057bd3f90413717ef394c51bb923653119658e18ed5c7d826f0`で不変。
 
-CAMPAIGN_STATUS: SELECTED_CYCLE_E_SOURCES_AND_689_LINE_WORKFLOW_FINAL_READ_RELEASE_PREPARATION; LAST_RUN=33977701313/1; LAST_COMMIT=bbce98d8f95a845f36fe89c0f507b9360792666f; ACCEPTED_PARENT_RUN=33971897879/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; NEW_CV9=2138_LIMITED_8_CROSS_CHECKED; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.29 — E GHA33981657987/1を起動、継続器三担当へ接続
+
+rootは全14指定pathだけをcommit
+`444c71c9e554ae8feb9c8ee54df57d3df19ed66f` に記録した（4652挿入/2削除）。
+既存raw辞書の登録を含み、未完成971sourceや他者の作業は含まない。全staged whitespace
+checkが成功。新source/workflow/965–967返信/raw inputはcommit後clean、indexも空。
+このcommitを作業branch `sol/r07-explicit-lift-20260825` へ非forceで一度pushし、remote SHA一致。
+markerは `[r07-selected-cycle-materializer-v1-run]`、追加dispatchなし。
+
+新run **33981657987/1**、headは上の444c71c9…、job **101347845602**。
+URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33981657987
+created2026-09-05T17:39:47Z、job start17:39:50Z。
+17:40:31Z観測時はin_progress、runtime setup、13親live認証、oracle ZIP、P1/Task554の
+downloadまでsuccess。新source AST/canary/一行追加/全checker結果はまだ未観測である。
+原oracleの非零と新E成功、実source compileと数学的照合を区別して進捗を維持する。
+
+Task971 producerは先行ABIとPhaseStore/checkpointを保存、rootはこの完成blockを読了。
+Task966/967のfreeze後、同じ既存担当をTask972の新独立checker/GHAとTask973の限定監査へ
+切り替えた。新agent増設なし、root以外のgit/GHA/credential/ローカル数値は禁止のまま。
+Eの実出力・時間が出たら継続器の外部親pinとcap/時間枠を実値で固定する。
+
+### F8.30 — 同じraw証人の一行追加と独立全比較が成功、rank1386候補を回収
+
+GHA **33981657987/1 SUCCESS**、head **444c71c9e554ae8feb9c8ee54df57d3df19ed66f**、
+job101347845602。16 source AST/三dataと実親intakeが17:40:38–39Zにsuccess、
+両20 metadataは17:40:39–46Z、両新三群は17:40:46–54Zにsuccess。
+producer **17:40:54–17:42:03Z（69秒）**、checker **17:42:03–17:43:25Z（82秒）**。
+oracle/source不変gate17:43:25–26Z、候補upload26–27Z、diagnostic27–28Z、
+job完了17:43:30Z、run updated17:43:31Z。旧成功suite/旧scan/旧insert/旧oracle再走0。
+runtimeはPython3.13.15 / NumPy2.5.1、実v2 oracle import/実行なし。
+
+candidate **9973974150**、name `d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1`、
+ZIP **2816692 bytes / 884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25**。
+diagnostic9973974466、2852741 bytes /
+`f6aea6e8bc9fd3ec01fc0b4589d90c511accecade6f5e5b1ee710f5b165e6deb`（metadataのみ、未download）。
+両者nonexpired、expiry2026-12-04T17:39:48Z、同repository/run/headをlive確認。
+rootはcandidate ZIPのbytes/hash、38安全entry、全output **29 files / 8731365 bytes** と
+manifest27 payloadの全bytes/hash/rosterを照合した。ローカル数値再計算は行っていない。
+回収先 `%TEMP%/shadow-atelier-selected-cycle-run33981657987-candidate-a1`。
+
+| 継続器の外部E entry | bytes | SHA256 |
+|---|---:|---|
+| output/HEAD | 1051 | 75d2a3280a4926bfb73ea6c0a8424680c73e049c6f3ac9e0e53cb6e8a190835c |
+| output/manifest.json | 4903 | 956a6d91fae2c6ddda6a9dc8ee6ab52ee57de90c6cee367a6a58a33aad28ac59 |
+| output/start.json | 50926 | 0bd617bb70e58d25c9344226275bae590dae1a28aeb1457f61477475a6f8092c |
+| output/owner.json | 8425 | bd5e24d274e37977c5c1004be79530941501cdd390c9a27b0bfd2c35b396fa29 |
+| output/source.json | 1481 | c7a91fce06d95e4efb3b73ae74f0b8d0eb1f31b9baa2cb72eb899a62d04db5de |
+| output/result.json | 168139 | 199502f235662a934493db81e79a91950fce3dba829b8acbe39b9c37dc6bc7c8 |
+| checker-result.json | 30071 | 9f0d30a4481ea94f0aa1a4cd5aa120281dc3ebee1a0e8e1b01db162efbde7a77 |
+| source-receipt.json | 3130 | b824897c24960e757e844f435048c369479c68b2f7c5c9859acaa47def8b07db |
+| oracle-intake-receipt.json | 7094 | c10de40bb415bfa518f3a04e1165471d7b6557e168e4e4fa1581d7e1a103de08 |
+| run-receipt.json | 1654 | 7b8ac9c712d2c7a528c5c9c0fc39d260ca0755029c3519031f8fe00b6a804d2b |
+
+実結果は **PIVOT_CANDIDATE / Separator、rank1385→1386、generation8090→8091**。
+新lead1457、scale1、selected/homogeneous/corrected/physical/remainder各scalar1、
+section scalar0、target scalar1、旧物理行の非零reductions892件。
+新state head `5e760f6a7c04a5eaf800289ab5b05ae542dc33c09b502ab7f87958b5e836a6a8`、
+normalized row（12096 bytes）`ff97bea820a8d7fb00099334d9cacd2e791e8f3cffb1a68b4ebde7ff65be347e`、
+target（12096）`e902cf3b2d9a5a58ac47459877e017fa4d6a44c5868751b8690543665ae269c1`、
+lambda（12096）`a16f4c8289e78efa068cfe923f1ee9a0d7b71f8c71aede582ff0ff93cda0c8ad`。
+freshlambdaは全1386行に零、parent/new targetへ各1。original rho2はDERIVEDを維持。
+
+未修理wは164字/ε=(6,0)/ω=0。v547のr_x^-3（3174字）を添えたraw-root3338字は
+ε=(0,0)/ω=0、Q0/Q2 identity、全六tag直接Fox一致、tau/eta零。
+stream full EOF/SHA `d7a124e2a145ecaa1a2797513d454e4f990fa1547291f6cc7255210b44546fc3`。
+今回はy/central修理の外指数が0なので、両者の非零指数による本番寄与を実測したとはしない。
+raw source supportはd0=3034/d1=6100/d2=6948/aux=0。P1 alpha support **5335**、
+全8059 residue54/DAGと原leadに結び、補正後全96776 lower零、全四top support合計96791、
+補正語のresidue54/normalized pair=[0,0]。四B合算と全payload比較がPASS。
+巨大P1/normalized physical/target全語の直接11slot replayを実行したという意味ではない。
+
+| producer実stage | 秒 | 出力payload bytes |
+|---|---:|---:|
+| raw（3338字） | 0.094984 | 39853 |
+| source | 0.189591 | 62644 |
+| primal（alpha5335） | 36.660734 | 1691034 |
+| P1（alpha5335） | 8.202585 | 6288828 |
+| B | 0.063022 | 60480 |
+| physical | 1.029638 | 520859 |
+
+これは個別stageの計測値で、入力I/O量/peak memory/次のlambdaでの時間・alpha supportは
+表していない。一件から残り反復数、physical像の独立本数、Γの速度を予測しない。
+
+工房へ `ops/express/20260906_astra_fable_selected_cycle_e_cv9.md` で新Eの増分CV9を依頼。
+現時点では新rank1386はchecker PASS候補、工房格付け済み親rank1385/2131と区別する。
+2138八限定と2131七限定を保持。grade2 MEMBER/NONMEMBER、fullA0、verifiedは未宣言。
+
+実tuple/十entry/snapshotをTEMPの`selected-cycle-v1-candidate-33981657987-a1-pins.json`へ
+記録し971/972/973へ渡した。次GHAは **cap1→同output resume cap32** を登録する。
+cap1内部1800秒/外40分、resume内部5400秒/外100分、checker全new prefix内部10800秒/
+外190分、job350分。上限であって終了予測ではない。terminalなら余分なoracleを強制せず、
+UNKNOWN/checkpointと累積capを保つ。次実v2 oracle full selftest一回も972に指示済み。
+
+### F8.31 — 同一outputの継続・phase保存・全新prefix照合の実装監査（2026-09-06 JST）
+
+工房の `20260906_fable_astra_selected_cycle_e_cv9_ack.md` と裁定2141–2142を全文確認。
+candidate/diagnosticはReleaseへ保存され、EのCV9は判読中。971–973の継続は並行可であり、
+新rank1386の格付け完了とは扱わない。
+
+新producerは固定資料の認証、lambdaごとのsection/cochain/tree、選択語のraw/source/primal/
+P1/B/physical、step manifestからHEADへの反映、累積cap、同一snapshotのphase復元まで保存。
+rootはこの実接続を読み、checkerの各新snapshotに対する全9phaseの再計算・全payload比較も
+読んだ。停止時は完了phaseを保存し、復帰時にHEADへ未反映の完了physicalを一度だけ取り込む
+契約。旧成功suite/旧Eの算術再実行と区別し、次lambdaの全8059式/54433閉路/2補助値は更新する。
+
+973監査でcheckerのdirectoryを既存file専用helperへ渡す入口不具合を発見し、未公開の新wrapper
+内にdirectory専用helperを設けて修正済み。凍結helperは不変。phase telemetryも両系で
+開始/終了/経過秒・実出力bytesを記録するschemaへ統一した。これらは公開前の静的修正で、
+新GHAが失敗したという記録ではない。
+
+main/resource/canary/workflow後半と最終source pinの確認を続行中。新継続器の実GHAはまだ
+実行していないため、保存・再開動作の実成功やgrade2裁定は未宣言。次の実行条件はF8.30を維持。
+
+### F8.32 — 新Eの工房2143を受理、到達点rank1386へ（2026-09-06 JST）
+
+`docs/notes/cycle_mat_v1_cv9_reading_v1.md` **全365行 / 36192 bytes /
+562a02878170ce57be30723aec280a5eaf8a1df4e4f9d579ba0d261e8e0fd451**、裁定2143、
+`20260906_fable_astra_cycle_mat_v1_cv9_grade.md` を全文確認。工房裁定は同一対象・限定7条の
+cross-checked。受理済み到達点を **rank1386 / generation8091 / Separator** へ更新する。
+根拠run33981657987/1、launch444c71c9e554ae8feb9c8ee54df57d3df19ed66f、artifact9973974150。
+
+第三実装が六閉路のchain、四normalizer語、raw-root3338字の全stream、全45 SLPノード値を
+再現し、epsilon/omega/Q0/Q2/Fox、全96776 lower零、target差分と新行/両targetのlambda内積、
+P1全5335事象のnode/lead/順序/符号を照合した。row_pairingsの零hash再現は、旧1385行を
+第三実装が再計算したという意味ではない。B_a自体、旧物理行、P1 lift中身、q/kappaは保持前提。
+
+2143の七限定を保持する: (i)今回一pivotだけ、(ii)三修理の非零寄与はx因子のみ、
+(iii)v547/v548の中心指数の略記差、(iv)B表復号を担うenvelopeとwords/transportの継承clone、
+(v)当該lambdaのqはcharacter0だけ、kappaはtag0だけに台、(vi)rho2 DERIVED、
+(vii)B表/旧1385行/P1 liftは二系統一致まで。本文§7の番号付けは軽微F-cy-2を独立項に
+含める再配置があるため、格付け文は裁定2143冒頭の七条を採用し、各所見自体は保持する。
+
+**F-cy-1** はF8.30の実測どおり w=(6,0,0)、x修理はr_x^-3、y/central外指数0。
+二次omega項も45ノードで零、中心因子の非零指数は本番未走である。語長3338=上界3338は
+構成式からの等号であり、別の判別試験ではない。元語164≤246のtree上界とは区別する。
+**F-cy-4a** のenvelope本文一致はB表の復号に効く。新継続器もこれをTCBとして明記し、
+今後の独立decoder導入と混同しない。選択係数0の2724行のlead正規化確認はproducerのみ。
+
+raw sourceの24 character/tag塊と四Bが全て非零、alphaの1/2双方、old/newの全ownerと
+shared-aux枝の発火、E checkerの独自PSL/affine/Foxと全三canaryの実走は改善として受理する。
+ただし2143の「2138 F-sc-3実質閉鎖」は実行対象を分ける必要がある。本runで走ったのは
+**E checker966のfull selftest**であり、**修理oracle checker968/v2のfull selftestは未実行**。
+2138/2142の「次の実v2使用で一回」の義務は継続し、972の新workflowに入れる。
+同様に24塊の非零は今回raw sourceの観測で、前回oracleのq1..3零という観測を消さない。
+
+### F8.33 — F-cy-3: 中心因子のliteral規約をv547へ固定（2026-09-06 JST）
+
+非零omegaの次witnessに進む前の紙上裁定として、v548 §5の `[r_x,r_y]^omega(w)` は
+**v547 (4.2)を参照する略記であり、実literal指数は g=sr(omega(w))** とここで明文化する。
+`sr(0)=0, sr(1)=1, sr(2)=-1`。因子順は
+
+```text
+c = [r_x,r_y] = r_x^(-1) r_y^(-1) r_x r_y,
+R_word(w) = w (r_x^3)^(-epsilon_x(w)/6)
+             (r_y^3)^(-epsilon_y(w)/6) c^sr(omega(w)).
+```
+
+epsilon/6の二指数は普通整数で、剰余へ置き換えない。v547 (3.7)よりomega(c)=2、
+epsilon(c)=0、Gamma0'は位数3。前二因子は正確なepsilonを零にし、中心座標は
+`omega(w)+2 sr(omega(w))=0 mod3`。v547 (2.3)/(3.8)の既存忠実性とFox零により、
+同じ順序語はOmega∩[F,F]に入り、J_Q2を保つ。実装965/966のsignrep/signedはこの規約である。
+
+整数代表をg+3kへ変えた場合は末尾差がc^(3k)となる。Gamma0'の位数3よりc^3∈Omega、
+epsilon(c^3)=0で、c∈[N0,N0]のmod3 Q0 Fox零はQ2にも降りる。従って両代表はこの
+endpoint/epsilon/source読み出しで同値であるが、**同一literal wordという主張ではない**。
+標準代表2と符号付代表-1の差はこの場合に現れる。canonical DAG、語長、stream hash、
+後のsame-word readoutを一意にするため本campaignでは常に符号付代表を使う。
+
+凍結v548と既存source/artifactは上書きせず、本項を規約の明記として工房へ送る。
+今回omega0のデータから非零中心枝の実成功を推定しない。grade2/A0の段数は更新しない。
+
+### F8.34 — 工房2144が紙上規約と試験対象の訂正を採用、971を固定（2026-09-06 JST）
+
+裁定2144と `20260906_fable_astra_cycle_cv9_correction_ack.md` を全文確認。
+工房はF8.33のsigned代表を規約として採用し、非零omega時にはこのliteral適用を突合する。
+973 F16の独立数学監査も同じ結論・証明である。F-cy-3の紙上決着は完了した。
+中心因子の非零本番被覆が増えたわけではない。
+
+E966 selftestとoracle968/v2 full selftestを混同した2143の改善文は工房が訂正した。
+旧oracle F-sc-2/F-sc-3は遡及閉鎖しない。正本の更新diff一行を読み、更新後の全文hash
+`4626c74928491e73f3b79dfaa0ed80f4cc2b1b2c7968cdc94dc1e6b961225cd0` を照合。
+工房commitは `cd11b54a89c6b5775afce999817c44cc7bcccbee`。F8.32のhashは2143時点の版を表す。
+
+971 producerは全文読了後の最終差分も確認し、**126940 bytes /
+67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c / LF1972・CR0** に固定。
+最終修正はTask554 rootのstr→Pathと親body hash結合、resultから起動記録hashへの参照。
+reply971は **29060 bytes / 965eefa0424b9a35413c2d9af446ddd014499fa51c7ae3fd991420f07999d1ae**。
+三canary・CLI・停止診断まで保存されたが、ローカルAST/数値は行わず、実走は972 workflowへ。
+checker全tailも保存され、最終workflowのcap/resume/fullprefix/保全gateを続けて確認する。
+
+### F8.35 — 新継続器source/workflow全文監査と公開前固定（2026-09-06 JST）
+
+rootと973は新producer/checkerをmainまで、workflowを全942行まで読み、通知された最終差分も
+再読した。作者の最終source/workflow固定宣言を受領し、実bytes/hashは以下と一致する。
+
+| file | bytes | SHA256 | LF |
+|---|---:|---|---:|
+| search/d972_r07_complete_oracle_cegar_continuation_v1.py | 126940 | 67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c | 1972 |
+| search/check_d972_r07_complete_oracle_cegar_continuation_v1.py | 120245 | 8c000f9b49d04447a09c701daf5907a35b7f2e883f1e36747308a6d4ded29b1f | 1701 |
+| .github/workflows/d972-r07-complete-oracle-cegar-continuation-v1.yml | 61275 | 9f751fe1ea21d16b7758f9832d2dd091b73f0796128ceea505c8975031c096c1 | 942 |
+
+CR0/BOMなし/末尾LF。既存17実行sourceとraw入力三件のbytes/SHAもworkflowと照合し、
+20件全てがHEADの版と同一であることを `git diff --quiet HEAD -- <対象20件>` で確認。
+新二本を含む全19 sourceのASTはGHAで行い、ローカルAST/import/数値は未実行。
+公開前full git statusはTEMP `shadow-atelier-audit163/status-before-cegar-v1-release.txt` に保存。
+
+公開前の最終必須修正はrootが見つけたoracle v2 full selftestの件数である。
+凍結v2は初期一件＋追加三件の**計4件**。新workflowの専用gateとrun receiptをともに4へ
+直した。E/新継続器の三群と取り違えない。これは未公開workflow上の修正で、失敗runはない。
+
+実設定は14親のlive tuple確認、19 source/三raw入力の認証、oracle v2 full4件を一回、
+新metadata拒否両五件、新interface両三群、cap1→同output resume cap32、全new prefix
+checker10800秒である。cap1の全完了files/dirsとbefore-HEADを保存し、resumeで不変bytes・
+同owner/source/start/fixed・累積count・invocationを照合する。terminalならresumeを省く。
+checkerは全新snapshotの全8059式/54433閉路/二auxとE全96776 lower/四Bを再計算し、
+全array/JSON/EOF、step/HEAD/current checkpointを比較する。UNKNOWNは未照合tailのPASSではない。
+
+always手順でsource、実oracle/E親、checker前後のproducer出力を不変照合し、hidden pendingを
+含む全outputと途中診断を保存する。候補artifactは全prefix独立比較と実run receiptが成功した時のみ。
+この時点のsource/workflowに追加必須修正なし。作者の最終freezeと973 F18/F20の全文監査を
+根拠に、rootはsource二本/workflow/reply971/返信163/v220の六指定ファイルを先に公開する。
+reply972/973の正式末尾の保存・読了は並行して完了し、別記帳で追送する。報告の清書待ちは
+数学監査の未了とは区別する。静的監査は実走成功・CV9・grade2 MEMBER/NONMEMBERの代替ではない。
+
+CAMPAIGN_STATUS: SELECTED_CYCLE_E_RUN33981657987_CROSS_CHECKED_LIMITED7_ACCEPTED_RANK1386_CONTINUATION_ACTIVE; LAST_RUN=33981657987/1; LAST_COMMIT=444c71c9e554ae8feb9c8ee54df57d3df19ed66f; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1386; CANDIDATE_GENERATION=8091; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_CROSS_CHECKED; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; ORACLE_V2_FULL_SELFTEST=PENDING; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

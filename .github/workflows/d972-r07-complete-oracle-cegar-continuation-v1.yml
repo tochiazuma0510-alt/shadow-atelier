@@ -1,0 +1,942 @@
+name: d972-r07-complete-oracle-cegar-continuation-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  DELTA_RUN: "33946247365"
+  DELTA_ATTEMPT: "1"
+  DELTA_HEAD: "7f6dfaddf4150449e62a9b3e85def472fcb41c01"
+  DELTA_WORKFLOW: ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml"
+  DELTA_ARTIFACT_ID: "9963533999"
+  DELTA_ARTIFACT_NAME: "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1"
+  DELTA_ARCHIVE_BYTES: "915410"
+  DELTA_ARCHIVE_DIGEST: "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6"
+  SEED34_RUN: "33956437467"
+  SEED34_ATTEMPT: "1"
+  SEED34_HEAD: "b9ae78b0950b186463849c3ec874f6474f359851"
+  SEED34_WORKFLOW: ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml"
+  SEED34_ARTIFACT_ID: "9966542166"
+  SEED34_ARTIFACT_NAME: "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1"
+  SEED34_ARCHIVE_BYTES: "984053"
+  SEED34_ARCHIVE_DIGEST: "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc"
+  PACKET_RUN: "33964709359"
+  PACKET_ATTEMPT: "1"
+  PACKET_HEAD: "fff114c41bd8748ad0e708919fe0820335c9cce8"
+  PACKET_WORKFLOW: ".github/workflows/d972-r07-fixed-root-packet-loop-v2.yml"
+  PACKET_ARTIFACT_ID: "9969090590"
+  PACKET_ARTIFACT_NAME: "d972-r07-fixed-root-packet-loop-v2-candidate-33964709359-1"
+  PACKET_ARCHIVE_BYTES: "1855391"
+  PACKET_ARCHIVE_DIGEST: "sha256:b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428"
+  REFINEMENT_RUN: "33971897879"
+  REFINEMENT_ATTEMPT: "1"
+  REFINEMENT_HEAD: "64475e1dfab1537a38d1b3131971bfed5fc3071c"
+  REFINEMENT_WORKFLOW: ".github/workflows/d972-r07-full-origin-checker-completion-v1.yml"
+  REFINEMENT_ARTIFACT_ID: "9971466432"
+  REFINEMENT_ARTIFACT_NAME: "d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1"
+  REFINEMENT_ARCHIVE_BYTES: "51943596"
+  REFINEMENT_ARCHIVE_DIGEST: "sha256:0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8"
+  ORACLE_RUN: "33977701313"
+  ORACLE_ATTEMPT: "1"
+  ORACLE_HEAD: "bbce98d8f95a845f36fe89c0f507b9360792666f"
+  ORACLE_WORKFLOW: ".github/workflows/d972-r07-section-cochain-checker-completion-v1.yml"
+  ORACLE_ARTIFACT_ID: "9972829869"
+  ORACLE_ARTIFACT_NAME: "d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1"
+  ORACLE_ARCHIVE_BYTES: "2299772"
+  ORACLE_ARCHIVE_DIGEST: "sha256:1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d"
+  E_RUN: "33981657987"
+  E_ATTEMPT: "1"
+  E_HEAD: "444c71c9e554ae8feb9c8ee54df57d3df19ed66f"
+  E_WORKFLOW: ".github/workflows/d972-r07-selected-cycle-materializer-v1.yml"
+  E_ARTIFACT_ID: "9973974150"
+  E_ARTIFACT_NAME: "d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1"
+  E_ARCHIVE_BYTES: "2816692"
+  E_ARCHIVE_DIGEST: "sha256:884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25"
+  PRODUCER_SHA256: "67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c"
+  PRODUCER_BYTES: "126940"
+  CHECKER_SHA256: "8c000f9b49d04447a09c701daf5907a35b7f2e883f1e36747308a6d4ded29b1f"
+  CHECKER_BYTES: "120245"
+  FIRST_CAP_MINUTES: "40"
+  RESUME_CAP_MINUTES: "100"
+  CHECKER_CAP_MINUTES: "190"
+
+jobs:
+  complete-oracle-cegar-continuation:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-complete-oracle-cegar-continuation-v1-run]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 350
+    steps:
+      - name: Checkout frozen task sources
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.15"
+
+      - name: Install pinned numerical runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Query and authenticate exact live parents
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          test "$repo" = "tochiazuma0510-alt/shadow-atelier"
+          gh api "repos/$repo/actions/runs/$P1_RUN" > "$RUNNER_TEMP/p1-run.json"
+          gh api "repos/$repo/actions/runs/$TASK554_RUN" > "$RUNNER_TEMP/task554-run.json"
+          gh api "repos/$repo/actions/runs/$TASK712_RUN" > "$RUNNER_TEMP/task712-run.json"
+          gh api "repos/$repo/actions/runs/$SEPARATOR_RUN" > "$RUNNER_TEMP/separator-run.json"
+          gh api "repos/$repo/actions/runs/$DELTA_RUN" > "$RUNNER_TEMP/delta-run.json"
+          gh api "repos/$repo/actions/runs/$SEED34_RUN" > "$RUNNER_TEMP/seed34-run.json"
+          gh api "repos/$repo/actions/runs/$PACKET_RUN" > "$RUNNER_TEMP/packet-run.json"
+          gh api "repos/$repo/actions/runs/$REFINEMENT_RUN" > "$RUNNER_TEMP/refinement-run.json"
+          gh api "repos/$repo/actions/runs/$ORACLE_RUN" > "$RUNNER_TEMP/oracle-run.json"
+          gh api "repos/$repo/actions/runs/$E_RUN" > "$RUNNER_TEMP/e-run.json"
+          for spec in \
+            "$P1_ARTIFACT_ID|$P1_ARTIFACT_NAME|$P1_ARCHIVE_BYTES|$P1_ARCHIVE_DIGEST|$P1_RUN|$P1_HEAD" \
+            "$TASK554_PREP_ID|$TASK554_PREP_NAME|$TASK554_PREP_BYTES|$TASK554_PREP_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B0_ID|$TASK554_B0_NAME|$TASK554_B0_BYTES|$TASK554_B0_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B1_ID|$TASK554_B1_NAME|$TASK554_B1_BYTES|$TASK554_B1_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B2_ID|$TASK554_B2_NAME|$TASK554_B2_BYTES|$TASK554_B2_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B3_ID|$TASK554_B3_NAME|$TASK554_B3_BYTES|$TASK554_B3_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK712_ARTIFACT_ID|$TASK712_ARTIFACT_NAME|$TASK712_ARCHIVE_BYTES|$TASK712_ARCHIVE_DIGEST|$TASK712_RUN|$TASK712_HEAD" \
+            "$SEPARATOR_ARTIFACT_ID|$SEPARATOR_ARTIFACT_NAME|$SEPARATOR_ARCHIVE_BYTES|$SEPARATOR_ARCHIVE_DIGEST|$SEPARATOR_RUN|$SEPARATOR_HEAD" \
+            "$DELTA_ARTIFACT_ID|$DELTA_ARTIFACT_NAME|$DELTA_ARCHIVE_BYTES|$DELTA_ARCHIVE_DIGEST|$DELTA_RUN|$DELTA_HEAD" \
+            "$SEED34_ARTIFACT_ID|$SEED34_ARTIFACT_NAME|$SEED34_ARCHIVE_BYTES|$SEED34_ARCHIVE_DIGEST|$SEED34_RUN|$SEED34_HEAD" \
+            "$PACKET_ARTIFACT_ID|$PACKET_ARTIFACT_NAME|$PACKET_ARCHIVE_BYTES|$PACKET_ARCHIVE_DIGEST|$PACKET_RUN|$PACKET_HEAD" \
+            "$REFINEMENT_ARTIFACT_ID|$REFINEMENT_ARTIFACT_NAME|$REFINEMENT_ARCHIVE_BYTES|$REFINEMENT_ARCHIVE_DIGEST|$REFINEMENT_RUN|$REFINEMENT_HEAD" \
+            "$ORACLE_ARTIFACT_ID|$ORACLE_ARTIFACT_NAME|$ORACLE_ARCHIVE_BYTES|$ORACLE_ARCHIVE_DIGEST|$ORACLE_RUN|$ORACLE_HEAD" \
+            "$E_ARTIFACT_ID|$E_ARTIFACT_NAME|$E_ARCHIVE_BYTES|$E_ARCHIVE_DIGEST|$E_RUN|$E_HEAD"; do
+            IFS='|' read -r id name bytes digest run head <<< "$spec"
+            gh api "repos/$repo/actions/artifacts/$id" > "$RUNNER_TEMP/artifact-$id.json"
+            jq -e --argjson id "$id" --arg name "$name" --argjson bytes "$bytes" \
+              --arg digest "$digest" --argjson run "$run" --arg head "$head" \
+              --argjson repo_id "$REPOSITORY_ID" \
+              '(.id == $id and .name == $name and .size_in_bytes == $bytes and
+                .digest == $digest and .expired == false and
+                (.expires_at|type) == "string" and .expires_at != "" and
+                .workflow_run.id == $run and .workflow_run.head_sha == $head and
+                .workflow_run.repository_id == $repo_id and
+                .workflow_run.head_repository_id == $repo_id)' \
+              "$RUNNER_TEMP/artifact-$id.json" > /dev/null
+          done
+          jq -e --arg repo "$repo" --argjson id "$P1_RUN" --argjson attempt "$P1_ATTEMPT" \
+            --arg head "$P1_HEAD" --arg path "$P1_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/p1-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK554_RUN" --argjson attempt "$TASK554_ATTEMPT" \
+            --arg head "$TASK554_HEAD" --arg path "$TASK554_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "failure")' "$RUNNER_TEMP/task554-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK712_RUN" --argjson attempt "$TASK712_ATTEMPT" \
+            --arg head "$TASK712_HEAD" --arg path "$TASK712_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/task712-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$SEPARATOR_RUN" --argjson attempt "$SEPARATOR_ATTEMPT" \
+            --arg head "$SEPARATOR_HEAD" --arg path "$SEPARATOR_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/separator-run.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$DELTA_RUN" --argjson attempt "$DELTA_ATTEMPT" \
+            --arg head "$DELTA_HEAD" --arg path "$DELTA_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/delta-run.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$SEED34_RUN" --argjson attempt "$SEED34_ATTEMPT" \
+            --arg head "$SEED34_HEAD" --arg path "$SEED34_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/seed34-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$PACKET_RUN" --argjson attempt "$PACKET_ATTEMPT" \
+            --arg head "$PACKET_HEAD" --arg path "$PACKET_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/packet-run.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$REFINEMENT_RUN" --argjson attempt "$REFINEMENT_ATTEMPT" \
+            --arg head "$REFINEMENT_HEAD" --arg path "$REFINEMENT_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/refinement-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$ORACLE_RUN" --argjson attempt "$ORACLE_ATTEMPT" \
+            --arg head "$ORACLE_HEAD" --arg path "$ORACLE_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/oracle-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$E_RUN" --argjson attempt "$E_ATTEMPT" \
+            --arg head "$E_HEAD" --arg path "$E_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/e-run.json" > /dev/null
+
+      - name: Download and authenticate the observed external E archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$E_ARTIFACT_ID/zip" > "$RUNNER_TEMP/external-e.zip"
+          python -B - <<'PY'
+          import hashlib, os, stat, zipfile
+          from pathlib import Path, PurePosixPath
+          work = Path(os.environ["RUNNER_TEMP"])
+          archive = work / "external-e.zip"
+          raw = archive.read_bytes()
+          assert len(raw) == int(os.environ["E_ARCHIVE_BYTES"])
+          assert "sha256:" + hashlib.sha256(raw).hexdigest() == os.environ["E_ARCHIVE_DIGEST"]
+          root = work / "current-e"
+          root.mkdir()
+          with zipfile.ZipFile(archive) as packed:
+              names = set()
+              for entry in packed.infolist():
+                  name = PurePosixPath(entry.filename)
+                  mode = entry.external_attr >> 16
+                  assert not name.is_absolute() and name.parts and ".." not in name.parts and "\\" not in entry.filename
+                  assert ":" not in entry.filename and not stat.S_ISLNK(mode) and entry.filename not in names
+                  names.add(entry.filename)
+                  target = root.joinpath(*name.parts).resolve()
+                  assert root.resolve() in target.parents or target == root.resolve()
+              packed.extractall(root)
+          PY
+
+      - name: Download and authenticate the actual completed oracle archive
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api "repos/$GITHUB_REPOSITORY/actions/artifacts/$ORACLE_ARTIFACT_ID/zip" > "$RUNNER_TEMP/oracle.zip"
+          python -B - <<'PY'
+          import hashlib, os, stat, zipfile
+          from pathlib import Path, PurePosixPath
+          work = Path(os.environ["RUNNER_TEMP"])
+          archive = work / "oracle.zip"
+          raw = archive.read_bytes()
+          assert len(raw) == int(os.environ["ORACLE_ARCHIVE_BYTES"])
+          assert "sha256:" + hashlib.sha256(raw).hexdigest() == os.environ["ORACLE_ARCHIVE_DIGEST"]
+          root = work / "current-oracle"
+          root.mkdir()
+          with zipfile.ZipFile(archive) as packed:
+              names = set()
+              for entry in packed.infolist():
+                  name = PurePosixPath(entry.filename)
+                  mode = entry.external_attr >> 16
+                  assert not name.is_absolute() and name.parts and ".." not in name.parts and "\\" not in entry.filename
+                  assert ":" not in entry.filename and not stat.S_ISLNK(mode) and entry.filename not in names
+                  names.add(entry.filename)
+                  target = root.joinpath(*name.parts).resolve()
+                  assert root.resolve() in target.parents or target == root.resolve()
+              packed.extractall(root)
+          PY
+
+      - name: Download exact P1 cache and instruction roots
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.P1_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/p1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.P1_RUN }}
+
+      - name: Download exact Task554 prepare body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_PREP_NAME }}
+          path: ${{ runner.temp }}/task554-prepare
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 0 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B0_NAME }}
+          path: ${{ runner.temp }}/task554-block-0
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 1 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B1_NAME }}
+          path: ${{ runner.temp }}/task554-block-1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 2 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B2_NAME }}
+          path: ${{ runner.temp }}/task554-block-2
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 3 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B3_NAME }}
+          path: ${{ runner.temp }}/task554-block-3
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task712 maps
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK712_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/task712
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK712_RUN }}
+
+      - name: Download exact physical separator
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SEPARATOR_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/separator
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SEPARATOR_RUN }}
+
+      - name: Download exact rank1355 delta
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.DELTA_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rank1355-delta
+          github-token: ${{ github.token }}
+          run-id: ${{ env.DELTA_RUN }}
+
+      - name: Download exact saved rank1356 seed34 delta
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SEED34_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rank1356-seed34
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SEED34_RUN }}
+
+      - name: Download exact accepted rank1359 fixed packet prefix
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.PACKET_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rank1359-packet
+          github-token: ${{ github.token }}
+          run-id: ${{ env.PACKET_RUN }}
+
+      - name: Download exact accepted current refinement snapshot
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.REFINEMENT_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/current-refinement
+          github-token: ${{ github.token }}
+          run-id: ${{ env.REFINEMENT_RUN }}
+      - name: Authenticate executable sources and retain source receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import ast, hashlib, json, os
+          from pathlib import Path
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          expected = {
+              "search/d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["PRODUCER_BYTES"]), os.environ["PRODUCER_SHA256"]),
+              "search/check_d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["CHECKER_BYTES"]), os.environ["CHECKER_SHA256"]),
+              "search/check_d972_r07_section_cochain_oracle_v2.py": (84402, "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"),
+              "search/d972_r07_selected_cycle_materializer_v1.py": (88929, "4f600aae93bf5749d15229cfdfe3e4546267f8b0a642ac46b65125a3c3164ac3"),
+              "search/check_d972_r07_selected_cycle_materializer_v1.py": (103757, "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"),
+              "search/d972_r07_section_cochain_oracle_v1.py": (73290, "4e7546eb1e8511b636527ffc0bc4c5eabf3c1bf60b32a5ae4f2a12fe975f44bb"),
+              "search/check_d972_r07_section_cochain_oracle_v1.py": (80740, "2db166400dd819805f36b613993d4622e8365f04339ca7aef0371a28de71c967"),
+              "search/d972_r07_full_origin_refinement_v1.py": (97806, "d7e32aad9a9667c6af54ed7514d0417e48b3e363c60652ab585ce4633f2aedfa"),
+              "search/check_d972_r07_full_origin_refinement_v1.py": (75083, "1ee388c9cd39a43992bc9a6e075b087da3ae1672221a197719ea435d7d3529c2"),
+              "search/d972_r07_fixed_root_packet_loop_v2.py": (84173, "e040c7b3cf5f96fe33c0e36a00ba8dd887784e0f5a1e6fa036d407c0ceba65e6"),
+              "search/check_d972_r07_fixed_root_packet_loop_v2.py": (66251, "5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5"),
+              "search/d972_r07_actual_root_seed_materializer_v3.py": (86643, "36cc620bdc1b772a4eb4067f7e5b490dab851fb41213c5cd8a5487855207a332"),
+              "search/check_d972_r07_actual_root_seed_materializer_v3.py": (64626, "eca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701"),
+              "search/d972_r07_rank1355_root_seed_scalars_v1.py": (31578, "973ccd1d5d0f8fa5a28294589ff655620745f0cc988c09abe8a6178593e185bb"),
+              "search/check_d972_r07_rank1355_root_seed_scalars_v1.py": (36236, "f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62"),
+              "search/d972_r07_actual_grade2_root_scalar_batch_v2.py": (118315, "3c93c50c43020472d616b5c253ea3c6fac6fa34d9d0e41b5a10686da30b7a856"),
+              "search/check_d972_r07_actual_grade2_root_scalar_batch_v2.py": (119619, "e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6"),
+              "search/d972_r07_targeted_grade2_owner_generated_join_v15.py": (126565, "76546bef263ad260f24632c0da46cfb913ee48759e0533d591c507d072037632"),
+              "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py": (141770, "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"),
+          }
+          receipts = []
+          for name, (size, wanted) in expected.items():
+              assert not Path(name).is_symlink(), name
+              data = Path(name).read_bytes()
+              assert len(data) == size and hashlib.sha256(data).hexdigest() == wanted, name
+              assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n"), name
+              ast.parse(data, filename=name)
+              receipts.append({"file": name, "bytes": size, "sha256": wanted, "lf": data.count(b"\n")})
+          data_pins = {
+              "scratchpad/fuda1_a0_rmax_data.g": {"bytes": 4709,
+                  "sha256": "625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba"},
+              "scratchpad/a0_paper_words_v1.json": {"bytes": 115928,
+                  "sha256": "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"},
+              "scratchpad/a0_v2_words.json": {"bytes": 106133,
+                  "sha256": "fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612"}}
+          for name, identity in data_pins.items():
+              item = Path(name)
+              data = item.read_bytes()
+              assert not item.is_symlink() and len(data) == identity["bytes"] and hashlib.sha256(data).hexdigest() == identity["sha256"], name
+          roster = json.loads(Path("scratchpad/a0_v2_words.json").read_bytes())["raw_q0_relators"]
+          assert len(roster) == 19 and hashlib.sha256(json.dumps(roster, sort_keys=True, separators=(",", ":")).encode("ascii")).hexdigest() == "dcb8ce42c8324b0ce2a5018007f3d664da5568ee73182758a9f358deba84bc2a"
+          work = Path(os.environ["RUNNER_TEMP"])
+          (work / "source-receipt.json").write_bytes(canonical({
+              "schema": "d972.r07.complete-oracle-cegar-continuation.v1.source-receipt",
+              "files": receipts, "data": data_pins, "verified": False, "cross_checked": False}))
+          PY
+
+      - name: Resolve fourteen parent roots and preserve both immediate parents
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import ast, hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"]).resolve()
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def find(base_name, required):
+              base = work / base_name
+              matches = []
+              for root in [base, *sorted(p for p in base.rglob("*") if p.is_dir())]:
+                  assert not root.is_symlink() and (root == base or base in root.resolve().parents)
+                  if all((root / name).is_file() for name in required):
+                      for name in required:
+                          cursor = root
+                          for part in Path(name).parts:
+                              cursor = cursor / part
+                              assert not cursor.is_symlink()
+                      matches.append(root.resolve())
+              assert len(matches) == 1, (base_name, matches)
+              return str(matches[0])
+          paths = {
+              "E_ROOT": find("current-e", ["output/HEAD", "output/manifest.json", "checker-result.json", "source-receipt.json", "run-receipt.json"]),
+              "ORACLE_ROOT": find("current-oracle", ["output/manifest.json", "output/tree/witness.json", "checker-result.json", "source-receipt.json", "repair-source-receipt.json", "completion-run-receipt.json"]),
+              "REFINEMENT_ROOT": find("current-refinement", ["output/HEAD", "output/start.json", "output/canonical-index.json", "checker-result.json", "source-receipt.json"]),
+              "PACKET_ROOT": find("rank1359-packet", ["output/HEAD", "output/start.json", "checker-result.json", "source-receipt.json"]),
+              "SEED34_ROOT": find("rank1356-seed34", ["output/manifest.json", "checker-result.json", "source-receipt.json"]),
+              "DELTA_ROOT": find("rank1355-delta", ["output/manifest.json", "checker-result.json", "source-receipt.json"]),
+              "PREPARE_ROOT": find("task554-prepare", ["prepare.HEAD"]),
+              "P1_ROOT": find("p1", ["manifest.json", "instructions.jsonl", "degree2.cache.bin"]),
+              "TASK712_ROOT": find("task712", ["r07-grade2-maps-v4-receipt.json", "r07-grade2-maps-v4-checker.json"]),
+              "STATE_ROOT": find("separator", ["state/manifest.json", "state/physical.bin"])}
+          for index in range(4):
+              paths["BLOCK_" + str(index) + "_ROOT"] = find("task554-block-" + str(index), ["block-" + str(index) + ".HEAD"])
+          assert len(paths) == 14
+          with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+              for key, value in paths.items():
+                  assert "\n" not in value and "\r" not in value
+                  stream.write(key + "=" + value + "\n")
+          (work / "parent-paths.json").write_bytes(canonical(paths))
+          def literal_pin_table(source, name):
+              tree = ast.parse(Path(source).read_bytes())
+              matches = [node.value for node in tree.body if isinstance(node, ast.AnnAssign) and
+                         isinstance(node.target, ast.Name) and node.target.id == name]
+              if not matches:
+                  matches = [node.value for node in tree.body if isinstance(node, ast.Assign) and
+                             any(isinstance(target, ast.Name) and target.id == name for target in node.targets)]
+              assert len(matches) == 1
+              return ast.literal_eval(matches[0])
+          oracle_pins = literal_pin_table("search/check_d972_r07_selected_cycle_materializer_v1.py", "ORACLE_FILES")
+          e_pins = literal_pin_table("search/check_d972_r07_complete_oracle_cegar_continuation_v1.py", "E_FILES")
+          assert len(oracle_pins) == len(e_pins) == 10
+          parents = []
+          for label, pins, count, byte_count, expected_dirs in (
+              ("ORACLE", oracle_pins, 44, 5361492, ["cochain", "geometry", "section", "tree"]),
+              ("E", e_pins, 29, 8731365, [])):
+              root = Path(paths[label + "_ROOT"])
+              for name, (size, digest) in pins.items():
+                  data = (root / name).read_bytes()
+                  assert len(data) == size and hashlib.sha256(data).hexdigest() == digest, name
+              output = root / "output"
+              files, directories = [], []
+              for item in sorted(output.rglob("*")):
+                  assert not item.is_symlink()
+                  if item.is_dir():
+                      directories.append(item.relative_to(output).as_posix())
+                  else:
+                      data = item.read_bytes()
+                      files.append({"file": item.relative_to(output).as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+              assert len(files) == count and directories == expected_dirs and sum(item["bytes"] for item in files) == byte_count
+              artifact = {"run": int(os.environ[label + "_RUN"]), "attempt": int(os.environ[label + "_ATTEMPT"]),
+                  "head": os.environ[label + "_HEAD"], "id": int(os.environ[label + "_ARTIFACT_ID"]),
+                  "name": os.environ[label + "_ARTIFACT_NAME"], "bytes": int(os.environ[label + "_ARCHIVE_BYTES"]),
+                  "sha256": os.environ[label + "_ARCHIVE_DIGEST"]}
+              parents.append({"role": label.lower(), "artifact": artifact,
+                  "entry_files": [{"file": name, "bytes": pin[0], "sha256": pin[1]} for name, pin in sorted(pins.items())],
+                  "output_files": files, "output_directories": directories})
+          oracle = Path(paths["ORACLE_ROOT"])
+          external = Path(paths["E_ROOT"])
+          old = json.loads((oracle / "source-receipt.json").read_bytes())
+          repair = json.loads((oracle / "repair-source-receipt.json").read_bytes())
+          e_source = json.loads((external / "source-receipt.json").read_bytes())
+          current = json.loads((work / "source-receipt.json").read_bytes())
+          assert len(current["files"]) == 19 and current["files"][3:] == e_source["files"]
+          assert current["files"][5:] == old["files"] == repair["files"][:14]
+          assert current["files"][2] == repair["files"][-1]
+          assert current["data"] == e_source["data"] and all(current["data"][key] == value for key, value in old["data"].items())
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-continuation.v1.parent-intake", "status": "PASS",
+              "parents": parents, "executable_count": 19, "new_executables": 2,
+              "new_v2_checker_import": True, "old_success_suites": 0, "verified": False, "cross_checked": False}
+          (work / "parent-intake-receipt.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Run the frozen oracle checker v2 full selftest exactly once
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=30s 10m python -B search/check_d972_r07_section_cochain_oracle_v2.py \
+            --selftest --max-seconds 540 > "$RUNNER_TEMP/oracle-v2-full-selftest.json" 2> "$RUNNER_TEMP/oracle-v2-full-selftest.log"
+          jq -e '(.schema == "d972.r07.section-cochain-oracle.v1.selftest" and .status == "PASS" and
+            (.tests|length) == 4 and all(.tests[]; .status == "PASS") and
+            .verified == false and .cross_checked == false)' "$RUNNER_TEMP/oracle-v2-full-selftest.json" > /dev/null
+
+      - name: Check only the five new external E metadata refusals on both paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT")
+          timeout --kill-after=30s 5m python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+            --parent-layout-selftest --max-seconds 240 "${parents[@]}" \
+            > "$RUNNER_TEMP/producer-parent-layout.json" 2> "$RUNNER_TEMP/producer-parent-layout.log"
+          timeout --kill-after=30s 5m python -B search/check_d972_r07_complete_oracle_cegar_continuation_v1.py \
+            --parent-layout-selftest --max-seconds 240 "${parents[@]}" \
+            > "$RUNNER_TEMP/checker-parent-layout.json" 2> "$RUNNER_TEMP/checker-parent-layout.log"
+          python -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          p = json.loads((work / "producer-parent-layout.json").read_bytes())
+          c = json.loads((work / "checker-parent-layout.json").read_bytes())
+          names = ["external-e-kind", "external-e-checker-incomplete", "external-e-target-parent",
+                   "external-e-ordinary-rho2-claim", "external-e-current-head"]
+          for result in (p, c):
+              assert result["schema"] == "d972.r07.complete-oracle-cegar-continuation.v1.parent-layout-selftest"
+              assert result["status"] == "PASS" and result["metadata_only"] is True
+              assert result["rejected_cases"] == names and result["old_success_suites"] == 0
+              assert result["cross_checked"] is False and result["verified"] is False
+          for name in ("accepted_oracle_layout", "accepted_external_e_layout"):
+              assert p[name] == c[name], name
+          PY
+
+      - name: Run the three new continuation interface groups on each path
+        shell: bash
+        run: |
+          set -euo pipefail
+          timeout --kill-after=30s 5m python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+            --selftest --max-seconds 240 > "$RUNNER_TEMP/producer-selftest.json" 2> "$RUNNER_TEMP/producer-selftest.log"
+          timeout --kill-after=30s 5m python -B search/check_d972_r07_complete_oracle_cegar_continuation_v1.py \
+            --selftest --max-seconds 240 > "$RUNNER_TEMP/checker-selftest.json" 2> "$RUNNER_TEMP/checker-selftest.log"
+          jq -e '(.schema == "d972.r07.complete-oracle-cegar-continuation.v1.selftest" and .status == "PASS" and
+            (.groups|length) == 3 and all(.groups[]; .status == "PASS") and .old_success_suites == 0 and
+            .cross_checked == false and .verified == false)' "$RUNNER_TEMP/producer-selftest.json" > /dev/null
+          jq -e '(.schema == "d972.r07.complete-oracle-cegar-continuation.v1.selftest" and .status == "PASS" and
+            (.tests|length) == 3 and all(.tests[]; .status == "PASS") and .old_success_suites == 0 and
+            .cross_checked == false and .verified == false)' "$RUNNER_TEMP/checker-selftest.json" > /dev/null
+
+      - name: Run the first absolute cap one continuation
+        shell: bash
+        run: |
+          set -euo pipefail
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          set +e
+          timeout --kill-after=60s "${FIRST_CAP_MINUTES}m" python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+            "${parents[@]}" --output "$RUNNER_TEMP/output" --max-appends 1 --max-seconds 1800 \
+            > "$RUNNER_TEMP/producer-first-result.json" 2> "$RUNNER_TEMP/producer-first.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$RUNNER_TEMP/producer-first-exit-code.txt"
+          test "$code" = 0
+          python -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          output = work / "output"
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          raw = (output / "result.json").read_bytes()
+          assert raw == (work / "producer-first-result.json").read_bytes()
+          result = json.loads(raw)
+          head = json.loads((output / "HEAD").read_bytes())
+          assert result["schema"] == "d972.r07.complete-oracle-cegar-continuation.v1.result"
+          assert result["terminal"] in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE", "COMPLETE_ZERO_CANDIDATE", "LINEAR_MEMBERSHIP_CANDIDATE")
+          assert 0 <= result["completed_steps"] == head["completed_steps"] <= 1
+          assert result["max_appends_this_invocation"] == 1 and result["max_seconds_this_invocation"] == 1800
+          assert result["head_sha256"] == hashlib.sha256((output / "HEAD").read_bytes()).hexdigest()
+          assert result["cross_checked"] is False and result["verified"] is False
+          files, directories = [], []
+          volatile = {"HEAD", "result.json", "resource-stop.json", "rejected.json"}
+          for item in sorted(output.rglob("*")):
+              assert not item.is_symlink()
+              relative = item.relative_to(output)
+              if any(part.startswith(".pending-") or ".pending-" in part for part in relative.parts):
+                  continue
+              if item.is_dir():
+                  directories.append(relative.as_posix())
+              elif relative.as_posix() not in volatile:
+                  data = item.read_bytes()
+                  files.append({"file": relative.as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+          (work / "producer-first-HEAD.json").write_bytes((output / "HEAD").read_bytes())
+          (work / "first-prefix-preservation.json").write_bytes(canonical({"schema": "d972.r07.complete-oracle-cegar-continuation.v1.first-prefix-preservation",
+              "files": files, "directories": directories, "head": head, "result_sha256": hashlib.sha256(raw).hexdigest(),
+              "verified": False, "cross_checked": False}))
+          PY
+
+      - name: Resume the same owner and output to absolute cap thirty two
+        shell: bash
+        run: |
+          set -euo pipefail
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          terminal=$(jq -r '.terminal' "$RUNNER_TEMP/producer-first-result.json")
+          kind=$(jq -r '.kind' "$RUNNER_TEMP/producer-first-result.json")
+          if [ "$kind" = "Separator" ] && [ "$terminal" != "COMPLETE_ZERO_CANDIDATE" ]; then
+            set +e
+            timeout --kill-after=60s "${RESUME_CAP_MINUTES}m" python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+              "${parents[@]}" --output "$RUNNER_TEMP/output" --resume --max-appends 32 --max-seconds 5400 \
+              > "$RUNNER_TEMP/producer-resume-result.json" 2> "$RUNNER_TEMP/producer-resume.log"
+            code=$?
+            set -e
+            printf '%s\n' "$code" > "$RUNNER_TEMP/producer-resume-exit-code.txt"
+            test "$code" = 0
+            cp "$RUNNER_TEMP/producer-resume-result.json" "$RUNNER_TEMP/producer-result.json"
+          else
+            printf '%s\n' 'terminal-after-first-invocation' > "$RUNNER_TEMP/resume-skipped.txt"
+            cp "$RUNNER_TEMP/producer-first-result.json" "$RUNNER_TEMP/producer-result.json"
+          fi
+          python -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          output = work / "output"
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          first = json.loads((work / "first-prefix-preservation.json").read_bytes())
+          for record in first["files"]:
+              data = (output / record["file"]).read_bytes()
+              assert len(data) == record["bytes"] and hashlib.sha256(data).hexdigest() == record["sha256"], record["file"]
+          assert all((output / name).is_dir() for name in first["directories"])
+          raw = (output / "result.json").read_bytes()
+          assert raw == (work / "producer-result.json").read_bytes()
+          result = json.loads(raw)
+          head_raw = (output / "HEAD").read_bytes()
+          head = json.loads(head_raw)
+          assert first["head"]["completed_steps"] <= result["completed_steps"] == head["completed_steps"] <= 32
+          assert result["head_sha256"] == hashlib.sha256(head_raw).hexdigest()
+          for name in ("owner_sha256", "source_sha256", "start_sha256", "fixed_manifest_sha256"):
+              assert head[name] == first["head"][name], name
+          assert result["terminal"] in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE", "COMPLETE_ZERO_CANDIDATE", "LINEAR_MEMBERSHIP_CANDIDATE")
+          assert result["external_e_attached"] == 1 and result["external_e_numerically_replayed"] is False
+          assert result["new_physical_appends"] == result["completed_steps"]
+          start = json.loads((output / "start.json").read_bytes())
+          assert start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0
+          assert result["rank"] == start["rank"] + result["completed_steps"]
+          assert result["generation"] == start["generation"] + result["completed_steps"]
+          invocations = [json.loads(item.read_bytes()) for item in (output / "invocations").glob("*.json") if not item.name.startswith(".")]
+          selected = [item for item in invocations if hashlib.sha256(canonical(item)).hexdigest() == result["invocation_sha256"]]
+          assert len(selected) == 1
+          resumed = (work / "producer-resume-result.json").exists()
+          assert selected[0]["resume"] is resumed
+          if resumed:
+              assert selected[0]["head_before_sha256"] == hashlib.sha256((work / "producer-first-HEAD.json").read_bytes()).hexdigest()
+              assert selected[0]["completed_steps_before"] == first["head"]["completed_steps"]
+              assert selected[0]["max_appends"] == result["max_appends_this_invocation"] == 32
+              assert selected[0]["max_seconds"] == result["max_seconds_this_invocation"] == 5400
+          files, directories = [], []
+          for item in sorted(output.rglob("*")):
+              assert not item.is_symlink()
+              if item.is_dir():
+                  directories.append(item.relative_to(output).as_posix())
+              else:
+                  data = item.read_bytes()
+                  files.append({"file": item.relative_to(output).as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-continuation.v1.producer-output-before-checker",
+              "files": files, "directories": directories, "resumed": resumed, "first_completed_steps": first["head"]["completed_steps"],
+              "completed_steps": head["completed_steps"], "head_sha256": hashlib.sha256(head_raw).hexdigest(),
+              "first_prefix_unchanged": True, "candidate": True, "cross_checked": False, "verified": False}
+          (work / "producer-output-before-checker.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Independently replay every new snapshot step and current checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          set +e
+          timeout --kill-after=60s "${CHECKER_CAP_MINUTES}m" python -B search/check_d972_r07_complete_oracle_cegar_continuation_v1.py \
+            "${parents[@]}" --candidate-root "$RUNNER_TEMP/output" --output "$RUNNER_TEMP/checker-result.json" --max-seconds 10800 \
+            > "$RUNNER_TEMP/checker-stdout.json" 2> "$RUNNER_TEMP/checker.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$RUNNER_TEMP/checker-exit-code.txt"
+          test "$code" = 0
+          cmp "$RUNNER_TEMP/checker-stdout.json" "$RUNNER_TEMP/checker-result.json"
+          jq -e '(.schema == "d972.r07.complete-oracle-cegar-continuation.v1.checker-result" and .status == "PASS" and
+            .all_new_committed_arrays_and_json_compared == true and .current_checkpoint_fully_compared == true and
+            .prefix_steps_replayed == .completed_steps and .physical_appends == .completed_steps and
+            .full_four_character_scope == true and .section_equalities_each == 8059 and .chords_each == 54433 and
+            .auxiliary_tests_each == 2 and .ordinary27_actual_source == true and .source_lower_trits_each_E == 96776 and
+            .literal_modulus == 54 and .all_four_B_summed_each_E == true and .external_e_attached == 1 and
+            .external_e_numerically_replayed == false and .old_scans_numerically_replayed == 0 and
+            .old_inserts_numerically_replayed == 0 and .old_success_suites == 0 and
+            .grade2_member == "NOT_DECIDED" and .grade2_nonmember == "NOT_DECIDED" and
+            .full_A0 == false and .whole_normalized_word_replay == false and .eleven_slot_replay == false and
+            .verified == false and .cross_checked == false)' "$RUNNER_TEMP/checker-result.json" > /dev/null
+
+      - name: Preserve producer output and confirm source and immediate parent immutability
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def scan(root):
+              files, directories = [], []
+              if root.exists():
+                  for item in sorted(root.rglob("*")):
+                      assert not item.is_symlink()
+                      if item.is_dir():
+                          directories.append(item.relative_to(root).as_posix())
+                      else:
+                          data = item.read_bytes()
+                          files.append({"file": item.relative_to(root).as_posix(), "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest()})
+              return files, directories
+          source_checked = parent_checked = output_checked = False
+          if (work / "source-receipt.json").exists():
+              source = json.loads((work / "source-receipt.json").read_bytes())
+              assert len(source["files"]) == 19
+              for record in source["files"]:
+                  item = Path(record["file"])
+                  data = item.read_bytes()
+                  assert not item.is_symlink() and len(data) == record["bytes"] and hashlib.sha256(data).hexdigest() == record["sha256"], record["file"]
+              for name, record in source["data"].items():
+                  data = Path(name).read_bytes()
+                  assert not Path(name).is_symlink() and len(data) == record["bytes"] and hashlib.sha256(data).hexdigest() == record["sha256"], name
+              source_checked = True
+          if (work / "parent-intake-receipt.json").exists():
+              paths = json.loads((work / "parent-paths.json").read_bytes())
+              intake = json.loads((work / "parent-intake-receipt.json").read_bytes())
+              for parent in intake["parents"]:
+                  root = Path(paths[parent["role"].upper() + "_ROOT"])
+                  for record in parent["entry_files"]:
+                      data = (root / record["file"]).read_bytes()
+                      assert len(data) == record["bytes"] and hashlib.sha256(data).hexdigest() == record["sha256"], record["file"]
+                  files, directories = scan(root / "output")
+                  assert files == parent["output_files"] and directories == parent["output_directories"], parent["role"]
+              parent_checked = True
+          files, directories = scan(work / "output")
+          if (work / "producer-output-before-checker.json").exists():
+              before = json.loads((work / "producer-output-before-checker.json").read_bytes())
+              assert files == before["files"] and directories == before["directories"]
+              output_checked = True
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-continuation.v1.preservation", "status": "PASS",
+              "source_checked_unchanged": source_checked, "immediate_parents_checked_unchanged": parent_checked,
+              "producer_output_checked_unchanged": output_checked, "files": files, "directories": directories,
+              "output_bytes": sum(item["bytes"] for item in files), "checker_status_is_separate": True,
+              "candidate": False, "cross_checked": False, "verified": False}
+          (work / "preservation-result.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Record the actual bounded continuation and its independent prefix receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, sys
+          from pathlib import Path
+          import numpy as np
+          work = Path(os.environ["RUNNER_TEMP"])
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def read(name):
+              return json.loads((work / name).read_bytes())
+          def digest(name):
+              return hashlib.sha256((work / name).read_bytes()).hexdigest()
+          checked, produced = read("checker-result.json"), read("producer-result.json")
+          head, start = read("output/HEAD"), read("output/start.json")
+          source, preservation = read("source-receipt.json"), read("preservation-result.json")
+          before, first = read("producer-output-before-checker.json"), read("producer-first-result.json")
+          assert checked["status"] == "PASS" and checked["prefix_steps_replayed"] == checked["completed_steps"]
+          for field in ("completed_steps", "rank", "generation", "kind", "state_head", "target_remainder_sha256", "lambda_sha256"):
+              assert checked[field] == produced[field] == head[field], field
+          assert checked["terminal"] == produced["terminal"]
+          assert checked["head_sha256"] == produced["head_sha256"] == digest("output/HEAD")
+          assert checked["result_sha256"] == digest("output/result.json") == digest("producer-result.json")
+          assert checked["checker_sha256"] == os.environ["CHECKER_SHA256"]
+          assert checked["oracle_checker_v2_sha256"] == "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"
+          assert checked["retained_E_checker_sha256"] == "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"
+          assert checked["rank"] == start["rank"] + checked["completed_steps"] and start["rank"] == 1386
+          assert checked["generation"] == start["generation"] + checked["completed_steps"] and start["generation"] == 8091
+          for field in ("source_checked_unchanged", "immediate_parents_checked_unchanged", "producer_output_checked_unchanged"):
+              assert preservation[field] is True, field
+          v2 = read("oracle-v2-full-selftest.json")
+          assert v2["status"] == "PASS" and len(v2["tests"]) == 4 and all(item["status"] == "PASS" for item in v2["tests"])
+          assert len(read("producer-selftest.json")["groups"]) == len(read("checker-selftest.json")["tests"]) == 3
+          assert len(read("producer-parent-layout.json")["rejected_cases"]) == len(read("checker-parent-layout.json")["rejected_cases"]) == 5
+          if produced["terminal"] == "LINEAR_MEMBERSHIP_CANDIDATE":
+              assert produced["positive_readout"] == "TASK958_PENDING" and produced["lambda_sha256"] is None
+          if produced["terminal"] == "COMPLETE_ZERO_CANDIDATE":
+              assert checked["current_oracle_terminal"] == "COMPLETE_ZERO_CANDIDATE"
+          workflow = Path(".github/workflows/d972-r07-complete-oracle-cegar-continuation-v1.yml")
+          raw = workflow.read_bytes()
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-continuation.v1.run-receipt", "status": "PASS",
+              "launch": {"run": int(os.environ["GITHUB_RUN_ID"]), "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]), "head": os.environ["GITHUB_SHA"]},
+              "workflow": {"file": str(workflow), "bytes": len(raw), "sha256": hashlib.sha256(raw).hexdigest()},
+              "source_receipt_sha256": digest("source-receipt.json"), "parent_intake_sha256": digest("parent-intake-receipt.json"),
+              "preservation_sha256": digest("preservation-result.json"), "checker_result_sha256": digest("checker-result.json"),
+              "producer_result_sha256": digest("output/result.json"), "head_sha256": digest("output/HEAD"),
+              "terminal": produced["terminal"], "completed_steps": produced["completed_steps"], "rank": produced["rank"],
+              "generation": produced["generation"], "state_head": produced["state_head"], "actual_parent_artifacts": 14,
+              "first_max_appends": 1, "resume_max_appends": 32, "first_internal_seconds": 1800, "first_outer_minutes": 40,
+              "resume_internal_seconds": 5400, "resume_outer_minutes": 100, "checker_internal_seconds": 10800, "checker_outer_minutes": 190,
+              "job_minutes": 350, "producer_invocations": 2 if before["resumed"] else 1, "actual_resume": before["resumed"],
+              "first_completed_steps": first["completed_steps"], "first_prefix_unchanged": before["first_prefix_unchanged"],
+              "checker_invocations": 1, "oracle_v2_full_selftest_invocations": 1, "oracle_v2_full_selftest_groups": 4,
+              "oracle_v2_full_selftest_sha256": digest("oracle-v2-full-selftest.json"), "new_interface_groups_each": 3,
+              "new_metadata_refusal_cases_each": 5, "old_success_suites": 0, "old_complete_oracle_production_invocations": 0,
+              "external_e_numerically_replayed": False, "source_executables": len(source["files"]), "raw_data_files": len(source["data"]),
+              "python": sys.version, "numpy": np.__version__, "candidate": True, "cross_checked": False, "verified": False}
+          (work / "run-receipt.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Upload candidate only after complete independent new prefix PASS
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-continuation-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          path: |
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/producer-result.json
+            ${{ runner.temp }}/producer-first-result.json
+            ${{ runner.temp }}/producer-first-HEAD.json
+            ${{ runner.temp }}/producer-resume-result.json
+            ${{ runner.temp }}/first-prefix-preservation.json
+            ${{ runner.temp }}/producer-output-before-checker.json
+            ${{ runner.temp }}/source-receipt.json
+            ${{ runner.temp }}/parent-intake-receipt.json
+            ${{ runner.temp }}/preservation-result.json
+            ${{ runner.temp }}/run-receipt.json
+            ${{ runner.temp }}/producer-parent-layout.json
+            ${{ runner.temp }}/checker-parent-layout.json
+            ${{ runner.temp }}/producer-selftest.json
+            ${{ runner.temp }}/checker-selftest.json
+            ${{ runner.temp }}/oracle-v2-full-selftest.json
+
+      - name: Always retain complete producer output and diagnostic receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-continuation-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          path: |
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/checker-stdout.json
+            ${{ runner.temp }}/checker.log
+            ${{ runner.temp }}/checker-exit-code.txt
+            ${{ runner.temp }}/producer-result.json
+            ${{ runner.temp }}/producer-first-result.json
+            ${{ runner.temp }}/producer-first-HEAD.json
+            ${{ runner.temp }}/producer-first.log
+            ${{ runner.temp }}/producer-first-exit-code.txt
+            ${{ runner.temp }}/producer-resume-result.json
+            ${{ runner.temp }}/producer-resume.log
+            ${{ runner.temp }}/producer-resume-exit-code.txt
+            ${{ runner.temp }}/resume-skipped.txt
+            ${{ runner.temp }}/first-prefix-preservation.json
+            ${{ runner.temp }}/producer-output-before-checker.json
+            ${{ runner.temp }}/source-receipt.json
+            ${{ runner.temp }}/parent-intake-receipt.json
+            ${{ runner.temp }}/preservation-result.json
+            ${{ runner.temp }}/run-receipt.json
+            ${{ runner.temp }}/producer-parent-layout.json
+            ${{ runner.temp }}/producer-parent-layout.log
+            ${{ runner.temp }}/checker-parent-layout.json
+            ${{ runner.temp }}/checker-parent-layout.log
+            ${{ runner.temp }}/producer-selftest.json
+            ${{ runner.temp }}/producer-selftest.log
+            ${{ runner.temp }}/checker-selftest.json
+            ${{ runner.temp }}/checker-selftest.log
+            ${{ runner.temp }}/oracle-v2-full-selftest.json
+            ${{ runner.temp }}/oracle-v2-full-selftest.log
+            ${{ runner.temp }}/parent-paths.json
+            ${{ runner.temp }}/*-run.json
+            ${{ runner.temp }}/artifact-*.json

@@ -22788,3 +22788,115 @@ Delta567直前補記のcanary記述を訂正: relators[2]の負冪という記�
 最終a6d52e0d…の1322行以降では実normalizerを使うrxの非零augmentation2、rx³/ry³/commの
 全Fox零、rx^-9の全source/六tagと短い非可換負冪へ接続済み。rootが最終blockを再読した。
 reply966/967の範囲記述はこの最終sourceと一致する。新数値PASSはなおGHA未実走で未観測。
+
+### Delta 568 (2026-09-06): E GHA33981657987/1を一度起動、完全oracle＋E継続器へ分業
+
+**個別進捗**:
+
+- 全14 exact pathsをcommit444c71c9e554ae8feb9c8ee54df57d3df19ed66f（4652挿入/2削除）へ
+  記録、作業branchへ非force push一度、remote SHA一致。raw辞書の実登録を含む。
+  新source/workflow/既存reply965–967/rawはcommit後clean。追加dispatchなし。
+- run33981657987/1、job101347845602、created17:39:47Z/start17:39:50Z。
+  17:40:31Zにはsetup/13親live認証とoracle/P1/Task554 downloadがsuccess、処理中。
+  新AST/canary/E/全checker結果は未観測。URLと全根拠は返信163 F8.29。
+- 完了966/967担当を新Task972/973の継続器checker/GHA/監査へ切替。971の先行ABIと
+  PhaseStore/checkpointをroot読了。新agentやローカル数値実行はなく、root sole brokerを維持。
+
+**v220 内進捗**:
+
+- **CLOSED**: E両source/workflow/正式報告のfreeze・raw入力欠品のgit登録・一度の実GHA起動。
+- **ADVANCED**: 一つのraw証人→全P1/四B/物理行の実測と独立照合、動的継続器の三担当実装/監査。
+- **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131/2138限定、`verified=false`。
+
+### Delta 569 (2026-09-06): 一つのEがGHA成功、rank1386/gen8091候補と全29出力を回収
+
+**個別進捗**:
+
+- run33981657987/1 SUCCESS、head444c71c9e554ae8feb9c8ee54df57d3df19ed66f。
+  新AST/実親/両20変異/両三群success、producer69秒/checker82秒、入力/source不変とupload成功。
+  candidate9973974150（2816692 bytes / 884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25）
+  をroot回収し、ZIP全bytes/38安全entry/output29 files8731365 bytesと27payload全hashを照合。
+  十entry/全source/runtime/run pin、全GHA時刻と再現参照は返信163 F8.30に記録。
+- 実結果はPIVOT_CANDIDATE/Separator、rank1385→1386/gen8090→8091、lead1457/scale1、
+  selected1/target1。新lambdaは全1386行に零、旧新targetに各1、rho2 DERIVED。
+  raw3338字で実epsilon/omega零、Q0/Q2/六tag/Fox/EOF一致、全8059 mod54/P1に結ぶ
+  alpha support5335、補正全96776 lower零、全四B合算と全JSON/array/EOF比較PASS。
+- producer実stage秒 raw .094984/source .189591/primal36.660734/P1 8.202585/B .063022/
+  physical1.029638。payload bytesは入力I/Oでなく、一件から残iteration/時間/Γ速度を推測しない。
+  y/central修理指数0、aux零、normalized/target全語と11slot未replayを保持。
+- 工房へ新E CV9依頼。新rank1386はchecker PASS候補、2131受理済みrank1385と区別。
+  971/972/973へ実親十entry pin表/回収rootを渡した。次cap1→sameoutput resume cap32、
+  内1800/5400/10800秒・外40/100/190分・job350分を登録。次実v2 full selftest一回。
+
+**v220 内進捗**:
+
+- **CLOSED**: 一つの完全oracle witnessのraw語→P1/四B/物理追加→独立全出力比較の実GHA、回収。
+- **ADVANCED**: 新候補rank1386/gen8091（target非零）、増分CV9、実親からの動的継続器実装/監査。
+- **UNCHANGED**: 工房受理済み親rank1385/gen8090（新E CV9待ち）、grade2 NOT_DECIDED、
+  A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、
+  compact A5、full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131/2138限定、`verified=false`。
+
+### Delta 570 — 継続器の保存・再開と全9phaseの独立比較を静的監査（2026-09-06 JST）
+
+- 工房2141–2142を全文確認。Eのcandidate/diagnosticはReleaseへ保存済み、CV9は判読中。
+  971–973の継続を並行して進める。rank1386は依然checker PASS候補。
+- 新producerの固定入力から動的oracle→E→step manifest→HEAD、累積capと完了phase復元、
+  新checkerの各snapshot全9phase再計算・全payload比較まで実装を読んだ。完了physicalが
+  HEADより先行した場合は同じ行を再生成せず一度だけ取り込む。次lambdaでは全8059式と
+  全54433閉路・2補助値を更新する。main/resource/canary/workflow最終部は確認継続中。
+- 973が新checkerのfile専用helperへdirectoryを渡す不具合を発見し、新wrapper内で修正。
+  phase telemetry契約も統一。凍結helperは不変、新継続器の実GHA失敗・成功とも未発生。
+- **ADVANCED**: 同output resumeと全新prefix比較の実装監査。詳細は返信163 F8.31。
+- **UNCHANGED**: 最終実run33981657987/1/head444c71c9e554ae8feb9c8ee54df57d3df19ed66f、
+  受理済みrank1385/candidate1386、grade2 NOT_DECIDED、A0 **0/1 actual**、当該段grade **1/6**、
+  A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、2131/2138限定、`verified=false`。
+
+### Delta 571 — 工房2143でrank1386を受理、中心指数をsigned代表へ明文化（2026-09-06 JST）
+
+- EのCV本文365行、裁定2143、expressを全文確認。本文36192 bytes /
+  562a02878170ce57be30723aec280a5eaf8a1df4e4f9d579ba0d261e8e0fd451。
+  同一対象・限定7条のcross-checkedにより、受理済み到達点をrank1386/gen8091へ更新。
+  run33981657987/1/head444c71c9e554ae8feb9c8ee54df57d3df19ed66f/artifact9973974150。
+- 第三実装によるraw3338字・45 SLPノード・六閉路/normalizer/target差分等の再現を受理。
+  B表そのもの・旧1385行・5335 P1 lift中身・q/kappaの第三再計算はない。
+  x修理のみ非零、y/central指数0、omega二次項も全45ノード零、envelope復号clone等の七限定を保持。
+- F-cy-3には返信163 F8.33で紙上裁定。v548 §5はv547 (4.2)の略記とし、commutatorは
+  x側word逆・y側word逆・x側word・y側wordの順、中心指数sr(omega)を0/1/-1へ固定。
+  代表を3ずらした差c^3はOmega・epsilon零・Q2 Fox零だが同じliteral wordとはしない。
+  凍結source/紙は上書きせず、非零omegaの実成功は未宣言。
+- 2143のselftest改善はE checker966の全三件の実走。oracle checker968/v2のfull selftestは
+  まだ未実行なので2138/2142の一回義務は維持する。raw24塊非零と旧q1..3零も対象を区別する。
+- **CLOSED**: 当該一pivotの増分CV9判読・限定付き受理。詳細は返信163 F8.32–33。
+- **ADVANCED**: 受理済みrank1386からの完全oracle＋E継続器の最終実装監査。
+- **UNCHANGED**: grade2 NOT_DECIDED、A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、
+  A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、`verified=false`。
+
+### Delta 572 — 工房2144採用と継続producer971の固定（2026-09-06 JST）
+
+- 2144/ack全文とCV正本の訂正diffを確認。中心指数のsigned代表を工房規約として採用し、
+  F-cy-3の紙上決着は完了。973 F16の独立証明も一致。非零中心因子の実走被覆は未更新。
+- E966 selftestの実走をoracle968/v2 full selftestの実走と混同しない訂正も工房が採用。
+  更新後CV本文SHA4626c74928491e73f3b79dfaa0ed80f4cc2b1b2c7968cdc94dc1e6b961225cd0、
+  工房commit cd11b54a89c6b5775afce999817c44cc7bcccbee。詳細は返信163 F8.34。
+- 新producer971を126940 bytes / 67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c
+  （LF1972/CR0）へ固定し、root読了・最終差分/bytes/hash照合。reply971も29060 bytes/
+  965eefa0424b9a35413c2d9af446ddd014499fa51c7ae3fd991420f07999d1aeへ固定。
+- **ADVANCED**: 継続器のproducer完了・checker全tail保存、workflow最終gate監査。
+- **UNCHANGED**: 受理済みrank1386/gen8091、最終実run33981657987/1、grade2 NOT_DECIDED、
+  A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、
+  compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、`verified=false`。
+
+### Delta 573 — 継続器両sourceと942行workflowの静的監査完了（2026-09-06 JST）
+
+- root/973が両sourceのmainまでとworkflow全942行を読了。作者の最終固定宣言を受領。
+  全file bytes/SHA/LFは返信163 F8.35に記録。既存17source/三raw入力は実pin一致かつHEAD不変。
+- rootが未公開workflowのoracle v2 test件数3を発見し、実4件へ専用gate/receiptとも修正。
+  新継続器の両三群/両五metadata拒否とは別対象。ローカルAST/import/数値は実行していない。
+- 同output cap1→resume32、全new prefix比較、完了phaseとcurrent checkpoint、途中UNKNOWN、
+  input/source/producer-output不変、成功候補とalways診断保存まで実接続に追加必須修正なし。
+- **CLOSED**: 新継続器source/workflowの静的確認。実runは次の公開後であり未開始。
+- **UNCHANGED**: 受理済みrank1386/gen8091、最終実run33981657987/1、grade2 NOT_DECIDED、
+  A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、
+  compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、`verified=false`。
