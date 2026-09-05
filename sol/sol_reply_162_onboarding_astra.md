@@ -433,5 +433,35 @@ These are implementation authorizations, not a materialized pivot. Current
 physical rank remains1354 until the actual new run passes. The mathematical
 paper routes v542/v543 proceed in parallel and do not replace this run.
 
-CAMPAIGN_STATUS: A0_ACTIVE_CORRECTED_ROOT_SEED30_SCALAR1_LIMITED_CROSS_CHECKED_RULING2096; MATERIALIZATION_IMPLEMENTING_TASK927_TASK928; V542_V543_PAPER_ALTERNATIVE; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 9. Paper advance and resumed executable handoff
+
+V545/v546 and independent reply931 complete two genuinely new paper steps:
+the common actual Frattini subgroup is repaired by the three old fixed
+words s3^3, s5^3 and [s3,s5], and the five legality rows are explicitly three
+rotation carries plus two ordinary exponent rows. All three later source
+deficits are now located in grade2, one per nontrivial character. Its exact
+augmented source dimension is12092, with blocks (3026,3022,3022,3022);
+grades3--6 have no further source deficit. The precise induced filtration
+and identity-tag strictness are part of the proof, not assumptions silently
+replaced by I^d Z or physical strictness. Reply931's PASS is conditional on
+the named retained finite/marked premises, and is not Lean verification.
+
+These papers do not prove that rho2 is in the physical image. The marked
+27-element repair-coordinate encoding and the paper-oracle row adapter
+are still unexported and are NOT prerequisites of the seed30 run. Delta530
+records the exact v220 advance without moving the A0 completion counter.
+
+The earlier implementation workers hit a usage limit after saving partial
+files. Tasks929/930 resumed and completed those files. Frozen initial source
+receipts are producer79651 bytes/SHA3ce9293e05f06bf3... and checker62048
+bytes/SHAf4f8ba2d342cb60e... . Parent-plus-one-pivot publication, the stored
+target's single new elimination, next separator/member-candidate branch,
+CLI and bounded serial GHA tests are implemented. Task554 body retention
+was reduced to one body at a time; no historical reconstruction is added.
+Task932's bounded release audit is PASS with no necessary fix or additional
+prerequisite. Root checked workflow wiring and all nine executable source
+pins. No local Python/GAP has been launched and no actual1355 rank is
+claimed before execution.
+
+CAMPAIGN_STATUS: A0_ACTIVE_CORRECTED_ROOT_SEED30_SCALAR1_LIMITED_CROSS_CHECKED_RULING2096; SEED30_EXECUTABLE_HANDOFF_TASK929_TASK930; V545_V546_PAPER_AUDIT_PASS_TASK931; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き

@@ -21643,6 +21643,7 @@ single transport repair required before continuation; it does not count the
   **3/3**, A4 **1/3**, compact A5 unchanged. Grade2, full A0/COMMON,
   compatible cofinal lift, fake and Ihara are not declared. `verified=false`.
 
+
 ### Delta 527 (2026-09-05): corrected complete root scan is released and launched on GHA
 
 - Task922/923 freeze the v541 raw-seed and full filtered-actor repair;
@@ -21764,3 +21765,47 @@ single transport repair required before continuation; it does not count the
   ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
   **3/3**, A4 **1/3**, compact A5 unchanged. Grade2, full A0/COMMON,
   compatible cofinal lift, fake and Ihara are not declared. `verified=false`.
+
+### Delta 530 (2026-09-05): three fixed repair words and exact grade2 source deficit; seed30 executable handoff
+
+- V545 proves that the actual subgroups Phi(Gamma0) and Phi(Gamma2)
+  coincide, using their inclusion and common order27. In the old marked
+  Gamma0 basis a,b, the three elements a^3,b^3,[a,b] form a basis of this
+  C3^3. Thus a legal Q2 cycle can be repaired by at most three signed fixed
+  words U=s3^3,V=s5^3,W=s3^-1 s5^-1 s3 s5. This replaces the new Gamma2
+  generator/BFS repair in v542; the actual 27-coordinate encoding is still
+  an unexported interface, not a release prerequisite for seed30.
+- V546 supplies the five legality rows themselves: three rotation-carry
+  cochains plus the two ordinary exponent sums modulo3. It proves that all
+  three later source deficits occur in grade2, one in each nontrivial
+  character, and none in grades3--6. Therefore the complete augmented
+  grade2 source is exactly (3026,3022,3022,3022), total12092; the previously
+  retained interval12092--12095 is replaced by this equality. The relevant
+  filtration is Z intersect (I^d R)^2, NOT I^d Z. Identity-tag inversion
+  supplies the strictness needed to transfer the result to occurrences.
+- Independent reply931 gives both papers PASS on their explicitly named
+  retained finite-group/marking/source-map premises. This is paper-level
+  progress, not a fresh row replay or a physical target-preimage proof.
+- The two earlier implementation workers stopped on a usage limit with
+  their files saved. Tasks929/930 resumed those files without restarting
+  the implementation. The seed30 producer and independent checker are
+  now structurally complete, with a frozen narrow workflow. The accepted
+  Task554 bodies are processed one at a time; only selected expressions
+  and rows are retained. P1 ancestry uses the accepted local block indices;
+  the old state instruction stream is hashed/parsed once. No historical
+  closure or old target elimination is rerun, and no local Python/GAP ran.
+- Task932's bounded static release audit is PASS with no necessary fix or
+  extra prerequisite. Root checked the workflow CLI, parent joins and all
+  nine executable source pins. Serial finite canaries and actual arithmetic
+  remain GHA work. These new paper results do not delay the production run.
+
+**v220 mapping**:
+
+- Relative to Delta529, the paper alternative gains explicit legality
+  cochains, a three-word endpoint repair, and an exact grade2 source size.
+  J2 gains an executable one-pivot delta implementation, not yet a pivot.
+  The fixed rho2's membership in the physical image is still undecided.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6**, A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. Physical rank
+  remains1354 pending the new actual run. No grade2/full-A0/COMMON, cofinal
+  lift, fake or Ihara promotion. `verified=false`.
