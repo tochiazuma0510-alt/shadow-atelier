@@ -548,5 +548,18 @@ The formula preserves Q0 Fox rows and those of every quotient of Q0; it is
 not a PB4-preservation assertion or a coherent cofinal lift. V220 Delta531
 records both advances while retaining A0=0/1 and first-rung grades=1/6.
 
-CAMPAIGN_STATUS: A0_SEED30_ACTUAL_PIVOT1355_RUN33946247365_SUCCESS_NEXT_SEPARATOR1418_SAVED; V547_TABLE_FREE_SOURCE_SELECTOR_PAPER_AUDIT_PASS933; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 12. Adopted next numerical scope
+
+Root read and adopted FULL reply936. Tasks937/938 now implement a narrow
+rank1355 root-seed scalar adapter, with four freshly derived B-adjoint roots
+and their new8059-entry P1 contractions. The old values are not reusable
+under the changed lambda. The scan is exactly4*44 root seeds, no actor or
+orbit origins. Its outcomes are ROOT_SEED_VIOLATION or ROOT_SEEDS_ZERO;
+neither is a full grade2 terminal. The saved old state plus one delta is
+enough; no Conn/history reconstruction, state copy, rho2 restaging, or
+successful-seed30 replay is a prerequisite. Only the new producer/checker
+and narrow workflow are authorized by task937. Implementation/GHA results
+from this continuation are still pending.
+
+CAMPAIGN_STATUS: A0_SEED30_ACTUAL_PIVOT1355_RUN33946247365_SUCCESS_NEXT_SEPARATOR1418_SAVED; NEXT_ROOT_SEEDS_IMPLEMENTING_TASK937_TASK938; V547_TABLE_FREE_SOURCE_SELECTOR_PAPER_AUDIT_PASS933; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き

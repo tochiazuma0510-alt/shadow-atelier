@@ -21856,6 +21856,10 @@ single transport repair required before continuation; it does not count the
 - J2's first real new direction is now materialized with agreeing actual
   arithmetic, replacing the merely nonzero scalar milestone of Delta529.
   J3 continues with the SAVED NEXT lambda, not the retired old separator.
+  Root adopted the complete Task936 intake and authorized Tasks937/938 for
+  a4*44 root-seed-only continuation, with fresh four q roots/P1 contractions
+  and the one-delta state adapter. Implementation started; no next run or
+  next scalar result yet. No actor/Conn/history restart is in this scope.
   The paper alternative's endpoint readout is now table-free; its actual
   lower-multiplier/full-filtered cochain adapters remain to be supplied.
 - Numerators stay A0 **0/1 actual**, first-rung grades **1/6**, A1 **4/4**,
