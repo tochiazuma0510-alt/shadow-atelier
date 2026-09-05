@@ -23328,3 +23328,27 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
   起動記録の公開commitはe7785c8a282288d824d6e1869aacbc24c013beea、exact二fileでpush済み。
 - **CLOSED**: 985失敗診断の実回収と原因特定。**OPEN**: 新v2修理/監査/GHA・96本P/C・batch契約・actual grade2。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 600 — 固定lambda batch数学契約を条件付き受理・実装へ（2026-09-06 JST）
+
+- rootが988/989/990の最終票を全文読了、実hashを確認。988=27906 B/4f9ce529c21723cf8f07d3b18615bfd1daad3d3d37e25fd6d1a9b90cdae92aad、
+  989=28738 B/6dc50eed59e29f71d40c8f3ede4e87dcbb71c1a838de4ee0c155f9caf77cc1b7、990=27688 B/ef9bd80ea042d053af5db0d011091147045f6c5b252d45c291d2b0c7b38c3693。
+- 988(988.1)–(988.10)を保持前提つきで受理。任意失敗弦の合法化、相互依存、旧lambda残差0でも独立、実消去/最終Separatorの分離。
+  数値targetは−theta、現correction rootは+sr(theta)。rootの指摘により990未凍結F5を公開数学だけで正確化。
+- 新共通Task994 C1–C10: 一lambda/一batch/roster先頭32以下/refillなし、chord-first＋aux-only fallback。
+  旧64親/全source宇宙を固定し、新owner/別packet。公開physical HEADはfinalizer完成だけ、途中progress/HEAD別型/partial flushなし。
+- 完成非空batchは1≤rank増分≤min(k,48384−r)、現1450から独立追加総上界46934。失敗数/先頭indexは単調でなく、採用32/速度/終端を予言しない。
+- Task994 P/995 C/996監査を著者分離して委嘱。同語991–993の完成凍結後に実装。公開ABIはroot中継、AST/数値はGHAのみ。
+- **CLOSED**: batch数学条件と移行共通契約。**OPEN**: 新source/全静的監査/GHA/CV9/改善実測・actual grade2。
+
+### Delta 601 — 2158訂正受領・96 P step成功・同語v2差分（2026-09-06 JST）
+
+- 2157–2158/ack全文読了。start基点推測は撤回、実整数1/bool誤読と早期保存修理が受領された。
+- 対照986 run33995829771/1、job101386095754はP step22:26:32Z–22:40:18Z success、全Cは22:40:18Zから実行中。
+  after count/rank/内部elapsedはartifact回収前なので先取りしない。新C成功は未観測。
+- 新C v2=176579 B/865ed6a50b95303fdecafbc69e841da018858aa4624467fb17cdf80a0beadfd1、旧版との差分はP/自己path二literalのみ。
+  reply992=5334 B/5af1f369c0df339342aec74c027880f84b537a34277ac54e356ed65d737c0691、root全文読了。
+- 新P v2現在175318 B/cf6ac987acb2f399f36a8438cca78b773d7791286473b68362f2824a35d6451c、root全差分読了。
+  strict実五字段/production helper/新第四群九拒否を追加。P四群/D三群・本走は未実行、WF/991/993最終は作成中。
+- 失敗記録/Task991–993公開は52f4a217c70335062baeeaeefa2d2a82b79b0f9d、exact五fileでpush済み。詳細F8.63–64。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。

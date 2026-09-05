@@ -2152,6 +2152,60 @@ P/Cの新sourceを相互読取せず、Cのhash/ABIはrootがWF作者へ渡す�
 job101386095754で一回Pが実行中。count96 bodyの旧128v2からの唯一の置換を990作者も独立metadata比較し一致した。
 この段では新Pのafter値やfull C成功はまだ観測していない。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_RUNNING_POSITIVE_V1_METADATA_FAILURE_V2_REPAIR; LAST_RUN=33995829771/1; LAST_COMMIT=920780033b3aaa519a898e8b6b1d29fe67a04cd1; POSITIVE_READOUT_RUN=33995799635/1; POSITIVE_READOUT_STATUS=FAILED_BEFORE_CANARIES_P_D; CONTROL96_RUN=33995829771/1; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2155; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.63 — 固定lambda batchの数学契約を条件付き受理、共通wireを登録
+
+988/989/990最終票をrootが全文読了し、全bytes/SHAを再測定した。
+
+| 票 | bytes | SHA256 |
+| --- | ---: | --- |
+| luna_reply_988_r07_fixed_lambda_batch_math_audit.md | 27906 | 4f9ce529c21723cf8f07d3b18615bfd1daad3d3d37e25fd6d1a9b90cdae92aad |
+| luna_reply_989_r07_fixed_lambda_batch_producer_contract.md | 28738 | 6dc50eed59e29f71d40c8f3ede4e87dcbb71c1a838de4ee0c155f9caf77cc1b7 |
+| luna_reply_990_r07_fixed_lambda_batch_checker_contract.md | 27688 | ef9bd80ea042d053af5db0d011091147045f6c5b252d45c291d2b0c7b38c3693 |
+
+**988(988.1)–(988.10)の数学契約を、保持する完全source/Conn/P1/規約の前提つきで受理する。**
+固定五basisのtau行をT、合法cycleを `k_e=z_e−sum_j d_e[j]z_Jj` とすると、`sum_j d_e[j]tau_Jj=tau_e`。
+全弦の実残差は同じlambdaで `lambda A(k_e,0)`、A=G(id−s pi)Psi。先頭一本という選択を補題は使わない。
+各行の違反から旧span外は従うが、相互独立は従わない。先採用行を消去した非零残差に旧lambdaが零になる反例も確認した。
+従って旧Eのold-lambda残差非零と一行Separator wrapperを転用せず、各raw/P1後行の実消去で独立分だけ採る。
+
+target数値更新は `t_after=t_before−theta*n`。現positive rootは**correction=元rho2−current remainder**なので、
+新normalized語を**+sr(theta)**で右へ積む。990未凍結F5の曖昧な負号をrootが指摘し、作者がこの定義へ正確化した。
+最終票はP新source/989を読まず公開数学だけで修正されている。988(988.8)–(988.9)とP982:1039/1571にも一致する。
+依存候補/零係数も全recipeを保存し、物理零を自由群identityと呼ばない。物理消去後のsource lower零は再主張しない。
+
+各固定q_e=A(k_e,0)の合法方向はlambda非依存であるため、batchで採用・依存の全候補を閉じた後のSeparatorは
+選定全方向を殺す。一方、前lambdaで偶然零だった未選定方向は次lambdaで非零になり得る。全失敗数/先頭indexの単調性はない。
+完成非空batchのrank増分aは `1 <= a <= min(k,48384−r)`。現1450から独立追加の総上界は46934。
+これは十分な資源で各工程を完了するという条件下の有限前進で、32採用・速度比・必要実時間・MEMBERは予言しない。
+
+Task994 C1–C10を共通wireとして登録した。新prefixは`d972.r07.fixed-lambda-cycle-batch.v1`、別packetで一selection/一batch、
+全54433評価後のroster先頭非零32以下、refillなし。新policyはchord-first、弦零/aux非零は先頭aux一件fallbackを実装する。
+旧aux-firstからの選択順位変更を明記する。全弦だけ零をcompleteとせず、同current lambdaの弦/aux全零だけが候補終端。
+最初の実fixture/親は観測済み64、未来96を補わない。実親変更はrootの別事前登録を必要とする。
+
+989/990の私的途中HEAD案を整理し、**公開physical HEADはfinal SeparatorまたはLinear完成後だけ**、途中は
+`progress/HEAD`の別型/別pathとする。初版はpartial physical flushを行わず、UNKNOWN_RESOURCEでも完成phase/候補cursorを保存して再開する。
+旧64全file/全Cと元owner/sourceは不変、今回の新lambda全旧row dotは直接確認、旧n oracle/E再演は行わない。
+rootが公開ABIを中継し、P/Cは新sourceを交差読取しない。各三群の新canaryはproduction helperへ接続しGHAでのみ実行する。
+Task994 P/995 C/996独立監査を委嘱し、991/992/993の同語修理を完成・凍結してから進める。新batch sourceの実装を許可した。
+
+### F8.64 — 2158訂正受領、対照P成功、修正版source差分の読取
+
+工房2157–2158/ackを全文読了（commit0392f90df6bb3856880d06533abc1bb10308e9d0）。
+2156のstart基点推測は実値により撤回され、int/bool混同と991–993の修理方針が受領された。
+rootの速達にも同じ五実字段/start全hashを記録した。4秒は失敗accept stepで、原job全体は75秒である。
+
+対照986 run33995829771/1の実job101386095754はP stepを22:26:32Z–22:40:18Zでsuccess。
+22:40:18Zからstart起点の全C stepが実行中。これはAPIのstep観測で、内部elapsed/after count/rankはartifact回収前につき未記帳。
+
+新C v2は **176579 B / 865ed6a50b95303fdecafbc69e841da018858aa4624467fb17cdf80a0beadfd1**。
+rootが旧Cとの差分全体を読み、producer/自己path二literalだけ、全wire/算術/三群不変を確認した。
+reply992を全文読了、**5334 B / 5af1f369c0df339342aec74c027880f84b537a34277ac54e356ed65d737c0691**で最終凍結。
+新P v2は現在 **175318 B / cf6ac987acb2f399f36a8438cca78b773d7791286473b68362f2824a35d6451c**。
+rootが全差分を読み、strict五字段helperとproduction接続・新第四canaryの整数1受入れ/九拒否、source pathのみを確認。
+P三既存群は新v1で未実行のままなので、それら＋新第四群をv2で実行する。Dは三群。
+WF v2の早期baseline/部分after保存と最終票/993監査は作成中。新source/P/D成功や修理完了はまだ宣言しない。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_FULL_CHECKER_RUNNING_POSITIVE_V2_REPAIR_BATCH_IMPLEMENTATION_COMMISSIONED; LAST_RUN=33995829771/1; LAST_COMMIT=920780033b3aaa519a898e8b6b1d29fe67a04cd1; POSITIVE_READOUT_RUN=33995799635/1; POSITIVE_READOUT_STATUS=FAILED_BEFORE_CANARIES_P_D_V2_SOURCE_DELTA_READ; CONTROL96_RUN=33995829771/1; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2158; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
