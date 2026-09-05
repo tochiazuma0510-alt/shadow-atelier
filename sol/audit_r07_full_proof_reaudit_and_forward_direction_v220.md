@@ -22900,3 +22900,20 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理済みrank1386/gen8091、最終実run33981657987/1、grade2 NOT_DECIDED、
   A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、
   compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、`verified=false`。
+
+### Delta 574 — 実run33984832010でcap1完了、同outputのresume32進行中（2026-09-06 JST）
+
+- 実launch commit `b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e`、run **33984832010/1**、
+  job **101356330429**。六指定ファイルをrootだけがcommit/pushし、追加dispatchなし。
+  実GHA URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33984832010
+- 18:55Zのlive APIで14親/19source/三raw認証、oracle v2 full **四件** gate、両五metadata拒否、
+  新producer三groups/checker三testsがsuccess。v2 fullは18:42:36–43Zの一回実行で、個別receiptは回収待ち。
+- 初回絶対cap1は18:42:45–18:44:07Zにsuccess（step wall **82秒**）。同owner/outputの累積cap32を
+  18:44:07Zから実行中。新rankをstep名から推定せず、全new prefix checkerとartifactの完了を待つ。
+- 正式reply972/973の最終保存とroot読了が完了。両返信の全bytes/SHAは返信163 F8.36。
+  source/workflowはDelta573の凍結値から不変。清書二票と進捗はmarkerなし記帳で追送する。
+- **CLOSED**: 初回cap1の実行gate、oracle v2 full四件の実行gate（payload個別読了は未了）。
+- **NEXT**: resume32 → 全new prefix/current checkpoint独立照合 → 全artifact回収・実値判読。
+- **UNCHANGED**: 受理済みrank1386/gen8091、grade2 **NOT_DECIDED**、A0 **0/1 actual**、当該段 **1/6**、
+  A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言。
+  2143/2144七限定・旧独立性限定・非零omega本番未観測を保持し、`verified=false`。
