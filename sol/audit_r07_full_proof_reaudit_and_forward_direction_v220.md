@@ -23247,3 +23247,48 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **OPEN**: 985/986/987最終WF監査・GHA・実新canary/同一語D、1450のCV9、actual grade2。
 - **UNCHANGED**: 正式受理1418/gen8123・候補1450/gen8155、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
   A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
+
+### Delta 594 — 新985/986の全静的境界と初回実128入力を固定（2026-09-06 JST）
+
+- F8.55/56とsource982/983等の公開は7a6324e55126d658a227b155af832b6fd6f5ef18、exact九fileでpush済み。
+  2152裁定/ackを全文読了、1450の事後CV9発注済みを受領。正式受理は1418/gen8123のまま。
+- 985 WF84418 B/9e90bfeca6907fd71a4158308737a5a23677e3f2972b6e31391b5736b14bf36a、LF1329/CR0。
+  実64親の30定数（rootの旧27件指摘は撤回）/同root新P/D/新三群ずつ/全11slot/全80644/元rho2/全保存を全文読了。
+- 986 WF109035 B/7050a882297d8304693c63fef2fcaa0e4910d8b5c3d9f09f2288dd6648668fd1、LF1324/CR0。
+  同P/C・全元親/保存prefix/一回Pと全C/旧phase/新UUID/全hidden不変・実coverage/最終receipt/uploadを全文読了。
+  pending診断と通常invocationの区別、旧completion実schema、HEAD最終lambda別support、実SLP metadataを接続。
+- 初回observed-parent v2=9277 B/0c399fa08909b4b70a29bba5912ab3bc034b30165c65c90f12dd52fc0a8c1652、
+  REST body v2=10005 B/f05381734554cfc8a8dd205c70480bb732de6e92aae936c5e78b0bdb6aca6dc5。
+  実64・30entry/3sealed invocation/全HEADからmax128を登録。未送信v1文化順をordinalへ修理し、実値/float字面を保持。
+- 新986の初回pushは登録専用true jobのみ。実登録run観測後にrootがdispatchし、本数値jobはdispatch-onlyを維持。
+  985は既定marker。本P5400秒/100分・C/D10800秒/190分・job330分/7GiB、旧数値suite再走なし。
+- **CLOSED**: 両WFのroot静的読取・初回実入力の作者/独立監査一致。詳細はF8.57。
+- **OPEN**: 最終作者票/987の凍結と公開・実GHA・新canary/同一語D/再開128、1450の事後CV9、actual grade2。
+- **UNCHANGED**: 正式受理1418/gen8123・候補1450/gen8155、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
+  A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
+
+### Delta 595 — 二つの新WFと三監査票の最終凍結（2026-09-06 JST）
+
+- 985/986 WFはDelta594の全bytes/SHAと不変。最終作者票985=15949 B/06c1a99a66513e86379d10fe3b8a9267f795d8c2720a3bdd2ef26f74f9942bff、
+  986=15762 B/f6a9141f160654932a5f43c2179e08a1a191c7d736b1b31959b84666b2bae9c2。
+- 987完成=25000 B/c7378151e63d9a097970d85fbbe582414826e4bccb2272cbe99356995195ed13、F18–F21までroot読了。
+  四source/両WF/両作者票のfreeze、実64三十entry/ordinal入力/全HEAD/三invocationを独立静的PASS。
+- **CLOSED**: 最終静的監査とfreeze。実canary/本走の判定はこの段では行わない。詳細F8.58。
+
+### Delta 596 — 工房2154で1450受理、cap倍増から計測対照と固定lambda batchへ（2026-09-06 JST）
+
+- 工房裁定2153–2154/速達/CV9正本全文読了。正本29727 B/2e64caa0d9f5fe03baaa556fe2e45107a04b60d6e298ade768f5b27b080b65a6。
+  **正式受理を1450/gen8155へ更新（工房2154・cross-checked限定8条）**。run33990567016/1。
+- 64全head/pairing、新32 scalar、保存全file一致。今後はtarget減算の符号を区別する実恒等式も毎CV9で要求。
+  aliasは凍結start33親/動的current97親を根拠とし、旧試験再走とは呼ばない。
+- F-r64-1: 全54433弦は毎段評価、選定は先頭失敗一本。実失敗数35992–36549で横ばい、index4→69/18後退。
+  これを受け無条件128→256梯子を終了する。外挿rank約55000/実時間は物理次元上界とも整合せず未来値に採用しない。
+- 985同語readoutは実1450親で起動へ。986は新保存再開/metadata/full C/coverageの**一回限りの計測対照**として
+  未送信128を絶対**96（追加最大32）へ縮小**。96から先の自動反復は行わず、失敗数全列/前進後退/実秒で次策を事前登録する。
+- observed-parent ordinal v2は不変。新cap96 REST body10004 B/d5ad1f602a9efda6dd214a3875d897a696ecb30fc58f1bdbdf4b9fa57fa6aa1b。
+  変更はmax_appends文字列だけ、未送信。全residual bytesは986が保存し、総失敗数列の集約は事後CV9で要求する。
+- Task988で同lambdaの先頭32失敗弦以下を一括Omega語化する候補の数学監査を開始。相互独立を仮定せず実消去で独立分のみ、
+  旧lambdaとbatch後Separatorを区別。既存宇宙・全literal/P1/lower/規約を維持。詳細F8.59。
+- **CLOSED**: 1450の事後CV9と正式受理。**OPEN**: 新WF公開/登録/実GHA、同語D、計測対照96、batch数学契約、actual grade2。
+- **UNCHANGED**: grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、
+  full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。

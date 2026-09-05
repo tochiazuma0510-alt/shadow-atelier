@@ -1987,6 +1987,100 @@ retained C9/C4のTCBと作者分離を明記し、新算術全体の独立性や
 観測済み親JSONを受ける保存再開WF。既存三agentが各実装/監査を続け、rootだけがgit/GHAを実行する。
 987の新指示書を記帳する。両新WFは未凍結で、実値/全入力/資源/always保存の静的監査後に起動する。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_SUCCESS_CANDIDATE1450_FULL_C64_PASS_CV9_REQUESTED; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33988391926/1; CURRENT_ACCEPTED_RANK=1418; GENERATION=8123; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_WITH_2150_2151_CONVENTION_ACCEPTANCE_AND_TWO_LIMITS_RESUME64_PENDING; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2151; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.57 — 二つの新GHAと観測済み初回入力の静的監査（2026-09-06 JST）
+
+F8.55/56・v220 Delta592/593・凍結二source/三返信・Task987・CV9 expressのexact九fileは
+**7a6324e55126d658a227b155af832b6fd6f5ef18**でcommit/push済み。
+2152裁定/expressを全文読了し、工房が1450の増分CV9を事後発注したことを受領した。
+正式受理1418/gen8123、candidate1450/gen8155を維持する。2152のcandidateとdiagnosticsが同じなのはZIPのbytes数であり、
+両者のSHAはF8.55のとおり別である。新GHAの前件に工房判読待ちを追加しない。
+
+| 新workflow | bytes | SHA256 | LF/CR |
+|---|---:|---|---|
+| .github/workflows/d972-r07-continuation-positive-word-readout-v1.yml | 84418 | 9e90bfeca6907fd71a4158308737a5a23677e3f2972b6e31391b5736b14bf36a | 1329/0 |
+| .github/workflows/d972-r07-complete-oracle-cegar-resume-next-v1.yml | 109035 | 7050a882297d8304693c63fef2fcaa0e4910d8b5c3d9f09f2288dd6648668fd1 | 1324/0 |
+
+rootは両実保存本文を全関数・起動/保存tailまで読了。BOMなし・末尾LF。
+985の最終CONTINUATION_ENTRIESは**30件**で、handback v2全30 pinへ直接一致を確認した。
+先行未完成稿の27件を最終稿へ混ぜたrootの一時指摘は撤回する。最終30件/len==30、初期launch.txtも再読した。
+元十六親/四source/四raw、canonical acceptance、同rootの新三群ずつ、一回P/一回D、全13 word file/
+可変D manifest/全十一typed/80644/実original rho2/前後全不変を結ぶ。旧数値suiteは呼ばない。
+P5400秒/100分、D10800秒/190分、新canary合計600秒/12分、job330分/7GiBを維持する。
+
+986は同P971/C v2/20source/三raw/owner/source/start/runtime、元14親と直前実candidateを使う。
+全保存candidateの歴史をcompletion32まで再帰的に認証し、全outputを別mutable rootへ複製する。
+HEAD/result以外の全旧file/dir、旧step/snapshot全dict、旧完了phase、旧invocationを保存し、一回Pとstartからの全Cを実行する。
+UNKNOWNとCOMPLETE_ZERO/LINEARの型、実新UUID一本とbefore/max-cap、全hidden/pending保存を保つ。
+型修理は985のsource.data辞書、986の旧completion実schema `.completion-run`、
+通常invocationと明示`.UUID.json.pending-UUID`診断の区別に限定し、既存数値sourceは変更していない。
+
+986のcoverageは全比較済みphaseの実q/κ/score/aux/失敗chord/basis、修理前wのomegaと普通epsilon・中央指数・
+実word_bound/SLP長を保存する。**最終HEAD lambdaはcurrent snapshotの有無によらず別字段で実hash/四character台へ結ぶ**。
+Linearならtyped null。oracle未計算を零としない。これは保存bytesの集計であり第三算術とは呼ばない。
+
+初回入力は実64だけから作成した。exact九top/八artifact/十八snapshot/三sealed invocation/全30entry、
+output5145 files/836 directories/686612253 B、**absolute max_appends="128"**。
+未送信v1のentriesがPowerShell文化順でHEADよりfixedを先に置いていた点を、作者と987が独立に指摘した。
+WFのordinal sorted gateを保ち、rootの別v2入力だけをStringComparer.Ordinalで並べ替えた。
+invocation内5400.0/5400.0/1800.0は実浮動小数字面を保持し、全file hashと内側sealを混同しない。
+
+- `%TEMP%/shadow-atelier-audit163/cegar-resume-next-observed-parent-33990567016-a1-v2.json`:
+  **9277 B / 0c399fa08909b4b70a29bba5912ab3bc034b30165c65c90f12dd52fc0a8c1652**。
+- 同dir `cegar-resume-next-dispatch-parent33990567016-cap128-v2.json`:
+  **10005 B / f05381734554cfc8a8dd205c70480bb732de6e92aae936c5e78b0bdb6aca6dc5**。
+  RESTのobserved_parent文字列は末尾CRLFだけ除いた9275 Bで、他の実値は同一。未dispatch。
+
+986の初回登録だけはexact作業branch/当該WF pathのpushで`true`一つを実行し、数値jobはdispatch専用のままにする。
+一度runしたWFをAPI/CLIから別refへdispatchできる[GitHub公式の起動規則](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch)に従う。
+rootが登録runの実id/headを観測してからこの実payloadを送る。985は既定の
+`[r07-continuation-positive-word-readout-v1-run]` markerを使用する。両方のcheckoutは実github.shaへ固定する。
+この段階で新canary/本P/D/再開128の成功・after値・MEMBER/NONMEMBERを先取りしない。
+
+### F8.58 — 新985/986/987の最終静的監査を凍結
+
+987の完成F18–F21までrootが全文読了。両最終WF/作者票を実測したF8.57のsource pinsは不変である。
+`sol/luna_reply_985_r07_positive_word_readout_workflow.md` = **15949 B / 06c1a99a66513e86379d10fe3b8a9267f795d8c2720a3bdd2ef26f74f9942bff**、
+`sol/luna_reply_986_r07_saved_cegar_next_resume_workflow.md` = **15762 B / f6a9141f160654932a5f43c2179e08a1a191c7d736b1b31959b84666b2bae9c2**、
+`sol/luna_reply_987_r07_next_workflows_boundary_audit.md` = **25000 B / c7378151e63d9a097970d85fbbe582414826e4bccb2272cbe99356995195ed13**。
+全てCR0/BOMなし/final LF、各AUDIT最終行。両WFは84418/9e90bfec…と109035/7050a882…で不変。
+原実64の30entry/全HEAD/三invocationと初回ordinal入力v2まで独立静的PASS。
+source.data辞書、旧completion実schema、pending診断の通常invocationからの分離という未公開adapter修理を閉じた。
+原math sourceは不変。静的PASSを新GHA/CV9/grade判定へ昇格しない。
+
+### F8.59 — 2154で1450正式受理、実測に基づき無条件cap倍増を終了
+
+工房commit **cace91b5c4826e68e7c860f09945bacf0569b3f0** の裁定2153–2154、速達とCV9正本を全文読了。
+`docs/notes/cegar_resume64_cv9_reading_v1.md` = **29727 B / 2e64caa0d9f5fe03baaa556fe2e45107a04b60d6e298ade768f5b27b080b65a6**。
+**工房裁定2154でrun33990567016/1のrank1450/gen8155をcross-checked（限定8条）として受理**。
+F8.58/987以前の1418正式・1450候補という時点境界は遡及変更しない。A0 actual0/1、grade2 NOT_DECIDEDは不変。
+64 head/pairingと新32 scalar、旧2582/新5145/埋込2699 file不変を工房が独立照合した。
+target減算の符号を区別する実63遷移の恒等式（逆符号が通るのはscalar0だけ）を今後のCV9にも必須とする。
+start33親の凍結/current97親への実伸長をalias修理の動的根拠にし、旧試験pinを再走と呼ばない。
+
+F-r64-1を採用する。全54433弦は毎段評価済みで、狭いのは先頭失敗弦一本の選択である。
+工房実測の失敗弦35992–36549、step0の36134→step63の36259、roster index4→69/63遷移中18後退は、
+rank増加だけを終端への進捗率と読むことを拒む根拠になる。失敗集合はlambda依存で単調な未処理リストではない。
+rank約55000/15日という工房の線形外挿は将来値に採用しない。物理次元48384という上界も越えるため、
+その率を最後まで持続するモデルは有効域外である。有限性・一斉零化・MEMBERの可否はこの実測では決まらない。
+
+**次の実行方針を観測前に変更する。** 完成985の実1450同語readoutは起動する。
+完成986は保存再開・新metadata拒否・full C・最終lambda等の新coverageを実際に通す一回限りの計測対照とし、
+初回の絶対capを未送信128から**96（実64親から追加最大32）へ縮める**。旧128入力は未送信のまま保存する。
+**96→128→256という自動継続は行わない。** この対照後の選択は全保存chord-residual列の失敗数、先頭indexの
+前進/後退、実rank増分/P・C各秒を用い、固定lambda複数弦案と比較して別に事前登録する。
+完成986は全residual bytesを保存するが失敗総数の全列は既存coverageにまだ集約しないので、事後CV9でその列も要求する。
+
+observed-parentはF8.57のordinal v2から一字も変更しない。別REST body
+`%TEMP%/shadow-atelier-audit163/cegar-resume-next-dispatch-parent33990567016-cap96-v1.json`
+= **10004 B / d5ad1f602a9efda6dd214a3875d897a696ecb30fc58f1bdbdf4b9fa57fa6aa1b**。
+旧REST文字列の`max_appends:"128"`だけを`"96"`へ置換し、ref/observed文字列の全一致を確認。未dispatch。
+WFのM>n/absolute cap gateは変更しない。登録pushの実run観測後、rootだけが送信する。
+
+新Task988で固定lambdaの既定roster先頭32失敗弦以下を一括Omega語化する案を数学監査へ回す。
+各違反行が旧span外にあることから相互独立は従わない。実row消去で独立分だけ採り、
+旧lambdaとbatch後Separatorを別型にし、全literal recipe/P1/lower/signed規約を保つことが最低条件である。
+同Q0/Q2/Delta/四character/全弦と実1450親の範囲を保ち、改善・新rank・完了時刻は予言しない。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_NEW_WORKFLOWS_FROZEN_CONTROL96_PREREGISTERED_BATCH_MATH_AUDIT; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2154; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

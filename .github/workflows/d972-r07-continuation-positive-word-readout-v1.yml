@@ -1,0 +1,1329 @@
+name: d972-r07-continuation-positive-word-readout-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+  OPENBLAS_NUM_THREADS: "1"
+  OMP_NUM_THREADS: "1"
+  MKL_NUM_THREADS: "1"
+
+jobs:
+  same-word-readout:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-continuation-positive-word-readout-v1-run]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - name: Create the audit envelope
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/positive-word"
+          printf '%s\n' "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" "$GITHUB_SHA" > "$RUNNER_TEMP/positive-word/launch.txt"
+
+      - name: Checkout exactly the firing HEAD
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+
+      - name: Use the registered Python release
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.15"
+
+      - name: Install the registered NumPy release
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Write the metadata-only admission and preservation driver
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/positive-word/driver.py" <<'PY'
+          import ast
+          import datetime
+          import hashlib
+          import json
+          import os
+          from pathlib import Path, PurePosixPath
+          import re
+          import shutil
+          import stat
+          import subprocess
+          import sys
+          import time
+          import zipfile
+
+          SCHEMA = "d972.r07.continuation-positive-word-workflow.v1"
+          WORD_SCHEMA = "d972.r07.continuation-positive-word.v1"
+          D_SCHEMA = "d972.r07.continuation-same-word-eleven-slots.v1"
+          LOOP_SCHEMA = "d972.r07.complete-oracle-cegar-continuation.v1"
+          WORKFLOW = ".github/workflows/d972-r07-continuation-positive-word-readout-v1.yml"
+          REPOSITORY = "tochiazuma0510-alt/shadow-atelier"
+          REPOSITORY_ID = 1312092366
+          REPORT = Path(os.environ["RUNNER_TEMP"]).resolve() / "positive-word"
+          PARENT_BASE = Path(os.environ["RUNNER_TEMP"]).resolve() / "positive-word-parents"
+          REPO = Path(os.environ["GITHUB_WORKSPACE"]).resolve()
+          ROLES = ("state","delta","seed34","packet","refinement","oracle","e","prepare",
+              "block-0","block-1","block-2","block-3","p1","task712","continuation","rho2")
+          ARTIFACTS = json.loads(r'''{
+            "state": {
+              "run": 33891714539,
+              "attempt": 1,
+              "head": "7b7b9de20faaa3b8f26e331bb738b374f6f5708c",
+              "id": 9944214057,
+              "name": "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1",
+              "bytes": 107195261,
+              "sha256": "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017",
+              "workflow": ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "delta": {
+              "run": 33946247365,
+              "attempt": 1,
+              "head": "7f6dfaddf4150449e62a9b3e85def472fcb41c01",
+              "id": 9963533999,
+              "name": "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1",
+              "bytes": 915410,
+              "sha256": "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6",
+              "workflow": ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "seed34": {
+              "run": 33956437467,
+              "attempt": 1,
+              "head": "b9ae78b0950b186463849c3ec874f6474f359851",
+              "id": 9966542166,
+              "name": "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1",
+              "bytes": 984053,
+              "sha256": "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc",
+              "workflow": ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "packet": {
+              "run": 33964709359,
+              "attempt": 1,
+              "head": "fff114c41bd8748ad0e708919fe0820335c9cce8",
+              "id": 9969090590,
+              "name": "d972-r07-fixed-root-packet-loop-v2-candidate-33964709359-1",
+              "bytes": 1855391,
+              "sha256": "sha256:b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428",
+              "workflow": ".github/workflows/d972-r07-fixed-root-packet-loop-v2.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "refinement": {
+              "run": 33971897879,
+              "attempt": 1,
+              "head": "64475e1dfab1537a38d1b3131971bfed5fc3071c",
+              "id": 9971466432,
+              "name": "d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1",
+              "bytes": 51943596,
+              "sha256": "sha256:0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8",
+              "workflow": ".github/workflows/d972-r07-full-origin-checker-completion-v1.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "oracle": {
+              "run": 33977701313,
+              "attempt": 1,
+              "head": "bbce98d8f95a845f36fe89c0f507b9360792666f",
+              "id": 9972829869,
+              "name": "d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1",
+              "bytes": 2299772,
+              "sha256": "sha256:1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d",
+              "workflow": ".github/workflows/d972-r07-section-cochain-checker-completion-v1.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "e": {
+              "run": 33981657987,
+              "attempt": 1,
+              "head": "444c71c9e554ae8feb9c8ee54df57d3df19ed66f",
+              "id": 9973974150,
+              "name": "d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1",
+              "bytes": 2816692,
+              "sha256": "sha256:884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25",
+              "workflow": ".github/workflows/d972-r07-selected-cycle-materializer-v1.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "prepare": {
+              "run": 33677346616,
+              "attempt": 1,
+              "head": "22c6dddb43d107c05e65f53ad898823ae8ebe276",
+              "id": 9865061266,
+              "name": "task554-grade1-v3-prepare-33677346616-1",
+              "bytes": 204360988,
+              "sha256": "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4",
+              "workflow": ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "failure"
+            },
+            "block-0": {
+              "run": 33677346616,
+              "attempt": 1,
+              "head": "22c6dddb43d107c05e65f53ad898823ae8ebe276",
+              "id": 9865238399,
+              "name": "task554-grade1-v3-state-block-0-33677346616-1",
+              "bytes": 81729645,
+              "sha256": "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838",
+              "workflow": ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "failure"
+            },
+            "block-1": {
+              "run": 33677346616,
+              "attempt": 1,
+              "head": "22c6dddb43d107c05e65f53ad898823ae8ebe276",
+              "id": 9865242284,
+              "name": "task554-grade1-v3-state-block-1-33677346616-1",
+              "bytes": 82259824,
+              "sha256": "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb",
+              "workflow": ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "failure"
+            },
+            "block-2": {
+              "run": 33677346616,
+              "attempt": 1,
+              "head": "22c6dddb43d107c05e65f53ad898823ae8ebe276",
+              "id": 9865193269,
+              "name": "task554-grade1-v3-state-block-2-33677346616-1",
+              "bytes": 82200189,
+              "sha256": "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d",
+              "workflow": ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "failure"
+            },
+            "block-3": {
+              "run": 33677346616,
+              "attempt": 1,
+              "head": "22c6dddb43d107c05e65f53ad898823ae8ebe276",
+              "id": 9865239848,
+              "name": "task554-grade1-v3-state-block-3-33677346616-1",
+              "bytes": 82266526,
+              "sha256": "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92",
+              "workflow": ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml",
+              "repository_id": 1312092366,
+              "conclusion": "failure"
+            },
+            "p1": {
+              "run": 33851744070,
+              "attempt": 1,
+              "head": "6673eb2ea15ca6022acc2ddc5a8a204a0380172f",
+              "id": 9931437113,
+              "name": "task809-canonical-p1-degree2-lift-v9-33851744070-1",
+              "bytes": 641518300,
+              "sha256": "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c",
+              "workflow": ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "task712": {
+              "run": 33814194630,
+              "attempt": 1,
+              "head": "5ff2c5a30b604536df12acba8801828a5a7e5fe0",
+              "id": 9915928157,
+              "name": "d972-r07-grade2-maps-v4-33814194630-1",
+              "bytes": 22404961,
+              "sha256": "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858",
+              "workflow": ".github/workflows/d972-r07-grade2-maps-v4.yml",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "continuation": {
+              "run": 33990567016,
+              "attempt": 1,
+              "head": "c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70",
+              "workflow": ".github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml",
+              "id": 9977040548,
+              "name": "d972-r07-complete-oracle-cegar-resume64-v1-candidate-33990567016-1",
+              "bytes": 304642285,
+              "sha256": "sha256:a7ecd56dba33e35475d72486497b125fe983f4fb00a4fa91be813388373f5792",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            },
+            "rho2": {
+              "run": 33839962829,
+              "attempt": 1,
+              "head": "17a8439c766d92719d7ae7d35846ea444da598fa",
+              "workflow": ".github/workflows/d972-r07-a0-fresh-precision2-endpoint-v17.yml",
+              "id": 9925190479,
+              "name": "task640-fresh-rho2-v17-33839962829-1",
+              "bytes": 6049643,
+              "sha256": "sha256:01722bfda081e577195aa6ca9c0bba3425a50dcfd829eca6ac23e33cb5d79ca4",
+              "repository_id": 1312092366,
+              "conclusion": "success"
+            }
+          }''')
+          COMPLETION_ENTRIES = json.loads(r'''{
+            "checker-result.json": {
+              "bytes": 176622,
+              "sha256": "4ef33b2d174064e2542dd07d1c838b476b549606a8be0fb2ecc4b301b1382690"
+            },
+            "repair-source-receipt.json": {
+              "bytes": 4137,
+              "sha256": "3f2c68a359c3b9200f88850432372abd78207c1cfacc39a8aeb371e184774be8"
+            },
+            "completion-run-receipt.json": {
+              "bytes": 5006,
+              "sha256": "aaa5a9900d37f9d56e72419d7073da0bec291890e6ccf940109d01168e6e77f8"
+            },
+            "completion-intake-receipt.json": {
+              "bytes": 2218,
+              "sha256": "f209153368adeb384ec94bcbd4d4f63d34c4dd175e6cc1ad50926116780f590b"
+            },
+            "preserved-input.json": {
+              "bytes": 811910,
+              "sha256": "914405978f9ad745e822e7009963a3da06f079af1bc6a6ef301119a1fa9a11ff"
+            },
+            "preservation-result.json": {
+              "bytes": 389295,
+              "sha256": "b1d465bd1af7174d1177ea9f78ee79c29d15bf1cb6f7c239b3efd6f802e53d98"
+            },
+            "all-parent-files-before.json": {
+              "bytes": 168585,
+              "sha256": "e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"
+            },
+            "all-parent-files-after.json": {
+              "bytes": 168585,
+              "sha256": "e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"
+            },
+            "snapshot-isolation-selftest.json": {
+              "bytes": 727,
+              "sha256": "ac5c37d865ee8f85dc13ddbb78878071b7d6d6abbec827827190ccedc83337c0"
+            },
+            "coverage-receipt.json": {
+              "bytes": 86586,
+              "sha256": "e0ee8b681793567e422da95a6d73475ffc8e2c8b06e6d491938218336b6d7bad"
+            }
+          }''')
+          ACCEPTED_COMPLETION_ARTIFACT = json.loads(r'''{
+            "run": 33988391926,
+            "attempt": 1,
+            "head": "22b628c0145d7d369a310179a64b88662f360b24",
+            "workflow": ".github/workflows/d972-r07-complete-oracle-cegar-checker-completion-v1.yml",
+            "id": 9976060093,
+            "name": "d972-r07-complete-oracle-cegar-checker-completion-v1-candidate-33988391926-1",
+            "bytes": 102582146,
+            "sha256": "sha256:9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1",
+            "repository_id": 1312092366,
+            "conclusion": "success"
+          }''')
+          # Root-observed successful resume64 pins; the empty-roster rejection below is retained.
+          CONTINUATION_ENTRIES = json.loads(r'''{
+            "accepted-completion/checker-result.json": {
+              "bytes": 176622,
+              "sha256": "4ef33b2d174064e2542dd07d1c838b476b549606a8be0fb2ecc4b301b1382690"
+            },
+            "accepted-completion/completion-run-receipt.json": {
+              "bytes": 5006,
+              "sha256": "aaa5a9900d37f9d56e72419d7073da0bec291890e6ccf940109d01168e6e77f8"
+            },
+            "accepted-completion/coverage-receipt.json": {
+              "bytes": 86586,
+              "sha256": "e0ee8b681793567e422da95a6d73475ffc8e2c8b06e6d491938218336b6d7bad"
+            },
+            "accepted-completion/repair-source-receipt.json": {
+              "bytes": 4137,
+              "sha256": "3f2c68a359c3b9200f88850432372abd78207c1cfacc39a8aeb371e184774be8"
+            },
+            "accepted-completion/snapshot-isolation-selftest.json": {
+              "bytes": 727,
+              "sha256": "ac5c37d865ee8f85dc13ddbb78878071b7d6d6abbec827827190ccedc83337c0"
+            },
+            "all-parent-files-after.json": {
+              "bytes": 593399,
+              "sha256": "e89fe5fcac1ceb4bbc871d613774ac46ea00535536a891232eaf69af202d448c"
+            },
+            "all-parent-files-before.json": {
+              "bytes": 593399,
+              "sha256": "e89fe5fcac1ceb4bbc871d613774ac46ea00535536a891232eaf69af202d448c"
+            },
+            "before32/HEAD": {
+              "bytes": 964,
+              "sha256": "d489c06d40f1b06a8924558e8f751d08cd2b40259790de398b93c79f3657760b"
+            },
+            "before32/result.json": {
+              "bytes": 28577,
+              "sha256": "06c3053808179dd7706eb85fd30df8e1c360b5ee7f4640cd2a84581fe33a978a"
+            },
+            "checker-exit-code.txt": {
+              "bytes": 2,
+              "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+            },
+            "checker-result.json": {
+              "bytes": 330955,
+              "sha256": "ff55c51e90acead643b9683af6f82d492c503a92c83a504a97eeb3f62c31cc4d"
+            },
+            "checker-stdout.json": {
+              "bytes": 330955,
+              "sha256": "ff55c51e90acead643b9683af6f82d492c503a92c83a504a97eeb3f62c31cc4d"
+            },
+            "completion-intake-receipt.json": {
+              "bytes": 4878,
+              "sha256": "bbb04136ff7d2d53d7940969bb696869fd79cf983b8e23e3b7fb89a3fb333d07"
+            },
+            "copy-before-resume.json": {
+              "bytes": 778467,
+              "sha256": "1475c86bf11868a9611b8562d3aeca18afce14b86d741c208c04c332847110c8"
+            },
+            "live-parent-intake.json": {
+              "bytes": 8509,
+              "sha256": "ef88ea88a491837a8fe32e120e491191037ba5c168354fae1de1c52688d29180"
+            },
+            "output/fixed/manifest.json": {
+              "bytes": 3159,
+              "sha256": "3ec178df5c2af9de7c55bb96075bb9e741111a241f7e02222ef5604587c87c41"
+            },
+            "output/HEAD": {
+              "bytes": 964,
+              "sha256": "4614d5c3fc619007879f3a5062cde90ac0cab86552ddd17ff14306bc961ac2f4"
+            },
+            "output/invocations/2c723e694ab1425c91308e5281031d1d.json": {
+              "bytes": 738,
+              "sha256": "30ab799a0166bccca1e1bfc4e8bfb13ab0ebdf3bb9152a74afc20af7ed797421"
+            },
+            "output/invocations/654a02070b2e4a9a99698fd6080c6035.json": {
+              "bytes": 737,
+              "sha256": "e004e29cde9c88fc06a0ccdcc75ed8e484419a09344893d55eae3cf54b04c82b"
+            },
+            "output/invocations/c1f691934ec343f8ba2de4e2819d564f.json": {
+              "bytes": 737,
+              "sha256": "f9217280d1563a6a8c08cec0866d9ddd98b2851cc7817aa2d1041c6b6bce376f"
+            },
+            "output/owner.json": {
+              "bytes": 8612,
+              "sha256": "e356f7d614828b9c466c70e4e446ec561de73a758b4c6a2292fdd97be39ff77b"
+            },
+            "output/result.json": {
+              "bytes": 42785,
+              "sha256": "75f76ac43c86cfae998b0f4fe757a79b500727c2bfa847849fa57dbfa05293fd"
+            },
+            "output/source.json": {
+              "bytes": 2423,
+              "sha256": "c787d53c65c6392845e6f26c545e213b6b17d9b08dc07d694a1c4e33282f2651"
+            },
+            "output/start.json": {
+              "bytes": 54707,
+              "sha256": "87bd9b89c593d68fba65b765bfe9f17bcc47d52cc9afce6f53f8c131a24f816b"
+            },
+            "preservation-result.json": {
+              "bytes": 774326,
+              "sha256": "178dc3c45a87fa848a94ed0a1c4e8b4074cb418b57892c74ffcda5197b743171"
+            },
+            "producer-output-before-checker.json": {
+              "bytes": 774793,
+              "sha256": "8ea7c0d5cdd0cef4bd7bf1beb9403041ca333a071fd4703fe90a656f993a9d02"
+            },
+            "producer-result.json": {
+              "bytes": 42785,
+              "sha256": "75f76ac43c86cfae998b0f4fe757a79b500727c2bfa847849fa57dbfa05293fd"
+            },
+            "resume-source-receipt.json": {
+              "bytes": 4657,
+              "sha256": "76c5cbd01fafb30e8ba503e27ae949f5a3e2dbb46e9108ca3d691d6d996369b0"
+            },
+            "run-receipt.json": {
+              "bytes": 6883,
+              "sha256": "ca9a42e10f207d2a57465ccdcf84b414d1a20b5170e04e38a645645fdb787694"
+            },
+            "source-receipt.json": {
+              "bytes": 3643,
+              "sha256": "3a50dd12025079a6089d15aac79573899e49692b61a53879adb9b0572342de6b"
+            }
+          }''')
+
+          P_SOURCE = "search/d972_r07_continuation_positive_word_readout_v1.py"
+          D_SOURCE = "search/check_d972_r07_continuation_same_word_eleven_slots_v1.py"
+          SOURCES = {
+              P_SOURCE: (173286, "f5b35c56869188d5e56480fb0615d85686eb4c1c982419b4e764f585a4a25473"),
+              D_SOURCE: (176579, "a9e72980f3594842b5a7a4abaaf610b49a5d9202779ab1132c53c6bd4225ec98"),
+              "search/check_d972_r07_a0_fresh_precision2_endpoint_signature_v9.py":
+                  (113012, "7b2beb39dbdc65494f85fa4451ed69d99a22685d11f1d4fef6e671322d24098d"),
+              "search/check_d972_r07_grade2_forward_adjoint_maps_v4.py":
+                  (49643, "7ba94ee884db49bbe42d11a84228a6bdf7c88a3918407928af90c71b65fe4a29")}
+          RAW = {
+              "ci/b345_157ee_artifacts_32359956713/d972_b345_q3_chief_v1.json":
+                  (231570, "3d37c8c5f1fae47c66877090f9f73d1a8ff4a826214ed610175cf6e8ac41da72"),
+              "scratchpad/a0_paper_words_v1.json":
+                  (115928, "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"),
+              "scratchpad/a0_v2_words.json":
+                  (106133, "fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612"),
+              "scratchpad/fuda1_a0_rmax_data.g":
+                  (4709, "625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba")}
+          RHO2_FILES = {
+              "task640-payload/manifest.json": (26047, "55c42f06e70b2150d324ed8649fe4af0e6db1bf0e87e315db570d1fa80f61488"),
+              "task640-verdict.json": (418, "cdf0654738a10acf59844df3b9dda5ab8efdf2e387bba7d69b691a4ad46b2848"),
+              "task640-payload/rho2.bin": (12096, "b41b9e69fc1257bb1542062a2496bc94bd3cbe6b01e03aba653dae2e4af17c2e"),
+              "task640-payload/rho2-dense.bin": (48384, "abfafbc7521af43c75f1b5a73a6da5d37b90ec1648b649401d684a58cf16752e"),
+              "task640-payload/lower-dense.bin": (32260, "c5657f998c12426cb1f2c1b4ae1e3a99ce4df9d61101eb33fba7921303bb4830"),
+              "task640-payload/target-dense.bin": (80644, "122dca3cf3dc3299214f1ba4c2bc5b82dbe64e510f8aef482329316c2a935ea2"),
+              "task640-payload/authenticated-roots.json":
+                  (255846, "af1b035e0eb0af6e593770affb52a52905609fd9c19e988b0b7e8cf69e7592c5")}
+          PREPARE_BODY = "1f191d88a0453360021ec57d253a7d16c9a66ac059ddaaadb6db3e2b9293c865"
+          BLOCK_BODIES = ("9ebcc7ad1141c20aeaff82eb4a83a9489dc492b30220547f23526b4fcdd8dc74",
+              "d783bbe6c92c15a241eb78d0b25bca5e7c00f60799ce82f6df8b1d3ee7a202f6",
+              "a6dcc904fc3e9daae008f72de7e83ffadcd39055d557621b9cdf06baea0e83ac",
+              "642a4ec0ad6ad4ea659e84330e34006c767ca029203446cb64a17c151fefdb01")
+          PRIMARY = {"state":"state/manifest.json","delta":"output/manifest.json","seed34":"output/manifest.json",
+              "packet":"output/HEAD","refinement":"output/HEAD","oracle":"output/manifest.json","e":"output/manifest.json",
+              "prepare":"prepare." + PREPARE_BODY + ".json","p1":"manifest.json",
+              "task712":"r07-grade2-maps-v4/manifest.json","continuation":"output/HEAD","rho2":"task640-payload/manifest.json",
+              **{f"block-{i}":f"block-{i}.{digest}.json" for i,digest in enumerate(BLOCK_BODIES)}}
+          LOOP_FILES = {
+              "output/HEAD": (964, "d489c06d40f1b06a8924558e8f751d08cd2b40259790de398b93c79f3657760b"),
+              "output/owner.json": (8612, "e356f7d614828b9c466c70e4e446ec561de73a758b4c6a2292fdd97be39ff77b"),
+              "output/source.json": (2423, "c787d53c65c6392845e6f26c545e213b6b17d9b08dc07d694a1c4e33282f2651"),
+              "output/start.json": (54707, "87bd9b89c593d68fba65b765bfe9f17bcc47d52cc9afce6f53f8c131a24f816b"),
+              "output/fixed/manifest.json": (3159, "3ec178df5c2af9de7c55bb96075bb9e741111a241f7e02222ef5604587c87c41"),
+              "output/result.json": (28577, "06c3053808179dd7706eb85fd30df8e1c360b5ee7f4640cd2a84581fe33a978a")}
+          LOOP_PRODUCER = "67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c"
+          LOOP_CHECKER = "e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3"
+          EXPECTED_RUNTIME = {"python":"3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]", "numpy":"2.5.1"}
+          FALSE_ASSURANCE = {"candidate":False, "cross_checked":False, "verified":False}
+          ASSURANCE = {"candidate":True, "cross_checked":False, "verified":False}
+          LIMITS = {"P":{"seconds":5400,"outer_seconds":6000}, "D":{"seconds":10800,"outer_seconds":11400},
+              "P_SELFTEST":{"seconds":300,"outer_seconds":360}, "D_SELFTEST":{"seconds":300,"outer_seconds":360},
+              "memory_mib":7168, "canary_total_internal_seconds":600, "canary_total_outer_seconds":720, "job_minutes":330}
+
+          def require(condition, message):
+              if not condition:
+                  raise ValueError("positive_word_workflow:" + message)
+
+          def canonical(value):
+              return (json.dumps(value, ensure_ascii=True, sort_keys=True, separators=(",",":")) + "\n").encode("ascii")
+
+          def digest(path):
+              require(path.is_file() and not path.is_symlink(), "regular-file")
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream,"sha256").hexdigest()
+
+          def pin(path, name=None):
+              result = {"bytes":path.stat().st_size, "sha256":digest(path)}
+              return ({"file":name, **result} if name is not None else result)
+
+          def read(path, canonical_only=False):
+              raw = path.read_bytes()
+              value = json.loads(raw)
+              require(not canonical_only or canonical(value) == raw, "canonical-json:" + path.name)
+              return value
+
+          def seal(prefix, suffix, body):
+              value = {"schema":prefix + "." + suffix, **body}
+              require("sha256" not in value, "reserved-seal-field")
+              return {**value, "sha256":hashlib.sha256(canonical(value)).hexdigest()}
+
+          def sealed(path, schema=None):
+              value = read(path, True)
+              require(isinstance(value,dict) and (schema is None or value.get("schema") == schema), "sealed-schema")
+              require(value.get("sha256") == hashlib.sha256(canonical({k:v for k,v in value.items() if k != "sha256"})).hexdigest(),
+                  "sealed-file:" + path.name)
+              return value
+
+          def save(name, value):
+              path = REPORT / name
+              path.parent.mkdir(parents=True, exist_ok=True)
+              with path.open("xb") as stream:
+                  stream.write(canonical(value))
+                  stream.flush()
+                  os.fsync(stream.fileno())
+
+          def safe_name(name):
+              require(isinstance(name,str) and name and "\\" not in name and ":" not in name and "\x00" not in name, "safe-relative-name")
+              path = PurePosixPath(name)
+              require(not path.is_absolute() and all(p not in ("",".","..") for p in name.split("/")) and path.as_posix() == name,
+                  "canonical-relative-name")
+              return name
+
+          def scan(root):
+              require(root.is_dir() and not root.is_symlink(), "regular-root")
+              files, directories = [], []
+              for path in sorted(root.rglob("*")):
+                  require(not path.is_symlink(), "no-symlink")
+                  name = safe_name(path.relative_to(root).as_posix())
+                  if path.is_dir():
+                      directories.append(name)
+                  else:
+                      require(stat.S_ISREG(path.stat().st_mode), "regular-payload-file")
+                      files.append(pin(path,name))
+              return {"files":files, "directories":directories}
+
+          def exact_pin(root, name, expected):
+              safe_name(name)
+              require(pin(root / name) == expected, "exact-pin:" + name)
+
+          def launch():
+              return {"run":int(os.environ["GITHUB_RUN_ID"]), "attempt":int(os.environ["GITHUB_RUN_ATTEMPT"]),
+                  "head":os.environ["GITHUB_SHA"], "workflow":WORKFLOW}
+
+          def runtime():
+              import numpy
+              value = {"python":sys.version, "numpy":numpy.__version__}
+              require(value == EXPECTED_RUNTIME, "registered-full-runtime")
+              return value
+
+          def validate_pins():
+              require(list(ARTIFACTS) == list(ROLES) and len({x["id"] for x in ARTIFACTS.values()}) == 16, "sixteen-exact-artifacts")
+              for role,spec in ARTIFACTS.items():
+                  require(set(spec) == {"run","attempt","head","workflow","id","name","bytes","sha256","repository_id","conclusion"},
+                      "artifact-tuple-fields")
+                  require(all(type(spec[k]) is int and spec[k] > 0 for k in ("run","attempt","id","bytes")), "no-unobserved-pin")
+                  require(re.fullmatch("[0-9a-f]{40}",spec["head"]) and re.fullmatch("sha256:[0-9a-f]{64}",spec["sha256"]), "pin-format")
+                  require(spec["repository_id"] == REPOSITORY_ID and spec["conclusion"] ==
+                      ("failure" if role == "prepare" or role.startswith("block-") else "success"), "accepted-conclusion")
+              require(ARTIFACTS["continuation"]["run"] == 33990567016 and ARTIFACTS["continuation"]["id"] == 9977040548,
+                  "actual-resume64-only")
+              require(len(COMPLETION_ENTRIES) == 10 and all(type(x["bytes"]) is int and x["bytes"] > 0 and
+                  re.fullmatch("[0-9a-f]{64}",x["sha256"]) for x in COMPLETION_ENTRIES.values()), "observed-ten-entry-pins")
+              require(len(CONTINUATION_ENTRIES) == 30 and all(type(x["bytes"]) is int and x["bytes"] > 0 and
+                  re.fullmatch("[0-9a-f]{64}",x["sha256"]) for x in CONTINUATION_ENTRIES.values()), "observed-resume64-entry-pins-required")
+              require(len(SOURCES) == len(RAW) == 4, "registered-source-and-data-closure")
+              for name,(length,sha256) in {**SOURCES,**RAW}.items():
+                  require(length > 0 and re.fullmatch("[0-9a-f]{64}",sha256), "final-source-pins-required:" + name)
+
+          def sources():
+              validate_pins()
+              require(os.environ["GITHUB_REPOSITORY"] == REPOSITORY, "current-repository")
+              observed_runtime = runtime()
+              code, data = [], []
+              for name,(size,sha256) in {**SOURCES,**RAW}.items():
+                  path = REPO / name
+                  exact_pin(REPO,name,{"bytes":size,"sha256":sha256})
+                  destination = REPORT / "source-files" / name
+                  destination.parent.mkdir(parents=True,exist_ok=True)
+                  shutil.copyfile(path,destination)
+                  require(pin(destination) == pin(path), "archived-source-bytes")
+                  row = {"file":name,"bytes":size,"sha256":sha256}
+                  if name in SOURCES:
+                      ast.parse(path.read_bytes(),filename=name)
+                      row["AST"] = "PASS"
+                      code.append(row)
+                  else:
+                      data.append(row)
+              driver = REPORT / "driver.py"
+              ast.parse(driver.read_bytes(),filename=str(driver))
+              shutil.copyfile(REPO / WORKFLOW, REPORT / "workflow.yml")
+              save("source-receipt.json",seal(SCHEMA,"source-receipt",{
+                  "status":"PASS","launch":launch(),"runtime":observed_runtime,"files":code,"data":data,
+                  "workflow":pin(REPO / WORKFLOW,WORKFLOW),"driver":pin(driver,"driver.py"),
+                  "producer_imports_checker":False,"repo_import_closure":["P982","D983","retained-C9","retained-C4"],
+                  "retained_TCB_independence_reproved":False,"old_success_suites_rerun":0,**FALSE_ASSURANCE}))
+
+          def api(path, destination):
+              with destination.open("xb") as stream:
+                  subprocess.run(["gh","api","repos/" + REPOSITORY + "/" + path],stdout=stream,check=True)
+              return read(destination)
+
+          def safe_extract(archive,destination):
+              destination.mkdir()
+              with zipfile.ZipFile(archive) as bundle:
+                  seen = set()
+                  require(bundle.infolist(), "nonempty-parent-archive")
+                  for entry in bundle.infolist():
+                      raw_name = entry.filename
+                      name = raw_name[:-1] if entry.is_dir() else raw_name
+                      safe_name(name)
+                      require(name not in seen and raw_name == name + ("/" if entry.is_dir() else ""), "duplicate-or-noncanonical-ZIP")
+                      seen.add(name)
+                      mode = (entry.external_attr >> 16) & 0xffff
+                      kind = stat.S_IFMT(mode)
+                      require(kind in (0,stat.S_IFDIR,stat.S_IFREG) and not stat.S_ISLNK(mode) and not entry.flag_bits & 1,
+                          "ZIP-type-or-encryption")
+                      require((not entry.is_dir() or kind in (0,stat.S_IFDIR)) and
+                          not (kind == stat.S_IFDIR and not entry.is_dir()), "ZIP-directory-type")
+                      target = destination.joinpath(*PurePosixPath(name).parts)
+                      require(destination.resolve() in target.resolve().parents, "ZIP-contained-path")
+                      if entry.is_dir():
+                          target.mkdir(parents=True,exist_ok=True)
+                      else:
+                          target.parent.mkdir(parents=True,exist_ok=True)
+                          with bundle.open(entry) as source, target.open("xb") as output:
+                              shutil.copyfileobj(source,output,1 << 20)
+                          require(target.stat().st_size == entry.file_size,"ZIP-entry-EOF")
+
+          def admit_live():
+              validate_pins()
+              live = REPORT / "live-parents"
+              live.mkdir()
+              PARENT_BASE.mkdir()
+              current = api("actions/runs/" + os.environ["GITHUB_RUN_ID"] + "/attempts/" + os.environ["GITHUB_RUN_ATTEMPT"],
+                            live / "current-run.json")
+              require(current["id"] == launch()["run"] and current["run_attempt"] == launch()["attempt"] and
+                  current["head_sha"] == launch()["head"] and current["path"] == WORKFLOW and
+                  current["repository"]["id"] == current["head_repository"]["id"] == REPOSITORY_ID, "current-firing-HEAD")
+              rows, runs = [], {}
+              for role,spec in ARTIFACTS.items():
+                  run_id = spec["run"]
+                  if run_id not in runs:
+                      runs[run_id] = api("actions/runs/" + str(run_id),live / ("run-" + str(run_id) + ".json"))
+                  run = runs[run_id]
+                  require(run["id"] == run_id and run["run_attempt"] == spec["attempt"] and run["head_sha"] == spec["head"] and
+                      run["path"] == spec["workflow"] and run["status"] == "completed" and run["conclusion"] == spec["conclusion"] and
+                      run["repository"]["id"] == run["head_repository"]["id"] == REPOSITORY_ID,"live-parent-run:" + role)
+                  artifact = api("actions/artifacts/" + str(spec["id"]),live / ("artifact-" + str(spec["id"]) + ".json"))
+                  require(artifact["id"] == spec["id"] and artifact["name"] == spec["name"] and
+                      artifact["size_in_bytes"] == spec["bytes"] and artifact["digest"] == spec["sha256"] and
+                      artifact["expired"] is False, "live-parent-artifact:" + role)
+                  require(datetime.datetime.fromisoformat(artifact["expires_at"].replace("Z","+00:00")) >
+                      datetime.datetime.now(datetime.timezone.utc),"unexpired-parent")
+                  link = artifact["workflow_run"]
+                  require(link["id"] == run_id and link["head_sha"] == spec["head"] and
+                      link["repository_id"] == link["head_repository_id"] == REPOSITORY_ID,"artifact-run-join")
+                  archive = PARENT_BASE / (str(spec["id"]) + ".zip")
+                  with archive.open("xb") as stream:
+                      subprocess.run(["gh","api","repos/" + REPOSITORY + "/actions/artifacts/" + str(spec["id"]) + "/zip"],
+                          stdout=stream,check=True)
+                  require(pin(archive) == {"bytes":spec["bytes"],"sha256":spec["sha256"][7:]},"actual-ZIP-full-bytes")
+                  destination = PARENT_BASE / role
+                  safe_extract(archive,destination)
+                  rows.append({"role":role,"artifact":spec,"extraction_root":str(destination),
+                      "expires_at":artifact["expires_at"],"archive_sha256":digest(archive),"archive_bytes":archive.stat().st_size,
+                      "all_ZIP_entries_checked":True})
+                  save("live-parents/" + role + "-intake.json",seal(SCHEMA,"live-one",{
+                      "status":"PASS",**rows[-1],**FALSE_ASSURANCE}))
+              save("live-parent-intake.json",seal(SCHEMA,"live-parent-intake",{
+                  "status":"PASS","launch":launch(),"parents":rows,"count":16,"task554_accepted_failure":True,**FALSE_ASSURANCE}))
+
+
+          def root_paths():
+              intake = sealed(REPORT / "live-parent-intake.json",SCHEMA + ".live-parent-intake")
+              require(intake["status"] == "PASS" and intake["count"] == 16,"complete-live-admission")
+              extras = {
+                  "state":["state/physical.bin","state/instructions.jsonl","output/result.json"],
+                  "p1":["instructions.jsonl","degree2.cache.bin"],
+                  "task712":["r07-grade2-maps-v4-receipt.json","r07-grade2-maps-v4-checker.json"],
+                  "prepare":["prepare.HEAD"],
+                  "continuation":["run-receipt.json","accepted-completion/completion-run-receipt.json","checker-result.json"],
+                  "rho2":list(RHO2_FILES)}
+              for index in range(4):
+                  extras["block-" + str(index)] = ["block-" + str(index) + ".HEAD"]
+              for role in ("delta","seed34","packet","refinement","oracle","e"):
+                  extras[role] = ["checker-result.json","source-receipt.json"]
+              paths = {}
+              for entry in intake["parents"]:
+                  role = entry["role"]
+                  base = Path(entry["extraction_root"]).resolve()
+                  needed = [PRIMARY[role], *extras.get(role,[])]
+                  candidates = [root for root in [base,*sorted(p for p in base.rglob("*") if p.is_dir())]
+                      if all((root / name).is_file() and not (root / name).is_symlink() for name in needed)]
+                  require(len(candidates) == 1,"one-exact-payload-root:" + role)
+                  paths[role] = candidates[0].resolve()
+              require(set(paths) == set(ROLES),"all-sixteen-roots")
+              for i,left in enumerate(paths.values()):
+                  require(not left.is_symlink(),"root-not-symlink")
+                  for right in list(paths.values())[i+1:]:
+                      require(left != right and left not in right.parents and right not in left.parents,"disjoint-parent-roots")
+                  for output in (REPORT / "word",REPORT / "D"):
+                      require(left != output and left not in output.parents and output not in left.parents,"disjoint-consumer-outputs")
+              return paths
+
+          def authenticate_continuation(paths, inventories):
+              root = paths["continuation"]
+              for name,expected in CONTINUATION_ENTRIES.items():
+                  exact_pin(root,name,expected)
+              prior = root / "accepted-completion"
+              for name,expected in COMPLETION_ENTRIES.items():
+                  exact_pin(prior,name,expected)
+              for name,(size,sha256) in LOOP_FILES.items():
+                  exact_pin(prior,name,{"bytes":size,"sha256":sha256})
+              for name in ("output/owner.json","output/source.json","output/start.json","output/fixed/manifest.json"):
+                  require((root / name).read_bytes() == (prior / name).read_bytes(),"same-frozen-owner-source-start-fixed")
+              head = sealed(root / "output/HEAD",LOOP_SCHEMA + ".head")
+              result = sealed(root / "output/result.json",LOOP_SCHEMA + ".result")
+              checked = sealed(root / "checker-result.json",LOOP_SCHEMA + ".checker-result")
+              start = sealed(root / "output/start.json",LOOP_SCHEMA + ".start")
+              source = sealed(root / "output/source.json")
+              run = read(root / "run-receipt.json",True)
+              completion = read(prior / "completion-run-receipt.json",True)
+              repair = read(prior / "repair-source-receipt.json",True)
+              original_source = read(prior / "source-receipt.json",True)
+              resume_source = read(root / "resume-source-receipt.json",True)
+              require(run["schema"] == "d972.r07.complete-oracle-cegar-resume64.v1.run-receipt" and
+                  run["status"] == checked["status"] == completion["status"] == "PASS","successful-saved-continuation")
+              require(run["current_launch"] == {key:ARTIFACTS["continuation"][key] for key in ("run","attempt","head","workflow")},
+                  "observed-resume64-launch")
+              require(run["completion_launch"] == completion["completion_launch"] ==
+                  {key:ACCEPTED_COMPLETION_ARTIFACT[key] for key in ("run","attempt","head","workflow")},"retained-completion-launch")
+              require({key:run["accepted_completion_artifact"][key] for key in ACCEPTED_COMPLETION_ARTIFACT} ==
+                  ACCEPTED_COMPLETION_ARTIFACT,"exact-prior-completion-artifact")
+              require(run["original_launch"] == completion["original_launch"] and
+                  run["original_artifact"] == completion["original_artifact"],"original-producer-lineage")
+              require(run["producer_sha256"] == source["producer_sha256"] == resume_source["producer_sha256"] ==
+                  completion["producer_sha256"] == LOOP_PRODUCER and
+                  run["checker_sha256"] == checked["checker_sha256"] == resume_source["checker_sha256"] ==
+                  completion["checker_sha256"] == repair["files"][-1]["sha256"] == LOOP_CHECKER,"same-frozen-P971-Cv2")
+              require(len(original_source["files"]) == 19 and len(repair["files"]) == len(resume_source["files"]) == 20 and
+                  repair["files"][:19] == original_source["files"] and resume_source["files"] == repair["files"],
+                  "original-and-completion-and-resume-source-roles")
+              require(source["data"] == original_source["data"] == repair["data"] == resume_source["data"],"retained-raw-source-identity")
+              require({name:(value["bytes"],value["sha256"]) for name,value in source["data"].items()} ==
+                  {name:value for name,value in RAW.items() if name.startswith("scratchpad/")},"retained-three-raw-pins")
+              for value in (source,checked,repair,resume_source):
+                  require({key:value[key] for key in ("python","numpy")} == runtime(),"same-saved-runtime")
+              require(run["producer_runtime"] == run["checker_runtime"] == completion["producer_runtime"] ==
+                  completion["checker_runtime"] == runtime(),"three-launch-runtime-identity")
+              require(head["completed_steps"] == result["completed_steps"] == checked["completed_steps"] ==
+                  checked["prefix_steps_replayed"] == run["completed_steps"] == run["prefix_steps_replayed"] == 64,
+                  "observed-complete-sixty-four-prefix")
+              require(head["rank"] == 1450 and head["generation"] == 8155 and head["kind"] == "Separator" and
+                  head["current_snapshot_sha256"] is None and head["current_checkpoint_sha256"] is None and
+                  result["terminal"] == checked["terminal"] == run["terminal"] == "UNKNOWN_CAP","observed-current-status")
+              for key in ("rank","generation","kind","state_head","target_remainder_sha256","lambda_sha256",
+                          "current_snapshot_sha256","current_checkpoint_sha256"):
+                  require(head[key] == result[key] == checked[key] == run[key],"saved-current-identity:" + key)
+              for key,name in (("owner_sha256","output/owner.json"),("source_sha256","output/source.json"),
+                              ("start_sha256","output/start.json"),("fixed_manifest_sha256","output/fixed/manifest.json")):
+                  require(head[key] == result[key] == checked[key] == digest(root / name),"saved-current-parent:" + key)
+              require(checked["head_sha256"] == result["head_sha256"] == run["head_sha256"] == digest(root / "output/HEAD") and
+                  checked["result_sha256"] == run["producer_result_sha256"] == digest(root / "output/result.json") and
+                  run["checker_result_sha256"] == digest(root / "checker-result.json"),"saved-HEAD-result-checker-files")
+              require(start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0 and
+                  start["external_e_attached"] is True and start["external_e_numerically_replayed"] is False,"original-start-not-renamed")
+              for key in ("all_new_committed_arrays_and_json_compared","current_checkpoint_fully_compared",
+                          "full_four_character_scope","ordinary27_actual_source","all_four_B_summed_each_E"):
+                  require(checked[key] is True,"whole-prefix-arithmetic-scope:" + key)
+              for key,wanted in (("section_equalities_each",8059),("chords_each",54433),("auxiliary_tests_each",2),
+                      ("source_lower_trits_each_E",96776),("literal_modulus",54),("external_e_attached",1),
+                      ("old_scans_numerically_replayed",0),("old_inserts_numerically_replayed",0),("old_success_suites",0)):
+                  require(checked[key] == wanted,"whole-prefix-scope:" + key)
+              for key in ("actual_resume","all_past32_step_and_snapshot_receipts_match","old_prefix_unchanged",
+                          "all_readonly_parents_unchanged","all_sources_unchanged","output_unchanged_by_checker"):
+                  require(run[key] is True,"accepted-resume-preservation:" + key)
+              require(run["before_completed_steps"] == run["new_appends_this_run"] == 32 and
+                  run["producer_invocations_this_run"] == run["checker_invocations_this_run"] == 1 and
+                  run["old_success_suites_rerun"] == 0,"one-real-saved-resume")
+              for value in (checked,result,run,completion):
+                  require(value["cross_checked"] is False and value["verified"] is False and
+                      value["grade2_member"] == value["grade2_nonmember"] == "NOT_DECIDED" and value["full_A0"] is False,
+                      "retained-assurance-boundary")
+              for field,name in (("accepted_completion_run_receipt_sha256","accepted-completion/completion-run-receipt.json"),
+                      ("accepted_completion_checker_result_sha256","accepted-completion/checker-result.json"),
+                      ("original_source_receipt_sha256","source-receipt.json"),
+                      ("repair_source_receipt_sha256","accepted-completion/repair-source-receipt.json"),
+                      ("resume_source_receipt_sha256","resume-source-receipt.json"),
+                      ("completion_intake_receipt_sha256","completion-intake-receipt.json"),
+                      ("copy_before_resume_sha256","copy-before-resume.json"),
+                      ("producer_output_before_checker_sha256","producer-output-before-checker.json"),
+                      ("preservation_result_sha256","preservation-result.json"),
+                      ("all_parent_files_before_sha256","all-parent-files-before.json"),
+                      ("all_parent_files_after_sha256","all-parent-files-after.json")):
+                  require(run[field] == digest(root / name),"resume-provenance-file:" + field)
+              preserved = read(root / "preservation-result.json",True)
+              before_checker = read(root / "producer-output-before-checker.json",True)
+              output = scan(root / "output")
+              require(preserved["status"] == before_checker["status"] == "PASS" and preserved["errors"] == [] and
+                  output["files"] == preserved["files"] == before_checker["files"] and
+                  output["directories"] == preserved["directories"] == before_checker["directories"],
+                  "entire-saved-output-preserved-after-C")
+              require(len(output["files"]) == run["output_files"] and len(output["directories"]) == run["output_directories"] and
+                  sum(row["bytes"] for row in output["files"]) == run["output_bytes"] == preserved["output_bytes"],"saved-output-EOF")
+              require(len(checked["steps"]) == len(checked["snapshots"]) == 64,"saved-C-receipt-cardinality")
+              phases = ("section","cochain","tree","raw","source","primal","p1","B","physical")
+              for index,(snapshot,step) in enumerate(zip(checked["snapshots"],checked["steps"],strict=True)):
+                  base = root / "output/snapshots" / f"{index:06d}"
+                  require(snapshot["step"] == index and step["step"] == index + 1 and
+                      snapshot["snapshot_sha256"] == digest(base / "start.json") and
+                      snapshot["oracle_manifest_sha256"] == digest(base / "oracle-manifest.json") and
+                      step["manifest_sha256"] == digest(root / "output/steps" / f"{index + 1:06d}" / "manifest.json"),
+                      "saved-C-complete-snapshot-files")
+                  require(set(snapshot["phase_manifests"]) == set(phases),"all-nine-saved-phases")
+                  for phase in phases:
+                      folder = base / phase if phase in phases[:3] else base / "e" / phase
+                      require(snapshot["phase_manifests"][phase] == digest(folder / "manifest.json"),"saved-phase-file-hash")
+              old_parents = read(root / "all-parent-files-before.json",True)
+              require(old_parents == read(root / "all-parent-files-after.json",True) and old_parents["count"] == 15,
+                  "accepted-resume-all-parents-unchanged")
+              aliases = {role:("BLOCK_" + role[-1] + "_ROOT" if role.startswith("block-") else
+                  {"state":"STATE_ROOT","delta":"DELTA_ROOT","seed34":"SEED34_ROOT","packet":"PACKET_ROOT",
+                   "refinement":"REFINEMENT_ROOT","oracle":"ORACLE_ROOT","e":"E_ROOT","prepare":"PREPARE_ROOT",
+                   "p1":"P1_ROOT","task712":"TASK712_ROOT"}[role]) for role in ROLES[:14]}
+              previous_by_role = {item["role"]:item for item in old_parents["parents"]}
+              for role,alias in aliases.items():
+                  require(previous_by_role[alias] == {"role":alias,**inventories[role]},"same-fourteen-retained-parent-bodies")
+              require(previous_by_role["COMPLETION_ROOT"] == {"role":"COMPLETION_ROOT",**scan(prior)},"saved-completion-root-unchanged")
+              prior_tests = []
+              for entry in run["prior_tests_authenticated_without_rerun"]:
+                  path = prior / safe_name(entry["file"])
+                  require(digest(path) == entry["sha256"] and read(path)["status"] == "PASS" and entry["rerun"] is False,
+                      "retained-old-test-receipt-only")
+                  prior_tests.append(entry)
+              # Archive provenance, not another copy of all old numerical payloads.
+              for folder,label in ((root,"resume64"),(prior,"completion32")):
+                  for path in sorted(folder.iterdir()):
+                      if path.is_file() and path.suffix in (".json",".py",".yml",".txt",".log"):
+                          target = REPORT / "retained-parent-receipts" / label / path.name
+                          target.parent.mkdir(parents=True,exist_ok=True)
+                          shutil.copyfile(path,target)
+              save("continuation-intake.json",seal(SCHEMA,"continuation-intake",{
+                  "status":"PASS","artifact":ARTIFACTS["continuation"],"original_launch":run["original_launch"],
+                  "completion_launch":run["completion_launch"],"resume_launch":run["current_launch"],"new_launch":launch(),
+                  "producer_sha256":LOOP_PRODUCER,"checker_sha256":LOOP_CHECKER,
+                  "completion_entry_files":[{"file":name,**value} for name,value in sorted(COMPLETION_ENTRIES.items())],
+                  "continuation_entry_files":[{"file":name,**value} for name,value in sorted(CONTINUATION_ENTRIES.items())],
+                  "observed_head":head,"terminal":result["terminal"],"output":output,
+                  "old_success_suites_rerun":0,"prior_tests_authenticated_without_rerun":prior_tests,**FALSE_ASSURANCE}))
+              return head,result,checked
+
+          def accept():
+              paths = root_paths()
+              inventories = {role:scan(paths[role]) for role in ROLES}
+              head,result,checked = authenticate_continuation(paths,inventories)
+              rho = paths["rho2"]
+              for name,(size,sha256) in RHO2_FILES.items():
+                  exact_pin(rho,name,{"bytes":size,"sha256":sha256})
+              for role in ("delta","seed34","packet","refinement","oracle","e"):
+                  receipt = read(paths[role] / "checker-result.json")
+                  require(receipt["status"] == "PASS" and receipt["cross_checked"] is False and receipt["verified"] is False,
+                      "accepted-legacy-checker:" + role)
+              p1_manifest = read(paths["p1"] / "manifest.json")
+              require(digest(paths["p1"] / "manifest.json") == "86e8b14cb0a60c86468ffb54a7bf14980366406a1e5bea17018fc6961f331feb",
+                  "accepted-P1-manifest")
+              require(p1_manifest["instruction"]["rows"] == 8059 and p1_manifest["instruction"]["eof"] is True,"P1-whole-literal-source-EOF")
+              parent_entries = [{"role":role,"artifact":ARTIFACTS[role],"manifest":pin(paths[role] / PRIMARY[role],PRIMARY[role]),
+                  **inventories[role]} for role in ROLES]
+              selected_paths = {"head":"output/HEAD","result":"output/result.json","checker":"checker-result.json",
+                  "owner":"output/owner.json","source":"output/source.json","start":"output/start.json","fixed":"output/fixed/manifest.json"}
+              selected = {key:pin(paths["continuation"] / name,name) for key,name in selected_paths.items()}
+              selected.update({key:head[key] for key in ("completed_steps","rank","generation","kind","state_head",
+                  "target_remainder_sha256","lambda_sha256")})
+              selected["terminal"] = result["terminal"]
+              acceptance = seal(WORD_SCHEMA,"acceptance",{"status":"PASS","parents":parent_entries,"selected":selected,
+                  "consumer_sources":{"producer":pin(REPO / P_SOURCE,P_SOURCE),"checker":pin(REPO / D_SOURCE,D_SOURCE)},
+                  "runtime":runtime(),**ASSURANCE})
+              save("acceptance.json",acceptance)
+              save("parent-paths.json",{role:str(path) for role,path in paths.items()})
+              save("all-parent-files-before.json",seal(SCHEMA,"all-parent-files",{
+                  "parents":[{"role":role,**inventories[role]} for role in ROLES],"count":16,**FALSE_ASSURANCE}))
+              before_sources = [pin(REPO / name,name) for name in [*SOURCES,*RAW,WORKFLOW]]
+              save("all-source-files-before.json",seal(SCHEMA,"source-files",{
+                  "files":before_sources,"acceptance":pin(REPORT / "acceptance.json","acceptance.json"),
+                  "driver":pin(REPORT / "driver.py","driver.py"),**FALSE_ASSURANCE}))
+              for root in paths.values():
+                  for path in root.rglob("*"):
+                      path.chmod(0o555 if path.is_dir() else 0o444)
+                  root.chmod(0o555)
+              for name in [*SOURCES,*RAW,WORKFLOW]:
+                  (REPO / name).chmod(0o444)
+              for name in ("acceptance.json","parent-paths.json","driver.py","all-parent-files-before.json","all-source-files-before.json"):
+                  (REPORT / name).chmod(0o444)
+              save("admission-result.json",seal(SCHEMA,"admission-result",{
+                  "status":"PASS","parents":16,"old_success_suites_rerun":0,"readonly_before_consumers":True,
+                  "acceptance":pin(REPORT / "acceptance.json","acceptance.json"),
+                  "source_receipt":pin(REPORT / "source-receipt.json","source-receipt.json"),
+                  "continuation_intake":pin(REPORT / "continuation-intake.json","continuation-intake.json"),**FALSE_ASSURANCE}))
+
+          SELFTEST_NAMES = {
+              "P_SELFTEST":["ordered-word-same-root-mod54","target-history-positioned-readonly","raw-cycle-auxiliary-four-B"],
+              "D_SELFTEST":["actual_nonunit_Act_inverse_typed_codec_endpoint_and_printed_order",
+                  "same_root_EOF_mod54_and_resealed_Ref_word_key_mutations",
+                  "actual_eleven_adapter_binary_JSONL_and_Linear_null_contracts"]}
+          WORD_FILES = sorted(["source.json","owner.json","parent-roster.json","fresh-rho2.json","context.json",
+              "literal-dictionary.json","target-history.json","ancestor-index.json","ordered-word.jsonl",
+              "word-manifest.json","normalized-pair.json","manifest.json","result.json"])
+
+          def execute(label):
+              require(label in ("P_SELFTEST","D_SELFTEST","P","D"),"registered-invocation")
+              require(sealed(REPORT / "admission-result.json")["status"] == "PASS","admitted-readonly-inputs")
+              producer = label.startswith("P")
+              source = P_SOURCE if producer else D_SOURCE
+              argv = [sys.executable,"-B",str(REPO / source)]
+              if label.endswith("SELFTEST"):
+                  argv.append("--selftest")
+              else:
+                  require(sealed(REPORT / "new-canary-result.json")["status"] == "PASS","only-new-canaries-PASS")
+                  paths = read(REPORT / "parent-paths.json")
+                  for role in ROLES:
+                      argv += ["--block-root" if role.startswith("block-") else "--" + role + "-root",paths[role]]
+                  argv += ["--acceptance",str(REPORT / "acceptance.json")]
+                  if producer:
+                      argv += ["--output",str(REPORT / "word")]
+                  else:
+                      require(sealed(REPORT / "word-before-D.json")["status"] == "PASS","complete-word-before-D")
+                      argv += ["--word-root",str(REPORT / "word"),"--output",str(REPORT / "D"),
+                          "--producer-max-seconds",str(LIMITS["P"]["seconds"]),
+                          "--producer-max-memory-mib",str(LIMITS["memory_mib"])]
+              argv += ["--max-seconds",str(LIMITS[label]["seconds"]),"--max-memory-mib",str(LIMITS["memory_mib"])]
+              save("executions/" + label + "-command.json",seal(SCHEMA,"execution-command",{
+                  "label":label,"argv":argv,"source":pin(REPO / source,source),"launch":launch(),
+                  "started_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  "started_monotonic":time.monotonic(),"registered_limits":LIMITS[label],
+                  "max_memory_mib":LIMITS["memory_mib"],**FALSE_ASSURANCE}))
+              # Replace this process so the outer timeout reaches the consumer's own cooperative signal handler.
+              os.execv(sys.executable,argv)
+
+          def record_exit(label,code):
+              require(label in LIMITS and label in ("P_SELFTEST","D_SELFTEST","P","D"),"registered-exit")
+              command = sealed(REPORT / "executions" / (label + "-command.json"))
+              save("executions/" + label + "-receipt.json",seal(SCHEMA,"execution-receipt",{
+                  "label":label,"exit_code":code,"command_sha256":digest(REPORT / "executions" / (label + "-command.json")),
+                  "started_utc":command["started_utc"],"finished_utc":datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                  "wall_seconds":round(time.monotonic() - command["started_monotonic"],6),
+                  "stdout":pin(REPORT / (label + "-stdout.json"),label + "-stdout.json"),
+                  "stderr":pin(REPORT / (label + ".log"),label + ".log"),**FALSE_ASSURANCE}))
+
+          def check_canaries():
+              rows = []
+              for label in ("P_SELFTEST","D_SELFTEST"):
+                  execution = sealed(REPORT / "executions" / (label + "-receipt.json"))
+                  require(execution["exit_code"] == 0,"new-canary-exit-zero")
+                  expected_schema = WORD_SCHEMA if label.startswith("P") else D_SCHEMA
+                  value = sealed(REPORT / (label + "-stdout.json"),expected_schema + ".selftest")
+                  require(value["status"] == "PASS" and [x["name"] for x in value["tests"]] == SELFTEST_NAMES[label] and
+                      all(x["status"] == "PASS" for x in value["tests"]),"exact-three-new-canary-groups")
+                  require(value["cross_checked"] is False and value["verified"] is False,"new-canary-assurance")
+                  if label.startswith("P"):
+                      require(value["old_success_suites_rerun"] == 0 and value["candidate"] is False and
+                          all(x["rejected_cases"] for x in value["tests"]),"P-new-interface-fixtures-only")
+                  else:
+                      require(value["old_success_suites"] == 0 and value["actual_parent_artifact_replayed"] is False and
+                          value["candidate"] is True,"D-new-interface-fixtures-only")
+                  rows.append({"label":label,"result":pin(REPORT / (label + "-stdout.json"),label + "-stdout.json"),
+                      "execution":pin(REPORT / "executions" / (label + "-receipt.json"),"executions/" + label + "-receipt.json"),
+                      "tests":SELFTEST_NAMES[label]})
+              save("new-canary-result.json",seal(SCHEMA,"new-canary-result",{
+                  "status":"PASS","groups":rows,"old_success_suites_rerun":0,"limits":LIMITS,**FALSE_ASSURANCE}))
+
+          def compare_manifest(root,manifest_name,extra,known=None):
+              manifest = sealed(root / manifest_name)
+              observed = known if known is not None else scan(root)
+              records = manifest["files"]
+              require(isinstance(records,list) and [x["file"] for x in records] == sorted(set(x["file"] for x in records)),
+                  "unique-ordered-manifest-files")
+              index = {row["file"]:row for row in observed["files"]}
+              require(set(index) == {x["file"] for x in records} | set(extra) and
+                  not ({x["file"] for x in records} & set(extra)),"exact-manifest-output-roster")
+              for entry in records:
+                  safe_name(entry["file"])
+                  require(type(entry["bytes"]) is int and entry["bytes"] >= 0 and
+                      index[entry["file"]] == {key:entry[key] for key in ("file","bytes","sha256")},"manifest-full-file-bytes")
+              if "directories" in manifest:
+                  require(manifest["directories"] == observed["directories"],"manifest-complete-directories")
+              return manifest,observed
+
+          def check_word():
+              require(sealed(REPORT / "executions/P-receipt.json")["exit_code"] == 0,"P-single-successful-exit")
+              root = REPORT / "word"
+              require((REPORT / "P-stdout.json").read_bytes() == (root / "result.json").read_bytes(),"P-stdout-result-bytes")
+              result = sealed(root / "result.json",WORD_SCHEMA + ".result")
+              manifest,observed = compare_manifest(root,"manifest.json",["manifest.json","result.json"])
+              require([x["file"] for x in observed["files"]] == WORD_FILES and observed["directories"] == [] and
+                  manifest["file_roster"] == WORD_FILES and len(manifest["files"]) == 11,"complete-thirteen-word-files")
+              word = sealed(root / "word-manifest.json",WORD_SCHEMA + ".word-manifest")
+              target = sealed(root / "target-history.json",WORD_SCHEMA + ".target-history")
+              pair = sealed(root / "normalized-pair.json",WORD_SCHEMA + ".normalized-pair")
+              accepted = sealed(REPORT / "acceptance.json",WORD_SCHEMA + ".acceptance")
+              require(result["status"] == "PASS" and result["terminal"] in ("NOT_APPLICABLE","POSITIVE_WORD_CANDIDATE") and
+                  result["same_word_B_C"] is True and result["same_word_D"] is False and result["eleven_slot_replay"] is False,
+                  "P-scope-without-premature-D")
+              require(manifest["schema"] == WORD_SCHEMA + ".manifest" and manifest["all_inputs_unchanged"] is True and
+                  result["manifest_sha256"] == digest(root / "manifest.json"),"P-top-manifest")
+              for field,name in (("word_manifest_sha256","word-manifest.json"),("target_history_sha256","target-history.json"),
+                      ("ancestor_index_sha256","ancestor-index.json"),("normalized_pair_sha256","normalized-pair.json"),
+                      ("owner_sha256","owner.json"),("source_sha256","source.json"),("parent_roster_sha256","parent-roster.json"),
+                      ("context_manifest_sha256","context.json")):
+                  require(result[field] == digest(root / name),"P-output-receipt:" + field)
+              require(result["accepted_head_sha256"] == accepted["selected"]["head"]["sha256"] and
+                  result["accepted_checker_sha256"] == accepted["selected"]["checker"]["sha256"],"P-selected-HEAD")
+              for key in ("completed_steps","rank","generation","state_head","target_remainder_sha256"):
+                  require(result[key] == accepted["selected"][key],"P-current-snapshot:" + key)
+              require(result["root_id"] == word["root_id"] == pair["same_root_id"] == manifest["root_id"] and
+                  result["root_sha256"] == word["root_sha256"] == pair["same_root_sha256"] == manifest["root_sha256"],
+                  "P-one-root-B-C-and-top")
+              require(word["nodes_file"]["nodes"] == result["nodes"] and pair["word_manifest_sha256"] == digest(root / "word-manifest.json") and
+                  pair["normalized_pair"] == result["normalized_pair"],"P-node-EOF-and-normalized-pair")
+              require(result["resource_limits"] == {"max_seconds":5400,"max_memory_mib":7168} and
+                  result["parent_inputs_unchanged"] is True and result["old_numerical_replays"] == 0 and result["eof"] is True,
+                  "P-declared-ceilings-and-readonly-scope")
+              for value in (result,word,target,manifest):
+                  require(value["candidate"] is True and value["cross_checked"] is False and value["verified"] is False,"P-assurance")
+              require(result["grade2_member"] == result["grade2_nonmember"] == "NOT_DECIDED" and result["full_A0"] is False and
+                  result["side_conditions"] == "PENDING","P-no-grade2-verdict")
+              save("word-before-D.json",seal(SCHEMA,"word-before-D",{
+                  "status":"PASS",**observed,"result":pin(root / "result.json","result.json"),
+                  "word_manifest_sha256":digest(root / "word-manifest.json"),"root_id":word["root_id"],
+                  "root_sha256":word["root_sha256"],**FALSE_ASSURANCE}))
+
+          def always_preserve():
+              errors, parent_rows, code_rows = [], [], []
+              def attempt(name,action):
+                  try:
+                      action()
+                  except Exception as error:
+                      errors.append({"check":name,"reason":type(error).__name__ + ":" + str(error)})
+              def parents_check():
+                  paths = read(REPORT / "parent-paths.json")
+                  before = sealed(REPORT / "all-parent-files-before.json")
+                  for role in ROLES:
+                      parent_rows.append({"role":role,**scan(Path(paths[role]))})
+                  require(before["count"] == len(parent_rows) == 16 and before["parents"] == parent_rows,"sixteen-parents-unchanged")
+              attempt("parents",parents_check)
+              save("all-parent-files-after.json",seal(SCHEMA,"all-parent-files",{
+                  "parents":parent_rows,"count":len(parent_rows),**FALSE_ASSURANCE}))
+              def sources_check():
+                  before = sealed(REPORT / "all-source-files-before.json")
+                  code_rows.extend(pin(REPO / name,name) for name in [*SOURCES,*RAW,WORKFLOW])
+                  require(code_rows == before["files"] and
+                      pin(REPORT / "acceptance.json","acceptance.json") == before["acceptance"] and
+                      pin(REPORT / "driver.py","driver.py") == before["driver"],"all-source-raw-acceptance-driver-bytes-unchanged")
+              attempt("source-raw-acceptance-driver",sources_check)
+              save("all-source-files-after.json",seal(SCHEMA,"source-files",{
+                  "files":code_rows,"acceptance":pin(REPORT / "acceptance.json","acceptance.json")
+                      if (REPORT / "acceptance.json").is_file() else None,**FALSE_ASSURANCE}))
+              outputs = {}
+              for label in ("word","D"):
+                  def output_check(label=label):
+                      outputs[label] = scan(REPORT / label)
+                      if label == "word" and (REPORT / "word-before-D.json").is_file():
+                          before = sealed(REPORT / "word-before-D.json")
+                          require(outputs[label]["files"] == before["files"] and outputs[label]["directories"] == before["directories"],
+                              "word-byte-roster-unchanged-by-D")
+                  attempt("output-" + label,output_check)
+              save("output-inventories.json",seal(SCHEMA,"output-inventories",{"outputs":outputs,**FALSE_ASSURANCE}))
+              save("preservation-result.json",seal(SCHEMA,"preservation-result",{
+                  "status":"PASS" if not errors else "INCOMPLETE","errors":errors,"parent_count":len(parent_rows),
+                  "all_sixteen_parents_unchanged":not any(e["check"] == "parents" for e in errors),
+                  "source_raw_acceptance_driver_unchanged":not any(e["check"] == "source-raw-acceptance-driver" for e in errors),
+                  "word_unchanged_by_D":not any(e["check"] == "output-word" for e in errors) and
+                      (REPORT / "word-before-D.json").is_file(),
+                  "outputs":outputs,**FALSE_ASSURANCE}))
+              require(not errors,"always-preservation-incomplete")
+
+          def descriptor(root,item,wanted_name):
+              require(isinstance(item,dict) and item.get("file") == wanted_name and
+                  pin(root / wanted_name,wanted_name) == {key:item[key] for key in ("file","bytes","sha256")},"D-exact-descriptor")
+              return sealed(root / wanted_name)
+
+          def finish():
+              preserved = sealed(REPORT / "preservation-result.json")
+              require(preserved["status"] == "PASS" and preserved["parent_count"] == 16 and
+                  preserved["all_sixteen_parents_unchanged"] is True and preserved["source_raw_acceptance_driver_unchanged"] is True and
+                  preserved["word_unchanged_by_D"] is True,"all-inputs-and-word-preserved")
+              require(sealed(REPORT / "new-canary-result.json")["status"] == "PASS" and
+                  all(sealed(REPORT / "executions" / (label + "-receipt.json"))["exit_code"] == 0 for label in ("P","D")),
+                  "one-P-one-D-successful-exits")
+              p_root,d_root = REPORT / "word",REPORT / "D"
+              p = sealed(p_root / "result.json",WORD_SCHEMA + ".result")
+              d = sealed(d_root / "checker-result.json",D_SCHEMA + ".checker-result")
+              require((REPORT / "D-stdout.json").read_bytes() == (d_root / "checker-result.json").read_bytes(),"D-stdout-result-bytes")
+              require(d["status"] == "PASS" and d["terminal"] == "SAME_WORD_CURRENT_GRADE_COMPARED","complete-D-current-grade-only")
+              true_flags = ("complete_receipt","eof","all_thirteen_word_files_compared","all_ordered_node_bytes_and_EOF_compared",
+                  "all_Ref_ordered_recipes_compared","same_root_normalized_pair_compared","all_eleven_endpoints_one",
+                  "all_three_printed_direct_prefix_equalities","original_rho2_directly_read","all_inputs_unchanged")
+              require(all(d[key] is True for key in true_flags),"D-whole-readout-flags")
+              require(d["typed_slots"] == 11 and d["typed_E3_bytes"] == 40 and d["typed_E4_bytes"] == 154 and
+                  d["full_filtered_coordinates_compared"] == 80644,"D-full-typed-and-filtered-universe")
+              require(d["checker_sha256"] == SOURCES[D_SOURCE][1] and
+                  d["word_manifest_sha256"] == p["word_manifest_sha256"] == digest(p_root / "word-manifest.json") and
+                  d["producer_result_sha256"] == digest(p_root / "result.json") and
+                  d["accepted_HEAD_sha256"] == p["accepted_head_sha256"],"D-sources-and-actual-P-bundle")
+              require(d["same_root_id"] == p["root_id"] and d["same_root_sha256"] == p["root_sha256"] and
+                  d["nodes"] == p["nodes"] and d["normalized_pair"] == p["normalized_pair"],"single-ordered-root-and-pair")
+              accepted = sealed(REPORT / "acceptance.json")
+              for key in ("completed_steps","rank","generation","kind","state_head","target_remainder_sha256"):
+                  require(d[key] == accepted["selected"][key],"D-selected-current-state:" + key)
+              require(d["residual_zero"] == p["residual_zero"],"P-D-positive-applicability")
+              inputs = descriptor(d_root,d["inputs"],"input-comparison.json")
+              require(inputs["word_files"] == preserved["outputs"]["word"]["files"],"D-all-thirteen-P-file-receipts")
+              normalized = descriptor(d_root,d["normalized_receipt"],"normalized-pair.json")
+              require(normalized["compared_producer_receipt_sha256"] == digest(p_root / "normalized-pair.json"),
+                  "D-normalized-producer-file")
+              recipe = d["recipe_bindings"]
+              safe_name(recipe["file"])
+              require(pin(d_root / recipe["file"],recipe["file"]) == {key:recipe[key] for key in ("file","bytes","sha256")},
+                  "D-recipe-binding-file")
+              manifest = descriptor(d_root,d["manifest"],"manifest.json")
+              require(manifest["schema"] == D_SCHEMA + ".manifest" and manifest["eof"] is True and manifest["all_compared"] is True,
+                  "D-complete-success-manifest")
+              compare_manifest(d_root,"manifest.json",["manifest.json","checker-result.json"],preserved["outputs"]["D"])
+              current = d["current_grade"]
+              require(current["status"] == "PASS" and current["physical_lower_zero"] is True and
+                  current["physical_lower_width"] == 32260 and current["physical_top_width"] == 48384 and
+                  current["top_plus_current_target_equals_actual_original_rho2"] is True and
+                  current["original_rho2_directly_read"] is True and current["all_eleven_typed_receipts_retained"] is True and
+                  current["PB4_Fox_zero_required"] is False and current["full_P_zero_claimed"] is False,"D-registered-current-grade")
+              for value in (d,manifest,current):
+                  require(value["candidate"] is True and value["cross_checked"] is False and value["verified"] is False,"D-assurance")
+              if not p["residual_zero"]:
+                  require(p["positive_applicability"] == p["positive_readout"] == d["positive_readout"] == "NOT_APPLICABLE",
+                      "nonzero-residual-keeps-positive-not-applicable")
+              prior = sealed(REPORT / "continuation-intake.json")
+              save("run-receipt.json",seal(SCHEMA,"run-receipt",{
+                  "status":"PASS","current_launch":launch(),"original_producer_launch":prior["original_launch"],
+                  "completion_launch":prior["completion_launch"],"saved_resume_launch":prior["resume_launch"],
+                  "accepted_continuation_artifact":ARTIFACTS["continuation"],"all_parent_artifacts":ARTIFACTS,
+                  "source_receipt":pin(REPORT / "source-receipt.json","source-receipt.json"),
+                  "acceptance":pin(REPORT / "acceptance.json","acceptance.json"),
+                  "admission":pin(REPORT / "admission-result.json","admission-result.json"),
+                  "new_canaries":pin(REPORT / "new-canary-result.json","new-canary-result.json"),
+                  "preservation":pin(REPORT / "preservation-result.json","preservation-result.json"),
+                  "producer_result":pin(p_root / "result.json","word/result.json"),
+                  "checker_result":pin(d_root / "checker-result.json","D/checker-result.json"),
+                  "word_manifest_sha256":p["word_manifest_sha256"],"ancestor_index_sha256":p["ancestor_index_sha256"],
+                  "target_history_sha256":p["target_history_sha256"],"normalized_pair_sha256":p["normalized_pair_sha256"],
+                  "root_id":p["root_id"],"root_sha256":p["root_sha256"],"nodes":p["nodes"],
+                  "completed_steps":p["completed_steps"],"rank":p["rank"],"generation":p["generation"],"state_head":p["state_head"],
+                  "target_remainder_sha256":p["target_remainder_sha256"],"residual_zero":p["residual_zero"],
+                  "normalized_pair":p["normalized_pair"],"positive_applicability":p["positive_applicability"],
+                  "D_terminal":d["terminal"],"positive_readout":d["positive_readout"],"current_grade":current,
+                  "full_filtered_coordinates_compared":80644,"typed_slots":11,"same_root_P_D":True,
+                  "original_rho2_manifest_sha256":RHO2_FILES["task640-payload/manifest.json"][1],
+                  "producer_invocations":1,"checker_invocations":1,"old_numerical_replays":0,"old_success_suites_rerun":0,
+                  "runtime":runtime(),"limits":LIMITS,"new_independence_of_retained_TCB_claimed":False,
+                  "side_localization":"PENDING","workshop_cv9":"PENDING","grade2_member":"NOT_DECIDED",
+                  "grade2_nonmember":"NOT_DECIDED","full_A0":False,"COMMON":False,"cofinal":False,"fake":False,"Ihara":False,
+                  **ASSURANCE}))
+
+          def main():
+              REPORT.mkdir(parents=True,exist_ok=True)
+              mode = sys.argv[1]
+              try:
+                  import resource
+                  _,hard = resource.getrlimit(resource.RLIMIT_AS)
+                  limit = LIMITS["memory_mib"] * (1 << 20)
+                  require(hard == resource.RLIM_INFINITY or limit <= hard,"registered-memory-ceiling")
+                  resource.setrlimit(resource.RLIMIT_AS,(limit,hard))
+                  if mode == "sources":
+                      sources()
+                  elif mode == "live":
+                      admit_live()
+                  elif mode == "accept":
+                      accept()
+                  elif mode == "execute":
+                      execute(sys.argv[2])
+                  elif mode == "record":
+                      record_exit(sys.argv[2],int(sys.argv[3]))
+                  elif mode == "canaries":
+                      check_canaries()
+                  elif mode == "word":
+                      check_word()
+                  elif mode == "always":
+                      always_preserve()
+                  elif mode == "finish":
+                      finish()
+                  else:
+                      raise ValueError("unknown-driver-mode")
+              except Exception as error:
+                  save("driver-" + mode + "-failure.json",seal(SCHEMA,"driver-failure",{
+                      "status":"FAIL","phase":mode,"reason":type(error).__name__ + ":" + str(error),
+                      "launch":launch(),"limits":LIMITS,**FALSE_ASSURANCE}))
+                  raise
+
+          if __name__ == "__main__":
+              main()
+          PY
+
+      - name: Authenticate the frozen source closure and runtime
+        shell: bash
+        run: python -B "$RUNNER_TEMP/positive-word/driver.py" sources
+
+      - name: Authenticate all sixteen live artifacts and exact ZIP bytes
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B "$RUNNER_TEMP/positive-word/driver.py" live
+
+
+      - name: Bind the actual saved64 lineage and readonly exact acceptance
+        shell: bash
+        run: python -B "$RUNNER_TEMP/positive-word/driver.py" accept
+
+      - name: Run only the two new three-group canaries
+        timeout-minutes: 12
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/positive-word"
+          for label in P_SELFTEST D_SELFTEST; do
+            set +e
+            timeout --signal=TERM --kill-after=10s 350s python -B "$report/driver.py" execute "$label" \
+              > "$report/$label-stdout.json" 2> "$report/$label.log"
+            result_code=$?
+            set -e
+            printf '%s\n' "$result_code" > "$report/$label-exit-code.txt"
+            python -B "$report/driver.py" record "$label" "$result_code"
+            test "$result_code" = 0
+          done
+          python -B "$report/driver.py" canaries
+
+      - name: Read one ordered target word and its same-root normalized pair
+        timeout-minutes: 100
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/positive-word"
+          set +e
+          timeout --signal=TERM --kill-after=30s 5970s python -B "$report/driver.py" execute P \
+            > "$report/P-stdout.json" 2> "$report/P.log"
+          result_code=$?
+          set -e
+          printf '%s\n' "$result_code" > "$report/P-exit-code.txt"
+          python -B "$report/driver.py" record P "$result_code"
+          test "$result_code" = 0
+          python -B "$report/driver.py" word
+
+      - name: Replay the same word in all eleven typed slots and the full current grade
+        timeout-minutes: 190
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/positive-word"
+          set +e
+          timeout --signal=TERM --kill-after=30s 11370s python -B "$report/driver.py" execute D \
+            > "$report/D-stdout.json" 2> "$report/D.log"
+          result_code=$?
+          set -e
+          printf '%s\n' "$result_code" > "$report/D-exit-code.txt"
+          python -B "$report/driver.py" record D "$result_code"
+          test "$result_code" = 0
+
+      - name: Always hash all sixteen parents source raw acceptance and every output file
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/positive-word"
+          if [ -f "$report/driver.py" ]; then
+            python -B "$report/driver.py" always
+          else
+            printf '%s\n' 'INCOMPLETE: driver was not created' > "$report/preservation-incomplete.txt"
+            exit 1
+          fi
+
+      - name: Join the complete same-root readout and preservation receipts
+        shell: bash
+        run: python -B "$RUNNER_TEMP/positive-word/driver.py" finish
+
+      - name: Upload a candidate only after the full same-word current-grade comparison
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-continuation-positive-word-readout-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: error
+          path: ${{ runner.temp }}/positive-word/
+
+      - name: Always preserve all word D output hidden tails receipts source and workflow
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-continuation-positive-word-readout-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: error
+          path: ${{ runner.temp }}/positive-word/

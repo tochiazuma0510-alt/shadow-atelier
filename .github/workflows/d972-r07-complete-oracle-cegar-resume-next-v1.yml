@@ -1,0 +1,1324 @@
+name: d972-r07-complete-oracle-cegar-resume-next-v1
+
+on:
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+    paths:
+      - .github/workflows/d972-r07-complete-oracle-cegar-resume-next-v1.yml
+  workflow_dispatch:
+    inputs:
+      observed_parent:
+        description: Exact observed successful candidate JSON; see reply986
+        type: string
+        required: true
+      max_appends:
+        description: Absolute cumulative ordinary integer cap greater than the observed count
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  DELTA_RUN: "33946247365"
+  DELTA_ATTEMPT: "1"
+  DELTA_HEAD: "7f6dfaddf4150449e62a9b3e85def472fcb41c01"
+  DELTA_WORKFLOW: ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml"
+  DELTA_ARTIFACT_ID: "9963533999"
+  DELTA_ARTIFACT_NAME: "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1"
+  DELTA_ARCHIVE_BYTES: "915410"
+  DELTA_ARCHIVE_DIGEST: "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6"
+  SEED34_RUN: "33956437467"
+  SEED34_ATTEMPT: "1"
+  SEED34_HEAD: "b9ae78b0950b186463849c3ec874f6474f359851"
+  SEED34_WORKFLOW: ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml"
+  SEED34_ARTIFACT_ID: "9966542166"
+  SEED34_ARTIFACT_NAME: "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1"
+  SEED34_ARCHIVE_BYTES: "984053"
+  SEED34_ARCHIVE_DIGEST: "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc"
+  PACKET_RUN: "33964709359"
+  PACKET_ATTEMPT: "1"
+  PACKET_HEAD: "fff114c41bd8748ad0e708919fe0820335c9cce8"
+  PACKET_WORKFLOW: ".github/workflows/d972-r07-fixed-root-packet-loop-v2.yml"
+  PACKET_ARTIFACT_ID: "9969090590"
+  PACKET_ARTIFACT_NAME: "d972-r07-fixed-root-packet-loop-v2-candidate-33964709359-1"
+  PACKET_ARCHIVE_BYTES: "1855391"
+  PACKET_ARCHIVE_DIGEST: "sha256:b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428"
+  REFINEMENT_RUN: "33971897879"
+  REFINEMENT_ATTEMPT: "1"
+  REFINEMENT_HEAD: "64475e1dfab1537a38d1b3131971bfed5fc3071c"
+  REFINEMENT_WORKFLOW: ".github/workflows/d972-r07-full-origin-checker-completion-v1.yml"
+  REFINEMENT_ARTIFACT_ID: "9971466432"
+  REFINEMENT_ARTIFACT_NAME: "d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1"
+  REFINEMENT_ARCHIVE_BYTES: "51943596"
+  REFINEMENT_ARCHIVE_DIGEST: "sha256:0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8"
+  ORACLE_RUN: "33977701313"
+  ORACLE_ATTEMPT: "1"
+  ORACLE_HEAD: "bbce98d8f95a845f36fe89c0f507b9360792666f"
+  ORACLE_WORKFLOW: ".github/workflows/d972-r07-section-cochain-checker-completion-v1.yml"
+  ORACLE_ARTIFACT_ID: "9972829869"
+  ORACLE_ARTIFACT_NAME: "d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1"
+  ORACLE_ARCHIVE_BYTES: "2299772"
+  ORACLE_ARCHIVE_DIGEST: "sha256:1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d"
+  E_RUN: "33981657987"
+  E_ATTEMPT: "1"
+  E_HEAD: "444c71c9e554ae8feb9c8ee54df57d3df19ed66f"
+  E_WORKFLOW: ".github/workflows/d972-r07-selected-cycle-materializer-v1.yml"
+  E_ARTIFACT_ID: "9973974150"
+  E_ARTIFACT_NAME: "d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1"
+  E_ARCHIVE_BYTES: "2816692"
+  E_ARCHIVE_DIGEST: "sha256:884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25"
+  PRODUCER_SHA256: "67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c"
+  PRODUCER_BYTES: "126940"
+  ORIGINAL_RUN: "33984832010"
+  ORIGINAL_ATTEMPT: "1"
+  ORIGINAL_HEAD: "b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e"
+  ORIGINAL_WORKFLOW: ".github/workflows/d972-r07-complete-oracle-cegar-continuation-v1.yml"
+  ORIGINAL_ARTIFACT_ID: "9975236748"
+  ORIGINAL_ARTIFACT_NAME: "d972-r07-complete-oracle-cegar-continuation-v1-diagnostics-33984832010-1"
+  ORIGINAL_ARCHIVE_BYTES: "101830254"
+  ORIGINAL_ARCHIVE_DIGEST: "sha256:09ffef9d13e21e27fe9733bf997ec875a5795b5af56c7f4875e36725924d7a35"
+  ORIGINAL_CHECKER_BYTES: "120245"
+  ORIGINAL_CHECKER_SHA256: "8c000f9b49d04447a09c701daf5907a35b7f2e883f1e36747308a6d4ded29b1f"
+  # Immutable historical completion anchor; the immediate parent is supplied only by observed_parent.
+  COMPLETION_RUN: "33988391926"
+  COMPLETION_ATTEMPT: "1"
+  COMPLETION_HEAD: "22b628c0145d7d369a310179a64b88662f360b24"
+  COMPLETION_WORKFLOW: ".github/workflows/d972-r07-complete-oracle-cegar-checker-completion-v1.yml"
+  COMPLETION_ARTIFACT_ID: "9976060093"
+  COMPLETION_ARTIFACT_NAME: "d972-r07-complete-oracle-cegar-checker-completion-v1-candidate-33988391926-1"
+  COMPLETION_ARCHIVE_BYTES: "102582146"
+  COMPLETION_ARCHIVE_DIGEST: "sha256:9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1"
+  COMPLETION_ENTRY_PINS: >-
+    {"checker-result.json":{"bytes":176622,"sha256":"4ef33b2d174064e2542dd07d1c838b476b549606a8be0fb2ecc4b301b1382690"},"repair-source-receipt.json":{"bytes":4137,"sha256":"3f2c68a359c3b9200f88850432372abd78207c1cfacc39a8aeb371e184774be8"},"completion-run-receipt.json":{"bytes":5006,"sha256":"aaa5a9900d37f9d56e72419d7073da0bec291890e6ccf940109d01168e6e77f8"},"completion-intake-receipt.json":{"bytes":2218,"sha256":"f209153368adeb384ec94bcbd4d4f63d34c4dd175e6cc1ad50926116780f590b"},"preserved-input.json":{"bytes":811910,"sha256":"914405978f9ad745e822e7009963a3da06f079af1bc6a6ef301119a1fa9a11ff"},"preservation-result.json":{"bytes":389295,"sha256":"b1d465bd1af7174d1177ea9f78ee79c29d15bf1cb6f7c239b3efd6f802e53d98"},"all-parent-files-before.json":{"bytes":168585,"sha256":"e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"},"all-parent-files-after.json":{"bytes":168585,"sha256":"e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"},"snapshot-isolation-selftest.json":{"bytes":727,"sha256":"ac5c37d865ee8f85dc13ddbb78878071b7d6d6abbec827827190ccedc83337c0"},"coverage-receipt.json":{"bytes":86586,"sha256":"e0ee8b681793567e422da95a6d73475ffc8e2c8b06e6d491938218336b6d7bad"}}
+  CHECKER_BYTES: "129557"
+  CHECKER_SHA256: "e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3"
+  EXPECTED_PYTHON: "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]"
+  EXPECTED_NUMPY: "2.5.1"
+  RESUME_CAP_MINUTES: "100"
+  CHECKER_CAP_MINUTES: "190"
+
+jobs:
+  register-only:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Register the workflow without running the numerical job
+        shell: bash
+        run: 'true'
+  saved-cegar-resume-next:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    env:
+      OBSERVED_PARENT: ${{ inputs.observed_parent }}
+      MAX_APPENDS_INPUT: ${{ inputs.max_appends }}
+    steps:
+      - name: Checkout the unchanged numerical sources
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Set up the exact saved producer runtime
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.15"
+      - name: Install the exact saved NumPy release
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+      - name: Save the reviewed metadata driver
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/resume-next"
+          printf '%s' "$OBSERVED_PARENT" > "$RUNNER_TEMP/resume-next/observed-parent-input.txt"
+          printf '%s' "$MAX_APPENDS_INPUT" > "$RUNNER_TEMP/resume-next/max-appends-input.txt"
+          cat > "$RUNNER_TEMP/resume-next/driver.py" <<'PY'
+          import copy, datetime, hashlib, json, math, os, re, shutil, stat, subprocess, sys, zipfile
+          from pathlib import Path, PurePosixPath
+
+          SCHEMA = "d972.r07.complete-oracle-cegar-resume-next.v1"
+          LOOP = "d972.r07.complete-oracle-cegar-continuation.v1"
+          COMPLETION = "d972.r07.complete-oracle-cegar-checker-completion.v1"
+          RESUME64 = "d972.r07.complete-oracle-cegar-resume64.v1"
+          WORKFLOW = ".github/workflows/d972-r07-complete-oracle-cegar-resume-next-v1.yml"
+          BRANCH = "sol/r07-explicit-lift-20260825"
+          PREFIXES = {os.environ["COMPLETION_WORKFLOW"]: COMPLETION,
+              ".github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml": RESUME64, WORKFLOW: SCHEMA}
+          ROOT = Path(os.environ["RUNNER_TEMP"]).resolve() / "resume-next"
+          PARENTS = ROOT.parent / "resume-next-parents"
+          FALSE = {"candidate": False, "cross_checked": False, "verified": False}
+          PHASES = ("section", "cochain", "tree", "raw", "source", "primal", "p1", "B", "physical")
+          IDS = ("owner_sha256", "source_sha256", "start_sha256", "fixed_manifest_sha256")
+          STATE = ("completed_steps", "rank", "generation", "kind", "state_head", "target_remainder_sha256", "lambda_sha256",
+              *IDS, "current_snapshot_sha256", "current_checkpoint_sha256")
+          FIXED = {"owner.json": (8612, "e356f7d614828b9c466c70e4e446ec561de73a758b4c6a2292fdd97be39ff77b"),
+              "source.json": (2423, "c787d53c65c6392845e6f26c545e213b6b17d9b08dc07d694a1c4e33282f2651"),
+              "start.json": (54707, "87bd9b89c593d68fba65b765bfe9f17bcc47d52cc9afce6f53f8c131a24f816b"),
+              "fixed/manifest.json": (3159, "3ec178df5c2af9de7c55bb96075bb9e741111a241f7e02222ef5604587c87c41")}
+          COMMON_ENTRIES = {"output/HEAD", "output/result.json", *("output/" + name for name in FIXED),
+              "checker-result.json", "checker-stdout.json", "checker-exit-code.txt", "producer-result.json", "source-receipt.json",
+              "producer-output-before-checker.json", "preservation-result.json", "all-parent-files-before.json", "all-parent-files-after.json"}
+          EXTRA_ENTRIES = {COMPLETION: {"repair-source-receipt.json", "completion-run-receipt.json", "completion-intake-receipt.json",
+                  "preserved-input.json", "snapshot-isolation-selftest.json", "coverage-receipt.json"},
+              RESUME64: {"resume-source-receipt.json", "run-receipt.json", "completion-intake-receipt.json", "copy-before-resume.json", "live-parent-intake.json"},
+              SCHEMA: {"resume-source-receipt.json", "run-receipt.json", "parent-intake-receipt.json", "copy-before-resume.json",
+                  "live-parent-intake.json", "observed-parent.json", "dispatch-input.json", "coverage-receipt.json"}}
+
+          def need(condition, reason):
+              if not condition:
+                  raise ValueError("resume_next:" + reason)
+
+          def canonical(value):
+              return (json.dumps(value, ensure_ascii=True, allow_nan=False, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+
+          def duplicate_free(pairs):
+              result = {}
+              for key, value in pairs:
+                  need(key not in result, "duplicate_JSON_key:" + key)
+                  result[key] = value
+              return result
+
+          def decode(raw):
+              return json.loads(raw, object_pairs_hook=duplicate_free,
+                  parse_constant=lambda value: need(False, "nonfinite_JSON:" + value))
+
+          def read(path):
+              return decode(path.read_bytes())
+
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+
+          def save(name, value):
+              (ROOT / name).write_bytes(canonical(value))
+
+          def pin(path, name=None):
+              need(path.is_file() and not path.is_symlink() and stat.S_ISREG(path.stat().st_mode), "file_type:" + str(path))
+              return {"file": name if name is not None else path.name, "bytes": path.stat().st_size, "sha256": digest(path)}
+
+          def safe_name(name):
+              need(type(name) is str and name and "\\" not in name and ":" not in name and "\x00" not in name, "relative_name")
+              p = PurePosixPath(name)
+              need(not p.is_absolute() and str(p) == name and all(part not in ("", ".", "..") for part in p.parts), "relative_components")
+              return name
+
+          def file_at(root, name):
+              safe_name(name)
+              result = root / name
+              need(root.resolve() in result.resolve().parents and not result.is_symlink(), "file_containment")
+              return result
+
+          def scan(root):
+              need(root.is_dir() and not root.is_symlink(), "directory_root:" + str(root))
+              files, dirs = [], []
+              for item in sorted(root.rglob("*")):
+                  need(not item.is_symlink(), "symlink:" + str(item))
+                  name = safe_name(item.relative_to(root).as_posix())
+                  if item.is_dir():
+                      dirs.append(name)
+                  else:
+                      files.append(pin(item, name))
+              return {"files": files, "directories": dirs}
+
+          def sealed(path, schema):
+              raw = path.read_bytes()
+              value = decode(raw)
+              need(raw == canonical(value) and value["schema"] == schema, "canonical_schema:" + str(path))
+              need(value["sha256"] == hashlib.sha256(canonical({k: v for k, v in value.items() if k != "sha256"})).hexdigest(), "seal:" + str(path))
+              return value
+
+          def ordinary(value, minimum=0, maximum=None):
+              need(type(value) is int and value >= minimum and (maximum is None or value <= maximum), "ordinary_integer")
+              return value
+
+          def sha(value, width=64):
+              need(type(value) is str and re.fullmatch("[0-9a-f]{" + str(width) + "}", value), "sha_type")
+              return value
+
+          def artifact_type(value):
+              need(type(value) is dict and set(value) == {"run", "attempt", "head", "workflow", "id", "name", "bytes", "sha256"}, "artifact_fields")
+              for key in ("run", "attempt", "id", "bytes"):
+                  ordinary(value[key], 1)
+              sha(value["head"], 40)
+              need(value["workflow"] in PREFIXES, "parent_workflow")
+              need(value["name"] == Path(value["workflow"]).stem + "-candidate-" + str(value["run"]) + "-" + str(value["attempt"]), "candidate_name")
+              need(type(value["sha256"]) is str and value["sha256"].startswith("sha256:"), "artifact_digest")
+              sha(value["sha256"][7:])
+
+          def pin_type(value):
+              need(type(value) is dict and set(value) == {"file", "bytes", "sha256"}, "pin_fields")
+              safe_name(value["file"])
+              ordinary(value["bytes"])
+              sha(value["sha256"])
+
+          def validate_input(value, cap_text):
+              need(type(value) is dict and set(value) == {"schema", "repository_id", "branch", "artifact", "entries", "snapshot", "full_head", "invocations", "output"}, "observed_parent_fields")
+              need(value["schema"] == SCHEMA + ".observed-parent" and type(value["repository_id"]) is int and value["repository_id"] == 1312092366 and value["branch"] == BRANCH, "repository_branch")
+              artifact_type(value["artifact"])
+              need(type(cap_text) is str and re.fullmatch(r"[1-9][0-9]*", cap_text), "cap_string")
+              cap = ordinary(int(cap_text), 1, 48384 - 1386)
+              expected = set(STATE) | {"terminal", "head_sha256", "result_sha256", "checker_result_sha256", "last_step_manifest_sha256"}
+              snapshot = value["snapshot"]
+              need(type(snapshot) is dict and set(snapshot) == expected, "snapshot_fields")
+              n = ordinary(snapshot["completed_steps"], 32, 48384 - 1386)
+              ordinary(snapshot["rank"], 1386 + n, 1386 + n)
+              ordinary(snapshot["generation"], 8091 + n, 8091 + n)
+              need(n < cap and snapshot["kind"] == "Separator" and snapshot["terminal"] in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE"), "resumable_actual_count_and_terminal")
+              for key in expected - {"completed_steps", "rank", "generation", "kind", "terminal"}:
+                  if key in ("current_snapshot_sha256", "current_checkpoint_sha256") and snapshot[key] is None:
+                      continue
+                  sha(snapshot[key])
+              need((snapshot["current_snapshot_sha256"] is None) == (snapshot["current_checkpoint_sha256"] is None), "checkpoint_pair")
+              head = value["full_head"]
+              need(type(head) is dict and head["schema"] == LOOP + ".head", "full_HEAD")
+              need(hashlib.sha256(canonical(head)).hexdigest() == snapshot["head_sha256"], "full_HEAD_file_hash")
+              need(head["sha256"] == hashlib.sha256(canonical({k: v for k, v in head.items() if k != "sha256"})).hexdigest(), "full_HEAD_seal")
+              need(all(head[key] == snapshot[key] for key in (*STATE, "last_step_manifest_sha256")), "snapshot_HEAD_join")
+              need(type(value["entries"]) is list and len(value["entries"]) <= 256, "entry_roster")
+              for row in value["entries"]:
+                  pin_type(row)
+              names = [row["file"] for row in value["entries"]]
+              need(names == sorted(set(names)), "entry_order_duplicates")
+              need(COMMON_ENTRIES | EXTRA_ENTRIES[PREFIXES[value["artifact"]["workflow"]]] <= set(names), "required_actual_entries")
+              by_name = {row["file"]: row for row in value["entries"]}
+              for file, key in (("output/HEAD", "head_sha256"), ("output/result.json", "result_sha256"), ("checker-result.json", "checker_result_sha256")):
+                  need(by_name[file]["sha256"] == snapshot[key], "entry_snapshot_hash")
+              need(type(value["invocations"]) is list and value["invocations"], "invocation_list")
+              invocation_names = []
+              for row in value["invocations"]:
+                  need(type(row) is dict and set(row) == {"file", "bytes", "sha256", "value"}, "invocation_input_fields")
+                  pin_type({key: row[key] for key in ("file", "bytes", "sha256")})
+                  need(re.fullmatch(r"invocations/[0-9a-f]{32}\.json", row["file"]), "invocation_filename")
+                  need(type(row["value"]) is dict and row["value"]["schema"] == LOOP + ".invocation", "invocation_schema")
+                  need(len(canonical(row["value"])) == row["bytes"] and hashlib.sha256(canonical(row["value"])).hexdigest() == row["sha256"], "invocation_pin")
+                  invocation_names.append(row["file"])
+              need(invocation_names == sorted(set(invocation_names)), "invocation_order_duplicates")
+              need(type(value["output"]) is dict and set(value["output"]) == {"files", "directories", "bytes"}, "output_counts")
+              for key, count in value["output"].items():
+                  ordinary(count, 1)
+              return cap
+
+          def input_mode():
+              ROOT.mkdir(exist_ok=True)
+              raw, cap_text = os.environ["OBSERVED_PARENT"], os.environ["MAX_APPENDS_INPUT"]
+              save("dispatch-input.json", {"observed_parent": raw, "max_appends": cap_text})
+              value = decode(raw)
+              cap = validate_input(value, cap_text)
+              save("observed-parent.json", value)
+              mutations = []
+              def refuse(name, change, limit=cap_text):
+                  changed = copy.deepcopy(value)
+                  change(changed)
+                  try:
+                      validate_input(changed, limit)
+                  except (ValueError, KeyError, TypeError):
+                      mutations.append(name)
+                  else:
+                      need(False, "input_canary_not_rejected:" + name)
+              refuse("bool-count", lambda v: v["snapshot"].update(completed_steps=True))
+              refuse("wrong-rank", lambda v: v["snapshot"].update(rank=v["snapshot"]["rank"] + 1))
+              refuse("wrong-workflow", lambda v: v["artifact"].update(workflow=".github/workflows/unregistered.yml"))
+              refuse("missing-checker-entry", lambda v: v.update(entries=[r for r in v["entries"] if r["file"] != "checker-result.json"]))
+              refuse("nonresumable-terminal", lambda v: v["snapshot"].update(terminal="COMPLETE_ZERO_CANDIDATE"))
+              refuse("path-traversal", lambda v: v["entries"][0].update(file="../outside"))
+              refuse("reset-cap", lambda v: None, str(value["snapshot"]["completed_steps"]))
+              refuse("noninteger-cap", lambda v: None, "1.5")
+              save("input-contract-canary.json", {"schema": SCHEMA + ".input-contract-canary", "status": "PASS", "rejected_cases": mutations,
+                  "metadata_only": True, "actual_observed_input_shape": True, "old_success_suites_rerun": 0, **FALSE})
+              with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+                  stream.write("ABSOLUTE_CAP=" + str(cap) + "\n")
+
+          def source_mode():
+              import ast
+              expected = {
+                  "search/d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["PRODUCER_BYTES"]), os.environ["PRODUCER_SHA256"]),
+                  "search/check_d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["ORIGINAL_CHECKER_BYTES"]), os.environ["ORIGINAL_CHECKER_SHA256"]),
+                  "search/check_d972_r07_section_cochain_oracle_v2.py": (84402, "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"),
+                  "search/d972_r07_selected_cycle_materializer_v1.py": (88929, "4f600aae93bf5749d15229cfdfe3e4546267f8b0a642ac46b65125a3c3164ac3"),
+                  "search/check_d972_r07_selected_cycle_materializer_v1.py": (103757, "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"),
+                  "search/d972_r07_section_cochain_oracle_v1.py": (73290, "4e7546eb1e8511b636527ffc0bc4c5eabf3c1bf60b32a5ae4f2a12fe975f44bb"),
+                  "search/check_d972_r07_section_cochain_oracle_v1.py": (80740, "2db166400dd819805f36b613993d4622e8365f04339ca7aef0371a28de71c967"),
+                  "search/d972_r07_full_origin_refinement_v1.py": (97806, "d7e32aad9a9667c6af54ed7514d0417e48b3e363c60652ab585ce4633f2aedfa"),
+                  "search/check_d972_r07_full_origin_refinement_v1.py": (75083, "1ee388c9cd39a43992bc9a6e075b087da3ae1672221a197719ea435d7d3529c2"),
+                  "search/d972_r07_fixed_root_packet_loop_v2.py": (84173, "e040c7b3cf5f96fe33c0e36a00ba8dd887784e0f5a1e6fa036d407c0ceba65e6"),
+                  "search/check_d972_r07_fixed_root_packet_loop_v2.py": (66251, "5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5"),
+                  "search/d972_r07_actual_root_seed_materializer_v3.py": (86643, "36cc620bdc1b772a4eb4067f7e5b490dab851fb41213c5cd8a5487855207a332"),
+                  "search/check_d972_r07_actual_root_seed_materializer_v3.py": (64626, "eca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701"),
+                  "search/d972_r07_rank1355_root_seed_scalars_v1.py": (31578, "973ccd1d5d0f8fa5a28294589ff655620745f0cc988c09abe8a6178593e185bb"),
+                  "search/check_d972_r07_rank1355_root_seed_scalars_v1.py": (36236, "f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62"),
+                  "search/d972_r07_actual_grade2_root_scalar_batch_v2.py": (118315, "3c93c50c43020472d616b5c253ea3c6fac6fa34d9d0e41b5a10686da30b7a856"),
+                  "search/check_d972_r07_actual_grade2_root_scalar_batch_v2.py": (119619, "e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6"),
+                  "search/d972_r07_targeted_grade2_owner_generated_join_v15.py": (126565, "76546bef263ad260f24632c0da46cfb913ee48759e0533d591c507d072037632"),
+                  "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py": (141770, "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"),
+              }
+              receipts = []
+              for name, (size, wanted) in expected.items():
+                  assert not Path(name).is_symlink(), name
+                  data = Path(name).read_bytes()
+                  assert len(data) == size and hashlib.sha256(data).hexdigest() == wanted, name
+                  assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n"), name
+                  ast.parse(data, filename=name)
+                  receipts.append({"file": name, "bytes": size, "sha256": wanted, "lf": data.count(b"\n")})
+              data_pins = {
+                  "scratchpad/fuda1_a0_rmax_data.g": {"bytes": 4709,
+                      "sha256": "625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba"},
+                  "scratchpad/a0_paper_words_v1.json": {"bytes": 115928,
+                      "sha256": "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"},
+                  "scratchpad/a0_v2_words.json": {"bytes": 106133,
+                      "sha256": "fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612"}}
+              for name, identity in data_pins.items():
+                  item = Path(name)
+                  data = item.read_bytes()
+                  assert not item.is_symlink() and len(data) == identity["bytes"] and hashlib.sha256(data).hexdigest() == identity["sha256"], name
+              roster = json.loads(Path("scratchpad/a0_v2_words.json").read_bytes())["raw_q0_relators"]
+              assert len(roster) == 19 and hashlib.sha256(json.dumps(roster, sort_keys=True, separators=(",", ":")).encode("ascii")).hexdigest() == "dcb8ce42c8324b0ce2a5018007f3d664da5568ee73182758a9f358deba84bc2a"
+              work = Path(os.environ["RUNNER_TEMP"]) / "resume-next"
+              (work / "source-receipt.json").write_bytes(canonical({
+                  "schema": "d972.r07.complete-oracle-cegar-continuation.v1.source-receipt",
+                  "files": receipts, "data": data_pins, "verified": False, "cross_checked": False}))
+              assert len(receipts) == 19 and len(data_pins) == 3
+              source = work / "source-receipt.json"
+              assert len(source.read_bytes()) == 3643 and hashlib.sha256(source.read_bytes()).hexdigest() == "3a50dd12025079a6089d15aac79573899e49692b61a53879adb9b0572342de6b"
+              name = "search/check_d972_r07_complete_oracle_cegar_continuation_v2.py"
+              data = Path(name).read_bytes()
+              assert not Path(name).is_symlink() and len(data) == int(os.environ["CHECKER_BYTES"])
+              assert hashlib.sha256(data).hexdigest() == os.environ["CHECKER_SHA256"]
+              assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n")
+              ast.parse(data, filename=name)
+              receipts.append({"file": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(), "lf": data.count(b"\n")})
+              import shutil, sys, numpy as np
+              assert sys.version == os.environ["EXPECTED_PYTHON"] and np.__version__ == os.environ["EXPECTED_NUMPY"]
+              sources = work / "executed-sources"
+              sources.mkdir()
+              for item in receipts:
+                  shutil.copyfile(item["file"], sources / Path(item["file"]).name)
+              workflow = Path(".github/workflows/d972-r07-complete-oracle-cegar-resume-next-v1.yml")
+              shutil.copyfile(workflow, sources / workflow.name)
+              original_workflow = Path(os.environ["ORIGINAL_WORKFLOW"])
+              original_raw = original_workflow.read_bytes()
+              assert len(original_raw) == 61275 and hashlib.sha256(original_raw).hexdigest() == "9f751fe1ea21d16b7758f9832d2dd091b73f0796128ceea505c8975031c096c1"
+              shutil.copyfile(original_workflow, sources / original_workflow.name)
+              receipt = {"schema": "d972.r07.complete-oracle-cegar-resume-next.v1.source-receipt",
+                  "files": receipts, "data": data_pins, "source_executables": 20, "raw_inputs": 3,
+                  "original_source_receipt_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                  "producer_sha256": os.environ["PRODUCER_SHA256"], "original_checker_sha256": os.environ["ORIGINAL_CHECKER_SHA256"],
+                  "checker_sha256": os.environ["CHECKER_SHA256"], "python": sys.version, "numpy": np.__version__,
+                  "launch": {"run": int(os.environ["GITHUB_RUN_ID"]), "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+                      "head": os.environ["GITHUB_SHA"], "workflow": str(workflow)},
+                  "workflow": {"file": str(workflow), "bytes": workflow.stat().st_size, "sha256": hashlib.sha256(workflow.read_bytes()).hexdigest()},
+                  "candidate": False, "cross_checked": False, "verified": False}
+              receipt["driver"] = pin(ROOT / "driver.py")
+              receipt["input_files"] = [pin(ROOT / name) for name in ("dispatch-input.json", "observed-parent.json", "input-contract-canary.json", "observed-parent-input.txt", "max-appends-input.txt")]
+              receipt["original_workflow"] = pin(original_workflow, str(original_workflow))
+              (work / "resume-source-receipt.json").write_bytes(canonical(receipt))
+
+          def old_specs():
+              specs = []
+              def add(role, prefix, artifact_prefix=None):
+                  artifact_prefix = artifact_prefix or prefix
+                  old = prefix == "TASK554"
+                  suffix = "" if old else "_ARTIFACT"
+                  specs.append({"role": role, "run": int(os.environ[prefix + "_RUN"]), "attempt": int(os.environ[prefix + "_ATTEMPT"]),
+                      "head": os.environ[prefix + "_HEAD"], "workflow": os.environ[prefix + "_WORKFLOW"],
+                      "id": int(os.environ[artifact_prefix + suffix + "_ID"]), "name": os.environ[artifact_prefix + suffix + "_NAME"],
+                      "bytes": int(os.environ[artifact_prefix + ("_BYTES" if old else "_ARCHIVE_BYTES")]),
+                      "sha256": os.environ[artifact_prefix + ("_DIGEST" if old else "_ARCHIVE_DIGEST")],
+                      "repository_id": 1312092366, "conclusion": "failure" if old else "success"})
+              for role, prefix in (("P1_ROOT", "P1"), ("TASK712_ROOT", "TASK712"), ("STATE_ROOT", "SEPARATOR"),
+                      ("DELTA_ROOT", "DELTA"), ("SEED34_ROOT", "SEED34"), ("PACKET_ROOT", "PACKET"),
+                      ("REFINEMENT_ROOT", "REFINEMENT"), ("ORACLE_ROOT", "ORACLE"), ("E_ROOT", "E")):
+                  add(role, prefix)
+              add("PREPARE_ROOT", "TASK554", "TASK554_PREP")
+              for index in range(4):
+                  add("BLOCK_" + str(index) + "_ROOT", "TASK554", "TASK554_B" + str(index))
+              return specs
+
+          def safe_extract(archive, destination):
+              destination.mkdir()
+              with zipfile.ZipFile(archive) as bundle:
+                  seen = set()
+                  for entry in bundle.infolist():
+                      name = entry.filename[:-1] if entry.is_dir() else entry.filename
+                      safe_name(name)
+                      need(name not in seen, "duplicate_ZIP_name")
+                      seen.add(name)
+                      mode = (entry.external_attr >> 16) & 0xffff
+                      kind = stat.S_IFMT(mode)
+                      need(kind in (0, stat.S_IFDIR, stat.S_IFREG) and not stat.S_ISLNK(mode) and not entry.flag_bits & 1, "ZIP_type_encryption")
+                      need((not entry.is_dir() or kind in (0, stat.S_IFDIR)) and not (kind == stat.S_IFDIR and not entry.is_dir()), "ZIP_file_directory_type")
+                      target = file_at(destination, name)
+                      if entry.is_dir():
+                          target.mkdir(parents=True, exist_ok=True)
+                      else:
+                          target.parent.mkdir(parents=True, exist_ok=True)
+                          with bundle.open(entry) as source, target.open("xb") as output:
+                              shutil.copyfileobj(source, output, 1024 * 1024)
+                          need(target.stat().st_size == entry.file_size, "ZIP_EOF_size")
+
+          def live_mode():
+              need(os.environ["GITHUB_REPOSITORY"] == "tochiazuma0510-alt/shadow-atelier", "live_repository_name")
+              need(os.environ["GITHUB_REF"] == "refs/heads/" + BRANCH, "launch_branch")
+              metadata = ROOT / "live-parents"
+              metadata.mkdir()
+              PARENTS.mkdir()
+              observed = read(ROOT / "observed-parent.json")
+              specs = old_specs() + [{"role": "PARENT_ROOT", **observed["artifact"], "repository_id": 1312092366, "conclusion": "success"}]
+              need(len(specs) == len({s["id"] for s in specs}) == 15, "fifteen_distinct_artifacts")
+              def api(suffix, file):
+                  with file.open("wb") as stream:
+                      subprocess.run(["gh", "api", "repos/" + os.environ["GITHUB_REPOSITORY"] + "/" + suffix], stdout=stream, check=True)
+                  return read(file)
+              runs, saved = {}, []
+              for spec in specs:
+                  if spec["run"] not in runs:
+                      runs[spec["run"]] = api("actions/runs/" + str(spec["run"]), metadata / ("run-" + str(spec["run"]) + ".json"))
+                  run = runs[spec["run"]]
+                  need(run["id"] == spec["run"] and run["run_attempt"] == spec["attempt"] and run["head_sha"] == spec["head"], "live_run_tuple")
+                  need(run["status"] == "completed" and run["conclusion"] == spec["conclusion"] and run["path"] == spec["workflow"], "live_workflow_conclusion")
+                  need(run["repository"]["id"] == run["head_repository"]["id"] == 1312092366, "live_repository_ids")
+                  if spec["role"] == "PARENT_ROOT":
+                      need(run["head_branch"] == BRANCH, "observed_parent_branch")
+                  artifact = api("actions/artifacts/" + str(spec["id"]), metadata / ("artifact-" + str(spec["id"]) + ".json"))
+                  need(artifact["id"] == spec["id"] and artifact["name"] == spec["name"], "live_artifact_identity")
+                  need(artifact["size_in_bytes"] == spec["bytes"] and artifact["digest"] == spec["sha256"] and artifact["expired"] is False, "live_artifact_pin")
+                  expiry = datetime.datetime.fromisoformat(artifact["expires_at"].replace("Z", "+00:00"))
+                  need(expiry > datetime.datetime.now(datetime.timezone.utc), "live_expiry")
+                  link = artifact["workflow_run"]
+                  need(link["id"] == spec["run"] and link["head_sha"] == spec["head"] and link["repository_id"] == link["head_repository_id"] == 1312092366, "live_artifact_run")
+                  archive = PARENTS / (str(spec["id"]) + ".zip")
+                  with archive.open("xb") as stream:
+                      subprocess.run(["gh", "api", "repos/" + os.environ["GITHUB_REPOSITORY"] + "/actions/artifacts/" + str(spec["id"]) + "/zip"], stdout=stream, check=True)
+                  need(archive.stat().st_size == spec["bytes"] and "sha256:" + digest(archive) == spec["sha256"], "whole_ZIP_bytes_and_SHA")
+                  destination = ROOT / "accepted-parent" if spec["role"] == "PARENT_ROOT" else PARENTS / spec["role"]
+                  safe_extract(archive, destination)
+                  row = {**spec, "extraction_root": str(destination), "expires_at": artifact["expires_at"], "archive_size_and_hash_checked": True}
+                  saved.append(row)
+                  save("live-parent-progress.json", {"schema": SCHEMA + ".live-parent-progress", "parents": saved, "complete": False, **FALSE})
+              save("live-parent-intake.json", {"schema": SCHEMA + ".live-parent-intake", "status": "PASS", "parents": saved, "count": 15,
+                  "task554_accepted_failure": True, "observed_parent_sha256": digest(ROOT / "observed-parent.json"), **FALSE})
+
+          def entry_check(root, entries):
+              for row in entries:
+                  need(pin(file_at(root, row["file"]), row["file"]) == row, "actual_entry:" + row["file"])
+
+          def full_checker(root):
+              output = root / "output"
+              checked = read(root / "checker-result.json")
+              head = sealed(output / "HEAD", LOOP + ".head")
+              result = sealed(output / "result.json", LOOP + ".result")
+              start = sealed(output / "start.json", LOOP + ".start")
+              need(checked["schema"] == LOOP + ".checker-result" and checked["status"] == "PASS", "full_checker_PASS")
+              need((root / "checker-exit-code.txt").read_bytes() == b"0\n", "checker_exit")
+              need((root / "checker-stdout.json").read_bytes() == (root / "checker-result.json").read_bytes(), "checker_stdout_bytes")
+              need((root / "producer-result.json").read_bytes() == (output / "result.json").read_bytes(), "producer_stdout_bytes")
+              n = ordinary(head["completed_steps"], 32, 48384 - 1386)
+              for key in STATE:
+                  need(checked[key] == result[key] == head[key], "checker_state_join:" + key)
+              need(head["rank"] == 1386 + n and head["generation"] == 8091 + n, "cumulative_rank_generation")
+              need(start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0, "original_start_not_rebased")
+              need(checked["head_sha256"] == result["head_sha256"] == digest(output / "HEAD") and checked["result_sha256"] == digest(output / "result.json"), "full_HEAD_result_hash")
+              need(checked["terminal"] == result["terminal"], "terminal_join")
+              for key, name in zip(IDS, FIXED, strict=True):
+                  size, wanted = FIXED[name]
+                  need(pin(output / name) == {"file": Path(name).name, "bytes": size, "sha256": wanted} and head[key] == wanted, "same_fixed_identity:" + name)
+              need(checked["checker_sha256"] == os.environ["CHECKER_SHA256"], "same_checker_v2")
+              need(checked["python"] == os.environ["EXPECTED_PYTHON"] and checked["numpy"] == os.environ["EXPECTED_NUMPY"], "same_checker_runtime")
+              for key in ("all_new_committed_arrays_and_json_compared", "current_checkpoint_fully_compared", "full_four_character_scope", "ordinary27_actual_source", "all_four_B_summed_each_E"):
+                  need(checked[key] is True, "complete_flag:" + key)
+              for key, expected in (("section_equalities_each", 8059), ("chords_each", 54433), ("auxiliary_tests_each", 2),
+                      ("source_lower_trits_each_E", 96776), ("literal_modulus", 54), ("external_e_attached", 1),
+                      ("old_scans_numerically_replayed", 0), ("old_inserts_numerically_replayed", 0), ("old_success_suites", 0)):
+                  need(type(checked[key]) is int and checked[key] == expected, "complete_count:" + key)
+              need(checked["prefix_steps_replayed"] == checked["physical_appends"] == result["new_physical_appends"] == len(checked["steps"]) == n, "all_prefix_count")
+              need(result["external_e_attached"] == 1 and result["old_scans_numerically_replayed"] == result["old_inserts_numerically_replayed"] == 0, "producer_old_replay_counts")
+              for value in (checked, result):
+                  need(value["external_e_numerically_replayed"] is False and value["cross_checked"] is False and value["verified"] is False, "assurance_bounds")
+                  need(value["grade2_member"] == value["grade2_nonmember"] == "NOT_DECIDED" and value["full_A0"] is False, "grade_bounds")
+              need(checked["candidate"] is True and checked["whole_normalized_word_replay"] is False and checked["eleven_slot_replay"] is False, "checker_candidate_scope")
+              need(checked["oracle_checker_v2_sha256"] == "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d", "oracle_checker_lineage")
+              need(checked["retained_E_checker_sha256"] == "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4", "E_checker_lineage")
+              need(checked["lambda_rho2"] == result["lambda_rho2"] and checked["direct_pairing"] == result["direct_pairing"], "pairing_and_DERIVED")
+              if head["kind"] == "Separator":
+                  derived, pairing = checked["lambda_rho2"], checked["direct_pairing"]
+                  need(derived["mode"] == "derived" and derived["value"] == 1 and derived["original_rho2_directly_read"] is False, "DERIVED_mode")
+                  need(derived["original_rho2_packed_sha256"] == "b41b9e69fc1257bb1542062a2496bc94bd3cbe6b01e03aba653dae2e4af17c2e", "same_original_rho2")
+                  need(len(derived["accepted_target_derivation_parents"]) == 33 + n, "named_target_parents")
+                  need(pairing["rows"] == head["rank"] and pairing["lambda_pivots"] == 0 and pairing["lambda_parent_remainder"] == pairing["lambda_new_remainder"] == 1, "all_rows_both_targets")
+              else:
+                  need(head["kind"] == "LinearMembershipCandidate" and checked["lambda_rho2"] is None and head["lambda_sha256"] is None, "linear_null_type")
+              snapshots = checked["snapshots"]
+              need(len(snapshots) == n + int(head["current_snapshot_sha256"] is not None), "snapshot_count_with_current")
+              for number, snapshot in enumerate(snapshots):
+                  base = output / "snapshots" / f"{number:06d}"
+                  need(snapshot["step"] == number and snapshot["snapshot_sha256"] == digest(base / "start.json"), "snapshot_identity")
+                  if number < n:
+                      need(set(snapshot["phase_manifests"]) == set(PHASES), "committed_nine_phases")
+                  if snapshot["oracle_manifest_sha256"] is not None:
+                      need(snapshot["oracle_manifest_sha256"] == digest(base / "oracle-manifest.json"), "snapshot_oracle_hash")
+                  for phase, expected in snapshot["phase_manifests"].items():
+                      need(phase in PHASES, "phase_name")
+                      directory = base / phase if phase in PHASES[:3] else base / "e" / phase
+                      need(digest(directory / "manifest.json") == expected, "phase_manifest_file_hash")
+              for number, step in enumerate(checked["steps"], 1):
+                  need(step["step"] == number and step["manifest_sha256"] == digest(output / "steps" / f"{number:06d}" / "manifest.json"), "step_manifest_hash")
+                  physical = read(output / "snapshots" / f"{number-1:06d}" / "e/physical/result.json")
+                  need(step["target_scalar"] == physical["target"]["scalar"] and step["selected_scalar"] == physical["selected_scalar"], "separate_target_selected_scalars")
+                  ordinary(step["target_scalar"], 0, 2)
+              need(head["last_step_manifest_sha256"] == digest(output / "steps" / f"{n:06d}" / "manifest.json"), "last_step_hash")
+              invocation_files = committed_invocations(output)
+              need(len(invocation_files) == len(checked["invocations"]), "invocation_complete_count")
+              actual = []
+              for file in invocation_files:
+                  need(re.fullmatch(r"[0-9a-f]{32}\.json", file.name), "saved_invocation_filename")
+                  value = sealed(file, LOOP + ".invocation")
+                  need(value["invocation"] + ".json" == file.name and all(value[key] == head[key] for key in IDS), "same_owner_invocation")
+                  actual.append({**{key: item for key, item in value.items() if key != "sha256"}, "sha256": digest(file)})
+              need(actual == checked["invocations"], "all_invocation_unsigned_and_file_hashes")
+              need(sum(item["sha256"] == result["invocation_sha256"] for item in actual) == 1, "explicit_current_invocation")
+              return checked, head, result
+
+          def committed_invocations(output):
+              files = []
+              for item in sorted((output / "invocations").iterdir()):
+                  need(item.is_file() and not item.is_symlink(), "invocation_node_type")
+                  if re.fullmatch(r"\.[0-9a-f]{32}\.json\.pending-[0-9a-f]{32}", item.name):
+                      continue  # Still present in the complete immutable file roster.
+                  need(re.fullmatch(r"[0-9a-f]{32}\.json", item.name), "invocation_node_name")
+                  files.append(item)
+              return files
+
+          def launch_for(artifact):
+              return {key: artifact[key] for key in ("run", "attempt", "head", "workflow")}
+
+          def tuple_equal(actual, expected):
+              need(all(actual[key] == expected[key] for key in ("run", "attempt", "head", "workflow", "id", "name", "bytes", "sha256")), "historical_artifact_tuple")
+
+          def check_saved_subset(output, before):
+              for row in before["immutable_files"]:
+                  need(pin(file_at(output, row["file"]), row["file"]) == row, "old_file_changed:" + row["file"])
+              for name in before["immutable_directories"]:
+                  need(file_at(output, name).is_dir(), "old_directory_missing:" + name)
+              need(before["immutable_files"] == [row for row in before["files"] if row["file"] not in ("HEAD", "result.json")], "only_two_old_mutable_files")
+              need(before["immutable_directories"] == before["directories"] and before["mutable_root_files"] == ["HEAD", "result.json"], "old_directory_and_mutable_roster")
+
+          def compare_old_prefix(old, new):
+              n = old["completed_steps"]
+              need(new["completed_steps"] >= n and new["steps"][:n] == old["steps"], "entire_old_step_dicts")
+              need(new["snapshots"][:n] == old["snapshots"][:n], "entire_old_committed_snapshot_dicts")
+              if len(old["snapshots"]) == n + 1:
+                  a, b = old["snapshots"][n], new["snapshots"][n]
+                  need(a["snapshot_sha256"] == b["snapshot_sha256"], "old_current_snapshot_identity")
+                  for key, value in a["phase_manifests"].items():
+                      need(b["phase_manifests"][key] == value, "old_current_completed_phase")
+                  if a["oracle_manifest_sha256"] is not None:
+                      need(a["oracle_manifest_sha256"] == b["oracle_manifest_sha256"], "old_current_oracle")
+              need(all(row in new["invocations"] for row in old["invocations"]), "all_old_invocation_dicts")
+
+          def authenticate_history(root, artifact, old_parents):
+              chain, newer = [], None
+              current_source = read(ROOT / "resume-source-receipt.json")
+              while True:
+                  artifact_type(artifact)
+                  prefix = PREFIXES[artifact["workflow"]]
+                  checked, head, produced = full_checker(root)
+                  need(produced["terminal"] in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE") and head["kind"] == "Separator", "historical_resumable_terminal")
+                  if newer is not None:
+                      compare_old_prefix(checked, newer)
+                  output = scan(root / "output")
+                  preservation = read(root / "preservation-result.json")
+                  before_checker = read(root / "producer-output-before-checker.json")
+                  need(preservation["status"] == "PASS" and preservation["errors"] == [], "historical_preservation_PASS")
+                  for key in ("files", "directories"):
+                      need(output[key] == preservation[key] == before_checker[key], "historical_entire_output:" + key)
+                  need((root / "source-receipt.json").read_bytes() == (ROOT / "source-receipt.json").read_bytes(), "original19_source_identity")
+                  parent_before = read(root / "all-parent-files-before.json")
+                  need(parent_before == read(root / "all-parent-files-after.json"), "historical_parent_invariance")
+                  first14 = [row for row in parent_before["parents"] if row["role"] not in ("COMPLETION_ROOT", "PARENT_ROOT")]
+                  need(first14 == old_parents, "same_fourteen_complete_payloads")
+                  source_name = "repair-source-receipt.json" if prefix == COMPLETION else "resume-source-receipt.json"
+                  saved_source = read(root / source_name)
+                  need(saved_source["files"] == current_source["files"] and saved_source["data"] == current_source["data"], "same_twenty_source_three_data")
+                  need(saved_source["python"] == current_source["python"] and saved_source["numpy"] == current_source["numpy"], "same_saved_runtime")
+                  saved_output_source = read(root / "output/source.json")
+                  need(saved_output_source["producer_sha256"] == os.environ["PRODUCER_SHA256"] and saved_output_source["data"] == current_source["data"], "same_P_source_and_data")
+                  need(saved_output_source["python"] == saved_source["python"] and saved_output_source["numpy"] == saved_source["numpy"], "same_P_full_runtime")
+                  chain.append({"artifact": artifact, "root_relative_to_parent": root.relative_to(ROOT / "accepted-parent").as_posix(),
+                      "completed_steps": head["completed_steps"], "head_sha256": digest(root / "output/HEAD"),
+                      "checker_result_sha256": digest(root / "checker-result.json"), "source_receipt": pin(root / source_name),
+                      "preservation_result_sha256": digest(root / "preservation-result.json"), "entire_saved_output_compared": True})
+                  if prefix == COMPLETION:
+                      expected = {"run": int(os.environ["COMPLETION_RUN"]), "attempt": int(os.environ["COMPLETION_ATTEMPT"]),
+                          "head": os.environ["COMPLETION_HEAD"], "workflow": os.environ["COMPLETION_WORKFLOW"], "id": int(os.environ["COMPLETION_ARTIFACT_ID"]),
+                          "name": os.environ["COMPLETION_ARTIFACT_NAME"], "bytes": int(os.environ["COMPLETION_ARCHIVE_BYTES"]), "sha256": os.environ["COMPLETION_ARCHIVE_DIGEST"]}
+                      tuple_equal(artifact, expected)
+                      entry_check(root, [{"file": name, **row} for name, row in decode(os.environ["COMPLETION_ENTRY_PINS"]).items()])
+                      run = read(root / "completion-run-receipt.json")
+                      need(run["schema"] == COMPLETION + ".completion-run" and run["status"] == "PASS" and run["completion_launch"] == launch_for(artifact), "original_completion_launch")
+                      need(head["completed_steps"] == 32 and len(checked["invocations"]) == 2, "original_completion32")
+                      need(run["checker_result_sha256"] == digest(root / "checker-result.json") and run["repair_source_receipt_sha256"] == digest(root / source_name), "completion_receipt_hashes")
+                      need(run["original_launch"] == {"run": int(os.environ["ORIGINAL_RUN"]), "attempt": int(os.environ["ORIGINAL_ATTEMPT"]), "head": os.environ["ORIGINAL_HEAD"], "workflow": os.environ["ORIGINAL_WORKFLOW"]}, "failed_original_launch_preserved")
+                      need(run["original_artifact"]["id"] == int(os.environ["ORIGINAL_ARTIFACT_ID"]) and run["original_artifact"]["sha256"] == os.environ["ORIGINAL_ARCHIVE_DIGEST"], "failure_is_historical_not_live_success")
+                      prior = read(root / "previous-checker-result.json")
+                      need(prior["status"] == "FAIL" and prior["candidate"] is False and prior["reason"] == "ValueError:cegar_checker:HEAD_entire_replayed_prefix_and_cursor", "old_failed_checker_distinct")
+                      need((root / "previous-checker-exit-code.txt").read_bytes() == b"1\n", "old_failed_exit")
+                      need(len(output["files"]) == 2584 and len(output["directories"]) == 420 and sum(r["bytes"] for r in output["files"]) == 346710509, "original_saved32_roster")
+                      preserved = read(root / "preserved-input.json")
+                      original = scan(root / "original")
+                      reconstructed_files = sorted(original["files"] + [{**row, "file": "output/" + row["file"]} for row in output["files"]], key=lambda row: row["file"])
+                      reconstructed_dirs = ["output"] + ["output/" + name for name in output["directories"]]
+                      need(original["directories"] == [] and len(original["files"]) == 52 and reconstructed_files == preserved["files"] and reconstructed_dirs == preserved["directories"], "all2636_original_bytes_and_directories")
+                      prior_tests = []
+                      for name, field, count in (("oracle-v2-full-selftest.json", "tests", 4), ("producer-selftest.json", "groups", 3),
+                              ("checker-selftest.json", "tests", 3), ("snapshot-isolation-selftest.json", "tests", 3)):
+                          test = read(root / name)
+                          need(test["status"] == "PASS" and len(test[field]) == count and all(row["status"] == "PASS" for row in test[field]), "saved_successful_test:" + name)
+                          prior_tests.append({"file": name, "sha256": digest(root / name), "groups": count, "rerun": False})
+                      for name in ("producer-parent-layout.json", "checker-parent-layout.json"):
+                          test = read(root / name)
+                          need(test["status"] == "PASS" and test["metadata_only"] is True and len(test["rejected_cases"]) == 5, "saved_metadata_test")
+                          prior_tests.append({"file": name, "sha256": digest(root / name), "rejected_cases": 5, "rerun": False})
+                      need(read(root / "producer-parent-layout.json") == read(root / "checker-parent-layout.json"), "saved_parent_layout_equality")
+                      need(parent_before["count"] == 14, "completion_parent_count")
+                      return chain, prior_tests, run["original_launch"], run["original_artifact"]
+                  run = read(root / "run-receipt.json")
+                  need(run["schema"] == prefix + ".run-receipt" and run["status"] == "PASS" and run["current_launch"] == launch_for(artifact), "historical_resume_launch")
+                  need(saved_source["schema"] == prefix + ".source-receipt" and saved_source["launch"] == launch_for(artifact), "historical_source_launch")
+                  for key, name in (("checker_result_sha256", "checker-result.json"), ("producer_result_sha256", "output/result.json"),
+                          ("resume_source_receipt_sha256", source_name), ("copy_before_resume_sha256", "copy-before-resume.json"),
+                          ("producer_output_before_checker_sha256", "producer-output-before-checker.json"), ("preservation_result_sha256", "preservation-result.json"),
+                          ("all_parent_files_before_sha256", "all-parent-files-before.json"), ("all_parent_files_after_sha256", "all-parent-files-after.json")):
+                      need(run[key] == digest(root / name), "historical_run_hash:" + key)
+                  for key in ("producer_sha256", "checker_sha256"):
+                      need(run[key] == current_source[key], "historical_executable")
+                  for key in STATE:
+                      if key in run:
+                          need(run[key] == head[key], "historical_state:" + key)
+                  need(run["head_sha256"] == digest(root / "output/HEAD") and run["terminal"] == produced["terminal"], "historical_HEAD_terminal")
+                  need(run["producer_invocations_this_run"] == run["checker_invocations_this_run"] == 1 and run["old_success_suites_rerun"] == 0, "one_historical_resume")
+                  old = read(root / "copy-before-resume.json")
+                  check_saved_subset(root / "output", old)
+                  before_dir = root / ("before32" if prefix == RESUME64 else "before")
+                  need(digest(before_dir / "HEAD") == old["head_sha256"] and digest(before_dir / "result.json") == old["result_sha256"], "historical_before_bytes")
+                  nested_name, role = ("accepted-completion", "COMPLETION_ROOT") if prefix == RESUME64 else ("accepted-parent", "PARENT_ROOT")
+                  nested = root / nested_name
+                  needed = [row for row in parent_before["parents"] if row["role"] == role]
+                  need(len(needed) == 1 and parent_before["count"] == 15 and scan(nested) == {key: needed[0][key] for key in ("files", "directories")}, "entire_nested_candidate_lineage")
+                  next_artifact = run["accepted_completion_artifact"] if prefix == RESUME64 else read(root / "observed-parent.json")["artifact"]
+                  next_artifact = {key: next_artifact[key] for key in ("run", "attempt", "head", "workflow", "id", "name", "bytes", "sha256")}
+                  need(scan(nested / "output") == {key: old[key] for key in ("files", "directories")}, "copy_from_exact_nested_output")
+                  need(digest(nested / "output/HEAD") == old["head_sha256"] and digest(nested / "output/result.json") == old["result_sha256"], "same_old_HEAD_and_result")
+                  need(run["before_completed_steps"] == old["completed_steps"] and run["new_appends_this_run"] == head["completed_steps"] - old["completed_steps"], "actual_historical_append_delta")
+                  need(run["new_invocation_sha256"] == produced["invocation_sha256"], "historical_explicit_invocation")
+                  chosen = [row for row in checked["invocations"] if row["sha256"] == produced["invocation_sha256"]]
+                  need(len(chosen) == 1 and chosen[0]["resume"] is True and chosen[0]["completed_steps_before"] == old["completed_steps"] and chosen[0]["head_before_sha256"] == old["head_sha256"], "historical_invocation_before")
+                  need(chosen[0]["max_appends"] == run["limits"]["absolute_max_appends"] and chosen[0]["max_seconds"] == 5400, "historical_absolute_cap")
+                  need(len(checked["invocations"]) == len(read(nested / "checker-result.json")["invocations"]) + 1, "one_new_historical_invocation")
+                  if prefix == SCHEMA:
+                      previous_input = read(root / "observed-parent.json")
+                      validate_input(previous_input, str(run["limits"]["absolute_max_appends"]))
+                      entry_check(nested, previous_input["entries"])
+                      need(run["observed_parent_sha256"] == digest(root / "observed-parent.json") and run["dispatch_input_sha256"] == digest(root / "dispatch-input.json"), "historical_observed_input_hashes")
+                  root, artifact, newer = nested, next_artifact, checked
+
+          def intake_mode():
+              observed = read(ROOT / "observed-parent.json")
+              live = read(ROOT / "live-parent-intake.json")
+              markers = {"E_ROOT": ["output/HEAD", "output/manifest.json", "checker-result.json", "source-receipt.json", "run-receipt.json"],
+                  "ORACLE_ROOT": ["output/manifest.json", "output/tree/witness.json", "checker-result.json", "source-receipt.json", "repair-source-receipt.json", "completion-run-receipt.json"],
+                  "REFINEMENT_ROOT": ["output/HEAD", "output/start.json", "output/canonical-index.json", "checker-result.json", "source-receipt.json"],
+                  "PACKET_ROOT": ["output/HEAD", "output/start.json", "checker-result.json", "source-receipt.json"],
+                  "SEED34_ROOT": ["output/manifest.json", "checker-result.json", "source-receipt.json"],
+                  "DELTA_ROOT": ["output/manifest.json", "checker-result.json", "source-receipt.json"],
+                  "PREPARE_ROOT": ["prepare.HEAD"], "P1_ROOT": ["manifest.json", "instructions.jsonl", "degree2.cache.bin"],
+                  "TASK712_ROOT": ["r07-grade2-maps-v4-receipt.json", "r07-grade2-maps-v4-checker.json"],
+                  "STATE_ROOT": ["state/manifest.json", "state/physical.bin"]}
+              for index in range(4):
+                  markers["BLOCK_" + str(index) + "_ROOT"] = ["block-" + str(index) + ".HEAD"]
+              paths = {}
+              for spec in live["parents"]:
+                  base = Path(spec["extraction_root"]).resolve()
+                  if spec["role"] == "PARENT_ROOT":
+                      # The immediate artifact root is exact. Nested historical candidates are not alternative roots.
+                      need(base == ROOT / "accepted-parent" and (base / "output/HEAD").is_file(), "exact_candidate_root")
+                      selected = base
+                  else:
+                      names = markers[spec["role"]]
+                      matches = [p for p in (base, *sorted(item for item in base.rglob("*") if item.is_dir())) if all((p / name).is_file() for name in names)]
+                      need(len(matches) == 1, "unique_payload_root:" + spec["role"])
+                      selected = matches[0].resolve()
+                  need(not selected.is_symlink() and (selected == base or base in selected.parents), "payload_containment")
+                  paths[spec["role"]] = str(selected)
+              roots = [Path(value) for value in paths.values()]
+              need(len(paths) == len(set(paths.values())) == 15, "fifteen_root_paths")
+              for index, a in enumerate(roots):
+                  for b in roots[index + 1:]:
+                      need(a != b and a not in b.parents and b not in a.parents, "disjoint_readonly_roots")
+              parent = Path(paths["PARENT_ROOT"])
+              entry_check(parent, observed["entries"])
+              checked, head, produced = full_checker(parent)
+              need(head == observed["full_head"], "actual_full_HEAD_matches_input")
+              need(produced["terminal"] == observed["snapshot"]["terminal"] and produced["status"] == produced["terminal"], "actual_resumable_status")
+              for key in (*STATE, "last_step_manifest_sha256"):
+                  need(head[key] == observed["snapshot"][key], "observed_snapshot_field:" + key)
+              invocations = [{**pin(file, file.relative_to(parent / "output").as_posix()), "value": read(file)} for file in committed_invocations(parent / "output")]
+              need(invocations == observed["invocations"], "observed_all_sealed_invocations")
+              output = scan(parent / "output")
+              need(observed["output"] == {"files": len(output["files"]), "directories": len(output["directories"]), "bytes": sum(row["bytes"] for row in output["files"])}, "observed_output_counts")
+              old_parents = [{"role": role, **scan(Path(paths[role]))} for role in sorted(key for key in paths if key != "PARENT_ROOT")]
+              chain, tests, original_launch, original_artifact = authenticate_history(parent, observed["artifact"], old_parents)
+              parents = old_parents + [{"role": "PARENT_ROOT", **scan(parent)}]
+              save("all-parent-files-before.json", {"schema": SCHEMA + ".all-parent-files", "count": 15, "parents": parents, **FALSE})
+              save("parent-paths.json", paths)
+              save("parent-intake-receipt.json", {"schema": SCHEMA + ".parent-intake", "status": "PASS", "accepted_parent_artifact": observed["artifact"],
+                  "observed_parent_sha256": digest(ROOT / "observed-parent.json"), "dispatch_input_sha256": digest(ROOT / "dispatch-input.json"),
+                  "entry_files": observed["entries"], "snapshot": observed["snapshot"], "history": chain,
+                  "original_launch": original_launch, "original_artifact": original_artifact, "prior_tests_authenticated_without_rerun": tests,
+                  "old_success_suites_rerun": 0, "resume_source_receipt_sha256": digest(ROOT / "resume-source-receipt.json"),
+                  "all_parent_files_before_sha256": digest(ROOT / "all-parent-files-before.json"), "all_saved_candidate_lineage_compared": True, **FALSE})
+              with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+                  for key, value in paths.items():
+                      need("\n" not in value and "\r" not in value, "environment_path")
+                      stream.write(key + "=" + value + "\n")
+              for root in roots:
+                  for item in root.rglob("*"):
+                      item.chmod(0o555 if item.is_dir() else 0o444)
+                  root.chmod(0o555)
+
+          def copy_mode():
+              paths = read(ROOT / "parent-paths.json")
+              parent, output = Path(paths["PARENT_ROOT"]) / "output", ROOT / "output"
+              need(not output.exists() and not output.is_symlink(), "new_mutable_output_only")
+              for value in paths.values():
+                  old = Path(value).resolve()
+                  need(old != output.resolve() and old not in output.resolve().parents and output.resolve() not in old.parents, "mutable_parent_separation")
+              before = scan(parent)
+              shutil.copytree(parent, output, symlinks=False)
+              for item in output.rglob("*"):
+                  item.chmod(0o755 if item.is_dir() else 0o644)
+              output.chmod(0o755)
+              need(scan(output) == before, "complete_hidden_file_directory_copy")
+              head, result = read(output / "HEAD"), read(output / "result.json")
+              observed = read(ROOT / "observed-parent.json")
+              need(head == observed["full_head"] and result["terminal"] == observed["snapshot"]["terminal"], "copied_before_state")
+              (ROOT / "before").mkdir()
+              for name in ("HEAD", "result.json"):
+                  shutil.copyfile(output / name, ROOT / "before" / name)
+              receipt = {"schema": SCHEMA + ".before-resume", "status": "PASS", **before,
+                  "file_count": len(before["files"]), "directory_count": len(before["directories"]), "bytes": sum(row["bytes"] for row in before["files"]),
+                  "immutable_files": [row for row in before["files"] if row["file"] not in ("HEAD", "result.json")],
+                  "immutable_directories": before["directories"], "mutable_root_files": ["HEAD", "result.json"],
+                  "existing_invocations": [pin(file, file.relative_to(output).as_posix()) for file in committed_invocations(output)],
+                  "head": head, "head_sha256": digest(output / "HEAD"), "result_sha256": digest(output / "result.json"),
+                  "completed_steps": head["completed_steps"], "original_start_preserved": True, "all_bytes_and_hidden_paths_copied": True, **FALSE}
+              save("copy-before-resume.json", receipt)
+
+          def terminal_type(output, head, result, n, cap):
+              count, terminal = head["completed_steps"], result["terminal"]
+              need(terminal in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE", "COMPLETE_ZERO_CANDIDATE", "LINEAR_MEMBERSHIP_CANDIDATE"), "terminal_type")
+              need(result["status"] == ("PASS" if terminal.endswith("CANDIDATE") else terminal), "terminal_status")
+              if terminal == "UNKNOWN_CAP":
+                  need(count == cap, "absolute_cap_reached")
+              if terminal == "LINEAR_MEMBERSHIP_CANDIDATE":
+                  need(head["kind"] == "LinearMembershipCandidate" and head["lambda_sha256"] is None and result["lambda_rho2"] is None and count > n, "linear_target_type")
+                  need(result["positive_readout"] == "TASK958_PENDING", "positive_consumer_pending")
+                  target = output / "snapshots" / f"{count-1:06d}" / "e/physical/target-remainder.bin"
+                  need(target.stat().st_size == 12096 and digest(target) == head["target_remainder_sha256"] and not any(target.read_bytes()), "actual_linear_target_zero")
+              else:
+                  need(head["kind"] == "Separator" and head["lambda_sha256"] is not None, "separator_terminal")
+              if head["current_snapshot_sha256"] is not None:
+                  current = output / "snapshots" / f"{count:06d}"
+                  need(digest(current / "start.json") == head["current_snapshot_sha256"], "actual_current_snapshot")
+                  checkpoint = current / "checkpoints" / (head["current_checkpoint_sha256"] + ".json")
+                  need(digest(checkpoint) == head["current_checkpoint_sha256"], "actual_current_checkpoint")
+              else:
+                  need(head["current_checkpoint_sha256"] is None, "no_dangling_checkpoint")
+              if terminal == "COMPLETE_ZERO_CANDIDATE":
+                  need(head["current_snapshot_sha256"] is not None, "complete_zero_needs_current_snapshot")
+                  oracle = read(current / "oracle-result.json")
+                  need(oracle["terminal"] == terminal and oracle["state_head"] == head["state_head"] and oracle["lambda_sha256"] == head["lambda_sha256"], "same_current_complete_oracle")
+                  need(result["complete_zero_oracle_result_sha256"] == digest(current / "oracle-result.json"), "complete_zero_oracle_file_hash")
+
+          def producer_mode():
+              output = ROOT / "output"
+              before = read(ROOT / "copy-before-resume.json")
+              n, cap = before["completed_steps"], int(os.environ["ABSOLUTE_CAP"])
+              need(before["status"] == "PASS" and n < cap, "accepted_before_count")
+              check_saved_subset(output, before)
+              need(digest(ROOT / "before/HEAD") == before["head_sha256"] and digest(ROOT / "before/result.json") == before["result_sha256"], "before_bytes_retained")
+              need((ROOT / "producer-exit-code.txt").read_bytes() == b"0\n", "new_producer_exit_zero")
+              need((ROOT / "producer-result.json").read_bytes() == (output / "result.json").read_bytes(), "new_producer_stdout_is_current_result")
+              head, result = sealed(output / "HEAD", LOOP + ".head"), sealed(output / "result.json", LOOP + ".result")
+              count = ordinary(head["completed_steps"], n, cap)
+              need(all(head[key] == result[key] for key in (*STATE, "last_step_manifest_sha256")), "new_HEAD_result_fields")
+              need(result["head_sha256"] == digest(output / "HEAD") and all(head[key] == before["head"][key] for key in IDS), "new_HEAD_same_owner")
+              need(head["rank"] == 1386 + count and head["generation"] == 8091 + count and result["new_physical_appends"] == count, "new_count_not_reset")
+              old_names = {row["file"] for row in before["existing_invocations"]}
+              files = committed_invocations(output)
+              need(len(files) == len(old_names) + 1, "exactly_one_new_invocation")
+              added = [file for file in files if file.relative_to(output).as_posix() not in old_names]
+              need(len(added) == 1 and digest(added[0]) == result["invocation_sha256"], "explicit_new_invocation_file")
+              invocation = sealed(added[0], LOOP + ".invocation")
+              need(invocation["invocation"] + ".json" == added[0].name and invocation["resume"] is True, "new_UUID_resume")
+              need(invocation["completed_steps_before"] == n and invocation["head_before_sha256"] == before["head_sha256"], "new_invocation_actual_before")
+              need(all(invocation[key] == head[key] for key in IDS), "new_invocation_same_source_owner")
+              need(invocation["max_appends"] == result["max_appends_this_invocation"] == cap and invocation["max_seconds"] == result["max_seconds_this_invocation"] == 5400, "new_invocation_absolute_limits")
+              terminal_type(output, head, result, n, cap)
+              if count > n:
+                  first = read(output / "steps" / f"{n+1:06d}" / "manifest.json")
+                  need(first["predecessor_step_manifest_sha256"] == before["head"]["last_step_manifest_sha256"], "first_new_step_predecessor")
+              roster = scan(output)
+              save("producer-output-before-checker.json", {"schema": SCHEMA + ".producer-output-before-checker", "status": "PASS", **roster,
+                  "output_bytes": sum(row["bytes"] for row in roster["files"]), "before_completed_steps": n, "completed_steps": count,
+                  "new_appends_this_run": count - n, "head_before_sha256": before["head_sha256"], "head_sha256": digest(output / "HEAD"),
+                  "result_sha256": digest(output / "result.json"), "new_invocation_file": added[0].relative_to(output).as_posix(),
+                  "new_invocation_sha256": digest(added[0]), "old_prefix_unchanged": True, "old_invocations_unchanged": True,
+                  "actual_resume": True, "producer_invocations_this_run": 1, "terminal": result["terminal"], "kind": head["kind"],
+                  "candidate": True, "cross_checked": False, "verified": False})
+
+          def final_mode():
+              checked, produced, head = read(ROOT / "checker-result.json"), read(ROOT / "output/result.json"), read(ROOT / "output/HEAD")
+              source, intake = read(ROOT / "resume-source-receipt.json"), read(ROOT / "parent-intake-receipt.json")
+              before, after = read(ROOT / "copy-before-resume.json"), read(ROOT / "producer-output-before-checker.json")
+              preservation, joined, coverage = read(ROOT / "preservation-result.json"), read(ROOT / "checker-prefix-join.json"), read(ROOT / "coverage-receipt.json")
+              observed, cap = read(ROOT / "observed-parent.json"), int(os.environ["ABSOLUTE_CAP"])
+              for value in (checked, intake, before, after, preservation, joined, coverage):
+                  need(value["status"] == "PASS" and value["cross_checked"] is False and value["verified"] is False, "all_final_gates_PASS")
+              need(preservation["errors"] == [], "no_preservation_errors")
+              for key in ("source_checked_unchanged", "inputs_and_driver_checked_unchanged", "all_parent_roots_checked_unchanged", "original_prefix_checked_unchanged", "producer_output_checked_unchanged"):
+                  need(preservation[key] is True, "final_immutable:" + key)
+              need(coverage["checker_result_sha256"] == joined["checker_result_sha256"] == digest(ROOT / "checker-result.json"), "coverage_checker_join")
+              need(coverage["completed_steps"] == checked["completed_steps"] == head["completed_steps"] == produced["completed_steps"], "final_all_counts")
+              need(coverage["target_scalars"] == [row["target_scalar"] for row in checked["steps"]], "coverage_target_scalars")
+              need(preservation["files"] == after["files"] and preservation["directories"] == after["directories"], "final_output_roster")
+              need(read(ROOT / "all-parent-files-before.json") == read(ROOT / "all-parent-files-after.json"), "final_parent_rosters")
+              need((ROOT / "checker-exit-code.txt").read_bytes() == (ROOT / "producer-exit-code.txt").read_bytes() == b"0\n", "both_exits_zero")
+              need((ROOT / "checker-result.json").read_bytes() == (ROOT / "checker-stdout.json").read_bytes(), "final_checker_stdout")
+              need((ROOT / "producer-result.json").read_bytes() == (ROOT / "output/result.json").read_bytes(), "final_producer_stdout")
+              need(intake["observed_parent_sha256"] == digest(ROOT / "observed-parent.json") and intake["dispatch_input_sha256"] == digest(ROOT / "dispatch-input.json"), "final_input_pins")
+              need(intake["resume_source_receipt_sha256"] == digest(ROOT / "resume-source-receipt.json"), "final_source_pin")
+              current_launch = {"run": int(os.environ["GITHUB_RUN_ID"]), "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]), "head": os.environ["GITHUB_SHA"], "workflow": WORKFLOW}
+              need(source["launch"] == current_launch, "final_current_launch")
+              n, count = before["completed_steps"], head["completed_steps"]
+              receipt = {"schema": SCHEMA + ".run-receipt", "status": "PASS", "current_launch": current_launch, "workflow": source["workflow"],
+                  "accepted_parent_artifact": observed["artifact"], "original_launch": intake["original_launch"], "original_artifact": intake["original_artifact"],
+                  "observed_parent_sha256": digest(ROOT / "observed-parent.json"), "dispatch_input_sha256": digest(ROOT / "dispatch-input.json"),
+                  "original_source_receipt_sha256": digest(ROOT / "source-receipt.json"), "resume_source_receipt_sha256": digest(ROOT / "resume-source-receipt.json"),
+                  "parent_intake_receipt_sha256": digest(ROOT / "parent-intake-receipt.json"), "parent_checker_result_sha256": observed["snapshot"]["checker_result_sha256"],
+                  "live_parent_intake_sha256": digest(ROOT / "live-parent-intake.json"), "copy_before_resume_sha256": digest(ROOT / "copy-before-resume.json"),
+                  "producer_output_before_checker_sha256": digest(ROOT / "producer-output-before-checker.json"), "preservation_result_sha256": digest(ROOT / "preservation-result.json"),
+                  "all_parent_files_before_sha256": digest(ROOT / "all-parent-files-before.json"), "all_parent_files_after_sha256": digest(ROOT / "all-parent-files-after.json"),
+                  "checker_prefix_join_sha256": digest(ROOT / "checker-prefix-join.json"), "coverage_receipt_sha256": digest(ROOT / "coverage-receipt.json"),
+                  "input_contract_canary_sha256": digest(ROOT / "input-contract-canary.json"), "new_metadata_refusal_cases": 8,
+                  "producer_sha256": os.environ["PRODUCER_SHA256"], "checker_sha256": os.environ["CHECKER_SHA256"], "original_checker_sha256": os.environ["ORIGINAL_CHECKER_SHA256"],
+                  "checker_result_sha256": digest(ROOT / "checker-result.json"), "producer_result_sha256": digest(ROOT / "output/result.json"),
+                  "head_before_sha256": before["head_sha256"], "before_result_sha256": before["result_sha256"], "head_sha256": digest(ROOT / "output/HEAD"),
+                  **{key: head[key] for key in STATE}, "last_step_manifest_sha256": head["last_step_manifest_sha256"], "terminal": produced["terminal"],
+                  "before_completed_steps": n, "new_appends_this_run": count - n, "prefix_steps_replayed": checked["prefix_steps_replayed"],
+                  "snapshots_replayed": len(checked["snapshots"]), "all_old_step_and_committed_snapshot_dicts_match": True, "old_current_completed_phases_preserved": True,
+                  "actual_resume": True, "new_invocation_file": after["new_invocation_file"], "new_invocation_sha256": after["new_invocation_sha256"],
+                  "producer_invocations_this_run": 1, "checker_invocations_this_run": 1, "original_parent_artifacts": 14, "total_readonly_parent_artifacts": 15,
+                  "old_success_suites_rerun": 0, "prior_tests_authenticated_without_rerun": intake["prior_tests_authenticated_without_rerun"],
+                  "old_completed_phase_builders_reexecuted_by_producer": 0, "saved_row_decoding_and_current_lambda_direct_checks_retained": True,
+                  "external_e_numerically_replayed": False, "whole_normalized_word_replay": False, "eleven_slot_replay": False,
+                  "limits": {"absolute_max_appends": cap, "producer_internal_seconds": 5400, "producer_outer_minutes": 100,
+                      "checker_internal_seconds": 10800, "checker_outer_minutes": 190, "job_minutes": 330, "virtual_memory_KiB": 7340032},
+                  "source_executables": 20, "raw_inputs": 3, "producer_runtime": {"python": source["python"], "numpy": source["numpy"]},
+                  "checker_runtime": {"python": checked["python"], "numpy": checked["numpy"]},
+                  "output_files": len(after["files"]), "output_directories": len(after["directories"]), "output_bytes": after["output_bytes"],
+                  "old_prefix_unchanged": True, "all_readonly_parents_unchanged": True, "all_sources_unchanged": True, "output_unchanged_by_checker": True,
+                  "grade2_member": "NOT_DECIDED", "grade2_nonmember": "NOT_DECIDED", "full_A0": False, "candidate": True, "cross_checked": False, "verified": False}
+              for role, value in (("producer", produced), ("checker", checked)):
+                  elapsed = value["elapsed_seconds"]
+                  need(type(elapsed) in (int, float) and math.isfinite(elapsed) and elapsed >= 0, "actual_elapsed_time")
+                  receipt[role + "_elapsed_seconds"] = elapsed
+                  for boundary in ("started", "finished"):
+                      receipt[role + "_" + boundary + "_utc"] = (ROOT / (role + "-" + boundary + "-utc.txt")).read_text().strip()
+              save("run-receipt.json", receipt)
+
+          def preservation_mode():
+              errors = []
+              flags = {"source_checked_unchanged": False, "inputs_and_driver_checked_unchanged": False,
+                  "all_parent_roots_checked_unchanged": False, "original_prefix_checked_unchanged": False, "producer_output_checked_unchanged": False}
+              try:
+                  if (ROOT / "resume-source-receipt.json").is_file():
+                      source = read(ROOT / "resume-source-receipt.json")
+                      need(len(source["files"]) == 20 and len(source["data"]) == 3, "source_counts")
+                      for row in source["files"]:
+                          expected = {key: row[key] for key in ("file", "bytes", "sha256")}
+                          need(pin(Path(row["file"]), row["file"]) == expected, "source_file_unchanged")
+                          need(pin(ROOT / "executed-sources" / Path(row["file"]).name, row["file"]) == expected, "saved_executed_source_unchanged")
+                      for name, row in source["data"].items():
+                          need(pin(Path(name), name) == {"file": name, **row}, "raw_data_unchanged")
+                      for row in (source["workflow"], source["original_workflow"]):
+                          need(pin(Path(row["file"]), row["file"]) == row, "workflow_unchanged")
+                          need(pin(ROOT / "executed-sources" / Path(row["file"]).name, row["file"]) == row, "saved_workflow_unchanged")
+                      need(digest(ROOT / "source-receipt.json") == source["original_source_receipt_sha256"], "original_source_receipt_unchanged")
+                      flags["source_checked_unchanged"] = True
+                      for row in [source["driver"], *source["input_files"]]:
+                          need(pin(ROOT / row["file"]) == row, "input_or_driver_unchanged")
+                      dispatch = read(ROOT / "dispatch-input.json")
+                      need(dispatch == {"observed_parent": os.environ["OBSERVED_PARENT"], "max_appends": os.environ["MAX_APPENDS_INPUT"]}, "exact_dispatch_values_retained")
+                      need(read(ROOT / "observed-parent.json") == decode(dispatch["observed_parent"]), "canonical_input_keeps_values")
+                      flags["inputs_and_driver_checked_unchanged"] = True
+              except Exception as exc:
+                  errors.append("source_inputs:" + type(exc).__name__ + ":" + str(exc))
+              try:
+                  if (ROOT / "all-parent-files-before.json").is_file():
+                      before = read(ROOT / "all-parent-files-before.json")
+                      paths = read(ROOT / "parent-paths.json")
+                      need(before["count"] == len(paths) == 15, "all_parent_count")
+                      parents = [{"role": row["role"], **scan(Path(paths[row["role"]]))} for row in before["parents"]]
+                      after = {**before, "parents": parents}
+                      save("all-parent-files-after.json", after)
+                      need(after == before, "all_fifteen_parents_bytes_directories")
+                      flags["all_parent_roots_checked_unchanged"] = True
+              except Exception as exc:
+                  errors.append("parents:" + type(exc).__name__ + ":" + str(exc))
+              try:
+                  if (ROOT / "copy-before-resume.json").is_file():
+                      before = read(ROOT / "copy-before-resume.json")
+                      check_saved_subset(ROOT / "output", before)
+                      need(digest(ROOT / "before/HEAD") == before["head_sha256"] and digest(ROOT / "before/result.json") == before["result_sha256"], "old_HEAD_result_saved")
+                      flags["original_prefix_checked_unchanged"] = True
+              except Exception as exc:
+                  errors.append("old_prefix:" + type(exc).__name__ + ":" + str(exc))
+              roster = {"files": [], "directories": []}
+              try:
+                  if (ROOT / "output").is_dir():
+                      roster = scan(ROOT / "output")
+                  if (ROOT / "producer-output-before-checker.json").is_file():
+                      produced = read(ROOT / "producer-output-before-checker.json")
+                      need(roster == {key: produced[key] for key in ("files", "directories")}, "all_output_before_after_checker")
+                      flags["producer_output_checked_unchanged"] = True
+              except Exception as exc:
+                  errors.append("output:" + type(exc).__name__ + ":" + str(exc))
+              save("preservation-result.json", {"schema": SCHEMA + ".preservation", "status": "FAIL" if errors else ("PASS" if all(flags.values()) else "INCOMPLETE"),
+                  **flags, **roster, "output_bytes": sum(row["bytes"] for row in roster["files"]), "errors": errors, "checker_status_is_separate": True, **FALSE})
+              need(not errors, "preservation_errors:" + repr(errors))
+
+          def checker_join_mode():
+              checked, head, produced = full_checker(ROOT)
+              before = read(ROOT / "copy-before-resume.json")
+              after = read(ROOT / "producer-output-before-checker.json")
+              parent = Path(read(ROOT / "parent-paths.json")["PARENT_ROOT"])
+              old = read(parent / "checker-result.json")
+              n, cap = before["completed_steps"], int(os.environ["ABSOLUTE_CAP"])
+              need(n == old["completed_steps"] and n <= head["completed_steps"] <= cap, "actual_before_after_range")
+              compare_old_prefix(old, checked)
+              need(len(checked["invocations"]) == len(old["invocations"]) + 1, "one_new_invocation_in_checker")
+              chosen = [row for row in checked["invocations"] if row["sha256"] == produced["invocation_sha256"]]
+              need(len(chosen) == 1 and chosen[0]["sha256"] == after["new_invocation_sha256"], "checker_explicit_invocation")
+              need(chosen[0]["resume"] is True and chosen[0]["completed_steps_before"] == n and chosen[0]["head_before_sha256"] == before["head_sha256"], "checker_invocation_actual_before")
+              need(chosen[0]["max_appends"] == cap and chosen[0]["max_seconds"] == 5400, "checker_invocation_actual_cap")
+              terminal_type(ROOT / "output", head, produced, n, cap)
+              need(after["head_sha256"] == checked["head_sha256"] and after["result_sha256"] == checked["result_sha256"], "producer_checker_same_current_files")
+              save("checker-prefix-join.json", {"schema": SCHEMA + ".checker-prefix-join", "status": "PASS", "before_completed_steps": n,
+                  "completed_steps": head["completed_steps"], "parent_checker_result_sha256": digest(parent / "checker-result.json"),
+                  "checker_result_sha256": digest(ROOT / "checker-result.json"), "all_old_step_and_committed_snapshot_dicts_match": True,
+                  "old_current_completed_phases_preserved": True, "old_invocation_dicts_unchanged": True, "new_invocation_sha256": chosen[0]["sha256"], **FALSE})
+
+          def coverage_mode():
+              checked = read(ROOT / "checker-result.json")
+              need(read(ROOT / "checker-prefix-join.json")["status"] == "PASS" and checked["status"] == "PASS", "coverage_after_full_checker_only")
+              output, paths = ROOT / "output", read(ROOT / "parent-paths.json")
+              fixed = sealed(output / "fixed/manifest.json", LOOP + ".fixed-manifest")
+              fixed_rows = {row["file"]: row for row in fixed["files"]}
+              edges_file = output / "fixed/chord-edges.u32"
+              edges_raw = edges_file.read_bytes()
+              edge_record = fixed_rows["chord-edges.u32"]
+              need(edge_record["dtype"] == "u32le" and edge_record["shape"] == [54433] and edge_record["bytes"] == len(edges_raw) == 217732 and edge_record["sha256"] == digest(edges_file), "coverage_fixed_chord_EOF")
+              edge_positions = {int.from_bytes(edges_raw[i:i+4], "little"): i // 4 for i in range(0, len(edges_raw), 4)}
+              need(len(edge_positions) == 54433, "coverage_chord_index_unique")
+              def trits(raw):
+                  need(all(value < 81 for value in raw), "saved_packed_digits")
+                  return [value // weight % 3 for value in raw for weight in (1, 3, 9, 27)]
+              head = read(output / "HEAD")
+              if head["lambda_sha256"] is None:
+                  need(head["kind"] == "LinearMembershipCandidate", "final_lambda_null_type")
+                  final_lambda = {"status": "NOT_APPLICABLE", "kind": head["kind"], "lambda_sha256": None, "file": None, "characters": None,
+                      "absence_means_zero_oracle": False}
+              else:
+                  final_file = output / "snapshots" / f"{head['completed_steps']-1:06d}" / "e/physical/lambda.bin"
+                  final_raw = final_file.read_bytes()
+                  need(len(final_raw) == 12096 and hashlib.sha256(final_raw).hexdigest() == head["lambda_sha256"], "final_HEAD_lambda_file")
+                  final_values = trits(final_raw)
+                  final_lambda = {"status": "RECORDED_SAVED_BYTES", "kind": head["kind"], "file": final_file.relative_to(ROOT).as_posix(),
+                      "bytes": len(final_raw), "lambda_sha256": head["lambda_sha256"], "head_sha256": digest(output / "HEAD"),
+                      "characters": [{"character": character, "coordinate_order": "index-within-physical-character-block-12096",
+                          "support": [[index, value] for index, value in enumerate(final_values[character*12096:(character+1)*12096]) if value != 0]} for character in range(4)],
+                      "current_snapshot_present": head["current_snapshot_sha256"] is not None, "uncomputed_oracle_claimed_zero": False}
+              rows = []
+              for number, snapshot in enumerate(checked["snapshots"]):
+                  base = output / "snapshots" / f"{number:06d}"
+                  start = read(base / "start.json")
+                  need(digest(base / "start.json") == snapshot["snapshot_sha256"], "coverage_snapshot_before_append")
+                  manifests, refs = {}, []
+                  for phase, expected in snapshot["phase_manifests"].items():
+                      directory = base / phase if phase in PHASES[:3] else base / "e" / phase
+                      need(digest(directory / "manifest.json") == expected, "coverage_phase_manifest")
+                      manifests[phase] = (directory, sealed(directory / "manifest.json", LOOP + ".phase-manifest"))
+                  def payload(phase, name, dtype, shape, size=None):
+                      directory, manifest = manifests[phase]
+                      found = [row for row in manifest["files"] if row["file"] == name]
+                      need(len(found) == 1, "coverage_payload_unique")
+                      record = found[0]
+                      with (directory / name).open("rb") as stream:
+                          raw = stream.read(record["bytes"] + 1)
+                      need(record["dtype"] == dtype and record["shape"] == shape and len(raw) == record["bytes"] and (size is None or len(raw) == size), "coverage_payload_shape_EOF")
+                      need(hashlib.sha256(raw).hexdigest() == record["sha256"], "coverage_payload_hash")
+                      refs.append({"phase": phase, **record})
+                      return raw
+                  row = {"snapshot_step": number, "committed_append": number < checked["completed_steps"], "snapshot_sha256": snapshot["snapshot_sha256"],
+                      "rank_before_append": start["rank"], "state_head": start["state_head"], "lambda_sha256": start["lambda_sha256"],
+                      "phase_manifests": snapshot["phase_manifests"], "target_scalar": checked["steps"][number]["target_scalar"] if number < checked["completed_steps"] else None,
+                      "q_roots": None, "kappa_tags": None, "kappa_shared_aux": None, "score_tags": None, "b_aux": None, "tree": None, "raw": None}
+                  lambda_file = Path(paths["E_ROOT"]) / "output/lambda.bin" if number == 0 else output / "snapshots" / f"{number-1:06d}" / "e/physical/lambda.bin"
+                  raw_lambda = lambda_file.read_bytes()
+                  need(len(raw_lambda) == 12096 and hashlib.sha256(raw_lambda).hexdigest() == start["lambda_sha256"], "saved_lambda_before_snapshot")
+                  lambda_values = trits(raw_lambda)
+                  row["lambda_character_support"] = [{"character": character, "coordinate_order": "index-within-physical-character-block-12096",
+                      "support": [[index, value] for index, value in enumerate(lambda_values[character*12096:(character+1)*12096]) if value != 0]}
+                      for character in range(4)]
+                  if "section" in manifests:
+                      q = payload("section", "q.bin", "packed3", [4, 36288], 36288)
+                      kappa = trits(payload("section", "kappa.bin", "packed3", [96776], 24194))
+                      need(all(value < 81 for value in q), "saved_q_digits")
+                      row["q_roots"] = [{"character": character, "zero_for_current_lambda": not any(q[character*9072:(character+1)*9072]),
+                          "nonzero_packed_bytes": 9072 - q[character*9072:(character+1)*9072].count(0), "operator_identically_zero_claimed": False} for character in range(4)]
+                      row["kappa_tags"] = [{"tag": tag,
+                          "d0_nonzero_trits": sum(value != 0 for character in range(4) for value in kappa[(character*6+tag)*1008:(character*6+tag+1)*1008]),
+                          "d1_nonzero_trits": sum(value != 0 for character in range(4) for value in kappa[24192+(character*6+tag)*3024:24192+(character*6+tag+1)*3024])}
+                          for tag in range(6)]
+                      row["kappa_shared_aux"] = kappa[-8:]
+                  if "cochain" in manifests:
+                      score = payload("cochain", "score.u8", "u8", [6, 2, 54432], 653184)
+                      aux = payload("cochain", "b-aux.u8", "u8", [2], 2)
+                      need(all(value < 3 for value in score) and all(value < 3 for value in aux), "saved_score_aux_trits")
+                      row["score_tags"] = [{"tag": tag, "components": [{"component": component, "nonzero_trits": 54432-score[(tag*2+component)*54432:(tag*2+component+1)*54432].count(0)} for component in range(2)]} for tag in range(6)]
+                      row["b_aux"] = list(aux)
+                  if "tree" in manifests:
+                      witness = decode(payload("tree", "witness.json", "json", None))
+                      values = payload("tree", "chord-values.u8", "u8", [54433], 54433)
+                      residuals = payload("tree", "chord-residuals.u8", "u8", [54433], 54433)
+                      tau = payload("tree", "chord-tau.u8", "u8", [54433, 5], 272165)
+                      selected = payload("tree", "selected-chords.u32", "u32le", [5], 20)
+                      selected_edges = [int.from_bytes(selected[i:i+4], "little") for i in range(0, 20, 4)]
+                      fit = payload("tree", "fit.u8", "u8", [5], 5)
+                      def chord(edge):
+                          index = edge_positions[edge]
+                          return {"edge": edge, "saved_index": index, "value": values[index], "residual": residuals[index], "tau": list(tau[index*5:(index+1)*5])}
+                      failed = witness.get("failed_chord")
+                      row["tree"] = {"witness": witness, "failed_chord": None if failed is None else chord(failed),
+                          "basis_chords": [chord(edge) for edge in selected_edges], "fit": list(fit), "third_tree_evaluation": False}
+                  if "raw" in manifests:
+                      raw_word = decode(payload("raw", "raw-word.json", "json", None))
+                      values = {node["id"]: node for node in raw_word["node_values"]}
+                      nodes = {node["id"]: node for node in raw_word["nodes"]}
+                      need(len(values) == len(raw_word["node_values"]) and len(nodes) == len(raw_word["nodes"]), "saved_raw_unique_nodes")
+                      w, central = values.get("w"), nodes.get("repair-central")
+                      if w is not None:
+                          ordinary(w["omega"], 0, 2)
+                          need(central is not None and central["op"] == "IntegerPower" and central["node"] == "commutator" and type(central["exponent"]) is int, "saved_central_exponent_type")
+                      row["raw"] = {"raw_word_sha256": hashlib.sha256(canonical(raw_word)).hexdigest(),
+                          "pre_repair_w_applicable": w is not None, "pre_repair_w_omega": None if w is None else w["omega"],
+                          "pre_repair_w_ordinary_exponent_pair": None if w is None else w["exponent"],
+                          "central_signed_exponent": None if central is None else central["exponent"],
+                          "post_repair_legality_omega": raw_word["legality"]["omega"],
+                          "post_repair_omega_used_as_pre_repair": False, "raw_word_reexecuted": False,
+                          "word_bound": raw_word["word_bound"],
+                          "selected_slp_node_metadata": [{"id": name, "op": nodes[name]["op"], "length": values[name]["length"],
+                              "ordinary_exponent_pair": values[name]["exponent"], "integer_power_exponent": nodes[name].get("exponent")}
+                              for name in ("w", "repair-x", "repair-y", "commutator", "repair-central", "raw-root") if name in values and name in nodes]}
+                  row["payloads"] = refs
+                  rows.append(row)
+              conventions = {"signed_representative": {"0": 0, "1": 1, "2": -1}, "raw_repair_order": ["w", "(r_x^3)^(-A(w)/6)", "(r_y^3)^(-B(w)/6)", "commutator^signed(omega(w))"],
+                  "raw_division_by_6": "ordinary_integer_exact_division", "p1_exponent_modulus": 54, "p1_residue_type": "ordinary_integer_0_to_53",
+                  "divisible_by_18_residues": [0, 18, 36], "normalized_pair": "residue/18 in {0,1,2}; no division by 18 in F3",
+                  "oracle_normalized_aux": "independent eta; b_aux=-kappa_aux[6:8]",
+                  "references": ["sol/proof_r07_table_free_endpoint_selector_v547.md", "sol/proof_r07_section_corrected_homogeneous_dual_v548.md",
+                      "sol/luna_reply_965_r07_selected_cycle_materializer.md", "sol/luna_reply_971_r07_complete_oracle_cegar_continuation.md", "ops/express/20260906_fable_astra_cycle_cv9_correction_ack.md"],
+                  "registered_convention_changed": False, "new_adjudication": False, "convention_arithmetic_recomputed": False}
+              save("coverage-receipt.json", {"schema": SCHEMA + ".coverage", "status": "PASS", "checker_result_sha256": digest(ROOT / "checker-result.json"),
+                  "completed_steps": checked["completed_steps"], "rows": rows, "lambda_final": final_lambda, "target_scalars": [step["target_scalar"] for step in checked["steps"]],
+                  "pre_repair_w_omegas": [None if row["raw"] is None else row["raw"]["pre_repair_w_omega"] for row in rows],
+                  "central_signed_exponents": [None if row["raw"] is None else row["raw"]["central_signed_exponent"] for row in rows],
+                  "character_order": [0, 1, 2, 3], "scope": "all saved lambdas for committed append snapshots plus the HEAD current snapshot; only fully compared phases are measured",
+                  "missing_current_phases_mean_unmeasured_not_zero": True, "operator_identically_zero_claimed": False, "all_four_characters_informative_claimed": False,
+                  "source_recomputed": False, "producer_reexecuted": False, "third_independent_arithmetic": False, "normalizer_conventions": conventions,
+                  "candidate": True, "cross_checked": False, "verified": False})
+
+          if __name__ == "__main__":
+              mode = sys.argv[1] if len(sys.argv) == 2 else "invalid"
+              modes = {"input": input_mode, "sources": source_mode, "live": live_mode, "intake": intake_mode, "copy": copy_mode,
+                  "producer": producer_mode, "checker": checker_join_mode, "coverage": coverage_mode, "preserve": preservation_mode, "final": final_mode}
+              try:
+                  need(mode in modes, "metadata_driver_mode")
+                  modes[mode]()
+              except Exception as exc:
+                  ROOT.mkdir(exist_ok=True)
+                  save("metadata-" + mode + "-failure.json", {"schema": SCHEMA + ".metadata-failure", "status": "FAIL", "phase": mode,
+                      "reason": type(exc).__name__ + ":" + str(exc), "numerical_failure_inferred": False, **FALSE})
+                  raise
+          PY
+      - name: Authenticate the exact observed input and eight new metadata refusals
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" input
+      - name: Authenticate twenty frozen sources three raw inputs and exact runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" sources
+      - name: Authenticate and safely extract fifteen live artifact tuples
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" live
+      - name: Join actual parent full prefix and every saved historical candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" intake
+      - name: Copy every saved byte into the disjoint mutable output
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" copy
+      - name: Resume the frozen producer once with the absolute input cap
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 7340032
+          root="$RUNNER_TEMP/resume-next"
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/producer-started-utc.txt"
+          set +e
+          timeout --kill-after=60s "${RESUME_CAP_MINUTES}m" python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+            "${parents[@]}" --output "$root/output" --resume --max-appends "$ABSOLUTE_CAP" --max-seconds 5400 \
+            > "$root/producer-result.json" 2> "$root/producer.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$root/producer-exit-code.txt"
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/producer-finished-utc.txt"
+          # Admission/resource exit3 never promotes the copied old result into this invocation.
+          test "$code" = 0
+          cmp "$root/producer-result.json" "$root/output/result.json"
+          python -B "$root/driver.py" producer
+      - name: Replay the complete cumulative prefix and current checkpoint once
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 7340032
+          root="$RUNNER_TEMP/resume-next"
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/checker-started-utc.txt"
+          set +e
+          timeout --kill-after=60s "${CHECKER_CAP_MINUTES}m" python -B search/check_d972_r07_complete_oracle_cegar_continuation_v2.py \
+            "${parents[@]}" --candidate-root "$root/output" --output "$root/checker-result.json" --max-seconds 10800 \
+            > "$root/checker-stdout.json" 2> "$root/checker.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$root/checker-exit-code.txt"
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/checker-finished-utc.txt"
+          test "$code" = 0
+          cmp "$root/checker-stdout.json" "$root/checker-result.json"
+          python -B "$root/driver.py" checker
+      - name: Read coverage only from complete independently compared saved payloads
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" coverage
+      - name: Always compare all parent prefix source workflow input and output bytes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -f "$RUNNER_TEMP/resume-next/driver.py" ]; then
+            python -B "$RUNNER_TEMP/resume-next/driver.py" preserve
+          fi
+      - name: Join the actual result new invocation complete prefix and preservation receipts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/resume-next/driver.py" final
+      - name: Upload a candidate only after all gates pass
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-resume-next-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: error
+          path: ${{ runner.temp }}/resume-next/
+      - name: Always retain all saved output hidden tails inputs provenance code and logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-resume-next-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: warn
+          path: ${{ runner.temp }}/resume-next/
