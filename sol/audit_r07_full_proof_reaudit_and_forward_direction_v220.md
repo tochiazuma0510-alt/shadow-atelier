@@ -23304,3 +23304,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - Task989/990で著者分離したP/C各側の最小batch移行契約を静的設計。旧lambdaと新separator、依存行、aux分岐を別型にする。
 - **CLOSED**: 両新WFの公開・986登録。**OPEN**: 実985/986本走と新canary・batch契約・actual grade2。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 598 — 同語985と一回96対照986を実起動（2026-09-06 JST）
+
+- 起動commit **920780033b3aaa519a898e8b6b1d29fe67a04cd1**、exact四file、作業branchへpush済み。
+- 985 **33995799635/1**、push/22:24:02Z、workflow351195855、同SHA。job101386012543はsource/runtimeまでPASS、十六親入場中。
+- 986 **33995829771/1**、workflow_dispatch/22:24:41Z、workflow351195853、同SHA。実64親→絶対96のexact bodyをrootが送信し実runを観測。
+  旧128 bodyは未送信。実数値結果は未観測。詳細F8.61、各run URLと本commit SHAを記録。
+- **CLOSED**: 985 marker起動・986登録後の実96 dispatch。**OPEN**: 両実runの新canary/本P/D/C/回収、batch数学/移行契約、actual grade2。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
