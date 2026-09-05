@@ -23292,3 +23292,15 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **CLOSED**: 1450の事後CV9と正式受理。**OPEN**: 新WF公開/登録/実GHA、同語D、計測対照96、batch数学契約、actual grade2。
 - **UNCHANGED**: grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、
   full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
+
+### Delta 597 — 新WF公開・986登録成功・985起動commit（2026-09-06 JST）
+
+- exact九fileを95d9f63c135c038a18d75b47b941fa57a79ad67aで公開push済み。
+  986 workflow351195853、登録run33995625884/1同SHA success、job101385554611のtrueだけが実行。
+  数値job101385555379はskipped/steps空。985 workflow351195855、登録push33995625951/1はmarkerなしskipped。
+- 2155/ack全文読了。96一回対照・自動倍増終了・batch数学監査・次CV9追加列の受領を確認。
+  この追記のcommitに既定985 markerを付す。986は実登録成功後にF8.59 exact cap96 bodyをrootがdispatchする。
+  実数値run/launchSHAは観測後に記帳。登録successをP/D/C成功へ昇格しない。
+- Task989/990で著者分離したP/C各側の最小batch移行契約を静的設計。旧lambdaと新separator、依存行、aux分岐を別型にする。
+- **CLOSED**: 両新WFの公開・986登録。**OPEN**: 実985/986本走と新canary・batch契約・actual grade2。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
