@@ -1728,6 +1728,34 @@ completion解決は20:36:12Z→20:36:15Z、旧32移送は20:36:15Z→20:36:16Z�
 さらに旧physical basisのbinary部分行とJSONL positioned recordの区別を接続中。
 これらは新982/983の未公開実装の修正で、現在GHAが使う凍結P/C v2には変更が無い。
 
+### F8.49 — 新consumerの保存型を修理、Task985でGHA接続を委嘱（2026-09-06 JST）
+
+rootのsource監査で982 TargetHistory.add_rowがphysical binaryを二bit刻みで読む誤りを発見した。
+実producer `search/d972_r07_grade2_physical_state_separator_v2.py` のpack/unpack（278–309行）は
+一byteに四tritを重み1,3,9,27で詰めるbase3であり、新読取のbit shiftと型が違っていた。
+作者へ直送し、byte<=80と `(raw[lead//4] // 3**(lead%4)) % 3` の正規化lead読取へ修理、rootも再読。
+983の独立packed_tritsは元から同じbase3であった。ローカルで算術を実行した発見ではない。
+新GHA canaryにこの実packing契約を含める。現在GHAの凍結P/C v2は変更していない。
+
+984はbinary部分行とJSONL positioned recordの型不整合、loopのp1-reductionsの置場がe/primalで
+ある点、外部Eのmanifest別認証HEADの扱いを指摘。rootも983のbinary型分岐と982のe/primal/HEAD
+例外接続を読んだ。normalizer Refは新literal-dictionaryの全SHAをscopeとする明示例外で、
+ancestorのparent roleは既存16親のraw-word/normalizersへ保持する。元raw source/辞書recipe/
+同ID Relと親normalizer receiptを結ぶことで、派生辞書を17番目artifactにせず閉じる設計である。
+単なるscope存在の確認と元recipe→全ordered childの意味一致は引き続き区別する。
+
+`sol/luna_task_985_r07_positive_word_readout_workflow.md` を保存し、982完成/freeze後のGHA wrapperを委嘱。
+新982 A/B/Cと983 D、同一rootの全11slot/printed/full filtered/元rho2比較を一回ずつ接続する。
+16親/実acceptance/新sourceと保持import closureを凍結、新境界だけのcanary、全入力前後不変と
+全word/D/hidden/ログを保存する。初回登録入力は実success completion32（33988391926）で、
+未完resume64の未来pinは埋めない。現在target非零でも実読取を行いpositive applicabilityを区別する。
+P internal5400s/D10800s、job330min/7GiBの資源上限を明記し、完走時間や結論を予測していない。
+新source/main/CLI/canaryは未完成で、今回の委嘱を実runtime/PASS/MEMBERと表示しない。
+
+実resume64は最後のAPI観測（2026-09-05T20:44:46Z）でもP実行中。20:36:16Z開始、新Cは未開始。
+実runを記帳したcommit **bb5a1df6b1fa87da7c15457b053e9b8174015fcf** はpush済み。
+launchはc57c976cのまま、after-rankと新行数はまだ未観測である。
+
 CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_ACTIVE_CV9_2147_IN_PROGRESS; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2147; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

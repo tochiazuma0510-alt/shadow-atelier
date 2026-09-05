@@ -23132,3 +23132,19 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 587 — 新consumerのbase3/record型を修理、GHA wrapper985を委嘱（2026-09-06 JST）
+
+- rootが982 add_rowの二bit解釈を誤りと特定。実親producer pack（1,3,9,27）に従うbase3へ修理し再読。
+  984のbinary部分行/JSONLの区別、loop e/primalの保存場所、外部Eの別認証HEADの指摘も接続した。
+  新dictionary scope/既存16親/親normalizer receiptを分け、元recipeの全ordered child joinを継続監査中。
+- Task985を新指示書へ保存し、982 freeze後の同一語A/B/C→独立十一slot DのGHAを委嘱。
+  初回実親はsuccess completion32、16親/実acceptance/全sourceを固定。新canaryだけ、一回P/D、
+  全入力前後不変、全word/D/hidden/log保存、P5400s/D10800s/job330min/7GiB上限。
+  未観測resume64の成功pin・実positive・新runtimeを先取りしない。詳細は返信163 F8.49。
+- 20:44:46Zの実APIではrun33990567016のPが継続中（20:36:16Z開始）、C未開始。
+  実run記帳commit bb5a1df6b1fa87da7c15457b053e9b8174015fcfをpush済み、launchc57c976c不変。
+- **OPEN**: 実P/全C/artifactと工房CV9、982/983/984の最終意味join/main、985実接続 → actual grade2結論。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
