@@ -23101,3 +23101,19 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 585 — 2147のCV9発注受領、候補計算の一回resume64を発火（2026-09-06 JST）
+
+- 工房2146/2147とexpressを全文読了。旧diagnostic保存・新completion実success/CV9発注を受領。
+  工房commit539ff90574af6c6cea536a4b6dec7a5909cd7f40を含むroot公開commit
+  bc689f98d514ed0f767d875cd0679353a488b5deで980/981/WFをpush済み。
+- 便162 WO-162-1のgrade2まで自走/本走後CV9と研究者のGHA自由実行認可に従い、保存C32PASS・
+  全実file認証・最終静的監査の揃った候補を同ownerで継続する。CV9格付けは並行で待ち、
+  工房受理rankを先取りしない。前Deltaの順序はこの並行運用へ更新する。
+- 同じ凍結Pを一回 `--resume --max-appends64 --max-seconds5400`、Cは全after-prefix/
+  internal10800s/outer190min、job330min/7GiB。旧32と全親/全sourceは前後保存、旧suite再走0。
+  実marker発火のlaunch/runは観測後記帳。新行・次rank・terminalはまだ未観測。
+- **OPEN**: resume64実GHA/全prefix結果と工房増分CV9、982/983/984の同一語consumer → actual grade2結論。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
