@@ -22977,3 +22977,38 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理済みrank1386/gen8091、候補rank1418/gen8123、grade2 **NOT_DECIDED**、
   A0 **0/1 actual**、当該段 **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
   full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCB/残る既往限定を継承、`verified=false`。
+
+### Delta 578 — 新隔離三件とcompletion全稿を静的確認、同owner累積64継続を実装中（2026-09-06 JST）
+
+- reply979全篇・実20232 bytes/SHAをroot読了。同じ凍結P/source/runtime/ownerから別runnerへ保存prefixを移し、
+  旧32段builder再生成0、新invocation一回で累積cap64へ進める契約を確認。実装Task980を委嘱した。
+  保存row/scalarの起動時測定は残る。新Cは旧32段を含む全after-prefixを再照合する。
+- 新C v2 129557 bytes / e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3、
+  LF1819/CR0。所有隔離・専用regression/CLI以外の全本文は旧v1と同一とroot/978が静的確認。
+  実state/attach/serializerによる過去snapshot不変、深い双方向mutation隔離、旧alias control拒否とHEAD維持の
+  新三件を用意。実PASSはGHA待ちであり、旧成功試験の再実行ではない。
+- completion初稿全1141行をroot読了。15実親artifact/58 entry/20source/raw3/runtime、
+  output2584 files/420 dirs/346710509 bytes、元52receiptを認証保存。新Cで全32段一回、P再生成0。
+  最終HEAD/terminal/invocation・過去snapshot実hashと全14親/全output前後不変を成功gateとして維持。
+  旧/new C実sourceの診断保存、C成功後の32scalar/4root等の保存bytes小receiptを追加中。
+- 前記帳commitは4e968a041015832404fa7e26bcaa4e3ee8b31f58でpush済み。
+  **OPEN**: completion最終freeze/新三件実PASS/全32実PASS → CV9 → 同owner継続。新run/pinは未観測。
+- **UNCHANGED**: 受理済みrank1386/gen8091、候補rank1418/gen8123、grade2 **NOT_DECIDED**、
+  A0 **0/1 actual**、当該段 **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCB/残る既往限定を継承、`verified=false`。
+
+### Delta 579 — 修理版最終freezeとGHA投入準備、保存root内訳を接続（2026-09-06 JST）
+
+- C v2は129557/e985b4ca…で不変。workflow最終1252行/90880 bytes/
+  31b4d8fba2f680ae5e949daf910eec9c3e1f7d4a28946aeecca43ea212817042を作者がfreeze。
+  root/978が全稿と全追加を読了し、旧/new code実体保存の不足を閉じた。正式最終票は記帳中。
+- C全PASS後だけ、既照合snapshotのq/κ/score/auxから32target.scalar・各4rootの零/非零内訳を保存。
+  基数・shape・切出し・各phaseの実hash joinを確認。対象は32個のappend前lambdaで、最終1418のoracleではない。
+  作用素恒等零/全character有情報/新source評価/新規約裁定は主張しない。
+- 二source＋root返信/v220＋Task980/981を選択公開し、completion markerで発射する準備が整った。
+  新三件/全32段の実PASSは未観測。run id/launch SHAは観測後追記。次の同owner継続は981が独立監査する。
+- **CLOSED**: 新C/専用regression/保存completionの静的gate、最終source freeze。
+- **OPEN**: GHAの実三件と全32段PASS → 工房CV9 → 同owner継続。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。

@@ -1439,6 +1439,54 @@ G(ker pi)消去を導き、完全Conn消去を加えてlambda(M2)=0とする。�
 探索実例を負判定の自動追加条件にはしない。同一source/P1/Conn/targetの保持前提、現certificateの
 実受理、工房CV9が必要である。今回の結果はUNKNOWN_CAPであり、負定理の実適用ではない。
 
+### F8.40 — 専用隔離試験とcompletion全稿の静的確認、次の保存継続を具体化（2026-09-06 JST）
+
+reply979をrootも全文読了し、20232 bytes / SHA256
+`0b54844af6f7f5a0b4639c6768bb46d8113c3e3a2859b7970835606d75e9ceec`を確認した。
+元producer971はsource/runtime/ownerの完全一致と保存prefixの認証後、別runnerでも同じoutputを
+継続できる。開始時startはrank1386/gen8091のまま、旧32段を再生成せず新invocationで累積cap64を
+指定する。復旧時の既存rowとscalarの確認は行うため「旧prefixの読取だけで算術ゼロ」とは呼ばない。
+新checkerは旧32段も含む全after-prefixを再照合する。Task980にworkflow限定の実装を委嘱し、
+未来の成功completion/artifact/CV9のpinは未観測として起動を拒否する構造を先に保存中である。
+
+新C v2の129557 bytes / SHA256
+`e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3`
+（LF1819/CR0）をrootと978が静的確認した。所有隔離と専用regression/CLI以外の本文は旧v1と同じ。
+実PhysicalState・実attach・実start/snapshot/HEAD serializerを使う新試験は、(1) attach後も過去の
+start/snapshot receiptが不変、(2) 深い親dict/pairingの双方向mutation隔離、(3) 旧alias controlの
+拒否と完全HEAD比較の維持、の三件。旧三件試験の再実行ではなく、今回故障した境界の試験である。
+実PASSはGHAまで未観測。
+
+completion workflowの初稿全1141行をrootが読了。元14親＋実失敗diag、全58実entry、
+元19＋新Cの20source/raw3、記録runtime、output2584 files/420 dirs/346710509 bytesと元52receiptを
+認証・保持し、新隔離試験と保存32段の新C一回を接続する。P再生成0/旧成功suite再走0。
+最終HEAD/terminal/invocation、全32過去snapshot実hash、全output・全14親の前後不変が成功gateである。
+978が求めた旧/new C実sourceの診断保存と、2145向け32scalar/4root等の小receiptを仕上げ中。
+後者はC完全PASS後にGHAで保存bytesを読むだけで、現在lambdaの零を作用素恒等零へ昇格しない。
+
+F8.39/Delta577、reply974–976/979、Task977–979等の記帳commit
+`4e968a041015832404fa7e26bcaa4e3ee8b31f58`を作業ブランチへpush済み。
+新completion runはまだ発射していない。**受理rank1386、候補1418、grade2未決、A0 0/1 actual**を保持。
+
+### F8.41 — 修理source/workflow最終freeze、保存32段のGHA発射準備完了（2026-09-06 JST）
+
+新C v2はF8.40の129557 bytes / e985b4ca…で不変。completion workflow最終1252行は
+90880 bytes / SHA256 `31b4d8fba2f680ae5e949daf910eec9c3e1f7d4a28946aeecca43ea212817042`、
+LF1252/CR0。作者977がfreezeを宣言し、独立978とrootは全稿・追加差分に必要修正なしと判断した。
+正式票977/978の最終記帳は進行中だが、両者のsource判定と実bytesは確定している。
+
+旧/new C実sourceをchecker-sources/へ実bytesで保存し、preservationと最終receiptでhashを結ぶ。
+新coverage-receiptはC完全PASS後に既照合section/cochain payloadを読取り、32target.scalar、
+4rootのcurrent-lambda零／非零packed byte数、κの各tag/共有aux、scoreの6×2成分とb_auxを出す。
+packed3の基数1/3/9/27とd0/d1/auxの切出しをsourceから照合した。対象はsnapshot000000–000031の
+各append前lambdaであり、最終1418の未作成snapshotを含めない。作用素恒等零・全character有情報は
+明示false。三規約表の参照とsigned代表、raw整数/6、mod54/18の記帳に新裁定はない。
+
+rootはこの二sourceと本返信/v220、次のTask980/981だけを選択してcommit/pushし、
+marker `[r07-complete-oracle-cegar-checker-completion-v1-run]` でC-onlyを開始する。
+新隔離三件と全保存32段の実PASSをこれから観測する。run id/launch SHAは発射後に追記する。
+Task981は980の別runner継続を独立監査する指示書であり、978の最終freeze後に着手する。
+
 CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RUN33984832010_P32_RANK1418_CANDIDATE_CHECKER_HEAD_ALIAS_FAILURE_V2_COMPLETION_ACTIVE; LAST_RUN=33984832010/1; LAST_COMMIT=b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2145; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
