@@ -1,0 +1,33 @@
+# Task921 -- audit the mathematical meaning of the scalar's direct side
+
+Role: Sol(max), narrowly independent implementation/mathematics audit.
+Read all numbered sections. Write only
+`sol/sol_reply_921_audit_scalar_filtered_projection.md`.
+
+1. Actual Task919 run 33903333330/1 has a reproducible scalar 1 at
+character 0, seed 2, empty word. Same-byte agreement alone does not establish
+that it is the v531 final defect. Audit that precise identification now.
+
+2. Read v451, v453, v483/v486, v531, v533/v534, plus
+`search/d972_r07_targeted_grade2_owner_generated_join_v15.py` functions
+`_seed_evaluate_seed`, `_seed_full_project`, `direct_seed_rows`, and the
+independent checker counterparts; actual root scalar batch v1 takes plain
+character slices of cached canonical P1 lifts. The direct side currently
+uses `full_project(seed, a)[2][a]`. The paper defect is
+`e_a gr2(seed - sum_i SeedRed(s)[i] lift(b_i))`, whose complete P1 part is
+zero. Determine whether full projection before subtraction is justified.
+If not, derive the missing lower-to-top term and the minimal exact repair.
+
+3. Separately inspect v533 actor formula. A canonical P1 lift has nonzero
+lower degrees, so `gr2(T_full lift(b_i))` need not equal the homogeneous
+Task712 actor on `gr2(lift(b_i))`. Decide whether existing code supplies or
+omits that triangular contribution. Do not confuse an actor-word acting on
+an already pure degree-two defect with an actor relation of a P1 lift.
+
+4. Scope is the two formulas, not a general re-audit of all data envelopes.
+No repository implementation edits, GHA, git, credentials, large cache scan,
+or parallel Python. Bounded seed evaluation/independent direct comparison is
+allowed. Task920 is already computing a short actual seed2 comparison;
+root retains the proof/repair design. Send a concrete decisive finding early,
+then document PASS/FAIL and the exact scope of any old result that survives.
+Use `verified=false`; no upper theorem is promoted from scalar agreement.

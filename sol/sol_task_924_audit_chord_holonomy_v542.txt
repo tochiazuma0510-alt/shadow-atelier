@@ -1,0 +1,18 @@
+Task924: one bounded independent mathematical audit; reply only to
+sol/sol_reply_924_audit_chord_holonomy_v542.md (use apply_patch).
+
+Read all of sol/proof_r07_chord_cycle_holonomy_repair_v542.md.
+Audit its actual new claims, not the whole campaign: Phi_3(N) surjects
+onto Phi_3(Gamma), the explicit chord endpoint neutralization, centrality
+and order27 at Q2 from the recorded Gamma2 invariants, five generators /
+fifteen cube-commutator labels, and exact integer normalization. Check the
+scope boundary carefully: no PB4 preservation or actual target membership
+is claimed. Compare v516/v457 only where necessary to ensure the claimed
+removal of a second compact-seed solve is genuine and not an implicit
+reintroduction of that solve. If a premise is conditional, identify it.
+
+No local Python/GAP/large computation. No git/credentials/network. Do not
+re-audit nonarithmetic rows, all old notes, or add a test framework. Root
+does new mathematics; this is the requested Sol(max) independent audit.
+Return a clear PASS/FAIL with exact narrow repairs, then wait for a
+follow-up code audit of Task922 when files are ready.

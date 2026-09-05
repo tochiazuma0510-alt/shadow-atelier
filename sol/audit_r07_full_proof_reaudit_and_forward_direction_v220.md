@@ -21535,3 +21535,110 @@ single transport repair required before continuation; it does not count the
   compact A5 unchanged.  No grade-two terminal, full A0/COMMON, compatible
   cofinal lift, fake certificate or Ihara witness is declared.
   `verified=false`.
+
+### Delta 525 (2026-09-05): run 2 succeeds numerically, but takeover finds and repairs a false scalar-to-defect identification
+
+- Run `33903333330/1`, job `101122336189`, head
+  `386ee1753f45450857c68e1166932798add82d66`, completed in about 178 seconds.
+  Final artifact `9948564628` has 205452 archive bytes and digest
+  `sha256:013fd8de7fddfdac40bf0fd6200e17f16a5c496ace09ebf8f95ca8e10d9036a4`.
+  Diagnostics artifact `9948564217` has 215818 bytes and digest
+  `sha256:96a9aade478ac18fb0711505c95952dd65e8f1b0723825d3f3bda4dde0b87393`.
+  Task919 reproduces the same output bytes and the first IMPLEMENTED scalar
+  failure, character0/seed2/value1. Workshop ruling2077 initially classified
+  that limited computation cross-checked.
+- On taking over, root compared the implemented direct sides with v451,
+  v453, v483/v486 and v531, and found a semantic error that same-byte replay
+  did not test. Scalar-v15 and actual-root-v1 full-project only the direct
+  seed, while subtracting unprojected character slices of the P1 lifts.
+  The two sides therefore have different lower-to-top contributions.
+- Task920's bounded actual calculation and Task921's independent
+  checker-side calculation both give `<q,raw_seed2-projected_seed2>=2`.
+  The correct seed2 defect scalar is therefore `1+2=0 mod3`. The exact
+  seed relation is `SeedRed(2)=[(2,2),(505,2),(1008,2),(1511,2)]`, with no
+  new-block terms. Task920 also compared its entire 96776-coordinate lower
+  equality. Task919's `SAFE_INPUT_TO_ACTUAL_SEED2_MATERIALIZER=yes` is
+  withdrawn; no new physical pivot has been justified by run2.
+- The actor direct side has a second concrete omission. For a canonical
+  P1 lift `(b_i,z_i)`, `T_full(b_i,z_i)` has top component
+  `K_t b_i + T_2,t z_i`. The old scalar evaluates only the latter term.
+  V541 supplies both corrected formulas and an explicit lower adjoint
+  `(pi_a K_t)^*q`. Task921 returns `FAIL_OLD_FORMULAS / PASS_V541_REPAIR`.
+- The repair uses the existing 67011332-byte Task554 lower-row payloads,
+  four lower covectors, and four 8059-entry contraction arrays. No P1 lift,
+  lower closure, connection state or Task712 table is rebuilt. Task922 is
+  implementing the corrected complete root batch v2; Task923 prepares its
+  GHA workflow. The physical materializer waits for a genuine corrected
+  violation rather than the spurious seed2 value.
+
+**v220 mapping**:
+
+- Relative to Delta524, the actual scalar executable has been run and its
+  output independently read, but J3-to-J2 mathematical promotion is now
+  explicitly withheld. The newly completed item is the audited filtered
+  scalar repair v541, with a concrete actual counterexample to the old
+  specification. This is not a completed A0 subgrade.
+- J0/J1, rank1354 initial state, the three zero roots, the character0
+  504-row dual orbit, P1 lifts and global relation coefficients are retained.
+  A later root or orbit EOF must use the corrected seed AND actor formulas.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6
+  cross-checked**, A1 **4/4**, A2 **2/3**, A3 **3/3**, A4 **1/3**, with
+  compact A5 unchanged. No grade-two terminal, full A0/COMMON, compatible
+  cofinal lift, fake certificate or Ihara witness is declared.
+  `verified=false`.
+
+### Delta 526 (2026-09-05): paper-side A0 investigation yields a direct cycle compiler and a tree-potential separator oracle
+
+- The researcher explicitly requested parallel investigation of closing A0
+  on paper. Root retains the exact finite boundary: A0 is the full joint
+  Delta-based linear membership problem of v405 (4.2), or its physical
+  quotient by Dtilde0. Complete H, P and normalized-coordinate MEMBER with
+  a literal direct replay closes finite A0; a cofinal theorem is not an
+  extra condition for that finite terminal. A Q2 grade-two MEMBER is only
+  part of the H calculation, not the full A0 terminal. Automatic finite-edge
+  lifting and the infinite T2 theorem remain separate unproved assertions.
+- New v542 replaces the old requirement to solve a successful chord cycle
+  again in 44 compact-seed orbits. Read its Schreier word w, then cancel
+  Theta(w) using a word in Phi3(N). At Q2, the retained order6561 and
+  abelianization C3^3 x C9^2 imply that Phi3(Gamma2) is CENTRAL of order27.
+  Five generator cubes and ten generator commutators give a repair table
+  with at most26 nonidentity insertions. The existing c_x,c_y then give
+  exact integer exponent zero at this coarse floor. Task924 independently
+  accepts this paper construction; its three scope/citation qualifications
+  have been incorporated. This is not a 27-operation bound for all A0.
+- New v543 uses complete Conn to construct a lower multiplier mu with
+  mu(ell_i)=lambda(g_i). The current separator kills the full grade-two
+  image iff the corrected source functional
+  `F_lambda=lambda G Psi-mu ell Psi` vanishes on
+  `ker(tau) x F3^2`. That condition is exactly two auxiliary tests and
+  the single Cayley cochain identity
+  `f=partial* p+a tilde_tau`, with only five scalar coefficients in a.
+  A failed fundamental-cycle test supplies a legal combination of at most
+  SIX fundamental cycles; full P1 subtraction then gives a real physical
+  violation. Task925 independently accepts the equivalence. Its explicit
+  lambda(S_current)=0 premise has been added for rank rise beyond the
+  current state.
+- This prospective oracle uses a 108864-entry edge cochain and 272165-entry
+  five-row cycle roster; it does not build a 54428-by-physical matrix or
+  repeat the 32280-origin evaluator504 times. The actual mu/cochain/tau
+  adapters and the marked27-entry table have NOT been exported. No runtime
+  or actual sign is inferred from the paper count. Current Task922/923
+  corrected scalar production remains the priority and is not blocked by
+  implementing this alternative.
+
+**v220 mapping**:
+
+- Relative to Delta525, there are two specific new paper constructions:
+  J4's alternative cycle-to-literal readout no longer mathematically needs
+  a second large seed-coefficient solve, and J3 has a prospective exact
+  direct separator oracle instead of an orbit sweep. Neither supplies the
+  missing target preimage. They are not another statement of the old
+  conditional Neumann/cofinal selector.
+- Producer and checker v2 implementation is now divided between two
+  workers to avoid serial delay; Sol(max) Task926 is the single narrow
+  release audit. All heavy/actual checks remain on GHA. No parent closure
+  or canonical lift is rebuilt.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6** (workshop
+  ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, compact A5 unchanged. Grade2, full A0/COMMON,
+  compatible cofinal lift, fake and Ihara are not declared. `verified=false`.

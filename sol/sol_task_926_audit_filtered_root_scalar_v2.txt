@@ -1,0 +1,40 @@
+Task926 -- bounded independent Sol(max) release audit of corrected root scan
+
+Reply only to sol/sol_reply_926_audit_filtered_root_scalar_v2.md.
+Implementation is shared only by handoff: Task922 owns producer, Task923 owns
+checker/workflow; root does mathematics and is the sole git/GHA broker.
+Read all numbered sections and use apply_patch for the reply.
+
+1. Scope: new producer/checker root_scalar_batch_v2.py and workflow
+   .github/workflows/d972-r07-actual-grade2-root-scalar-batch-v2.yml.
+   Compare to retained v1 only to bound the actual delta. V541 plus Task921
+   are the mathematical specification, not v533's superseded actor formula.
+
+2. Check actual raw seed side, exact lower adjoint including every character/
+   tag/component/translation/sign, full direct actor = homogeneous + lower,
+   unchanged global relation order/sign/subtraction, and actual seed2 zero.
+   Inspect the focused test bodies, not merely their advertised names.
+
+3. Check exact 12 Task554 lower blob joins, old 6056+72576 / new18144 layout,
+   plain top cache values retained, packed-dot arithmetic and bounded chunks.
+   Include concrete unnecessary copies/repeated heavy passes in the audit,
+   but reject speculative redesign. No parent closure/DAG rebuild.
+
+4. Check checker independently recomputes new quantities and reconstructs
+   actual output/payload hashes on violation as well as EOF. It may retain
+   its previous arithmetic implementation; disclose shared old design rather
+   than rewrite a historical core. Header/source pins, actual stager roster,
+   CLI and bounded actual-canary launch must agree.
+
+5. No local Python/GAP (unknown pre-existing Python PID10104); no git,
+   credentials/network/dispatch. Focused GHA selftests will run serially
+   before actual production. A static release PASS must not be called a run
+   or an actual mathematical terminal. Do not grow a fixture framework or
+   reopen completed historical/nonarithmetic audits.
+
+6. Producer/checker source freeze will be messaged by their owners. You may
+   inspect stable functions now, but state final exact hashes in your verdict.
+   Report concrete blockers promptly to both relevant worker and root.
+   Keep one narrow repair pass; optional improvements must not block the
+   necessary actual scan. Exit with SAFE_TO_PUSH_TRIGGER_GHA=yes/no and the
+   precise unexecuted GHA test conditions.
