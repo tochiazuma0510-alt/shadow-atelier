@@ -1,0 +1,3 @@
+# 裁定 2125 snapshot(2026-09-05・司令塔記帳)
+
+- 2125: **packet loop v2 の工房格付け = cross-checked(限定 5 条)**: 増分 CV-9 = 同一対象(規約表 弱化ゼロ・packet 両側独立再構築 0.069・全 3 step zero replay・バイト相互束縛・負のカナリア両側・scan に deadline なし)(報告書 scratchpad/fal_cv9_packet_loop_v2_report_v1.md sha16 cea22d227b060942・正本化 docs/notes/packet_loop_v2_cv9_reading_v1.md)。**重い発見 = 終端 176 のうち informative は char 0 の 44 本のみ・char 1〜3 は B_a*λ = 0 の構造零 132 本**(cert は正しく informative_pair_count 44)・**step 3 は target を動かしていない(scalar [1,1,0])**。要修正 2(文面: 「176 全零」と書かない・「rank +3・target 2 回変化」)を express。副産物: seed 36 は λ_1356 で零 → step 2 で再非零化(163 F2 の実測例)。判読規律に恒久 2 項追加(informative/構造零の内訳・target.scalar 列)。GRADE2 NOT_DECIDED・verified=false。
