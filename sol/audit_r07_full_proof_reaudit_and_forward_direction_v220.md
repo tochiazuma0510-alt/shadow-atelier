@@ -22013,3 +22013,90 @@ single transport repair required before continuation; it does not count the
   actual**, first-rung grades **1/6**, A1 **4/4**, A2 **2/3**, A3 **3/3**,
   A4 **1/3**, compact A5 unchanged. J4's actual target decision is still
   open. No full A0/COMMON/cofinal/fake/Ihara claim; `verified=false`.
+
+### Delta 536 (2026-09-05): Sol163 takeover; fixed root packet implementation resumed
+
+**個別進捗**:
+
+- 便163の差分引継ぎで、返書162と939/942/943、Task944/reply944/Task945、
+  工房2096/2105/2110/2117のCV-9正本を読了した。最新の実測点はDelta535の
+  rank1356/generation8061であり、引継ぎを新しい計算結果には数えない。
+- 工房裁定2117によりseed34本走は限定4条件つきcross-checked。最終lambdaの
+  全1356行直交と親・更新後target剰余への内積は実測、原rho2への内積は親の
+  target導出からの帰結である。次版はTask947で明示的な`derived`欄を要求し、
+  M3-1を文面・契約側から処理する。元の成功artifactは変更しない。
+- 前任が採用済みの固定44 primal packetとroot loopを継続する。着任時点では
+  Task945/946のproducer/checker/workflow/reply実体はなく、設計書までだった。
+  新worker二名へ既存の分担を再委嘱し、独立実装を開始した。Task948はpacketの
+  数学・反復上限・次oracleへの切替条件だけを別途監査する。
+- packetは同じP1 sectionと完全lower-zero欠損に固定し、各追加後に四つの
+  B-adjointを作り直す。rank1355時点のseed35/36値は次の選択根拠にしない。
+  root全零はそのlambdaによる固定root列の消滅だけであり、全像の閉包ではない。
+
+**v220 内進捗**:
+
+- **CLOSED**: 今回、新たに閉じたactual数学gateはない。Delta535までのJ2の
+  二つの追加方向と、Delta533のv548紙上還元を保持する。
+- **ADVANCED**: A0内のJ2/J3を一つの固定packetで反復する実装を再開。
+  実artifactを使うGHAのcanary・producer/checker本走・工房の増分CV-9は未実行。
+- **UNCHANGED**: J4のgrade2標的決定、A0 **0/1 actual**、当該段のgrade **1/6**。
+  A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5も据え置き。
+  full A0、COMMON、cofinal lift、fake、Iharaの達成は宣言しない。
+  `verified=false`。今回の新規commit/push/dispatchはまだない。
+
+### Delta 537 (2026-09-05): Sol163引継ぎ裁定とpacketの反復上界を固定
+
+**個別進捗**:
+
+- 指定返信163を作成し、便163のA1〜A3と継承資料の読了、旧seed2 scalarの
+  失効、2016→54432の段、939〜945の欠落を記録した。v2.3 Q6〜Q8は返書162§6
+  で回答済みであり、未回答という引継ぎは訂正した(工房状態裁定2120)。
+- 独立紙監査948は固定44 packetをPASSとした。追加数は
+  `dim(S_*+R)-1356`以下、保守的176、保存seed30/34とのbyte結合後174以下。
+  これは実所要回数の予測ではない。v546のstrict sourceと既存Conn/lowerの
+  前提下では全像rankは13446以下、全像での残り追加は12090以下。
+- 非零seed集合の単調減少は使えない。各lambdaの四rootを更新する。
+  root全零は固定列の消滅までであり、全actor/orbit閉包の代わりではない。
+  古い504行orbitは初期lambdaのreceiptとしてのみ保持し、次lambdaとの
+  結合なしに現orbitの本数としない。v548/v543の実source adapterは未実装。
+- M3-1のDERIVEDは、親target減算恒等式と新deltaから
+  `rho2-r_n in S_n`を引き継ぎ、実測`lambda_n(S_n)=0`と`lambda_n(r_n)=1`
+  から導くことを明記した。旧lambdaの内積値だけをコピーしない。
+- 生成/照合両側はpacketの構成部分を実装し、反復と耐久resumeを仕上げ中。
+  Task949は数式と実経路の独立静的監査、rootはworkflowとsource pin閉包を
+  監査中。未commit・未発火のコードを数学的完了に数えない。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新規actual gateは0。紙上の有限packet上界と切替条件は監査完了。
+- **ADVANCED**: A0内J2/J3の実装・入力契約が進み、原rho2の実測/導出の境界を
+  明示した。実行前の静的監査とGHA canary・本走・工房CV-9が残る。
+- **UNCHANGED**: 最新実測はrank1356/generation8061、J4 grade2 NOT_DECIDED。
+  A0 **0/1 actual**、当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、
+  A4 **1/3**、compact A5据え置き。full A0/COMMON/cofinal lift/fake/Ihara未宣言。
+  `verified=false`。今回の新規commit/push/dispatchはまだ0。
+
+### Delta 538 (2026-09-05): fixed44 packetの実装・静的release監査完了
+
+**個別進捗**:
+
+- Task945 producer、Task946 checker/workflowが凍結し、独立Task949は全sourceと
+  最終差分を静的PASSとした。producer70509/SHA65169d7a26b6daf2、checker56545/
+  SHAc6a4202180342471、workflow26054/SHA7586d9cdd2483d64。完全SHAは返書163 F8。
+- 修理したのは未commit tailの扱い、初期packet中の期限/UNKNOWN受領、raw入力
+  2件のbyte pin。rootはworkflow全体、既存依存8本、raw data2件を照合した。
+  新規計算はGHAの小canary後、cap1→実resume cap176→独立checkerの直列経路。
+  大きな親stateはコピーしない。ローカルの数値実行も追加の旧成功run再走もない。
+- 研究者からGHA実行の明示認可を再受領。rootが単一brokerとして一回投入する。
+  source/runtime freeze、親live照合、AST/canaryはworkflow内で先に通す。
+- 作業中に届いた工房note v2.4の比較補題/N1a分離/Q6〜Q8/operational化の差分は
+  返書163 F6でPASSとした。既存回答の採録であり、新しいactual成果ではない。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新規actual数学gateは0。静的な実装・入力契約監査は終了した。
+- **ADVANCED**: A0内J2/J3の固定packet loopがGHA投入可能になった。
+  AST/canary、本走、実resumeとchecker、工房CV-9は実行待ち。
+- **UNCHANGED**: rank1356/generation8061、J4 grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
