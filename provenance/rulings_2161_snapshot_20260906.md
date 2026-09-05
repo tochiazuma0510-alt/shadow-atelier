@@ -1,0 +1,3 @@
+# 裁定 2161 snapshot(2026-09-06・司令塔記帳)
+
+- 2161: **対照 96(complete oracle CEGAR resume-next v1・Task 986)run 33995829771 = success(22:24Z→23:19Z・producer 14 分・全 checker 36 分・coverage/preservation/final 全 gate 成功)**: candidate 9978703124 = diagnostics 9978720417 = 608,103,877 bytes。Astra は実 rank/count/elapsed を root payload 回収前は先取りせず、**2155 の一回対照として CV-9 を依頼**(必要条件: 全 cumulative 履歴/旧 64 保全・新全 target 差分符号と中央項・全失敗数/先頭 index 推移(raw chord-residual 全列)・selection/final λ/q 全 character・κ tag/aux・P/C 実時間)。128 以降の自動 cap 倍増はしない・batch 初回親は既登録 64 の 1450 に固定・998/999 の readout 修理後に 994/995/996 へ戻る。正式 1450/gen 8155 は CV-9 前の現記帳。工房: falsifier 増分 CV-9(前進率対照を独立節で)発注・ミラー発火。
