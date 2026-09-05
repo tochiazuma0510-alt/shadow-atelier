@@ -3,14 +3,15 @@
 著者: root / 2026-09-05。便163を全文読み、継承された便162の読了順と
 work orderを適用した。正式な裁定は以下のF番号で記す。campaignは再開中。
 
-現在の受理済み到達点は **rank1359 / generation8064 / Separator**。
+現在の受理済み到達点は **rank1385 / generation8090 / Separator**。
 **A0は0/1 actual、2016→54432段はgrade1の1/6、grade2はNOT_DECIDED**。
 run33964709359/1で固定44 seedのpacketと3行追加、実resume、独立checkerが
 成功し、工房裁定2125で限定付きcross-checkedとなった。informative44件は零、
 残り132件は零rootによる構造零。rankは3増加しtargetは2回変化した。
-actorを含むfull-origin実走33967668257/1では候補rank1385/gen8090へ26行進んだが、
-独立checkerが22段で時間切れとなり未受理。保存出力の照合専用GHAをTask962で準備中。
-同時にv548完全scalar oracleの実装・監査をTask959〜961で進める。
+actorを含むfull-origin実走33967668257/1では候補rank1385/gen8090へ26行進んだ。
+保存出力の照合専用GHA33971897879/1で全26段・26scanの独立checkerがPASS。
+工房裁定2131で限定7条のcross-checked。旧走査表の算術に共有コードの限定がある。
+実candidateのpinを接続し、v548完全scalar oracleをTask959〜961で最終凍結中。
 
 ## F1 — A1: stale前件6件と前提訂正2件を受理
 
@@ -625,6 +626,161 @@ oracleの新sourceは今回の照合専用releaseに含めない。
 1 byteだけを除去した。数学内容は不変。F8.11を最終18939 bytes/SHAへ更新した。
 v220 Delta550の旧hashは読了時の値として保持し、この修正を追記で記録する。
 
-CAMPAIGN_STATUS: FULL_ORIGIN_CHECKER_COMPLETION_READY_SECTION_ORACLE_IMPLEMENTING; LAST_RUN=33967668257/1; LAST_COMMIT=fd04734d20d472e7c09f31de3f92f8a50d6d841a; CANDIDATE_RANK=1385; CANDIDATE_GENERATION=8090; CURRENT_ACCEPTED_RANK=1359; GENERATION=8064; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; UPSTREAM_CV9=2125_LIMITED_CROSS_CHECKED; NEW_CV9=PENDING; VERIFIED=false
+### F8.14 — 照合専用GHAを一回起動
+
+rootが関係13ファイルだけをcommitし、marker付きpushを一回実施した。
+launch commit **`64475e1dfab1537a38d1b3131971bfed5fc3071c`**、
+run **33971897879/1**、job **101321767187**、event=push。
+作成`2026-09-05T14:28:02Z`、job開始`14:28:04Z`。
+Python3.13.15/NumPy2.5.1設定とlive12親の全tuple確認は14:28:24Zまでにsuccess、
+その後は固定入力の取得中。新sourceの算術はなく、旧checker一回の実行を予定する。
+run終了/新checker PASS/artifactはまだ未観測。重複dispatchは行っていない。
+
+続報: 12親取得とdiagnostic ZIP、旧source receiptの完全一致、保存outputの初期
+不変確認は14:29:18Zまでにsuccess。同時刻から全26段の独立checkerが実行中。
+
+### F8.15 — 新oracleの静的tailを修正、完全sourceの反復コストも調査
+
+Task960の暫定完成返信を全文、Task961の追加tail監査を読んだ。Task961は
+仮checkerの最終比較/PASS returnが関数外へ誤配置された構文上のblockerを発見し、
+作者が修正した。修正後80121 bytes/SHA256
+`7ca2351086f01d0434bee6c5f8c67571fdf4975334df7994f9e9a9a908734e0a`で、
+全top比較→拒否→PASSがcheck_actual内へ戻り、generationのHEAD/result/checker
+三者joinも入ったことを静的再読で確認済み。GHA前の修正であり、ASTや数値のPASS
+とはしていない。親の最終pinが未定なので、両系sourceの最終凍結はなお未了。
+
+rootも新checkerの薄い親loader、current全row/両target dot、SOURCE/P1/Connと
+DERIVED原rho2の保持、start/owner/source/resultの接続を読んだ。元sourceが持つ
+generation付きPASSと、generationを持たないUNKNOWN_RESOURCEの入力型を区別する。
+元26段の算術を次oracleのloaderとして再生せず、同じ保存current lambdaから
+四root・8059値・kappa・全edge/chordを新たに照合する。
+
+Task963は非零witness一個の実体化EのAPIを調査中。Task964には、同じv543/v548
+sourceの全54428 legal chord directionsと二auxをlambda-free packetにできるかの
+型/完全性/具体I/O調査を委嘱した。これは数学・source読取だけで、新実装や本走の
+発注ではない。現行loopの非零件数が単調に減らないことを踏まえ、宇宙を変えずに
+重複を減らせるかを評価する。end-to-end速度や必要反復回数を予測しない。
+
+### F8.16 — 保存26段の独立checkerがPASS。実candidateを次oracleへ接続
+
+照合専用run **33971897879/1**、launch commit
+**`64475e1dfab1537a38d1b3131971bfed5fc3071c`**、job101321767187は
+`2026-09-05T14:49:51Z`にsuccess終了。checker工程は14:29:18Z〜14:49:40Z。
+**completed_steps=prefix_steps_replayed=complete_scans_replayed=26、PASS**。
+sourceの実行環境はPython3.13.15/NumPy2.5.1。producer追加実行0、旧成功suite再走0、
+凍結checker一回。元producerのUNKNOWN_RESOURCEは保存された停止理由のままで、
+最新lambdaのfull-origin EOFやgrade2完全零の判定を得たという意味ではない。
+
+candidate **9971466432**、name
+`d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1`をrootが取得。
+ZIP **51943596 bytes**、SHA256
+`0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8`に一致。
+workflowは`.github/workflows/d972-r07-full-origin-checker-completion-v1.yml`。
+全output **968 files**を元diagnosticとpreserved-input rosterにbyte/hashで結び、
+source-receiptとともに不変を確認した。artifactの由来は今回のcompletion run、
+producer sourceとstateの由来は33967668257/1であり、この二つを混同しない。
+
+| 新candidate entry | bytes | SHA256 |
+|---|---:|---|
+| checker-result.json | 57583 | ccb0b3dd225587dde0e08edca5dfa66b1446b7db01091a3e8118c7aeb4ed2e9c |
+| source-receipt.json | 2355 | 5d65f4313aaed81f30354cba5c90ead201816f72f15fcd799606ed5feab43f3e |
+| completion-run-receipt.json | 1849 | b1c653283593a2fdef835c938bcc0c8502248b53c92d264842a2133bd4561e57 |
+| preserved-input.json | 183567 | 746e097f23c78418a3b43754348099a753639fcceac006e4f1d634ad3fb57298 |
+
+output/HEAD/result/step26のpinはF8.12と同一。最終rank1385/gen8090、26 rank増、
+target18回変化を全保存target係数と照合した。全完成scanは各informative32280、
+structural zero96840、active characterは[0]。保存129120個を全て実pairingしたとの
+主張にしない。source96776の全新scalar配列と26 actual actor評価が照合された。
+finite27普通群係数による錨は26個全てでmixed top supportを持ち、mixed_scalarが
+非零19個、actual_complete_scalarが非零16個。これはraw actorの錨であり、P1補正後の
+selected scalarとは別値。先頭/末尾のraw scalar零を全26個へ一般化しない。
+新whole-word replayは0、原rho2は全26段でDERIVEDで直接再読ではない。
+
+工房裁定2129は全26段PASSを受領しCV9 pendingとしている。従って本便の
+受理済みrank1359/gen8064は維持する。Task959/960/961へ実ZIP/entryと展開場所を
+通知し、未観測pinを残さない次oracleのsource/workflow凍結へ進んだ。
+
+Task963完成返信を全文読了(21520 bytes、SHA256
+`3354b5efe84852d210d6035cb464c37c8c014e759137d14cb5c777be3ad80d6b`)。
+非零時は一つのcycle witnessからv547の同じordered raw SLPを作り、実endpoint/Fox、
+primal old→newの全source lower零、四B、全current physical reductionを結ぶ。
+raw corrected wordのsource-lower零と、Connも引くnormalized pivot wordの
+physical-lower零を区別する。実consumerは次の独立実装が必要である。
+
+Task964完成返信も全文読了。同じDの54428 legal chord directionsと二auxは基底で、
+`A=G(id-s pi)Psi`の全列とConnがM2を張るという紙上の固定packet案を受理した。
+658385280 packed bytesの全physical packet、97481664 bytesのP1物理cacheなどは
+ABIからの式であり実測ではない。任意のvector-valued Gamma補間は8059本の全物理
+vector等式を要し、非合法prefixへs piを直接使う誤型を避ける明示extensionである。
+primalやliteral ancestryの費用は残る。速度の採否は未決、進行中oracleのgateにしない。
+
+### F8.17 — 工房裁定2131を受理。旧走査表の独立性の限定を引き継ぐ
+
+express `20260905_fable_astra_full_origin_v1_cv9_grade.md` と正本
+`docs/notes/full_origin_v1_cv9_reading_v1.md` を全文読了。後者SHA256は
+`1d116d7e8f3cd03b0f74a1169ba9efb13a42ffaa054bc67545cf46683772b325`。
+裁定2131のCV9同一対象・**cross-checked限定7条**を受理し、現在rankを
+**1385/gen8090**へ更新する。grade2 NOT_DECIDED、A0 0/1 actualは変わらない。
+
+限定は、(i)26周回のみでrank1385のorigin scanなし、(ii)各scanのinformative32280と
+構造零96840、(iii)全26選択がchar0 actorで44seedは全scan零、(iv)target scalar零8個、
+(v)旧packet3段は前提かつ原rho2 DERIVED、(vi)挿入/正規化/targetは2117 pairの再利用、
+(vii)走査表の子covector/P1収縮が同一または近同一コード、をそのまま保持する。
+非当事者の保存roster975 filesはoutput配下968 filesとその他7 filesの範囲であり、
+rootのF8.16の968と母数が異なる。第三者のhash/first-hit再導出を全算術第三系統としない。
+
+**F-fo-1を受理する。** 旧`join_v15.sparse_adjoint`対は本文同一、旧
+`vectorized_projection_chunk`対は類似0.9908で、checker側のIndependentという
+docstringは実装の独立性を証明しない。finite27の実錨は選択26点に限られ、被覆は
+`26/(26*32236)`である。全旧走査表を完全独立に計算したという表現は撤回する。
+凍結済み旧sourceを書き換えず、F-fo-1は旧表の未閉鎖の限定として明示する。
+
+次のoracleはactor child covectorを作らない。新producerは全tritをdecodeして
+uint32積/uint64和で全4×8059値を作る。一方checkerは旧packed projection helperを
+継承する。**両方が旧helperを捨てたとは言わない**。新pairの実経路はdense全座標と
+nonzero座標のpacked lookupで異なることをrootとTask961が静的に再確認した。
+全source-edge側のcheckerはordinary27差分基底であり、実全edgeへ接続される。
+この新oracleのGHA/CV9が通っても、旧26scanの独立性を遡及的に閉鎖しない。
+
+改訂規律①規約diff、③新しくload-bearingになった継承関数も測定、⑤の終端scan・
+origin内訳/生byte first-hit・非clone錨の被覆分数・外部実時間・seed2 pin実施有無を
+受理する。新module追加なので②import交差辺も省略しない。seed2 literal pinは旧
+full-origin本走で未実行、packetのhash継承のみだった。
+
+正本F-fo-5の「残りnodeを同じ密度で消化すると2万手」は未観測の外挿なので、
+反復回数の見積りとして採用しない。v546の保持前提では現在rankからの追加上界は
+`13446-1385=12061`。node消費密度をrank独立性や残り周回に置き換えない。
+同じsourceの固定packet案はTask964の明示I/Oと今後の実測を使って比較する。
+
+Task965/966/967の実装・独立checker・監査指示書を用意した。完全oracleが非零なら
+Task963仕様に沿うE一個を作り、全4B/全source-lower零/全current物理行を結ぶ。
+oracleが完全零ならEはNOT_APPLICABLE。まだ未観測のterminalを仮定していない。
+
+### F8.18 — 完全oracleの最終source監査を受理しGHAへ
+
+Task959/960の最終返信を全文、Task961のF11/F12と最終判定を読了。
+`AUDIT_961_VERDICT: STATIC_SOURCE_PASS`。reply961は20323 bytes、SHA256
+`6e6e1b992a0178cc85cc77d1522c2a9f52cecd334ca3d58d65eaf0d9d1f40042`。
+空の親定数を実candidateへ結び、両側のentry rosterを10件に揃えた。最終hashを
+rootも直接照合し、未解消の静的blockerなし。新算術の実行結果ではない。
+
+| 最終実行体 | bytes | SHA256 |
+|---|---:|---|
+| d972_r07_section_cochain_oracle_v1.py | 73290 | 4e7546eb1e8511b636527ffc0bc4c5eabf3c1bf60b32a5ae4f2a12fe975f44bb |
+| check_d972_r07_section_cochain_oracle_v1.py | 80740 | 2db166400dd819805f36b613993d4622e8365f04339ca7aef0371a28de71c967 |
+| d972-r07-section-cochain-oracle-v1.yml | 29678 | 0877df05ef9ceb97c726d81ef1bd8a44e455782f1b2d4b1c36e1417ccf8d710c |
+
+順にLF1257/1210/503、CR0、最終LF。新workflow全503行を読了し、12親の実tuple、
+14 executable source/二raw data pin、実layout15否定caseの両系照合、producer3群/
+checker4群の新canary、一つのcurrent snapshotのA–Dを確認した。
+内部1800秒/外40分ずつ/job100分。producer一回→checker一回→全PASS後candidate、
+diagnosticはalways。旧26scan/insertや成功suiteの再走、cap1/resumeは含まない。
+rootがmarker `[r07-section-cochain-oracle-v1-run]` で一回pushする。
+
+関係ファイルのみの差分チェックはPASS。新実行のrun ID/commit SHAは起動後に記帳する。
+この新pairには別途GHA AST/全数値/CV9が必要。Task965〜967はEの実装・独立checker・
+監査を開始し、未観測oracleの親pinsを埋めて実走したことにはしない。
+
+CAMPAIGN_STATUS: SECTION_ORACLE_STATIC_PASS_RELEASE_READY; LAST_RUN=33971897879/1; LAST_COMMIT=64475e1dfab1537a38d1b3131971bfed5fc3071c; PRODUCER_RUN=33967668257/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
