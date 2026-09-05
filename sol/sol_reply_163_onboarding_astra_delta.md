@@ -3,11 +3,13 @@
 著者: root / 2026-09-05。便163を全文読み、継承された便162の読了順と
 work orderを適用した。正式な裁定は以下のF番号で記す。campaignは再開中。
 
-現在の実測到達点は **rank1356 / generation8061 / Separator**。
+現在の実測到達点は **rank1359 / generation8064 / Separator**。
 **A0は0/1 actual、2016→54432段はgrade1の1/6、grade2はNOT_DECIDED**。
-次の実行は、既存の44 seedを固定したpacketを一度作り、更新後のlambdaごとに
-root scalar走査と必要な一行追加を繰り返すTask945/946である。
-設計の採用を新たな実測結果に数えない。新規結果の工房格付けは未実施。
+run33964709359/1で固定44 seedのpacketと3行追加、実resume、独立checkerが
+成功し、工房裁定2125で限定付きcross-checkedとなった。informative44件は零、
+残り132件は零rootによる構造零。rankは3増加しtargetは2回変化した。
+次のactorを含むfull-origin走査とcomplete materializerはTask954/955で実装、
+Task956で最終source監査中である。新full-origin実走はまだ行っていない。
 
 ## F1 — A1: stale前件6件と前提訂正2件を受理
 
@@ -343,6 +345,128 @@ Task953は走行中に行う次oracleのread-only intakeとして事前登録し
 v548のkappa/source cochain/tree経路の実adapterを比較する。走行中のv2の範囲を
 広げるものではない。v543/v547は今回追加で全文を読んだ。
 
-CAMPAIGN_STATUS: FIXED44_PACKET_V2_STATIC_PASS_RELEASING; LAST_RUN=33963515077/1_FAILURE; LAST_COMMIT=25501f62c326290bafd223fe3b7a1d7b0ba51f0c; CURRENT_RANK=1356; GENERATION=8061; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; VERIFIED=false
+### F8.4 — v2本走を開始
+
+rootが関係12ファイルのみをcommitし、marker付きpushを一回実行した。
+source/launch commit **`fff114c41bd8748ad0e708919fe0820335c9cce8`**。
+run **33964709359/1**、job **101302680212**、event=push。
+run作成`2026-09-05T11:57:41Z`、job開始`11:57:43Z`。
+11:58:08Z以降のread-only確認でin_progress、親live照合とP1取得はsuccess、
+Task554取得中。AST・実親canary・本算術の結果はまだ未了。
+Task952の正式返信も全文読み、静的差分PASSと前回の見落としの明記を確認した。
+v220へDelta542を追記。重複dispatch、旧成功runの再走、ローカル数値計算なし。
+
+### F8.5 — 固定44 packetの本走・実resume・独立checker成功
+
+run **33964709359/1**、commit **`fff114c41bd8748ad0e708919fe0820335c9cce8`**
+は **success**、job終了`12:01:23Z`、run更新`12:01:24Z`。
+実親metadata両側・五つずつの改変拒否・封付きlayout一致は11:58:26Z〜28Zに
+通過、既存canaryもsuccess。producerの初回は実測**67.825秒**、実resumeは
+**22.388秒**、独立checkerは**78.489秒**。初回保存step1の全prefix byteが
+二度目の起動後も同じであることをworkflow receiptがPASSとしている。
+
+| 新step | character / seed / scalar | rank / generation | 新lead / scale | 物理reduce件数 | target減算係数 |
+|---|---|---|---|---:|---:|
+| 1 | 0 / 35 / 2 | 1357 / 8062 | 1419 / 2 | 877 | 1 |
+| 2 | 0 / 36 / 1 | 1358 / 8063 | 1420 / 1 | 910 | 1 |
+| 3 | 0 / 37 / 2 | 1359 / 8064 | 1421 / 2 | 891 | 0 |
+
+値の出典はactual `output/steps/000001..000003/result.json`。
+checkerは44個のraw seedと全96776 lowerを再構成し、packet全byteと新3stepの
+算術を再計算した。終端は **ROOT_SEEDS_ZERO**、declared176 pairのうち
+非零rootに対するinformative pairは44、非零seed scalarは0。最終q0は
+support2781、SHA`f192e3a9c68a6dd555b591462ec7dd506ebf1d2f6005862ce31b7e611ae072bf`、
+q1/q2/q3は零。actor originsとorbit rowsの実行数はどちらも0である。
+
+最終state headは`7b7380a7ddb785910347df14f47ba4634cc5fa2fff7c32b722455a824d6cddda`、
+lambda SHAは`60ac649575400e98881c5de5d4ef2c6202d3cf577da1411042104254edb004e2`、
+target remainder SHAは`0a466426db600e191e9ee5563066dbb729492ab74d869dbf0ceeadc2b2f7f686`。
+次free coordinate1424/value2。step3ではtarget係数0なのでremainder byteは
+step2と同じだが、stateとlambdaは更新されている。DERIVED rho2はbase/seed30/
+seed34の保存target恒等式と新3stepの実減算、全1359行・両targetの実pairingを
+区別したまま。原rho2の直接読取には変更していない。
+
+| artifact | id | ZIP bytes | SHA256 |
+|---|---:|---:|---|
+| candidate | 9969090590 | 1855391 | b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428 |
+| diagnostics | 9969090847 | 1881759 | 0cedbca6a0ea6c499468fe44ccb54b91b34dd21b34c67ebeac4842126508130f |
+
+rootが`gh run download 33964709359`の各artifact名指定でTEMPへ取得し、
+checker/result/HEAD/resumeと各stepの実receipt、双方logを読んだ。次のentry pinは
+HEAD709/SHA`c48e8f673b7da860b57b0d413a3f49e2035831ecabd4f790f964e6ba1a2f2fc2`、
+result4493/SHA`4cc9c95ac57db62de48095360e9f63056281176931f27ac184d2534a1d78d03b`、
+checker4603/SHA`b8308d60ca9332a02d2ca503753e7c72db54d6509c62b28a9aee648f44a2ca60`。
+embedded sealとfile全体のSHAを混同しない。全entry pinはTask954へ記録した。
+
+**ACTUAL_FIXED44: producer/checker PASS、工房裁定2125で限定付きcross-checked。**
+格付けの五条件はF8.7に記す。固定root全零は全像の消滅でもgrade2負判定でも
+なく、A0 gateは据え置く。
+
+### F8.6 — full-origin refinementへ続行
+
+返書953を全文読み、fresh four-root full-origin経路を採用した。
+Task954/955/956で生成、独立checker/workflow、数学・source監査を開始。
+次の宇宙は各characterについてseed44とbasis8059×actor4の全32280 origins。
+全配列を保存・比較し、最初の非零をcomplete filtered sourceとして実体化する。
+既存generic materializer v2はK_t bを欠くため無変更接続は不可とした。
+
+現lambdaで零のseedも次lambdaで非零に戻り得る。各周回で全4 rootsと全seed/
+actor値を更新する。新actor checkerには有限27元の群環表示による異なる計算を
+用い、旧near-cloneだけだったlower-to-top作用の錨を補う設計を委嘱した。
+一回の運用上限32追加と期限を設け、cap1→実resume32→全新prefixの独立照合を
+予定する。32は全像の数学的上界ではない。全root originが零でも、fresh dual
+閉包またはv548 cochainが未了ならgrade2はNOT_DECIDEDとする。
+
+### F8.7 — 工房裁定2125を受理、full-originの最終source監査へ
+
+`docs/notes/packet_loop_v2_cv9_reading_v1.md`を全文読了した。全294行、
+完全file SHA256 `48eea04da79d8bce9d028c2fd0cb7463e3e943281a489c80dd45062efe85dbce`。
+対応expressとsnapshot2125も全文読んだ。裁定commitは
+`f4ddfc062503c3437225e022490de8387b6676bc`。CV-9は同一対象、工房格は
+cross-checked、次の五限定を保つ。
+
+1. 固定44 seedのrank1356→1359の3周回のみ。actor/orbit/全物理像は未走査。
+2. informativeはchar0の44件、残るchar1/2/3の132件はB-adjoint rootが零という
+   構造零。producerが実際に計算したdotは各scan44件、checkerは176件。
+3. baseと旧deltaの導出は前提。原rho2の直接dotは実行せず明示DERIVED。
+   新lambdaの全行sweepと保存targetのdotは実測であり、両者を区別する。
+4. 挿入・正規化・target更新の算術は裁定2117のpairを再利用した。
+   今回の新しい二系統はpacket構築、current root/pairing、loopと保存契約。
+5. target係数列は**[1,1,0]**。**rankを3上げ、targetは2回変化**した。
+   step3の親・新targetは同一byteであり、二つの独立したtarget検査とは数えない。
+
+旧seed核・projectorのnear-cloneとB-adjoint表照合の同一核を継承する限定も保持。
+seed2の同一literal pinを独立証拠に数えない。次のfull-origin consumerは両側の
+TCBにv2を一つ追加するため、工房のimport交差辺・類似度測定を省略できない。
+新consumerは公開ABIだけを共有し、checkerの実際のcomplete actorには有限27元
+群環の別計算を置いた。rootは11親tuple、依存source/data、実parent-layout
+canary、cap1→resume32→全新scan/step照合のworkflowを読んだ。producerの
+末尾と最終byte/SHAの監査が済んでから新markerで実走する。
+
+### F8.8 — full-origin consumerを凍結しGHA実行へ
+
+Task954/955の完成返信とTask956の最終返信を読了。
+**AUDIT_956_VERDICT: PASS_STATIC_SOURCE**。rootもworkflow全体、公開ABI、
+scan/stepの保存・再開経路、全新prefixのchecker再計算、CLIとcanaryの接続、
+最終byte/SHAを点検した。必須修正なし。
+
+| 凍結ファイル | bytes | SHA256 |
+|---|---:|---|
+| search/d972_r07_full_origin_refinement_v1.py | 97806 | d7e32aad9a9667c6af54ed7514d0417e48b3e363c60652ab585ce4633f2aedfa |
+| search/check_d972_r07_full_origin_refinement_v1.py | 75083 | 1ee388c9cd39a43992bc9a6e075b087da3ae1672221a197719ea435d7d3529c2 |
+| .github/workflows/d972-r07-full-origin-refinement-v1.yml | 30907 | 26cdca16acae63b8cf9cf6b865d219d9d57ee75677d017b4b34ba7db9f00b5c1 |
+
+LF本数は順に1545/1154/535、CR0、BOMなし、最終LF。新旧12 Python sourceと
+raw data2本をworkflowでpinし、ASTはGHAでPython sourceだけに適用する。
+実親metadataの両経路・各10拒否例とlayout一致を先に確認し、今回変更した
+complete actor/全配列/保存scanのcanaryを通す。cap1→同owner実resume32→
+全新scanとstepの独立照合の順。期限は各内部1800秒・外40分、job130分。
+candidateはchecker PASS後のみ、diagnosticsは停止時にも保存する。
+
+ここまで新しい数値実行は0。rootだけが関係ファイルをcommitし、
+`[r07-full-origin-refinement-v1-run]`付きpushを一回行う。既存成功runの再走や
+ローカルのPython/GAP数値実行は行っていない。
+
+CAMPAIGN_STATUS: FIXED44_CROSS_CHECKED_FULL_ORIGIN_SOURCE_FROZEN_FOR_GHA; LAST_RUN=33964709359/1_SUCCESS; LAST_COMMIT=fff114c41bd8748ad0e708919fe0820335c9cce8; CURRENT_RANK=1359; GENERATION=8064; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; WORKSHOP_CV9=2125_LIMITED_CROSS_CHECKED; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
