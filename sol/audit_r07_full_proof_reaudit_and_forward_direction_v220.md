@@ -22270,3 +22270,165 @@ single transport repair required before continuation; it does not count the
 - **UNCHANGED**: 新実走0回、rank1359/gen8064、grade2 NOT_DECIDED、
   A0 **0/1 actual**、当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、
   A4 **1/3**、compact A5、full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 546 (2026-09-05): full-origin GHA本走33967668257を開始
+
+**個別進捗**:
+
+- rootが関係12ファイルのみcommit/push。source/launch commit
+  **fd04734d20d472e7c09f31de3f92f8a50d6d841a**、run **33967668257/1**、
+  job **101310528880**、event push。run作成13:01:00Z、job開始13:01:02Z。
+- 11親live照合/取得・source/data/ASTはsuccess。実親metadata両側＋各10拒否例＋
+  layout一致は13:01:52Z〜54Z、新complete actor/全配列/保存scan canaryは
+  13:01:54Z〜55Zにsuccess。本算術は13:01:55Zから実行中。
+- まだ新rank/terminalは未観測。後続は実resume32、全新prefixの独立照合。
+  実行記録は返書163 F8.9。重複dispatch・既存成功run再走・ローカル数値実行なし。
+
+**v220 内進捗**:
+
+- **CLOSED**: full-originのGHA source/AST/実parent-layout/新canaryゲート。
+- **ADVANCED**: actorを含む登録宇宙の本走を開始。算術結果と工房CV-9は未了。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 547 (2026-09-05): full-origin初回phase成功、実resume中・出口の接続準備
+
+**個別進捗**:
+
+- run33967668257/1のcap1 phaseは13:01:55Z〜13:04:04Zにsuccess。
+  13:04:04Zから同ownerの実resume32が進行中。最終artifactは未取得で、新rankは
+  未観測。GHAのjob logは現段階では未公開。完了後に数値と全配列照合結果を読む。
+- Task957はv548 joint kappa/source-edge/treeの具体的ABI、Task958はtarget零時の
+  v518 ordered SLP/normalized pair/11-slot readoutの既存APIをread-onlyで調べる。
+  新数値の予測や走行中sourceの変更はしない。rootが本走観測と次の判断を担当。
+
+**v220 内進捗**:
+
+- **CLOSED**: 初回producer phaseのGHAゲート。独立checkerと数値の受理は未了。
+- **ADVANCED**: 実resumeと、零/非零の各出口に必要な具体的consumerの接続準備。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 548 (2026-09-05): v548完全scalar oracleの別版実装を開始
+
+**個別進捗**:
+
+- Task957の具体設計を受けTask959/960へ単一snapshotの完全scalar oracleを委嘱。
+  全Q2 graph/tag/tree/carry、全8059 kappa等式、全source cochain、両auxと
+  全54433 chordを独立再計算する。全零はCOMPLETE_ZERO_CANDIDATE、非零は
+  auxまたは高々6cycle witnessを封印しMATERIALIZATION_PENDING。新pivotは別consumer。
+- future kappaの行順を訂正: Task554はlead順のechelon。元row IDは保持し、
+  逆代入は埋込元lead降順。rootは実PackedEchelon source:662-777で確認。
+  reply953 F4の挿入順という記述はsource補間に使わない。全8059等式を最終確認。
+- Q2正edgeは右積、tagged Fox prefixは左積。nonclosed raw edge用qnorm adapterを
+  新たに作る。新parent pinはrun33967668257完了後の実値のみ。実装は未凍結。
+- full-origin runは初回success後の実resume中。Task958 positive readout intakeも継続。
+
+**v220 内進捗**:
+
+- **CLOSED**: 未実装の完全oracleについて、行順/左右積とA–D・実体化Eの境界を明確化。
+  数値gateが閉じたという意味ではない。
+- **ADVANCED**: 次の完全な零判定を、実装可能な単一snapshot consumerとして作成開始。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 549 (2026-09-05): 実resume phase終了、全新prefixの独立checkerへ
+
+**個別進捗**:
+
+- run33967668257/1の実resumeは13:04:04Z〜13:34:06Zに工程success。
+  13:34:06Zから全新scan/stepの独立checkerが実行中。
+- 完成artifact未取得につき、新rankと停止理由はまだ未観測。工程successを
+  ROOT_ORIGINS_ZERO/MEMBERと読まない。詳細は返書163 F8.10続報。
+
+**v220 内進捗**:
+
+- **CLOSED**: 同owner実resumeのGHA工程と保存済みprefix保持のworkflow gate。
+- **ADVANCED**: 全新prefixの独立算術照合を開始。工房CV-9は後続gate。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 550 (2026-09-05): 完全oracle・positive readoutの正式設計を読了
+
+**個別進捗**:
+
+- Task957完成返信を全文読み、v548 oracle A–Dの数学ABIとして受理。
+  SHA256 `6c1a9ac2ba3f2dfba7e131121b2cb522055de131521f208a73e01743c2a27f39`。
+  actual 36点mod9 marking、全8059補間等式、全source cochain、全chord/auxを結ぶ。
+  現lambdaで使え、ROOT_ORIGINS_ZEROを入力前件にしない。完全source/Conn前提は保持。
+- Task958完成返信も全文読了。SHA256
+  `bb4ee0eee310c18bd6194df794d0b40ffc149df375663223457da07e0e54c261`。
+  target零時は保存係数から一つのordered SLPを作り、同じ語の18可除性・正規化対零と
+  11 typed occurrencesの直接評価を照合する。endpointだけでFox/gradeを格上げしない。
+  旧5追加行のtarget係数[2,1,1,1,0]とselection/scaleの区別を保持。consumerは未実装。
+- Task959の公開ABIを読み、Task961で新sourceの静的監査を開始。
+  A–D coreの暫定読みで新blocking defectなし。親loader/全output比較/期限/最終pinは未了。
+  詳細は返書163 F8.11。run33967668257/1は全新prefixの独立checker中。
+
+**v220 内進捗**:
+
+- **CLOSED**: 両出口に必要な実ABIの調査・正式接続設計。数値gateの完成ではない。
+- **ADVANCED**: complete oracleの両系実装と静的source監査、positive側のconsumer仕様。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 551 (2026-09-05): full-origin候補26段保存、checker時間切れを照合専用runで完了へ
+
+**個別進捗**:
+
+- run33967668257/1、source commit fd04734d20d472e7c09f31de3f92f8a50d6d841aは
+  14:04:19Zにfailure。独立checkerは1804.649秒でUNKNOWN_RESOURCE、22steps/22scans。
+  candidate artifactなし。diagnostic9970826495のZIP51954614 bytes/SHA256
+  `15c7686a1b79f343c544498f6a04c1eabdac1cc7559cf337f819030c2ec85159`をrootが照合。
+- actual保存HEADは**26段、rank1385/gen8090、Separator**。producerも1802.016秒で
+  UNKNOWN_RESOURCE、current scan null。最新lambdaのROOT_ORIGINS_ZEROは未判定。
+  工房express/裁定2126のproducer22段/rank1381はchecker完了数との取り違えとして返送。
+- 全26選択はchar0 actor。保存済み各scanはinformative32280/structural零96840。
+  target係数列は[0,2,2,2,1,0,0,1,2,2,2,0,1,0,0,2,0,1,0,1,1,1,2,1,1,1]。
+  **rank26増、target18回変化**。非零件数は単調でなく、反復回数をそこから推定しない。
+- Task962で保存byte不変のoutputを凍結checkerだけ内部7200秒/外125分/job145分で
+  完了させるworkflowを作る。producer/旧成功suite再走なし。旧checkerに再開機能が
+  ないため、未完の全26段checkを初めから完了させる。詳細は返書163 F8.12。
+
+**v220 内進捗**:
+
+- **CLOSED**: 今回の停止理由・producer到達数とchecker完了数・artifact identityの確認。
+- **ADVANCED**: 候補26段を保存。全prefix独立照合の時間枠を広げた実行を準備。
+  完全scalar oracleの両系実装は並行継続、新parent受理とfinal pinは待つ。
+- **UNCHANGED**: 受理済みrank1359/gen8064、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**。候補rank1385/gen8090を受理値へ先取りしない。
+  A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 552 (2026-09-05): 照合専用workflowを凍結、保存26段の全checkへ
+
+**個別進捗**:
+
+- 裁定2128の訂正受領とTask962方針受理を読んだ。工房CV9は完走後であり未格付け。
+- Task962完成返信と新workflow全631行をrootが読了。
+  `.github/workflows/d972-r07-full-origin-checker-completion-v1.yml` は39203 bytes、
+  SHA256 `74722395292561e228f6b48ad6002f5a69b44167a1ece574485bfbdea77ef830`。
+  実12親/ZIP/entry、元source receipt、output全byte/roster不変、新旧result分離を確認。
+- 観測runtime Python3.13.15/NumPy2.5.1を固定し、旧checker一回だけ内部7200秒/
+  外125分/job145分で26steps/26scansを照合。新candidateは全PASSとoutput不変後のみ。
+  rootが新marker付きpushを一回行う。返書163 F8.13。
+- 完全scalar oracle両系は暫定実装完了。親pin・Task961 tail監査待ち。
+  非零時Eの実API接続をTask963でread-only調査する。oracle本算術はまだ未実行。
+
+**v220 内進捗**:
+
+- **CLOSED**: 照合専用workflowの静的最終確認・source凍結。
+- **ADVANCED**: 保存26段の未完checkを完了するGHAへ進む。
+- **UNCHANGED**: 受理済みrank1359/gen8064、候補rank1385/gen8090、grade2 NOT_DECIDED、
+  A0 **0/1 actual**、当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、
+  A4 **1/3**、compact A5、full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+Delta552公開前整形追記: `git diff --cached --check`がreply958 line50の行末空白
+1個を検出し、作者がその1 byteだけを除去した。数学内容は不変。最終18939 bytes、
+SHA256 `5c7ef2b805901bfe63175f4ac384587cb6cc926cd09a9c9a46c6eeb3f99bf13b`。
+Delta550にある18940 bytes版の旧hashは読了時の値。返書163 F8.11は最終版に更新した。
