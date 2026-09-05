@@ -701,5 +701,28 @@ with all1356 rows and both parent/new target remainders. Three producer
 and four checker tiny interface canaries include bad-final-row rejection.
 All runtime work remains serial GHA work; no local Python/GAP has run.
 
-CAMPAIGN_STATUS: A0_SEED34_MATERIALIZER_V3_RELEASE_READY; RANK1355_ACTUAL; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 17. Actual selected seed34 GHA launch
+
+Root committed/pushed only the six ready release files; final written
+replies941/943 followed their already communicated source freeze and review
+and are retained separately. Both full replies are now read. Task943 gives
+PASS on the exact launched producer/checker hashes, with no outstanding
+necessary fix. The new run was not held for report-file formatting.
+
+```text
+source/launch commit = b9ae78b0950b186463849c3ec874f6474f359851
+workflow = .github/workflows/d972-r07-actual-root-seed-materializer-v3.yml
+event = single opt-in push
+run = 33956437467 / attempt1
+created_at = 2026-09-05T08:52:09Z
+url = https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33956437467
+first observed status = in_progress at08:52:29Z
+```
+
+This run resumes the saved current state for ONE actual new seed34 row. No
+duplicate workflow_dispatch was sent. Actual rank is still1355 until its
+arithmetic succeeds; runtime results/artifact pins remain pending. The
+40-minute caps are safety limits, not estimates of this run's duration.
+
+CAMPAIGN_STATUS: A0_SEED34_MATERIALIZER_V3_ACTUAL_RUN33956437467_IN_PROGRESS; RANK1355_ACTUAL; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き

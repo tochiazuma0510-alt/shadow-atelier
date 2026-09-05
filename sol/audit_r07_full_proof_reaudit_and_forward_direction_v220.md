@@ -21943,3 +21943,34 @@ single transport repair required before continuation; it does not count the
   A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. Actual physical
   rank1355; no grade2/full-A0/COMMON/cofinal/fake/Ihara promotion.
   `verified=false`.
+
+### Delta 534 (2026-09-05): actual selected seed34 continuation launched from saved rank1355
+
+- Tasks940/941 froze the selected-root one-pivot successor and independent
+  checker/workflow. Producer86643 bytes/SHA36cc620bdc1b772a...;
+  checker64626/SHAeca60918eb943edd...; workflow21657/SHA4eb1533a431976ee... .
+  Independent actual-path review943 PASS has no outstanding necessary fix.
+  Root checked full workflow wiring and all seven executable source pins.
+- Source/launch commitb9ae78b0950b186463849c3ec874f6474f359851, single
+  opt-in push, launched run33956437467/1 at08:52:09Z. First observed
+  in_progress08:52:29Z. No duplicate dispatch or local numerical run.
+- The ten artifact parents are the previous nine plus the tiny accepted
+  current-root candidate. Source selection is char0/seed34 from its actual
+  first-violation receipt, not a hardcoded old seed/support. Ordered2756
+  raw events are pinned before numerical coefficient collection; full
+  selected support and the physical row are still execution results.
+- The saved1354 base plus the accepted seed30 delta are used directly.
+  Only one new pivot and one new target elimination are allowed. Final
+  next-lambda direct pairings cover1354 old rows plus both delta pivots;
+  the small changed-interface canaries include bad-final-row rejection.
+  No old Conn/target reconstruction or retired scalar/rho2 input is added.
+
+**v220 mapping**:
+
+- J2's next actual insertion is now running, beyond Delta533's implementation
+  state. The paper reduction v548 is complete at its stated conditional
+  level and does not delay this run. J4's target decision remains open.
+- Actual physical rank remains1355 pending the run. Counters remain A0
+  **0/1 actual**, first-rung grades **1/6**, A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, compact A5 unchanged. No grade2/full-A0/COMMON,
+  cofinal/fake/Ihara claim. `verified=false`.
