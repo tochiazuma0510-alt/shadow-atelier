@@ -1,0 +1,3 @@
+# 裁定 2094 snapshot(2026-09-05・司令塔記帳)
+
+- 2094: **修正版 root scalar batch v2(v541 式)run 33941591417 = success(03:21Z→03:25Z・producer 68 秒・checker 67 秒)**: terminal = RootViolationBatch・v541_formula_id = r07.v541.formulas-2.1-2.2-4.1.raw-seed-plus-actor-lower-adjoint・**character 0 の最初の scalar 違反 = origin_id 30・origin_kind seed・seed 30・scalar 1**(seed 2 は corrected_seed_scalar = 0 で修正確認・actual_canary PASS・task712_pure_top_match true)・character 1〜3 は root 零・relation_origin_declared_count 32,280(宣言値)・future_orbit_rows_executed 0・claims GRADE2 NOT_DECIDED・verified=false。checker selftest は mutation 8 種を拒否。artifact: candidate 9962060495(253,544)・diagnostics 9962060193(266,309)→ Release ミラー発火。**工房 CV-9 事後判読(v541 差分の独立実装を重点)を falsifier へ発注**。格付けは判読まで保留。
