@@ -3439,3 +3439,9 @@ e0$ の refinement を 1 つ構成し ω≠0 の行を見つければ出口 II**
 - Release **archive-gha-checkpoints** を新設し、round-648 checkpoint zip(artifact_9730051236_gap-run-out.zip・98,493,406 B)を asset として恒久ミラー化。**往復検証: Release からの再ダウンロードと退避ローカル zip の sha256 完全一致**(fc83f49e…)。
 - ⟹ artifact 期限(2026-11-28)は無害化。期限後の GHA 再開は workflow から Release asset を取得(履歴非汚染・無期限)。取得例: gh release download archive-gha-checkpoints -p 'artifact_9730051236*'。
 - 以後の同型案件はこの Release に asset を追加する(Lean 期 64 zip はローカル退避+MANIFEST で完全・必要なら同所へ追加可)。
+
+## 2026-09-05 errata(裁定 2092)— L668「Furusho property の profinite 版は一般には偽」の読み替え
+
+- 対象: 本台帳 2026-07 の記載「**Furusho property(pentagon ⟹ hexagon)の profinite 版は一般には偽**(C1 §4.3・35 例で機械判定・強 11/弱 13)」。
+- 訂正: DLL 2008.00066 §4.3 の原文は**有限商 N(finite quotient level)についてのみ**不成立を主張しており、副有限(profinite)版が偽であるとは書いていない(有限 shadow の反例は compatible lift なしに profinite 反例にならない — Sol(Astra)返書 162 §2 の指摘・falsifier 前哨 F7 で原文 `papers/txt/2008.00066-*.txt` L3505-3545 を確認)。⟹ 読み替え: 「Furusho 性は **有限商水準で**一般に偽(35 窓中 24 で不成立)」・**副有限版は open(= 在庫 Q14)**。
+- 影響: 工房 note v2.1 §5.2 の「群水準 ⟹ 閉塞」等はこの読み替えを受けて v2.2/v2.3 で限定形へ(裁定 2091)。他文書で「profinite 版は偽」と引く箇所があれば本 errata を優先。
