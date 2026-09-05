@@ -463,5 +463,90 @@ prerequisite. Root checked workflow wiring and all nine executable source
 pins. No local Python/GAP has been launched and no actual1355 rank is
 claimed before execution.
 
-CAMPAIGN_STATUS: A0_ACTIVE_CORRECTED_ROOT_SEED30_SCALAR1_LIMITED_CROSS_CHECKED_RULING2096; SEED30_EXECUTABLE_HANDOFF_TASK929_TASK930; V545_V546_PAPER_AUDIT_PASS_TASK931; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 10. Actual seed30 GHA launch
+
+Root selectively committed the thirteen authorized implementation, paper,
+audit and ledger files, checked the staged roster and whitespace, and
+pushed only the working branch `sol/r07-explicit-lift-20260825`.
+
+```text
+source/launch commit = 7f6dfaddf4150449e62a9b3e85def472fcb41c01
+workflow = .github/workflows/d972-r07-actual-seed30-materializer-v1.yml
+event = push, exact opt-in commit marker
+run = 33946247365 / attempt1
+created_at = 2026-09-05T05:04:40Z
+url = https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33946247365
+initial observed status = in_progress
+```
+
+This is the single actual seed30 materialization run, not an old Conn or
+root-scalar rerun. No duplicate workflow_dispatch was sent. Runtime results,
+artifact identities and the actual new physical rank remain pending; the
+configured40-minute per-program limits are safeguards, not time estimates.
+
+## 11. Actual seed30 result and table-free paper selector
+
+Run33946247365/1 completed SUCCESS. Job101252751612 ran05:04:43Z--05:14:06Z,
+563 seconds. Producer step427 seconds (internal426.445), checker51 seconds;
+both bounded suites passed. The actual result is a rank increase, not only
+a scalar prediction:
+
+```text
+raw events2606; literal P1 roots1340; selected arithmetic rows902
+complete lower-zero coordinates96776; q(d)=lambda(G)=1
+old physical rank1354; existing pivot reductions889
+new lead1417; scale2; new physical rank1355
+new state head36feb776736c6587ce9f64d6f5acb883385074a7cc2eed4c2ce7eb8675e71342
+new target elimination: exactly1, scalar2
+next terminal Separator; free coordinate1418/value1
+next lambda(S_new)=0; next lambda(rho2)=1
+```
+
+The raw physical row SHA is76d77285deb38b6ab006790bf98cb636646b3933e81798cdde49e2b7a9f82fc1;
+normalized row SHA981fe62b5386b46d720f52c3b6e1a36cd2b2778cb683862f1077bbb0a8712f3d.
+The next target-remainder SHA isf5040e3f29b42e71b86be047d40de5d538ddb7fc107cace219879bbc67238d3a,
+and the next lambda SHA isf83bbaa503b8a4d5056f0779085ee4eced542eb1d78d3e35fa9df1c281960565.
+Each of these physical payloads is12096 bytes. The new source-d payload is
+9072 bytes/SHA5424da839388ffabed3928f1d1b1ac218cf5713d198f99e5a72d457ec40f48b5.
+
+| artifact | id | zip bytes | zip SHA256 |
+|---|---:|---:|---|
+| final delta | 9963533999 | 915410 | `f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6` |
+| diagnostics | 9963534393 | 936268 | `922b1795caeb780fd493993a8f6255367b814ab7b23cdf41a334b8dc961b2bf7` |
+
+Live API metadata matches the exact run/head/repository and unexpired
+status. Root downloaded both to
+`%TEMP%/shadow-atelier-seed30-run33946247365-{candidate,diagnostics}-a1`.
+All8 manifest payload size/SHA receipts match. Manifest1810 bytes has SHA
+7673b3c0ba5b23080ab51490e1ab9e72fe92f8afe313bf1b465d3892e8836f7d;
+result2903961 bytes has SHA60e47f7c673942611647a69087d29bd0223e40394144b43aae9e0f55da10fb8b;
+checker1383 bytes has SHAd9368b9ace442ef0d4bfb2099ace1c982b995eb428bfc8d46920633a198c4491.
+This root check is byte/metadata checking, not a third arithmetic replay.
+Both programs agree on the new delta, while their external old-state and
+shared-lineage qualifications remain. Cross-checked workshop grading is
+not self-issued and verified remains false.
+
+The remaining target is nonzero. The saved next lambda separates rho2 from
+the CURRENT1355-row partial image only; it is not a complete grade2 negative
+certificate. The next scalar test must use this lambda, not reuse the old
+one that seed30 has now defeated. Exact exponent/eleven-slot/full-A0 replay
+remain unperformed and are not implied by the formal graded word DAG.
+
+One performance issue was identified while the run was in progress: the
+producer read349MB of P1 instruction lines with buffering=0. The phase log
+shows05:06:40.532--05:13:03.719 (383.186 seconds); the buffered checker phase
+was about6.36 seconds. This is phase timing, not an isolated causal profile.
+Tasks934/935 prepare a versioned successor changing that one setting to a
+1MiB buffer and retaining all arithmetic/checker/tests. The successful v1
+was NOT cancelled; no identical run is commissioned to measure the fix.
+
+On paper, v547 and independent audit933 PASS now remove the endpoint table
+left open by v545. With the exact literal r_x,r_y from v459, two ordinary
+exponent sums and one Heisenberg coefficient determine all three repair
+coefficients. The exact integer cube powers also impose epsilon=0 directly.
+The formula preserves Q0 Fox rows and those of every quotient of Q0; it is
+not a PB4-preservation assertion or a coherent cofinal lift. V220 Delta531
+records both advances while retaining A0=0/1 and first-rung grades=1/6.
+
+CAMPAIGN_STATUS: A0_SEED30_ACTUAL_PIVOT1355_RUN33946247365_SUCCESS_NEXT_SEPARATOR1418_SAVED; V547_TABLE_FREE_SOURCE_SELECTOR_PAPER_AUDIT_PASS933; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き

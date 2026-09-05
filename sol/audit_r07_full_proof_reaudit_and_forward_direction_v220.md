@@ -21809,3 +21809,56 @@ single transport repair required before continuation; it does not count the
   A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. Physical rank
   remains1354 pending the new actual run. No grade2/full-A0/COMMON, cofinal
   lift, fake or Ihara promotion. `verified=false`.
+
+### Delta 531 (2026-09-05): actual seed30 adds one physical pivot; table-free endpoint selector
+
+- Root committed/pushed source7f6dfaddf4150449e62a9b3e85def472fcb41c01;
+  the opt-in push launched33946247365/1. Job101252751612 completed SUCCESS
+  from05:04:43Z to05:14:06Z (563 seconds). Actual producer427 seconds by
+  step timestamps (internal426.445), independent checker51 seconds; both
+  bounded synthetic suites passed. No local Python/GAP was run.
+- The actual selected902 P1 rows,2606 raw events and1340 literal roots
+  yield a full96776-coordinate lower-zero defect. Both pairings are1.
+  Its physical row reduces by889 existing pivots to a nonzero remainder;
+  new lead1417, normalizing scale2. Actual rank advances1354->1355 with
+  new rolling head36feb776736c6587ce9f64d6f5acb883385074a7cc2eed4c2ce7eb8675e71342.
+- The saved target uses ONE new elimination, scalar2. It remains nonzero:
+  next free coordinate1418, value1, with next lambda killing all1355 rows
+  and pairing1 with rho2. Thus this is a new Separator for the enlarged
+  partial image, NOT a grade-wide NONMEMBER and not a MEMBER/fake witness.
+  The new delta and its complete literal ancestry are saved, with parent
+  state/884 old target eliminations referenced rather than copied.
+- Final artifact9963533999 is915410 zip bytes, SHA256
+  f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6;
+  diagnostics9963534393 is936268 bytes, SHA256
+  922b1795caeb780fd493993a8f6255367b814ab7b23cdf41a334b8dc961b2bf7.
+  Root downloaded both outside the repo and matched all8 manifest payload
+  byte/SHA receipts. Producer/checker arithmetic agree; the files retain
+  cross_checked=false and verified=false, with external scope grading not
+  self-issued here. Existing parent qualifications remain explicit.
+- Root found an avoidable unbuffered P1 instruction readline. The logged
+  producer P1 scan took383.186 seconds, while the checker's buffered scan
+  ended about6.36 seconds after its phase start. These are observed phase
+  times, not an isolated benchmark. Tasks934/935 retain a versioned one-line
+  1MiB-buffered successor, with identical arithmetic and checker. The
+  successful run was NOT cancelled and will NOT be repeated just to time it.
+- V547 and independent audit933 PASS remove v545's remaining27-coordinate
+  lookup: use v459's fixed r_x,r_y and the exact exponent sums plus the
+  Heisenberg word coefficient omega. The explicit formula
+  `R(w)=w (r_x^3)^(-eps_x(w)/6) (r_y^3)^(-eps_y(w)/6) [r_x,r_y]^omega(w)`
+  repairs an admissible endpoint and normalizes integer exponents exactly
+  in the same three factors. It preserves Fox rows at Q0 and every quotient
+  of Q0. No Delta lookup/BFS or separate normalization is needed for this
+  source-readout formula; actual physical membership remains separate.
+
+**v220 mapping**:
+
+- J2's first real new direction is now materialized with agreeing actual
+  arithmetic, replacing the merely nonzero scalar milestone of Delta529.
+  J3 continues with the SAVED NEXT lambda, not the retired old separator.
+  The paper alternative's endpoint readout is now table-free; its actual
+  lower-multiplier/full-filtered cochain adapters remain to be supplied.
+- Numerators stay A0 **0/1 actual**, first-rung grades **1/6**, A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. The new rank1355
+  is an internal A0 advance, not another completed grade. No full A0/COMMON,
+  cofinal lift, fake or Ihara claim. `verified=false`.
