@@ -23352,3 +23352,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
   strict実五字段/production helper/新第四群九拒否を追加。P四群/D三群・本走は未実行、WF/991/993最終は作成中。
 - 失敗記録/Task991–993公開は52f4a217c70335062baeeaeefa2d2a82b79b0f9d、exact五fileでpush済み。詳細F8.63–64。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 602 — 同語v2凍結・新本走へ（2026-09-06 JST）
+
+- rootは新P/C/WFの全差分、991/992/993最終票を全文読了。993 STATIC PASS、実source六fileの全hash一致で凍結。
+- P175318 B/cf6ac987acb2f399f36a8438cca78b773d7791286473b68362f2824a35d6451c、C176579 B/865ed6a50b95303fdecafbc69e841da018858aa4624467fb17cdf80a0beadfd1、WF92986 B/47043063db8e330210a29594cb8b91900a40c0750f651b2647c2101047bc8477。
+- strict実五字段とproduction直結の新P第四群、P旧三群/D三群。WFは早期取得/入場前baselineと部分afterを保存し、不足はINCOMPLETE。
+  同16親/64全履歴/同語13file/十一slot/80644比較を維持。旧失敗診断を新数学親にしない。
+- 新marker pushによりv2起動を行う。実run/headはAPI取得後記帳。96 run33995829771/1は23:04:20Z時点で全C実行中、新after値は未観測。
+- 新batchの994公開ABI案を受領、997としてroot確定後にCへ中継予定。新batch算術/GHAは未実行。
+- **CLOSED**: 同語v2修理と静的差分監査。**OPEN**: 新七群/本P/D、96全Cと回収、batch実装/監査/GHA、actual grade2。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
