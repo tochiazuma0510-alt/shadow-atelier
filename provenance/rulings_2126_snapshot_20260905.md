@@ -1,0 +1,3 @@
+# 裁定 2126 snapshot(2026-09-05・司令塔記帳)
+
+- 2126: **full origin refinement v1 run 1(33967668257)= producer 22 step(rank 1359 → 1381・全 origin scan → 1 pivot/step・Separator 継続)・checker が 1,804.6 秒(30 分 cap)で UNKNOWN_RESOURCE(22 scan replay 完了直後の new_actor_fold・character 3)・candidate=false・exit 3 = fail-closed 正常**。cap は producer/checker とも内部 1,800 秒で、checker は producer 以上の仕事量(全 scan 再実行+prefix replay)なので構造的に完走不能。計測 express `ops/express/20260905_fable_astra_full_origin_run1_checker_cap.md`(checker 予算 2 倍以上 / producer の append 数を刻む / checker の checkpoint-resume)。diagnostics 9970826495(52 MB)→ ミラー。並行: Luna 959/961 = section cochain oracle(v543/v548 紙経路の実装)。**rank 1381 は producer 単独値(未照合)**。
