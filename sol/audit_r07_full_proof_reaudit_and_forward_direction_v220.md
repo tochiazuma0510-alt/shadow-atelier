@@ -23391,3 +23391,28 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - nested追補は全実dot/整数行数、全tag/aux support、旧最終97親＋採用rowだけの派生identity、旧fixed JSON明示射影。
 - P保存563行/core途中、C独立実装/996監査も途中。998/999を先に完成してP/boundsはbatchへ戻る。新batch実GHAは未実行。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 606 — 対照96全gate success・root回収へ（2026-09-06 JST）
+
+- run33995829771/1（head920780033b3aaa519a898e8b6b1d29fe67a04cd1）はsuccess。全Cは22:40:18Z–23:15:58Z、job完了23:18:54Z。
+- coverage/preservation/final/candidate/diagnostic全gate成功をAPIで観測。candidate9978703124は608103877 B/5ec5667b77a3ed788161ed3e75e9b6ca65f170849deab2272e581b0291c1ef9e。
+- rootはZIP回収開始、実after count/rank/内部elapsedはpayload未回収なので先取りしない。全stats/符号/旧64保全のCV9を速達依頼。
+- 128以降の自動延長は無し。新batchの事前登録親は旧64/rank1450のまま。正式1450/gen8155は据置。
+
+### Delta 607 — 公開前WFv3修理指摘・batch tailの型を確定（2026-09-06 JST）
+
+- root全差分でexact_pin脱落/printf二重backslash、999で旧歴史roster比較の順衝突を発見。未凍結のまま3点を作者へ返却。
+  新strict順を維持し、古いwhole-pinned inventoryは比較用copyだけ型/重複/全内容検査後に射影。旧保存は改変しない。
+- Task1001=3515 B/2f8dc3941c8dc1df5e0cb62b7a8075159c83e0a7cf66bdc7a015341fec3145c9。15role inventoryとCのdurable一phase比較/HEAD count固定を明示。
+- 466173d350ae703d5f68e8676acc8f24c556ac00で旧7fileの公開完了。v3新実行/batch成功はまだ無い。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 608 — WFv3凍結・新本走へ（2026-09-06 JST）
+
+- rootは最終全差分と998/999最終票を全文読了。三必須修理閉鎖、追加指摘なし、STATIC PASS/runtime未実行。
+- WF108358 B/04f06ac35b7cc98cbe5e78a011f28b5250a7fe69537332d21eb2c109a45b8604、reply99812389 B/b8334b7fe2fd0085365f753dd48043f68fb6df1ee63d3ab88f5fe759b0f3d196、reply99911454 B/eb465c64c5f5b73b9a0d84ee9ec92ed39d429123f340ea2cd2c236a76dd6c505。
+- 新strict scan/旧whole-pinned rosterのcopy-only adapter/20拒否を本番とfinishへ接続。同P/Cv2/全16親/64履歴/全成功gate不変。
+- v3 marker pushで起動する。実run/headはAPI観測後記帳。998/999は凍結し作者/監査官が994/996へ復帰、995は独立実装継続。
+- 2160/2161/ackを全文読了。過去記録「23:16:16Z全C実行中」はrun全体statusの誤帰属、実Cは23:15:58Z成功完了と訂正（F8.69/71）。
+- 997のtree相対pathと1000の新target親十keyを両作者へ確認。schema列挙は不変。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。

@@ -2282,6 +2282,52 @@ Task1000 **5929 B/f262bc3cfd5f40809ddf5b71e3f6ebd91a4a2e0534dfc309a33ff90932ecbc
 Pは563行/30831 B/10ce0b8cbf794c241e59d470d127a45b692236cd0074b6de7cfe4084fc2ac308の未完成保存境界。
 Cも独立sourceのthin/算術/serializerを作成中、996は段階監査中。998/999を先に完成してからP/boundsはbatchへ戻る。
 これは版付き実装契約と途中保存であり、新batch/canary/GHA成功や新rankは未観測。
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_FULL_CHECKER_RUNNING_POSITIVE_V2_SORT_FAILURE_V3_WF_REPAIR_BATCH_ABI_FROZEN; LAST_RUN=33997745566/1; LAST_COMMIT=c6278fe1365f447b6183600e446f36defef80e76; POSITIVE_READOUT_RUN=33997745566/1; POSITIVE_READOUT_STATUS=V2_SEVEN_INTERFACE_GROUPS_PASS_P_SORT_FAILURE_V3_WF_ONLY_REPAIR; PREVIOUS_POSITIVE_FAILURE_RUN=33995799635/1; CONTROL96_RUN=33995829771/1; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2159; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.69 — 対照96の全C/保存/出力successを実観測、成果物回収開始
+
+run **33995829771/1**、head **920780033b3aaa519a898e8b6b1d29fe67a04cd1** は実success。
+job101386095754は23:18:54Z完了。P step22:26:32Z–22:40:18Z、全C step22:40:18Z–23:15:58Z。
+coverage23:15:58Z–23:16:02Z、preservation23:16:02Z–23:16:08Z、final23:16:08Z–23:16:09Zもsuccess。
+candidate upload23:16:09Z–23:17:30Z、diagnostic upload23:17:30Z–23:18:51Z。
+
+実candidate **9978703124**、name d972-r07-complete-oracle-cegar-resume-next-v1-candidate-33995829771-1、
+**608103877 B / 5ec5667b77a3ed788161ed3e75e9b6ca65f170849deab2272e581b0291c1ef9e**。
+実diagnostic9978720417は同608103877 B/b018a2d9151fba184299c207f9ac2fc06d13cf9b6f46a22e657b764ef092574f、root未DL。
+rootはcandidateのwhole ZIP回収を開始し、成功APIと全step時刻を記録した。after count/rank/内部elapsedはpayload未回収のため未記帳。
+2155の一回対照として、実tupleを速達で司令塔へ渡し全target/中央項/失敗数/index/四character/全tag/実時間のCV9を依頼した。
+128以降の自動cap倍増はしない。batch初回親は既登録64/rank1450を固定したまま、正式rankはCV9前の1450に据置。
+
+### F8.70 — 公開前WFv3の三静的修理とbatch tail公開型
+
+rootと999が未凍結WFv3の全差分を独立に読んだ。rootはexact_pin helper脱落とprintf二重backslashを発見し作者へ返した。
+999は新string-sortと旧保存親rosterのcomponent順との比較衝突を発見。旧全file hash/before-after同一を保ち、
+比較用copyだけの厳密型/重複/全descriptor/dir検査付きadapterで旧順を扱う修理を依頼した。
+旧artifact/旧保存JSONは変更しない。adapter自体の正逆metadata canaryを追加する。3点とも公開前で、新runはまだ無い。
+
+Task1001 **3515 B / 2f8dc3941c8dc1df5e0cb62b7a8075159c83e0a7cf66bdc7a015341fec3145c9** を公開共通追補として両作者へ配達。
+input inventoryは15role順の全files/dirs、artifactは既存layout/acceptanceへ結ぶ。
+CはHEADの直後一phaseのdurable payloadも照合するが、HEAD countsは進めず、追加durable_tail字段へ範囲を分離する。
+CはP outputへ書かず、final HEAD/resultが揃わないpartial packetを完成に昇格しない。
+これまでの998/999/997/1000/根拠記帳は **466173d350ae703d5f68e8676acc8f24c556ac00** でexact七fileを公開済み。
+### F8.71 — WFv3静的修理を凍結、起動へ・時刻表現の訂正
+
+rootは最終v2→v3全差分、998/999最終票を全文読了。三必須修理は閉鎖し、追加必須修理は無い。
+WFv3 **108358 B / 04f06ac35b7cc98cbe5e78a011f28b5250a7fe69537332d21eb2c109a45b8604**、LF1674。
+reply998 **12389 B / b8334b7fe2fd0085365f753dd48043f68fb6df1ee63d3ab88f5fe759b0f3d196**、
+reply999 **11454 B / eb465c64c5f5b73b9a0d84ee9ec92ed39d429123f340ea2cd2c236a76dd6c505** を凍結。
+P v2 175318/cf6ac987...、D v2 176579/865ed6a5...と全16数学親/全64履歴/各全pinは不変。
+新scanの全相対文字列順、保存済み旧15roleのcopy-only厳密adapter、20拒否の実helper/finish接続を確認。
+rootも実旧15itemのexact三key/全roleをmetadataで確認した。新入場は依然sorted/uniqueを厳密要求する。
+
+marker [r07-continuation-positive-word-readout-v3-run] で凍結版を公開・起動する。
+新metadata群/再結合七interface群/本P/Dの実結果はこれからで、静的PASSをruntimeへ昇格しない。
+998作者/999監査官はbatch994/996へ復帰、C995は独立実装を継続する。
+997のtree相対descriptorはselection/tree/基準でfile値failed-indices.u32 / failed-edges.u32、両作者へ同一確認済み。
+1000の新target親は列挙通り十key。root配達メッセージの「十一」は数え違いで、文書のexact列挙に変更は無い。
+
+工房2160/2161と二ackを全文読了した。96成果物回収/CV9は継続、正式1450/gen8155/grade2/A0は据置。
+F8.67/速達の「23:16:16Z時点で全C継続」は粗いrun statusをC stepへ誤帰属した表現だった。
+正しくは同時点でrun全体が実行中、全C stepは実job記録の **23:15:58Z** に成功完了している（F8.69）。
+原記録は残してここで訂正する。run成功完了23:18:54Z、内部elapsed/after値はまだroot payload回収前である。
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_SUCCESS_RECOVERY_POSITIVE_V3_FROZEN_LAUNCH_PENDING_BATCH_IMPLEMENTATION; LAST_RUN=33997745566/1; LAST_COMMIT=c6278fe1365f447b6183600e446f36defef80e76; POSITIVE_READOUT_RUN=33997745566/1; POSITIVE_READOUT_STATUS=V2_SEVEN_GROUPS_PASS_P_SORT_FAILURE_V3_STATIC_FROZEN_LAUNCH_PENDING; PREVIOUS_POSITIVE_FAILURE_RUN=33995799635/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_ALL_GATES_PAYLOAD_RECOVERY_PENDING; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2161; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

@@ -1,0 +1,38 @@
+# Task1001 — batch checkerのdurable tailと入力inventory公開型
+
+宛先: Task994/995/996。997/1000は凍結不変。本便は公開された復旧/計数の質問へのroot共通追補。
+数学/一batch/全scope/author分離/実行はGHAのみという条件は不変。
+
+## E1. 入力inventoryのplain型
+
+inputs/parents-before.jsonとparents-after.jsonはplain canonical JSON list。
+要素は登録15role順、exact role,files,directories。filesは三keyの相対POSIX完全文字列順/全EOF、directoriesも同順。
+artifact tupleはparent-layoutとportable acceptanceに完全結合しており、このinventoryへ重複追加しない。
+code-before/afterはcode/data全unionのfile descriptorを相対file文字列順にしたplain list。
+同pathに異なるpinsを併合せず拒否する。JSON/arrayの小型化でfile/dir/hashを省略しない。
+
+## E2. checkerは保存された直後一phaseも比較するがHEADのcountsは変えない
+
+progress/HEADの完成prefixと、それより直後にだけ存在する登録済みdurable phaseを別scopeとして扱う。
+Cは後者も全payload/manifest/関連する完成metadataを独立照合できる。候補入力へ書込み・checkpoint更新・回復commitを行わない。
+Cの公開processed/dependent/accepted/rank/generation/state_head/target fieldsは実progress HEADのprefix値に固定する。
+その先の候補phase/row/candidate decisionを照合したことだけで公開physical stateへ昇格しない。
+selection/candidate_phases_comparedは実際に比較したphaseを含めてよいが、次項のdurable_tailにprefix外範囲を必ず分離記録する。
+phase間の穴/二phase先/別owner/別selectionやscope外通常fileを受け入れる許可ではない。
+
+checker-resultのexact bodyへ durable_tail を一key追加する。tail無しはnull。
+tail有りはplain exact kind,phase,candidate_ordinal,selection_sha256,phase_manifest_sha256,row_manifest_sha256,
+candidate_manifest_sha256,checkpoint_sha256,final_manifest_sha256,public_head_sha256,independently_compared,published_by_checker。
+kindは NEXT_SELECTION_PHASE / NEXT_CANDIDATE_PHASE / FINAL_PUBLICATION_TAIL のいずれか。
+phaseは実section/cochain/tree/raw/source/primal/p1/B/reduction/finalの一つ。候補以外ordinal=null。
+各hashはその時点で実在する完全な通常fileの全hashだけ、未形成/未該当はnull。caller値や未来の値で埋めない。
+independently_compared=trueは当該tail全完成payloadを全照合した場合だけ、published_by_checker=falseは常に保持。
+completed metadataがrow/candidate/checkpointへ一部進んでいても、そのphaseに付随する登録publication列だけを扱う。
+
+final payload/manifest完成からHEAD/resultまでのcrash tailも同じ方針で認証する。
+public physical HEADとproducer resultが揃い、全final/両者/保存不変条件の比較が済むまでCはpartial=true/candidate=false。
+実public HEADが既にあればpublic_head_sha256を隠さず記録し、final全比較の実施をpublic_final_comparedへ正確に示す。
+単にresult未形成の部分packetを、完全なproducer成功receiptに置換しない。完成packetならpartial=false/candidate=trueへ通常遷移できる。
+
+partialのPASSは明示された読了scopeだけ。cross_checkedと全比較flagsは実施範囲に限定、未読/未形成値はnull又はfalse。
+grade2二字段NOT_DECIDED/full_A0=false/verified=falseは維持する。
