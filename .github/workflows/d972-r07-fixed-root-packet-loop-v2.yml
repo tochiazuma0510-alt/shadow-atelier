@@ -1,0 +1,496 @@
+name: d972-r07-fixed-root-packet-loop-v2
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  DELTA_RUN: "33946247365"
+  DELTA_ATTEMPT: "1"
+  DELTA_HEAD: "7f6dfaddf4150449e62a9b3e85def472fcb41c01"
+  DELTA_WORKFLOW: ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml"
+  DELTA_ARTIFACT_ID: "9963533999"
+  DELTA_ARTIFACT_NAME: "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1"
+  DELTA_ARCHIVE_BYTES: "915410"
+  DELTA_ARCHIVE_DIGEST: "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6"
+  SEED34_RUN: "33956437467"
+  SEED34_ATTEMPT: "1"
+  SEED34_HEAD: "b9ae78b0950b186463849c3ec874f6474f359851"
+  SEED34_WORKFLOW: ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml"
+  SEED34_ARTIFACT_ID: "9966542166"
+  SEED34_ARTIFACT_NAME: "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1"
+  SEED34_ARCHIVE_BYTES: "984053"
+  SEED34_ARCHIVE_DIGEST: "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc"
+  PRODUCER_SHA256: "e040c7b3cf5f96fe33c0e36a00ba8dd887784e0f5a1e6fa036d407c0ceba65e6"
+  PRODUCER_BYTES: "84173"
+  CHECKER_SHA256: "5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5"
+  CHECKER_BYTES: "66251"
+  PRODUCER_CAP_MINUTES: "40"
+  CHECKER_CAP_MINUTES: "40"
+
+jobs:
+  fixed-root-packet-loop:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-root-packet-loop-v2-run]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 130
+    steps:
+      - name: Checkout frozen task sources
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install pinned numerical runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Query and authenticate exact live parents
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          repo="$GITHUB_REPOSITORY"
+          test "$repo" = "tochiazuma0510-alt/shadow-atelier"
+          gh api "repos/$repo/actions/runs/$P1_RUN" > "$RUNNER_TEMP/p1-run.json"
+          gh api "repos/$repo/actions/runs/$TASK554_RUN" > "$RUNNER_TEMP/task554-run.json"
+          gh api "repos/$repo/actions/runs/$TASK712_RUN" > "$RUNNER_TEMP/task712-run.json"
+          gh api "repos/$repo/actions/runs/$SEPARATOR_RUN" > "$RUNNER_TEMP/separator-run.json"
+          gh api "repos/$repo/actions/runs/$DELTA_RUN" > "$RUNNER_TEMP/delta-run.json"
+          gh api "repos/$repo/actions/runs/$SEED34_RUN" > "$RUNNER_TEMP/seed34-run.json"
+          for spec in \
+            "$P1_ARTIFACT_ID|$P1_ARTIFACT_NAME|$P1_ARCHIVE_BYTES|$P1_ARCHIVE_DIGEST|$P1_RUN|$P1_HEAD" \
+            "$TASK554_PREP_ID|$TASK554_PREP_NAME|$TASK554_PREP_BYTES|$TASK554_PREP_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B0_ID|$TASK554_B0_NAME|$TASK554_B0_BYTES|$TASK554_B0_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B1_ID|$TASK554_B1_NAME|$TASK554_B1_BYTES|$TASK554_B1_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B2_ID|$TASK554_B2_NAME|$TASK554_B2_BYTES|$TASK554_B2_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK554_B3_ID|$TASK554_B3_NAME|$TASK554_B3_BYTES|$TASK554_B3_DIGEST|$TASK554_RUN|$TASK554_HEAD" \
+            "$TASK712_ARTIFACT_ID|$TASK712_ARTIFACT_NAME|$TASK712_ARCHIVE_BYTES|$TASK712_ARCHIVE_DIGEST|$TASK712_RUN|$TASK712_HEAD" \
+            "$SEPARATOR_ARTIFACT_ID|$SEPARATOR_ARTIFACT_NAME|$SEPARATOR_ARCHIVE_BYTES|$SEPARATOR_ARCHIVE_DIGEST|$SEPARATOR_RUN|$SEPARATOR_HEAD" \
+            "$DELTA_ARTIFACT_ID|$DELTA_ARTIFACT_NAME|$DELTA_ARCHIVE_BYTES|$DELTA_ARCHIVE_DIGEST|$DELTA_RUN|$DELTA_HEAD" \
+            "$SEED34_ARTIFACT_ID|$SEED34_ARTIFACT_NAME|$SEED34_ARCHIVE_BYTES|$SEED34_ARCHIVE_DIGEST|$SEED34_RUN|$SEED34_HEAD"; do
+            IFS='|' read -r id name bytes digest run head <<< "$spec"
+            gh api "repos/$repo/actions/artifacts/$id" > "$RUNNER_TEMP/artifact-$id.json"
+            jq -e --argjson id "$id" --arg name "$name" --argjson bytes "$bytes" \
+              --arg digest "$digest" --argjson run "$run" --arg head "$head" \
+              --argjson repo_id "$REPOSITORY_ID" \
+              '(.id == $id and .name == $name and .size_in_bytes == $bytes and
+                .digest == $digest and .expired == false and
+                (.expires_at|type) == "string" and .expires_at != "" and
+                .workflow_run.id == $run and .workflow_run.head_sha == $head and
+                .workflow_run.repository_id == $repo_id and
+                .workflow_run.head_repository_id == $repo_id)' \
+              "$RUNNER_TEMP/artifact-$id.json" > /dev/null
+          done
+          jq -e --arg repo "$repo" --argjson id "$P1_RUN" --argjson attempt "$P1_ATTEMPT" \
+            --arg head "$P1_HEAD" --arg path "$P1_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/p1-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK554_RUN" --argjson attempt "$TASK554_ATTEMPT" \
+            --arg head "$TASK554_HEAD" --arg path "$TASK554_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "failure")' "$RUNNER_TEMP/task554-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$TASK712_RUN" --argjson attempt "$TASK712_ATTEMPT" \
+            --arg head "$TASK712_HEAD" --arg path "$TASK712_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/task712-run.json" > /dev/null
+          jq -e --arg repo "$repo" --argjson id "$SEPARATOR_RUN" --argjson attempt "$SEPARATOR_ATTEMPT" \
+            --arg head "$SEPARATOR_HEAD" --arg path "$SEPARATOR_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/separator-run.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$DELTA_RUN" --argjson attempt "$DELTA_ATTEMPT" \
+            --arg head "$DELTA_HEAD" --arg path "$DELTA_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/delta-run.json" > /dev/null
+
+          jq -e --arg repo "$repo" --argjson id "$SEED34_RUN" --argjson attempt "$SEED34_ATTEMPT" \
+            --arg head "$SEED34_HEAD" --arg path "$SEED34_WORKFLOW" --argjson repo_id "$REPOSITORY_ID" \
+            '(.id == $id and .repository.full_name == $repo and .repository.id == $repo_id and
+              .run_attempt == $attempt and .head_sha == $head and .path == $path and
+              .status == "completed" and .conclusion == "success")' "$RUNNER_TEMP/seed34-run.json" > /dev/null
+
+      - name: Download exact P1 cache and instruction roots
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.P1_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/p1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.P1_RUN }}
+
+      - name: Download exact Task554 prepare body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_PREP_NAME }}
+          path: ${{ runner.temp }}/task554-prepare
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 0 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B0_NAME }}
+          path: ${{ runner.temp }}/task554-block-0
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 1 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B1_NAME }}
+          path: ${{ runner.temp }}/task554-block-1
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 2 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B2_NAME }}
+          path: ${{ runner.temp }}/task554-block-2
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task554 block 3 body
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK554_B3_NAME }}
+          path: ${{ runner.temp }}/task554-block-3
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK554_RUN }}
+
+      - name: Download exact Task712 maps
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.TASK712_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/task712
+          github-token: ${{ github.token }}
+          run-id: ${{ env.TASK712_RUN }}
+
+      - name: Download exact physical separator
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SEPARATOR_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/separator
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SEPARATOR_RUN }}
+
+      - name: Download exact rank1355 delta
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.DELTA_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rank1355-delta
+          github-token: ${{ github.token }}
+          run-id: ${{ env.DELTA_RUN }}
+
+      - name: Download exact saved rank1356 seed34 delta
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.SEED34_ARTIFACT_NAME }}
+          path: ${{ runner.temp }}/rank1356-seed34
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SEED34_RUN }}
+
+      - name: Authenticate executable sources and retain source receipt
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import ast, hashlib, json, os
+          from pathlib import Path
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          expected = {
+              "search/d972_r07_fixed_root_packet_loop_v2.py": (int(os.environ["PRODUCER_BYTES"]), os.environ["PRODUCER_SHA256"]),
+              "search/check_d972_r07_fixed_root_packet_loop_v2.py": (int(os.environ["CHECKER_BYTES"]), os.environ["CHECKER_SHA256"]),
+              "search/d972_r07_actual_root_seed_materializer_v3.py": (86643, "36cc620bdc1b772a4eb4067f7e5b490dab851fb41213c5cd8a5487855207a332"),
+              "search/check_d972_r07_actual_root_seed_materializer_v3.py": (64626, "eca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701"),
+              "search/d972_r07_rank1355_root_seed_scalars_v1.py": (31578, "973ccd1d5d0f8fa5a28294589ff655620745f0cc988c09abe8a6178593e185bb"),
+              "search/check_d972_r07_rank1355_root_seed_scalars_v1.py": (36236, "f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62"),
+              "search/d972_r07_actual_grade2_root_scalar_batch_v2.py": (118315, "3c93c50c43020472d616b5c253ea3c6fac6fa34d9d0e41b5a10686da30b7a856"),
+              "search/check_d972_r07_actual_grade2_root_scalar_batch_v2.py": (119619, "e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6"),
+              "search/d972_r07_targeted_grade2_owner_generated_join_v15.py": (126565, "76546bef263ad260f24632c0da46cfb913ee48759e0533d591c507d072037632"),
+              "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py": (141770, "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"),
+          }
+          receipts = []
+          for name, (size, wanted) in expected.items():
+              data = Path(name).read_bytes()
+              assert len(data) == size and hashlib.sha256(data).hexdigest() == wanted, name
+              assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n"), name
+              ast.parse(data, filename=name)
+              receipts.append({"file": name, "bytes": size, "sha256": wanted, "lf": data.count(b"\n")})
+          data_pins = {
+              "scratchpad/fuda1_a0_rmax_data.g": {"bytes": 4709,
+                  "sha256": "625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba"},
+              "scratchpad/a0_paper_words_v1.json": {"bytes": 115928,
+                  "sha256": "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"}}
+          for name, identity in data_pins.items():
+              item = Path(name)
+              data = item.read_bytes()
+              assert not item.is_symlink() and len(data) == identity["bytes"] and hashlib.sha256(data).hexdigest() == identity["sha256"], name
+          work = Path(os.environ["RUNNER_TEMP"])
+          (work / "source-receipt.json").write_bytes(canonical({
+              "schema": "d972.r07.fixed-root-packet-loop.v2.source-receipt",
+              "files": receipts, "data": data_pins, "verified": False, "cross_checked": False}))
+          PY
+
+      - name: Resolve exact parent roots without copying parent files
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"]).resolve()
+          def find(base_name, required):
+              base = work / base_name
+              matches = []
+              for root in [base, *sorted(p for p in base.rglob("*") if p.is_dir())]:
+                  if root.is_symlink() or (base != root and base not in root.resolve().parents):
+                      raise SystemExit("unsafe parent root")
+                  if all((root / name).is_file() for name in required):
+                      for name in required:
+                          cursor = root
+                          for part in Path(name).parts:
+                              cursor = cursor / part
+                              assert not cursor.is_symlink()
+                      matches.append(root.resolve())
+              assert len(matches) == 1, (base_name, matches)
+              return str(matches[0])
+          paths = {
+              "SEED34_ROOT": find("rank1356-seed34", ["output/manifest.json", "checker-result.json", "source-receipt.json"]),
+              "DELTA_ROOT": find("rank1355-delta", ["output/manifest.json", "checker-result.json", "source-receipt.json"]),
+              "PREPARE_ROOT": find("task554-prepare", ["prepare.HEAD"]),
+              "P1_ROOT": find("p1", ["manifest.json", "instructions.jsonl", "degree2.cache.bin"]),
+              "TASK712_ROOT": find("task712", ["r07-grade2-maps-v4-receipt.json", "r07-grade2-maps-v4-checker.json"]),
+              "STATE_ROOT": find("separator", ["state/manifest.json", "state/physical.bin"])}
+          for index in range(4):
+              paths["BLOCK_" + str(index) + "_ROOT"] = find("task554-block-" + str(index), ["block-" + str(index) + ".HEAD"])
+          with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+              for key, value in paths.items():
+                  assert "\n" not in value and "\r" not in value
+                  stream.write(key + "=" + value + "\n")
+          (work / "parent-paths.json").write_text(json.dumps(paths, sort_keys=True) + "\n", encoding="ascii")
+          PY
+
+      - name: Check actual pinned mixed-generation parent metadata on both paths
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/d972_r07_fixed_root_packet_loop_v2.py \
+            --parent-layout-selftest --state-root "$STATE_ROOT" \
+            --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT" \
+            > "$RUNNER_TEMP/producer-parent-layout.json" 2> "$RUNNER_TEMP/producer-parent-layout.log"
+          python -B -u search/check_d972_r07_fixed_root_packet_loop_v2.py \
+            --parent-layout-selftest --state-root "$STATE_ROOT" \
+            --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT" \
+            > "$RUNNER_TEMP/checker-parent-layout.json" 2> "$RUNNER_TEMP/checker-parent-layout.log"
+          for side in producer checker; do
+            jq -e '.status == "PASS" and .metadata_only == true and .verified == false and .cross_checked == false and
+              .parent_layout.deltas[0].target_derivation_flag_present == false and
+              .parent_layout.deltas[0].target_derivation_flag_value == null and
+              .parent_layout.deltas[1].target_derivation_flag_present == true and
+              .parent_layout.deltas[1].target_derivation_flag_value == true and
+              (.rejected_cases|length) >= 5' "$RUNNER_TEMP/$side-parent-layout.json" > /dev/null
+          done
+          diff <(jq -S '.parent_layout' "$RUNNER_TEMP/producer-parent-layout.json") \
+               <(jq -S '.parent_layout' "$RUNNER_TEMP/checker-parent-layout.json")
+
+      - name: Run only the few changed-interface canaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/d972_r07_fixed_root_packet_loop_v2.py --selftest \
+            > "$RUNNER_TEMP/producer-selftest.json" 2> "$RUNNER_TEMP/producer-selftest.log"
+          python -B -u search/check_d972_r07_fixed_root_packet_loop_v2.py --selftest \
+            > "$RUNNER_TEMP/checker-selftest.json" 2> "$RUNNER_TEMP/checker-selftest.log"
+          jq -e '.status == "PASS"' "$RUNNER_TEMP/producer-selftest.json" > /dev/null
+          jq -e '.status == "PASS"' "$RUNNER_TEMP/checker-selftest.json" > /dev/null
+
+      - name: Build fixed44 packet and commit at most the first whole new step
+        timeout-minutes: ${{ fromJSON(env.PRODUCER_CAP_MINUTES) }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/d972_r07_fixed_root_packet_loop_v2.py \
+            --seed34-root "$SEED34_ROOT" \
+            --delta-root "$DELTA_ROOT" \
+            --prepare-root "$PREPARE_ROOT" \
+            --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT" \
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" \
+            --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT" \
+            --state-root "$STATE_ROOT" \
+            --output-root "$RUNNER_TEMP/output" \
+            --max-appends 1 --max-seconds 1800 \
+            2> >(tee "$RUNNER_TEMP/producer-first.log" >&2) | tee "$RUNNER_TEMP/producer-first-result.json"
+          jq -e '.status == "PASS" and .verified == false and .cross_checked == false' "$RUNNER_TEMP/producer-first-result.json" > /dev/null
+          python -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          root = work / "output"
+          head = json.loads((root / "HEAD").read_bytes())
+          files = ["owner.json", "start.json", "packet/manifest.json"]
+          for step in range(1, head["completed_steps"] + 1):
+              files += [str(p.relative_to(root)) for p in sorted((root / "steps" / f"{step:06d}").iterdir())]
+          receipt = {"completed_steps": head["completed_steps"], "head": head,
+              "files": [{"file": name, "sha256": hashlib.sha256((root / name).read_bytes()).hexdigest()}
+                        for name in files]}
+          (work / "resume-before.json").write_text(json.dumps(receipt, sort_keys=True) + "\n", encoding="ascii")
+          PY
+
+      - name: Actually resume the same owner and preserved prefix
+        timeout-minutes: ${{ fromJSON(env.PRODUCER_CAP_MINUTES) }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/d972_r07_fixed_root_packet_loop_v2.py \
+            --seed34-root "$SEED34_ROOT" --delta-root "$DELTA_ROOT" \
+            --prepare-root "$PREPARE_ROOT" \
+            --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT" \
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" \
+            --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT" \
+            --state-root "$STATE_ROOT" --output-root "$RUNNER_TEMP/output" \
+            --resume --max-appends 176 --max-seconds 1800 \
+            2> >(tee "$RUNNER_TEMP/producer-resume.log" >&2) | tee "$RUNNER_TEMP/producer-result.json"
+          jq -e '.status == "PASS" and .verified == false and .cross_checked == false' "$RUNNER_TEMP/producer-result.json" > /dev/null
+          python -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          work = Path(os.environ["RUNNER_TEMP"])
+          root = work / "output"
+          before = json.loads((work / "resume-before.json").read_bytes())
+          after = json.loads((root / "HEAD").read_bytes())
+          assert before["completed_steps"] <= after["completed_steps"] <= 176
+          for key in ("owner_sha256", "start_sha256", "packet_manifest_sha256", "producer_sha256"):
+              assert before["head"][key] == after[key], key
+          for item in before["files"]:
+              assert hashlib.sha256((root / item["file"]).read_bytes()).hexdigest() == item["sha256"], item["file"]
+          (work / "resume-after.json").write_text(json.dumps({
+              "status": "PASS", "actual_second_invocation": True, "completed_prefix_unchanged": True,
+              "steps_before": before["completed_steps"], "steps_after": after["completed_steps"],
+              "head": after, "cross_checked": False, "verified": False}, sort_keys=True) + "\n", encoding="ascii")
+          PY
+
+      - name: Independently rebuild the packet and replay the whole completed prefix
+        timeout-minutes: ${{ fromJSON(env.CHECKER_CAP_MINUTES) }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B -u search/check_d972_r07_fixed_root_packet_loop_v2.py \
+            --seed34-root "$SEED34_ROOT" \
+            --delta-root "$DELTA_ROOT" \
+            --prepare-root "$PREPARE_ROOT" \
+            --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT" \
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" \
+            --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT" \
+            --state-root "$STATE_ROOT" \
+            --candidate-root "$RUNNER_TEMP/output" \
+            --max-seconds 1800 \
+            2> >(tee "$RUNNER_TEMP/checker.log" >&2) | tee "$RUNNER_TEMP/checker-result.json"
+          jq -e '.status == "PASS" and .verified == false and .cross_checked == false' "$RUNNER_TEMP/checker-result.json" > /dev/null
+
+      - name: Upload fixed packet and complete prefix after checker PASS
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-fixed-root-packet-loop-v2-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 90
+          path: |
+            ${{ runner.temp }}/output
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/source-receipt.json
+            ${{ runner.temp }}/producer-parent-layout.json
+            ${{ runner.temp }}/checker-parent-layout.json
+            ${{ runner.temp }}/resume-before.json
+            ${{ runner.temp }}/resume-after.json
+
+      - name: Upload diagnostic receipts and bounded outputs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-fixed-root-packet-loop-v2-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: warn
+          retention-days: 90
+          path: |
+            ${{ runner.temp }}/*-run.json
+            ${{ runner.temp }}/artifact-*.json
+            ${{ runner.temp }}/source-receipt.json
+            ${{ runner.temp }}/parent-paths.json
+            ${{ runner.temp }}/producer-parent-layout.json
+            ${{ runner.temp }}/checker-parent-layout.json
+            ${{ runner.temp }}/producer-parent-layout.log
+            ${{ runner.temp }}/checker-parent-layout.log
+            ${{ runner.temp }}/*-selftest.json
+            ${{ runner.temp }}/*-selftest.log
+            ${{ runner.temp }}/producer-result.json
+            ${{ runner.temp }}/producer-first-result.json
+            ${{ runner.temp }}/checker-result.json
+            ${{ runner.temp }}/producer-first.log
+            ${{ runner.temp }}/producer-resume.log
+            ${{ runner.temp }}/checker.log
+            ${{ runner.temp }}/resume-before.json
+            ${{ runner.temp }}/resume-after.json
+            ${{ runner.temp }}/output

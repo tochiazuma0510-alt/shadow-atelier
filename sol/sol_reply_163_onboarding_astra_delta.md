@@ -281,6 +281,68 @@ GHAのAST・小canary後、producer cap1→同ownerの実`--resume` cap176→che
 明示した。必要なcanaryをworkflow内で先行する一回の本走をrootから投入する。
 工房CV-9は本走後の別格付けであり、この静的PASSに含めない。
 
-CAMPAIGN_STATUS: STATIC_RELEASE_PASS_FIXED44_PACKET; CURRENT_RANK=1356; GENERATION=8061; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; NEW_RUN=READY_TO_LAUNCH; VERIFIED=false
+### F8.1 — 本走を開始
+
+- source/launch commit: `25501f62c326290bafd223fe3b7a1d7b0ba51f0c`。
+  rootが関係12ファイルだけをcommitし、作業branchへ一回pushした。
+- run: **33963515077/1**、job **101299441533**、eventはmarker付きpush。
+  run作成`2026-09-05T11:30:35Z`、job開始`11:30:38Z`。
+  workflowは`.github/workflows/d972-r07-fixed-root-packet-loop-v1.yml`。
+- `11:31:09Z`のread-only確認でin_progress。親live pinの照合はsuccess、
+  P1等の取得中。AST/canary/本算術はこの時点では未了。
+- 新workflowがdefault branchにないため、`gh run list --workflow <path>`は404。
+  pushは成功し、commit指定のREST run一覧で上記一件の起動を確認した。
+  再dispatchはしていない。
+
+### F8.2 — 初回停止と実親形式に基づくv2修理
+
+run **33963515077/1** は **failure** (job終了11:31:55Z)。source/data pinとAST、
+実親の取得・root所在確認、producer3/checker4件の小canaryはsuccess。
+本走は11:31:33Z〜11:31:54Z、producer実測19.99秒で`REJECTED`となった。
+Task904の8059 instruction metadataと現lambdaの全1356行内積までは通過したが、
+`owner_and_tables`で`KeyError('target_derivation_accepted_as_premise')`。
+packet作成と新行追加には到達せず、resume/checker本走はskipされた。
+
+工房の裁定2123 expressと、TEMPにある実seed30/seed34 resultをrootも突合した。
+欠けているのは**seed30 v1**のrho2欄であり、**seed34 v3にはtrueがある**。
+異なる世代の全親に新しい欄を要求した実装不整合で、静的PASS949とsynthetic
+canaryはこの実レイアウト差を捕捉していなかった。数学的反例やrank変化ではない。
+
+diagnostics artifact **9968702711**、18902 bytes、ZIP SHA256
+`265a61aa1109c87622121300fe19c4a6330d4619d0d62974de48f8839c06076b`。
+rootが`gh run download 33963515077`でTEMPへ取得し、実停止logを読んだ。
+
+Task950/951/952でv2 producer、独立checker/workflow、実親形式の差分監査を
+開始した。既走v1は凍結のまま。旧世代はその固定result/target/payloadの同一性と
+明示DERIVED連鎖でのみ受け入れ、v3の欄欠落/falseやrho2 identity不一致を拒否する。
+`get(key, True)`で穴を埋めない。実際の固定親JSONを使うmetadata-only canaryを
+GHA本走の前に追加する。原rho2の直接実測や古いtarget再solveには格上げしない。
+
+### F8.3 — v2差分を凍結、再投入へ
+
+Task950/951が実装を凍結し、独立Task952の差分監査でblocking defectなし。
+rootも両側のv1→v2 diff、実seed34 parent-stateの各参照、依存API、workflow
+差分と実byte/SHAを点検した。packetの算術・物理行追加・target更新・耐久resume
+の関数本体は前版と同一で、旧v1三ファイルも元のSHAを保持している。
+
+| v2凍結ファイル | bytes | SHA256 |
+|---|---:|---|
+| search/d972_r07_fixed_root_packet_loop_v2.py | 84173 | e040c7b3cf5f96fe33c0e36a00ba8dd887784e0f5a1e6fa036d407c0ceba65e6 |
+| search/check_d972_r07_fixed_root_packet_loop_v2.py | 66251 | 5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5 |
+| .github/workflows/d972-r07-fixed-root-packet-loop-v2.yml | 27963 | 329429a3e8bda8461db4bc872f9c3aa614f5f346d20a398fb3480e8c8fd4e711 |
+
+実親metadata CLIは各著者の本番validatorを使い、base/seed30/seed34の固定
+JSONと保存delta payloadを読み、legacy欄不在/v3 trueの事実を明示する。
+v3 false、v3欠落、rho2 identity、未登録schema、base manifestの改変を各側5件
+拒否する。GHAで両側の封付き`parent_layout`一致を要求してから、既存canary、
+cap1本走→同owner実resume cap176→全packet/新prefix独立replayの順に進む。
+この段階は静的release PASSであり、CLI実行PASSも新rankもまだ宣言しない。
+
+Task953は走行中に行う次oracleのread-only intakeとして事前登録した。
+固定root全零をgrade2負判定にせず、現lambdaのfull-origin/dual閉包経路と
+v548のkappa/source cochain/tree経路の実adapterを比較する。走行中のv2の範囲を
+広げるものではない。v543/v547は今回追加で全文を読んだ。
+
+CAMPAIGN_STATUS: FIXED44_PACKET_V2_STATIC_PASS_RELEASING; LAST_RUN=33963515077/1_FAILURE; LAST_COMMIT=25501f62c326290bafd223fe3b7a1d7b0ba51f0c; CURRENT_RANK=1356; GENERATION=8061; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

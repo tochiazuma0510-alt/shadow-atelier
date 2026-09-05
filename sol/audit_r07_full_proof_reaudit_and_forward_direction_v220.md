@@ -22100,3 +22100,71 @@ single transport repair required before continuation; it does not count the
 - **UNCHANGED**: rank1356/generation8061、J4 grade2 NOT_DECIDED、A0 **0/1 actual**、
   当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
   full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 539 (2026-09-05): fixed44 packet loopをGHAで実発火
+
+**個別進捗**:
+
+- source/launch commit `25501f62c326290bafd223fe3b7a1d7b0ba51f0c`、rootの
+  一回のmarker pushからrun **33963515077/1**を起動。job **101299441533**。
+  作成11:30:35Z、job開始11:30:38Z。静的監査済み12ファイルを凍結した。
+- 11:31:09Zにはin_progress、親live pin照合success、親payload取得中。
+  実際のAST/canaryと数値producer/checkerの結果はまだ出ていない。
+  new workflowのdefault-branch一覧404はRESTのcommit指定で解決し、重複発火なし。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新規actual数学gateは0。
+- **ADVANCED**: J2/J3のfixed44 loopは実装準備から **RUNNING** へ進んだ。
+  1回追加後の同owner resumeと全新prefixの独立照合を同じrunで予定する。
+- **UNCHANGED**: 実測rank1356/generation8061、J4 grade2 NOT_DECIDED、A0 **0/1**、
+  当該段grade **1/6**。A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 540 (2026-09-05): packet初回runの親形式不整合とv2修理
+
+**個別進捗**:
+
+- run **33963515077/1** / commit `25501f62c326290bafd223fe3b7a1d7b0ba51f0c`
+  はfailure、job終了11:31:55Z。親live pin・source/data pin・AST・7件のsynthetic
+  canaryはsuccess。本走19.99秒でseed30旧世代に存在しないrho2 premise欄を
+  読みKeyError。実seed34 v3にはtrueがある(工房2123、root実JSON突合一致)。
+- 全1356行の初期lambda内積後、packet構成前の停止で、新しい行・rank増加は0。
+  実resumeと独立checker本走は未実施。静的PASS949はこの実入力差を見逃した。
+  diagnostics **9968702711** / 18902 bytes / SHA256
+  `265a61aa1109c87622121300fe19c4a6330d4619d0d62974de48f8839c06076b`。
+- Task950/951でv1を保存してv2へ修理、Task952で実親形式の差分監査を開始。
+  世代別の厳格な受入とDERIVEDの親同一性を保ち、実固定JSONを使う小さな
+  metadata canaryを本走前に追加する。欠落欄を無条件trueで補完しない。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新規actual数学gateは0。
+- **ADVANCED**: J2/J3の初回実走から具体的な親形式の不整合を特定し、修理中。
+  v2の差分監査・GHA実走・resume/checker・工房CV-9が残る。
+- **UNCHANGED**: rank1356/generation8061、J4 grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
+
+### Delta 541 (2026-09-05): 実親形式のv2修理を静的PASS、再投入へ
+
+**個別進捗**:
+
+- Task950/951がv2を凍結。producer84173/e040c7b3cf5f96fe、checker66251/
+  5289253a82d942d7、workflow27963/329429a3e8bda846。完全SHAは返書163 F8.3。
+  独立Task952は修理差分にblocking defectなし。rootも実親参照、依存API、
+  workflow配線と新旧の実byte/SHAを点検し、静的release PASSとした。
+- 旧v1三ファイルとpacket算術/追加/target/resumeの関数本体は保持。
+  各側の本番validatorで実親metadataを扱う事前チェックと改変拒否5件ずつを
+  GHAへ追加した。封付きparent_layout一致後に既存の本走順序を実行する。
+- Task953で次oracleのread-only intakeを登録。固定root全零後のfull-origin/
+  dual閉包とv548の実source cochain経路を比較し、現runの範囲は維持する。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新規actual数学gateは0。親形式の修理・静的差分監査が終了。
+- **ADVANCED**: J2/J3はv2のGHA再投入段階。実親canary、本走、resume/checker、
+  工房CV-9が残る。旧成功runの再走やローカルの数値計算は追加していない。
+- **UNCHANGED**: rank1356/generation8061、J4 grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5。
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、`verified=false`。
