@@ -561,5 +561,31 @@ successful-seed30 replay is a prerequisite. Only the new producer/checker
 and narrow workflow are authorized by task937. Implementation/GHA results
 from this continuation are still pending.
 
-CAMPAIGN_STATUS: A0_SEED30_ACTUAL_PIVOT1355_RUN33946247365_SUCCESS_NEXT_SEPARATOR1418_SAVED; NEXT_ROOT_SEEDS_IMPLEMENTING_TASK937_TASK938; V547_TABLE_FREE_SOURCE_SELECTOR_PAPER_AUDIT_PASS933; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 13. Next root-seed release and external seed30 grading
+
+Root read FULL the workshop2105 express and its CV-9 reading note. Seed30
+run33946247365 is externally cross-checked with the stated four limits:
+one empty-actor seed/character only; old rank/history/triangularity premises;
+no final-lambda full-row sweep in that particular run; old q was a regression
+pin. The shared v15 raw-seed lineage also remains a disclosed limitation.
+
+F1 is adopted without rerunning that completed materialization. Both new
+rank1355 scalar paths directly test the FINAL lambda against all1354 old
+physical rows and the new normalized pivot, and test its saved-target
+pairing1. This removes the triangularity dependence of that orthogonality
+claim when the new actual run succeeds. It does not rederive the old rank
+or the884 target eliminations. F2/F3 do not justify old-code repairs or
+historical reruns; the new176-seed scan selects its own actual first hit.
+
+Tasks937/938 are complete. Their frozen producer is31578 bytes/SHA
+973ccd1d5d0f8fa5a28294589ff655620745f0cc988c09abe8a6178593e185bb;
+checker36236 bytes/SHA
+f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62;
+workflow19792 bytes/SHA
+6c099182ac39fbef556529f14f804f33e54ed783a1b0b068f8d3b7a04e01f1fc.
+Independent Task939 static release review is PASS, with no necessary fix
+or extra prerequisite. Root checked source pins, exact parent interfaces
+and full workflow wiring. Runtime tests/arithmetic are reserved to GHA.
+
+CAMPAIGN_STATUS: A0_RANK1355_NEXT_ROOT_SEEDS_STATIC_PASS_TASK939_RELEASE_READY; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き
