@@ -1,0 +1,50 @@
+# Sol 便 163(新セッション着任便・Astra 世代 2 号 — 便 162 の差分オンボーディング)
+発: 司令塔 / 2026-09-05 夕 / 固定点 = 本便配達時の HEAD(push 済)
+返信先: `sol/sol_reply_163_onboarding_astra_delta.md`(最終行に `AUDIT_163_VERDICT:` を必記。campaign 再開後は `CAMPAIGN_STATUS:` marker)
+
+**あなたは新しい Sol セッション(モデル = Astra)です。** 前任 Astra セッション(session 01a02901・返書 162〜943・transcript 625 MB)が 2026-09-05 18:14 JST 以降応答停止したため、研究者判断でローテーション。前任の成果物は全て repo に凍結済み(最後の commit を `git log -5 -- sol/` で確認)。職務は不変 = 常設の数学監査官 兼 共同設計者(設計〜実装は Sol×Luna 側・工房 = 検収+GHA 計測+CV-9 格付け+裁定)。
+
+## 0. 読了順(番号順・飛ばさない)
+1. **`ops/inbox_codex/sol_task_162_onboarding_astra.txt` 全文**(読了順・stale 前件 pin ①〜⑥・work order の骨格は本便でも有効)。ただし §1 の未回答 express は前任が返書 162 で回答済 = **再回答不要**。
+2. **前任の返書 162** `sol/sol_reply_162_onboarding_astra.md`(あなたの前提 = §0 の前提訂正 2 件・§2 の note 条件付き受理・§3 の経路比較・§5 の baseline)。
+3. `docs/状態.md` の「504 商(PSL(2,8))」で始まる行の**末尾(裁定 2083〜2117)** = 前任 Astra 世代の全進行。
+4. `docs/地図.md` の「★【9/4 delta】」節(9/5 更新分を含む・現在地)。
+5. 前任の最終業績: `sol/sol_reply_939_*.md`(rank1355 root seeds PASS)・`sol_reply_942_*.md`(v548 PASS)・`sol_reply_943_*.md`(seed34 materializer v3 PASS)・進行中 = `sol/luna_task_944_r07_lambda_free_root_packet_intake.md`+`luna_reply_944_*.md`・`luna_task_945_r07_fixed_root_packet_loop.md`(**未完・前任停止時点**)。
+6. 工房 CV-9 判読正本(Astra 世代分): `docs/notes/rsb_v2_cv9_reading_v1.md`(2096)・`seed30_mat_v1_cv9_reading_v1.md`(2105)・`r1355_rss_v1_cv9_reading_v1.md`(2110)・`seed34_mat_v3_cv9_reading_v1.md`(2117)— 各 express `ops/express/20260905_fable_sol_*_cv9_grade.md` に要修正リスト。
+
+## 1. 現在地(CEGAR 塔登り・rung 2016 → 54432 の precision-two)
+| 周回 | run | 結果 | 工房格 |
+|---|---|---|---|
+| J3 修正版 root scalar batch v2(v541) | 33941591417 | 最初の違反 = char 0・seed 30・scalar 1(seed 2 = 0) | cross-checked 限定 4 条(2096) |
+| 1: seed 30 materialize v1 | 33946247365 | rank 1354 → 1355・Separator | cross-checked 限定 4 条(2105) |
+| 2: rank1355 root seed scalars v1 | 33954712636 | 最初の違反 = seed 34・scalar 1(非零 34/35/36) | cross-checked 限定 3 条(2110・F1 閉鎖) |
+| 3: seed 34 materialize v3 | 33956437467 | **rank 1355 → 1356・Separator** | cross-checked 限定 4 条(2117) |
+GRADE2 = NOT_DECIDED。全 artifact は Release `archive-gha-checkpoints` にミラー済(id は状態.md の各裁定行)。
+
+## 2. 未処理(前任から引き継ぐもの)
+- **M3-1(裁定 2117・重要)**: materializer v3 は ρ₂ を stage せず λ·ρ₂ = 1 が親前提へ後退。ρ₂ v17(artifact 9925190479・Release ミラー済)を stage して実測に戻すか、cert を derived と明示。
+- 2110 R1-1(「176 scalar/4 character 走査」を成果幅として引用しない)・R1-2(actual_pin フラグ分割)・2096 の w_t 独立錨。
+- **Luna 944/945(λ-free root packet intake / fixed root packet loop)**: 前任が設計中だった「周回ごとの λ 依存を外す packet loop」。設計意図を 944/945 から復元し、継続するか差し戻すかを判断(A3 参照)。
+- 工房 note **v2.3**(`scratchpad/a0_cofinal_lift_theorem_v2_3.md`・sha16 8c50ca09cc7b3fdf・express `ops/express/20260905_fable_sol_a0_note_v2_3_delivery.md`)の一読と Q6〜Q8 への一行回答(急がない)。
+
+## 3. 監査依頼(A1〜A3)
+- **A1**: 便 162 §0 の stale 前件 pin と前任 162 の前提訂正 2 件を自分の言葉で復唱(引継ぎ確認)。
+- **A2**: 4 周回目の設計 = rank 1356 で root seed scalars(前任と同型)か、Luna 944/945 の packet loop へ切替か。**反復回数の見積り**(rank の上限・非零 seed の減り方: 1 周回目 30/35/36 → 2 周回目 34/35/36)と、dual orbit 504 行 sweep / v542・v543 紙経路への切替条件を一節で。
+- **A3**: 前任の最終状態(939〜945)の引継ぎに欠落がないか列挙。
+
+## 4. 規律(不変)
+捏造・過大格付けなし。cross-checked は工房裁定(CV-9 経由)・「三系統一致」は算術三系統のみ。fixture は実 artifact に pin。GHA は marker/`--ref` dispatch・本走 success ごとに工房が増分 CV-9(規約表 diff 毎回)。報告の値は機械生成のみ。`verified=false`。
+
+## 5. digest 表(機械生成・preflight 時に付加)
+| path | bytes | sha256[:16] |
+|---|---:|---|
+| ops/inbox_codex/sol_task_162_onboarding_astra.txt | 8084 | 9432e98aff6aa9e9 |
+| sol/sol_reply_162_onboarding_astra.md | 43411 | 7cf6d0416b6fccad |
+| docs/状態.md | 99268 | 9dd936b28150d97b |
+| docs/地図.md | 104513 | 6d2c9dccf94996cc |
+| sol/sol_reply_943_audit_r07_selected_seed_materializer.md | 4281 | e57caf5f050bc548 |
+| sol/luna_task_945_r07_fixed_root_packet_loop.md | 5078 | 71abf61cbeb78101 |
+| docs/notes/seed34_mat_v3_cv9_reading_v1.md | 26563 | 008d23b30d7f1df6 |
+| scratchpad/a0_cofinal_lift_theorem_v2_3.md | 93163 | 8c50ca09cc7b3fdf |
+
+(CLAIMS/状態 は追記型 — 配達後に伸びていたらプレフィックス一致で読むこと。)
