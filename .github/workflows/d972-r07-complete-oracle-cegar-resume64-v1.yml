@@ -1,0 +1,1224 @@
+name: d972-r07-complete-oracle-cegar-resume64-v1
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  DELTA_RUN: "33946247365"
+  DELTA_ATTEMPT: "1"
+  DELTA_HEAD: "7f6dfaddf4150449e62a9b3e85def472fcb41c01"
+  DELTA_WORKFLOW: ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml"
+  DELTA_ARTIFACT_ID: "9963533999"
+  DELTA_ARTIFACT_NAME: "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1"
+  DELTA_ARCHIVE_BYTES: "915410"
+  DELTA_ARCHIVE_DIGEST: "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6"
+  SEED34_RUN: "33956437467"
+  SEED34_ATTEMPT: "1"
+  SEED34_HEAD: "b9ae78b0950b186463849c3ec874f6474f359851"
+  SEED34_WORKFLOW: ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml"
+  SEED34_ARTIFACT_ID: "9966542166"
+  SEED34_ARTIFACT_NAME: "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1"
+  SEED34_ARCHIVE_BYTES: "984053"
+  SEED34_ARCHIVE_DIGEST: "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc"
+  PACKET_RUN: "33964709359"
+  PACKET_ATTEMPT: "1"
+  PACKET_HEAD: "fff114c41bd8748ad0e708919fe0820335c9cce8"
+  PACKET_WORKFLOW: ".github/workflows/d972-r07-fixed-root-packet-loop-v2.yml"
+  PACKET_ARTIFACT_ID: "9969090590"
+  PACKET_ARTIFACT_NAME: "d972-r07-fixed-root-packet-loop-v2-candidate-33964709359-1"
+  PACKET_ARCHIVE_BYTES: "1855391"
+  PACKET_ARCHIVE_DIGEST: "sha256:b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428"
+  REFINEMENT_RUN: "33971897879"
+  REFINEMENT_ATTEMPT: "1"
+  REFINEMENT_HEAD: "64475e1dfab1537a38d1b3131971bfed5fc3071c"
+  REFINEMENT_WORKFLOW: ".github/workflows/d972-r07-full-origin-checker-completion-v1.yml"
+  REFINEMENT_ARTIFACT_ID: "9971466432"
+  REFINEMENT_ARTIFACT_NAME: "d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1"
+  REFINEMENT_ARCHIVE_BYTES: "51943596"
+  REFINEMENT_ARCHIVE_DIGEST: "sha256:0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8"
+  ORACLE_RUN: "33977701313"
+  ORACLE_ATTEMPT: "1"
+  ORACLE_HEAD: "bbce98d8f95a845f36fe89c0f507b9360792666f"
+  ORACLE_WORKFLOW: ".github/workflows/d972-r07-section-cochain-checker-completion-v1.yml"
+  ORACLE_ARTIFACT_ID: "9972829869"
+  ORACLE_ARTIFACT_NAME: "d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1"
+  ORACLE_ARCHIVE_BYTES: "2299772"
+  ORACLE_ARCHIVE_DIGEST: "sha256:1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d"
+  E_RUN: "33981657987"
+  E_ATTEMPT: "1"
+  E_HEAD: "444c71c9e554ae8feb9c8ee54df57d3df19ed66f"
+  E_WORKFLOW: ".github/workflows/d972-r07-selected-cycle-materializer-v1.yml"
+  E_ARTIFACT_ID: "9973974150"
+  E_ARTIFACT_NAME: "d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1"
+  E_ARCHIVE_BYTES: "2816692"
+  E_ARCHIVE_DIGEST: "sha256:884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25"
+  PRODUCER_SHA256: "67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c"
+  PRODUCER_BYTES: "126940"
+  ORIGINAL_RUN: "33984832010"
+  ORIGINAL_ATTEMPT: "1"
+  ORIGINAL_HEAD: "b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e"
+  ORIGINAL_WORKFLOW: ".github/workflows/d972-r07-complete-oracle-cegar-continuation-v1.yml"
+  ORIGINAL_ARTIFACT_ID: "9975236748"
+  ORIGINAL_ARTIFACT_NAME: "d972-r07-complete-oracle-cegar-continuation-v1-diagnostics-33984832010-1"
+  ORIGINAL_ARCHIVE_BYTES: "101830254"
+  ORIGINAL_ARCHIVE_DIGEST: "sha256:09ffef9d13e21e27fe9733bf997ec875a5795b5af56c7f4875e36725924d7a35"
+  ORIGINAL_CHECKER_BYTES: "120245"
+  ORIGINAL_CHECKER_SHA256: "8c000f9b49d04447a09c701daf5907a35b7f2e883f1e36747308a6d4ded29b1f"
+  # Root fills these only from the observed successful Task977 candidate and final source freeze.
+  # An empty value is a hard refusal, never a fallback to the failed original diagnostic.
+  COMPLETION_RUN: "33988391926"
+  COMPLETION_ATTEMPT: "1"
+  COMPLETION_HEAD: "22b628c0145d7d369a310179a64b88662f360b24"
+  COMPLETION_WORKFLOW: ".github/workflows/d972-r07-complete-oracle-cegar-checker-completion-v1.yml"
+  COMPLETION_ARTIFACT_ID: "9976060093"
+  COMPLETION_ARTIFACT_NAME: "d972-r07-complete-oracle-cegar-checker-completion-v1-candidate-33988391926-1"
+  COMPLETION_ARCHIVE_BYTES: "102582146"
+  COMPLETION_ARCHIVE_DIGEST: "sha256:9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1"
+  COMPLETION_ENTRY_PINS: >-
+    {"checker-result.json":{"bytes":176622,"sha256":"4ef33b2d174064e2542dd07d1c838b476b549606a8be0fb2ecc4b301b1382690"},"repair-source-receipt.json":{"bytes":4137,"sha256":"3f2c68a359c3b9200f88850432372abd78207c1cfacc39a8aeb371e184774be8"},"completion-run-receipt.json":{"bytes":5006,"sha256":"aaa5a9900d37f9d56e72419d7073da0bec291890e6ccf940109d01168e6e77f8"},"completion-intake-receipt.json":{"bytes":2218,"sha256":"f209153368adeb384ec94bcbd4d4f63d34c4dd175e6cc1ad50926116780f590b"},"preserved-input.json":{"bytes":811910,"sha256":"914405978f9ad745e822e7009963a3da06f079af1bc6a6ef301119a1fa9a11ff"},"preservation-result.json":{"bytes":389295,"sha256":"b1d465bd1af7174d1177ea9f78ee79c29d15bf1cb6f7c239b3efd6f802e53d98"},"all-parent-files-before.json":{"bytes":168585,"sha256":"e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"},"all-parent-files-after.json":{"bytes":168585,"sha256":"e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113"},"snapshot-isolation-selftest.json":{"bytes":727,"sha256":"ac5c37d865ee8f85dc13ddbb78878071b7d6d6abbec827827190ccedc83337c0"},"coverage-receipt.json":{"bytes":86586,"sha256":"e0ee8b681793567e422da95a6d73475ffc8e2c8b06e6d491938218336b6d7bad"}}
+  CHECKER_BYTES: "129557"
+  CHECKER_SHA256: "e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3"
+  EXPECTED_PYTHON: "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]"
+  EXPECTED_NUMPY: "2.5.1"
+  RESUME_CAP_MINUTES: "100"
+  CHECKER_CAP_MINUTES: "190"
+
+jobs:
+  saved-cegar-resume64:
+    if: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-complete-oracle-cegar-resume64-v1-run]') }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - name: Reject missing observed completion pins before admission
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/resume64"
+          required=(COMPLETION_RUN COMPLETION_ATTEMPT COMPLETION_HEAD COMPLETION_ARTIFACT_ID
+            COMPLETION_ARTIFACT_NAME COMPLETION_ARCHIVE_BYTES COMPLETION_ARCHIVE_DIGEST
+            CHECKER_BYTES CHECKER_SHA256)
+          missing=0
+          for key in "${required[@]}"; do
+            if [ -z "${!key}" ]; then
+              printf 'MISSING_OBSERVED_PIN:%s\n' "$key" >> "$RUNNER_TEMP/resume64/admission.log"
+              missing=1
+            fi
+          done
+          if [ "$COMPLETION_ENTRY_PINS" = "{}" ] || [ -z "$COMPLETION_ENTRY_PINS" ]; then
+            printf '%s\n' 'MISSING_OBSERVED_PIN:COMPLETION_ENTRY_PINS' >> "$RUNNER_TEMP/resume64/admission.log"
+            missing=1
+          fi
+          test "$missing" = 0
+          test "$COMPLETION_RUN" != "$ORIGINAL_RUN"
+          test "$COMPLETION_ARTIFACT_ID" != "$ORIGINAL_ARTIFACT_ID"
+
+      - name: Checkout the frozen producer and repaired checker
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up the exact producer Python release
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13.15"
+
+      - name: Install the exact NumPy release
+        shell: bash
+        run: python -m pip install --disable-pip-version-check --no-cache-dir "numpy==2.5.1"
+
+      - name: Authenticate and safely extract fifteen exact live parents
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import datetime, hashlib, json, os, re, shutil, stat, subprocess, zipfile
+          from pathlib import Path, PurePosixPath
+          work = Path(os.environ["RUNNER_TEMP"]).resolve()
+          report = work / "resume64"
+          metadata = report / "live-parents"
+          metadata.mkdir()
+          parent_base = work / "resume64-parents"
+          parent_base.mkdir()
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def sha(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          def env(key):
+              value = os.environ[key]
+              assert value and "\n" not in value and "\r" not in value, key
+              return value
+          repository = env("GITHUB_REPOSITORY")
+          assert repository == "tochiazuma0510-alt/shadow-atelier"
+          repository_id = int(env("REPOSITORY_ID"))
+          now = datetime.datetime.now(datetime.timezone.utc)
+          def api(path, destination):
+              with destination.open("wb") as stream:
+                  subprocess.run(["gh", "api", "repos/" + repository + "/" + path], stdout=stream, check=True)
+              return json.loads(destination.read_bytes())
+          specs = []
+          def add(role, run_prefix, artifact_prefix=None):
+              artifact_prefix = artifact_prefix or run_prefix
+              task554 = run_prefix == "TASK554"
+              suffix = "" if task554 else "_ARTIFACT"
+              specs.append({
+                  "role": role, "run": int(env(run_prefix + "_RUN")), "attempt": int(env(run_prefix + "_ATTEMPT")),
+                  "head": env(run_prefix + "_HEAD"), "workflow": env(run_prefix + "_WORKFLOW"),
+                  "id": int(env(artifact_prefix + suffix + "_ID")), "name": env(artifact_prefix + suffix + "_NAME"),
+                  "bytes": int(env(artifact_prefix + ("_BYTES" if task554 else "_ARCHIVE_BYTES"))),
+                  "sha256": env(artifact_prefix + ("_DIGEST" if task554 else "_ARCHIVE_DIGEST")),
+                  "repository_id": repository_id, "conclusion": "failure" if task554 else "success"})
+          for role, prefix in (("P1_ROOT", "P1"), ("TASK712_ROOT", "TASK712"), ("STATE_ROOT", "SEPARATOR"),
+                  ("DELTA_ROOT", "DELTA"), ("SEED34_ROOT", "SEED34"), ("PACKET_ROOT", "PACKET"),
+                  ("REFINEMENT_ROOT", "REFINEMENT"), ("ORACLE_ROOT", "ORACLE"), ("E_ROOT", "E")):
+              add(role, prefix)
+          add("PREPARE_ROOT", "TASK554", "TASK554_PREP")
+          for index in range(4):
+              add("BLOCK_" + str(index) + "_ROOT", "TASK554", "TASK554_B" + str(index))
+          add("COMPLETION_ROOT", "COMPLETION")
+          assert len(specs) == len({item["id"] for item in specs}) == 15
+          assert specs[-1]["run"] != int(env("ORIGINAL_RUN")) and specs[-1]["id"] != int(env("ORIGINAL_ARTIFACT_ID"))
+          wanted_entries = json.loads(env("COMPLETION_ENTRY_PINS"))
+          required_entries = {
+              "checker-result.json", "repair-source-receipt.json", "completion-run-receipt.json",
+              "completion-intake-receipt.json", "preserved-input.json", "preservation-result.json",
+              "all-parent-files-before.json", "all-parent-files-after.json", "snapshot-isolation-selftest.json", "coverage-receipt.json"}
+          assert set(wanted_entries) == required_entries, "exact observed completion entry roster required"
+          for name, identity in wanted_entries.items():
+              assert set(identity) == {"bytes", "sha256"} and type(identity["bytes"]) is int and identity["bytes"] > 0
+              assert re.fullmatch(r"[0-9a-f]{64}", identity["sha256"]), name
+          assert re.fullmatch(r"[0-9a-f]{64}", env("CHECKER_SHA256")) and int(env("CHECKER_BYTES")) > 0
+          def safe_extract(archive, destination):
+              destination.mkdir()
+              with zipfile.ZipFile(archive) as bundle:
+                  seen = set()
+                  for entry in bundle.infolist():
+                      raw_name = entry.filename
+                      path = PurePosixPath(raw_name)
+                      assert raw_name and "\\" not in raw_name and ":" not in raw_name and "\x00" not in raw_name
+                      assert not path.is_absolute() and ".." not in path.parts and "." not in path.parts
+                      name = path.as_posix()
+                      assert name not in seen and name not in ("", "."), raw_name
+                      assert raw_name == name + ("/" if entry.is_dir() else ""), raw_name
+                      seen.add(name)
+                      mode = (entry.external_attr >> 16) & 0xffff
+                      kind = stat.S_IFMT(mode)
+                      assert not stat.S_ISLNK(mode) and kind in (0, stat.S_IFDIR, stat.S_IFREG)
+                      assert (not entry.is_dir() or kind in (0, stat.S_IFDIR)) and not (kind == stat.S_IFDIR and not entry.is_dir())
+                      assert not entry.flag_bits & 1, "encrypted ZIP entry"
+                      target = destination.joinpath(*path.parts)
+                      assert destination.resolve() in target.resolve().parents
+                      if entry.is_dir():
+                          target.mkdir(parents=True, exist_ok=True)
+                      else:
+                          target.parent.mkdir(parents=True, exist_ok=True)
+                          assert not target.exists()
+                          with bundle.open(entry) as source, target.open("xb") as output:
+                              shutil.copyfileobj(source, output, 1024 * 1024)
+                          assert target.stat().st_size == entry.file_size, raw_name
+          runs, archives = {}, []
+          for spec in specs:
+              assert spec["bytes"] > 0 and spec["run"] > 0 and spec["attempt"] > 0 and spec["id"] > 0
+              assert re.fullmatch(r"[0-9a-f]{40}", spec["head"])
+              assert re.fullmatch(r"sha256:[0-9a-f]{64}", spec["sha256"])
+              if spec["run"] not in runs:
+                  run = api("actions/runs/" + str(spec["run"]), metadata / ("run-" + str(spec["run"]) + ".json"))
+                  runs[spec["run"]] = run
+              run = runs[spec["run"]]
+              assert run["id"] == spec["run"] and run["run_attempt"] == spec["attempt"] and run["head_sha"] == spec["head"]
+              assert run["status"] == "completed" and run["conclusion"] == spec["conclusion"] and run["path"] == spec["workflow"]
+              assert run["repository"]["id"] == run["head_repository"]["id"] == repository_id
+              artifact = api("actions/artifacts/" + str(spec["id"]), metadata / ("artifact-" + str(spec["id"]) + ".json"))
+              assert artifact["id"] == spec["id"] and artifact["name"] == spec["name"]
+              assert artifact["size_in_bytes"] == spec["bytes"] and artifact["digest"] == spec["sha256"] and artifact["expired"] is False
+              expiry = datetime.datetime.fromisoformat(artifact["expires_at"].replace("Z", "+00:00"))
+              assert expiry > now
+              link = artifact["workflow_run"]
+              assert link["id"] == spec["run"] and link["head_sha"] == spec["head"]
+              assert link["repository_id"] == link["head_repository_id"] == repository_id
+              archive = parent_base / (str(spec["id"]) + ".zip")
+              with archive.open("xb") as stream:
+                  subprocess.run(["gh", "api", "repos/" + repository + "/actions/artifacts/" + str(spec["id"]) + "/zip"],
+                      stdout=stream, check=True)
+              assert archive.stat().st_size == spec["bytes"] and "sha256:" + sha(archive) == spec["sha256"]
+              destination = report / "accepted-completion" if spec["role"] == "COMPLETION_ROOT" else parent_base / spec["role"]
+              safe_extract(archive, destination)
+              spec["expires_at"] = artifact["expires_at"]
+              spec["extraction_root"] = str(destination)
+              spec["archive_size_and_hash_checked"] = True
+              archives.append(spec)
+          (report / "live-parent-intake.json").write_bytes(canonical({
+              "schema": "d972.r07.complete-oracle-cegar-resume64.v1.live-parent-intake", "status": "PASS",
+              "parents": archives, "count": 15, "task554_accepted_failure": True,
+              "candidate": False, "cross_checked": False, "verified": False}))
+          PY
+
+      - name: Authenticate twenty sources and the exact saved producer runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import ast, hashlib, json, os
+          from pathlib import Path
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          expected = {
+              "search/d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["PRODUCER_BYTES"]), os.environ["PRODUCER_SHA256"]),
+              "search/check_d972_r07_complete_oracle_cegar_continuation_v1.py": (int(os.environ["ORIGINAL_CHECKER_BYTES"]), os.environ["ORIGINAL_CHECKER_SHA256"]),
+              "search/check_d972_r07_section_cochain_oracle_v2.py": (84402, "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"),
+              "search/d972_r07_selected_cycle_materializer_v1.py": (88929, "4f600aae93bf5749d15229cfdfe3e4546267f8b0a642ac46b65125a3c3164ac3"),
+              "search/check_d972_r07_selected_cycle_materializer_v1.py": (103757, "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"),
+              "search/d972_r07_section_cochain_oracle_v1.py": (73290, "4e7546eb1e8511b636527ffc0bc4c5eabf3c1bf60b32a5ae4f2a12fe975f44bb"),
+              "search/check_d972_r07_section_cochain_oracle_v1.py": (80740, "2db166400dd819805f36b613993d4622e8365f04339ca7aef0371a28de71c967"),
+              "search/d972_r07_full_origin_refinement_v1.py": (97806, "d7e32aad9a9667c6af54ed7514d0417e48b3e363c60652ab585ce4633f2aedfa"),
+              "search/check_d972_r07_full_origin_refinement_v1.py": (75083, "1ee388c9cd39a43992bc9a6e075b087da3ae1672221a197719ea435d7d3529c2"),
+              "search/d972_r07_fixed_root_packet_loop_v2.py": (84173, "e040c7b3cf5f96fe33c0e36a00ba8dd887784e0f5a1e6fa036d407c0ceba65e6"),
+              "search/check_d972_r07_fixed_root_packet_loop_v2.py": (66251, "5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5"),
+              "search/d972_r07_actual_root_seed_materializer_v3.py": (86643, "36cc620bdc1b772a4eb4067f7e5b490dab851fb41213c5cd8a5487855207a332"),
+              "search/check_d972_r07_actual_root_seed_materializer_v3.py": (64626, "eca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701"),
+              "search/d972_r07_rank1355_root_seed_scalars_v1.py": (31578, "973ccd1d5d0f8fa5a28294589ff655620745f0cc988c09abe8a6178593e185bb"),
+              "search/check_d972_r07_rank1355_root_seed_scalars_v1.py": (36236, "f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62"),
+              "search/d972_r07_actual_grade2_root_scalar_batch_v2.py": (118315, "3c93c50c43020472d616b5c253ea3c6fac6fa34d9d0e41b5a10686da30b7a856"),
+              "search/check_d972_r07_actual_grade2_root_scalar_batch_v2.py": (119619, "e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6"),
+              "search/d972_r07_targeted_grade2_owner_generated_join_v15.py": (126565, "76546bef263ad260f24632c0da46cfb913ee48759e0533d591c507d072037632"),
+              "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py": (141770, "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"),
+          }
+          receipts = []
+          for name, (size, wanted) in expected.items():
+              assert not Path(name).is_symlink(), name
+              data = Path(name).read_bytes()
+              assert len(data) == size and hashlib.sha256(data).hexdigest() == wanted, name
+              assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n"), name
+              ast.parse(data, filename=name)
+              receipts.append({"file": name, "bytes": size, "sha256": wanted, "lf": data.count(b"\n")})
+          data_pins = {
+              "scratchpad/fuda1_a0_rmax_data.g": {"bytes": 4709,
+                  "sha256": "625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba"},
+              "scratchpad/a0_paper_words_v1.json": {"bytes": 115928,
+                  "sha256": "90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893"},
+              "scratchpad/a0_v2_words.json": {"bytes": 106133,
+                  "sha256": "fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612"}}
+          for name, identity in data_pins.items():
+              item = Path(name)
+              data = item.read_bytes()
+              assert not item.is_symlink() and len(data) == identity["bytes"] and hashlib.sha256(data).hexdigest() == identity["sha256"], name
+          roster = json.loads(Path("scratchpad/a0_v2_words.json").read_bytes())["raw_q0_relators"]
+          assert len(roster) == 19 and hashlib.sha256(json.dumps(roster, sort_keys=True, separators=(",", ":")).encode("ascii")).hexdigest() == "dcb8ce42c8324b0ce2a5018007f3d664da5568ee73182758a9f358deba84bc2a"
+          work = Path(os.environ["RUNNER_TEMP"]) / "resume64"
+          (work / "source-receipt.json").write_bytes(canonical({
+              "schema": "d972.r07.complete-oracle-cegar-continuation.v1.source-receipt",
+              "files": receipts, "data": data_pins, "verified": False, "cross_checked": False}))
+          assert len(receipts) == 19 and len(data_pins) == 3
+          source = work / "source-receipt.json"
+          assert len(source.read_bytes()) == 3643 and hashlib.sha256(source.read_bytes()).hexdigest() == "3a50dd12025079a6089d15aac79573899e49692b61a53879adb9b0572342de6b"
+          name = "search/check_d972_r07_complete_oracle_cegar_continuation_v2.py"
+          data = Path(name).read_bytes()
+          assert not Path(name).is_symlink() and len(data) == int(os.environ["CHECKER_BYTES"])
+          assert hashlib.sha256(data).hexdigest() == os.environ["CHECKER_SHA256"]
+          assert b"\r" not in data and not data.startswith(b"\xef\xbb\xbf") and data.endswith(b"\n")
+          ast.parse(data, filename=name)
+          receipts.append({"file": name, "bytes": len(data), "sha256": hashlib.sha256(data).hexdigest(), "lf": data.count(b"\n")})
+          import shutil, sys, numpy as np
+          assert sys.version == os.environ["EXPECTED_PYTHON"] and np.__version__ == os.environ["EXPECTED_NUMPY"]
+          sources = work / "executed-sources"
+          sources.mkdir()
+          for item in receipts:
+              shutil.copyfile(item["file"], sources / Path(item["file"]).name)
+          workflow = Path(".github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml")
+          shutil.copyfile(workflow, sources / workflow.name)
+          original_workflow = Path(os.environ["ORIGINAL_WORKFLOW"])
+          original_raw = original_workflow.read_bytes()
+          assert len(original_raw) == 61275 and hashlib.sha256(original_raw).hexdigest() == "9f751fe1ea21d16b7758f9832d2dd091b73f0796128ceea505c8975031c096c1"
+          shutil.copyfile(original_workflow, sources / original_workflow.name)
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.source-receipt",
+              "files": receipts, "data": data_pins, "source_executables": 20, "raw_inputs": 3,
+              "original_source_receipt_sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+              "producer_sha256": os.environ["PRODUCER_SHA256"], "original_checker_sha256": os.environ["ORIGINAL_CHECKER_SHA256"],
+              "checker_sha256": os.environ["CHECKER_SHA256"], "python": sys.version, "numpy": np.__version__,
+              "launch": {"run": int(os.environ["GITHUB_RUN_ID"]), "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+                  "head": os.environ["GITHUB_SHA"], "workflow": str(workflow)},
+              "workflow": {"file": str(workflow), "bytes": workflow.stat().st_size, "sha256": hashlib.sha256(workflow.read_bytes()).hexdigest()},
+              "candidate": False, "cross_checked": False, "verified": False}
+          (work / "resume-source-receipt.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Resolve immutable parent payloads and authenticate the successful completion
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, re, stat, sys
+          from pathlib import Path
+          import numpy as np
+          work = Path(os.environ["RUNNER_TEMP"]).resolve()
+          report = work / "resume64"
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          def read(path):
+              return json.loads(path.read_bytes())
+          def scan(root):
+              assert root.is_dir() and not root.is_symlink()
+              files, directories = [], []
+              for item in sorted(root.rglob("*")):
+                  assert not item.is_symlink(), str(item)
+                  name = item.relative_to(root).as_posix()
+                  if item.is_dir():
+                      directories.append(name)
+                  else:
+                      assert item.is_file() and stat.S_ISREG(item.stat().st_mode), name
+                      files.append({"file": name, "bytes": item.stat().st_size, "sha256": digest(item)})
+              return files, directories
+          specs = read(report / "live-parent-intake.json")["parents"]
+          by_role = {item["role"]: item for item in specs}
+          required = {
+              "E_ROOT": ["output/HEAD", "output/manifest.json", "checker-result.json", "source-receipt.json", "run-receipt.json"],
+              "ORACLE_ROOT": ["output/manifest.json", "output/tree/witness.json", "checker-result.json", "source-receipt.json", "repair-source-receipt.json", "completion-run-receipt.json"],
+              "REFINEMENT_ROOT": ["output/HEAD", "output/start.json", "output/canonical-index.json", "checker-result.json", "source-receipt.json"],
+              "PACKET_ROOT": ["output/HEAD", "output/start.json", "checker-result.json", "source-receipt.json"],
+              "SEED34_ROOT": ["output/manifest.json", "checker-result.json", "source-receipt.json"],
+              "DELTA_ROOT": ["output/manifest.json", "checker-result.json", "source-receipt.json"],
+              "PREPARE_ROOT": ["prepare.HEAD"],
+              "P1_ROOT": ["manifest.json", "instructions.jsonl", "degree2.cache.bin"],
+              "TASK712_ROOT": ["r07-grade2-maps-v4-receipt.json", "r07-grade2-maps-v4-checker.json"],
+              "STATE_ROOT": ["state/manifest.json", "state/physical.bin"],
+              "COMPLETION_ROOT": ["output/HEAD", "output/fixed/manifest.json", "checker-result.json", "repair-source-receipt.json",
+                  "source-receipt.json", "completion-run-receipt.json", "preserved-input.json", "original/source-receipt.json"]}
+          for index in range(4):
+              required["BLOCK_" + str(index) + "_ROOT"] = ["block-" + str(index) + ".HEAD"]
+          paths = {}
+          for role, names in required.items():
+              base = Path(by_role[role]["extraction_root"]).resolve()
+              matches = []
+              for root in [base, *sorted(p for p in base.rglob("*") if p.is_dir())]:
+                  assert not root.is_symlink() and (root == base or base in root.resolve().parents)
+                  if all((root / name).is_file() for name in names):
+                      matches.append(root.resolve())
+              assert len(matches) == 1, (role, "unique payload root required")
+              paths[role] = str(matches[0])
+          assert len(paths) == len(set(paths.values())) == 15
+          roots = [Path(value) for value in paths.values()]
+          for index, left in enumerate(roots):
+              for right in roots[index + 1:]:
+                  assert left != right and left not in right.parents and right not in left.parents
+          root = Path(paths["COMPLETION_ROOT"])
+          wanted = json.loads(os.environ["COMPLETION_ENTRY_PINS"])
+          for name, pin in wanted.items():
+              item = root / name
+              assert item.is_file() and not item.is_symlink() and item.stat().st_size == pin["bytes"] and digest(item) == pin["sha256"], name
+          original_pins = {
+              "output/HEAD": (964, "d489c06d40f1b06a8924558e8f751d08cd2b40259790de398b93c79f3657760b"),
+              "output/owner.json": (8612, "e356f7d614828b9c466c70e4e446ec561de73a758b4c6a2292fdd97be39ff77b"),
+              "output/source.json": (2423, "c787d53c65c6392845e6f26c545e213b6b17d9b08dc07d694a1c4e33282f2651"),
+              "output/start.json": (54707, "87bd9b89c593d68fba65b765bfe9f17bcc47d52cc9afce6f53f8c131a24f816b"),
+              "output/fixed/manifest.json": (3159, "3ec178df5c2af9de7c55bb96075bb9e741111a241f7e02222ef5604587c87c41"),
+              "output/result.json": (28577, "06c3053808179dd7706eb85fd30df8e1c360b5ee7f4640cd2a84581fe33a978a"),
+              "output/steps/000032/manifest.json": (2355, "b9732d0bdef2cd39f3b498f7da9297ec18022a8fa40e6fe3fc83ef61483dc3bf"),
+              "source-receipt.json": (3643, "3a50dd12025079a6089d15aac79573899e49692b61a53879adb9b0572342de6b"),
+              "previous-checker-result.json": (1533, "ee5c936026da8ee228bf2d278eeb77c5a8e2c052ec3097271cf8c01871a8fb9f"),
+              "original/producer-output-before-checker.json": (388720, "34dea1aedc61673d6e4d44fc553490e00555673d00c03cad31fe0afb65accc0a"),
+              "original/preservation-result.json": (388721, "bf1c0d9b0b1fbce83a91329ddbe2de20055c4a54835f639b800133afe893e524")}
+          for name, (size, pin) in original_pins.items():
+              item = root / name
+              assert item.is_file() and item.stat().st_size == size and digest(item) == pin, name
+          assert (root / "source-receipt.json").read_bytes() == (root / "original/source-receipt.json").read_bytes() == (report / "source-receipt.json").read_bytes()
+          original_artifact = {"run": int(os.environ["ORIGINAL_RUN"]), "attempt": int(os.environ["ORIGINAL_ATTEMPT"]),
+              "head": os.environ["ORIGINAL_HEAD"], "workflow": os.environ["ORIGINAL_WORKFLOW"],
+              "id": int(os.environ["ORIGINAL_ARTIFACT_ID"]), "name": os.environ["ORIGINAL_ARTIFACT_NAME"],
+              "bytes": int(os.environ["ORIGINAL_ARCHIVE_BYTES"]), "sha256": os.environ["ORIGINAL_ARCHIVE_DIGEST"],
+              "repository_id": int(os.environ["REPOSITORY_ID"]), "conclusion": "failure"}
+          completion_launch = {"run": int(os.environ["COMPLETION_RUN"]), "attempt": int(os.environ["COMPLETION_ATTEMPT"]),
+              "head": os.environ["COMPLETION_HEAD"], "workflow": os.environ["COMPLETION_WORKFLOW"]}
+          completed = read(root / "completion-run-receipt.json")
+          intake = read(root / "completion-intake-receipt.json")
+          preserved = read(root / "preserved-input.json")
+          preservation = read(root / "preservation-result.json")
+          checked = read(root / "checker-result.json")
+          head, result, start = (read(root / name) for name in ("output/HEAD", "output/result.json", "output/start.json"))
+          original_source, repair = read(root / "source-receipt.json"), read(root / "repair-source-receipt.json")
+          current_source, output_source = read(report / "resume-source-receipt.json"), read(root / "output/source.json")
+          assert completed["schema"] == "d972.r07.complete-oracle-cegar-checker-completion.v1.completion-run"
+          assert completed["status"] == intake["status"] == preservation["status"] == checked["status"] == "PASS"
+          assert completed["original_launch"] == {key: original_artifact[key] for key in ("run", "attempt", "head", "workflow")}
+          assert completed["original_artifact"] == intake["artifact"] == preserved["artifact"] == original_artifact
+          assert completed["completion_launch"] == completion_launch
+          assert repair["launch"] == {key: completion_launch[key] for key in ("run", "attempt", "head")}
+          assert repair["schema"] == "d972.r07.complete-oracle-cegar-checker-completion.v1.repair-source-receipt"
+          assert repair["files"] == current_source["files"] and len(repair["files"]) == 20
+          assert repair["files"][:19] == original_source["files"] and len(original_source["files"]) == 19
+          assert repair["data"] == original_source["data"] == current_source["data"] == output_source["data"] and len(repair["data"]) == 3
+          assert repair["files"][-1]["sha256"] == completed["checker_sha256"] == checked["checker_sha256"] == os.environ["CHECKER_SHA256"]
+          assert original_source["files"][0]["sha256"] == output_source["producer_sha256"] == completed["producer_sha256"] == os.environ["PRODUCER_SHA256"]
+          assert original_source["files"][1]["sha256"] == completed["original_checker_sha256"] == os.environ["ORIGINAL_CHECKER_SHA256"]
+          assert completed["producer_runtime"] == completed["checker_runtime"] == {"python": sys.version, "numpy": np.__version__}
+          assert output_source["python"] == repair["python"] == checked["python"] == current_source["python"] == sys.version == os.environ["EXPECTED_PYTHON"]
+          assert output_source["numpy"] == repair["numpy"] == checked["numpy"] == current_source["numpy"] == np.__version__ == "2.5.1"
+          for field, name in (("original_source_receipt_sha256", "source-receipt.json"),
+                  ("repair_source_receipt_sha256", "repair-source-receipt.json"), ("original_output_source_sha256", "output/source.json"),
+                  ("previous_checker_result_sha256", "previous-checker-result.json"), ("checker_result_sha256", "checker-result.json"),
+                  ("preserved_input_sha256", "preserved-input.json"), ("preservation_result_sha256", "preservation-result.json"),
+                  ("completion_intake_receipt_sha256", "completion-intake-receipt.json"),
+                  ("all_parent_files_before_sha256", "all-parent-files-before.json"), ("all_parent_files_after_sha256", "all-parent-files-after.json")):
+              assert completed[field] == digest(root / name), field
+          assert repair["original_source_receipt_sha256"] == intake["original_source_receipt_sha256"] == digest(root / "source-receipt.json")
+          assert intake["original_output_source_sha256"] == digest(root / "output/source.json")
+          assert intake["repair_source_receipt_sha256"] == digest(root / "repair-source-receipt.json")
+          assert intake["preserved_input_sha256"] == digest(root / "preserved-input.json")
+          assert intake["all_parent_files_before_sha256"] == digest(root / "all-parent-files-before.json")
+          assert preservation["all_parent_files_after_sha256"] == digest(root / "all-parent-files-after.json")
+          assert completed["new_producer_appends"] == intake["new_producer_appends"] == 0
+          assert completed["original_producer_appends"] == intake["original_producer_appends"] == 32
+          assert completed["actual_checker_runs"] == 1 and completed["all_parent_roots_unchanged"] == 14
+          assert completed["old_success_suites_rerun"] == intake["old_success_suites_rerun"] == 0
+          assert completed["source_executables"] == 20 and completed["raw_inputs"] == 3
+          assert completed["all_past_snapshot_receipt_hashes_match"] is True
+          observed = {"kind": "Separator", "completed_steps": 32, "rank": 1418, "generation": 8123,
+              "state_head": "0c2451e45fb1859f1ebe9f3fcbada1caefffb9f9c9adb222521cd556c3cdc2dd",
+              "target_remainder_sha256": "cbe44dbec2f40a06f90636f6ae66d3d24c4002f44b4358b642376da3c9eee139",
+              "lambda_sha256": "ecac50df38ce180d220b64e24ce5f53b163d65c3c54c7372c4b36e6ddc82e04b",
+              "current_snapshot_sha256": None, "current_checkpoint_sha256": None}
+          assert intake["observed_producer_snapshot"] == observed
+          for key, value in observed.items():
+              assert head[key] == result[key] == checked[key] == completed[key] == value, key
+          for key, name in (("owner_sha256", "output/owner.json"), ("source_sha256", "output/source.json"),
+                  ("start_sha256", "output/start.json"), ("fixed_manifest_sha256", "output/fixed/manifest.json")):
+              assert head[key] == result[key] == checked[key] == completed[key] == digest(root / name), key
+          assert result["status"] == result["terminal"] == checked["terminal"] == completed["terminal"] == "UNKNOWN_CAP"
+          assert result["head_sha256"] == checked["head_sha256"] == completed["head_sha256"] == digest(root / "output/HEAD")
+          assert checked["result_sha256"] == completed["result_sha256"] == digest(root / "output/result.json")
+          assert (root / "output/result.json").read_bytes() == (root / "producer-result.json").read_bytes()
+          assert head["last_step_manifest_sha256"] == digest(root / "output/steps/000032/manifest.json")
+          assert start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0
+          assert len(start["accepted_target_derivation_parents"]) == len(start["lambda_rho2"]["accepted_target_derivation_parents"]) == 33
+          assert len(result["lambda_rho2"]["accepted_target_derivation_parents"]) == 65
+          assert result["lambda_rho2"] == checked["lambda_rho2"] and result["lambda_rho2"]["mode"] == "derived"
+          assert result["lambda_rho2"]["value"] == 1 and result["lambda_rho2"]["original_rho2_directly_read"] is False
+          assert checked["direct_pairing"] == result["direct_pairing"] and checked["direct_pairing"]["rows"] == 1418
+          assert checked["direct_pairing"]["lambda_pivots"] == 0
+          assert checked["direct_pairing"]["lambda_parent_remainder"] == checked["direct_pairing"]["lambda_new_remainder"] == 1
+          assert checked["prefix_steps_replayed"] == checked["physical_appends"] == len(checked["steps"]) == len(checked["snapshots"]) == completed["snapshots_replayed"] == 32
+          for key in ("all_new_committed_arrays_and_json_compared", "current_checkpoint_fully_compared", "full_four_character_scope",
+                  "ordinary27_actual_source", "all_four_B_summed_each_E"):
+              assert checked[key] is True, key
+          for key, value in (("section_equalities_each", 8059), ("chords_each", 54433), ("auxiliary_tests_each", 2),
+                  ("source_lower_trits_each_E", 96776), ("literal_modulus", 54), ("external_e_attached", 1),
+                  ("old_scans_numerically_replayed", 0), ("old_inserts_numerically_replayed", 0), ("old_success_suites", 0)):
+              assert checked[key] == value, key
+          assert checked["external_e_numerically_replayed"] is False
+          assert checked["oracle_checker_v2_sha256"] == "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"
+          assert checked["retained_E_checker_sha256"] == "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"
+          previous = read(root / "previous-checker-result.json")
+          assert previous["status"] == completed["previous_checker_status"] == "FAIL" and previous["candidate"] is False
+          assert previous["reason"] == completed["previous_checker_reason"] == "ValueError:cegar_checker:HEAD_entire_replayed_prefix_and_cursor"
+          assert previous["checked_cursor"]["completed_steps"] == 32 and previous["all_new_committed_arrays_and_json_compared"] is False
+          assert completed["previous_checker_exit_code"] == 1 and completed["checker_exit_code"] == 0
+          assert (root / "previous-checker-exit-code.txt").read_bytes() == b"1\n" and (root / "checker-exit-code.txt").read_bytes() == b"0\n"
+          assert (root / "checker-result.json").read_bytes() == (root / "checker-stdout.json").read_bytes()
+          assert (root / "previous-checker-result.json").read_bytes() == (root / "previous-checker-stdout.json").read_bytes()
+          for value in (checked, result, completed, intake, preserved, preservation, repair, original_source):
+              assert value["cross_checked"] is False and value["verified"] is False
+          for value in (checked, completed):
+              assert value["grade2_member"] == value["grade2_nonmember"] == "NOT_DECIDED" and value["full_A0"] is False
+          assert checked["whole_normalized_word_replay"] is False and checked["eleven_slot_replay"] is False
+          prior_tests = []
+          for name, field, count in (("oracle-v2-full-selftest.json", "tests", 4),
+                  ("producer-selftest.json", "groups", 3), ("checker-selftest.json", "tests", 3)):
+              value = read(root / name)
+              assert (root / name).read_bytes() == (root / "original" / name).read_bytes()
+              assert value["status"] == "PASS" and len(value[field]) == count and all(row["status"] == "PASS" for row in value[field])
+              assert value["cross_checked"] is False and value["verified"] is False
+              prior_tests.append({"file": name, "groups": count, "sha256": digest(root / name), "rerun": False})
+          for name in ("producer-parent-layout.json", "checker-parent-layout.json"):
+              value = read(root / name)
+              assert (root / name).read_bytes() == (root / "original" / name).read_bytes()
+              assert value["status"] == "PASS" and value["metadata_only"] is True and len(value["rejected_cases"]) == 5
+              prior_tests.append({"file": name, "rejected_cases": 5, "sha256": digest(root / name), "rerun": False})
+          assert read(root / "producer-parent-layout.json") == read(root / "checker-parent-layout.json")
+          regression = read(root / "snapshot-isolation-selftest.json")
+          assert regression["status"] == "PASS" and len(regression["tests"]) == 3 and all(row["status"] == "PASS" for row in regression["tests"])
+          for key in ("actual_physical_state", "actual_root_snapshot_HEAD_serializers", "legacy_alias_control_detected"):
+              assert regression[key] is True, key
+          assert regression["old_success_suites"] == 0 and regression["cross_checked"] is False and regression["verified"] is False
+          assert (root / "snapshot-isolation-exit-code.txt").read_bytes() == b"0\n"
+          assert (root / "snapshot-isolation-selftest.json").read_bytes() == (root / "snapshot-isolation-stdout.json").read_bytes()
+          assert completed["snapshot_isolation_selftest"] == {"sha256": digest(root / "snapshot-isolation-selftest.json"), "tests": 3, "legacy_alias_control_detected": True}
+          assert completed["prior_oracle_v2_full_selftest"] == {"sha256": digest(root / "oracle-v2-full-selftest.json"), "tests": 4, "rerun": False}
+          prior_tests.append({"file": "snapshot-isolation-selftest.json", "groups": 3, "sha256": digest(root / "snapshot-isolation-selftest.json"), "rerun": False})
+          coverage = read(root / "coverage-receipt.json")
+          assert coverage["schema"] == "d972.r07.complete-oracle-cegar-checker-completion.v1.coverage" and coverage["status"] == "PASS"
+          assert completed["coverage_receipt_sha256"] == digest(root / "coverage-receipt.json")
+          assert coverage["checker_result_sha256"] == digest(root / "checker-result.json")
+          assert coverage["character_order"] == [0, 1, 2, 3] and len(coverage["rows"]) == 32
+          assert coverage["scope"] == "only the 32 saved current lambdas; no operator identity claim"
+          for key in ("source_recomputed", "producer_reexecuted", "operator_identically_zero_claimed",
+                  "all_four_characters_informative_claimed", "cross_checked", "verified"):
+              assert coverage[key] is False, key
+          assert all([item["character"] for item in row["q_roots"]] == [0, 1, 2, 3] for row in coverage["rows"])
+          saved_code = completed["checker_source_files"]
+          assert saved_code == preservation["checker_sources"] and len(saved_code) == 2
+          for version, row, expected_size, expected_sha in (("v1", saved_code[0], int(os.environ["ORIGINAL_CHECKER_BYTES"]), os.environ["ORIGINAL_CHECKER_SHA256"]),
+                  ("v2", saved_code[1], int(os.environ["CHECKER_BYTES"]), os.environ["CHECKER_SHA256"])):
+              expected_name = "checker-sources/check_d972_r07_complete_oracle_cegar_continuation_" + version + ".py"
+              assert row == {"file": expected_name, "bytes": expected_size, "sha256": expected_sha}
+              item = root / expected_name
+              assert item.stat().st_size == expected_size and digest(item) == expected_sha, expected_name
+          output_files, output_dirs = scan(root / "output")
+          old_before, old_preservation = read(root / "original/producer-output-before-checker.json"), read(root / "original/preservation-result.json")
+          assert len(output_files) == 2584 and len(output_dirs) == 420 and sum(row["bytes"] for row in output_files) == 346710509
+          assert output_files == preserved["output_files"] == preservation["files"] == old_before["files"] == old_preservation["files"]
+          assert output_dirs == preserved["output_directories"] == preservation["directories"] == old_before["directories"] == old_preservation["directories"]
+          assert preservation["errors"] == [] and preservation["output_bytes"] == 346710509
+          assert all(preservation[key] is True for key in ("source_checked_unchanged", "all_parent_roots_checked_unchanged",
+              "original_input_checked_unchanged", "copied_original_receipts_checked_unchanged", "producer_output_checked_unchanged"))
+          assert completed["immutable_output"] == {"files": 2584, "directories": 420, "bytes": 346710509, "all_bytes_unchanged": True}
+          original_files, original_dirs = scan(root / "original")
+          assert original_dirs == [] and len(original_files) == 52
+          rebuilt_files = original_files + [{**row, "file": "output/" + row["file"]} for row in output_files]
+          rebuilt_files.sort(key=lambda row: row["file"])
+          rebuilt_dirs = ["output"] + ["output/" + name for name in output_dirs]
+          assert rebuilt_files == preserved["files"] and rebuilt_dirs == preserved["directories"]
+          assert len(preserved["entry_files"]) == intake["entry_count"] == 58
+          for entry in preserved["entry_files"]:
+              name = entry["file"]
+              item = root / name if name.startswith("output/") else root / "original" / name
+              assert item.stat().st_size == entry["bytes"] and digest(item) == entry["sha256"], name
+          original_children = {row["file"] for row in original_files}
+          assert original_children == {row["file"] for row in preserved["entry_files"] if not row["file"].startswith("output/")}
+          copied_files = ("source-receipt.json", "producer-result.json", "producer-first-result.json", "producer-first-HEAD.json",
+              "producer-resume-result.json", "first-prefix-preservation.json", "producer-output-before-checker.json",
+              "producer-selftest.json", "checker-selftest.json", "oracle-v2-full-selftest.json",
+              "producer-parent-layout.json", "checker-parent-layout.json")
+          for name in copied_files:
+              assert (root / name).read_bytes() == (root / "original" / name).read_bytes()
+          for old, new in (("checker-result.json", "previous-checker-result.json"), ("checker.log", "previous-checker.log"),
+                  ("checker-stdout.json", "previous-checker-stdout.json"), ("checker-exit-code.txt", "previous-checker-exit-code.txt")):
+              assert (root / new).read_bytes() == (root / "original" / old).read_bytes()
+          phases = ("section", "cochain", "tree", "raw", "source", "primal", "p1", "B", "physical")
+          target_scalars = []
+          for number, (snapshot, step) in enumerate(zip(checked["snapshots"], checked["steps"], strict=True)):
+              base = root / "output/snapshots" / f"{number:06d}"
+              assert snapshot["step"] == number and step["step"] == number + 1
+              assert snapshot["snapshot_sha256"] == digest(base / "start.json")
+              assert snapshot["oracle_manifest_sha256"] == digest(base / "oracle-manifest.json")
+              assert set(snapshot["phase_manifests"]) == set(phases)
+              for phase in phases:
+                  directory = base / phase if phase in ("section", "cochain", "tree") else base / "e" / phase
+                  assert snapshot["phase_manifests"][phase] == digest(directory / "manifest.json")
+              assert step["manifest_sha256"] == digest(root / "output/steps" / f"{number + 1:06d}" / "manifest.json")
+              target_scalars.append(read(base / "e/physical/result.json")["target"]["scalar"])
+          assert completed["target_scalars"] == coverage["target_scalars"] == target_scalars
+          invocation_files = sorted((root / "output/invocations").glob("*.json"))
+          assert len(invocation_files) == len(checked["invocations"]) == 2
+          chosen = [item for item in invocation_files if digest(item) == result["invocation_sha256"]]
+          assert len(chosen) == 1
+          invocation = read(chosen[0])
+          assert invocation["resume"] is True and invocation["completed_steps_before"] == 1
+          assert invocation["max_appends"] == 32 and invocation["max_seconds"] == 5400
+          previous_parents = read(root / "all-parent-files-before.json")
+          assert previous_parents == read(root / "all-parent-files-after.json") and previous_parents["count"] == 14
+          current_parents = []
+          for role in sorted(key for key in paths if key != "COMPLETION_ROOT"):
+              files, directories = scan(Path(paths[role]))
+              current_parents.append({"role": role, "files": files, "directories": directories})
+          assert current_parents == previous_parents["parents"], "all fourteen saved parent payloads must match"
+          completion_files, completion_dirs = scan(root)
+          current_parents.append({"role": "COMPLETION_ROOT", "files": completion_files, "directories": completion_dirs})
+          (report / "all-parent-files-before.json").write_bytes(canonical({
+              "schema": "d972.r07.complete-oracle-cegar-resume64.v1.all-parent-files", "parents": current_parents, "count": 15,
+              "candidate": False, "cross_checked": False, "verified": False}))
+          (report / "parent-paths.json").write_bytes(canonical(paths))
+          with Path(os.environ["GITHUB_ENV"]).open("a", encoding="utf-8") as stream:
+              for key, value in paths.items():
+                  assert "\n" not in value and "\r" not in value
+                  stream.write(key + "=" + value + "\n")
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.completion-intake", "status": "PASS",
+              "accepted_completion_artifact": {key: value for key, value in by_role["COMPLETION_ROOT"].items() if key not in ("role", "extraction_root", "archive_size_and_hash_checked")},
+              "completion_entry_files": [{"file": name, **pin} for name, pin in sorted(wanted.items())],
+              "original_artifact": original_artifact, "original_launch": completed["original_launch"], "completion_launch": completion_launch,
+              "observed_before": observed, "head_sha256": digest(root / "output/HEAD"),
+              "original_source_receipt_sha256": digest(root / "source-receipt.json"), "repair_source_receipt_sha256": digest(root / "repair-source-receipt.json"),
+              "resume_source_receipt_sha256": digest(report / "resume-source-receipt.json"),
+              "completion_run_receipt_sha256": digest(root / "completion-run-receipt.json"), "prior_checker_result_sha256": digest(root / "checker-result.json"),
+              "all_parent_files_before_sha256": digest(report / "all-parent-files-before.json"), "prior_tests_authenticated_without_rerun": prior_tests,
+              "old_success_suites_rerun": 0, "output_files": len(output_files), "output_directories": len(output_dirs),
+              "output_bytes": sum(row["bytes"] for row in output_files), "original_output_unchanged": True,
+              "same_exact_runtime": True, "candidate": False, "cross_checked": False, "verified": False}
+          (report / "completion-intake-receipt.json").write_bytes(canonical(receipt))
+          for parent in roots:
+              for item in parent.rglob("*"):
+                  item.chmod(0o555 if item.is_dir() else 0o444)
+              parent.chmod(0o555)
+          PY
+      - name: Copy the complete saved output and record the immutable before32 prefix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, shutil, stat, sys
+          from pathlib import Path
+          import numpy as np
+          report = Path(os.environ["RUNNER_TEMP"]).resolve() / "resume64"
+          paths = json.loads((report / "parent-paths.json").read_bytes())
+          parent = Path(paths["COMPLETION_ROOT"]) / "output"
+          output = report / "output"
+          assert not output.exists() and not output.is_symlink()
+          for value in paths.values():
+              root = Path(value).resolve()
+              assert root != output.resolve() and root not in output.resolve().parents and output.resolve() not in root.parents
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          def scan(root):
+              files, directories = [], []
+              for item in sorted(root.rglob("*")):
+                  assert not item.is_symlink()
+                  if item.is_dir():
+                      directories.append(item.relative_to(root).as_posix())
+                  else:
+                      assert item.is_file() and stat.S_ISREG(item.stat().st_mode)
+                      files.append({"file": item.relative_to(root).as_posix(), "bytes": item.stat().st_size, "sha256": digest(item)})
+              return files, directories
+          before_files, before_dirs = scan(parent)
+          assert len(before_files) == 2584 and len(before_dirs) == 420 and sum(row["bytes"] for row in before_files) == 346710509
+          shutil.copytree(parent, output, symlinks=False)
+          # The parent is read-only. The disjoint copy needs writable directory metadata for atomic publication.
+          for item in output.rglob("*"):
+              item.chmod(0o755 if item.is_dir() else 0o644)
+          output.chmod(0o755)
+          copied_files, copied_dirs = scan(output)
+          assert copied_files == before_files and copied_dirs == before_dirs, "all copied bytes and hidden paths required"
+          head = json.loads((output / "HEAD").read_bytes())
+          start = json.loads((output / "start.json").read_bytes())
+          result = json.loads((output / "result.json").read_bytes())
+          source = json.loads((output / "source.json").read_bytes())
+          assert digest(output / "HEAD") == "d489c06d40f1b06a8924558e8f751d08cd2b40259790de398b93c79f3657760b"
+          assert head["completed_steps"] == result["completed_steps"] == 32 and head["rank"] == 1418 and head["generation"] == 8123
+          assert head["kind"] == "Separator" and head["current_snapshot_sha256"] is None and head["current_checkpoint_sha256"] is None
+          assert result["status"] == result["terminal"] == "UNKNOWN_CAP"
+          assert start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0
+          assert source["python"] == sys.version == os.environ["EXPECTED_PYTHON"] and source["numpy"] == np.__version__ == os.environ["EXPECTED_NUMPY"]
+          assert source["producer_sha256"] == os.environ["PRODUCER_SHA256"]
+          assert sorted(p.name for p in (output / "snapshots").iterdir()) == [f"{number:06d}" for number in range(32)]
+          assert sorted(p.name for p in (output / "steps").iterdir()) == [f"{number:06d}" for number in range(1, 33)]
+          invocations = [row for row in copied_files if row["file"].startswith("invocations/")]
+          assert len(invocations) == 2 and all(row["file"].endswith(".json") for row in invocations)
+          saved = report / "before32"
+          saved.mkdir()
+          for name in ("HEAD", "result.json"):
+              shutil.copyfile(output / name, saved / name)
+          unchanged_files = [row for row in copied_files if row["file"] not in ("HEAD", "result.json")]
+          assert len(unchanged_files) == 2582
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.before-resume", "status": "PASS",
+              "files": copied_files, "directories": copied_dirs, "file_count": 2584, "directory_count": 420, "bytes": 346710509,
+              "immutable_files": unchanged_files, "immutable_directories": copied_dirs, "mutable_root_files": ["HEAD", "result.json"],
+              "existing_invocations": invocations, "head": head, "head_sha256": digest(output / "HEAD"),
+              "result_sha256": digest(output / "result.json"), "completed_steps": 32,
+              "original_start_preserved": True, "all_bytes_and_hidden_paths_copied": True, "disjoint_mutable_output": True,
+              "runtime_matches_saved_source": True, "candidate": False, "cross_checked": False, "verified": False}
+          (report / "copy-before-resume.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Resume the frozen producer once with absolute cumulative cap64
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 7340032
+          root="$RUNNER_TEMP/resume64"
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/producer-started-utc.txt"
+          set +e
+          timeout --kill-after=60s "${RESUME_CAP_MINUTES}m" python -B search/d972_r07_complete_oracle_cegar_continuation_v1.py \
+            "${parents[@]}" --output "$root/output" --resume --max-appends 64 --max-seconds 5400 \
+            > "$root/producer-result.json" 2> "$root/producer.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$root/producer-exit-code.txt"
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/producer-finished-utc.txt"
+          # Exit3 before admission remains a diagnostic. Never reuse the copied old result as a new invocation's result.
+          test "$code" = 0
+          cmp "$root/producer-result.json" "$root/output/result.json"
+
+      - name: Bind the one new invocation and preserve every prior byte after production
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, re, stat
+          from pathlib import Path
+          report = Path(os.environ["RUNNER_TEMP"]) / "resume64"
+          output = report / "output"
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def read(path):
+              return json.loads(path.read_bytes())
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          def sealed(path, suffix):
+              raw = path.read_bytes()
+              value = json.loads(raw)
+              assert raw == canonical(value) and value["schema"] == "d972.r07.complete-oracle-cegar-continuation.v1." + suffix
+              content = {key: item for key, item in value.items() if key != "sha256"}
+              assert value["sha256"] == hashlib.sha256(canonical(content)).hexdigest(), suffix
+              return value
+          before = read(report / "copy-before-resume.json")
+          assert before["status"] == "PASS" and before["completed_steps"] == 32
+          for row in before["immutable_files"]:
+              item = output / row["file"]
+              assert item.is_file() and not item.is_symlink() and item.stat().st_size == row["bytes"] and digest(item) == row["sha256"], row["file"]
+          for name in before["immutable_directories"]:
+              assert (output / name).is_dir() and not (output / name).is_symlink(), name
+          assert digest(report / "before32/HEAD") == before["head_sha256"] and digest(report / "before32/result.json") == before["result_sha256"]
+          assert (report / "producer-exit-code.txt").read_bytes() == b"0\n"
+          assert (report / "producer-result.json").read_bytes() == (output / "result.json").read_bytes()
+          result, head, start = sealed(output / "result.json", "result"), sealed(output / "HEAD", "head"), sealed(output / "start.json", "start")
+          count = head["completed_steps"]
+          assert type(count) is int and 32 <= count <= 64
+          fields = ("completed_steps", "rank", "generation", "kind", "state_head", "target_remainder_sha256", "lambda_sha256",
+              "owner_sha256", "source_sha256", "start_sha256", "fixed_manifest_sha256", "last_step_manifest_sha256",
+              "current_snapshot_sha256", "current_checkpoint_sha256")
+          assert all(result[field] == head[field] for field in fields)
+          assert result["head_sha256"] == digest(output / "HEAD")
+          for field in ("owner_sha256", "source_sha256", "start_sha256", "fixed_manifest_sha256"):
+              assert head[field] == before["head"][field], field
+          assert start["rank"] == 1386 and start["generation"] == 8091 and start["completed_steps"] == 0
+          assert result["rank"] == 1386 + count and result["generation"] == 8091 + count
+          assert result["new_physical_appends"] == count and result["external_e_attached"] == 1
+          assert result["old_scans_numerically_replayed"] == result["old_inserts_numerically_replayed"] == 0
+          assert result["external_e_numerically_replayed"] is False
+          assert result["grade2_member"] == result["grade2_nonmember"] == "NOT_DECIDED" and result["full_A0"] is False
+          assert result["cross_checked"] is False and result["verified"] is False
+          old_invocations = {row["file"]: row for row in before["existing_invocations"]}
+          actual_invocations = sorted((output / "invocations").iterdir())
+          assert len(actual_invocations) == 3 and all(item.is_file() and re.fullmatch(r"[0-9a-f]{32}\.json", item.name) for item in actual_invocations)
+          added = [item for item in actual_invocations if item.relative_to(output).as_posix() not in old_invocations]
+          assert len(added) == 1 and digest(added[0]) == result["invocation_sha256"]
+          invocation = sealed(added[0], "invocation")
+          assert invocation["resume"] is True and invocation["completed_steps_before"] == 32
+          assert invocation["head_before_sha256"] == before["head_sha256"]
+          assert invocation["max_appends"] == result["max_appends_this_invocation"] == 64
+          assert invocation["max_seconds"] == result["max_seconds_this_invocation"] == 5400
+          terminal = result["terminal"]
+          assert terminal in ("UNKNOWN_CAP", "UNKNOWN_RESOURCE", "COMPLETE_ZERO_CANDIDATE", "LINEAR_MEMBERSHIP_CANDIDATE")
+          assert result["status"] == ("PASS" if terminal.endswith("CANDIDATE") else terminal)
+          if terminal == "UNKNOWN_CAP":
+              assert count == 64 and head["kind"] == "Separator"
+          if terminal == "LINEAR_MEMBERSHIP_CANDIDATE":
+              assert head["kind"] == "LinearMembershipCandidate" and head["lambda_sha256"] is None
+              assert result["positive_readout"] == "TASK958_PENDING"
+              assert count > 32
+              target_file = output / "snapshots" / f"{count - 1:06d}" / "e/physical/target-remainder.bin"
+              assert target_file.is_file() and not any(target_file.read_bytes())
+          else:
+              assert head["kind"] == "Separator" and head["lambda_sha256"] is not None
+          if head["current_snapshot_sha256"] is not None:
+              current = output / "snapshots" / f"{count:06d}"
+              assert digest(current / "start.json") == head["current_snapshot_sha256"]
+              cursor = current / "checkpoints" / (head["current_checkpoint_sha256"] + ".json")
+              assert digest(cursor) == head["current_checkpoint_sha256"]
+          else:
+              assert head["current_checkpoint_sha256"] is None
+          if terminal == "COMPLETE_ZERO_CANDIDATE":
+              assert head["current_snapshot_sha256"] is not None
+              oracle = read(current / "oracle-result.json")
+              assert oracle["terminal"] == "COMPLETE_ZERO_CANDIDATE" and oracle["state_head"] == head["state_head"]
+              assert oracle["lambda_sha256"] == head["lambda_sha256"]
+              assert result["complete_zero_oracle_result_sha256"] == digest(current / "oracle-result.json")
+          last = sealed(output / "steps" / f"{count:06d}" / "manifest.json", "step-manifest")
+          assert head["last_step_manifest_sha256"] == digest(output / "steps" / f"{count:06d}" / "manifest.json")
+          if count > 32:
+              first_added = read(output / "steps/000033/manifest.json")
+              assert first_added["predecessor_step_manifest_sha256"] == before["head"]["last_step_manifest_sha256"]
+          files, directories = [], []
+          for item in sorted(output.rglob("*")):
+              assert not item.is_symlink()
+              if item.is_dir():
+                  directories.append(item.relative_to(output).as_posix())
+              else:
+                  assert item.is_file() and stat.S_ISREG(item.stat().st_mode)
+                  files.append({"file": item.relative_to(output).as_posix(), "bytes": item.stat().st_size, "sha256": digest(item)})
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.producer-output-before-checker", "status": "PASS",
+              "files": files, "directories": directories, "output_bytes": sum(row["bytes"] for row in files),
+              "before_completed_steps": 32, "completed_steps": count, "new_appends_this_run": count - 32,
+              "head_before_sha256": before["head_sha256"], "head_sha256": digest(output / "HEAD"), "result_sha256": digest(output / "result.json"),
+              "old_prefix_unchanged": True, "old_invocations_unchanged": True, "actual_resume": True,
+              "new_invocation_file": added[0].relative_to(output).as_posix(), "new_invocation_sha256": digest(added[0]),
+              "producer_invocations_this_run": 1, "terminal": terminal, "kind": result["kind"],
+              "candidate": True, "cross_checked": False, "verified": False}
+          (report / "producer-output-before-checker.json").write_bytes(canonical(receipt))
+          PY
+      - name: Independently replay the entire cumulative prefix and current checkpoint
+        shell: bash
+        run: |
+          set -euo pipefail
+          ulimit -v 7340032
+          root="$RUNNER_TEMP/resume64"
+          parents=(--state-root "$STATE_ROOT" --delta-root "$DELTA_ROOT" --seed34-root "$SEED34_ROOT"
+            --packet-root "$PACKET_ROOT" --refinement-root "$REFINEMENT_ROOT" --oracle-root "$ORACLE_ROOT" --e-root "$E_ROOT"
+            --prepare-root "$PREPARE_ROOT" --block-root "$BLOCK_0_ROOT" --block-root "$BLOCK_1_ROOT"
+            --block-root "$BLOCK_2_ROOT" --block-root "$BLOCK_3_ROOT" --p1-root "$P1_ROOT" --task712-root "$TASK712_ROOT")
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/checker-started-utc.txt"
+          set +e
+          timeout --kill-after=60s "${CHECKER_CAP_MINUTES}m" python -B search/check_d972_r07_complete_oracle_cegar_continuation_v2.py \
+            "${parents[@]}" --candidate-root "$root/output" --output "$root/checker-result.json" --max-seconds 10800 \
+            > "$root/checker-stdout.json" 2> "$root/checker.log"
+          code=$?
+          set -e
+          printf '%s\n' "$code" > "$root/checker-exit-code.txt"
+          date -u +%Y-%m-%dT%H:%M:%SZ > "$root/checker-finished-utc.txt"
+          test "$code" = 0
+          cmp "$root/checker-stdout.json" "$root/checker-result.json"
+          jq -e --arg checker "$CHECKER_SHA256" '(
+            .schema == "d972.r07.complete-oracle-cegar-continuation.v1.checker-result" and .status == "PASS" and
+            .checker_sha256 == $checker and .all_new_committed_arrays_and_json_compared == true and
+            .current_checkpoint_fully_compared == true and .prefix_steps_replayed == .completed_steps and
+            .physical_appends == .completed_steps and (.steps|length) == .completed_steps and
+            .completed_steps >= 32 and .completed_steps <= 64 and
+            .full_four_character_scope == true and .section_equalities_each == 8059 and .chords_each == 54433 and
+            .auxiliary_tests_each == 2 and .ordinary27_actual_source == true and .source_lower_trits_each_E == 96776 and
+            .literal_modulus == 54 and .all_four_B_summed_each_E == true and .external_e_attached == 1 and
+            .external_e_numerically_replayed == false and .old_scans_numerically_replayed == 0 and
+            .old_inserts_numerically_replayed == 0 and .old_success_suites == 0 and
+            .grade2_member == "NOT_DECIDED" and .grade2_nonmember == "NOT_DECIDED" and .full_A0 == false and
+            .whole_normalized_word_replay == false and .eleven_slot_replay == false and
+            .candidate == true and .verified == false and .cross_checked == false)' "$root/checker-result.json" > /dev/null
+
+      - name: Always compare all parent source and saved output bytes
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, stat
+          from pathlib import Path
+          report = Path(os.environ["RUNNER_TEMP"]) / "resume64"
+          report.mkdir(exist_ok=True)
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          def read(path):
+              return json.loads(path.read_bytes())
+          def scan(root):
+              files, directories = [], []
+              if root.exists():
+                  assert root.is_dir() and not root.is_symlink()
+                  for item in sorted(root.rglob("*")):
+                      assert not item.is_symlink(), str(item)
+                      if item.is_dir():
+                          directories.append(item.relative_to(root).as_posix())
+                      else:
+                          assert item.is_file() and stat.S_ISREG(item.stat().st_mode), str(item)
+                          files.append({"file": item.relative_to(root).as_posix(), "bytes": item.stat().st_size, "sha256": digest(item)})
+              return files, directories
+          errors = []
+          flags = {"source_checked_unchanged": False, "all_parent_roots_checked_unchanged": False,
+              "original_prefix_checked_unchanged": False, "producer_output_checked_unchanged": False}
+          try:
+              source_path = report / "resume-source-receipt.json"
+              if source_path.exists():
+                  source = read(source_path)
+                  assert len(source["files"]) == 20 and len(source["data"]) == 3
+                  for row in source["files"]:
+                      item = Path(row["file"])
+                      assert item.is_file() and not item.is_symlink() and item.stat().st_size == row["bytes"] and digest(item) == row["sha256"], row["file"]
+                      copy = report / "executed-sources" / item.name
+                      assert copy.stat().st_size == row["bytes"] and digest(copy) == row["sha256"], item.name
+                  for name, row in source["data"].items():
+                      item = Path(name)
+                      assert item.is_file() and not item.is_symlink() and item.stat().st_size == row["bytes"] and digest(item) == row["sha256"], name
+                  workflow = source["workflow"]
+                  assert Path(workflow["file"]).stat().st_size == workflow["bytes"] and digest(Path(workflow["file"])) == workflow["sha256"]
+                  assert digest(report / "executed-sources" / Path(workflow["file"]).name) == workflow["sha256"]
+                  intake_path = report / "completion-intake-receipt.json"
+                  if intake_path.exists():
+                      assert read(intake_path)["resume_source_receipt_sha256"] == digest(source_path)
+                  flags["source_checked_unchanged"] = True
+          except Exception as exc:
+              errors.append("source:" + type(exc).__name__ + ":" + str(exc))
+          try:
+              before_path = report / "all-parent-files-before.json"
+              if before_path.exists():
+                  before = read(before_path)
+                  paths = read(report / "parent-paths.json")
+                  assert before["count"] == len(before["parents"]) == len(paths) == 15
+                  parents = []
+                  for parent in before["parents"]:
+                      files, directories = scan(Path(paths[parent["role"]]))
+                      parents.append({"role": parent["role"], "files": files, "directories": directories})
+                  after = {**before, "parents": parents}
+                  (report / "all-parent-files-after.json").write_bytes(canonical(after))
+                  assert after == before, "all fifteen read-only parent roots"
+                  flags["all_parent_roots_checked_unchanged"] = True
+          except Exception as exc:
+              errors.append("parents:" + type(exc).__name__ + ":" + str(exc))
+          try:
+              before_path = report / "copy-before-resume.json"
+              if before_path.exists():
+                  before = read(before_path)
+                  for row in before["immutable_files"]:
+                      item = report / "output" / row["file"]
+                      assert item.is_file() and not item.is_symlink() and item.stat().st_size == row["bytes"] and digest(item) == row["sha256"], row["file"]
+                  assert all((report / "output" / name).is_dir() and not (report / "output" / name).is_symlink() for name in before["immutable_directories"])
+                  assert digest(report / "before32/HEAD") == before["head_sha256"] and digest(report / "before32/result.json") == before["result_sha256"]
+                  flags["original_prefix_checked_unchanged"] = True
+          except Exception as exc:
+              errors.append("prefix:" + type(exc).__name__ + ":" + str(exc))
+          files, directories = [], []
+          try:
+              files, directories = scan(report / "output")
+              before_path = report / "producer-output-before-checker.json"
+              if before_path.exists():
+                  before = read(before_path)
+                  assert files == before["files"] and directories == before["directories"], "entire output before/after checker"
+                  flags["producer_output_checked_unchanged"] = True
+          except Exception as exc:
+              errors.append("output:" + type(exc).__name__ + ":" + str(exc))
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.preservation",
+              "status": "FAIL" if errors else ("PASS" if all(flags.values()) else "INCOMPLETE"),
+              **flags, "files": files, "directories": directories, "output_bytes": sum(row["bytes"] for row in files),
+              "errors": errors, "checker_status_is_separate": True, "candidate": False, "cross_checked": False, "verified": False}
+          (report / "preservation-result.json").write_bytes(canonical(receipt))
+          if errors:
+              raise SystemExit("preservation failed: " + "; ".join(errors))
+          PY
+
+      - name: Join the complete after prefix to the saved32 and current run
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B - <<'PY'
+          import hashlib, json, os, sys
+          from pathlib import Path
+          import numpy as np
+          report = Path(os.environ["RUNNER_TEMP"]) / "resume64"
+          output = report / "output"
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, separators=(",", ":")) + "\n").encode("ascii")
+          def read(path):
+              return json.loads(path.read_bytes())
+          def digest(path):
+              with path.open("rb") as stream:
+                  return hashlib.file_digest(stream, "sha256").hexdigest()
+          checked, produced, head, start = (read(path) for path in (report / "checker-result.json", output / "result.json", output / "HEAD", output / "start.json"))
+          source, intake = read(report / "resume-source-receipt.json"), read(report / "completion-intake-receipt.json")
+          preservation, before, after = (read(report / name) for name in ("preservation-result.json", "copy-before-resume.json", "producer-output-before-checker.json"))
+          parent = Path(read(report / "parent-paths.json")["COMPLETION_ROOT"])
+          old_checked, repair, completion = (read(parent / name) for name in ("checker-result.json", "repair-source-receipt.json", "completion-run-receipt.json"))
+          assert checked["status"] == preservation["status"] == before["status"] == after["status"] == intake["status"] == "PASS"
+          assert (report / "checker-exit-code.txt").read_bytes() == (report / "producer-exit-code.txt").read_bytes() == b"0\n"
+          assert (report / "checker-stdout.json").read_bytes() == (report / "checker-result.json").read_bytes()
+          assert (report / "producer-result.json").read_bytes() == (output / "result.json").read_bytes()
+          for value in (checked, produced, preservation, before, after, intake, source):
+              assert value["cross_checked"] is False and value["verified"] is False
+          assert all(preservation[key] is True for key in ("source_checked_unchanged", "all_parent_roots_checked_unchanged",
+              "original_prefix_checked_unchanged", "producer_output_checked_unchanged"))
+          assert preservation["errors"] == [] and read(report / "all-parent-files-before.json") == read(report / "all-parent-files-after.json")
+          assert preservation["files"] == after["files"] and preservation["directories"] == after["directories"]
+          count = head["completed_steps"]
+          assert before["completed_steps"] == old_checked["completed_steps"] == old_checked["prefix_steps_replayed"] == 32
+          assert 32 <= count <= 64 and after["new_appends_this_run"] == count - 32
+          for field in ("completed_steps", "rank", "generation", "kind", "state_head", "target_remainder_sha256", "lambda_sha256",
+                  "owner_sha256", "source_sha256", "start_sha256", "fixed_manifest_sha256", "current_snapshot_sha256", "current_checkpoint_sha256"):
+              assert checked[field] == produced[field] == head[field], field
+          assert checked["terminal"] == produced["terminal"] == after["terminal"]
+          assert checked["head_sha256"] == produced["head_sha256"] == after["head_sha256"] == digest(output / "HEAD")
+          assert checked["result_sha256"] == after["result_sha256"] == digest(output / "result.json")
+          for field, name in (("owner_sha256", "owner.json"), ("source_sha256", "source.json"), ("start_sha256", "start.json"), ("fixed_manifest_sha256", "fixed/manifest.json")):
+              assert checked[field] == digest(output / name) == before["head"][field], field
+          assert checked["prefix_steps_replayed"] == checked["physical_appends"] == produced["new_physical_appends"] == len(checked["steps"]) == count
+          assert checked["rank"] == 1386 + count and start["rank"] == 1386 and start["completed_steps"] == 0
+          assert checked["generation"] == 8091 + count and start["generation"] == 8091
+          assert checked["lambda_rho2"] == produced["lambda_rho2"] and checked["direct_pairing"] == produced["direct_pairing"]
+          if produced["kind"] == "Separator":
+              derived = checked["lambda_rho2"]
+              assert derived["mode"] == "derived" and derived["value"] == 1 and derived["original_rho2_directly_read"] is False
+              assert len(derived["accepted_target_derivation_parents"]) == 33 + count
+              assert checked["direct_pairing"]["rows"] == checked["rank"] and checked["direct_pairing"]["lambda_pivots"] == 0
+              assert checked["direct_pairing"]["lambda_parent_remainder"] == checked["direct_pairing"]["lambda_new_remainder"] == 1
+          assert checked["checker_sha256"] == os.environ["CHECKER_SHA256"] == source["checker_sha256"] == repair["files"][-1]["sha256"]
+          assert checked["oracle_checker_v2_sha256"] == "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"
+          assert checked["retained_E_checker_sha256"] == "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"
+          assert checked["python"] == source["python"] == sys.version == os.environ["EXPECTED_PYTHON"]
+          assert checked["numpy"] == source["numpy"] == np.__version__ == os.environ["EXPECTED_NUMPY"]
+          assert len(source["files"]) == 20 and len(source["data"]) == 3 and source["files"] == repair["files"]
+          assert intake["resume_source_receipt_sha256"] == digest(report / "resume-source-receipt.json")
+          assert intake["all_parent_files_before_sha256"] == digest(report / "all-parent-files-before.json")
+          invocation_file = output / after["new_invocation_file"]
+          invocation = read(invocation_file)
+          assert digest(invocation_file) == after["new_invocation_sha256"] == produced["invocation_sha256"]
+          assert len(checked["invocations"]) == 3
+          chosen = [row for row in checked["invocations"] if row["sha256"] == produced["invocation_sha256"]]
+          assert len(chosen) == 1 and chosen[0]["resume"] is True and chosen[0]["max_appends"] == 64
+          assert chosen[0]["completed_steps_before"] == 32 and chosen[0]["head_before_sha256"] == before["head_sha256"]
+          assert chosen[0]["max_seconds"] == 5400
+          assert invocation["head_before_sha256"] == before["head_sha256"] and invocation["completed_steps_before"] == 32
+          assert invocation["resume"] is True and invocation["max_appends"] == 64 and invocation["max_seconds"] == 5400
+          previous_invocations = {row["sha256"]: row for row in old_checked["invocations"]}
+          assert len(previous_invocations) == 2 and all(row in checked["invocations"] for row in previous_invocations.values())
+          phases = ("section", "cochain", "tree", "raw", "source", "primal", "p1", "B", "physical")
+          snapshots = checked["snapshots"]
+          assert len(snapshots) in (count, count + 1)
+          assert (len(snapshots) == count) == (head["current_snapshot_sha256"] is None)
+          for number, snapshot in enumerate(snapshots):
+              base = output / "snapshots" / f"{number:06d}"
+              assert snapshot["step"] == number and snapshot["snapshot_sha256"] == digest(base / "start.json")
+              if number < count:
+                  assert set(snapshot["phase_manifests"]) == set(phases)
+                  assert snapshot["oracle_manifest_sha256"] == digest(base / "oracle-manifest.json")
+              for phase, pin in snapshot["phase_manifests"].items():
+                  assert phase in phases
+                  directory = base / phase if phase in ("section", "cochain", "tree") else base / "e" / phase
+                  assert pin == digest(directory / "manifest.json")
+          target_scalars = []
+          for number, step in enumerate(checked["steps"], 1):
+              assert step["step"] == number and step["manifest_sha256"] == digest(output / "steps" / f"{number:06d}" / "manifest.json")
+              physical = read(output / "snapshots" / f"{number - 1:06d}" / "e/physical/result.json")
+              assert step["target_scalar"] == physical["target"]["scalar"] and step["selected_scalar"] == physical["selected_scalar"]
+              assert type(step["target_scalar"]) is int and step["target_scalar"] in (0, 1, 2)
+              target_scalars.append(step["target_scalar"])
+          assert checked["steps"][:32] == old_checked["steps"], "saved32 step receipts must match after independent full replay"
+          assert snapshots[:32] == old_checked["snapshots"], "saved32 snapshot receipts must match after independent full replay"
+          if produced["terminal"] == "LINEAR_MEMBERSHIP_CANDIDATE":
+              assert produced["positive_readout"] == "TASK958_PENDING" and produced["lambda_sha256"] is None
+          if produced["terminal"] == "COMPLETE_ZERO_CANDIDATE":
+              assert checked["current_oracle_terminal"] == "COMPLETE_ZERO_CANDIDATE"
+          assert intake["old_success_suites_rerun"] == 0 and len(intake["prior_tests_authenticated_without_rerun"]) == 6
+          workflow = Path(".github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml")
+          launch = {"run": int(os.environ["GITHUB_RUN_ID"]), "attempt": int(os.environ["GITHUB_RUN_ATTEMPT"]),
+              "head": os.environ["GITHUB_SHA"], "workflow": str(workflow)}
+          assert source["launch"] == launch
+          receipt = {"schema": "d972.r07.complete-oracle-cegar-resume64.v1.run-receipt", "status": "PASS",
+              "original_launch": intake["original_launch"], "original_artifact": intake["original_artifact"],
+              "accepted_completion_artifact": intake["accepted_completion_artifact"], "completion_launch": intake["completion_launch"],
+              "current_launch": launch, "workflow": source["workflow"],
+              "original_source_receipt_sha256": digest(report / "source-receipt.json"),
+              "repair_source_receipt_sha256": digest(parent / "repair-source-receipt.json"),
+              "resume_source_receipt_sha256": digest(report / "resume-source-receipt.json"),
+              "accepted_completion_run_receipt_sha256": digest(parent / "completion-run-receipt.json"),
+              "accepted_completion_checker_result_sha256": digest(parent / "checker-result.json"),
+              "completion_intake_receipt_sha256": digest(report / "completion-intake-receipt.json"),
+              "live_parent_intake_sha256": digest(report / "live-parent-intake.json"),
+              "copy_before_resume_sha256": digest(report / "copy-before-resume.json"),
+              "producer_output_before_checker_sha256": digest(report / "producer-output-before-checker.json"),
+              "preservation_result_sha256": digest(report / "preservation-result.json"),
+              "all_parent_files_before_sha256": digest(report / "all-parent-files-before.json"),
+              "all_parent_files_after_sha256": digest(report / "all-parent-files-after.json"),
+              "producer_sha256": os.environ["PRODUCER_SHA256"], "original_checker_sha256": os.environ["ORIGINAL_CHECKER_SHA256"],
+              "checker_sha256": checked["checker_sha256"], "checker_result_sha256": digest(report / "checker-result.json"),
+              "producer_result_sha256": digest(output / "result.json"), "before_result_sha256": before["result_sha256"],
+              "head_before_sha256": before["head_sha256"], "head_sha256": digest(output / "HEAD"),
+              "before_completed_steps": 32, "completed_steps": count, "new_appends_this_run": count - 32,
+              "prefix_steps_replayed": checked["prefix_steps_replayed"], "snapshots_replayed": len(snapshots),
+              "all_past32_step_and_snapshot_receipts_match": True, "new_target_scalars": target_scalars[32:],
+              "terminal": produced["terminal"], "kind": produced["kind"], "rank": produced["rank"], "generation": produced["generation"],
+              "state_head": produced["state_head"], "target_remainder_sha256": produced["target_remainder_sha256"], "lambda_sha256": produced["lambda_sha256"],
+              "current_snapshot_sha256": produced["current_snapshot_sha256"], "current_checkpoint_sha256": produced["current_checkpoint_sha256"],
+              "actual_resume": True, "new_invocation_file": after["new_invocation_file"], "new_invocation_sha256": produced["invocation_sha256"],
+              "producer_invocations_this_run": 1, "checker_invocations_this_run": 1, "original_parent_artifacts": 14, "total_readonly_parent_artifacts": 15,
+              "initial_cap1_invocations": 0, "cap32_invocations": 0, "old_success_suites_rerun": 0,
+              "prior_tests_authenticated_without_rerun": intake["prior_tests_authenticated_without_rerun"],
+              "old32_completed_phase_builders_reexecuted_by_producer": 0,
+              "saved_row_decoding_type_and_current_lambda_direct_checks_are_retained": True,
+              "external_e_numerically_replayed": False, "whole_normalized_word_replay": False, "eleven_slot_replay": False,
+              "limits": {"absolute_max_appends": 64, "producer_internal_seconds": 5400, "producer_outer_minutes": 100,
+                  "checker_internal_seconds": 10800, "checker_outer_minutes": 190, "job_minutes": 330, "virtual_memory_KiB": 7340032},
+              "source_executables": 20, "raw_inputs": 3, "producer_runtime": {"python": source["python"], "numpy": source["numpy"]},
+              "checker_runtime": {"python": checked["python"], "numpy": checked["numpy"]},
+              "producer_started_utc": (report / "producer-started-utc.txt").read_text().strip(),
+              "producer_finished_utc": (report / "producer-finished-utc.txt").read_text().strip(),
+              "checker_started_utc": (report / "checker-started-utc.txt").read_text().strip(),
+              "checker_finished_utc": (report / "checker-finished-utc.txt").read_text().strip(),
+              "producer_elapsed_seconds": produced["elapsed_seconds"], "checker_elapsed_seconds": checked["elapsed_seconds"],
+              "output_files": len(after["files"]), "output_directories": len(after["directories"]), "output_bytes": after["output_bytes"],
+              "old_prefix_unchanged": True, "all_readonly_parents_unchanged": True, "all_sources_unchanged": True, "output_unchanged_by_checker": True,
+              "grade2_member": "NOT_DECIDED", "grade2_nonmember": "NOT_DECIDED", "full_A0": False,
+              "candidate": True, "cross_checked": False, "verified": False}
+          (report / "run-receipt.json").write_bytes(canonical(receipt))
+          PY
+
+      - name: Upload the candidate only after the entire prefix and preservation PASS
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-resume64-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: error
+          path: ${{ runner.temp }}/resume64/
+
+      - name: Always preserve full output hidden tails receipts code logs and accepted provenance
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-complete-oracle-cegar-resume64-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 30
+          include-hidden-files: true
+          if-no-files-found: warn
+          path: ${{ runner.temp }}/resume64/

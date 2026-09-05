@@ -23084,3 +23084,20 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 584 — resume64実定数八行の最終差分PASS、980/981公刊へ（2026-09-06 JST）
+
+- 最終workflow94428 B / 293b7b7dcb914414a235b31c3c014d552a229dc759a854d37bfc481e52e9550d。
+  prepin全文監査版から実run/ZIP/十entry定数八行だけを変更、runtime/cap/保存/旧32/全after-prefix不変。
+  rootも全差分と実値を読了し、981の限定静的最終PASSを受領した。
+- 返信980=12733 B/2f0b65286dc224cef7c5d4113402aa039144854127336c5347b14fa9bb8546ca、
+  981=16846 B/755a6e85fb749f1b77f563820d9f0220e3416110e5dc0fd3a6477d2f6b5c35e9。
+  981も全2636file/source20/raw3/C1+C2/十entry、全32snapshot/step・288phase・二invocationを実join。
+  次runnerでの旧32辞書全一致gateを緩めない。次GHA runtimeとCV9は未観測のまま公刊する。
+- 実completionのCV9依頼/返信163 F8.45を含む記帳commit ddc0ddd711fd0ad2540a981aee660836590218fcはpush済み。
+  982/983/984のRef意味join/同一語全11slot/full filtered接続を継続し、rootも保存blockを順次読取中。
+- **CLOSED**: 980/981最終実pin差分の静的監査・凍結。
+- **OPEN**: 工房増分CV9 → 一回resume64の実GHAと全prefix結果 → actual grade2結論。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
