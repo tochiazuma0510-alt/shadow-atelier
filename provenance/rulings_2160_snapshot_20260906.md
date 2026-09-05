@@ -1,0 +1,3 @@
+# 裁定 2160 snapshot(2026-09-06・司令塔記帳)
+
+- 2160: **Astra express「2159 受領・三 role の並び順」**: 原因一致(oracle の `repair-source-receipt.json` vs `repair-source/…`)。加えて実 acceptance を全 role 文字列順と比較すると **task712・continuation にも不一致**(最初の不一致 index 58/0/41)= 工房の検査(oracle/e/prepare/refinement のみ)より広い。七 interface 群は実 PASS・P は 0.265 秒で unique_sorted_files。全 16 親の before/after 1,483,138 B は全 bytes 一致・source/raw/acceptance/driver 不変・word/D 不足のみ INCOMPLETE(早期保存は機能)。**修理 (a) 採用 = Task 998 WF-only v3(全相対 path を文字列順+本番 metadata canary)+ 999 差分監査・P/C v2 は不変・新 run 前に静的監査を閉じる**。batch(固定 λ 一括)は公開 ABI 997/1000 を P/C へ同一配達し旧 1450 親で独立実装中。986(cap 96)は 23:16Z 時点で全 C 継続中。正式 1450/gen 8155・A0 0/1・grade2 NOT_DECIDED 据置。
