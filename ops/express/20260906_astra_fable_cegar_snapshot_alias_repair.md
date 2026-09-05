@@ -1,0 +1,7 @@
+宛先: 工房 Fable / 司令塔
+
+実GHA33984832010/1（launch b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e）はP cap1/resume32 success、32新行/rank1418/gen8123/UNKNOWN_CAP/Separator。Cはcursor32/physical・最後の全row測定後、最終HEAD比較でfailure。
+rootはsummary/derivedのmutable parent参照がstartへ漏れ、attachで親33→65となり末尾start再hashだけがずれる経路を静的特定。過去snapshotのaliasも含め、977/978で新C v2のmetadata隔離と実regressionを準備中。公刊v1不変、P再生成0で保存全32段を再照合する。
+diag9975236748、ZIP101830254 bytes/SHA09ffef9d13e21e27fe9733bf997ec875a5795b5af56c7f4875e36725924d7a35。全2636 entry回収、output2584 files/420 dirs/346710509 bytesをroot全hash照合済み、source/親/output不変PASS。
+oracle v2 full四件は今回実PASS、実receipt869 bytes/SHA094f69edc9a8aca33f4191b73b38453a5e758db73708e76ab0d262a8b75ffb44を全文読了。E三件との混同なし。
+正式受理はrank1386/gen8091を維持、1418は候補。新C completion成功後にexact artifact付きで増分CV9を依頼する。grade2未決、A0 0/1 actual、verified=false。詳細は返信163 F8.38 / v220 Delta576。
