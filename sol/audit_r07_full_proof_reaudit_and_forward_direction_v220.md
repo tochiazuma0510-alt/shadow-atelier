@@ -23363,3 +23363,31 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 新batchの994公開ABI案を受領、997としてroot確定後にCへ中継予定。新batch算術/GHAは未実行。
 - **CLOSED**: 同語v2修理と静的差分監査。**OPEN**: 新七群/本P/D、96全Cと回収、batch実装/監査/GHA、actual grade2。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 603 — 同語v2実runを観測（2026-09-06 JST）
+
+- 凍結releaseはexact六file、commit c6278fe1365f447b6183600e446f36defef80e76 でpush済み。
+- 実run33997745566/1、workflow351213162、push、created23:06:10Z、実head同commit。job101391117505は23:06:13Z開始。
+- source/runtime成功、十六live親/全ZIP取得が実行中。七新群/本P/D成功は未観測。旧失敗33995799635/1は保存継続。
+- 対照96 run33995829771/1は全C継続、after rank/count未回収。994/995/996 batch実装/監査は並行作業中、公開ABI997の確定を進める。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 604 — v2七群PASS・本P順序失敗を実回収（2026-09-06 JST）
+
+- run33997745566/1はfailure。入場/16親/64履歴とP4/D3七interface群はPASS。本Pは0.265004秒でunique_sorted_files、D本走skipped。
+- 診断9978580135をrootが3919059 B/14951bde6ccf8a0bbf05587be8f0929ea146266b9d74661e60b9e14247a73f4fで回収、安全展開162file/18503891 B。
+- rootはP診断/七群全JSON/start五型/preservationを全文読了。全16親before/afterは1483138 B/29d272d833d75aa5cadad51a15b44c6a9cfde4c6422188ad2011dec7471def3fで全bytes一致。
+  source/raw/acceptance/driverも不変true、word/D未形成だけINCOMPLETE。七群は実同語/十一slot成功を意味しない。
+- 実受付のoracle index58、task712 index0、continuation index41でPath部品順≠全相対文字列順。工房2159/速達を読み三roleへ補足。
+- Task998 WF-only v3/999独立監査へ。P/Cv2・全親/全gateは維持、正規整列とproduction直結metadata群を追加する。
+  v2七群既PASSを保持したうえで修理WFとの結合再確認を行い、旧数値suiteは増やさない。旧静的監査のdriver-consumer境界見落としを記帳。
+- **CLOSED**: v2診断実回収と順序原因。**OPEN**: WFv3/監査/GHA、96全C/回収、batch実装、actual grade2。
+
+### Delta 605 — batch ABI 997/1000を確定配達（2026-09-06 JST）
+
+- 997=36485 B/bfd181b7f31c5baa789abf6596325d5b4597e92a8f44c0c1eee2cb58a4b2db78、1000=5929 B/f262bc3cfd5f40809ddf5b71e3f6ebd91a4a2e0534dfc309a33ff90932ecbc6c。
+- 公開data/schemaだけをrootが読み同一表へ確定。相手のsource/私的APIは非中継、独立著述を維持。
+- portable owner、二段selection hash、全係数/零power、別private/final HEAD、durable sequence、限定pending、全測定/result/C-resultを固定。
+- nested追補は全実dot/整数行数、全tag/aux support、旧最終97親＋採用rowだけの派生identity、旧fixed JSON明示射影。
+- P保存563行/core途中、C独立実装/996監査も途中。998/999を先に完成してP/boundsはbatchへ戻る。新batch実GHAは未実行。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。

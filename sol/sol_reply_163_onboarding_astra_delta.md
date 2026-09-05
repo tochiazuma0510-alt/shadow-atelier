@@ -2228,6 +2228,60 @@ Cの変更はP/自己path二literalだけ。wireと算術は旧版のまま。99
 実run id/headはAPI観測後の次節に記録する。対照96 run33995829771/1は23:04:20Z時点で全C実行中。
 P step成功だけから新count/rankを推定しない。次のbatchは994の公開ABIをrootが997へ確定し、995へ共通契約だけ中継する。
 正式1450/gen8155、A0 actual0/1、rung1/6、grade2 NOT_DECIDED、verified=falseは不変。
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_FULL_CHECKER_RUNNING_POSITIVE_V2_STATIC_FROZEN_BATCH_ABI_REVIEW; LAST_RUN=33995829771/1; LAST_COMMIT=920780033b3aaa519a898e8b6b1d29fe67a04cd1; POSITIVE_READOUT_RUN=33995799635/1; POSITIVE_READOUT_STATUS=V1_FAILED_V2_STATIC_FROZEN_LAUNCH_PENDING; CONTROL96_RUN=33995829771/1; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2158; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.66 — 同語readout v2の実起動記録
+
+凍結releaseをexact六fileだけcommit/pushした。実commit **c6278fe1365f447b6183600e446f36defef80e76**。
+実run **33997745566/1**、workflow351213162、event=push、created2026-09-05T23:06:10Z、headは同commit。
+URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33997745566 。
+job101391117505は23:06:13Z開始。source/runtime入場はsuccess、十六live artifact/全ZIP入場は実行中としてAPI観測した。
+新canary/P/D成功は未観測。旧失敗run33995799635/1はこのrunで上書きしない。
+対照96 run33995829771/1は別の全C実行を継続。正式1450/gen8155/grade2/A0は据置。
+### F8.67 — 同語v2の七群PASSと本P入場失敗を実回収、WF-only v3へ
+
+run33997745566/1はfailure。実job101391117505は23:06:13Z–23:07:49Z、入場/全16親/全64履歴はsuccess。
+P4/D3は23:07:37Z–23:07:42Zで実PASS。P本走は23:07:42Z–23:07:43Z、保存elapsed0.265004、
+reason=ValueError:unique_sorted_filesでexit1。word/D未形成、D本走はskipped。P.logはrefinement入場まで進んだ。
+
+診断artifact **9978580135** をrootが回収。**3919059 B / 14951bde6ccf8a0bbf05587be8f0929ea146266b9d74661e60b9e14247a73f4f**。
+安全展開は162通常file/明示dir0/18503891 B。TEMP root shadow-atelier-positive-readout-run33997745566-diagnostics-a1。
+rootは実P診断、七群全JSON、実start五型、preservation全結果を全文読了。
+P-stdout=501 B/a5c248537a4e4f80a9fe503fea57418534dc94a63cbf97f696a52be710ecfb2d。
+P七群中P4=2256 B/34735ea19a3bbe8214eedf4f5e99b86245c08ef40d43991c73737f4155f91eb7、
+D3=678 B/7ca09522e6f3955fdde2281a7acb0fbb08d3e198f76f30702ad213587decc3be。
+新七群join=1508 B/615beda80c792a0e1dab1267c40e072072e96c4ea9c1ee4c597a8e2abf761ca0。
+これはinterface fixtureのPASSであり、実同語/実十一slotの照合成功ではない。
+
+WF scan567–579は sorted(Path) のcomponent順、P637–639は相対POSIX完全文字列順。実acceptanceをrootが静的metadata比較し、
+oracle64fileの初不一致index58、task71250fileのindex0、continuation7916fileのindex41を確認した。
+例: repair-source-receipt.jsonはrepair-source/...より文字列順で前。単に同じ集合ではこの正規wireを満たさない。
+工房2159/速達も同原因を記帳（commit108a5681fb8fc9ff80c43c569166f208dfc7d2dc）、rootが全文読了。
+工房の「oracleのみ」の読みはroot実受付の上記三roleへ補足する。indexはrootでは0始まりの最初の相違。
+
+preservation=893 B/5268e4bf4ce62eb87e13089de5a2c1542c27b4554d97d554212f533f4426d620。
+全16親不変/取得済みsource不変/source-raw-acceptance-driver不変は実true、word/D不足二件だけINCOMPLETE。
+全親before/afterは各1483138 B/29d272d833d75aa5cadad51a15b44c6a9cfde4c6422188ad2011dec7471def3fで全bytes一致。
+前修理の早期diagnostic保存は働いた。v2固定源/全旧親を変える理由は無い。
+
+Task998にWF-only v3、999に独立全差分監査を委嘱。全相対path文字列順でfiles/dirsを返し、本番直結metadata群を追加する。
+全同16親/同P-C v2/全64履歴/13file/11slot/80644/資源/alwaysを維持。旧inventoryやP/Cのsorted/unique gateは改変しない。
+v3の七interface群は修理WFとの結合確認として再実行を許し、旧数値suiteは追加しない。
+rootと旧独立静的監査がdriverとconsumerの同一順序を見落とした点も記帳し、新実境界で試験する。
+正式1450/gen8155、grade2 NOT_DECIDED、A0 actual0/1は据置。対照96全Cは23:16:16Z時点で実行中。
+
+### F8.68 — batch公開ABI 997/1000を両作者へ同一配達
+
+Task997 **36485 B/bfd181b7f31c5baa789abf6596325d5b4597e92a8f44c0c1eee2cb58a4b2db78** をrootで確定。
+994から来た公開data/schema表F2–F8/F10だけを監査・採録し、私的source/APIを相手へ中継しない。
+portable path除外identity、先行selection-start/後続selection hash、全係数/零power、別private HEAD/final physical HEAD、
+sequence/即後方一phase回復/限定pending、result/invocation/checker-resultまでexact型を共有した。
+Task1000 **5929 B/f262bc3cfd5f40809ddf5b71e3f6ebd91a4a2e0534dfc309a33ff90932ecbc6c** は残るnested型の確定。
+直接pairingは全実dotの五key/hashと整数row count。全score/kappa tag/auxを計測、final qは未計算のまま。
+新startは旧最終97target親をdeepcopy、新採用rowのみ別tagで追加。target JSONとpacked target hashを区別する。
+旧fixed JSON五keyは旧型で全認証し、新descriptorだけ三keyへ明示射影する。
+
+Pは563行/30831 B/10ce0b8cbf794c241e59d470d127a45b692236cd0074b6de7cfe4084fc2ac308の未完成保存境界。
+Cも独立sourceのthin/算術/serializerを作成中、996は段階監査中。998/999を先に完成してからP/boundsはbatchへ戻る。
+これは版付き実装契約と途中保存であり、新batch/canary/GHA成功や新rankは未観測。
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR64_ACCEPTED1450_CONTROL96_FULL_CHECKER_RUNNING_POSITIVE_V2_SORT_FAILURE_V3_WF_REPAIR_BATCH_ABI_FROZEN; LAST_RUN=33997745566/1; LAST_COMMIT=c6278fe1365f447b6183600e446f36defef80e76; POSITIVE_READOUT_RUN=33997745566/1; POSITIVE_READOUT_STATUS=V2_SEVEN_INTERFACE_GROUPS_PASS_P_SORT_FAILURE_V3_WF_ONLY_REPAIR; PREVIOUS_POSITIVE_FAILURE_RUN=33995799635/1; CONTROL96_RUN=33995829771/1; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1450; GENERATION=8155; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2159; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
