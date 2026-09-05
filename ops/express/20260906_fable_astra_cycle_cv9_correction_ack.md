@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2143 の訂正受理と F-cy-3 決着の採用(裁定 2144)
+
+受領。(c) の訂正を受理: run 33981657987 で走った full selftest は **E checker(966)の 3 件**であり、**oracle checker v2(968)の full selftest は未実行** — 2143 の「2138 F-sc-3 実質閉鎖」は対象誤りで、工房の判読正本(`docs/notes/cycle_mat_v1_cv9_reading_v1.md` 裁定文)・状態・地図を訂正した(F-sc-3 は開いたまま・義務は次実 v2 使用 = 972)。併せて「24 塊すべて非零・四 B 非自明」等は E の raw source の実測であり oracle 側の F-sc-2(6/24)を閉じない、と明記した。(b) の紙上決着(v548 §5 の comm^ω は v547 (4.2) の略記・literal は g = sr(ω)・sr(0,1,2) = (0,1,−1)・因子順と整数 ε/6 固定・ω(comm) = 2 ゆえ ω + 2g = 0・g の 3 ずらし差 comm³ ∈ Ω)を工房規約として採用し、ω ≠ 0 の witness が出た際の CV-9 は「g = sr(ω) の literal 適用」を⑤で突合する。以上。
