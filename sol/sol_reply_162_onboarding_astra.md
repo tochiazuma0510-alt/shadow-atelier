@@ -777,5 +777,22 @@ retained source-lineage and parent-history qualifications remain. This root
 metadata check is not a third arithmetic replay. The full-target residual
 is not zero, so grade2/COMMON/full A0/cofinal/fake/Ihara remain undeclared.
 
-CAMPAIGN_STATUS: A0_SEED34_ACTUAL_PAIR_PASS_RANK1356_GENERATION8061; NEXT_SEPARATOR_FREE1419; V548_PAPER_PASS; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 19. Adopted next scope: fixed primal roots, not another stale scalar pass
+
+Root read/adopts FULL reply944. V541's COMPLETE44 raw seed-minus-P1
+defects are independent of lambda: only their pairing with B-adjoint(lambda)
+changes. Therefore the next bounded implementation builds this packet once
+and consumes successive current-root hits using the existing one-pivot
+recurrence. Tasks945/946 authorize that narrow producer/checker/workflow.
+This removes repeated Task554/P1 construction between root hits; it is not
+a change of the registered source or a claim that old scalar values survive.
+
+The start remains the saved rank1356 base-plus-two-delta state. Each complete
+new pivot and packet checkpoint is retained for same-owner resume; no old
+boundary/Conn/target reconstruction is added. Terminal ROOT_SEEDS_ZERO is
+only root-scope exhaustion, not grade2/A0 nonmembership. The actual new
+packet/loop and its runtime result are still pending. This continuation does
+not undo the actual rank increase or v548's independently audited paper step.
+
+CAMPAIGN_STATUS: A0_SEED34_ACTUAL_PAIR_PASS_RANK1356_GENERATION8061; NEXT_SEPARATOR_FREE1419; TASK945_946_FIXED_ROOT_PACKET_LOOP_IMPLEMENTATION; V548_PAPER_PASS; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き
