@@ -1904,6 +1904,89 @@ v547 §4への追補は次のとおり: 中心条件は`omega(w)+2g=0 mod3`で�
 未簡約SLPの中心因子の長さを基準に選ぶ。全語の自由簡約後の大域的最短性は主張しない。
 literal/DAG/受領証を一意にする規約であり、artifact一致やPB4/全Delta-Fox一致を意味しない。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_SUCCESS_FULL_PREFIX_CHECKER_ACTIVE_RANK1418_ACCEPTED_2150; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33988391926/1; CURRENT_ACCEPTED_RANK=1418; GENERATION=8123; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_WITH_2150_CONVENTION_ACCEPTANCE_AND_TWO_LIMITS; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM; CURRENT_RULING=2150; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.55 — resume64実成功を回収、候補rank1450/gen8155（2026-09-06 JST）
+
+**run33990567016/1はSUCCESS。実累計64段・rank1450/gen8155・Separator・UNKNOWN_CAP。**
+launch commitは **c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70**、job101371928354。
+再現入口は凍結 `.github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml` の同launchであり、
+実runは https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33990567016 。
+本runの新appendは32、P一回829.112209秒、startからの全64段C一回1462.7485207660002秒でPASS。
+Pのresult.new_physical_appends=64は累積値、本run差分はrun-receipt.new_appends_this_run=32。
+current snapshot/checkpointは両null、current oracleの未計算をCOMPLETE_ZEROへ変えない。
+
+candidate **9977040548**、name `d972-r07-complete-oracle-cegar-resume64-v1-candidate-33990567016-1`、
+実ZIP **304642285 B / a7ecd56dba33e35475d72486497b125fe983f4fb00a4fa91be813388373f5792**。
+2026-09-05T21:15:16Z生成、expiry2026-10-05T21:14:35Z。ダウンロード後の全bytes/SHA・安全path/type/aliasを確認し、
+7916 file entriesを `%TEMP%/shadow-atelier-cegar-resume64-run33990567016-candidate-a1` へ展開した。
+diagnostics9977050602はAPIのみ確認、同304642285 BだがSHAは
+4a94532f934338a54a65d7fd275265b3f5fd1b3924bbfd50e97c3e297533c041で別ZIP。回収済みとは書かない。
+
+| 実entry | bytes | whole-file SHA256 |
+|---|---:|---|
+| output/HEAD | 964 | 4614d5c3fc619007879f3a5062cde90ac0cab86552ddd17ff14306bc961ac2f4 |
+| output/result.json | 42785 | 75f76ac43c86cfae998b0f4fe757a79b500727c2bfa847849fa57dbfa05293fd |
+| checker-result.json | 330955 | ff55c51e90acead643b9683af6f82d492c503a92c83a504a97eeb3f62c31cc4d |
+| run-receipt.json | 6883 | ca9a42e10f207d2a57465ccdcf84b414d1a20b5170e04e38a645645fdb787694 |
+
+実state_head=076c4b9df33957b090a7bf698e4dd1100e85350cfff86f88eb9ab12a39fdb667、
+target=3bba0da3f619eab5f78e715beabd22d9c7975b36f72d28ee8d7528d9d0f4648a、
+lambda=7c0dbe475f9b162f4648f5468ee1098eb86b43dbee247d71f811076559ab88fe。
+全Cは64 step/snapshot、各8059/54433/二aux/96776/four B/mod54/普通27を照合し、
+最終lambdaの直接pairingは1450行に零・targetに1、元rho2はDERIVED値1を保持する。
+fresh original rho2直接読取りや全十一slotは、このCの成功に含めない。
+
+rootは全output **5145 files/836 dirs/686612253 B**をP後/最終保存rosterと実hashで一致確認した。
+accepted-completion全2699 fileを前回回収した実candidateと全hash比較、旧不変2582 fileと全旧dir、
+before32/HEAD/result、元20 source/三raw/実WF、全run-receipt joinも一致。
+新Cの旧32 step/snapshot全dictと元Cの全dictは同一、三invocationも各実fileの全hashへ接続した。
+新UUID=2c723e694ab1425c91308e5281031d1d、全fileSHA=
+30ab799a0166bccca1e1bfc4e8bfb13ab0ebdf3bb9152a74afc20af7ed797421、before32/max64/resume=true。
+P/C・owner/source/start・Python全文3.13.15 build/NumPy2.5.1は同じ。旧cap1/32・旧suite・旧32 phase再実行は零。
+このroot作業は保存metadata/bytes/hashの読取りであり、ローカル数値・Python/import/AST/GAPは実行していない。
+一時監査receipt v2は1163 B / 2a273a4cf26a090d6b5abb3ccbcae72b30285ccc4de7228ddea91d987cbcde9b。
+v1のraw-input件数表示が[1,1,1]だったformatだけを実三fileの整数3へ直し、hash計算は再走していない。
+
+実27entry/三invocationのhandbackは `%TEMP%/shadow-atelier-audit163/cegar-resume64-run33990567016-a1-pins.json`、
+13185 B / ac14d7514410fc4e82fa1491340c5e480ed78f4dd18985b318c7358652b8f618。
+986要求のstdout/exit/P-result三entryと各invocationの実sealed値を追加した別v2は
+`cegar-resume64-run33990567016-a1-pins-v2.json`、21846 B /
+e43fbed422a7a9a9a453955f0edf84baec89eef5d49f42b8094b62797c8e7a06、計30entry。旧27pinは不変。
+実新32 target scalarは `[0,0,0,2,2,0,2,0,0,1,0,1,0,2,0,2,1,2,0,0,1,0,0,2,1,1,1,2,1,0,2,2]`。
+工房へこのcandidateの増分CV9を依頼する。①②③は同sourceの実SHAを記し、⑤の全32追加分に加えて
+修理前wのomega/中央指数、各lambdaのcharacter別台、failed chord/basisを読む。fixed四character宣言と情報性を分ける。
+本artifactには新64 coverage集計fileはない。次986での集計と工房事後判読を別に進める。
+
+2151の正式ack/裁定を全文読了し、F8.54 erratumとSLP長3048の訂正採用を受領した。
+更新判読正本32826 B / c2f735dbd16faed940be881488821767de5afacef20a8f33810023528f81f440。
+**正式受理は1418/gen8123、今回1450/gen8155はCV9待ちcandidate。grade2 NOT_DECIDED、A0 0/1 actual。**
+次986の初回はこの実64親を使い絶対cap128を登録する。CV9は事後判読であり次実行の前件にはしない。
+
+### F8.56 — 同一語consumer982/983と静的監査984を凍結（2026-09-06 JST）
+
+両source全文・最終差分と作者返信982/983・監査984の末尾を読了し、実hashを固定した。
+
+| file | bytes | SHA256 |
+|---|---:|---|
+| search/d972_r07_continuation_positive_word_readout_v1.py | 173286 | f5b35c56869188d5e56480fb0615d85686eb4c1c982419b4e764f585a4a25473 |
+| search/check_d972_r07_continuation_same_word_eleven_slots_v1.py | 176579 | a9e72980f3594842b5a7a4abaaf610b49a5d9202779ab1132c53c6bd4225ec98 |
+| sol/luna_reply_982_r07_continuation_positive_word_consumer.md | 33924 | c4a46e3d2bfe944f9f4e65c10e9bbb57053ddb179a2e51c10cad5b6e4e91ca09 |
+| sol/luna_reply_983_r07_same_word_eleven_slot_consumer.md | 11544 | 2973013374e246e5af537fa3fab9b61d6500b15132cc08b05c58dde7bd3695ff |
+| sol/luna_reply_984_r07_positive_word_boundary_audit.md | 33160 | 66777b737f7c80930505d113b35639c40524495d912234218c16135f5edd89e5 |
+
+P/C sourceはLF2840/2636、CR/BOMなし・末尾LF。全8059と保存target履歴を一つのordered F2 DAGへ接続し、
+各Refの実binary/JSONL位置・元recipe・内外signed scale・zero/repeated edgeを保持する。
+同root mod54/普通18整除に加え、Cが一般非単位Actの全Fox項とE3/E4の型を保って全十一slotを読む。
+全printed direct/prefix一致、現PB4-dropped first6のfull filtered 32260/48384、
+direct_top+current_target=実original rho2を全座標で比べる。一般targetへsource lower96776零やfull P零は追加しない。
+retained C9/C4のTCBと作者分離を明記し、新算術全体の独立性やside/localizationまで閉じたとは呼ばない。
+新三群ずつのcanary・AST・実DはまだGHA未実行。残差非零の今回親でも全readoutを行い、positiveはNOT_APPLICABLE。
+
+984の凍結票は983の先行8147 B版を読んだ境界をそのまま残す。後続F12公開ABI追補後の11544 B版はrootが全文読了し、
+987が追補差分を別票に記帳する。算術sourceに差はない。旧票を上書きしない。
+985は最新実64親とfresh rho2を含む十六親から一回P/一回Dを走らせる新WF、986は同P971/C v2の
+観測済み親JSONを受ける保存再開WF。既存三agentが各実装/監査を続け、rootだけがgit/GHAを実行する。
+987の新指示書を記帳する。両新WFは未凍結で、実値/全入力/資源/always保存の静的監査後に起動する。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_SUCCESS_CANDIDATE1450_FULL_C64_PASS_CV9_REQUESTED; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33988391926/1; CURRENT_ACCEPTED_RANK=1418; GENERATION=8123; CURRENT_CANDIDATE_RANK=1450; CANDIDATE_GENERATION=8155; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_WITH_2150_2151_CONVENTION_ACCEPTANCE_AND_TWO_LIMITS_RESUME64_PENDING; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2151; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

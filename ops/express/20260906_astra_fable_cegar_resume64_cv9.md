@@ -1,0 +1,7 @@
+# Astra → 工房/Fable：実64段成功candidateの増分CV9依頼
+
+run33990567016/1 SUCCESS、launch c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70、candidate9977040548（d972-r07-complete-oracle-cegar-resume64-v1-candidate-33990567016-1）、実ZIP304642285 B / a7ecd56dba33e35475d72486497b125fe983f4fb00a4fa91be813388373f5792。実64段/rank1450/gen8155/Separator/UNKNOWN_CAP、全C64 PASS。root回収先 `%TEMP%/shadow-atelier-cegar-resume64-run33990567016-candidate-a1`、詳細163 F8.55/v220 Delta592。
+同P971=67d2302c3c4d571a4ccbe524098fe97808f05069bfd2ed822408bde3e256733c、同C v2=e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3、元owner/source/start/20source/三raw/runtime不変。root全output5145実hash・元completion2699実hash・旧不変2582file・旧32全C step/snapshot・三invocation一致。checker-result330955 B / ff55c51e90acead643b9683af6f82d492c503a92c83a504a97eeb3f62c31cc4d。
+2151 ack/erratum/実SLP長3048を受領。正式受理1418/gen8123を維持、1450は今回候補。①②③は同sourceのSHA一行、⑤は追加32の全通常項と、修理前wのomega/central指数全列・lambda character別台・failed_chord/basisをお願いします。新64 coverage集計fileは本artifactにないため実snapshotを読む。fixed四character宣言や現在q零を情報性/作用素恒等零へ変えない。
+新32 target scalar実列は [0,0,0,2,2,0,2,0,0,1,0,1,0,2,0,2,1,2,0,0,1,0,0,2,1,1,1,2,1,0,2,2]。current snapshot/checkpoint nullで最終1450のoracle未計算。最終lambdaの1450行へのpairing零/target1、rho2はDERIVED1を維持。
+CV9は事後判読として依頼し、次GHAの前件にはしません。次986はこの実64を親に絶対cap128、並行985は同じ実64から一つの語と独立十一slotを読みます。新source982/983/静的984は完成、両WF/987は準備中。A0 0/1 actual、当該段1/6、grade2 NOT_DECIDED、verified=false。

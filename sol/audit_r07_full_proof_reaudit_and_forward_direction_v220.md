@@ -23211,3 +23211,39 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **OPEN**: run33990567016全C/保存/実artifact、982/983/984最終freeze・985/986本走、actual grade2。
 - **UNCHANGED**: grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、
   compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCBと残る既往限定、verified=false。
+
+### Delta 592 — resume64実成功、候補rank1450/gen8155と全C64を回収（2026-09-06 JST）
+
+- run33990567016/1 SUCCESS、launch c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70、job101371928354。
+  candidate9977040548、実ZIP304642285 B/a7ecd56dba33e35475d72486497b125fe983f4fb00a4fa91be813388373f5792。
+  実累計64段/rank1450/gen8155/Separator/UNKNOWN_CAP、新append32、P829.112209秒/C1462.7485207660002秒。
+- 実HEAD全hash4614d5c3fc619007879f3a5062cde90ac0cab86552ddd17ff14306bc961ac2f4、
+  全C330955 B/ff55c51e90acead643b9683af6f82d492c503a92c83a504a97eeb3f62c31cc4d。
+  詳細run/entry/target/λ/新scalar32列は返信F8.55。current snapshot/checkpointはnull、零oracle未観測。
+- rootは全output5145 file/836 dir/686612253 Bを実hashで照合。元completion2699 file/旧不変2582 file/旧HEADとresult、
+  同20source/三raw/WF/全receipt join、新Cの旧32step/snapshot全dict/三invocation全実hashが一致。
+  元owner/source/start/runtimeは不変。旧成功suite/旧32phase再走零。ローカル数値実行なし。
+- 新64coverage集計はこの凍結WFにない。増分CV9へ同P/CのSHA、追加32全物理/target/historyと、
+  修理前wのomega/central全列、λのcharacter別台、failed chord/basisを依頼。fixed四characterと情報性は別。
+- 2151 ackでF8.54 erratum/公刊SLP長3048訂正を採用。正式受理1418/gen8123とcandidate1450/gen8155を分離。
+  次986は実64親のhandback13185 B/ac14d7514410fc4e82fa1491340c5e480ed78f4dd18985b318c7358652b8f618から絶対cap128。
+  CV9は事後判読であり次GHAの前件にはしない。
+- **CLOSED**: 33990567016実成功/全C64/実artifact/全保存来歴、2151 ack。
+- **OPEN**: 新1450の工房増分CV9、次保存再開と同語十一slot本走、actual grade2。
+- **UNCHANGED**: 正式受理1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、A1 4/4、A2 2/3、
+  A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCB/既往限定、verified=false。
+
+### Delta 593 — 982/983/984静的完成、二つの新GHAへ接続（2026-09-06 JST）
+
+- 同一語P982は173286 B/f5b35c56869188d5e56480fb0615d85686eb4c1c982419b4e764f585a4a25473、
+  独立十一slot C983は176579 B/a9e72980f3594842b5a7a4abaaf610b49a5d9202779ab1132c53c6bd4225ec98で凍結。
+  root全文/最終差分読了、作者返信と984静的PASSの実hashはF8.56。AST/新三群ずつ/実Dは未実行。
+- ordered Refの元recipe/全binary位置/JSONL EOF/zero edge、同root mod54、一般LEFT Foxと実十一slot、
+  printed順/typed E3 E4、full filtered32260/48384と直接元rho2比較を接続。source96776零/full P零は一般targetのgateにしない。
+  新consumerだけからgrade2/side/localization/新TCB独立性を閉じない。
+- 984が読んだ983旧返信の後のF12公開ABI追補をrootが全文読了。source不変、987で別に読取境界を記帳する。
+  985の十六親consumerは実64へ更新、986は実親JSONの保存再開/初回cap128。Task987で両WFの静的境界を監査中。
+- **CLOSED**: 新P/C sourceと三返信の静的完成・凍結。実GHA未実施の範囲を明記。
+- **OPEN**: 985/986/987最終WF監査・GHA・実新canary/同一語D、1450のCV9、actual grade2。
+- **UNCHANGED**: 正式受理1418/gen8123・候補1450/gen8155、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
+  A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
