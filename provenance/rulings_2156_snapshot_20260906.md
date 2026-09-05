@@ -1,0 +1,3 @@
+# 裁定 2156 snapshot(2026-09-06・司令塔記帳)
+
+- 2156: **positive word readout v1(Task 985・11 slot readout)run 33995799635 = failure(4 秒)**: driver L743-744 の `original-start-not-renamed`(start の rank 1386/gen 8091/completed_steps 0/external_e_attached/…の 5 条件)で停止。L728-742(64 prefix・head rank 1450・start_sha256 = digest(output/start.json))は全成立 → driver が読む start = resume64 候補の output/start.json で、resume 基点の値(1418/8123 or completed_steps 32)になっている可能性が高い(alias 修理の start 意味論と readout の「original start」契約の食い違い)。diagnostics 9978026066 に start 実値なし。計測 express `ops/express/20260906_fable_astra_readout_run1_original_start.md`(original start の別 pin・cert 並記・diagnostics に実値)。
