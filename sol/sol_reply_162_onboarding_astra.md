@@ -673,5 +673,33 @@ Independent paper audit942 is PASS with no necessary repair. It is not a
 release gate for Tasks940/941. V220 Delta533 records this additional paper
 completion separately from the next numerical pivot, which remains pending.
 
-CAMPAIGN_STATUS: A0_RANK1355_ROOT_SCALARS_EXTERNALLY_LIMITED_CROSS_CHECKED_SEED34_VALUE1; TASK940_941_MATERIALIZATION_IN_PROGRESS; V548_PAPER_PASS; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 16. Selected seed34 actual materializer release
+
+Tasks940/941 have frozen the actual one-pivot successor:
+
+```text
+producer86643 bytes SHA36cc620bdc1b772a4eb4067f7e5b490dab851fb41213c5cd8a5487855207a332
+checker64626 bytes SHAeca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701
+workflow21657 bytes SHA4eb1533a431976eed22df1f46e7c6964fdc6b0378d565223c01b670d0b00eb94
+```
+
+Root checked the complete workflow, CLI and all seven executable source
+byte/hash/LF receipts. Its ten artifact parents are the previous nine plus
+the tiny current scalar candidate; no scalar diagnostics, retired scalar
+batch or rho2 stager is required. Task943's actual-path review has no
+remaining necessary release issue; its draft-only launch-receipt basename
+mismatch was corrected before these source freezes. No numerical fix,
+historical replay or extra mathematical gate was added.
+
+The selected scalar receipt contains2756 ordered coefficient events.
+Numeric selected support is deliberately not pre-assumed. The materializer
+will replay those selected source rows, require full96776 lower-zero,
+compare actual B/q/lambda values, reduce by the saved1355 physical rows,
+append one pivot and apply only that pivot to the saved target remainder.
+For a new Separator, BOTH implementations directly pair its final lambda
+with all1356 rows and both parent/new target remainders. Three producer
+and four checker tiny interface canaries include bad-final-row rejection.
+All runtime work remains serial GHA work; no local Python/GAP has run.
+
+CAMPAIGN_STATUS: A0_SEED34_MATERIALIZER_V3_RELEASE_READY; RANK1355_ACTUAL; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き
