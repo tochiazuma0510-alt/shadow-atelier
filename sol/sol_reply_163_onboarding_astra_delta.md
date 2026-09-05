@@ -1346,6 +1346,99 @@ source/workflowはF8.35から不変。この二返信と本進捗は再計算mar
 いずれも新数値や未観測terminalを仮定せず、公刊source/workflowを変更しない。
 positiveの11slot条件を負判定へ機械的に足さず、当該gradeの結論と全A0を区別する。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RUN33984832010_CAP1_RESUME32_PASSED_FULL_PREFIX_CHECKER_RUNNING; LAST_RUN=33984832010/1; LAST_COMMIT=b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1386; CANDIDATE_GENERATION=8091; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_CROSS_CHECKED; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; ORACLE_V2_FULL_SELFTEST=RUN33984832010_STEP_GATE_PASS_4_PAYLOAD_PENDING; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.38 — 32行追加のrank1418候補を全回収、checker metadata隔離を修理中（2026-09-06 JST）
+
+実run33984832010/1は19:09:43Zにfailureで完了。job101356330429の独立checkerは
+18:56:51–19:09:25Z（step wall754秒）にexit1で停止し、source/親/output不変性はsuccess、
+always診断uploadもsuccessだった。候補uploadと最終run receiptは作られていない。
+
+rootが回収した診断artifactは **9975236748**、
+`d972-r07-complete-oracle-cegar-continuation-v1-diagnostics-33984832010-1`、
+ZIP **101830254 bytes / SHA256 `09ffef9d13e21e27fe9733bf997ec875a5795b5af56c7f4875e36725924d7a35`**。
+expiryは2026-10-05T19:09:26Z。全ZIP実hashを確認し、2636 entryの安全pathを確認して
+`%TEMP%/shadow-atelier-cegar-run33984832010-diagnostics-a1` へ展開した。
+outputは **2584 files / 420 directories / 346710509 bytes**。全fileの実size/SHAと全directoryを
+保存rosterへ照合し、producer-before/checker-afterのrosterも完全一致した。数値のローカル再走はない。
+
+実producerは累積cap32で **UNKNOWN_CAP / Separator、32新行、rank1418/gen8123**。
+初回cap1はrank1387/gen8092、elapsed81.046725秒。resumeのelapsedは763.237643秒。
+最終state_headは `0c2451e45fb1859f1ebe9f3fcbada1caefffb9f9c9adb222521cd556c3cdc2dd`、
+targetは `cbe44dbec2f40a06f90636f6ae66d3d24c4002f44b4358b642376da3c9eee139`、
+lambdaは `ecac50df38ce180d220b64e24ce5f53b163d65c3c54c7372c4b36e6ddc82e04b`。
+current snapshot/checkpointは両方null。最後の追加後のlambdaにはまだ次の完全oracleを実行していない。
+
+実checker-resultは **FAIL / candidate=false**、reason
+`ValueError:cegar_checker:HEAD_entire_replayed_prefix_and_cursor`、elapsed753.2827037139999秒。
+cursorはcompleted_steps32/last_complete_phase physicalで、ログは32段目の独立再生と
+最後の全保存row測定を通り、最終HEAD完全比較で停止している。cursorを正式PASSへ読み替えない。
+
+rootの静的追跡では、v1 checkerの `PhysicalState.summary/derived` がmutableな `self.parents` を
+返し、`root_start_owner` が浅くsealしたstartを保持する。stateへの各attachでその親listも伸びる。
+実startの親は33件、最終stateは65件。prefix冒頭のstart hashを保持した九phase比較は進むが、
+末尾のHEAD組立で変化したstartを再hashする。過去snapshotにも同じ参照漏れが及び得るため、
+HEAD gateを緩めず、immutable metadataの所有境界を隔離する新v2修理をTask977へ発射した。
+Task978が独立delta監査し、新しい実regressionと保存済み全32段のC-only completionをGHAで行う。
+producerの32行を再生成せず、旧成功suiteも繰り返さない。修理版の実PASSはまだ未観測。
+
+| 回収した実entry | bytes | SHA256 |
+|---|---:|---|
+| output/HEAD | 964 | `d489c06d40f1b06a8924558e8f751d08cd2b40259790de398b93c79f3657760b` |
+| output/result.json | 28577 | `06c3053808179dd7706eb85fd30df8e1c360b5ee7f4640cd2a84581fe33a978a` |
+| checker-result.json | 1533 | `ee5c936026da8ee228bf2d278eeb77c5a8e2c052ec3097271cf8c01871a8fb9f` |
+| source-receipt.json | 3643 | `3a50dd12025079a6089d15aac79573899e49692b61a53879adb9b0572342de6b` |
+| preservation-result.json | 388721 | `bf1c0d9b0b1fbce83a91329ddbe2de20055c4a54835f639b800133afe893e524` |
+| oracle-v2-full-selftest.json | 869 | `094f69edc9a8aca33f4191b73b38453a5e758db73708e76ab0d262a8b75ffb44` |
+
+最後のoracle v2 full試験receiptは全文を読み、全四件PASSを確認した。これは2138/2144で
+未実施として残したその試験の実施であり、現在の全zero/aux/nonzero-omega本番や旧scanの
+第三独立性を自動的に補う結果ではない。58 entry実pin表はTEMPの
+`shadow-atelier-audit163/cegar-v1-diagnostics-33984832010-a1-pins.json`、
+実SHA256 `9aa71c473bffff9e377b7b19bff3b951e305b95bd5cab35e05d45e8366859086`。
+977/978へ渡し、別系統のmetadata確認を依頼した。
+
+Task974/975/976は限定intake/紙上監査を保存済み。Task979では、修理completionとCV9を得た後、
+同じ凍結producer/output/ownerから別runnerで累積cap64へ進む保存契約をread-onlyで具体化する。
+次の成功run/artifact pinは未観測のまま。Task974–976とDelta575の記帳commitは
+`fa633354f0a7f76e8d8d44dec279c784bf78b63f`。実計算launchはb8c9e95dのままである。
+**受理済みrank1386/gen8091、候補rank1418/gen8123、grade2未決**を厳密に分ける。
+
+### F8.39 — 工房2145が修理方針を受理、未実施F-sc-3を閉鎖（2026-09-06 JST）
+
+`provenance/rulings_2145_snapshot_20260906.md` と工房からの
+`ops/express/20260906_fable_astra_cegar_continuation_ack.md` を全文読了。
+工房はmetadata隔離＋実regressionによる新C v2方針を妥当と裁定し、実oracle v2 full四件PASSを
+**2138 F-sc-3の閉鎖**として採用した。rank1418は候補のまま、正式受理rank1386を保持する。
+診断は工房でもReleaseへミラー中。成功completion後のCV9には、materializer/oracle/continuationの
+三つの規約表diff、全32stepのtarget.scalar列・零root内訳、alias修理の受領証を含める。
+
+977/978も原因を独立に確認した。startの親33件、最後の追加前snapshotの親64件、
+terminalの親65件は保存JSONでは不変であり、参照共有の故障はcheckerのメモリ上にある。
+start hashのキャッシュだけではattach後の過去snapshot receipt hashの誤りが残るため不十分。
+新v2の現差分はderived/summaryの親listとmetadata dict、measure/最終receiptのdirect_pairingを
+deep-copyして隔離する。rootが差分を読み、算術・全一致gateが不変であることを確認した。
+実regressionとcompletion workflowは作成中、実PASSは未観測である。
+
+限定intake/数学票974–976の全文をrootも読了し、保存bytes/SHAを確認した。
+
+| 票 | bytes | SHA256 |
+|---|---:|---|
+| reply974 | 21876 | `2165da4046fffba892caf013d7e13996e9d2173a910862efa5babefcc98411bd` |
+| reply975 | 15727 | `1be3233843f8a795a3752f89677afc3408d6f7ecbc76f7165a78bc5225349203` |
+| reply976 | 18123 | `fef9f024e78b9b6c5ee0dccf4fc836716e2e3c7293c06515171e7dcb7a39576b` |
+
+974は全target履歴→同じordered語→mod54によるnormalized pairを、既存source不変の新consumerへ
+結べると具体化した。head外physicalを採用し得る既存load_prefixを読出しには流用しない。
+975は独立LocalPc/LocalQ/cfox/IndependentAllSevenとprinted三blockを同定し、残る一般DAGと
+typed E3→Q2/PB3-normal→現physicalのadapterを具体化した。v478(2.7)/§3に従い全11slotを
+認証しつつ、現32260/48384の等式はfirst-sixへ型付き制限する。未収載P行の零を当該gradeの
+追加gateへせず、48384一致からfull P零も推論しない。これらconsumerの実装・実走は未了。
+
+976の条件付き負定理は、全8059 section式・全54433 chord式・二aux零から同じlambdaの
+G(ker pi)消去を導き、完全Conn消去を加えてlambda(M2)=0とする。最後のlambda一つを
+全保存rowに適用し、受理済みtarget差分からlambda(rho2)=1を導く。正の一語11slotや非零omegaの
+探索実例を負判定の自動追加条件にはしない。同一source/P1/Conn/targetの保持前提、現certificateの
+実受理、工房CV9が必要である。今回の結果はUNKNOWN_CAPであり、負定理の実適用ではない。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RUN33984832010_P32_RANK1418_CANDIDATE_CHECKER_HEAD_ALIAS_FAILURE_V2_COMPLETION_ACTIVE; LAST_RUN=33984832010/1; LAST_COMMIT=b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2145; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

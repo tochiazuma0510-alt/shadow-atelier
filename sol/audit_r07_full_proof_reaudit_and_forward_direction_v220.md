@@ -22932,3 +22932,48 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理済みrank1386/gen8091、grade2 **NOT_DECIDED**、A0 **0/1 actual**、当該段 **1/6**、
   A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   2131/2138/2143/2144の限定を保持し、`verified=false`。
+
+### Delta 576 — 32新行/rank1418候補を全回収、最終HEADのmetadata aliasを修理（2026-09-06 JST）
+
+- 実run **33984832010/1**（launch b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e）はfailure。
+  P cap1/resume32 success、Cは18:56:51–19:09:25Z（**754秒**）にexit1。
+  生成出力/source/親不変とalways診断保存はsuccess。成功candidate/run receiptはない。
+- 実P結果は **UNKNOWN_CAP / Separator、32新行、rank1418/gen8123**。
+  current snapshot/checkpoint nullで、rank1418の新lambdaへの次の完全oracleは未実行。
+  C cursorは32/physical、最後の全row測定後に `HEAD_entire_replayed_prefix_and_cursor` でFAIL。
+  cursor32を正式照合PASSへ読み替えない。
+- artifact **9975236748**、ZIP101830254 bytes/SHA
+  `09ffef9d13e21e27fe9733bf997ec875a5795b5af56c7f4875e36725924d7a35` をroot回収。
+  全2636 entry安全展開、output **2584 files/420 dirs/346710509 bytes** の全実size/SHA/rosterを照合。
+  checker前後の全outputも一致。主要6entryと全58entry pin表は返信163 F8.38。
+- rootがsummary/derivedのparent参照→浅いstart seal→attachで33から65親へ変化→末尾再hash、
+  という静的原因を特定。過去snapshotにも及ぶため、Task977でimmutable metadata隔離の新v2と
+  **保存32段のC-only completion**、Task978で独立delta監査を発射。P再生成0、旧成功suite再走0。
+- oracle checker v2 full **全4件PASS** の実869-byte receiptをroot全文読了。
+  SHA `094f69edc9a8aca33f4191b73b38453a5e758db73708e76ab0d262a8b75ffb44`。
+  この試験の未実施は解消したが、旧scan第三独立性やzero/aux/非零omega本番を自動補完しない。
+- Task974/975/976の保存済み限定報告を受領。Task979で受理後の同owner別GHA累積cap64再開契約をintake。
+  次の成功completion/CV9/新artifactは未観測。記帳commit fa633354f0a7f76e8d8d44dec279c784bf78b63f。
+- **CLOSED**: 実producer32追加、診断全回収と不変bytes認証、v2 full四件実receipt読了。
+- **OPEN**: 修理C v2実regression/全32段HEAD/terminal/invocation PASS → 工房CV9 → 同owner継続。
+- **UNCHANGED**: 受理済みrank1386/gen8091、候補rank1418/gen8123、grade2 **NOT_DECIDED**、
+  A0 **0/1 actual**、当該段 **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCBと既往限定を継承、`verified=false`。
+
+### Delta 577 — 工房2145で修理方針受理・F-sc-3閉鎖、974–976読了（2026-09-06 JST）
+
+- 裁定2145とcontinuation受領速達を全文読了。metadata隔離/regression方針は妥当、
+  oracle v2 full四件実PASSにより **2138 F-sc-3閉鎖**。1418は候補、1386が正式受理値。
+- 977/978も原因を独立確認。保存start33親/snapshot31は64親/final65親は正しく不変。
+  start hashだけを固定する修理では過去snapshotの返却hash問題が残る。新v2現差分は
+  parent/direct_pairing metadataのdeep-copy隔離だけで算術/gate不変。実試験とworkflowは作成中。
+- reply974/975/976をroot全文読了・全bytes/SHA照合。値は返信163 F8.39。
+  新Eのordered target/語/pair consumerと、独立同一語11slot→現PB4-dropped codomainのadapterを具体化。
+  現gradeにfull P零を追加せず、現48384一致からfull P零も主張しない。実装・実走は未了。
+- 976の条件付き負命題を確認。最終lambda一つで全域oracle/完全Conn/全保存row/元target差分を結ぶ。
+  positive 11slotや非零omegaの探索実例は負判定への自動追加条件ではない。今回UNKNOWN_CAPには未適用。
+- 次のCV9は三規約表diff、32step target.scalar/零root内訳、alias修理receiptを添付する。
+- **CLOSED**: 工房によるF-sc-3未実施限定の閉鎖、三限定票のroot読了、修理原因の独立静的確認。
+- **UNCHANGED**: 受理済みrank1386/gen8091、候補rank1418/gen8123、grade2 **NOT_DECIDED**、
+  A0 **0/1 actual**、当該段 **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCB/残る既往限定を継承、`verified=false`。
