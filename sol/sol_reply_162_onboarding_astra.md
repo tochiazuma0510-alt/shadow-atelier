@@ -724,5 +724,58 @@ duplicate workflow_dispatch was sent. Actual rank is still1355 until its
 arithmetic succeeds; runtime results/artifact pins remain pending. The
 40-minute caps are safety limits, not estimates of this run's duration.
 
-CAMPAIGN_STATUS: A0_SEED34_MATERIALIZER_V3_ACTUAL_RUN33956437467_IN_PROGRESS; RANK1355_ACTUAL; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 18. Actual seed34 succeeds: rank1356, next residual still nonzero
+
+Run33956437467/1 completed SUCCESS. Job101280515236 ran08:52:11Z--08:54:36Z,
+145 seconds total. Producer step54 seconds (internal53.763); independent
+checker54 seconds. The seven tiny interface canaries completed in the
+one-second test step. All source/syntax/input gates and final uploads passed.
+
+```text
+selected char0/seed34; ordered raw events2756; literal P1 roots1445
+numeric selected P1 support1052; full lower-zero coordinates96776
+q(d)=lambda(G)=1; physical reductions902 against existing1355 pivots
+new lead1418; scale1; actual rank1355->1356; generation8060->8061
+new state head d467e4e60b8bff88272cddd4b01d630d763e863b4500015c7c6c077b23ddf26b
+one new target elimination, scalar1; target remains nonzero
+next free coordinate1419/value1; FINAL lambda kills all1356 rows
+next lambda pairs1 with both current-parent and updated target remainders
+```
+
+Current head/generation and lambda from rank1355 are now RETIRED for new
+searches. Resume uses the immutable Task904 base, seed30 delta and this
+seed34 delta; none of them is recomputed or concatenated into a parent copy.
+The next current lambda SHA is
+f7406d70211ab02acf08a895d127d17e7dab179454916a90ea40cb11152e12dd;
+next target-remainder SHA
+46a6b8281587a13236fd9af00eab9825a2d956dd878613af14182b5f9ae94c49.
+Each is12096 bytes. Source-d9072 bytes has SHA
+e96170bf6812d7143feb9b77f9aa6d89313fdbf1b4e1c99aa3f7c50a8fc89f60.
+Raw physical SHA927b4254fc50f1e33f55145945ca026e0a50056e229bd4f53553113808da625f;
+normalized/remainder SHAa17e774a0641d009f804812c4ca1c5252db785afa821105ca6f331fa26995578.
+
+Final artifact9966542166 has984053 zip bytes/SHA
+a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc;
+diagnostics9966542318 has1002755 zip bytes/SHA
+a8c147acf7da6b6246e33b20d3491bad9458214772762ef1d1bea17866c58f62.
+Both are unexpired and their live run/head/repository metadata matches;
+expiry2026-12-04T08:52:10Z. Root downloaded outside the repo to
+`%TEMP%/shadow-atelier-seed34-run33956437467-{candidate,diagnostics}-a1`
+and matched all8 manifest payload byte/SHA receipts. Small receipt pins:
+
+```text
+manifest1813: 0acac7c5cbe15375c25ccc4c9109dad449ed38e60898b68ca0b7b3cda4fcda52
+result3135681: 3a8357365f4e5f3f7d281b811d36d49e4f334cbec3828c82833ae1b1d5af0242
+instruction147200: 790af5b3556c78ec2b81f45602aa50779435f46ddde57a8e5b5414566813dc7f
+checker1570: 0e514b8833c37333ec9643775f5d752958a1a1a35dd6673ff65fdb620b6a556c
+source1304: 0a037063a25b161566791638e025d301bc2275b50f4896176897271f528f9451
+```
+
+Both actual programs agree on the new physical row, state append, target
+update and final separator. External workshop grading is not self-issued;
+retained source-lineage and parent-history qualifications remain. This root
+metadata check is not a third arithmetic replay. The full-target residual
+is not zero, so grade2/COMMON/full A0/cofinal/fake/Ihara remain undeclared.
+
+CAMPAIGN_STATUS: A0_SEED34_ACTUAL_PAIR_PASS_RANK1356_GENERATION8061; NEXT_SEPARATOR_FREE1419; V548_PAPER_PASS; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き

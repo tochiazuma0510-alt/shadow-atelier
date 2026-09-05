@@ -21974,3 +21974,42 @@ single transport repair required before continuation; it does not count the
   **0/1 actual**, first-rung grades **1/6**, A1 **4/4**, A2 **2/3**, A3
   **3/3**, A4 **1/3**, compact A5 unchanged. No grade2/full-A0/COMMON,
   cofinal/fake/Ihara claim. `verified=false`.
+
+### Delta 535 (2026-09-05): seed34 actual insertion completed in145 seconds, rank1356 retained
+
+- Actual run33956437467/1 at sourceb9ae78b0950b186463849c3ec874f6474f359851
+  completed SUCCESS. Job101280515236 ran08:52:11Z--08:54:36Z (145 seconds).
+  Producer54 step seconds/internal53.763 and independent checker54 seconds;
+  the seven tiny interface canaries completed in one step second. No local
+  Python/GAP, old successful-run replay or duplicate dispatch occurred.
+- Actual char0/seed34 has2756 ordered events,1445 literal P1 roots and1052
+  numeric selected rows. All96776 lower coordinates vanish, and q(d) and
+  lambda(G) both equal1. Reduction by the existing1355 pivots uses902 rows;
+  the new lead is1418, scale1. Actual rank1355->1356/generation8060->8061.
+  New state head d467e4e60b8bff88272cddd4b01d630d763e863b4500015c7c6c077b23ddf26b.
+- Only one new target elimination is used, scalar1. The remainder stays
+  nonzero, with next free coordinate1419/value1. Both actual paths directly
+  check FINAL lambda against all1356 rows and both parent/new target
+  remainders. Next lambda SHA f7406d70211ab02acf08a895d127d17e7dab179454916a90ea40cb11152e12dd;
+  next remainder SHA46a6b8281587a13236fd9af00eab9825a2d956dd878613af14182b5f9ae94c49.
+  Old rank1355 scalar values cannot be reused with this new lambda.
+- Final artifact9966542166 (984053 zip bytes) SHA
+  a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc;
+  diagnostics9966542318 (1002755 bytes) SHA
+  a8c147acf7da6b6246e33b20d3491bad9458214772762ef1d1bea17866c58f62.
+  Both are downloaded outside the repo. Root matched all8 payload size/SHA
+  receipts; exact small receipts are fixed in reply162 section18. Resume
+  references the immutable1354 base plus seed30 and seed34 deltas, with no
+  parent-state copy or repeated old target elimination.
+
+**v220 mapping**:
+
+- J2 now has TWO actual added directions beyond the old Conn state:
+  seed30 then seed34, rank1354->1355->1356. Relative to Delta534, the second
+  is completed with agreeing actual arithmetic, not just implementation or
+  a scalar candidate. J3's next search must use generation8061's lambda.
+- The v548 paper advance of Delta533 is retained; no A0 completion is
+  inferred from it or from this rank increase. Counters stay A0 **0/1
+  actual**, first-rung grades **1/6**, A1 **4/4**, A2 **2/3**, A3 **3/3**,
+  A4 **1/3**, compact A5 unchanged. J4's actual target decision is still
+  open. No full A0/COMMON/cofinal/fake/Ihara claim; `verified=false`.
