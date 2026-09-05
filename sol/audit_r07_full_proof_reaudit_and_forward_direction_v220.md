@@ -21642,3 +21642,125 @@ single transport repair required before continuation; it does not count the
   ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
   **3/3**, A4 **1/3**, compact A5 unchanged. Grade2, full A0/COMMON,
   compatible cofinal lift, fake and Ihara are not declared. `verified=false`.
+
+### Delta 527 (2026-09-05): corrected complete root scan is released and launched on GHA
+
+- Task922/923 freeze the v541 raw-seed and full filtered-actor repair;
+  Task926 independently returns `PASS_STATIC_RELEASE` and
+  `SAFE_TO_PUSH_TRIGGER_GHA=yes`. The narrow audit closes a genuine
+  complete-defect test gap, one stale checker relation-receipt recipe and
+  the actual-canary CLI join. No additional parent closure or canonical
+  lift is rebuilt. The twelve retained lower blobs total67011332 bytes and
+  are consumed with prepare plus one block, not an8059-by96776 matrix.
+- Root commit `a68460cf0c1bdae9fde5d3a4fa6501d625d68388` contains the new
+  producer118315 bytes/SHA
+  `3c93c50c43020472d616b5c253ea3c6fac6fa34d9d0e41b5a10686da30b7a856`,
+  checker119619 bytes/SHA
+  `e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6`,
+  and workflow29421 bytes/SHA
+  `326bc19f837a1c03a2613713747e0eed80d94ad466608a948209e52827abbe63`.
+- A concurrent commander documentation push already published a descendant
+  containing those sources. The observed markerless push runs were skipped;
+  root performed exactly one explicit workflow_dispatch. Actual run
+  `33941591417/1`, job101239970571, head
+  `2caaf1f33b6f36f8aa754f759ef0e5dccfaf5a74`, was created at
+  `2026-09-05T03:20:43Z`. First metadata read: `in_progress`, authenticating
+  live parents. Serial actual-parent canaries, production and checker are
+  still required. No corrected scalar outcome is inferred from launch.
+- Reply162 answers all five finite/cofinal questions and the three CV-9
+  lists. It conditionally accepts Fable v2.1's finite physical-quotient and
+  rootless inverse-system framework, while rejecting the unsupported
+  exclusion of every weak P--H syzygy or every alternative cofinal route.
+  V542/v543 remain the parallel finite-paper alternative, not a new demand
+  on the immediate root run.
+
+**v220 mapping**:
+
+- Relative to Delta526, J3 now has a frozen, independently release-audited
+  corrected executable AND an actual GHA run. No real physical rank rise,
+  grade-two terminal or later-orbit EOF is yet obtained.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6** (workshop
+  ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, compact A5 unchanged. Full A0/COMMON, compatible
+  cofinal lift, fake and Ihara are not declared. `verified=false`.
+
+### Delta 528 (2026-09-05): corrected root run succeeds and gives the first genuine-formula seed30 scalar1
+
+- Run33941591417/1 at head
+  `2caaf1f33b6f36f8aa754f759ef0e5dccfaf5a74` completed/success; job101239970571
+  ran266 seconds, actual producer68 and checker67 seconds. Both actual-parent
+  canaries and both actual executions passed. Seed2's corrected scalar is0.
+- New first Violation is char0/seed30/empty actor word/scalar1, origin_id30.
+  The exact ordered prefix covers31 seeds, with digest
+  `3ea7d56c36ad8c7b9d63a54a77a437733cd088bd2462c6ae7cab1d52344978b0`;
+  Violation seal
+  `cba44225c60f14e6203ea51a053f75a56b17e6cc33f146a9262609ac43c1c0f5`.
+  The fixed32280 relation family was accumulated, but this is NOT its EOF
+  and NOT a504-orbit exhaustion. Actor-origin scanning did not precede this
+  first-seed return. All repaired lower/direct arrays are nevertheless
+  independently recomputed and bound by the result.
+- Final artifact9962060495 is253544 zip bytes/SHA
+  `1091f9946108ef6bf122143da58d32006eba54166ee995996efa177aa89a2ed2`.
+  Diagnostics9962060193 is266309 bytes/SHA
+  `78f087944047f170162587c413fcb1202bb5796b8d4fdff19da73e6e2fd321cf`.
+  Root reads both actual objects: all33 common files match, all31 output
+  payload receipts match. This is metadata/byte checking, not a third
+  arithmetic implementation or a self-issued workshop cross-checked grade.
+- Task927's narrow next operation is raw seed30 minus its complete global
+  P1 reconstruction, complete96776-coordinate lower-zero comparison,
+  character0 projection of the FULL defect, forward B, both scalar pairings,
+  then insertion-order reduction against the retained rank1354 state and
+  the next target reduction. No parent closure or canonical-lift rebuild.
+- Paper side: reply162 Section6 also supplies the exact obstruction-sequence
+  comparison for unaggregated versus physical relative kernel covers, in
+  response to Fable v2.3 Q7. It isolates the target-kernel lifting gap and
+  aggregation-invisible source directions; it supplies neither actual cover.
+
+**v220 mapping**:
+
+- Relative to Delta527, corrected J3 actual producer/checker have completed
+  and supplied a concrete new materializer input. J2 physical insertion is
+  still pending; no A0 subgrade has yet closed. V542/v543 paper work remains
+  available without delaying this first real correction path.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6** (workshop
+  ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, compact A5 unchanged. Full A0/COMMON, compatible
+  cofinal lift, fake and Ihara are not declared. `verified=false`.
+
+### Delta 529 (2026-09-05): external limited grading received; actual seed30 one-pivot delta implementation starts
+
+- Root read the complete workshop2096 express and CV-9 note. The corrected
+  run33941591417/1 now has external limited cross-checked grading: char0
+  prefix31, all44 seed scalars, and all4*8059 lower contractions. Post-fold
+  actor32236 values and the504-row future orbit are NOT within that scope.
+  Seed2=0/root covector were prior regression assertions. The shared legacy
+  seed core and unanchored lower-degree actor reference remain disclosed.
+- V544 is the versioned paper erratum for the false sorted-index sentence
+  in v540: actual expressions retain unique in-range indices in SOURCE
+  order. Coefficients and numeric sums are unchanged. No old file, run or
+  result is silently overwritten. This closes the paper-order mismatch,
+  not the independent general-actor provenance gap.
+- Task927 intake completed. Root authorized its seed30-only producer and
+  Task928's independent checker/workflow with a parent-plus-one-pivot delta
+  ABI. The selected final P1 support is902 on the fixed parents; raw event
+  order is sealed before global numerical combination. The diagnostic
+  artifact9962060193,266309 bytes,SHA78f087944047f170... is now fixed too.
+- Root confirmed Task904 actually stores the target remainder as24192 hex
+  characters/12096 packed bytes in `output/result.json`, with the884 old
+  reductions and SHAe0053fc6e745e445... . Only one NEW target elimination is
+  needed after a successful pivot. Parent state and accepted old derivation
+  are authenticated/referenced, not reconstructed or copied into the delta.
+- No new local Python/GAP or actual materialization run occurred. General
+  actor-anchor repair and optional historical checks are not prerequisites
+  for this EMPTY-ACTOR seed30 candidate. The full lower-zero new defect and
+  physical row will nevertheless be replayed by both implementations.
+
+**v220 mapping**:
+
+- J3's corrected seed-scalar result gains external limited acceptance;
+  J2 is now in concrete one-row implementation, physical rank still1354.
+  The paper-only A0 alternatives v542/v543 remain available in parallel.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6** (workshop
+  ruling1916, limited cross-checked scope), A1 **4/4**, A2 **2/3**, A3
+  **3/3**, A4 **1/3**, compact A5 unchanged. Grade2, full A0/COMMON,
+  compatible cofinal lift, fake and Ihara are not declared. `verified=false`.

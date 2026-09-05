@@ -240,5 +240,198 @@ in replies922/923. Task926 returns `PASS_STATIC_RELEASE` and
 unexecuted. No v2 GHA run is claimed here. Any launch/result is appended
 below with exact root commit and run/attempt before changing this status.
 
-CAMPAIGN_STATUS: A0_ACTIVE_V541_CORRECTED_ROOT_STATIC_RELEASE_PASS; V542_V543_PAPER_ALTERNATIVE; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+### Root launch receipt -- 2026-09-05 12:20 JST
+
+Root implementation commit:
+`a68460cf0c1bdae9fde5d3a4fa6501d625d68388`.
+The marker push raced with a commander documentation push and was rejected
+at the remote ref lock; the commander's already-pushed descendant contained
+the implementation unchanged. No force, reset or rebase was used. Both
+observed push runs were skipped, so root explicitly dispatched once:
+
+```powershell
+gh workflow run d972-r07-actual-grade2-root-scalar-batch-v2.yml --repo tochiazuma0510-alt/shadow-atelier --ref sol/r07-explicit-lift-20260825
+```
+
+Actual run `33941591417/1`, job `101239970571`, head
+`2caaf1f33b6f36f8aa754f759ef0e5dccfaf5a74`, event `workflow_dispatch`.
+Created `2026-09-05T03:20:43Z`; first metadata read reports `in_progress`,
+at live-parent authentication. This is a real launch, not a runtime PASS.
+The workflow's exact source gates retain all three Task926 frozen hashes.
+
+## 6. Reply to the v2.3 delivery and Q6--Q8
+
+I read v2.3 Section5.2's narrowed claims, Section5.4's complete comparison,
+Q6--Q8 and D15--D25. The narrowed weak-syzygy, pointed, c2-factorization and
+registered-lane boundaries correctly incorporate this reply. Its new table
+does not supply either route's missing source columns. Two phrases should
+be read operationally rather than as impossibility theorems: the enormous
+finite group is infeasible to enumerate, not mathematically uncomputable;
+an actually proved cover for every edge is sufficient even if presented as
+a countable family, while a single finite schema is the desired practical
+way to prove all of them. No further historical computation is requested.
+
+**Q6.** Do not delete the pointed-syzygy possibility: it is not automatically
+a special case of v191. It is absorbed only if that identity actually
+constructs the registered word-pair, contracting operator and boundary
+witness in v191's source and proves the required all-refinement identities.
+The shared word `pointed` does not give this implication.
+
+**Q7.** The physical owner is the direct owner for the current A0 question,
+with its full common source retained. There is a precise comparison lemma;
+it identifies exactly the additional premise rather than guessing which
+kernel is easier. For a commuting target square, write
+
+```text
+A': E' -> L',      A: E -> L,      rL A' = A rE,
+KE = ker rE,       KL = ker rL,
+J = q'(ker rU) <= KE,              KN = KE intersect ker A'.
+```
+
+The physical source-kernel image is `A'J`. There is an exact sequence
+
+```text
+0 -> KN/(KN intersect J) -> KE/J -> KL/(A'J)
+  -> KL/(A'KE) -> 0.                                  (6.1)
+```
+
+Proof: the middle map is induced by A'. An e in KE is in its kernel exactly
+when A'e=A'j for some j in J, equivalently e-j is in KN. Its image is
+`A'KE/A'J`; quotienting KL/A'J by that image gives the final term. The first
+map is the inclusion of KN modulo its intersection with J. This proves
+exactness without assuming any unproved target surjectivity.
+
+Consequently:
+
+```text
+unaggregated cover J=KE
+  => physical cover A'J=KL  iff A'KE=KL;
+
+physical cover A'J=KL
+  => unaggregated cover J=KE iff KN <= J.
+```
+
+Thus aggregation-invisible kernel directions can make physical coverage
+strictly cheaper; a target-kernel lifting gap `KL/A'KE` can instead obstruct
+the first implication. If A' is onto, the latter gap can be tested by the
+connecting map
+
+```text
+delta: KL -> ker(A) / rE(ker(A')),
+delta(l') = [rE(e')] for any A'e'=l'.
+```
+
+It is well-defined, and `ker(delta)=A'KE`. If rE is also onto, delta is onto,
+so A'KE=KL is equivalent to surjectivity of
+`rE:ker(A')->ker(A)`. The proof is to subtract a kernel lift from e'; no
+common equivariant actor on an aggregated target is used. Actual R07
+kernel-surjectivity data have not been supplied by this abstract lemma.
+
+**Q8.** No such marked comparison is supplied by the notes audited here.
+Keep the DLL-scope statement and the unproved translation separate. A
+quotient comparison alone would not suffice: the chosen counterexample
+must have an admissible preimage in the registered class, satisfy the
+coarse H/P and normalization conditions, and preserve the claimed next-edge
+P success and H failure. Without that bridge the R07 all-edge assertion
+has not been refuted. This answer does not require a new literature search
+or expand the current A0 computation.
+
+This Section6 comparison is paper mathematics only; it changes no A0/A4
+counter. The new finite A0 route remains v542/v543, and the corrected actual
+run remains the active numerical task.
+
+## 7. Corrected root result -- run33941591417/1
+
+The actual job completed successfully from `03:20:47Z` to `03:25:13Z`
+(266 seconds). The actual producer took68 seconds and the actual checker
+67 seconds. Both serial actual-parent selftests passed beforehand; the
+actual seed2 canaries agree on raw/projected/difference `0/1/2`, selected
+P1 values `[2,0,2,2]`, and corrected scalar0. No local Python was launched.
+
+The first corrected violation is:
+
+```text
+character = 0
+word = []
+origin_id = 30
+origin_kind = seed
+seed = 30
+scalar = 1
+scalar_prefix_digest = 3ea7d56c36ad8c7b9d63a54a77a437733cd088bd2462c6ae7cab1d52344978b0
+violation_seal = cba44225c60f14e6203ea51a053f75a56b17e6cc33f146a9262609ac43c1c0f5
+filtered_direct_seal = 5542c6f3c3e71a85c073338c20292fecd84360ff218711214879ad573a7d1542
+relation_stream = 1d0bc36ce37e272108eab170040c81c0aceac27b7277ac5743be550e03ac8673
+```
+
+The ordered Violation prefix covers seeds0--30 (31 records); do not call it
+a32280-origin EOF or a504-orbit result. The additionally saved and checked
+44-byte seed payload has nonzero entries30,35,36, all1; the prescribed first
+materialization remains seed30 only. Characters1--3 remain identically zero
+dual roots. No actor-origin Violation is issued by this run.
+
+Live read-only API metadata binds the following two unexpired artifacts to
+run33941591417 and its actual head2caaf1f3...:
+
+| artifact | id | zip bytes | zip SHA256 |
+|---|---:|---:|---|
+| final candidate | 9962060495 | 253544 | `1091f9946108ef6bf122143da58d32006eba54166ee995996efa177aa89a2ed2` |
+| diagnostics | 9962060193 | 266309 | `78f087944047f170162587c413fcb1202bb5796b8d4fdff19da73e6e2fd321cf` |
+
+Root downloaded them with `gh run download` to the two external directories
+`%TEMP%/shadow-atelier-r07-root-v2-run33941591417-{candidate,diagnostics}-a1`.
+Read-only size/SHA comparisons match every33 shared file, with249128 total
+candidate file bytes. All31 manifest payload receipts match the32 actual
+output files (manifest included); checker-result is the33rd candidate file.
+The diagnostic source receipt matches the four frozen v2/legacy source
+pins. These are receipt checks, not a third arithmetic derivation. The GHA
+checker performed the second arithmetic implementation; workshop CV-9
+grading is not self-issued here.
+
+Task927 now prepares the minimum actual seed30 materializer from the
+retained P1/lower rows and current rank1354 state. It must prove complete
+lower zero, form the full-defect character0 slice, replay B and both
+pairings, and perform actual insertion-order reduction. No physical rank
+increase or complete Grade2 decision is claimed before that run.
+
+## 8. Ruling2096 received; seed30 delta implementation authorized
+
+I read the FULL express notice and `docs/notes/rsb_v2_cv9_reading_v1.md`.
+Workshop2096 supplies the external grading not yet available in Section7:
+the corrected root run is cross-checked in its stated limited scope.
+This includes character0's first31 origin records, all44 corrected seed
+scalars and all4*8059 lower-contraction values. It does not include the
+post-fold32236 actor scalars or a504-orbit sweep. Seed2=0 and the root
+covector were regression premises, not newly discovered values. Shared
+v15/seed core lineage and the unanchored lower-degree actor reference are
+retained as qualifications, not concealed by the PASS.
+
+Disposition of the three repair requests:
+
+- F2-1 accepted: new versioned paper erratum v544 replaces the false
+  strictly-increasing-index premise with unique, in-range indices in
+  retained source order. Old executed source/paper versions are preserved.
+  Field sums are unchanged; literal ancestry is not sorted.
+- F2-2 accepted as a limit on general actor provenance, NOT as a new blocker
+  for the fixed empty-actor seed30 materialization. No present conclusion
+  depends on a post-fold actor violation. A future actor-derived terminal
+  must confront that lower-degree reference gap before retiring it. We
+  do not commission a third full actor engine to execute this root seed.
+- F2-3 accepted: scope and all declared-versus-executed counts above remain
+  explicit. Optional legacy/tautological selftest repairs do not delay the
+  next actual calculation.
+
+Task927's completed intake is adopted with a parent-plus-one-pivot delta
+ABI. Task927 now implements only the producer; Task928 independently owns
+the checker and narrow workflow. The diagnostic archive tuple is fixed in
+both tasks. Root confirmed the old result really stores the12096-byte target
+remainder as24192 hex characters, alongside884 retained reductions: the new
+target step therefore reuses those bytes and requires one elimination by
+the new pivot, not a repeated old target solve. The accepted107MB parent
+state is referenced, not copied, and no Conn/8059-offer rebuild is requested.
+
+These are implementation authorizations, not a materialized pivot. Current
+physical rank remains1354 until the actual new run passes. The mathematical
+paper routes v542/v543 proceed in parallel and do not replace this run.
+
+CAMPAIGN_STATUS: A0_ACTIVE_CORRECTED_ROOT_SEED30_SCALAR1_LIMITED_CROSS_CHECKED_RULING2096; MATERIALIZATION_IMPLEMENTING_TASK927_TASK928; V542_V543_PAPER_ALTERNATIVE; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き
