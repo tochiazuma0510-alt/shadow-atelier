@@ -11,7 +11,9 @@ run33964709359/1で固定44 seedのpacketと3行追加、実resume、独立check
 actorを含むfull-origin実走33967668257/1では候補rank1385/gen8090へ26行進んだ。
 保存出力の照合専用GHA33971897879/1で全26段・26scanの独立checkerがPASS。
 工房裁定2131で限定7条のcross-checked。旧走査表の算術に共有コードの限定がある。
-実candidateのpinを接続し、v548完全scalar oracleをTask959〜961で最終凍結中。
+v548完全scalar oracleのproducerは完走。run33975617653/1のcheckerに出力型エラーが
+出たため、保存出力を不変にした修理checkerのcompletionをTask968/969で固定した。
+source限定差分と全704行workflowをrootが読了、969の静的監査PASS。新GHAへ進む。
 
 ## F1 — A1: stale前件6件と前提訂正2件を受理
 
@@ -781,6 +783,110 @@ rootがmarker `[r07-section-cochain-oracle-v1-run]` で一回pushする。
 この新pairには別途GHA AST/全数値/CV9が必要。Task965〜967はEの実装・独立checker・
 監査を開始し、未観測oracleの親pinsを埋めて実走したことにはしない。
 
-CAMPAIGN_STATUS: SECTION_ORACLE_STATIC_PASS_RELEASE_READY; LAST_RUN=33971897879/1; LAST_COMMIT=64475e1dfab1537a38d1b3131971bfed5fc3071c; PRODUCER_RUN=33967668257/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.19 — 完全oracle GHAを一回起動
+
+rootが関係14ファイルだけをcommitし、marker付きpushを一回実施。
+launch commit **`c57a722224320f9a573cfe84dea6979df5cb5320`**、
+run **33975617653/1**、作成`2026-09-05T15:42:27Z`、event=push。
+workflowは`.github/workflows/d972-r07-section-cochain-oracle-v1.yml`。
+jobは**101331666867**、開始15:42:30Z。
+起動をGitHubの実runから確認。重複dispatchなし。入力/AST/canary/新数値の各gateは
+実runの結果で受け取る。まだzero/violation、candidate、追加rankは未観測。
+
+Task965公開CLI/array/SLP ABIをrootが全文読んだ。raw SLPだけを長さ・EOF・hash付きで
+stream評価し、P1/current巨大語はcanonical Ref ancestryとして保持する。source零と
+physical零、selection/normalizing/target各scalarを分離する設計を確認。最終metadataと
+新実装は作業中、同じraw word/11-slot最終positive gateは混同しない。
+
+### F8.20 — oracle producerは非零候補、checkerのu32出力変換を修理する
+
+run33975617653/1、commit `c57a722224320f9a573cfe84dea6979df5cb5320`、
+job101331666867は`2026-09-05T15:45:37Z`にfailure終了。
+12親/入力/14source AST/二raw data/実metadata/新canaryの各gateはsuccess。
+producerは15:43:21Z〜15:44:30Zの69秒でA–D完走、内部logは68.873秒まで記録。
+checkerは15:44:30Z〜15:45:35Zの65秒、`phase=complete_tree_eof`後に停止した。
+
+原因はv1 checker `geometry_payloads` L573/574の
+`np.where(int32_array < 0, 4294967295, int32_array)`。
+選択前の型変換で **OverflowError: Python integer 4294967295 out of bounds for int32**。
+`check_actual`の全payload構築が全stage比較loopより先なので、treeまでの計算を
+終えたことから全array一致を主張できない。新candidateはuploadされていない。
+Task961の静的監査でこのNumPy実行時境界を捕捉できなかったことも記録する。
+
+diagnostic **9972256636**、name
+`d972-r07-section-cochain-oracle-v1-diagnostics-33975617653-1`を回収。
+ZIP **2271586 bytes**、SHA256
+`c66e7477740c8c5e0c0e9e00e613836bf5baacf00f10acf63fad5b23d6cc113a`に実一致。
+
+| 保存entry | bytes | SHA256 |
+|---|---:|---|
+| checker-result.json | 315 | e500b7fa0a5f4387c36d787999f438cea91189b9ea3fd8ec80e0830cb29173e0 |
+| source-receipt.json | 2673 | cd9a45a389cafd0cfb3813181c1365b0a66cdd682cc737a1a68f27b438d92934 |
+| output/manifest.json | 1430 | 7df077372a51d12cbf95be5f26c94a5e29ef0f6b118f1ed7efb452ba01942639 |
+| output/result.json | 13727 | c7f65255443a8901fa1b6fbab69e81bbc811014e1eb527e7f671e2f6343ba312 |
+| output/tree/witness.json | 486 | 1c282b82cbf430b3ef492a325c26ac3c7d2bf9146f15aa76c94744f8477620fd |
+
+保存producerの**未照合観測**はVIOLATION_CANDIDATE、両aux[0,0]、全54433 chordの
+residual_nonzero36343、first_failed_chord12。選択基準[2,3,4,6,11]、係数
+[2,0,2,2,2]、六項witnessのscalar1/tau零である。これらを修理checkerのliteral期待値や
+受理された違反にはしない。rank1385/gen8090、physical appends0はそのまま。
+
+Task968へ新checker v2と新checker-only workflow、Task969へ限定差分監査を委嘱した。
+signed内部indexを十分な幅へ広げてからrootを公開u32 sentinelへ変換し、誤負値/上限/
+型の拒否とlittle-endian bytesを実production helperの少数canaryで試す。
+旧producer/source/outputは凍結して不変、producer再走0、旧成功suite再走0。
+新checker一回で全A–Dと全配列比較を完了し、不変gate後だけ新candidateを出す。
+Task966/967はこの修理を優先し、その後Eへ戻る。Task965は実装を続けるが、未照合
+diagnosticを成功oracle parentへ代用しない。grade2/A0/格付けを据え置く。
+
+### F8.21 — 変換修理の全差分を読了。内部表現と公開ABIを区別
+
+Task968の新checker v2は **84402 bytes**、SHA256
+`a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d`。
+rootはv1との全source diffを読み、A–D/公開schema/保存metadata算術の不変を確認。
+追加はrooted_indices_u32、専用serialization canary/CLIとheaderだけ。
+root -1/非root index範囲/入力型をcast前に確認し、signed int64 copyに4294967295を
+代入してu32leへ写す。元配列を変更せず、公開rootの4 bytesと末端indexを試す。
+Task969も静的に未解消blockerなしと確認した。GHAでの修理成功はまだ未観測。
+
+工房2132 expressを全文読了し、原因を精密化して速達へ返した。公開u32le/root値は
+既にreply959とgeometry metadataに宣言されており、checker内部の-1自体が誤りでは
+ない。producer値をcheckerへ取り込む比較でなく、自分の出力を作る境界の型エラー。
+保存parent.u32とparent-edge.u32の先頭4 bytesがFF-FF-FF-FFであることをTask969が
+byte読取で確認済み。新13親/不変roster/新旧receiptのcompletion workflowを準備する。
+
+EのP1整数指数については必要条件を精密化した。同じliteral wordについて
+`r=epsilon mod54`を正確に計算すれば、`18 divides epsilon iff r in {0,18,36}`、
+その場合の正規化値は`r/18 in F3`。巨大な全8059語の普通整数を十進全表示する義務は
+ない。raw v547 normalizerの-A/6,-B/6には普通整数を保ち、P1側だけmod54による
+正確なreadoutを使うことをTask965へ許可した。採否と最終ABIは未公開の実装で明記する。
+
+### F8.22 — 保存oracleの照合専用completionを最終固定
+
+Task968/969の正式返信を全文読み、rootは新workflow全704行を読了した。
+Task969の判定はSTATIC_SOURCE_WORKFLOW_PASS。新GHA/CV9の成功とは区別する。
+裁定2133–2134は失敗原因の精密化とこの修理計画を受理している。
+
+| 固定ファイル | bytes | SHA256 |
+|---|---:|---|
+| search/check_d972_r07_section_cochain_oracle_v2.py | 84402 | a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d |
+| .github/workflows/d972-r07-section-cochain-checker-completion-v1.yml | 44679 | b439c24229523daec90570f527a72a5bdc5c32f475fd3a1ad0361922a0cb60e8 |
+| sol/luna_reply_968_r07_section_oracle_checker_completion.md | 9389 | 9727d3e43b713f59a9ee08f8baa0c1c1c3d59818239811fc20c64d49e80554fd |
+| sol/luna_reply_969_r07_section_oracle_completion_audit.md | 10845 | b550eae9544678c0f88b46ac1ca05f2ae21bb2b7e1c37464cca85aea020741e3 |
+
+旧12親と失敗diagnosticの計13親をexact live tupleで認証する。元14実行体と二raw dataの
+receiptを元2673 bytesと一致させ、新v2を加えた15実行体/runtime/workflow/launchは
+repair-source-receiptへ分離。元FAIL、元producer/source、元outputは保持する。
+全44 output files/4 directories/5361492 bytesはcopy前後とchecker後の両rootで不変照合。
+専用15件serializer canaryの後、新checker一回だけを内部1800秒/外40分/job60分で走らせる。
+producer再走0、旧成功suiteと親canary再走0。全8059式/54433 chord/2 aux、全stage/top比較
+PASSと保存不変gateの両方の後にだけ新candidateをuploadする。保存witnessの非零値は
+checkerのliteral正解へ埋め込んでいない。Python3.13.15/NumPy2.5.1は元full runtimeも一致。
+
+公開は新source/workflow/Task968–969の指示書・返信/本返信/v220の8ファイルだけ。
+markerは`[r07-section-cochain-checker-completion-v1-run]`。新run id/commitは観測後に追記する。
+Task966/967はEへ復帰し、成功completionの実pin受領までは未受理diagnosticを親にしない。
+
+CAMPAIGN_STATUS: SECTION_ORACLE_V2_COMPLETION_FROZEN_STATIC_SOURCE_WORKFLOW_PASS_RELEASE_PENDING; LAST_RUN=33975617653/1; LAST_COMMIT=c57a722224320f9a573cfe84dea6979df5cb5320; ACCEPTED_PARENT_RUN=33971897879/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; NEW_CV9=NO_CHECKER_PASS; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

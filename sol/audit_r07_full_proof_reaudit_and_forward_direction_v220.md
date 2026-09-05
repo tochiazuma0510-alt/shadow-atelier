@@ -22551,3 +22551,95 @@ Delta550にある18940 bytes版の旧hashは読了時の値。返書163 F8.11は
 - **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
   当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
   full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131七限定、`verified=false`。
+
+### Delta 558 (2026-09-06): rank1385の完全oracle GHAを起動
+
+**個別進捗**:
+
+- 関係14ファイルのみcommit、一回のmarker付きpush。launch commit
+  `c57a722224320f9a573cfe84dea6979df5cb5320`、run33975617653/1、
+  作成2026-09-05T15:42:27Z、event push。GitHub実runで起動を確認した。
+- workflow d972-r07-section-cochain-oracle-v1.yml、未観測のzero/violationやcandidateを
+  宣言しない。入力/AST/canary/新全配列照合は実runから回収する。重複dispatchなし。
+- Task965公開CLI/array/ordered raw SLP ABIを全文読了。rawのみ長さ/EOF/hash付き
+  stream評価、P1/currentはRef ancestry。Tasks965〜967の新実装/監査は進行中。
+  詳細は返書163 F8.19。
+
+**v220 内進捗**:
+
+- **CLOSED**: 完全oracleのrelease/一回起動と実run ID記帳。
+- **ADVANCED**: 登録全sourceの同一lambdaでの完全テストをGHAで実施。
+- **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131七限定、`verified=false`。
+
+### Delta 559 (2026-09-06): oracle全計算後のu32出力型エラー、保存候補を修理checkerへ
+
+**個別進捗**:
+
+- run33975617653/1、commitc57a722224320f9a573cfe84dea6979df5cb5320、
+  job101331666867は2026-09-05T15:45:37Z failure。入力/AST/metadata/newcanariesは成功。
+  producer工程69秒でA–D完走、checker工程65秒でcomplete_tree_eof後にOverflowError。
+- 原因はv1 geometry_payloadsのnp.where(int32 array,4294967295,...)。型変換は全stage
+  比較loop前なので全array一致なし。新candidateなし。961静的監査の未捕捉を記録。
+- diagnostic9972256636、ZIP2271586 bytes/SHA256
+  `c66e7477740c8c5e0c0e9e00e613836bf5baacf00f10acf63fad5b23d6cc113a`をrootが実照合。
+  保存checker FAIL、producerは未照合VIOLATION_CANDIDATE、first_failed_chord12、
+  両aux零、54433 chord中residual非零36343、witness scalar1。まだ違反の正式受理ではない。
+- Tasks968/969で新v2のsentinel変換だけ修理、専用serialization canaryとchecker-only
+  completionを準備。producer/output/source不変、producer再走0/旧成功suite0。
+  全新checker PASSと不変gateを待つ。E実装965は継続、966/967は修理を優先。
+  全entry pinsと到達順は返書163 F8.20。
+
+**v220 内進捗**:
+
+- **CLOSED**: 新入力/AST/metadata/既定canary、checker失敗箇所の特定と実diagnostic受領。
+- **ADVANCED**: 完全sourceの候補を実観測、出力型修理と保存byte不変の照合完了へ。
+- **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131七限定、`verified=false`。
+
+### Delta 560 (2026-09-06): sentinel変換の限定修理を静的受理、保存候補completionを準備
+
+**個別進捗**:
+
+- checker v2は84402 bytes/SHA256
+  `a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d`。
+  rootがv1との全diffを読了、969も限定監査でblockerなし。signed型/根/範囲を先に確認し、
+  int64 copy→root代入→u32leへ出す。専用実serializer canaryを新設、A–D算術不変。
+- 2132 express読了。公開ABIは宣言済みで、内部-1を持つこと自体でなく出力型変換の
+  欠陥だと精密化して速達へ返した。全array比較前なので未照合を維持。
+- 13親と全保存output不変・新旧receipt分離のchecker-only workflowを準備中。
+  EのP1正規化は同じwordのepsilon mod54で18整除/正規化mod3を正確に読めると明示。
+  raw v547修理用の普通整数は保持。返書163 F8.21。
+
+**v220 内進捗**:
+
+- **CLOSED**: sentinel修理の全source差分と実公開root byteの静的/byte監査。
+- **ADVANCED**: 保存候補の全checker completion、Eの指数readoutの必要量の精密化。
+- **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131七限定、`verified=false`。
+
+### Delta 561 (2026-09-06): 保存oracle照合専用completionの全source/workflow監査を完了
+
+**個別進捗**:
+
+- Task968/969正式返信と新704行workflowをrootが全文読了。969は限定
+  STATIC_SOURCE_WORKFLOW_PASS。checker v2は84402 bytes/a44ce4ba…、workflowは
+  44679 bytes/b439c242…で最終固定。全hashは返信163 F8.22に記録。
+- 元12親＋失敗diagnosticの13親。原14source receipt不変、新15source/修理workflow/runtime
+  は別receipt。元FAILと新checker結果を分離し、元/copy両outputの全44 files/4 dirs/
+  5361492 bytesを全bytes/hash/rosterで不変照合する。
+- 専用15件serializer canary→新checker一回、内部1800秒/外40分/job60分。
+  producer0・旧成功suite0・旧親canary0。全8059式/54433 chord/2 aux/全stage・top比較PASSと
+  不変gate後だけcandidate。裁定2133–2134は原因の精密化と計画を受理、新実走は次。
+  Task966/967はEへ復帰、未受理witnessは成功親へ代用しない。
+
+**v220 内進捗**:
+
+- **CLOSED**: Task968/969限定source/workflow静的監査と公開byte/hash固定。
+- **ADVANCED**: 未完だった全array比較を保存候補のまま完了する実走へ。
+- **UNCHANGED**: 受理済みrank1385/gen8090、grade2 NOT_DECIDED、A0 **0/1 actual**、
+  当該段grade **1/6**、A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、
+  full A0/COMMON/cofinal lift/fake/Ihara未宣言、2131七限定、`verified=false`。
