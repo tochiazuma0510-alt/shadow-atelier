@@ -44,7 +44,7 @@ if (!['sol', 'sol2', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.
 let MODEL_FLAGS;
 if (role === 'sol' || role === 'sol2') {
   if (effort) { console.log('SOL-EFFORT-IS-PINNED-MAX'); process.exit(1); }
-  MODEL_FLAGS = ' -m gpt-5.6-sol -c model_reasoning_effort="max"';
+  MODEL_FLAGS = ' -m gpt-6-astra -c model_reasoning_effort="max"';
 } else {
   if (!effort) effort = 'high';
   if (!['medium', 'high', 'xhigh'].includes(effort)) { console.log('BAD-EFFORT(luna)'); process.exit(1); }

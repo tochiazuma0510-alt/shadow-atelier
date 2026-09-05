@@ -5,7 +5,7 @@
 // is for follow-ups WITHIN the current 便 only.
 // Usage: node launch_new.mjs [--renew] [--role sol|luna] "<instruction...>"
 // - Roles (subscription discipline): sol = math audits only (config default
-//   gpt-5.6-sol / max). luna = implementation & bulk computation
+//   gpt-6-astra / max (2026-09-05 Astra switch; was gpt-5.6-sol)). luna = implementation & bulk computation
 //   (-m gpt-5.6-luna, effort high). Each role has its OWN pin file.
 // - Without --renew: refuses if that role's session id is already pinned.
 // - With --renew: archives the current pin to codex_session_id_history.txt
@@ -28,12 +28,12 @@ if (!['sol', 'sol2', 'luna'].includes(role)) { console.log('BAD-ROLE'); process.
 // sol2 (2026-07-26): second PARALLEL sol-model lane. Own pin + own log; skips
 // the codex-already-running guard BY DESIGN (parallel lanes are intentional).
 // 推論設定の強制(2026-07-18 ユーザー指示「推論設定を必ず遵守」):
-// - Sol = gpt-5.6-sol / max 固定(effort 指定は拒否 — 数学監査を安売りしない)
+// - Sol = gpt-6-astra / max (2026-09-05 Astra switch; was gpt-5.6-sol) 固定(effort 指定は拒否 — 数学監査を安売りしない)
 // - Luna = gpt-5.6-luna / effort は medium|high|xhigh(既定 high、Lean shard は xhigh、定型は medium)
 let MODEL_FLAGS;
 if (role === 'sol' || role === 'sol2') {
   if (effort) { console.log('SOL-EFFORT-IS-PINNED-MAX: --effort is not allowed for sol'); process.exit(1); }
-  MODEL_FLAGS = ' -m gpt-5.6-sol -c model_reasoning_effort="max"';
+  MODEL_FLAGS = ' -m gpt-6-astra -c model_reasoning_effort="max"';
 } else {
   if (!effort) effort = 'high';
   if (!['medium', 'high', 'xhigh'].includes(effort)) { console.log('BAD-EFFORT(luna): medium|high|xhigh'); process.exit(1); }

@@ -1,0 +1,65 @@
+# Sol 便 162(新セッション着任便 — Astra 世代のオンボーディング+campaign 引継ぎ+未回答 express の一括回答依頼)
+発: 司令塔 / 2026-09-05 / 固定点 = 本便配達時の HEAD(push 済)
+返信先: `sol/sol_reply_162_onboarding_astra.md`(最終行に `AUDIT_162_VERDICT:` を必記 — 受理 / 条件付き / 差し戻し。campaign 再開後は従来どおり `CAMPAIGN_STATUS:` marker で回収)
+
+**あなたは新しい Sol セッション(モデル = Astra)です。** 研究者決定(2026-09-05)「Codex の作業はこれから Astra をメインに切り替える」に基づくローテーション。前任セッション(gpt-5.6-sol・2026-08-22 着任・返書 155〜919)の成果物は全て repo に凍結済み。あなたの職務は変わらない = **常設の数学監査官 兼 共同設計者**(設計〜実装を Sol×Luna 側で完結・工房 = 検収+GHA 計測+結果確認+裁定)。
+
+## 0. オンボーディング読了順(番号順に全部・飛ばさない)
+1. `AGENTS.md`(Codex 向け手引き)・`CLAUDE.md`(体制)・`docs/体制と道具.md`
+2. `docs/状態.md` の **「504 商(PSL(2,8))」で始まる行**(9/3〜9/5 の全裁定追記 1847〜2078 = A0 塔登りの現在地)
+3. `docs/地図.md` の「★★【9/3 delta】」「★【9/4 delta】」節(位置づけ・到達点・未決)
+4. `provenance/CLAIMS.md`(C-1〜最新)
+5. 前任の最終業績 = `sol/sol_reply_906_*.md`(Separator 解釈)・`sol_reply_909/910/911`(dual root 1 本 → orbit 504 → v540)・`sol_reply_919_*.md`(J3 run 2 same-object)・進行中 = `sol/luna_task_920_r07_actual_seed2_materializer.md`(Luna 920・seed 2 materializer・未完)
+6. 工房の CV-9 判読正本 3 本: `docs/notes/physconn_v11_cv9_reading_v1.md`(裁定 2048)・`docs/notes/separator_run2_cv9_reading_v1.md`(2060)・`docs/notes/j3_run2_cv9_reading_v1.md`(2077)— 各 express `ops/express/20260904_fable_sol_physconn_v11_cv9_grade.md`・`20260904_fable_sol_separator_run2_cv9_grade.md`・`20260905_fable_sol_j3_run2_cv9_grade.md` に**要修正リスト**あり
+7. 用語: `docs/notes/用語改定_fake型証人型_20260823.md`(fake 型/証人型)
+
+**stale 前件 pin(読み違い注意・前任も一度ずつ踏んだ)**:
+① dihedral 予想(2405 Conj 5.1)は当工房で**完全証明済み・発効**(正本 `docs/notes/p1_corpus_index_v1.md` §0)— 「一般は open」と読まない。
+② **A0 は登り切る対象**(研究者言明 2026-09-03): 井原反例の構成が MEMBER 塔の上に組まれている。NONMEMBER 機構は fail-closed の型付けであって目的ではない。
+③ **A0 = Δ 上の有限線形所属問題**(rung 0→1)・cofinal/surjectivity NOT PROVED は rung ≥ 1(T2)の語。有限段で MEMBER が出ればその段は終わる。
+④ 格付け語: 「verified」は Lean に予約。二系統一致は **cross-checked** で、その格付けは**工房(司令塔)の裁定事項**(CV-9 非当事者判読を経る)。receipt に「cross-checked」を書く場合は「工房裁定 NNNN で cross-checked(限定つき)」の形で引用し、自己宣言しない。「三系統一致」は算術を三系統で再計算した場合のみ。
+⑤ producer/checker の**著者分離は維持**(Luna 一人が両方を書く場合は独立実装であることを AST 差分で示す — 工房 CV-9 が毎回測る)。fixture は**実 artifact のレイアウト/契約に pin**(v10 semantic layout・grade-two run 1 manifest shape・J3 run 1 expression order の 3 連発が教訓)。
+⑥ GHA: marker push / workflow_dispatch(既定 branch 未搭載 workflow は `--ref` 必須)・6h job/7 GiB・fail-closed receipt(内部 Meter < shell timeout)・phase marker 必須。artifact は工房が Release `archive-gha-checkpoints` へミラー(保持期限後も取得可)。
+
+## 1. 工房からの未回答 express(前任が campaign 内で未回答・本便で一括回答を依頼)
+- `ops/express/20260903_fable_sol_a0_finite_pin_and_cofinal_questions.md`(**Q1〜Q5**: A0 有限性 pin・cofinal 定理の位置)+ `20260903_fable_sol_a0_finite_pin_correction.md`(Q1 置換・D̃₀)+ `20260903_fable_sol_a0_finite_note_v2_delivery.md`(工房数学者 note v2 添付)。
+- **note の最新 = v2.1** `scratchpad/a0_cofinal_lift_theorem_v2_1.md`(v2 からの差分 D1〜D4 反映)。監査対象は v2.1。
+- 照合依頼(数学者レイヤー): あなた側の **v526(relative kernel image cofinal)・v537(physical relative fibre selector)・v539(type bridge)** と工房 note v2.1 の U3(登録契約型 (c) のみ生存)は同じ問題を別側から攻めている — 一致点・相違点・どちらの型付けが強いかを一節で。
+- 計測 express 6 通(rho2 run 系・J3 run 1 等)は前任が自力修理済 = 回答不要(記録のみ)。
+
+## 2. campaign 引継ぎ(work order・設計〜実装は Sol×Luna 側)
+現在地: grade-two(54,432 → Q₀ 段)は **NOT_DECIDED**。取得済 = fresh-ρ₂ v17・canonical P1 v9・physical connection v11(cross-checked 限定 3 条)・initial Separator(cross-checked 限定 3 条)・J3 root scalar batch run 2 = RootViolationBatch(最初の違反 = char 0・seed 2・scalar 1・cross-checked 限定 4 条)。
+- **WO-162-1**: CEGAR refinement の次周回 — 違反 batch(seed 2)を state へ加える materializer(Luna 920 が進行中)→ 監査 → workflow → 本走。grade-two の MEMBER/NONMEMBER が出るまで自走(CAMPAIGN_STATUS marker で節目報告)。
+- **WO-162-2**: CV-9 要修正リスト(2048: d2 共有明記・docstring・nonzero_pure_coordinates receipt / 2060: 原本 Conn 行への λ·T_j=0 直接検査・selftest の整合改竄 1 件 / 2077: 紙 v540 未改訂・cert の value-vector hash 宣言不一致・定数の引用)の採否と処理。
+- **WO-162-3**: A4 bordered resume 線(production 未受理・v4〜v9 全否認)の継続可否を campaign 判断で一行。
+- 規律: 発火前に bounded selftest を**実 artifact レイアウト**で。本走 success ごとに工房が CV-9 事後判読を回す(受け身でよい)。push は `[fire-…]`/`[task…]` marker のみ計算を起動。
+
+## 3. 監査依頼(A1〜A3)
+- **A1**: §1 の Q1〜Q5 への回答と note v2.1 の監査(PASS/条件付き/差し戻し)。
+- **A2**: §1 の v526/v537/v539 × note v2.1 の照合一節。
+- **A3**: 前任の最終状態(906〜919)の引継ぎに欠落がないか(あなた自身の読了で確認・欠落があれば列挙)。
+
+## 4. 監査範囲外の申告
+工房側で進行中のもの: CV-9 事後判読の恒常運用(falsifier)・Release ミラー・状態/地図/snapshot の記帳。数学の新規主張は本便にない。
+
+## 5. digest 表(機械生成・preflight 時に付加)
+| path | bytes | sha256[:16] |
+|---|---:|---|
+| docs/状態.md | 94005 | bd7ec2a67a5a1c0f |
+| docs/地図.md | 102925 | 548d4843772c4b9f |
+| provenance/CLAIMS.md | 68363 | 37325e7e7d734f76 |
+| docs/notes/physconn_v11_cv9_reading_v1.md | 16216 | 77e52a8c1c2e498d |
+| docs/notes/separator_run2_cv9_reading_v1.md | 14408 | 14bc3651145cb7d9 |
+| docs/notes/j3_run2_cv9_reading_v1.md | 21751 | c9b9791f169e71f1 |
+| scratchpad/a0_cofinal_lift_theorem_v2_1.md | 55268 | ef6cc8dcb6594eb1 |
+| ops/express/20260903_fable_sol_a0_finite_pin_and_cofinal_questions.md | 3476 | b30f537619380e27 |
+| ops/express/20260903_fable_sol_a0_finite_pin_correction.md | 2317 | 4bd561accfcb299c |
+| ops/express/20260903_fable_sol_a0_finite_note_v2_delivery.md | 2917 | c36b865bb20c5e2d |
+| sol/sol_reply_919_audit_actual_root_violation_run2.md | 9004 | 94848917cf40f36d |
+| sol/luna_task_920_r07_actual_seed2_materializer.md | 3695 | b58561a47ee5d193 |
+
+(CLAIMS/状態 は追記型 — 配達後に伸びていたらプレフィックス一致で読むこと。)
+
+## 6. 規律(不変)
+
+捏造・過大格付けなし。cross-checked と verified の分離。UNKNOWN は一級の結果。予言簿は事前登録・後知恵書き換え禁止。報告の値は機械生成のみ。以上。
