@@ -23313,3 +23313,18 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
   旧128 bodyは未送信。実数値結果は未観測。詳細F8.61、各run URLと本commit SHAを記録。
 - **CLOSED**: 985 marker起動・986登録後の実96 dispatch。**OPEN**: 両実runの新canary/本P/D/C/回収、batch数学/移行契約、actual grade2。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 599 — 985実受領の型不一致を回収・新v2へ修理（2026-09-06 JST）
+
+- 985 run33995799635/1/head920780033b3aaa519a898e8b6b1d29fe67a04cd1、job101386012543は22:25:20Z failure。
+  source/runtime/十六live ZIPはPASS、acceptでoriginal-start-not-renamed。新canary/P/Dは未実行。
+- 診断9978026066をroot回収、244085 B/e6565d625f42e9e3202a1faedc271ff07c5c6cfee9cc38558f879155312522b4。
+  安全展開64file/1345404 B、保存WF/hash/実launch一致。candidateなし、alwaysは保存前提不足のINCOMPLETE。
+- 実startのexternal_e_attachedは整数1。P982:836/WF985:796のis Trueが誤り。原値は不変としstrict int1へ新v2で修理。
+  前静的監査が実型とidentity比較を見逃した点をF8.62へ記帳。新production直結の型逆対照を追加する。
+- Task991新P/WF v2、Task992新C v2のpath-only、Task993独立差分監査を委嘱。旧版全て凍結。
+  alwaysはaccept前に取得済みpaths/inventoryを保存し、不足をINCOMPLETEとしたまま取得済みも記録する。
+- 986 run33995829771/1は八metadata/source/15親/全履歴/copyをPASSしP実行中。新after値/full Cは未観測。
+  起動記録の公開commitはe7785c8a282288d824d6e1869aacbc24c013beea、exact二fileでpush済み。
+- **CLOSED**: 985失敗診断の実回収と原因特定。**OPEN**: 新v2修理/監査/GHA・96本P/C・batch契約・actual grade2。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
