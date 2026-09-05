@@ -13,7 +13,10 @@ actorを含むfull-origin実走33967668257/1では候補rank1385/gen8090へ26行
 工房裁定2131で限定7条のcross-checked。旧走査表の算術に共有コードの限定がある。
 v548完全scalar oracleのproducerは完走。run33975617653/1のcheckerに出力型エラーが
 出たため、保存出力を不変にした修理checkerのcompletionをTask968/969で固定した。
-source限定差分と全704行workflowをrootが読了、969の静的監査PASS。新GHAへ進む。
+source限定差分と全704行workflowをrootが読了、969の静的監査PASS。
+新GHA33977701313/1で全array比較と保存不変gateがsuccess。工房裁定2138で
+同一対象・限定8条付きcross-checked。非零の実測は現lambdaのcharacter 0側に限られる。
+非零witnessを一つの物理行にするTask965/966/967を進める。
 
 ## F1 — A1: stale前件6件と前提訂正2件を受理
 
@@ -887,6 +890,192 @@ checkerのliteral正解へ埋め込んでいない。Python3.13.15/NumPy2.5.1は
 markerは`[r07-section-cochain-checker-completion-v1-run]`。新run id/commitは観測後に追記する。
 Task966/967はEへ復帰し、成功completionの実pin受領までは未受理diagnosticを親にしない。
 
-CAMPAIGN_STATUS: SECTION_ORACLE_V2_COMPLETION_FROZEN_STATIC_SOURCE_WORKFLOW_PASS_RELEASE_PENDING; LAST_RUN=33975617653/1; LAST_COMMIT=c57a722224320f9a573cfe84dea6979df5cb5320; ACCEPTED_PARENT_RUN=33971897879/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; NEW_CV9=NO_CHECKER_PASS; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.23 — 照合専用completionの一回の実走を開始
+
+対象8ファイルのみをcommit **bbce98d8f95a845f36fe89c0f507b9360792666f** として
+同sol branchへ一回pushした。GHA **33977701313/1**、job **101337212925**、
+作成`2026-09-05T16:23:16Z`、job開始16:23:19Z、event=pushを実観測。
+workflowは`.github/workflows/d972-r07-section-cochain-checker-completion-v1.yml`。
+実行URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/33977701313
+13親のlive認証はsuccess、入力downloadを進行中。重複dispatchなし。
+completionのfull array PASS・不変gate・新artifact/CV9はまだ未観測である。
+
+### F8.24 — 完全oracleの全array照合PASS、保存物の不変を確認してEへ
+
+completion **33977701313/1**、commit **bbce98d8f95a845f36fe89c0f507b9360792666f**、
+job **101337212925** は`2026-09-05T16:25:15Z`にsuccess終了。
+元source認証/ASTは16:24:05–06Z、保存baselineは16:24:06Z、専用15件serialization gateは
+16:24:06–07Z、新checkerは16:24:07–16:25:10Zの**63秒**でsuccess。
+全8059 section等式、54433 chord、2 aux、geometry10/section12/cochain4/tree9 payloadと
+全stage manifest/top metadataの比較を完了。保存不変gateは16:25:10–11Z success、
+新candidate uploadは16:25:11–12Z success。旧FAILを上書きせず元source/outputを保持した。
+
+candidate artifact **9972829869**、name
+`d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1`、
+ZIP **2299772 bytes** / SHA256
+`1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d` をroot回収し実一致。
+diagnosticsは9972830183、2326772 bytes /
+`ceffb0e136752ca6f492250540c621d5a467584d7d01f6f402695288ebfea10c`（live metadata、未download）。
+両artifactはnonexpired、expiry2026-12-04T16:23:17Z、同repository/run/headに一致。
+
+| 新completion entry | bytes | SHA256 |
+|---|---:|---|
+| checker-result.json | 15387 | 92739f2db1007ec9ee040716c9dcb26859c10e5a5917a377514bb8e4eb4cd41a |
+| completion-run-receipt.json | 2089 | 3c2eb678db147c7538adf7520f19d91610b255488464704d32a224f9cda4102b |
+| repair-source-receipt.json | 3204 | 2b2efda3b1922e30246621a8b8cf87a277587767ca77662a03b7a35ef821bd37 |
+| preserved-input.json | 10504 | 332f6b62aca1042868e65117d4cc9de952ef8d4817d5169ae8a1ee1a9298e625 |
+| serialization-selftest.json | 808 | 23452ecc87be4260c6558429f3ea093652f8fee3ac43b19383fd020eeaf0d88e |
+| source-receipt.json (原版) | 2673 | cd9a45a389cafd0cfb3813181c1365b0a66cdd682cc737a1a68f27b438d92934 |
+| previous-checker-result.json | 315 | e500b7fa0a5f4387c36d787999f438cea91189b9ea3fd8ec80e0830cb29173e0 |
+
+outputの全entry pinはF8.20/Task968と不変。rootも実保存baselineの**53 files**を
+元diagnostic/current completion両rootの全bytes/hashへ照合し、output全**44 files / 4 dirs /
+5361492 bytes**のrosterとdirectory・reparseなしを確認した。新checker/runtime/修理workflow
+の由来は別receiptで、元producerのrun33975617653/head c57…とsource v1を改称しない。
+
+checkerの結果は**VIOLATION_CANDIDATE / MATERIALIZATION_PENDING**。
+旧観測witness（failed chord12、基準[2,3,4,6,11]、residual support36343、scalar1、aux/tau零）
+は今度は全array比較に通った。current全1385 physical rowsにlambdaは零、両target dotは1。
+ordinary27 full cyclic difference basis経路のsource scoreは全6tag/108864辺へ接続し、
+selected26点だけの旧錨とは別の実装範囲である。旧F-fo-1と2131七限定は保持。
+physical appends0、rank1385/gen8090、grade2/A0は変わらない。
+
+工房CV9判読を速達へ記帳した。Task965/966/967には実completion全pin/保存rootを渡し、
+原producer/sourceと修理checkerの二由来を保ってEを完成させる。全array PASSを
+工房cross-checkedや新physical rankへ先回り昇格しない。次は一つの同じraw wordの
+全source/P1補正/四B/physical追加とその独立照合である。
+
+### F8.25 — E producerを実親に接続して固定、独立checkerを仕上げる
+
+Task965の新producerは **88929 bytes** / SHA256
+`4f600aae93bf5749d15229cfdfe3e4546267f8b0a642ac46b65125a3c3164ac3`、LF1450/CR0。
+正式reply965は **30068 bytes** /
+`ae01a8352e4ab5bc16cac8b788dbd090892f9ff8f5f32f3df50780c1218b4835`。
+rootは新sourceの全算術/raw SLP/六tag source/primal/mod54/four-B/physical/出力/canary/CLIと
+最後の実completion十entry/provenance接続を読了。Task967も同じ最終値を独立に確認し、
+追加修正要求なし。完成した指定2ファイルを凍結し、runtime成功とは区別する。
+
+同じraw wordの普通整数epsilon/omega、全36点Q0/全Q2 endpoint、stream hash/EOFと
+raw chain/各tag直接Foxを結ぶ。P1は全8059 residue54を同じcanonical signed DAGから読み、
+source auxから逆算しない。primalでは全96776 lowerを消し、別raw tupleのcopyから
+同じalphaで全四topを一度だけ補正する。selected/normalizing/target scalarは分離。
+一行追加後target零はLINEAR_MEMBERSHIP_CANDIDATEまで、Task958全11slotは別consumer。
+
+裁定2135–2137と2137 expressを受領。工房は新oracle CV9を発注して進行中であり、
+candidate pin消費とE継続を格付けとは独立に許容している。Eを格付け待ちで止めない。
+Task966の独立checker/全配列比較/新workflowと967最終監査の完成後、rootがGHAを走らせる。
+
+終了した965担当へTask970の読取設計だけを委嘱した。既存完全oracle＋Eを新current stateで
+cap/resume継続するための、実在APIと薄いdelta/receipt adapterを具体化するもの。
+新実装や別宇宙を加えず、E結果・未来rank/速度/反復数を先取りしない。Task970は現Eの
+release条件ではない。WO-162-1の自走継続を準備しつつ、rootは現checker監査を続ける。
+
+### F8.26 — E checkerの新blockを監査し、補助語と修理語の混同を訂正
+
+Task966は全8059 residue54/元canonical DAGのmetadata、独立したflat96776 primal、
+全instruction EOF、raw tupleから一度だけ引くP1 source再構成、raw materializationを
+順次保存した。rootは各完成blockを読み、Task967も再開して監査中。
+
+rootは未公開raw_materializationに必須修正を一件指摘した。元のr_x/r_yのFox chainを
+零と要求していたが、普通指数が各(2,0)/(0,2)なのでFox augmentationが2 mod3となり、
+それぞれは零になり得ない。v547の零対象は **r_x^3、r_y^3、[r_x,r_y]** の三修理語である。
+元r_x/r_yのQ2 endpointと区別する。966は実SLPの各三修理語を自分のchain演算で評価して
+零を照合するよう修理し、rootは実呼出しを再読した。raw-root全chainと六閉路chainとの
+一致gateも保たれており、aux九乗の零chainはそのgateに接続する。
+
+この修正は本走前の未公開checkerに限る。Task965の凍結sourceや受理済みoracleには
+変更がない。新runtime結果はまだ無く、次のfour-B/physical/全出力比較とworkflowを
+継続して監査する。sourceの静的訂正をrankやgradeの増加に数えない。
+
+### F8.27 — 工房2138の同一対象・限定8条を受理、射程を明記
+
+正本 `docs/notes/section_cochain_v1_cv9_reading_v1.md`（28463 bytes /
+`dfff6ca9e29ca3b3f7ced596c2510b238e681dd55191a128dc5903f55834ea43`）と
+2138 expressを全文読了。記帳commitは `302cf226e9f2d319b5b5d38d616e4d4b8a734e03`。
+run33977701313/1の完全oracleは **CV9同一対象・cross-checked（限定8条）**。
+第三実装が普通27 moment、score全653184、f全108864、tree potential/chord/tau/残差と
+fit/witnessを再現した。全score/f/treeの被覆であり、旧26/838136走査の遡及再計算でも、
+q全4×36288/κ全96776の第三再計算でもない。元出力44 files/53 preservedは不変。
+
+保持する八限定は、(i)現rank1385のlambdaの非零証人まで、(ii)継承clone、(iii)今回入力の
+零成分、(iv)v2 full selftest未走行、(v)carry/successor整合検査の片側性、(vi)零結果側の
+本番識別未試験、(vii)q/κは第三再計算なし、(viii)親2131の七限定、である。
+
+F-sc-1: load-bearingの`read_task712_envelope`と`_load_words`は両系統byte同一、
+contextも類似度0.9684。B復号/PSL ordering/transportの共有規約の誤りは二系統一致で
+排除できない。旧sparse_adjointのcloneとは区別して新oracleの保持TCBに記す。
+
+F-sc-2: (tag,character)係数塊は24中6非零、score tag3/4/5とκ_aux八座標は零。
+**現lambdaで**q1=q2=q3=0、q0のみ非零だった。これはBa*という線形作用素自体の
+全入力に対する恒等零の証明ではない。登録された四characterの計算/比較は保持するが、
+四つの非零収縮を実測したとはしない。aux0–5はfree座標の規約零でaugmentation項を
+試験せず、COMPLETE_ZERO/aux witness分岐も本番未走行である。
+
+F-sc-3: completionの**新v2専用serialization canary15件はPASS**。一方v2のfull
+`--selftest`は未実行、保存済み旧full selftestはv1のreceipt。二者を明確に分け、次にv2を
+実使用するGHAでfull selftestを一度実施する。現在のE checkerはv1保持helperを使う。
+F-sc-4の恒真なdivisibility requireをcarry/successorの独立整合検査とは数えない。
+
+残差の実度数0/1/2=[18090,18083,18260]、非零36343、最小failed chord12という
+決定的な観測だけを採用する。確率モデルなしに「一様乱数と区別不能」、零の事前確率、
+physical行の独立本数、残り反復数や所要時間を導かない。CV9の受理射程をこれらの
+推測へ広げない旨を速達に返す。Eの物理行はまだ未実走でrank1385/gen8090のまま。
+
+Task970の全102行設計も読了。次実装は動的E attach/DERIVED start、固定資料bundle、
+current oracle→E、phase保存/resume、全新prefix独立checkerの薄い接続である。
+旧witnessを新lambdaへ使い回さず、target零ならTask958同一語11slotへ分岐する。
+今回Eのrelease条件へは加えず、WO-162-1の自走継続として次委嘱を出す。
+
+### F8.28 — 一つのEの全source/workflowを読了、GHA releaseを準備
+
+新checkerの全1516行とworkflow全689行をrootが読了した。現在のfreeze値は次のとおり。
+
+| 対象 | bytes | SHA256 |
+|---|---:|---|
+| search/d972_r07_selected_cycle_materializer_v1.py | 88929 | 4f600aae93bf5749d15229cfdfe3e4546267f8b0a642ac46b65125a3c3164ac3 |
+| search/check_d972_r07_selected_cycle_materializer_v1.py | 103757 | a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4 |
+| .github/workflows/d972-r07-selected-cycle-materializer-v1.yml | 44334 | def1e1813427ebd530210cc743c79dd3e3b983114bd689c6a94d6c1154c75483 |
+
+全てLFのみ、BOMなし、final LF。rootは実保持16 Pythonとraw3 dataのbytes/hashも照合した。
+AST/import/数値canary/本走はGHAのみ、ローカルで成功したとは書かない。
+
+checkerは独立RawSLP/Fox/ordinary27、別flat96776 primal、全8059 signed DAG/mod54/
+instruction/cache EOF、fresh source tupleからのP1補正、四Bのdestination別int64合算を
+実本番へ接続する。物理reduce/normalize/target/separatorは保持primitiveであることも
+実sourceで確認した。全expected配列/JSON/roster/manifest/HEADを比較してからのみPASS。
+source-lower零、Conn込みphysical-lower零、plain target、original rho2 DERIVEDを分ける。
+
+967も完成した両sourceとworkflow最終差分に追加必須修正なしと報告した。
+作成途中workflowの旧marker/引数/旧terminal gateはEの実CLI/schemaへ修正済み。
+967が指摘したproducer selftestの`groups`とcheckerの`tests`の型の違いも個別に三群を
+確認するgateへ直した。完成前draftを本走失敗の件数へは数えない。
+
+GHAは実13親をlive tupleで固定し、成功oracle ZIPと十entry、全44 output/4dirの
+前後bytes不変、16 source/3 dataと19語rosterを確認する。新metadata20変異を両系統、
+新interface三群を両系統で実行後、producer一回/独立checker一回、内部1800秒/外40分/
+job100分。旧成功suiteや旧A–D/26scan/insertは再走しない。実v2 import/実行もない。
+oracle-intake/run receiptを候補とdiagnosticに保存し、後者は成否によらず回収可能にする。
+候補は全checker PASS後だけ。Eのrank/gen+1は成功gateの期待条件で、現在値へ先取りしない。
+
+工房裁定2139（commit `05163792f5121ca7375e01f6924910a8d3540a07`）はF8.27の射程訂正を
+受理した。Task971に完全oracle＋E継続器producerを委嘱し、先行公開ABIをrootが読了。
+Task972/973は独立checker/GHAと限定監査の指示書を作成済みで、966/967 freeze後に開始する。
+正式reply966（12112 bytes / `c66bddc6c893752f90bedd3d7bd14786566d39b03ded5b2d956579820ccf2a15`）と
+reply967（27895 / `c560cf6c9b1dad505b7ff0f51b5f005e4f1211f858260e5d08f0d68c29d2dcd1`）も
+全文読了して凍結。967最終STATIC_SOURCE_WORKFLOW_PASS、全必須修正が解消した。
+最終checkerの親不要raw canaryは、実normalizer辞書のr_xについてaugmentation2の非零、
+r_x^3/r_y^3/commの全Fox零、負九乗r_x^-9の全source/六tag、短い非可換負冪の順序を試す。
+rootは最終追加block（1322行以降）も再読した。これは実装されたgateの範囲であり、
+三修理語を含め新canaryの数値PASSはGHA前には未観測である。
+
+rootのrelease preflightで `scratchpad/a0_v2_words.json` がHEAD未収録と判明した。
+この実入力は106133 bytes / `fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612`、
+raw_q0_relators十九語を含む既存JSONで、内容を変更せず今回gitへ新規登録する。
+HEADの `.gitattributes` は `** -text`、元LF0/finalLFなしを保つ。sourceの数学的修正ではなく、
+GHAが既存入力を読めるようにする欠品解消である。全14 exact pathsだけでreleaseする。
+新継続器の未完成sourceは今回のE releaseへ含めない。reply970は21222 bytes /
+`dd3dd9ae85a74057bd3f90413717ef394c51bb923653119658e18ed5c7d826f0`で不変。
+
+CAMPAIGN_STATUS: SELECTED_CYCLE_E_SOURCES_AND_689_LINE_WORKFLOW_FINAL_READ_RELEASE_PREPARATION; LAST_RUN=33977701313/1; LAST_COMMIT=bbce98d8f95a845f36fe89c0f507b9360792666f; ACCEPTED_PARENT_RUN=33971897879/1; CURRENT_ACCEPTED_RANK=1385; GENERATION=8090; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; NEW_CV9=2138_LIMITED_8_CROSS_CHECKED; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
