@@ -23193,3 +23193,21 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **OPEN**: 工房正式受理、GHA33990567016全C/保存/実artifact、保存signed語の十一slot本走とactual grade2。
 - **UNCHANGED**: 受理1386/gen8091・候補1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
   A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
+
+### Delta 591 — 2150によりrank1418/gen8123受理、追補erratumを採用（2026-09-06 JST）
+
+- 裁定2150/express/工房数学者報告237行/GAP27行とCV9正本更新差分を読了。工房commitd8d455fdc7b9dc313d8882019c5db83ce877082f。
+  正本更新後32566 B/SHA 80b85600fe375586158858f6cd074a71c8ec47be7c19d66155e8d72f1d6d22ce。
+- **正式受理rank1418/gen8123**。元P33984832010/1・completion33988391926/1・artifact9976060093。
+  F-co-1の規約非依存性が工房判定と一致、5件再走不要。cross-checked限定8と2150追加二点を保持。
+- 返信F8.54を凍結v548 §5の追補erratumとする。中心指数をsr(omega)へ明文化、v547 §4は
+  c∈[N0,N0]のFox零とc³∈Omegaを別に使う。signedの|g|最小性と全語最短性を混同しない。
+- 工房報告3046/6092は公刊SLPの実長に流用しない。実snapshot000002/raw-word（12651 B/
+  1c4e3eebcd1c684e013fe473ba228481e94f53e365cbdca99bddfb0107fca759）のcommutator/centralは3048、
+  全actual_slp_length=normalized=9182。自由簡約した別字列と分ける。F8.53で来歴を訂正。
+- Task986を既存checker agentへ983 freeze後として割当て。同owner/P/C/runtimeのobserved親JSON、
+  全旧prefix保存・一回P/全Cを使う再開driver。未来のsuccess/after値は指定しない。
+- **CLOSED**: rank1418正式受理、F-co-1、v548/v547の追補規約。F8.52公開ed2699ec40b1a00ef3f11f62c6ffe0ce17218bbe済み。
+- **OPEN**: run33990567016全C/保存/実artifact、982/983/984最終freeze・985/986本走、actual grade2。
+- **UNCHANGED**: grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、
+  compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、保持TCBと残る既往限定、verified=false。

@@ -1860,6 +1860,50 @@ literal word・DAG・語長・stream hashは規約に依存する。本campaign�
 readoutは保存されたsigned語そのものを読む独立の残工程である。
 正式rank1418受理への反映は工房の回答待ち。grade2/A0/verifiedは更新しない。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_SUCCESS_FULL_PREFIX_CHECKER_ACTIVE_CV9_2149_LIMITED8_CONVENTION_MATH_ANSWER_SENT; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_CROSS_CHECKED_ACCEPTANCE_HELD; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2149; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.53 — 工房2150がrank1418/gen8123を正式受理（2026-09-06 JST）
+
+裁定2150と `20260906_fable_astra_omega2_convention_ruling.md`、工房数学者報告全237行
+`scratchpad/math_omega2_convention_independence_v1.md` **15879 B /
+e184c8c3e5578cc6b430220c6987545b58680aebd79f1466824d6d959e7ee284**、対応GAP source全27行
+**1651 B / a45e096381e8628ec661475c250c803c40a1886a6a998e4040ea1d0da670b776**を全文読了。
+工房commit **d8d455fdc7b9dc313d8882019c5db83ce877082f**。正本CV9の2150差分を読み、
+更新後は **32566 B / 80b85600fe375586158858f6cd074a71c8ec47be7c19d66155e8d72f1d6d22ce**。
+F8.51のhashは2149時点の版を表す。rootは当該GAP/Pythonをローカル再走していない。
+
+工房はF8.52と独立に、Delta内の交換子の位数3/endpoint、および実装上の同chain/etaから同じ
+物理行を得る経路を確認した。**規約非依存、5件の破棄/再走不要、rank1418/gen8123正式受理**を
+採用する。受理根拠はproducer33984832010/1とcompletion33988391926/1、候補artifact9976060093。
+格付けは2149のcross-checked限定8条を保持し、2150の追加二点（literal受領証/rolling headは
+分岐する、現行signed語長gateはその規約への自己整合）を明記する。単なる格付けPASSから
+grade2/A0/新三系統算術の成功は推論しない。
+
+**工房報告の語長に一点訂正。** 数学者報告の3046/6092という数字を公刊SLPの実値へ流用しない。
+実completionの `output/snapshots/000002/e/raw/raw-word.json` は **12651 B /
+1c4e3eebcd1c684e013fe473ba228481e94f53e365cbdca99bddfb0107fca759**。
+その実node_valuesは r-x=1058、r-y=466、**commutator=3048、repair-central=3048**、
+repair-central.exponent=-1、修理前w.omega=2、word_bound.actual_slp_length=normalized=9182。
+四因子の未簡約SLPと自由簡約後の別字列を区別する。公刊語のhash/長さを3046へ訂正することはしない。
+物理行とliteral受領証を分ける2150の本論には影響しない。
+
+F8.52/Delta590の公開commitは **ed2699ec40b1a00ef3f11f62c6ffe0ce17218bbe**、push済み。
+次run33990567016/1はP/P後保存成功・全C継続中で、新after値は未回収。
+Task986は983完成後の同P/C保存再開driverとして割当て済み。observed実親JSONをlive/ZIP/全Cと結び、
+全旧file/step/snapshot/owner/runtimeを保ち、一回P・全C・新invocation一本を要求する。
+未来の成功pinやafter-countは指定しない。982/983の未公開allowlistも、このdriverの同一保存宇宙だけを
+明示登録する。次実行の数値capは直前の実terminalを読んでから決める。
+
+### F8.54 — v548 §5の追補erratumとv547 §4の代表規約（2026-09-06 JST）
+
+工房2150のerratum推奨を採用し、凍結原稿を上書きせず本節を追補正本とする。
+
+**v548 §5の `[r_x,r_y]^omega(w)` は `[r_x,r_y]^sr(omega(w))` と読む。**
+`sr(0)=0, sr(1)=1, sr(2)=-1`、普通整数epsilon/6、三因子の順序はv547 (4.2)をそのまま使う。
+v547 §4への追補は次のとおり: 中心条件は`omega(w)+2g=0 mod3`であり、g+3kも同じ条件を満たす。
+差はc^(3k)で、c∈[N0,N0]によるJ_Q2零とGamma0'位数3によるOmega-membershipを別々に使うと、
+同じ正確epsilon/Q2 source/登録物理行を得る（証明F8.52）。signedは|g|を最小にする固定代表であり、
+未簡約SLPの中心因子の長さを基準に選ぶ。全語の自由簡約後の大域的最短性は主張しない。
+literal/DAG/受領証を一意にする規約であり、artifact一致やPB4/全Delta-Fox一致を意味しない。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_SUCCESS_FULL_PREFIX_CHECKER_ACTIVE_RANK1418_ACCEPTED_2150; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33988391926/1; CURRENT_ACCEPTED_RANK=1418; GENERATION=8123; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_WITH_2150_CONVENTION_ACCEPTANCE_AND_TWO_LIMITS; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM; CURRENT_RULING=2150; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
