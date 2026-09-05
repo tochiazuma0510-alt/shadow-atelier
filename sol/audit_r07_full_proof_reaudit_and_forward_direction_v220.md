@@ -21866,3 +21866,80 @@ single transport repair required before continuation; it does not count the
   A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. The new rank1355
   is an internal A0 advance, not another completed grade. No full A0/COMMON,
   cofinal lift, fake or Ihara claim. `verified=false`.
+
+### Delta 532 (2026-09-05): fresh rank1355 roots complete in202 seconds; next actual direction is seed34
+
+- Workshop2105's full CV-9 reading was adopted with its four stated limits.
+  The completed seed30 run receives external limited cross-checked grading;
+  no old run is repeated. Its recommended final-lambda direct sweep was
+  included in BOTH new rank1355 root-scalar actual paths. Old rank/history
+  derivation and shared raw-seed lineage remain explicit premises.
+- Static release939 PASS led directly to source/launch commit
+  92c98486ab659f7e3358fc3c4afb53ab6b78293d and actual run33954712636/1.
+  Job101275805194 completed08:14:20Z--08:17:42Z (202 seconds), with producer
+  and independent checker each69 step seconds. Their small serial canaries
+  passed. No local numerical process, duplicate dispatch or old rerun.
+- The informative result is44 char0 seed scalars plus q1=q2=q3=0;
+  the176 serialized entries include132 structural zeros. All20 files agree.
+  First hit char0/seed34=1; only other nonzeros char0/seed35=2, seed36=2.
+  All seeds0--33 are zero for this new lambda. Fresh q0 support2691;
+  q1/q2/q3=0. The FINAL current lambda directly kills all1355 saved rows and
+  pairs1 with the saved target remainder. This closes the current F1 sweep,
+  not the complete physical-image annihilator test.
+- Final artifact9966008518 (31781 zip bytes) SHA
+  148b028ec8b17543a85a563a8d0275fc93361168adda85d8147cd1dbc41207b3;
+  diagnostics9966008810 (48634 bytes) SHA
+  f4ed8c2b7d89a7f8cd0ccdc5bc978f39b962a4fb4159ea4e877dd7c35416d749.
+  Root downloaded outside the repo and matched all19 payload byte/SHA
+  receipts. This is metadata checking, not another arithmetic engine.
+- Tasks940/941 start the actual seed34 one-pivot materializer immediately,
+  using the saved1354 parent plus accepted seed30 delta. No old target
+  reductions/Conn reconstruction, no parent-state copy, no actor/orbit
+  work or retired scalar reuse is added. Seed34's physical row is pending.
+
+**v220 mapping**:
+
+- J3 completes its second actual root-seed pass and supplies J2's next
+  concrete direction. J2 retains the completed rank1354->1355 insertion;
+  the next1355->1356 insertion has not yet run. The paper route continues
+  separately and does not delay the new materialization.
+- Numerators stay A0 **0/1 actual**, first-rung grades **1/6**, A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. Internal A0
+  progress is not grade2/full-A0/COMMON/cofinal/fake/Ihara completion.
+  `verified=false`; new runtime outputs do not self-issue workshop grading.
+
+### Delta 533 (2026-09-05): root-seed scope externally accepted; physical lower-multiplier gate removed on paper
+
+- Root read FULL workshop2110/CV-9 and adopts the limited cross-checked
+  grading. Its R1-1 wording repair is applied to Delta532/reply162:44
+  informative char0 scalars and three zero roots, not176 independent tests.
+  F1's full final-lambda1355-row sweep is externally confirmed closed.
+  Retained old rank/target-history and shared seed/projector lineage limits
+  remain; no completed scalar or materializer run is repeated.
+- V548 proves F=lambda H-(lambda H s)pi=lambda G(id-s pi). This is a
+  two-sided canonical-section subtraction, not the false equality of full
+  and homogeneous physical maps on mixed P1 lifts. With retained complete
+  Conn annihilation, F vanishes on the complete legal source iff lambda
+  annihilates the full grade2 correction image.
+- The already computed fresh8059 P1 contractions determine chi=lambda H s.
+  Source-basis dual interpolation replaces v543's separate6705 physical
+  lower-pivot/mu export and its mixed PHYSICAL adjoint. V546's carry formulas
+  and v547's table-free word selector remain available. Actual source
+  interpolation/adjoint and the marked tree test are still unexported;
+  no completed numerical oracle or measured speedup is asserted.
+- Independent audit942 PASS finds no necessary paper repair. Tasks940/941
+  continue actual seed34 materialization in parallel, not blocked by the
+  prospective alternative oracle. The selected raw row is joined to the
+  existing current root-scalar receipt; no unrelated seed2 reevaluation or
+  historical audit/selftest suite is added.
+
+**v220 mapping**:
+
+- The paper alternative inside A0 gains one completed algebraic reduction:
+  the physical lower-multiplier adapter is no longer required. J3's second
+  current-root result gains external limited acceptance; J2's next pivot
+  is still in implementation. Neither item completes J4's target decision.
+- Numerators remain A0 **0/1 actual**, first-rung grades **1/6**, A1 **4/4**,
+  A2 **2/3**, A3 **3/3**, A4 **1/3**, compact A5 unchanged. Actual physical
+  rank1355; no grade2/full-A0/COMMON/cofinal/fake/Ihara promotion.
+  `verified=false`.

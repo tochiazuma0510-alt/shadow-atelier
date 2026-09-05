@@ -587,5 +587,91 @@ Independent Task939 static release review is PASS, with no necessary fix
 or extra prerequisite. Root checked source pins, exact parent interfaces
 and full workflow wiring. Runtime tests/arithmetic are reserved to GHA.
 
-CAMPAIGN_STATUS: A0_RANK1355_NEXT_ROOT_SEEDS_STATIC_PASS_TASK939_RELEASE_READY; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
+## 14. Actual next root-seed result and immediate materializer continuation
+
+Root selectively committed/pushed92c98486ab659f7e3358fc3c4afb53ab6b78293d.
+Its single opt-in push launched33954712636/1, workflow
+`.github/workflows/d972-r07-rank1355-root-seed-scalars-v1.yml`.
+Job101275805194 completed SUCCESS08:14:20Z--08:17:42Z,202 seconds;
+producer and checker steps each69 seconds. The ten bounded canaries also
+passed in the single subsecond test step. No duplicate dispatch, local
+Python/GAP or successful-seed30 rerun occurred.
+
+Both actual implementations supplied the new char0's44 seed scalars and
+established q1=q2=q3=0. Their serialized176 entries include132 structural
+zeros, not132 additional informative tests; all20 candidate files agree.
+The next first violation is char0/seed34,
+scalar1; the only other nonzero entries are char0/seed35=2 and seed36=2.
+Seeds0--33 are zero, including the completed seed30 direction. New q0
+support2691; q1/q2/q3 are zero. This is actual new-lambda data, not reused
+old root assertions. Both paths directly confirm lambda kills1354 old rows
+and the added pivot, and pairs1 with the saved current target. Thus the
+current F1 orthogonality sweep is now done; old rank/history premises stay.
+
+Final artifact9966008518 has zip31781 bytes/SHA
+148b028ec8b17543a85a563a8d0275fc93361168adda85d8147cd1dbc41207b3;
+diagnostics9966008810 has48634 bytes/SHA
+f4ed8c2b7d89a7f8cd0ccdc5bc978f39b962a4fb4159ea4e877dd7c35416d749.
+Both expire2026-12-04T08:14:18Z. Root matched all19 manifest payload sizes
+and SHA values after downloading outside the repo to
+`%TEMP%/shadow-atelier-rootseeds-run33954712636-{candidate,diagnostics}-a1`.
+Manifest3204 bytes/SHAf60e9aa4d99d7c1a89512550314c3995d389b96b87e7a788b9d4e390572aed88;
+result36195 bytes/SHA02a814c5a7a2129302deca997fa3a5fb54982237c75b28e47da6205145cf07ea;
+checker2370 bytes/SHA46d7f1800977493ffb0e350dc5d0f52cc2464a4fde57c6b89718b93f29be0b48.
+Root's metadata/byte checks are not a third arithmetic execution or a
+self-issued external grading. The lineage qualifications remain explicit.
+
+Tasks940/941 immediately authorize the selected seed34 one-pivot actual
+materialization from the saved rank1355 state. They reuse the successful
+buffered/selected-support design, preserving the old state and seed30
+delta instead of rebuilding or concatenating their histories. New seed34
+coefficients/support and the next pivot are NOT yet computed. Physical
+rank remains1355; grade2 and the actual fixed target remain undecided.
+
+## 15. External root-seed acceptance and the new paper advance
+
+Root read FULL workshop2110's express and its201-line CV-9 note. Adopt its
+limited cross-checked grading: the informative result is the44 char0 seed
+scalars plus the fact that the other three B-adjoint roots vanish. The
+176-record stream is an ABI/completeness count, NOT176 informative tests.
+This corrects R1-1's presentation without changing any numerical result.
+F1 is externally confirmed closed. Old rank/target derivation and the shared
+seed-core/projector lineage remain explicit premises/qualifications.
+
+R1-2 does not justify patching/rerunning the completed scalar owner or
+evaluating seed2 in the seed34 materializer. The new selected materializer
+instead binds its actually reconstructed seed34 character row to the saved
+current scalar receipt (SHA5990517725f4a2cd3e52aab5e43ecf00d636d9d3805aa6259805aa858fdb9d82,
+support1464). A later new scalar owner should retain lambda-independent
+row pins while retiring only lambda-dependent assertions. The tiny next-
+lambda bad-row canary may be included among the new interface canaries;
+no historical test suite or generic third engine is commissioned. R1-4's
+six-line metadata similarity and R1-5's empty seed relations require no
+repair for the actual nonempty seed34 relation. Incremental future grading
+retains unchanged lineage pins and checks the final sweep row-count sum.
+
+New v548 removes v543's separate PHYSICAL lower-multiplier adapter by the
+proved two-sided identity
+
+```text
+R=id-s pi,
+chi=lambda H s,
+F=lambda H-chi pi=lambda G R,
+lambda(M2)=0 iff F(W2)=0, provided lambda(Conn)=0.
+```
+
+H is the Task712 homogeneous physical map; G-H factors through source pi,
+so the omitted mixed physical contribution cancels on BOTH sides. This
+does not claim H=G on a mixed P1 lift. The already computed fresh P1
+contractions prescribe all8059 values of chi. Thus no export of6705
+physical lower-pivot pairs or mixed physical adjoint is needed for this
+alternative oracle. The P1-source interpolation, actual source adjoint and
+marked tree/carry test still need execution. No runtime saving or target
+membership is claimed merely from this reduction.
+
+Independent paper audit942 is PASS with no necessary repair. It is not a
+release gate for Tasks940/941. V220 Delta533 records this additional paper
+completion separately from the next numerical pivot, which remains pending.
+
+CAMPAIGN_STATUS: A0_RANK1355_ROOT_SCALARS_EXTERNALLY_LIMITED_CROSS_CHECKED_SEED34_VALUE1; TASK940_941_MATERIALIZATION_IN_PROGRESS; V548_PAPER_PASS; GRADE2_NOT_DECIDED; FULL_A0_NOT_DECLARED
 AUDIT_162_VERDICT: 条件付き
