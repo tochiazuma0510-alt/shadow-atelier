@@ -23012,3 +23012,21 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 580 — 修理GHA33988391926で新隔離三件step成功、全32段照合中（2026-09-06 JST）
+
+- 六選択fileをcommit 22b628c0145d7d369a310179a64b88662f360b24でpush。
+  run33988391926/1、job101366064135、completion v1。created19:51:59Z/job start19:52:01Z。
+- 19:55:28Zの実APIで15親・diag・20source/raw3・58entry/全outputの認証step success。
+  新隔離三件stepは19:53:34Z→19:53:35Z success。実JSON本文は回収待ち。
+  新Cの保存全32段照合は19:53:35Zからin_progress。最終HEAD/terminal/invocation等のPASSは未観測。
+- 最終reply977（10995/7ac0917e…）・978（16809/b143d586…）をroot全文読了、全bytes/SHA照合。
+  値は返信163 F8.42。両票の静的限定PASSと保持TCBを採用、runtime/cross-checkedを先取りしない。
+- Task980は全workflowを保存、981が独立監査中。成功completion親の実pinは未観測のまま。
+  Task982でtarget履歴/同一語/normalized pair、983で独立11slot＋現grade readoutを並行実装。
+  公開node ABIだけ共有し、target零/正のgrade2実例はまだ主張しない。
+- **CLOSED**: 修理GHA発射、専用三件stepの実success、正式977/978読了。
+- **OPEN**: 新C全32段の最終PASS/全artifact回収 → 工房CV9 → 同owner継続。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
