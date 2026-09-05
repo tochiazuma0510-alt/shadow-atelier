@@ -22917,3 +22917,18 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理済みrank1386/gen8091、grade2 **NOT_DECIDED**、A0 **0/1 actual**、当該段 **1/6**、
   A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言。
   2143/2144七限定・旧独立性限定・非零omega本番未観測を保持し、`verified=false`。
+
+### Delta 575 — resume32が完了、全prefix独立照合と判定接続を継続（2026-09-06 JST）
+
+- 実run **33984832010/1** のresumeは18:44:07–18:56:51Zにsuccess（実step wall **764秒**）。
+  全new snapshot/step/current checkpointの独立checkerが18:56:51Zから進行中。
+  新completed数/rank/停止理由はartifact未回収のため未記載。実step秒数を反復数・速度予測にしない。
+- 記帳commit `d53a268dbb7150c5738a3cb8fb9524941b85e134` をrootがpush済み。
+  正式972/973＋返信163/v220だけで、計算launchは `b8c9e95ddd0183d9e43b7fcc961cb251fdaea13e` のまま。
+- 既存三agentへTask974（新Eのordered target/SLP差分）、975（独立同一語11slot adapter）、
+  976（complete-zeroから当該grade負判定への命題/gate監査）を限定read-onlyで発射。
+  公刊source/workflow不変。未観測positive/negativeの仮定や全A0への格上げはしない。
+- **CLOSED**: cap1→同output累積cap32の実行gate。全new prefix照合は未完了。
+- **UNCHANGED**: 受理済みrank1386/gen8091、grade2 **NOT_DECIDED**、A0 **0/1 actual**、当該段 **1/6**、
+  A1 **4/4**、A2 **2/3**、A3 **3/3**、A4 **1/3**、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  2131/2138/2143/2144の限定を保持し、`verified=false`。
