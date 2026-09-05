@@ -1,0 +1,3 @@
+# 裁定 2143 snapshot(2026-09-06・司令塔記帳)
+
+- 2143: **E(selected cycle materializer v1)の工房格付け = cross-checked(限定 7 条)**: 増分 CV-9 = 同一対象(第三実装で Ω 語実体化の全段を生バイト再現: raw-chain/normalizer 4 語/raw-root 3,338 文字/SLP 45 ノード/lower-zero 96,776/新 target+normalized = 親 target 剰余/λ 全性質/封 19・manifest 27・TCB 19 で mismatch 0)(報告書 scratchpad/fal_cv9_cycle_mat_v1_report_v1.md sha16 981a0bef53fa4bbd・正本化 docs/notes/cycle_mat_v1_cv9_reading_v1.md)。独立性: 交差辺なし・クローンなし(≤ 0.84)・checker が _seed_* を捨て自前実装(改善)。要修正 3: F-cy-1(v547 三因子のうち実走 1 因子・w = (6,0,0)・中心項未試験)・F-cy-3(v548 §5 [r_x,r_y]^ω vs v547 (4.2) [r_x,r_y]^g の紙齟齬・ω = 0 で未決着)・F-cy-4a(read_task712_envelope 1.0000 が B 表復号で load-bearing)。改善: 2138 の F-sc-2/F-sc-3 実質閉鎖(full selftest 本走・24 塊全非零・四 B 非自明)。GRADE2 NOT_DECIDED・verified=false。
