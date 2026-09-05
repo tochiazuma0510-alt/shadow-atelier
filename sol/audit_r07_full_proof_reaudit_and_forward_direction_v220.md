@@ -23148,3 +23148,48 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 588 — resume64 P実success、新invocation/旧保存PASS・全C開始（2026-09-06 JST）
+
+- run33990567016/1、launchc57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70、job101371928354。
+  Pは20:36:16Z→20:50:06Z実success、新invocation/旧byte保存は20:50:06Z→20:50:07Z success。
+  全after-prefix/current checkpointの独立Cは **20:50:07Z開始・実行中**。
+- 新result本文はまだ回収できておらず、新append数/after-rank/terminalをcapから推測しない。
+  回収済み候補1418/gen8123と工房受理1386/gen8091を維持。最終保存/receipt/upload/CV9待ち。
+- Task985含む記帳commit8bb40fc472e1cc5986321325aebfa5931c48946eはpush済み。
+  同一語consumerではRef自身のtarget/normalizer親receipt保持と最終compiler/mainの監査を継続する。
+- **CLOSED**: 今回一回Pの実正常終了と新invocation/P後全旧byte保存gate。
+- **OPEN**: 全C/最終保存/実artifact、工房CV9、同一語consumer985実接続 → actual grade2結論。
+- **UNCHANGED**: 受理rank1386/gen8091、回収済み候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 589 — 工房2149の限定8格付け、F-co-1の受理保留を反映（2026-09-06 JST）
+
+- 正本cegar_cont_v1_cv9_reading_v1全388行/31766 B/SHA a8842fcbe5a2afe25ad994cedeb6de1e6ad340da9928c8dbff631bc858e38d4e、
+  express、裁定2148/2149を全文読了。工房commit64c7784d1bdf0a9c9043959571a39046a9544e85。
+- completion33988391926/1の全32段はcross-checked・限定8条。F-cy-1は三修理の非自明実走で閉鎖。
+  ω=2の5件について物理行の規約非依存性の数学裁定待ちなので、正式受理1386/候補1418を維持。
+- `_SeedContext`はTCB外、vectorized_projection_chunkは新直接呼出しを含む保持cloneとの訂正を採用。
+  full_four_character_scopeは固定scope宣言で、四characterの情報性の証拠にはしない。
+- 次CV9は同P/C source SHA確認と実after-prefixの⑤、修理前wのω/central指数全列、lambda台、
+  failed_chord/basis変化を含める。新run33990567016/1はP/P後保存PASS、全C進行中。
+- **CLOSED**: completion32の工房CV9判読、三因子の本番被覆に関するF-cy-1。
+- **OPEN**: F-co-1数学回答の工房裁定、新run全C/保存/実artifact、同一語consumerとactual grade2結論。
+- **UNCHANGED**: 受理1386/gen8091・候補1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
+  A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。
+
+### Delta 590 — F-co-1紙上回答: 特定差のFox零から現grade2物理行の非依存性（2026-09-06 JST）
+
+- 返信163 F8.52の式(163.52.1)–(163.52.3)を回答。c=[r_x,r_y]、R_(g+3k)=R_g c^(3k)。
+  v547 (2.3)/(3.7)からc^(3k)∈Omega、c∈[N0,N0]からJ_Q0(c)=0、商Q2でもFox零。
+  普通epsilonも同じ零。Omegaに入ることだけでFox零とは推論しない。
+- v548 (5.1)の同じsource Psiへ入れる(z,eta)が等しいため、同じP1 sectionによるu-s pi(u)と
+  H=G上の全物理48384行が等しい。v542 §5のsource因子化、既存P1/物理mapの前提を保持する。
+  したがってomega=2のg=-1と2は今回のgrade2物理行に関して非依存、規約差だけによる5件再走は不要との裁定案。
+- 凍結E checker778–784のcommutator自体の実Q2 Fox零、790–793の六tag同一chain、727–751の
+  全P1/lower-zero接続を静的再読。新しいg=2数値走行ではない。literal/DAG/hashはsigned固定のまま。
+- **CLOSED**: Sol側のF-co-1数学回答。一般のOmega-類依存という不適切な命題を必要としない証明。
+- **OPEN**: 工房正式受理、GHA33990567016全C/保存/実artifact、保存signed語の十一slot本走とactual grade2。
+- **UNCHANGED**: 受理1386/gen8091・候補1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、当該段1/6、
+  A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、verified=false。

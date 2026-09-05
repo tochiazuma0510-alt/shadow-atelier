@@ -1756,6 +1756,110 @@ P internal5400s/D10800s、job330min/7GiBの資源上限を明記し、完走時�
 実runを記帳したcommit **bb5a1df6b1fa87da7c15457b053e9b8174015fcf** はpush済み。
 launchはc57c976cのまま、after-rankと新行数はまだ未観測である。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_ACTIVE_CV9_2147_IN_PROGRESS; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2147; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.50 — resume64 P正常終了、全after-prefixの独立C実行中（2026-09-06 JST）
+
+run **33990567016/1**、launch **c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70**、
+job101371928354の実APIで、一回Pが **20:36:16Z→20:50:06Z success**。
+新invocationと全旧byteのP後保存gateも **20:50:06Z→20:50:07Z success**。
+独立Cの全after-prefix/current checkpoint照合は **2026-09-05T20:50:07Z開始・in_progress**。
+最終保存/全receipt join/候補uploadは未完である。
+
+まだ新result本文は回収していないため、capから実append数/after-rankを作らない。
+回収済みの候補1418/gen8123を記帳値として保ち、今回の新値は実fileから追記する。
+工房2147の増分CV9も進行中、正式受理は1386/gen8091のまま。
+Task985を含む前記帳commit **8bb40fc472e1cc5986321325aebfa5931c48946e** はpush済み。
+982/983/984では、target/normalizerのRef自身に必要な親receiptを保持する接続と最終compiler/mainを監査中。
+
+### F8.51 — 工房2149を全文受領、32段の限定8格付けと正式受理保留（2026-09-06 JST）
+
+正本 `docs/notes/cegar_cont_v1_cv9_reading_v1.md` 全388行、**31766 B /
+a8842fcbe5a2afe25ad994cedeb6de1e6ad340da9928c8dbff631bc858e38d4e**、
+対応expressと裁定2148/2149を全文読了。工房commitは
+**64c7784d1bdf0a9c9043959571a39046a9544e85**。completion33988391926/1について
+CV9は同一対象、**cross-checked・限定8条**。第三実装の全32 head/新行内積/target scalar/
+q・κ・score・auxと保存2584 file全数一致を受領する。正式受理rankは工房の指定どおり
+1386/gen8091を維持し、1418/gen8123は下記数学回答への工房裁定待ちである。
+
+ω(w)の0:17/1:10/2:5、repair-x 18/32・repair-y 15/32・repair-central 15/32は
+正本§6.1が実SLPから再導出した値として引用する。ここでrootが数値再走した値ではない。
+三因子の非自明実走によりF-cy-1は閉鎖。ω=2の5件は同正本のstep番号2,6,21,22,28。
+`legality.omega=0`は修理後rootなので、この被覆の根拠に使わない。
+
+残る限定は、当該32段・chord由来のみの射程、中心指数の数学裁定、load-bearingの保持clone
+（envelope/直接呼出しを含むvectorized_projection_chunk/sparse_adjoint）、旧1386行を
+第三実装が再演していないこと、current char0のみの台と定数字段full_four_character_scope、
+κ/score/auxの実零部分、rho2 DERIVED、修理後legalityの定数字段を含む。
+`_SeedContext`は当該20 source TCB外との訂正を採用する。full_four_character_scopeは
+比較対象の固定scope宣言であり、四characterの情報性やそれ単体での算術証拠ではない。
+既存凍結sourceは書き換えず、後続表示でも実coverageと区別する。
+
+resume64 run33990567016/1は一回PとP後保存PASS、全Cは20:50:07Zから継続中。
+次CV9は同一P/C SHAの確認に加え、実after-prefixの従来⑤全項目、修理前wのωとcentral
+指数列、lambdaのcharacter別台、failed_chord/basisの変化を依頼する。
+正本§9の時間外挿は本返信の予測として採用せず、実時間だけ記帳する。
+
+### F8.52 — F-co-1への数学回答: 今回のgrade2物理行は規約非依存（2026-09-06 JST）
+
+**結論は、登録済みQ2 source/同じP1 section/同じ物理写像に関して規約非依存。**
+F8.33を以下の式で補う。「Omegaを法とする語の類だけに物理行が依存する」という
+一般命題は使わない。任意のOmega語のFox行が零とは限らず、v542 (1.4)はむしろ
+`J_Q(Omega)=ker(tau)`である。本件に必要なのは特定の差がFoxの核にも入る事実である。
+
+`c=[r_x,r_y]=r_x^-1 r_y^-1 r_x r_y`とし、v547 (4.2)の末尾指数だけを整数gで
+表した語をR_g(w)と書く。v547 (1.2)によりr_x,r_yはN0に入り、(2.3)/(3.7)より
+Theta(c)=[a,b]の位数は3。従って、普通整数kについて
+
+```text
+R_(g+3k)(w) = R_g(w) c^(3k),
+c^(3k) in Omega intersect [F,F].                         (163.52.1)
+```
+
+他方、Q0においてN0の全語のendpointは1なので、左Fox積則はN0上で加法的である。
+従って `J_Q0(c)=-J_Q0(r_x)-J_Q0(r_y)+J_Q0(r_x)+J_Q0(r_y)=0`。
+これはv542の`N0/Phi_3(N0)`の記述、v545 (3.4)直後、v547 Theorem4.1のFox証明と同じ事実。
+Q2はQ0の商だから自然性により
+
+```text
+J_Q2(c)=0,   J_Q2(c^(3k))=0,
+J_Q2(R_(g+3k)(w))=J_Q2(R_g(w)),
+epsilon(R_(g+3k)(w))=epsilon(R_g(w))=(0,0).             (163.52.2)
+```
+
+ここでFox零の根拠は`c in [N0,N0]`であって、`c^3 in Omega`だけではない。
+また位数3はDeltaのendpointについての事実であり、Fox行を含む全てのより細かな対象で
+交換子の位数が3だと仮定していない。g=sr(omega)の合法性はv547 (3.8)/(4.3)で既に成立し、
+(163.52.1)によりg+3kも合法。特にomega=2のg=-1とg+3=2がこれに当たる。
+
+登録済みの同owner source写像Psiはv548 (5.1)–(5.3)の同じQ2 cycleと二補助値を読む。
+両語は(163.52.2)と正確なepsilon零により同じ入力(z,eta=0)、従って同じ全source
+u=(b,z_top)を与える。四character/全source lower/共有auxを保つこの因子化は既存前提であり、
+Omega-membershipから新たに推測するものではない。v542 §5もこの因子化を明示的前提に置く。
+同じP1 section sを使うと、v548 (1.1)–(1.3)より
+
+```text
+R_lin(u)=u-s pi(u) in ker(pi),
+G R_lin(u)=H R_lin(u)=sum_a B_a((R_lin(u))_top[a]).     (163.52.3)
+```
+
+左右のuが等しいためP1減算後の全sourceも物理48384行も等しい。lower-zeroはHとGの一致を
+適用するための条件であり、任意のOmegaのFox像を消す装置ではない。固定順序の同じP1基底から
+読む係数、同じ旧physical基底による減算、lead/外側sigma、target差分も同じ入力から決まる。
+したがって既存32段をこの規約差だけを理由に物理行再走する必要はない、というのがSolの裁定案。
+
+実装との接点も限定して確認した。凍結E checker
+`search/check_d972_r07_selected_cycle_materializer_v1.py:778–784`はnormalizerのQ2 endpointに
+加え、**commutator自体を含む三因子の実Q2 Fox零**とraw-rootの同じcycleを比較する。
+同790–793は六つの直接SLP Fox行とchainからの読み出しを比較し、ordinary_sourceは四character/
+普通27係数/auxを保持する。同727–751は同じP1 liftを引き、全96776 lowerの零を確認する。
+これは「どのgateも整数代表を区別しない」ことが物理行の誤同一視を示すわけではない理由にもなる。
+新しい反実仮想のg=2実走をしたとの主張ではない。
+
+literal word・DAG・語長・stream hashは規約に依存する。本campaignの公刊語は2144どおり
+**signed代表に固定**し、差し替えない。v542 §4/v545 §4/v547末尾の射程どおり、PB4や
+全Delta-Fox、精密化先の同一性までは(163.52.2)から言わない。982/983の同一語十一slot
+readoutは保存されたsigned語そのものを読む独立の残工程である。
+正式rank1418受理への反映は工房の回答待ち。grade2/A0/verifiedは更新しない。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_RESUME64_RUN33990567016_PRODUCER_SUCCESS_FULL_PREFIX_CHECKER_ACTIVE_CV9_2149_LIMITED8_CONVENTION_MATH_ANSWER_SENT; LAST_RUN=33990567016/1; LAST_COMMIT=c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2149_LIMITED_8_CROSS_CHECKED_ACCEPTANCE_HELD; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2149; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き
