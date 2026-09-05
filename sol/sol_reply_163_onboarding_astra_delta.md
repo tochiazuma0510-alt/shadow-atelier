@@ -1512,6 +1512,155 @@ Task983にreply975の独立11slot＋現PB4-dropped codomainのDを実装委嘱�
 共有は公開node ABIのみ。実target零や正のgrade2判定はまだなく、必要なconsumerを先に整える。
 **受理rank1386/gen8091、候補1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual**を維持する。
 
-CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_REPAIR_RUN33988391926_CHECKER_ACTIVE_NEW_SNAPSHOT_ISOLATION_THREE_TEST_STEP_SUCCESS; LAST_RUN=33988391926/1; LAST_COMMIT=22b628c0145d7d369a310179a64b88662f360b24; ORIGINAL_PRODUCER_RUN=33984832010/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2145; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+### F8.43 — 工房2145向け三規約表diff、同owner継続の構造監査（2026-09-06 JST）
+
+以下は公刊965/966、959/961、971/977/978とv547(4.2)/v548/裁定2144の比較であり、
+新GHAの成功や三系統算術一致を先取りする表ではない。32段の実scalar/root内訳はcoverage回収後に付す。
+
+**materializer表：外部E v1 → continuation内の各E**
+
+| 規約 | 公刊Eの規約 | 今回差分 |
+|---|---|---|
+| 一語と順序 | 六cycleをwitness順で保持し、係数0も削除しない。tree/normalizer Refを同じraw-rootへ結ぶ | 同じ。各snapshot自身のwitnessとfixed geometry hashを使用 |
+| raw修理 | `w*(rx^3)^(-A/6)*(ry^3)^(-B/6)*comm^sr(omega)`、ordinary整数/6、`sr(2)=-1`。auxは選択normalizerの9乗 | 同じ。least residue2への置換なし |
+| P1補正 | old embedded元lead昇順→new owner-major元lead昇順。8059行、各対応scale一回、mod54で18整除とnormalized pair | 同じ。新snapshotのraw sourceから補正 |
+| sourceとphysical | 同じVの六tag/四character、全96776 lower零、全四Bを加算。Conn後Sにはphysical-lower型を付しVのsource-lower型をコピーしない | 同じ。四characterの独立な語へ分割しない |
+| 一行とtarget | normalized一行を追加、plain三字段target、selected/normalizing/target scalarを区別。scalar0合法 | 外部E一行を起点で一度付し、loopの新stepだけを別に数える |
+
+**oracle表：公刊section/cochain oracle → continuation各current lambda**
+
+| 規約 | 公刊oracleの規約 | 今回差分 |
+|---|---|---|
+| geometry/Fox | 固定Q2の右正edge `2*q+slot`、六tag、LEFT Fox。nonclosed edgeをclosed-word qnormへ渡さない | 同じ。geometry/carry/indexをlambda非依存fixed bundleとして保存 |
+| q/section | 全四rootをcurrent lambdaから作る。new元lead降順→old embedded降順、全四d1 companion/shared auxを含むjoint κ、全8059等式 | 同じ。各新lambdaで全域を再評価し、旧lambdaの結果を流用しない |
+| source score/aux | ordinary27 actual source、六tag×二正edge、独立eta、`b_aux=-kappa_aux[6:8]`。F3内の18除算なし | 同じ。P側polynomial系とC側ordinary27系の区別を保持 |
+| complete判定 | 全54433 chord・二aux、五合法性row、同じlambdaと全EOFを束縛 | 同じ。UNKNOWN_CAP時の最終未作成snapshotからcompleteを推論しない |
+| 限定 | current qの零と作用素恒等零、空虚なcharacterと全四scopeを区別。Conn/P1/source-map/DERIVED前提を保持 | 保存32本のcurrent-lambda内訳を追加報告するだけ。新しい独立性閉鎖なし |
+
+**continuation表：凍結P/C v1 → 修理C v2とC-only completion**
+
+| 規約 | v1 | 今回差分 |
+|---|---|---|
+| bytes/schema/算術 | canonical ASCII/sorted/compact/final LF、v1 payload、九phase、同じowner/source/start/fixed | Pと全保存outputは不変。Cのmetadata親列/pairingだけdeep-copyで所有隔離 |
+| HEAD/過去snapshot | startはrank1386/gen8091。各snapshotはappend前、step jはsnapshot j−1 | 過去snapshotの返却hashも元実bytesへ一致。gateを弱めずaliasを修理 |
+| 実行と来歴 | 元P cap1→resume32、元C最終HEAD FAIL | 新P0、旧成功suite0、新隔離三件＋新C全32一回。旧FAILと新結果/source/runを別保存 |
+| terminalと格 | target零はpositive consumer待ち、complete-zeroは保持前提付き候補、上限/資源停止はUNKNOWN | 同じ。全GHA PASS後も工房CV9まではcandidate、grade2/full A0/verifiedへ自動昇格しない |
+
+次のresume64 workflow構造版は93007 bytes / SHA256
+`a4e01ee0284c7efc4e138df9f57e7ae7b222dab60bf93efa72410d5817d16d70`（1224行）。
+rootが全稿と公開C ABIを読了し、981も構造に必要修正なしと回答した。元14親＋成功completion親、
+全旧32step/snapshot receipt、新invocationの全字段、同一runtime、全after-prefixと全不変bytesを結ぶ。
+成功completionの実tuple/10entry pinは未観測のまま空で拒否する。これはsource構造の受領であり、
+別runner継続の実成功ではない。F8.42/Delta580等の記帳commitは
+`d9d6e05ad415bcce61df96e889c51db1c3af8012`、実修理runのlaunchは22b628c0のままである。
+
+### F8.44 — 修理GHA33988391926は実success、候補artifact回収中（2026-09-06 JST）
+
+run **33988391926/1** はcompleted/success、API updated **2026-09-05T20:06:46Z**。
+launchは `22b628c0145d7d369a310179a64b88662f360b24`、job101366064135もsuccess。
+実step時刻は次のとおり。receipt本文の値は回収後に別途照合する。
+
+| step | UTC開始→終了 | 実結果 |
+|---|---|---|
+| 新隔離三件 | 19:53:34→19:53:35 | success |
+| 新Cによる保存全32段・最終HEAD/terminal/invocation | 19:53:35→20:06:10 | success |
+| scalar/root内訳 | 20:06:10→20:06:11 | success |
+| 全source/全親/全output前後不変 | 20:06:11→20:06:14 | success |
+| original/repair来歴と最終receipt join | 20:06:14→20:06:14 | success |
+| candidate upload | 20:06:14→20:06:28 | success |
+| always diagnostics | 20:06:28→20:06:42 | success |
+
+APIで候補artifact **9976060093** を観測。nameは
+`d972-r07-complete-oracle-cegar-checker-completion-v1-candidate-33988391926-1`、
+102582146 bytes / digest `sha256:9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1`、
+expiry **2026-10-05T20:06:15Z**。rootがZIP実回収中であり、この時点のdigestはAPI metadata。
+diagnosticは9976063243、同102582146 bytes、API digest
+`sha256:923f64f5f781a4116c3c78fa282039602829b8f6e9a87a18c4c0fc9311775984`、
+expiry2026-10-05T20:06:29Z。両者の実run/head/repositoryは上記launch/1312092366に一致する。
+
+旧run33984832010のHEAD FAILを遡及変更しない。新修理runの全gate成功が別に得られた。
+rootの実ZIP/全file照合と工房CV9を残し、**受理rank1386、候補1418**の境界はまだ維持する。
+Task984も委嘱し、982/983の先行公開ABI・一般LEFT Fox/Act・typed full filtered読出しを監査中。
+Refのkey/childと元recipeの意味joinは実装途中の残件として明示し、現在のGHA修理成功とは分ける。
+
+### F8.45 — 修理候補の実回収・全保存file認証完了、32段coverageとCV9依頼（2026-09-06 JST）
+
+F8.44の回収は完了した。run **33988391926/1**、launch
+`22b628c0145d7d369a310179a64b88662f360b24` の候補artifact **9976060093** は
+実ZIP **102582146 bytes / 9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1**。
+APIのsize/digestと一致し、期限は2026-10-05T20:06:15Z。全2699 entryを型・安全path・重複を
+拒否する入口で展開した。rootは元2636保存fileの全size/SHA、内output2584 files/420 directories/
+346710509 bytes、元52 file、20 source/raw3、保存C1/C2の実bytes一致を確認した。
+全14親のbefore/after roster SHAは同一で、GHAの全親/全source/全output保存結果もPASSである。
+ローカルではmetadata/実byte/hash照合だけを行い、算術・Python/import/AST/GAPを実行していない。
+
+次便への実10entry handbackはTEMPの
+`shadow-atelier-audit163/cegar-completion-run33988391926-a1-pins.json`
+（whole SHA `ff00dc2f1bf8d66776b5aea940c0de1c8281fbafd5e0cd313f870decf744ad64`）。
+展開rootは `%TEMP%/shadow-atelier-cegar-completion-run33988391926-candidate-a1`。
+以下は全てrootが実fileから得たwhole-file値で、JSON内部の自己sealとは別である。
+
+| entry | bytes | SHA256 |
+|---|---:|---|
+| checker-result.json | 176622 | 4ef33b2d174064e2542dd07d1c838b476b549606a8be0fb2ecc4b301b1382690 |
+| repair-source-receipt.json | 4137 | 3f2c68a359c3b9200f88850432372abd78207c1cfacc39a8aeb371e184774be8 |
+| completion-run-receipt.json | 5006 | aaa5a9900d37f9d56e72419d7073da0bec291890e6ccf940109d01168e6e77f8 |
+| completion-intake-receipt.json | 2218 | f209153368adeb384ec94bcbd4d4f63d34c4dd175e6cc1ad50926116780f590b |
+| preserved-input.json | 811910 | 914405978f9ad745e822e7009963a3da06f079af1bc6a6ef301119a1fa9a11ff |
+| preservation-result.json | 389295 | b1d465bd1af7174d1177ea9f78ee79c29d15bf1cb6f7c239b3efd6f802e53d98 |
+| all-parent-files-before.json | 168585 | e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113 |
+| all-parent-files-after.json | 168585 | e370577d4bb30baf9d611cd13f08b392d1f4505b9810d8eaad78a9992e6ac113 |
+| snapshot-isolation-selftest.json | 727 | ac5c37d865ee8f85dc13ddbb78878071b7d6d6abbec827827190ccedc83337c0 |
+| coverage-receipt.json | 86586 | e0ee8b681793567e422da95a6d73475ffc8e2c8b06e6d491938218336b6d7bad |
+
+completion/intake/source/regression本文とCの全top-level gateを読み、completionから他9 entryと
+output/HEAD/result/owner/source/startへの計14実hash join、C/coverage/completionのscalar列一致を確認。
+新三件はactual state/serializer/controlを使ったPASS、旧alias対照を検出、受理済み親算術の再演はfalse。
+元producer appends=32、新producer appends=0、旧成功suite再走=0、新C実走=1、exit0、
+実elapsed **754.5422321630001 s**。P/C runtimeはいずれも
+`3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]` / NumPy2.5.1。
+元CのFAIL本文/exit1と新CのPASSを保存し、旧結果の遡及格上げはしない。
+
+Cは全32 step/32 snapshot、過去snapshot receipt、最終HEAD、全committed arrays/JSON、
+current checkpoint、二つの実invocationを照合。全四character、joint8059、全54433 chordと二aux、
+ordinary27、source lower96776、mod54、四Bのgateがtrueである。
+最終rank1418/gen8123、state head
+`0c2451e45fb1859f1ebe9f3fcbada1caefffb9f9c9adb222521cd556c3cdc2dd`、
+target remainder `cbe44dbec2f40a06f90636f6ae66d3d24c4002f44b4358b642376da3c9eee139`、
+lambda `ecac50df38ce180d220b64e24ce5f53b163d65c3c54c7372c4b36e6ddc82e04b`。
+全1418行への最終lambda pairingは零、両current target pairingは1。rho2の旧DERIVED前提は継承する。
+terminal **UNKNOWN_CAP / Separator**、current snapshot/checkpointとcurrent oracle terminalはnull。
+したがって末尾rank1418のlambdaへの新oracle計算はまだ無く、MEMBER/NONMEMBERは未決定。
+
+32 stepのtarget.scalarはGHA保存値を順に転記する（selected scalarやrow scaleとは別）。
+
+```text
+[1,2,2,2,2,0,1,2,0,0,1,2,0,2,2,0,0,0,1,0,2,2,2,1,0,2,2,2,1,2,2,2]
+```
+
+coverageの全32 rowを読了。対象はsnapshot0..31の各current lambda、すなわちrank1386..1417である。
+全てqのcharacter順[0,1,2,3]のcurrent-zero flagは **[false,true,true,true]**。
+character0のnonzero **packed byte**数は次の保存列で、nonzero trit数ではない。
+
+```text
+[1062,1062,1053,1056,1077,1074,1056,1062,1062,1065,1071,1065,1071,1062,1080,1080,
+ 1056,1080,1074,1083,1080,1080,1077,1077,1071,1080,1092,1080,1080,1083,1095,1095]
+```
+
+kappaのtag0は各rowでd0/d1とも非零、tag1..5はともに零、shared aux8とb_aux2は全て零。
+scoreのtag0は両component非零、tag1/2はcomponent0だけ非零、tag3..5は両component零。
+payload/phase/snapshot/physical-result hashは各coverage rowに結合されている。
+これは**保存32個のlambdaでの実値**であり、operator恒等零や全四characterのinformative性は
+ともにfalseのまま。全四scopeを削らず、新rank1418以後へこの零性を外挿しない。
+normalizer規約はsigned[0,1,-1]・普通整数6除算・mod54/18・独立etaのまま、F8.43の三表に差分を記帳済み。
+
+裁定2145の指定どおり、上記exact artifact/alias修理receipt/32scalar/零root内訳と三規約表を
+`ops/express/20260906_astra_fable_cegar_completion_cv9.md` から工房CV9へ渡す。
+Task980へ実tuple/10pinsを交付し、Task981が独立に最終結合を監査中。
+Task984の保存570行までの先行監査も全読了した。一般LEFT Fox/非単位Act/typed full filteredは
+静的に妥当、Refの元recipe→ordered child意味joinと親/printed/tail接続は982/983の未完部分である。
+工房の追加裁定までは**受理rank1386/gen8091、候補1418/gen8123**を維持する。
+
+CAMPAIGN_STATUS: COMPLETE_ORACLE_CEGAR_REPAIR_RUN33988391926_SUCCESS_ARTIFACT_FULLY_AUTHENTICATED_CV9_REQUESTED_RESUME64_FINAL_PINS_AUDIT_ACTIVE; LAST_RUN=33988391926/1; LAST_COMMIT=22b628c0145d7d369a310179a64b88662f360b24; ORIGINAL_PRODUCER_RUN=33984832010/1; ACCEPTED_PARENT_RUN=33981657987/1; CURRENT_ACCEPTED_RANK=1386; GENERATION=8091; CURRENT_CANDIDATE_RANK=1418; CANDIDATE_GENERATION=8123; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE; CURRENT_RULING=2145; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

@@ -23030,3 +23030,57 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
   当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
   保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 581 — 三規約表diffを保存、resume64構造の全稿監査（2026-09-06 JST）
+
+- 返信163 F8.43にmaterializer/oracle/continuationの三規約表diffを保存。
+  signed一語/ordinary整数6除算/mod54/18、全四scope/joint8059/全chord二aux、
+  左Foxと右graph、snapshot/HEAD/terminal/候補格の不変と今回metadata隔離の差分を分けた。
+  32段の実coverageは回収後に接続する。新runtimeや第三算術一致の先取りではない。
+- resume64構造版93007 bytes / a4e01ee0284c7efc4e138df9f57e7ae7b222dab60bf93efa72410d5817d16d70、
+  全1224行をroot/981が読了。追加必須修正なし、成功completion実tuple/10entry pinだけ未観測で拒否。
+  同runtime/同owner/旧prefix不変/一回resume/全after-prefix照合を維持する。
+- 前記帳commit d9d6e05ad415bcce61df96e889c51db1c3af8012はpush済み。
+  実修理run33988391926/1のlaunch22b628c0、新C全32照合中という状態は変えない。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 582 — 修理run33988391926の実success、候補全回収へ（2026-09-06 JST）
+
+- run33988391926/1、launch22b628c0145d7d369a310179a64b88662f360b24、job101366064135がsuccess。
+  API updated20:06:46Z。新C全32は19:53:35Z→20:06:10Z、coverage/全不変/最終receiptもsuccess。
+  新隔離三件、candidate/always uploadも成功。旧33984832010のFAILは別記録として維持する。
+- candidate artifact9976060093、102582146 B、API SHA9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1、
+  expiry2026-10-05T20:06:15Z。rootが実ZIP回収中、metadataと実bytes照合を分ける。
+  diagnostics9976063243のAPI来歴も確認。全実時刻/両artifact値は返信163 F8.44。
+- Task984が982/983の一般LEFT Fox/Act・同一root/typed filtered評価を先行監査。
+  Ref key/childの元recipe意味joinは実装途中の残件、今回修理runの範囲には加えない。
+- **CLOSED**: 修理GHAの新隔離三件/全32段/最終HEAD/terminal/invocation/保存gateの実success。
+- **OPEN**: 候補の実ZIP/全file認証・receipt本文読了 → 工房CV9 → 980実pin結合/同owner継続。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
+
+### Delta 583 — 成功completion全回収と実10pins、32段coverageをCV9へ（2026-09-06 JST）
+
+- run33988391926/1、launch22b628c0145d7d369a310179a64b88662f360b24、候補9976060093の
+  実ZIP102582146 B / 9f51b03805ca9de08669111e7aeb3acfc8169ff31cee4d27f1383c52bf5c96b1がAPI一致。
+  全2699 entry安全展開、元2636 file（output2584/420dirs/346710509Bと元52file）の実size/SHA全一致。
+  20 source/raw3/保存C1・C2も実bytes一致。全14親前後roster SHA同一、GHA全保存gate PASS。
+- completion/intake/source/regression本文とCの全gate、coverage全32rowをroot読了。
+  新隔離3件PASS、旧alias対照検出、新P0・旧suite再走0・新C1/exit0/754.5422321630001 s。
+  全32step/snapshot/最終HEAD/terminal/invocation/全配列と各receiptを照合、rho2のDERIVEDは継承。
+  completionから他9entryとHEAD/result/owner/source/startへの14実hash join、三票のscalar列一致。
+- 実10entry bytes/SHA、全32target.scalar列・q零root/packed-byte列、kappa/score/auxの保存内訳は
+  返信163 F8.45。対象はsnapshot0..31/rank1386..1417のlambdaで、qは[非零,零,零,零]、
+  operator恒等零/四character informativeはfalse。末尾rank1418にはまだ新oracle snapshotが無い。
+  UNKNOWN_CAP/Separator、最終target pairing1であり、grade2判定には至っていない。
+- F8.43の三規約表と今回実artifact/修理receipt/coverageをexpressから工房CV9へ依頼。
+  Task980へ実tuple/10pinsを交付、981が最終結合を独立監査。984の保存570行までをroot全読了し、
+  一般LEFT Fox/typed full filteredの限定静的妥当性とRefの意味join等の未完tailを区別した。
+- **CLOSED**: root実ZIP/全保存file/実10pin認証・新PASS本文と保存coverage読了。
+- **OPEN**: 工房増分CV9と980/981最終実pin監査 → 同owner一回resume64 → actual grade2結論。
+- **UNCHANGED**: 受理rank1386/gen8091、候補rank1418/gen8123、grade2 NOT_DECIDED、A0 0/1 actual、
+  当該段1/6、A1 4/4、A2 2/3、A3 3/3、A4 1/3、compact A5、full A0/COMMON/cofinal/fake/Ihara未宣言、
+  保持TCBと残る既往限定を継承、verified=false。
