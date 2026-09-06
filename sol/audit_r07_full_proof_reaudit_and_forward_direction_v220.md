@@ -23503,3 +23503,24 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 旧64/rank1450/gen8155・全15親・32/1/refill=false・fresh一回を初回投入する。実metadata16拒否/P・C各三群/本走/全保全/候補成功はまだ未観測。3979件の事前statusをTEMPへ保存し、指定fileだけrootが公開する。実run/headはAPI取得後に追記。
 - 工房2169は正語status/参照DAGの訂正を採用。新1012 P資源設計/1013独立D資源設計を既存作者へ配達し、他系本文非共有・静的設計のみで並行する。P4/D4や新実験はまだ作らない。
 - 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 621 — 初回 batch の実 GHA を観測（2026-09-06 JST）
+
+- root broker が指定13fileだけを commit `81a1b22975308ae0ac628f97da447a008a1d087e` で作業branchへpush。staged whitespace/path集合はPASS、Task1012/1013末尾空行除去後の最終pinをF8.83に記帳。
+- 実 run **34004423047/1** / workflow351267761 / job101408933673 / push / head81a1b229... / created2026-09-06T01:38:33Z。URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34004423047 。
+- 01:39Z頃、全24source/rawとexact runtime admissionはsuccess、全15親ZIP取得中。新metadata16拒否・P/C三群・本走・全保全・候補成功はまだ未観測。
+- 旧64/rank1450/gen8155・32/1/refill=falseを維持。正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 622 — 全親・新試験step通過、本P開始（2026-09-06 JST）
+
+- 実run34004423047/1で全15親ZIP/実64段受付/新metadata試験/P三群/C三群の各stepがsuccess。fresh Pは01:39:41Z開始、01:43:28Z API時点で本走中。各stdout全文とcase発火はartifact未回収につき未読、本C/全保全/candidate成功は未観測。
+- P設計1012=35442/2f9c9597...全175行読了。全node表、未完recipe/factors、別phaseの再読表と一行/parent cacheを資源対象とする。同時保有を未計測のまま足し合わせず、34N/50Nはindex純payload式だけとする。
+- 新1014=3671/2083b75a...を既存監査官へ委嘱。P/Dの公開wire・全語/全64/11slot/80644・scratch保全を静的監査し、作者間には私的本文を共有しない。D1013未受理、P4/D4/追加GHA未実施。
+- 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 623 — batch本Cと正語P4/D4の限定実装（2026-09-06 JST）
+
+- run34004423047/1はP工程01:46:54Z/全P出力baseline01:46:58Zにstep success、本Cは01:46:58Z開始。01:54:39Z APIで本C中。P実exit/status/採用数と全C/全保存/candidateはartifact回収前で未確定。
+- D1013=22384/5895b4e8...全88行、監査1014=18881/27743bc9...全108行読了。限定disk第一段階STATIC_PASS。全N/zero/反復edge/Ref意味/同root mod54/11slot/80644と一般Foxを保つ。
+- 公開1015=7560/ac06f699...、P1016=3166/d25b1031...、D1017=3611/e0a76547...を既存独立作者へ正式委嘱。cache合計64 MiB/行64 MiB/scratch16 GiB・minfree1 GiB、P5400秒/D10800秒・7168 MiB、fresh/no resume/全partial保全。旧canonical/DFS/Foxを保ち、巨大行/paused recipe/live Foxは残存限界としてUNKNOWN_RESOURCEを許す。
+- 新監査1018=3393/aaf3b00d...も開始。新source/新resource対照/新GHAは未完。全常駐量有界や完走は主張しない。正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。

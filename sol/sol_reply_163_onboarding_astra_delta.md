@@ -2495,6 +2495,48 @@ rootはP最終全3463行・保存済snapshotからの全追加/修理、C旧1698
 
 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
 
-CAMPAIGN_STATUS: FIXED_LAMBDA_BATCH_STATIC_CLOSED_INITIAL_RELEASE; BATCH_RUN=PENDING_API_OBSERVATION; BATCH_STATUS=INITIAL_RELEASE; LAST_RUN=34001672135/1; LAST_COMMIT=14e09d7a96ec9cae71b072e297d2138f5c2f8a72; POSITIVE_READOUT_RUN=34001672135/1; POSITIVE_READOUT_STATUS=V4_UNKNOWN_RESOURCE_MEMORY_FULL_DIAGNOSTIC_ROOT_METADATA_PASS; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33995829771/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1482; GENERATION=8187; CURRENT_CANDIDATE_RANK=1482; CANDIDATE_GENERATION=8187; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2169; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
+
+## F8.84 — 初回 fixed-lambda batch の公開と実 run（2026-09-06 JST）
+
+F8.83 の指定13fileだけを root broker で commit/push した。実 commit は `81a1b22975308ae0ac628f97da447a008a1d087e`、作業branchは `sol/r07-explicit-lift-20260825`。commit tree の全13pathが指定集合に一致し、staged whitespace check は PASS。Task1012/1013 は公開前に末尾空行1行だけを除いた F8.83 の最終pinである。既存の無関係な dirty file は stage/commit しない。
+
+GitHub API で初回 **run 34004423047/1**、workflow **351267761**、job **101408933673**、event **push**、head **81a1b22975308ae0ac628f97da447a008a1d087e** を実見した。created_at は **2026-09-06T01:38:33Z**。URL: https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34004423047 。01:39Z頃の実jobでは source/raw 全24と exact runtime admission が success（01:38:50Z完了）、全15親の live tuple/全ZIP保全が in_progress。metadata16拒否、P/C各三群、fresh P/C本走、全出力保全とfinal成功はまだ未観測である。
+
+事前登録は旧64/rank1450/gen8155・全15親・最大32候補/1batch/refill=false・P fresh一回/C全新prefix一回を維持する。run は開始した事実だけを記帳し、新採用数・資源成功・candidate を先取りしない。正式採用1482/gen8187、A0 actual0/1、階段1/6、grade2 NOT_DECIDED、その他未宣言境界は不変、verified=false。
+
+
+## F8.85 — 初回 batch の新試験 step と P 資源設計票（2026-09-06 JST）
+
+実 run34004423047/1 の job101408933673 で、全15親 tuple/ZIP入場は01:39:28Z、実64段親/六key受付は01:39:35Z、新metadata入場試験は01:39:38Z、P三群は01:39:39Z、C三群は01:39:41Zにそれぞれ success となった。fresh P の本走step13は **01:39:41Z** 開始、01:43:28Z API観測時点で in_progress。これは実stepの成功情報であり、各JSON stdoutの全内容・拒否caseの実発火はartifact回収後に別途読む。まだ完成candidate・C本走・全保存のPASSを得ていない。
+
+新P資源設計票1012を全175行読了し、全35442 B / **2f9c95971a7a383a8480dc417cb58c32689b92baed7b30d31ca80fe9b970807a** に一致した。P3は既に参照DAGで、hash/pair/unused positionsの全node Python表、未完DFSのrecipe/factor列、各body/cacheとcanonical一行の生成が資源対象である。rootはP3 compile_target_word:2403–2419/read_normalized_pair:2422–2465を再読し、構築用dag/compilerは通常return後に不要となり、その後の自系再読で**別phaseの全hash/pair表**を作ることを確認した。二つの表を必ず同時に保持すると数えない。34N（hash32+二u8）/50N（さらに二u64）の式はindex純payloadだけであり、実N/peak/RSSや資源成功を与えない。
+
+同票は有界page cacheのdisk index、factor spool、旧add/yield/send順を保つrecipe cursor、同root全文reader、正語13fileの外に置くscratchと未形成prefixの全保全を提案した。全64履歴・全零edge・Ref/receipt・非unit Act・全11slot/full80644を省かず、同じbyte/node identityを維持する条件付き設計であり、P4/D4や追加実行はまだ無い。新Task1014（3671 B / **2083b75a8a5339ec345193b159e1368abe1282201c1ce98362738aed94f04981**）で既存監査官に公開wire/旧P3/D3と両設計の静的監査を委嘱した。D1013は作成中で未受理、完成pinを待つ。他系の本文は作者間に転送しない。
+
+正式1482/gen8187・登録batch親64/rank1450/gen8155・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+
+## F8.86 — 独立本Cへ移行、資源設計を限定第一段階へ裁定（2026-09-06 JST）
+
+実batch run34004423047/1は、P工程step13が01:46:54Z、全P出力baseline保存step14が01:46:58Zにsuccessとなり、本C step15が **01:46:58Z** に開始した。01:54:39Z API時点では本Cがin_progress。Pの実exit/実status/採用数はまだartifact未回収であり、wrapper stepのsuccessをP算術成功と読み替えない。全C/全保全/candidate gateは未確定。
+
+D資源設計1013を全88行、独立監査1014を全108行読み、全pin一致を確認した。1013は22384 B / **5895b4e8cfbf890bd8ab8e2af2a4161d474151abf0b19fad75659091e8238f72**、1014は18881 B / **27743bc9fdaa26ab8a1d757b4a4b16e5405a4c9876148af69b8b69ab7b8409b9**。監査はSTATIC_RESOURCE_CONTRACT_PASS / LIMITED_FIRST_STAGE_SUPPORTED、実P4/D4/新GHAは未実施である。
+
+裁定は、全node管理表の指定部分を有界cache付きdiskへ移し、旧canonical writer/reader・DFSのadd/yield/send順・一般LEFT Foxを保持して計測する第一段階とする。strict prior-onlyからDの降順bit伝播は従来DFSと同じ到達集合を作れ、全N/全zero/反復edgeを読む。usesは親数でなくedge occurrence数、各mod54/11slotは元usesから独立初期化し、Ref alias/空row/operandの寿命を維持する。P構築後readerとDは各自が元wordから空indexを作る。固定入力のordered-word全bytes同一性と、新source/受付/経過値を含む外側来歴hashの変更を区別し、旧hashを偽装しない。
+
+新しい公開Task1015と自系1016/1017を既存P/D作者に全文読取で正式委嘱した。各自の新P4/D4と新返信だけを書き、他系の新本文/helper/私的設計は読ませない。公開上限は対象index cache合計64 MiB、一行枠64 MiB、scratch各16 GiB/minfree1 GiB、通常P5400秒/D10800秒・各7168 MiB。合法な容量/行超過はUNKNOWN_RESOURCE、hash/型/意味不一致はFAIL。fresh scratch/no resume・元13file/成功D roster外の全partial保全を登録する。factor spool/cursor/新grammar/IR/Fox外部演算は初版へ無断追加しない。残るsymbol/ancestor/paused factors/巨大JSON/Fox live/printed行は列挙し、全常駐量有界や完走を宣言しない。
+
+| 新task | bytes | SHA256 |
+|---|---:|---|
+| 1015 公開契約 | 7560 | ac06f6997090358956e0f61661afc695fb6d75201c7916f3eadd3f9f84a01a7d |
+| 1016 P4限定実装 | 3166 | d25b1031134087b92281ca78f00167b3b978499845c4a5d6f088c9f07f7e7e44 |
+| 1017 D4限定実装 | 3611 | e0a765478bb4ca705dfcabe3229f0ac9ad5af2e5e095103c72268d2fd88fc20f |
+| 1018 新source監査 | 3393 | aaf3b00dfb26c69457d393dcb3acd628a6eadc070b053a90ed0a60f01ee7eff8 |
+
+新1018で既存監査官にも公開条件と実装の全diff/本文監査を委嘱した。最終source/pin/作者票は完成時に追送し、draftにPASSを付けない。新resource selftestは各300秒/外側360秒の限定通常helper対照を予定し、旧自系helperを使う場合はその全source closureを新実行へ登録する。数学はローカル実行せず、GHAは新sourceと新wrapperの監査後の別versionである。
+
+正式1482/gen8187・登録batch/正語親64/rank1450/gen8155・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+CAMPAIGN_STATUS: FIXED_LAMBDA_BATCH_V1_RUN_IN_PROGRESS; BATCH_RUN=34004423047/1; BATCH_STATUS=PRODUCER_STEP_AND_BASELINE_SAVED_CHECKER_RUNNING; LAST_RUN=34004423047/1; LAST_COMMIT=81a1b22975308ae0ac628f97da447a008a1d087e; POSITIVE_READOUT_RUN=34001672135/1; POSITIVE_READOUT_STATUS=V4_UNKNOWN_RESOURCE_MEMORY_FULL_DIAGNOSTIC_ROOT_METADATA_PASS; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=33995829771/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1482; GENERATION=8187; CURRENT_CANDIDATE_RANK=1482; CANDIDATE_GENERATION=8187; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2169; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

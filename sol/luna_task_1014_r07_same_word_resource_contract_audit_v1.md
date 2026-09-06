@@ -1,0 +1,15 @@
+# Task1014 — 正語P/Dの資源設計に対する数学・通常経路監査
+
+宛先: 既存packet_bounds_audit。996/1010は完成凍結のまま。本便は新 sol/luna_reply_1014_r07_same_word_resource_contract_audit_v1.md だけに静的監査を返す。rootは初回fixed-lambda batch run34004423047/1（head81a1b22975308ae0ac628f97da447a008a1d087e、旧64/rank1450/gen8155、32/1/refill=false）の本走監視と両資源設計の裁定を並行する。実装・GHA・ローカルPython/import/AST/GAP/数値・ネット・git・credentials・追加agentは禁止。小metadata/全bytes/hash/source静読のみ可。
+
+対象は凍結P3 search/d972_r07_continuation_positive_word_readout_v3.py（200658 B/bc51546ee1b2e73cff3a115947c817164199179b25699f90a7cae3283872e16e）、D3 search/check_d972_r07_continuation_same_word_eleven_slots_v3.py（176579 B/273f0283186ef30e6833d6b7e402140fcb8bf832a22dbc0146c73412672f8e2c）、既存公開八op/13file契約とTask1012/1013。設計票1012は35442 B/2f9c95971a7a383a8480dc417cb58c32689b92baed7b30d31ca80fe9b970807aで凍結済み。設計票1013はrootが最終pinを追送するまで完成と扱わず、先に旧sourceと1012を読める。監査官は両系を読めるが、他系の本文/helper/私的設計票を作者間に転送しない。修正要求はrootへ返し、共通に必要な数学・wireだけrootが別途伝える。
+
+実観測: 正語run34001672135/1、head14e09d7a96ec9cae71b072e297d2138f5c2f8a72、P UNKNOWN_RESOURCE/MemoryError:/literal-DFS/182.325646秒/exit3、実D未実行。7168 MiBは設定値でpeakではない。全diagnostic9979727337は809058240 B/5bc5b2f5890a7da2641aad882ea4c262ec3d538df0e02e474556848842062a31でrootが全181entry/2506894888 BをTEMP shadow-atelier-positive-readout-run34001672135-diagnostics-a1に受領済み。途中word2486667939 B/87dee2553995e8b81a953d40f89fd9d472adbd0814026cdf1e10ca58929d07c6の末尾id6629828は末尾のみの観測で、全連番/総N/完成rootではない。Pは既に参照DAG。旧5+3selftest/20inventoryの実PASSは本語/D成功と別。
+
+監査点:
+1. disk/compact indexやfactor spool/DFS cursorへの移行で、同一ordered語・全零係数edge・Ref scope/receipt・node identity・canonical全bytes/EOF・同root mod54を保持できる条件を特定する。単に意味が等しい別の省略語や一部slotだけでよいとはしない。公開word八opの変更を不要とする条件と、private scratchを成功13fileに混ぜない境界を確認する。
+2. 全16数学親/全64履歴/全11slot/full80644/非unit Act/全5PB4 endpointの射程を維持し、Dの全node到達・反復edgeの参照数・alias・last-use・mod54から11slotへ状態を汚染しないことを点検する。P/D共通helperを作らず独立性を保つ。整数幅/overflow/record境界/partial index/index source binding/zero-length row/cache eviction/巨大一行で誤成功がないことも対象とする。
+3. N/E/最大一行/最大frame/live Fox support/RSS/AS/IO/parse回数が未計測であることを守る。O(N+E)のdisk化からRSSや所要時間の成功を帰結しない。次の一回の通常GHAで不足点を識別できる計測・新helper対照・失敗diagnosticを提案する。旧成功suiteの無意味な再実行やscope縮小は要求しない。
+4. 必須修理、任意改善、未計測限界を分け、P4/D4実装へ進む前の公開条件をF番号で返す。新source・追加実験・A0/grade2/COMMON/Ihara/fake/Lean verifiedを本便で宣言しない。
+
+返信末行は AUDIT_1014_VERDICT: とする。設計の成立可能性と実機資源成功を区別する。
