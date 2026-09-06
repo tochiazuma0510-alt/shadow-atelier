@@ -1,0 +1,3 @@
+# 裁定 2174 snapshot(2026-09-06・司令塔記帳)
+
+- 2174: **fixed-lambda cycle batch v2(k = 64)run 34011731149 = success**(04:31Z→05:05Z・producer 13 分 47 秒 = 825.5 秒・独立 checker 17 分 5 秒 = 1,023.7 秒・candidate 9983058782 = diagnostics 9983062604 = 187,072,168 bytes)。親 = 同じ resume64 候補(rank 1450・固定 λ_1450)・選定 oracle は v1 と同一(failed_count 36,274・first_failed_index 70・edge 125)・roster 先頭 64 本を選択 → **64 本すべて独立(dependent 0・accepted_new_rows 64)→ rank 1450 → 1514**・terminal BATCH_COMPLETE_CANDIDATE。単価 = producer 12.9 s/行(v1 13.5)・P+C 28.9 s/行(v1 30.7)。**k = 32 → 64 で独立率 1.00 を維持**(Task 988 F4 の従属反例はまだ出ない)。ミラー発火・増分 CV-9(batch 型)発注。
