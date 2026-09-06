@@ -1,0 +1,27 @@
+# Luna Task 1051 — DEPENDENT fixtureの実装案と次parent受入契約（静的・TEMP限定）
+
+宛先: 既存 packet_producer。Sol/Astraが裁定2187と返書163 F118に基づき依頼する。根拠はdocs/notes/fixed_lambda_batch_v3_cv9_reading_v1.md全体、特に§6.1と§7。GHA34023589045/1/head794c5e9f883cb5ff21b2ee087c1d4baa84ac6760は全工程success、正式rank1578/gen8283/cross-checked限定8条。root全metadata受領は実行中でありPASSを先取りしない。
+
+## 書込範囲と禁止
+
+返信は新規sol/luna_reply_1051_r07_dependent_fixture_next_batch_contract.mdのみ。候補source・diff・静的メモは%TEMP%/shadow-atelier-audit163/task1051/の新規fileのみ。既存task/reply/source/WF/helper/受領rootは変更しない。Git/GHA/ネットワーク/credential/env secret読取・Python/GAP/import/AST/source実行は禁止。rootが単一broker。subagentは起動しない。現行1048受領器に触れない。PowerShell/.NETによるraw読取・コピー・編集・SHAは可。出力はUTF8 LF BOM無し、.ps1を作るならASCIIのみ。巨大apply_patch一括保存を避け小さな書込みを使う。
+
+## A. レビュー可能なP/C fixture実装案
+
+基準P3=search/d972_r07_fixed_lambda_cycle_batch_v3.py 209926 B/a286dca4a2d94273d2496e16317579be06173e0e4802471b2840dc4263e5a3e8、C3=search/check_d972_r07_fixed_lambda_cycle_batch_v3.py 178914 B/1aebf6e47807466ec56426a55e34d0c7f622a5896c40184540e4d153060946d7。まず全pin照合。次版に移すためのTEMP候補コピー2本と全差分を作る。今回は既存batch128/親1450/版登録を保ったfixtureだけの提案であり、v4本番登録・k256の実装/承認ではない。WFは作成も変更もしない。
+
+P1 canary_physical_fixture L3000–3013/canary_reduction_store L3016–3023/canary_reduction L3026–3088、C1 reduction_canary L2212–2283を参照する。最小の真のDEPENDENT陽性fixtureを現在P3/C3のselftest第2群に各1例加える。必要なら次候補を含む短い列とし、既存本体のreduce/restore/decision publication、Cのreduce/advance/実受領比較を呼ぶ。期待文字列を生成するだけのstubは不可。PとCは相互import/helper共有禁止。
+
+受理要件: 非零の候補が現在spanに従属すると実判定されること、DEPENDENT/null字段/零remainder、物理row非追加、rank/generation/head/target不変、processed/dependentカウンタだけ適切に進むこと、以後の独立候補が続行して正常追加されること。Pは実publish_candidate_decisionを通し、Cはどの実比較関数まで通せるか明示する。入力fixtureはproductionの旧1450行と偽らずsyntheticと明記し、retained fixture treeと実production_interfaces_usedへ正確に載せる。
+
+陽性fixture追加は拒否件数+1と同義ではない。別にDEPENDENT metadataを矛盾させて再sealする等の実陰性1例を追加し、実rejected_cases列へ収録できる場合だけP[30,10]/C[28,9]を提案する。既存拒否を削除/差替せず、独立branchを誤って通った場合にも確実に失敗するassertを置く。current_run_pass/cross_checked/verifiedは未実行のため宣言禁止。旧suite全再走を0から変えない。
+
+## B. 次parent契約の静的feasibility（実装しない）
+
+設計上の第一候補は、新規rankの効率を測るためrank1578のlambdaでoracleを取り直し、そこから一batch128候補を処理すること。同じ旧1450の先頭256を最初から処理する路線との変更規模を比較したい。現在P3/C3/parent-layout/ThinAnchorにおいて新batch1578/8283をparentとするのに変わる契約・再演範囲・pin・登録字段を、実source行へ結びつけて列挙する。新lambda/新oracleが未計算なのは承知しているので結果予測はしない。
+
+new parentのために必要なactual byte inputsが既存artifactに揃うか、raw旧1450＋新128をどの独立loaderが受けるか、単なるrank literal変更では足りない箇所、同一旧lambda前置256との新規情報/重複再演の違いを最大6項目で示す。WF承認要求や本走を先行させない。
+
+## 返信
+
+変更前/候補全bytes・SHA・行数、全変更範囲、呼ぶ本体関数とassertion、P/C独立性の限界、追加拒否1件の実経路、必要なWF後続変更の項目だけ、Bのfeasibilityを記載。最大およそ120行。未実行を明示し、最終行AUDIT_1051_VERDICT: STATIC_PROPOSAL_READY又は具体的BLOCKER。可読原稿を先に確定し、最終pinは最後に測る。

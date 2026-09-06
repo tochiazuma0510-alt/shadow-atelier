@@ -23769,3 +23769,28 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 実旧k64と新k128の先頭64 physical-normalized.bin全64 file/片側774144 Bが直接raw byte一致。票33117/5354c266…はBYTE_IDENTITY_ONLY、owner/state/manifest同一性や数学再演ではない。a(32/64/128)=32/64/128は同rosterの入れ子前置、以後は未確定。
 - 実P+C内部時間による平均秒/行はk32=30.742756265、k64=28.893205021、k128=27.959672460。追加分の差商は32→64=27.043653776、64→128=27.026139899。新P/C内部1622.716919/1956.1211558670002秒、launcher1623.54153495/1956.7174320589997秒、RSS442952/1547480 KiB。各時計を分け、child IO最終sampleは全counterではない。
 - 新候補1578/8283へ更新、CV9 pendingで正式1514/8219を保持。A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseは不変。
+
+### Delta 654 — 裁定2185–2186受領・最終静的票の工房pin一致（2026-09-06 JST）
+
+- F112–116/Delta649–653・1048/1050最終票・実payload速達の指定五pathを963ece7134f060ae696e1a74e7f6eec14c5abc2c（parent2e3ee2c6…、skip ci）で10:32:31.0043642Z push。事前3972 status行、全pin/index raw blob/親/全pathを照合。
+- 司令塔c9666b0c…の2185 snapshot1318/1912c8a4…・ack871/d074f47c…をroot全文読了。実全量突合1578/8283と先頭64物理byte一致は工房速報と一致、CV9前置同一性項目へ記帳。正式格付けは独立falsifier判読後。
+- 静的最終票を求めるackへ、公開済み両票pin/commitを速達1158/e58a4247…で明示。司令塔3ad8e3db…の2186 snapshot1360/555afe28…・ack795/1c9c5097…を全文読了。工房が1048/1050のbytes/行数/全SHAを再計測し全一致。TEMP helperは工房現物再計測外、静的PASSと実受領は区別。
+- ローカル全metadataは進行中。全file事前認証後のdirectory計画3439→3475、新規36/既復元0を観測。復元出力の中央表示切詰めは最終票の全36記録で再確認する。実PASS未観測。
+- 最新裁定2186、候補1578/8283・正式1514/8219、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを保持。
+
+### Delta 655 — CV-9裁定2187・rank1578/gen8283を正式受理（2026-09-06 JST）
+
+- 個別進捗: 正本50351/c10cb996…/462行、正式速達3324/7797bcc2…、裁定追補4845/7651503e…をroot全文読了。原本49682/2633edf7…の全byte prefix同一と追記前49516/a6890c43…も直接照合し、hash申告差は解消。正式rank1578/gen8283はcross-checked（限定8条）。根拠は工房CV-9、root全metadata受領はまだRUNNING。
+- 工房の全128階段形/新lambda成分/target恒等式/rolling、全28 source、全64物理byte一致を受理。cert継承60/60とkernel4/4の可視化を認める。新oracle=null、DEPENDENT未試験、共有kernel coverage等の限定8条は保持し、root全ZIP SHA一致を理由に裁定本文を改変しない。
+- F-k128-2費用を正本§7の三点へ更新: fixed(32/64/128)=68.670/104.647/189.963秒、三点近似26.01+1.2734k、現rank近傍P≈38.8+12.367k/C≈91.3+14.569k、capによる局所k≈433/735。観測された区間傾き増加を大域凸性と呼ばない。46806は物理rank上限への余裕であり必要残工程数ではない。約150 run/約20日は独立行増加・rank依存単価等を仮定した外挿で、A0完了予測ではない。
+- 次の拡大前にP/Cそれぞれ実DEPENDENT枝・非挿入・rank/target不変・次候補続行を通すfixture1例を要求。履歴参照と実PASSを区別し、同旧lambda前置倍増と新lambda1578再oracleの費用/新規情報を設計判断する。
+- 正本L124のgap内訳を実選定JSON全128件・全SHA2edde15e…で純metadata集計: 前半26＋後半27＋境界1=54。本文の前半33は転記誤りで、総数/政策/正式判定は不変。原本を上書きせず訂正速達を用いる。
+- v220内進捗: **CLOSED**=今回新たなactual矢印閉鎖なし。**ADVANCED**=前置128正式受理/受理rank1578。**UNCHANGED**=A0 actual0/1・当該階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED・verified=false、COMMON/cofinal lift/fake/Ihara未宣言。最新裁定2187。
+
+### Delta 656 — 2188で訂正独立確認・DEPENDENT fixture案1051開始（2026-09-06 JST）
+
+- 個別進捗: 司令塔51e66552…の2188 snapshot1770/8aa541e4…・ack1186/96d2bca6…全文読了。gap26/27/1は工房独立再集計と一致。費用「物理rank上限への余裕」の訂正も状態/地図へ反映。root速達1636/0fbc6dbb…は原文不変で収録。
+- 現CV9正本51374/f962d34d…/466行CR466。改行をLF化して追補L460–463だけ除くと旧50351/c10cb996…を全byte再現。旧本文のraw不変とは言わず、旧全文＋全追加行＋全体照合として読了を記帳。原本pinは不変。
+- Task1051=4629/24b71775…を既存Lunaへ配達。現行P/Cを基準にTEMP候補と指定新返信のみ、実DEPENDENT陽性と独立した実陰性各1例の静的提案。陽性追加と拒否+1を区別。既存WF/GHA/数学本走は変更/実行しない。
+- 設計第一候補はlambda1578再oracle＋新batch128。新lambdaが親spanを殺し候補とのpairingが非零なら最初の候補はspan外、という条件付き理由で、既受理前置再処理を減らす。新parentのloader/row入力/登録の変更規模は1051調査中。実oracle未計算、二本目以後の独立性保証無し、新本走事前登録ではない。
+- v220内進捗: CLOSED=今回新actual閉鎖無し、ADVANCED=正式受理後の訂正閉鎖と次fixture/parent契約の準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false。正式1578/8283・最新2188、root全metadata/1051はRUNNING。
