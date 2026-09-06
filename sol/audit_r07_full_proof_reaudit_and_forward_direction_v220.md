@@ -23667,3 +23667,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root1032はfixture missing-dirで停止、元1796 dirsのまま、32+4の宣言空dirを新1038で認証・復元再読へ修理。root1033は失敗票95109 B/840fa57a…、PS5.1 Decimalの10型拒否と1inventory差。新1039は普通int境界を維持して小数型を修理、本Pの唯一の空dir index-receipts輸送欠落をINCOMPLETEへ分離。数学受理とroot全metadata PASSは別、後者は未完。
 - P3=209926/a286dca4…/3434行、C3=178914/1aebf6e4…/2695行、作者1036/1037と全差分をroot読了。新二群P30/9・C28/8の実成否はGHA待ち。新1040/1041/1042で旧算術試験継承の実pin/range/hashと共有TCB票を新WFへ転記し、別監査を閉じてからGHA。
 - F103記帳は司令塔新HEADをstaging前に検知して停止、新root commit未作成。正式最新1514/8219へ更新、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 642 — 実受領再試行・正語の公開型境界修理（2026-09-06 JST）
+
+- F103–104/Delta640–641等の指定13pathをroot記帳commit d043f09f2cc410ae2dbd0455c5d04cf4e0f533c3でpush。司令塔3f0558e4…の3pathと2178正式便を受領し、ZIP1373772131 Bと展開3685457381 Bの混同を訂正。ミラーは工房発火の報告までで完成未観測。
+- k64新受領器1038=67458/dbe203c8…/740行と返信11067/57d2f8bf…を全文静読・SHA guard後に実実行。全認証後の32+4空dir復元/直後観測と全再読を扱う。新metadata-v2票はまだ成否未観測、工房限定9条受理と区別。
+- 正語資源v2の実票1676526 B/222a371e…はFAIL_RESOURCE_METADATA、errors3/incomplete5。Decimal対応は閉じ、D第一/第二群の正常空rejected_casesと未形成Dのexact4字段が残件、第三外側join拒否は前者の派生。新1043はこの2形状だけを修理し、外側成功gate・未形成≠空成功・全hash/普通整数境界を保持。
+- 同票は本P telemetry2343全行EOF/型読取済み。最終sample2342=5400.273287329 s、VmRSS/VmHWM5285089280 B、index_read/write139755802122/139927942902 B、word_write3287182712 B。物理disk I/Oやfailure peakに読み替えず、全受領PASSもまだ主張しない。入力tree非変更、二回目full hash=falseが基点の実態で、1043の末尾scan文言は訂正。
+- 正語全envelope1034=51822/4fcb5fff…/425行、返信10170/e4465f68…を全静読。NOT_CREATED4字段のroot静的findingを修理し、全ZIP/全source/16親metadata/実旧64/公開canary/外側実行/REPORT/保全四未成立の九節を実受領中。別の局所資源票の不足を代用しない。
+- 1041新WF3と1042独立P/C・歴史継承region/hash監査は進行中。新k128 GHA未実行、登録は同旧64/1450/8155のまま。正式1514/8219、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・verified=falseは不変。
