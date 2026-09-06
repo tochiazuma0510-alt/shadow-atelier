@@ -23607,3 +23607,17 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 公開1030=3027/c22be119…/LF15、監査委嘱1031=3372/5f2628ff…/LF19。旧64/1450/8155・同lambda・15親・64/1/no-refill、metadata16回帰/旧数学0、P/C新二群、P5400/C10800/7168・fresh一回を固定。
 - branch/HEAD648400a7…/staged空を確認し、事前status3980行をTEMP保存。指定13pathだけ公開し、初回markerで一回投入する。新実commit/run/AST/試験/本走/candidate/CV9は観測後に追記する。
 - 正語run34009883488/1は04:22:59Zも本P継続・本D pending。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 635 — k64 v2実公開・初回GHA（2026-09-06 JST）
+
+- rootは凍結11file/全13path/stagedとworking全blob一致/whitespaceを照合し、commit **c2a8a6acd60c0cd859edd2e262cfce074b3acaf1** を作業branchへpush。親648400a7…、公開後の対象差分/stagedも空、無関係差分は含めない。
+- 実run **34011731149/1**、workflow351332190、job101428629158、push、head c2a8a6ac…、created2026-09-06T04:31:50Z。https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34011731149 。初回marker一回、別dispatch/resumeなし。
+- 04:32Z APIでは全21 Python/raw3/runtime/AST認証工程が04:32:07Z success、全15親/ZIP取得中。実64受付/metadata16/新二群各系/本P-C/全fixture/archive/保全/candidateは未観測、全payloadは回収後に読む。
+- 同headの38run中35skipped、別自動lean-arith34011731253は実行中、既存dovetail34011730502はfailure表示。今回この二WFは変更せず、対象k64や関連Lean完全証明の成果へ流用しない。
+- 正語34009883488/1も並行監視。同旧64/1450/8155からの新k64と正式batch1482/8187を分け、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 636 — k64全受付・新二群工程通過、本P開始（2026-09-06 JST）
+
+- 実run34011731149/1 / head c2a8a6ac…は全15親04:32:41Z・実旧64受付04:32:47Z・metadata16回帰04:32:51Z・P新二群04:32:54Z・C新二群04:32:59Zに各工程success。
+- 本Pは04:32:59Z開始、04:35:06Z時点で実行中、本C pending。全stdout/実case/fixtureの全文はartifact未回収で未読。新採用数/rank/相測定/全C/ZIP保全/candidate/CV9は未観測、fresh一回の登録を維持。
+- 正語34009883488/1も同時刻APIで本P継続・本D pending。両runへresume/cap増加/別dispatchなし。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
