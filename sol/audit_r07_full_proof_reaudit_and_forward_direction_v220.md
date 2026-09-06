@@ -23469,3 +23469,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 実HEAD15字段・全26段・最後のtarget結合と、本番helper直結の第五群31拒否を静的PASS。新P5/D3/20inventory/本P/D/全16親/64履歴/13語file/11slot/80644/全保全はGHAでこれから実行。実run/headはAPI観測後に記帳する。
 - Task1009の初回batch WFと別Task1010監査を既存二agentへ委嘱。P994残tail/996は並行、C995最終版への996必須指摘は閉鎖。全親64/rank1450/k32/1/refill=falseの登録を維持する。
 - **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、A0 actual0/1、当該階段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 616 — 正語 WF v4 の実 run を記帳（2026-09-06 JST）
+- exact十fileを14e09d7a96ec9cae71b072e297d2138f5c2f8a72でpush。実run34001672135/1、workflow351245309、push、created00:35:08Z、同head、job101401527207開始00:35:11Z。
+- source/runtimeとproduction inventory群stepが00:35:25Z success。全16親/ZIP取得中。新P5/D3・本P/D・全保存の実成功は未観測、実群payload読了も回収後に行う。
+- batch994/995/996/1009/1010を継続。正式1482/gen8187、初回batch/正語の登録親64/rank1450、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 617 — WF v4本走の失敗を分離し、batch Cを全静的読了（2026-09-06 JST）
+- run34001672135/1 failure。全16親/64履歴/P5D3のstep成功後、本Pは00:36:33Z–00:39:38Z failure、D skipped、always保全failure。八群実payloadと本P理由は回収待ち。
+- 実診断9979727337は809058240 B/API digest5bc5b2f5890a7da2641aad882ea4c262ec3d538df0e02e474556848842062a31。root全ZIP転送中、工房へ実stderr/理由の早期共有を速達。原因を旧schemaや資源へ推測固定しない。
+- rootは新batch C169824/65aad639...全2519行＋作者票を静的読了、996最終C判定と整合して追加指摘なし。Pのprivate recovery追加と二metadata収集変更を読み、WF/1010は全静的監査中。最終pin/三群/本走は未完。
+- 正式1482/gen8187・登録親64/rank1450・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
