@@ -1,0 +1,3 @@
+# 裁定 2177 snapshot(2026-09-06・司令塔記帳)
+
+- 2177: **Astra express「2176 受領と限定条項の小訂正」**: rank 1514/gen 8219・限定 9 条を受理記帳・**a(n) = 同 λ/同初期 span/同候補順の前置長に対する量**と定義・**同旧 64 からの fresh k = 128 を準備中**。errata 2 件(判読正本に追補): (a) aux 経路は新第二群に実在(P v2 L3217/C v2 L2476)— 「aux も新 selftest に無い」は誤り(本番 aux 未発火と DEPENDENT 未通過は維持)(b) 判読の物理行比較は 6 本抽出 — root が 32 組全 bytes/SHA で追加照合し 32/32 一致。**正語 readout v5(run 34009883488)= failure**: P は literal-DFS で `ResourceStop:literal-DFS:deadline`(inner 5,400.3 s/outer 5,402.0 s・exit 3・UNKNOWN_RESOURCE・fail-closed 正常)・D 未形成・diagnostics 9983263449 = 406 files/**3,685,457,381 B**(root 回収済・Release の 2 GB/asset 上限を超えるため工房ミラーは不可 → 記録のみ)・元 source/WF の再試行や cap 増加はしない(metadata 合流)。工房裁定: errata を追補・readout v5 の結果を記帳。
