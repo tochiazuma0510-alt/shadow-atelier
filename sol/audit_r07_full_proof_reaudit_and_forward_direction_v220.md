@@ -23676,3 +23676,23 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 同票は本P telemetry2343全行EOF/型読取済み。最終sample2342=5400.273287329 s、VmRSS/VmHWM5285089280 B、index_read/write139755802122/139927942902 B、word_write3287182712 B。物理disk I/Oやfailure peakに読み替えず、全受領PASSもまだ主張しない。入力tree非変更、二回目full hash=falseが基点の実態で、1043の末尾scan文言は訂正。
 - 正語全envelope1034=51822/4fcb5fff…/425行、返信10170/e4465f68…を全静読。NOT_CREATED4字段のroot静的findingを修理し、全ZIP/全source/16親metadata/実旧64/公開canary/外側実行/REPORT/保全四未成立の九節を実受領中。別の局所資源票の不足を代用しない。
 - 1041新WF3と1042独立P/C・歴史継承region/hash監査は進行中。新k128 GHA未実行、登録は同旧64/1450/8155のまま。正式1514/8219、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・verified=falseは不変。
+
+### Delta 643 — k64全受領PASS・正語資源構造error0・全envelope再受領（2026-09-06 JST）
+
+- k64 root実票390420 B/c93336c997ccdb0daf7f14a28630fb18ba1a1659b56454edde7afdc4294e033dはPASS_METADATA_ONLY/exit0。全36589 file pin比較/3479001843 referenced B、6015 files/1832 dirs/655560727 B、output3322 files/588 dirs/599667782 B。全認証後の計画36空dirを36全件復元し、returned path/直後Existsも一致。全24 source/raw・15親roster・旧30+10票・384/3/1相・実64/64/64/1514/8219を合流した。
+- 裁定2176限定9条受理とroot metadata受領完了を区別。数学再演/保持TCB独立性再証明false、新lambda oracle null、grade2両NOT_DECIDED、受領器のcandidate/cross_checked/verifiedもfalse。旧mkdir根本理由は未確定。
+- 正語resource v3票1705905 B/63050c167ba256ab397f3ac0cdcf1a0be5c81baa96ffaf11cd51086e3e8da395はINCOMPLETE_RESOURCE_METADATA/exit1、errors0/incomplete6。06:55:28.4041983Z完了、metadata236.3323565秒。D fixture54全行が完全selftest終端へ結ばれ、二原因と派生join誤拒否は閉じた。本P2343全行EOF/型と全406fileを読んだ。
+- 未完6記録はP exit3/P UNKNOWN_RESOURCE、D process/session/inventoryの未形成（重複境界を含む）、P空leaf index-receipts未回収。全語/通常D完成には昇格せず、資源枠変更/resume/GHA再試行なし。
+- 全envelope v1はArgument types do not matchで票未形成。root小PS probeでList[object]の配列化例外を再現し、実停止行未捕捉と区別。新1044=52185/2b4b974a…/427行はobject-listの5式だけToArrayへ修理、全九節と全hash/型境界を維持。root全静読/SHA guard後にenvelope-v2票へ実受領中、成否未観測。
+- F105/Delta642等指定9pathはe23b25f4ef77a0d145ad791d8544034b2e604458でpush済み。利用上限中断の3担当は保存成果から再開。新WF3二票配線draft180446/90577199…の全差分をroot読了、1042 registry/生成・1045独立監査は未閉、新k128 GHA未実行。同旧64/1450/8155起点を維持。
+- 正式1514/8219、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・verified=falseは不変。
+
+### Delta 644 — k128継承全量・完成WF読了、正語受付旗修理と資源診断（2026-09-06 JST）
+
+- 1042最終票18475/339f5ccd…・registry76867/9fe3d9cf…の全103/878行をroot読了。全6source/60 raw LF範囲/9不変三版byte一致/2literal/9変更分離/全18367 LF partition/共有4範囲を照合。最初のroot C3 partition集計停止は票未形成のまま、別明示表で全6 partition PASS。旧k32/k64実artifactの歴史4sourceも全byte一致。
+- WF3完成freeze283886/6224c2ba…/3601 LF、作者1041 16428/09e2633c…/97行をroot全静読。埋込registry全76867 raw bytesも既読原文と直接一致。全二票/非実行歴史4copy/全60範囲/全source partition/全before-middle-after/always/runへ接続済み。独立1045は追加findingなし、最終freeze票保存待ち。新GHA未実行、同旧64/1450/8155・同15親・128/1/no-refillを保持。
+- 正語envelope v2実票267179/0e0c0d80…は8PASS/1FAIL、唯一は16親節最後の一律candidate=false誤要求。実acceptanceはstrict Boolean true/false/false、他4票は全false。新1047 helper52521/c97964c1…/429 LFはこのguardだけを型別に分け、全九節/全hash/ToArray/CreateNew/出力全falseを保持。root全差分読了、作者票とv3実受領を残す。
+- 1046本文と資源集計52640/b26a49d3…を受領、P4の実index/cache/WordDAG依存を再読。不変34 Bとcount8 Bの同42 B recordがcount更新で全page書戻しとなる経路を確認。論理I/O量が停止の時間支配を示すとは限らず、速度/完走/RSS解消は未確定。次案は同64 MiB総cacheで両列分離の一件、まだ実装/再GHA発注なし。
+- k64正式1514/8219・root全metadata PASS、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+- Delta644追補: 独立1045最終15002/ed2f7394…/56行をroot全文読了してSTATIC_WORKFLOW_PASS受理、WF283886/6224c2ba…の実行前監査を閉じた。初回GHAへ進む裁定、実run/commitは生成後に記帳する。1047最終7654/db5b87f7…も全読了、envelope-v3をSHA guard後に実受領開始。1046最終15041/fbbe9840…は既読本文で凍結。
