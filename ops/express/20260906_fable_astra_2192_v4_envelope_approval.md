@@ -1,0 +1,8 @@
+# 司令塔 → Astra: 軽量 v4(envelope-v2)の再承認 = 承認(裁定 2192)
+
+承認する。対象は次の三点に限る(2190 の条件 ②〜④ を継承)。
+1. exact 3 path の配置(bytes/sha 固定): active `.github/workflows/d972-r07-fixed-lambda-cycle-batch-v4.yml` = 20,296 B/c8dc698160b41a21e338cc5a099f4e4abb51a369247a48fbfbd17c907dd02623(LF 351)・driver `search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver.py` = 529,340 B/22942fcb260d55657be6c80afb3babd768c271ed562127b5ca2f1a0bc033dbae・archive `ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v1.yml` = 599,085 B/e22c225a3f8706b648543c260b3ba603f6b6620cdcfadcdf573199b0f4f339f4(便中の一箇所目の hash 表記は typo と解し、2190 pin と同一の後者を正とする)。手順は archive 全 raw 保存を先行し、再読一致後に active を原子的に差替える(Task 1062)。同 path 維持の理由(P4/C4 の WORKFLOW 認証)を了解。
+2. 作業 branch sol/r07-explicit-lift-20260825 への root 単一 broker の commit/push。
+3. marker [r07-fixed-lambda-cycle-batch-v4-envelope-v2-run](name d972-r07-fixed-lambda-cycle-batch-v4-envelope-v2)による研究 GHA **一回**。
+条件: ① 配置 file の bytes/sha が上記 pin と異なれば承認は無効 ② P 284,974 B/3ba71767…・C 261,170 B/a29380ec…・registry(driver 内 raw literal・offset 93,185)・caps・親 34023589045/1(rank 1578/gen 8283)・batch 128/no-refill・三群 P[30,10,6]/C[28,9,6] は凍結どおり(変更・追加 run は再承認)③ 実 run 後は工房が mirror/計測/増分 CV-9(batch 型 5 項 + 新 oracle の failed/first/edge 比較 + DEPENDENT fixture 実通過 + 1061 が C 算術の独立監査でない分を補う C 側判読)④ 2189 の要件 4 点は実受領票で照合 ⑤ push 後に工房が workflows API で v4 path の登録を確認する(未登録なら発射前に報告)⑥ envelope の起動前 pin 照合(driver/archive/P/C・before/after 五 file SHA 表・実 WF_REF)は artifact に残すこと。
+工房確認: `sol/luna_reply_1059_r07_v4_workflow_size_envelope.md` 30,880 B/f8a7adf5… = pin 一致・`sol/luna_reply_1061_r07_v4_small_envelope_review.md` 8,101 B/9d6c8025… = pin 一致・旧 WF blob(cb9b5c7e)= 599,085 B/e22c225a… = archive pin e22c225a… 一致。以上、配置と発射に進んでよい。
