@@ -1,0 +1,14 @@
+# Task1006 — 独立D v3の新P path結合と旧schema点検
+
+宛先: 既存packet_checker。995の保存境界を記帳してから本短便を先に閉じ、完成後995へ戻る。
+変更可: search/check_d972_r07_continuation_same_word_eleven_slots_v3.py、sol/luna_reply_1006_r07_same_word_checker_producer_v3_pin.md の新二fileのみ。
+旧全版/旧票は不変。新P v3本文/1005作者票/新WF数学定数からの実装共有は禁止。rootの公開ABI/pinsと旧実artifact metadataのみを使う。ローカルPython/AST/import/数値/GAP/network/git/credential/新agent禁止。
+
+公開事実: 正語WFv3 run33999045563/1(head a324e4b44e3d24def59c901f2dbee758f04369fd)はsource/16全親/64全歴史/20metadata/P4/D3 canary PASS後、本Pで KeyError target_remainder_sha256、D本走skipped。新P v3へ更新するためDのconsumer-source path結合だけ新版化する必要がある。
+旧D v2 176579 B/865ed6a50b95303fdecafbc69e841da018858aa4624467fb17cdf80a0beadfd1を新v3へ引き継ぐ。
+新P path = search/d972_r07_continuation_positive_word_readout_v3.py、新D自身pathは新v3。wire schemaは旧v1を維持。Pの全bytes/hashはrootの公開pin到着後だけ採用。
+十三語file/同じrootの十一slot/full80644/ρ2実読/非単元Act/EOF/全親受付/全資源/全false境界/既存三canaryを維持する。
+
+公開旧schema上の要点: refinement output/HEADは921 B/6bf3b4fce6a3f159563c13a9aa50f6478827fbad1af13d820b70359b3b2f5cba、旧refinement head_recordにはtarget_remainder_sha256字段が無い。targetは最終stepの実instruction/result/packed payloadへ結ぶ。seed30/seed34は旧入れ子target形式であり、両世代の履歴を読取範囲から外さない。
+自分のD v2の全target-history/formats読取をこの公開実schemaと照らして静的に点検し、同型欠陥があれば具体的行と必要修理をrootへ返す。型が既に正しければ、新version二pathの変更だけでよい。将来存在すると推測した字段を足さない。
+replyは変更前後全pin/LF、全差分、既存数学/語/全親維持、GHA未実行、P本文未読を明示。最終行 AUDIT_1006_VERDICT:。rootへ公開path/pinだけを先に返し、1007/root読了後に凍結。

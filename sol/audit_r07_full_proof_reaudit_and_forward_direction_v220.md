@@ -23416,3 +23416,42 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 2160/2161/ackを全文読了。過去記録「23:16:16Z全C実行中」はrun全体statusの誤帰属、実Cは23:15:58Z成功完了と訂正（F8.69/71）。
 - 997のtree相対pathと1000の新target親十keyを両作者へ確認。schema列挙は不変。
 - **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 609 — 同語WFv3の実run/新metadata群を観測（2026-09-06 JST）
+
+- exact六file release commit a324e4b44e3d24def59c901f2dbee758f04369fd をpush済み。
+- 実run33999045563/1、workflow351223479、push、created23:34:47Z、head同commit。job101394516607は23:34:50Z開始。
+- source/runtimeと新metadata inventory群のstepが23:35:05Z success。全16live親/ZIP入場は実行中。
+  API観測と群の実payload読了は別。再結合七群/本P/D成功は未観測、96はwhole ZIP回収中。
+- **UNCHANGED**: 正式1450/gen8155（工房2154限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 610 — 正語v3実失敗・旧HEADの不存在字段（2026-09-06 JST）
+
+- run33999045563/1はfailure。本P19.929537秒/KeyError target_remainder_sha256。20inventory/全16親/全64履歴/P4/D3は実PASS、D本走skipped。
+- 診断9978952924を3929709 B/37375ac90e747bec0bc033681383771cf759720f7881a79139f4ba6d1c420db5で全取得・安全展開・実canary/P診断読了。
+- 工房2163のseed30/34仮説はcallerのlegacy=Trueと整合しない。P1279のrefinement HEADへの不存在字段参照をrootが静的に特定。実HEADを全ZIP回収後に確認する。履歴範囲は縮めない。
+
+### Delta 611 — 工房2164の限定8条を採用、正式rank1482/gen8187（2026-09-06 JST）
+
+- control96 run33995829771/1、head920780033b3aaa519a898e8b6b1d29fe67a04cd1、candidate9978703124の全ZIP608103877 B/5ec5667b77a3ed788161ed3e75e9b6ca65f170849deab2272e581b0291c1ef9eを取得。15703file/2088905182 B安全展開。
+- 実累積96、今回32、rank1482/gen8187、Separator UNKNOWN_CAP。P822.482748秒/C2139.769708115秒。新lambda oracleは未計算。
+- 裁定2164/ack/CV9正本34779 B/7cab5c80ea903ec2356dd7b8c0615d827996f7857506768a49ec4c521e9cf28bを全文読了し、cross-checked限定8条で正式受理。root別metadata全照合は継続中。
+- alias修理の動的証拠はstart親33固定/各snapshot33→128/final129。新32scalar0:9/1:10/2:13、全96は0:32/1:24/2:40。符号識別63step/中心単独13step。
+- 単価上昇説の撤回を反映。rank55800という線形到達外挿は物理次元48384を超えるため不採用。rank1890資源見積りも確定天井ではなく現行秒数/cap条件付きの設計注意として扱う。自動cap倍増なし。
+- 正式受理96と、既登録batch/正語の親64/rank1450を分離し、入力を黙って差し替えない。
+- **UNCHANGED**: A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 612 — 公開型1002–1004と正語修理1005–1007（2026-09-06 JST）
+
+- 1002公開retained P9/C10/data3 pins、1003 launch int/target JSON hash、1004完成済resumeの読み取り専用受付を両作者へ同じ文で配達。
+- 996指摘の新batch bool型/否定canary実gate接続は公開前に修理し監査官が閉鎖。まだ全完成判定/実GHA成功は無い。
+- 1005P v3/WF v4、1006独立D v3、1007全差分監査を三既存agentへ配達。旧凍結source/WF/票は保存、全数学親/履歴/語/条件を維持。完成後batchへ復帰。
+- **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 613 — 96全metadata照合完了・旧refinement HEAD実体で原因確定（2026-09-06 JST）
+
+- root PS metadata audit PASS: output7706file/1252dir、旧不変5143file/埋込親7916file、旧C64step/64snapshot全辞書、4invocation、源20/raw3/WF/driver/実入力/全receiptの全hash一致。hash cache23603、ローカル数値なし。
+- root受領証v2=980 B/8c57231360287332f987a286b07d9ec61db21ebd8357a99614d6320e0373a809。工房2164限定8条とroot metadataの射程を分ける。送信REST input二値も実runner保存に厳密一致。
+- 別途refinement ZIP51943596/0d4af347...全取得、実HEAD921/6bf3b4fc...全15keyにtarget字段なし。P1279のKeyError原因確定。1008に実HEAD/最終manifest全文と各全pinを公開し、監査官の別旧TEMP値とも一致。
+- 新D v3=176579/273f0283186ef30e6833d6b7e402140fcb8bf832a22dbc0146c73412672f8e2c。root全差分で二pathだけ、数学wire不変。新P/WFはまだ未凍結。
+- **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、登録済batch/正語親64/rank1450、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
