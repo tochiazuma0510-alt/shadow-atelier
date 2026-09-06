@@ -23480,3 +23480,26 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 実診断9979727337は809058240 B/API digest5bc5b2f5890a7da2641aad882ea4c262ec3d538df0e02e474556848842062a31。root全ZIP転送中、工房へ実stderr/理由の早期共有を速達。原因を旧schemaや資源へ推測固定しない。
 - rootは新batch C169824/65aad639...全2519行＋作者票を静的読了、996最終C判定と整合して追加指摘なし。Pのprivate recovery追加と二metadata収集変更を読み、WF/1010は全静的監査中。最終pin/三群/本走は未完。
 - 正式1482/gen8187・登録親64/rank1450・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 618 — batch全WFと追加の再開保全境界（2026-09-06 JST）
+
+- Task1011=4774/a26e11e6...を配達。初回receipt前のbootstrap（複数可、fresh高々1）、新nonce atomic尾部、二診断名/全binding/committed歴史を両系の通常helperへ統一する。初回本走はfresh一回のまま。
+- 996の完成済read-only例外診断・output disjoint gateの保存順序も公開前修理対象。F8.80のC静読後に判明した追加境界で、未公開995/P994の最終pinを更新して再監査する。
+- rootはWF142159/d3453bb5...全1993行と旧snapshotからの全差分、作者票1009/監査票1010 F1–F7を読了。WF本文に追加必須指摘なし、最終P/C pinsと実三群/本走は未完。
+- 工房2166–2168のMemoryError報告を受領、全809 MB ZIPはまだroot取得中。Pは既に参照DAGであり文字列全展開との解釈は保留、7168 MiBを実測RSSとしない。速達status FAILと凍結mainのUNKNOWN_RESOURCE/exit3の差は実stdout/exitで照合する。
+- 正式1482/gen8187、登録親64/rank1450、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 619 — 全809 MB診断回収、MemoryErrorの実分類を確定（2026-09-06 JST）
+
+- 全ZIP809058240/5bc5b2f5...、181 entry/展開2506894888 Bをroot保存。P実stdout492/55404c32...はUNKNOWN_RESOURCE、exit3、elapsed182.325646/wall184.736433。工房速達のFAIL再掲を実票で訂正した。GHA全体failure/D skippedは維持。
+- P5/D3の全実payloadと各exit0、第五群31拒否、別20inventory PASSを全文読了。語の本D成功とはしない。保全INCOMPLETEは未形成D/word-before-Dで、全16親/源/受付/driver不変をrootでも全hash照合。
+- 途中word8file、ordered-word.jsonl全2486667939/87dee255...。最後のnode6629828を末尾だけで読取（全node再parse未実施）。既に参照DAGであり、RAM管理表とDFS保持の内訳/実RSSは未計測。全語/11slot/80644を縮小しない。
+- root metadata受領証v1=1468/a4a9f1e6... PASS（metadata限定）。P994は213861/229785eb... LF3463でfreeze、公開pinを1009へ配達。C1011/最終票/初回GHAは未完。
+- 正式1482/gen8187・登録親64/rank1450・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 620 — 初回batchの全静的閉鎖と凍結（2026-09-06 JST）
+
+- P213861/229785eb...、C181828/7a428950...、WF142206/8596ab90...を最終freeze。rootが全本文/全最終差分と五最終票を読了、C旧版169824/65aad639...の復元text全hashも独立一致。996=53508/e21f97c8...、1010=13746/0f30e956...、両STATIC_PASS_RUNTIME_PENDING。
+- 旧64/rank1450/gen8155・全15親・32/1/refill=false・fresh一回を初回投入する。実metadata16拒否/P・C各三群/本走/全保全/候補成功はまだ未観測。3979件の事前statusをTEMPへ保存し、指定fileだけrootが公開する。実run/headはAPI取得後に追記。
+- 工房2169は正語status/参照DAGの訂正を採用。新1012 P資源設計/1013独立D資源設計を既存作者へ配達し、他系本文非共有・静的設計のみで並行する。P4/D4や新実験はまだ作らない。
+- 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。

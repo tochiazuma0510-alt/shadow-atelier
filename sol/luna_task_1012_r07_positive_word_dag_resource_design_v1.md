@@ -1,0 +1,15 @@
+# Task1012 — 正語DAGの資源修理案（設計と静的切り分けのみ）
+
+宛先: 既存packet_producer。994 source/replyは完成凍結のまま保持する。新P4を急いで作らず、正語P v3の実停止について自系sourceの資源設計を調べ、sol/luna_reply_1012_r07_positive_word_dag_resource_design_v1.mdだけに報告する。rootは並行して995/1009の最終監査と初回batch GHAを進める。新C/D本文・他系helper・作者票は読まない。ローカルPython/import/AST/GAP/数値/ネット/git/credentials/追加agentは禁止。TEMPの小metadata読取・全bytes/hash・source静読だけ可。
+
+実観測: run34001672135/1、head14e09d7a96ec9cae71b072e297d2138f5c2f8a72、P3=200658 B/bc51546ee1b2e73cff3a115947c817164199179b25699f90a7cae3283872e16e。全診断ZIP9979727337=809058240 B/5bc5b2f5890a7da2641aad882ea4c262ec3d538df0e02e474556848842062a31、root TEMP shadow-atelier-positive-readout-run34001672135-diagnostics-a1 に全181entry/2506894888 Bを保存済み。Pstdout492/55404c32609279a250f1143222a238bfee3d3045408db929f47addafc939221bはUNKNOWN_RESOURCE/MemoryError:/literal-DFS/182.325646秒、exit3。P.log19387/db9ce64951cc00e191902d8ecf5a4612acb330cd1c337cde0bd6a6fe5a781ffcでcompile_target_word→resolve→build_conn→product→link265のallocation停止。7168 MiBはRLIMIT_AS/RSS guardの設定で、実peakではない。
+
+途中ordered-word.jsonlは全2486667939 B/87dee2553995e8b81a953d40f89fd9d472adbd0814026cdf1e10ca58929d07c6。末尾のみの読取では最後のid6629828がIntegerPower(-1)、child6627615、receipt31792、finalLFあり。全node列再parse/連番認証は未実施。この末尾を完成root/語descriptorへ昇格させない。全8fileを保持しており、13fileの完成語や本D結果は無い。P5/D3/20inventory群の実PASSは本語成功と別。
+
+調べる点:
+1. 既にPは参照SLP/DAGであり文字列への全展開ではない。WordDAGのhashes/pairs/positions/symbols、compilerのraw/history索引、停止中のDFS generatorが保持するparsed records/factors、OrderedProductのchild辞書配列の各生存期間を通常sourceから特定する。量の式とPython object overheadの未計測部分を分け、実RSSを捏造しない。
+2. 同じ順序・全零係数edge・全receipt/Ref・node identity/全hash/完全EOFを維持したまま、主にnodeごとの固定幅metadataをdisk indexまたはcompact arrayへ移す方式の比較。未構築親参照を消す、選んだ11slotだけで語を省く、先頭/履歴64を削る、Actをunitと仮定する等は不可。巨大JSON一行やDFSの保持が残るならそれも明記する。
+3. P4が同じ公開八node-op wireを保つ場合に必要な変更範囲（WordDAG、compile/read-side、資源計測/diagnostics、一時索引の型・保全）。未形成索引・末尾bytesを成功語へ混入させず、完成13file契約と別のscratch/diagnosticとして残せる設計を出す。単なるRAM上限増加だけを主案にしない。
+4. 構築後の自系評価も含めた費用を点検する。メタデータを小さくしただけで全11slot/80644の本照合が予算内と断定しない。新GHAで次に測る最小の通常経路、必要な本番helper対照、実peak/live-node/edge/frame/入出力を得る計測点を提示する。追加実験はroot裁定後で、本便では実行しない。
+
+同じ16数学親/全64履歴/13語file/11slot/full80644/normalized mod54/非unit Act/5PB4 endpoint/全before-afterを維持する。登録batchは別に15親/64rank1450/k32/1/refill=false。旧凍結P3/D3/WF4/994は一切変更しない。返信末行は AUDIT_1012_VERDICT: とし、設計上の推論と未計測・実観測を区別する。
