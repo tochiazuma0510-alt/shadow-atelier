@@ -23730,3 +23730,42 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - run34023589045/1・head794c5e9f883cb5ff21b2ee087c1d4baa84ac6760・job101460518717の通常P工程09:06:27Z→09:33:34Z success、全出力固定09:33:34Z→09:33:39Z success、通常C09:33:39Z in_progress。工程変更のroot API観測09:34:17.0931554Z。内部elapsed/RSS/行数は未受領で推計しない。
 - P実payload・独立数/新rank/新lambda、全fixture/保全/run gate/artifactは後段待ち。128独立/1578は未宣言。同旧64/1450/8155・同15親・128/1/no-refill・同資源枠を保持、追加GHAなし。
 - 1049の全ZIP受領器は準備済み、1048/1050は追加metadata照合と独立監査を継続。k64正式1514/8219とroot metadata PASS、正語envelope9PASS/元deadline/D未形成、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+### Delta 649 — k128受領器の保存再開・6 source/60 raw範囲の全差分読了（2026-09-06 JST）
+
+- F111/Delta648・1049最終票の指定三pathを82f59d0dbf6ccca99e833306a45b392303485b35（parent7f7e6838…、skip ci）で09:38:11.5315978Z push。事前3971 status行、全pin/index raw blob/親/全pathを照合。実launch head794c5e9f…は不変。
+- 1048保存停滞はapply_patchが1935秒応答しなかったため。同じ委嘱を再開し、小分けPS保存へ切替。承認拒否は観測なし。保存用PSの余分な未使用行のCommandNotFoundはhelper本文へ混入せず、rootは実保存全差分を確認。P/C/WF/GHAに変更なし。
+- 1048 draft81532/69f3f04f…は全6 source/60 raw LF範囲/9不変三版直接byte/2literal/9変更分離/全partition/共有4範囲を保存、root既読draftとの差分を全読了。actual artifact null拒否と受領票入力外保護を追加。1050独立監査を再開、二票/実行/全保全/run結合は未完、未freeze/未実行。
+- 09:51時台UTCのrun34023589045/1 job APIは通常C in_progress、後続保全/最終gate/artifact pending。新payload/独立数/rankは未受領。正式1514/8219、正語9PASS/元deadline/D未形成、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+### Delta 650 — 受領器の二票・歴史全量接続と9字段の型finding閉鎖（2026-09-06 JST）
+
+- 1048 draft86140/3e248946…の全56行、96049/a74453eb…の全85行追加をroot読了。歴史4copy/4ledger/元REPORT、旧三suiteの既受領参照・再走0、二票/独立raw60・共有4結果、before/after・metadata-start/run全pinを結ぶ。内部canonical digest/自己sealは全file認証と区別し、再生成しない。
+- 1050の実receipt schema/fixture/ledger四字段findingとrootのstatus/coverage五字段追跡を採用。root小PS値probeは配列-ceq単独true、string guard後false、正しいscalar true。修理版96104/d8213f53…/1060 LFは全7置換・9字段だけtyped比較へ変更、root/1050全差分読了で静的閉鎖。helper本体/数学は未実行。
+- 凍結WF3 L1954のlive入場前binding callと、L1998–2000の実live保存字段をroot再読。live自身にaudit_materials字段は無いため、実launch/15親/API/pre-P controls/凍結driverによる間接接続として記録。実在する五execution start/result・P後/C前・always/runの直接結合は次blockで完了させる。
+- actual artifact tuple・最終main/両最終票は未完。新GHA34023589045/1は通常C実行中、正式1514/8219と正語9PASS/元deadline/D未形成、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを保持。
+
+### Delta 651 — k128初回GHA全24工程success・候補実artifact生成（2026-09-06 JST）
+
+- run34023589045/1、head794c5e9f883cb5ff21b2ee087c1d4baa84ac6760、WF351445840/job101460518717がcompleted/success。C09:33:39Z→10:06:17Z、全fixture10:06:24Z、always10:06:37Z、final gate10:06:45Z、候補upload10:07:23Z、診断10:08:00Z成功。job10:08:04Z完了/run10:08:05Z updated。実API全投影票12736/3dea5de5…をroot全読了。
+- 候補artifact9987222571/name d972-r07-fixed-lambda-cycle-batch-v3-candidate-34023589045-1/369233546 B/781c9f467bd38305c524a0a2bf5b361f45e75bc4234d9cf6e891e01175db9e2e。診断9987231704/同bytes/89499643872e5909c910f625cbf7517611a1bf31df13e74c3004f0a917fffaac。両未expired・run/head/repository一致。候補全ZIP取得中、全hash/展開/実rankは後段、診断はAPIのみ。
+- 1048 helper108496/6c2d922a…/1182 LFの全差分をroot読了。live/API/pre-P controls/main・全五execution/中間/最終保全・元source/AST旗・厳密なactual tupleを接続。歴史4copy非包含と全typed launchも確認。重複controlはreferencesと呼びunique file数にしない。作者/1050最終票・実受領はpending。
+- 正式監査へ実artifact生成の速達を記帳し、新CV9/root受領pendingを明示。正式1514/8219、正語9PASS/元deadline/D未形成、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを保持。
+
+### Delta 652 — 裁定2181–2184受領・全ZIP SHA一致・受領器最終静的PASS（2026-09-06 JST）
+
+- 司令塔commit0aa11ee92b2d885b28b220deb89ba0ef7fca09f3→2e3ee2c62b73bb6ab51d66f39b027be166765e13の全pathを確認。snapshot2181–2182=1359/4ac80d13…、2183–2184=781/606e3e14…、工房速達1168/e9101033…をroot全文読了、状態/地図の実差分も読了。root速達855/4a4b6d09…は後者commitへ原文不変で収録。
+- 正語metadata9PASSは2181受理。工房Range読取速報は128/128独立・rank1578・同oracle36,274/70/125だが、root全量受領結果ではない。新CV9 pending、正式1514/8219を維持。工程分秒と内側elapsedの時計を分ける。
+- ミラー34026616987/1/head82f59d0d…はroot APIでも10:09:08Z→10:09:49Z completed/success、rootによるmirror payload全再取得は無し。
+- 候補全ZIPは10:08:57.7435025Z→10:15:43.4166515Zに取得、369233546/781c9f46…が実全SHA一致。1049凍結helperの全entry/全file展開・再hashを10:16:40.2202769Z開始、完了票/全件数は後段。
+- 1048作者最終12710/bc0ca3b0…/93行、1050独立最終22372/f4db67ea…/116行をroot全文読了。最終helper108496/6c2d922a…/1182 LFの全保持＋全差分でSTATIC_METADATA_RECEIVER_PASS、required残0。全展開後の実受領はまだ未実行。
+- 最新裁定2184、正式1514/8219、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを保持。
+
+### Delta 653 — k128全11437 file受領・実1578/8283・先頭64物理byte一致（2026-09-06 JST）
+
+- 1049全entry/全file/再hashは10:20:17.3084157Z exit0、11437 files/3439 dirs/1267599138 B。取得票719/18aeadb7…、全entry pins2101151/520aefab…。全metadata1048は10:22:06.9539847Z開始、最終PASSは未受領。
+- 実P206763/5c05826c…・C11956/5fcb1f9a…の全pinとtyped字段から、selected/processed/accepted128・dependent0・skipped[]・rank1578/gen8283をroot受領。C全本文とP readoutを読了、P表示切詰めは同pinのcompact全文で補完。全候補/全phase metadataは1048照合中。
+- state e793896e…、target7868b780…、lambda6a0fe936…が一致。最終lambda char0 support1052/他0、新oracle=null、新final q=false、旧数学再演0。Grade2両NOT_DECIDED/A0未完を保持。
+- 実旧k64と新k128の先頭64 physical-normalized.bin全64 file/片側774144 Bが直接raw byte一致。票33117/5354c266…はBYTE_IDENTITY_ONLY、owner/state/manifest同一性や数学再演ではない。a(32/64/128)=32/64/128は同rosterの入れ子前置、以後は未確定。
+- 実P+C内部時間による平均秒/行はk32=30.742756265、k64=28.893205021、k128=27.959672460。追加分の差商は32→64=27.043653776、64→128=27.026139899。新P/C内部1622.716919/1956.1211558670002秒、launcher1623.54153495/1956.7174320589997秒、RSS442952/1547480 KiB。各時計を分け、child IO最終sampleは全counterではない。
+- 新候補1578/8283へ更新、CV9 pendingで正式1514/8219を保持。A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseは不変。
