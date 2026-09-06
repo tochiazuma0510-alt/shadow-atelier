@@ -1,8 +1,8 @@
 Task1049 — k128 実artifact用 ZIP 受領器の限定移植
 
-**F1. 最終pinと範囲。** Task1049（2077 B / SHA256 `e593546aa259f3f76fcaafbef7d9fa82457e2d896b75e621ed19073c6185d2ce`）と旧受領器全142行を読了し、指定新helperと本返信だけを作成した。新helperは `%TEMP%/shadow-atelier-audit163/extract-k128-v3-artifact.ps1`、**9632 B / SHA256 `1ce4ba4195bb69ce676711779cd57189f2b23240d142871ddf73b9b24a468444` / LF142 / CR0 / BOMなし / ASCII / 末尾LF**。このpinでfreezeする。新helper実行、Python/import/AST/GAP/数学計算・GHA/network/git/credential・新agentは使っていない。旧helper/source/WF/実artifact/旧返信は変更していない。
+**F1. 最終pinと範囲。** rootの行数訂正追補を含むTask1049（2373 B / SHA256 `26744f332daa06d0dd493bff1c434adf6ae756224b26eb21a7390e6a080cac13`）と旧受領器全142行を読了し、指定新helperと本返信だけを作成した。新helperは `%TEMP%/shadow-atelier-audit163/extract-k128-v3-artifact.ps1`、**9632 B / SHA256 `1ce4ba4195bb69ce676711779cd57189f2b23240d142871ddf73b9b24a468444` / LF142 / CR0 / BOMなし / ASCII / 末尾LF**。このpinでfreezeする。新helper実行、Python/import/AST/GAP/数学計算・GHA/network/git/credential・新agentは使っていない。旧helper/source/WF/実artifact/旧返信は変更していない。
 
-**F2. 全保持差分。** 基点 `%TEMP%/shadow-atelier-audit163/extract-k64-v2-artifact.ps1` は9632 B / `6de27467c19514bac8185515230ca1fff7d5071edb329ec0c232d3924fced40a` / LF142で、実bytes/SHAを照合した。変更対象は実131行の schema/run と実132行の head/workflow だけである。「末尾3行」のうち、133行の artifact ID/name 引数を変更せず、この2行で指定の移植が完了することをrootへ通知した。attempt=1は同じ値を保持する。
+**F2. 全保持差分。** 基点 `%TEMP%/shadow-atelier-audit163/extract-k64-v2-artifact.ps1` は9632 B / `6de27467c19514bac8185515230ca1fff7d5071edb329ec0c232d3924fced40a` / LF142で、実bytes/SHAを照合した。変更対象は実131行の schema/run と実132行の head/workflow だけである。133行の artifact ID/name 引数は保持する。rootは「末尾3行」がmetadataブロックの行数誤記であり、この実2行だけが変更対象と確認し、Task1049へ追補した。attempt=1は同じ値を保持する。
 
 | 字段 | 旧値 | 新登録値 |
 |---|---|---|

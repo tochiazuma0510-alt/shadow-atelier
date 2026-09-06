@@ -23722,3 +23722,11 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1049新ZIP展開器9632/1ce4ba41…/142行は旧全142行＋新二行差分をroot読了、作者最終5756/74c620a9…も全読了。全ZIP/entry/実file hash・path/type/capacity/fresh rootを保持。artifact実tupleは生成後にrootから渡す、実受領未実行。
 - 09:16:11Zのk128 job101460518717は通常P in_progress、事前完了13工程/failure0。1048受領器・1050独立監査を継続。正語のroot全envelope9PASSと資源errors0/incomplete6を元deadline/通常D未形成のまま保持。
 - 正式1514/8219、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+- Delta647追補: 上記等指定7pathは7f7e6838c1b098524f1480ccbb73ca021e50934e（parent4f811d1a…、skip ci）で09:19:40.5496315Z push。全pin/index/親/全pathを照合。返信1049はその後の作者最終通知でTask引用二段落だけ更新、正式freeze5836/a6317fce…/43行へ訂正。root全差分読了、実helper9632/1ce4ba41…は不変。
+
+### Delta 648 — k128本P success・出力固定・独立C開始（2026-09-06 JST）
+
+- run34023589045/1・head794c5e9f883cb5ff21b2ee087c1d4baa84ac6760・job101460518717の通常P工程09:06:27Z→09:33:34Z success、全出力固定09:33:34Z→09:33:39Z success、通常C09:33:39Z in_progress。工程変更のroot API観測09:34:17.0931554Z。内部elapsed/RSS/行数は未受領で推計しない。
+- P実payload・独立数/新rank/新lambda、全fixture/保全/run gate/artifactは後段待ち。128独立/1578は未宣言。同旧64/1450/8155・同15親・128/1/no-refill・同資源枠を保持、追加GHAなし。
+- 1049の全ZIP受領器は準備済み、1048/1050は追加metadata照合と独立監査を継続。k64正式1514/8219とroot metadata PASS、正語envelope9PASS/元deadline/D未形成、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
