@@ -1,0 +1,119 @@
+Task1016 — 正語 P4 第一段階の disk 管理表と資源記録
+
+F1. 読了と変更範囲
+
+Task1015 7560 B/ac06f6997090358956e0f61661afc695fb6d75201c7916f3eadd3f9f84a01a7d と Task1016 3166 B/d25b1031134087b92281ca78f00167b3b978499845c4a5d6f088c9f07f7e7e44 を全文読了した。自系1012の最終設計、凍結P3のみを基準に、新 search/d972_r07_continuation_positive_word_readout_v4.py と本返信だけを作る。他系本文、旧source、workflow、994/1012返信は変更しない。ローカル実行/AST/import/数値/GHA/gitは行わない。
+
+第一段階では固定幅disk表と有界page cacheを使う。通常のOrderedProduct一行生成、build/resolveの順序、paused recipe/factors、parent body、symbol/ancestor/closureを維持する。factor spool、cursor、streaming grammar、Fox spillを追加しない。残存peakによるUNKNOWN_RESOURCEを認め、完走を予告しない。
+
+F2. 公開CLIと語の境界（先行固定）
+
+通常CLIに --scratch <新規path> を必須追加する。rootの公開追補に従い、--resource-selftest も任意の --scratch を受け、一時rootだけを使う。明示時は REPORT/resource-selftests/P/scratch に群別indexを、別sibling fixtures にfixtureを保存し、resource-selftest-paths.jsonへ全実pathを記帳する。省略時も一時rootを新規作成し、完了時に削除しない。--max-seconds/--max-memory-mibを受け、新試験の内部上限は既定300秒、通常上限はP5400秒/7168MiB。旧 --selftest は互換入口として残すが本便の新GHAで旧五群を再実行する根拠にしない。
+
+公開word schema/grammar、八op、六node字段、成功13fileのrosterは従来どおり。同一bytesは固定親/辞書/イベント列のordered-word.jsonlを指す。新source/acceptance/runtime/elapsedを含む外側receiptは新値へ正しく結ぶ。入場のproducer/checker source pathはともにv4へ移す。他系本文は読まず公開pathだけを登録する。
+
+新 --resource-selftest のstdoutは既存SCHEMA + .resource-selftestのsealed object、status PASS、testsはname/status/rejected_cases、fixture_scopeとproduction_interfaces_usedを持つ。私有scratchのlayoutはDへ共通化しない。新試験だけで動的に読む旧自系P3を厳密なpath/200658 bytes/bc51546ee1b2e73cff3a115947c817164199179b25699f90a7cae3283872e16eへ固定し、小さい旧WordDAGの全出力bytesをanchorにする。旧五群・本番旧producerを呼ばない。rootの新wrapperでこの旧sourceをstage/pinしてから実行する。
+
+F3. 私有indexの方式
+
+node hash32 bytes、residue54の二u8、incoming-edge回数u64LEを一行42 bytesに保存する。後者は反復/零edgeを一個ずつ数え、prior-only DAGの全nodeが最終rootへ達することを「最終root以外はincoming>0」で確認するための私有情報である。wireに字段を足さない。unused WordDAG.positionsは廃止する。
+
+通常pageは4096行。全開いたindex共通のLRU cacheで、二page相当の一時I/O buffer枠を予約した上で合計設定64MiB以内にする。全file mmapは用いない。書込み可視性、flush/EOF、IDの正負index境界、各設定値・試験名はF4–F7に確定した。
+
+以下に完成sourceの実装境界を記す。AST/selftest/本GHAは未実行である。
+
+F4. 完成した本番接続とwire
+
+P4はWordDAG.hashes/pairsをNodeViewへ置換し、unused positionsを削除した。NodeViewは整数位置と__len__を持つ。既存使用箇所の全source文字検索ではappendはWordDAG.addの二箇所だけだったため、そこを一回のNodeStore.appendへ置換した。通常の既存利用はlen、非負位置、reader末尾の[-1]である。内部viewではlist同様の負位置を正規化し、範囲外はIndexError、bool/非整数はTypeError。外部node IDとしてのNodeStore.readは非負普通整数だけを受け、負/future/bool IDを拒否する。sliceやlist appendへquietに戻すfallbackはない。
+
+従来と同じcanonical(record)を作り、同じ順序でJSONLへ書く。pairは旧node_residueをそのまま使い、全childがpriorであるため、diskへ一行appendする前に計算できる。別のnodeを追加したり、積の再結合やhash-consingをしていない。canonicalのserialization式、child_links、node_residue、signed_letters、epsilon、signrep、既存のbody/literal/target recipeと各schema/helperの本文は維持し、build_*にはI/O counter、resolveにはframe/symbol計測だけを加えた。canonicalの整数変換容量の例外分類だけはF10の限定修理を適用した。
+
+各child edgeは反復/0 powerを含めてadd_useを一回呼ぶ。全child IDが親より小さいため、最終root以外の全nodeが少なくとも一つ後のparentから参照され、最終rootのincomingが0なら、有限なID増加列を辿って全nodeが最後のrootに結ばれる。これをdisk表の全row走査で確認する。RefやActのconjugatorも通常childとして数える。
+
+compile_target_wordはbuild用indexを作り、完全word/rootとindex EOFを閉じてからcloseする。read_normalized_pairは別の空のreread用indexを新規作成する。元JSONL全byteから従来のcanonical/六字段/連番/全node seal/child hash/Rel/receipt/EOFとmod54を処理し、buildのpairを答えとして再利用しない。normalの成功時はちょうど二indexがfinishedかつclosedであることをscratch resultへ結ぶ。builderとreaderの同一root residue比較も維持する。
+
+一行readerはreadline(limit+1)を使い、64 MiB(final LF込み)を超えればUNKNOWN_RESOURCE。一行全部をjson.loads/canonicalする既存grammarは保持する。state/P1 JSONLとpositioned JSONLにも同じ枠を適用する。writerもcanonical一行の生成後に実長を記録し、超過時はその行を書かずUNKNOWN_RESOURCEにする。したがってcanonical生成そのもののpeakは残る。oversized readerのlimit+1 bytesは完全な最大行長と偽らず、観測prefix/complete_line=falseを併記する。
+
+source/acceptance/全既存16親の入場は維持し、今回の通常入口にはcompleted_steps64/rank1450/generation8155の普通整数guardを明記した。別batch候補や96段へ差し替えない。normalized mod54/18、非unit Act、全11slot/80644、5PB4 endpointの意味は変えず、Dの算術本文は読んでいない。
+
+F5. 私有format・cacheとflushの確定値
+
+私有format名はprivate-P4-node42-v1。binary先頭は48 Bで、magic R07PND4 + zero byte(8 B)、version u32LE=4、stride u32LE=42、session/purpose/番号/strideを結ぶfull SHA256(32 B)。その後、元IDの順に42 Bのrowを置く。rowはsha256 raw32 + residue_x u8 + residue_y u8 + incoming u64LE、alignment paddingなし。IDからheader+42*IDで正確に照会する。普通整数のexponentはこのformatへ圧縮せず、旧JSONLのまま保持する。
+
+page_rows4096、page_bytes172032、cache_pages388。二pageの一時index I/O枠344064 Bを予約し、cache本体最大66748416 Bとの合計67092480 Bは登録上限67108864 B以下。全開いたindexは一つのPagePoolを共有する。全file mmapは用いない。page cache本体のPython container overheadやwriter/parent/factor/文字列はこのpayload設定の外であり、全process memory上限7168 MiBと実RSS/ASで別に扱う。
+
+cache hitは実同page、missは元fileの必要なrow bytesを厳密EOFで読み、dirty evictionはwrite完了後だけ除去する。buffer上のappend/add_useは同page内で直ちに後続照会へ見える。末尾pageの未使用paddingはfileへ書かない。flushはdirty page→file flush/fsync→header/count/実file EOFの順で、durable_countを更新する。完成receiptではfull index bytesをpage幅以下のchunkで再hashし、root/reachability/count/header/strideを結ぶ。成功済indexのcloseで数値を再実行しない。
+
+hashは64桁全文字列として認証し、diskには全32 bytesを保存する。pairは0..53の普通整数二個で、F3 trit/packed3ではない。count/offset/incomingが実装容量を超える場合はResourceStopでありwrapしない。型/hash/binding/header/stride/count/EOF異常はValueError系FAILとして区別する。
+
+F6. scratchと計測・停止
+
+resource schemaの私有prefixは d972.r07.continuation-positive-word.v1.resource-v4。通常scratchのrosterはstart.json、telemetry.jsonl、indices/<番号>-<purpose>.bin、index-receipts/<番号>.json、result.json（完成時又は可能な停止時）。未完indexにはfinished receiptを捏造しない。indicesはbuild/reread/fixtureという用途を明示する。SOURCE/accepted owner/head/全16親の全file pin/consumer source/raw/runtime/acceptanceと実host path/新nonceにstartを結び、完成後はroot/word-manifest/word-resultの全canonical hashをresource resultに結ぶ。これは13語fileのrosterとは別である。
+
+scratchとoutputが互いに包含・一致せず、全親・acceptance/source/rawとも包含・symlinkしないことをmkdir前に確認する。既存scratchの再利用もresumeもない。通常scratchと新resource-selftestのscratchは別の新規root。rootからの共通追補どおり、明示selftest scratchはRUNNER_TEMP又はOS TEMP配下に限定し、sibling fixturesとresource-selftest-paths.jsonを残す。省略時もmkdtempで新規作成し、削除しない。
+
+scratchは各sessionのlogical reserveと、process全体の全scratch予約量の双方を追い、16 GiBを超えるwrite/appendを止める。fixtureで下げるdisk枠は明示fixtureだけの対照である。fileの書込み前は1 GiBのfree floorを確認する。index logical rows、flush済durable rows、実file bytes、全writerが完全に書いたnode数を別に保持する。部分node/indexやflush前状態は成功のEOF/rootにならず、全partial bytesは外側alwaysで保全する。
+
+sampleは4096 node又は5秒経過、既存phase境界を基準に小JSONLへ追記し、N個のsampleをRAMへ保存しない。ru_maxrssの実unit/bytes、VmRSS/VmHWM/VmSize、RLIMIT_AS、単調経過秒、node/edge/zero-power-edge/Ref数、fan-in、行長、cache hit/miss/eviction/flush/resident、index実bytes、frame/symbol/receipt/raw/geometry cache数、論理scan/hash/追加位置read/parse/write bytesと回数を記録する。max行/fan-in/frameがまだ観測されていない段階はnull。semantic live node数やparent object overhead、paused recipe/factorの実object bytesは未計測nullと明記し、cache resident数で代用しない。
+
+MemoryError/期限/登録line・disk・容量枠/ENOSPC/EFBIGはUNKNOWN_RESOURCEでexit3、型/hash/scope/EOFや無関係な実装例外はFAILでexit1。失敗後のscratch仕上げが困難なら既存sampleとstderrのINCOMPLETE記録を残す。診断file自体も空き容量/MemoryErrorで書けないときはstdoutの元statusと既存sampleへ退避する。成功wordの全13file gateや全before/afterを内部indexだけで代替しない。MemoryError瞬間のRSSや最後の行の完全長を未観測のまま補完しない。
+
+F7. 新selftestの実入口（本便では未実行）
+
+--resource-selftest は次の三群だけを一回呼ぶ。testsはname/status/rejected_casesを持つ。fixture_scope、production_interfaces_used、旧P3 source pin、実paths/paths receipt、old_full_suites_run=0、candidate/cross_checked/verified=falseをstdoutへ返す。全helper sourceは新P4の内部であり、Dへ渡さない。
+
+| Name | 通常helperと期待値 |
+|---|---|
+| disk-index-cache-and-integrity | NodeStore/PagePoolの実append/read/add_use/flush/EOF/finish。page_rows2/cache_pages2で13rowを読み返しevictionを実際に起こす。全hash/pair、反復use、[-1]/[-13]互換、root到達を照合。future/negative/bool ID、短縮hash、residue54/型、position範囲、capacity、partial row、stride/source-scope/header、count不一致を拒否又は資源停止 |
+| old-word-bytes-and-new-reread | 厳密pinの旧P3から短いWordDAG/read_normalized_pairだけを動的ロードし、同じshort_word呼出しの全bytes/node ID/hash/pair/八opを新P4と比較。0/負/正power、反復child、Ref alias、非自明Actを含む。buildをcloseした後、新空indexの全readerへ通す。zero/repeated edge欠落は固定word/rootに結ぶ逆対照、future/短縮hash/bool/未到達node/末尾LF不足も実readerへ到達 |
+| scratch-line-and-resource-boundaries | 実resource_path_gateとbefore_write/limited_lines。親・source・output・scratchの包含/一致/既存/symlinkを拒否。小line枠8 BはLF込み境界を通し、9 BをResourceStop。scratch枠とfree floorをfixtureだけで発火させ、未形成file/index rowを完成扱いしない。F10の実WordDAG.power整数変換容量と小値bytes・無関係ValueError・bool型の対照も含む |
+
+旧P3 sourceを読むのは、この小anchorだけであり、legacy selftest五群も旧本Pも呼ばない。新helper間の自己一致だけを旧順序保存とは呼ばない。旧--selftest互換入口は残した。その既存word fixture中の二つの孤立した順序比較用productだけは、新しい全node到達guardに合わせてrootへzero powerで結んだ。これは旧math parentや通常語の変更ではなく、新版内の旧fixture互換調整であり、五群の実PASSを主張しない。
+
+F8. Source/import closureと残存peak
+
+通常のrepo算術source importはない。新P4の通常入場でnumpyは従来どおりruntime version照合にだけimportする。新追加標準libraryはcollections.OrderedDict、contextlib.contextmanager、errno、importlib.util、io、shutil、uuid。resource、os/pathlib/json/struct/hashlib等のruntimeは実wrapperで記帳する。
+
+自己試験だけのrepo参照は旧 search/d972_r07_continuation_positive_word_readout_v3.py =200658 B/bc51546ee1b2e73cff3a115947c817164199179b25699f90a7cae3283872e16e。一時moduleへexact full pinを前後照合してロードし、bytecode書込みを抑止する。旧P3に別repo算術importはなく、旧sourceのfull helperを本Pとして起動しない。この追加sourceを新wrapperがstage/pinする必要はrootへ通知済みである。新Dの本文/format/helperは読まず、D4 source pathと実acceptance pinだけを扱う。
+
+rawは従来のscratchpad/a0_paper_words_v1.json（115928 B/90ba603368307e16b27b2bad9d84847c7bedc501fab811b8919d96e3c8936893）、scratchpad/a0_v2_words.json（106133 B/fb191e30d269b5392acbebfce914905eeb0d10ed4292eac31bbbcb928ae62612）、scratchpad/fuda1_a0_rmax_data.g（4709 B/625b4d11ca882c9419d9e0d78510bf323a117673722b8dd9ec7d7e85554267ba）の三本。独立Dの別closureをこの三本で置換しない。
+
+残すPython表はsymbols、ancestor entries/unique、recipe_refs/symbol_order、TargetHistory索引、LiteralParentsのold/new部分、raw/geometry cache、全未完DFS generator/recipe/factorである。完了recipe_refsの積極削除も今回行わず、旧順序の保存を優先した。OrderedProductのchild dict list、canonical一行/whole parent JSON/manifest配列、同root readerの一行DOMは残る。固定幅indexへの移行はこれらの有界化を意味しない。全11slot/80644のD側live Fox peakや完走は本便から予測しない。
+
+F9. 作者側の静的確認と凍結
+
+作者は新sourceの全textと、既読P3からの変更境界を静的に読んだ。disk上の新source全textが作成したtextと同じであることも照合した。元の数学helperについてはsource文字列の同一性を照合し、変更した通常箇所はdisk view/入出力計測/登録64親/line・path・資源処理と新試験の接続、F10のcanonical容量分類である。これはASTやimportによるsyntax/runtime試験ではない。ローカルPython/import/AST/数値/GAP/GHA/gitは実行していない。
+
+F12までの限定修理後の新P4は252342 B / f36e929ee303b968c519e0333d18b10d3c3e01d83b9ad8ec896949d5ca02dd77。LF4258/CR0/BOMなし/finalLFあり/行末空白0を実bytesで照合した。旧P3は200658 B/bc51546e…、設計1012は35442 B/2f9c95971a7a383a8480dc417cb58c32689b92baed7b30d31ca80fe9b970807aで不変と再hashした。
+
+新selftest、AST、本P4/D4、全新scratchのalways受領、工房CV-9は未実行/未観測である。語の完成、実peak、速度、A0/grade2/COMMON/cofinal/fake/Ihara/verifiedを先取りしない。初回batchは別taskであり、このP4の親や本便の結果と混同しない。
+
+F10. Task1018最終指摘による未公開版の限定修理
+
+rootは最初の作者freeze（249192 B/028a3cb4…、本返信16518 B/b98fe31f…）を解除し、未公開の本二fileだけを修理するよう裁定した。CPythonの有効なint→decimal桁数容量を超えた合法IntegerPower exponentが、従来のjson.dumpsではValueErrorとなりmainのFAILへ入る点を修理した。旧公開P3/D/WF/他返信は変更していない。
+
+canonicalで元のjson.dumps/ASCII/全LF式を実行し、ValueErrorのうちtypeが正確にValueError、runtimeがCPython、有効なget_int_max_str_digits()が正の普通整数で、その値を含む既知の容量メッセージ全文がerror.argsの唯一の字段と完全一致する場合だけResourceStopへ変換する。判定helperはinteger_decimal_capacity、停止理由はcanonical_integer_decimal_capacity。ordinary exponentの型、通常の全canonical bytes、node/child/Ref順は変えない。円環、Unicode、型、JSON syntax、scopeや無関係なValueErrorを資源停止へ一括変換しない。json.loads側には新しい例外catchを加えていない。
+
+第三群ではsys.int_info.str_digits_check_thresholdを小対照枠にし、正負の10**thresholdを実WordDAG.powerへ渡す。両方ResourceStopとなり、index count/word length/実stream位置が変わらないことを確認する。-18/0/18のcanonical bytesを固定した旧式のbytesと比較し、False exponentは既存型guardのValueError、実canonicalの循環参照は元ValueErrorのままであることを要求する。finallyで元digits設定（0を含む）を復元し、小値powerで通常append→flush→到達/EOFを続ける。追加した拒否名はpositive-ordinary-exponent-decimal-capacity-is-resource、negative-ordinary-exponent-decimal-capacity-is-resource、bool-exponent-remains-type-failure、unrelated-circular-ValueError-remains-failure。
+
+全source textを再読し、解除前の本文へ戻す文字列比較では、差分がcanonical/helper、第三群のこの対照、production_interfaces_usedへのcanonical追加の三境界だけであることを照合した。この比較はsource文字列だけで、ASTや新試験を実行していない。
+
+F11. 新wrapperへ渡す公開JSON/CLIの実字段
+
+新selftestのtop exact keysはschema、status、tests、fixture_scope、production_interfaces_used、paths、paths_receipt、reference_source、old_full_suites_run、candidate、cross_checked、verified、sha256。schemaはd972.r07.continuation-positive-word.v1.resource-selftest、成功statusはPASS、old_full_suites_runは普通整数0、三assuranceは全false。fixture_scopeは非空str、production_interfaces_usedは非空str listで、NodeStore/PagePool/WordDAG/read_normalized_pair/limited_lines/resource_path_gate/ResourceSession.before_write/canonicalの八名である。各testsはF7の三nameを同順に持ち、status PASS、rejected_casesは非空str list。第一群の追加keysはrows/cache、第二群はreference_source/word/root_id/root_sha256/normalized_pair/ops/old_full_suites_run、第三群はfixture_resource_limits_only=true。
+
+P側topにはsource_files/raw_inputs/work_roots/settings/counters/measurement/actual_*という字段はない。sourceの実pinはreference_source={file,bytes,sha256}とpaths.producer={file,bytes,sha256}、実rootはpaths.scratch/paths.fixtures（絶対str）、paths_receipt={file,bytes,sha256}から読む。paths自体はresource-v4.selftest-pathsのsealed objectで、exact bodyはscratch/fixtures/temporary_roots_only=true/delete_on_exit=false/explicit_scratch/producer。private群別startのlimits/cacheとtelemetryから設定・実計測を読む。counterをまだ無いtop別名へ補完しない。
+
+通常scratchのstart.jsonはresource-v4.start、telemetry.jsonlの各行はresource-v4.sample、index-receipts/<六桁番号>.jsonはresource-v4.index、result.jsonはresource-v4.result。各schemaのprefixはd972.r07.continuation-positive-word.v1で、各objectのsha256は自身のsha256字段を除いたcanonical seal。startのbodyはinvocation/binding/format/cache/limits/fixture_only/resume、bindingはproducer/acceptance/parents/consumer_sources/raw_sources/runtime/accepted_owner/accepted_head/scratch_path/output_path/ordered_word_identity_unchanged_by_private_storage。producer/consumer_sources/acceptance/全16親/三rawは実全file pinへ結び、accepted_owner/headは既存64親の実receipt、format/cache/limitsはF5–F6の値、通常fixture_only=false/resume=falseである。
+
+sampleの計測名はmemory、cache、indices、words、io_bytes、io_calls、fsyncs、session_scratch_reserved_bytes、process_scratch_reserved_bytes、max_fan_in、max_line_bytes、frames、max_frames、symbols、active_symbols、semantic_live_nodes、parent_object_overhead_bytes、snapshotで、sample/phase/elapsed_seconds/last_sample_is_failure_peak=falseを添える。memoryの実字段はru_maxrss/ru_maxrss_unit/peak_rss_bytes/VmRSS_bytes/VmHWM_bytes/VmSize_bytes/rlimit_as_soft/rlimit_as_hard。index state中の実file bytesはactual_bytes、logical_bytes/durable_rows/rowsとは分ける。このactual_bytesはsample.indices又はresult.index_statesの内部字段で、top-level actual_*ではない。
+
+通常resource resultはstatus/session_sha256/word_result_sha256/root_id/root_sha256/word_manifest_sha256/indices/index_states/cache/samples/eof/successful_word_bundle/fixture_onlyと三false assuranceを持つ。PASSでは二つの完成・close済indexと語rootを要求し、word_result_sha256とword_manifest_sha256は語13file内のresult/word-manifest全canonical bytesへ結ぶ。これは元の語result status/P-D全照合を代替しない。新wrapperは自己試験scratch、sibling fixtures/paths receipt、本番scratchと途中wordをそれぞれalways envelopeへ保存する。新CLIや三群名・13file schemaに本限定修理による別変更はない。
+
+F12. 公開前の試験symlink保全修理
+
+root/Task1021は、第三群が拒否対照用に作るfixtures/paths/parent-link symlinkを残すと、新wrapperの全REPORTに対するsymlink拒否と衝突することを確認した。rootの限定解除に従い、直前のP4 252290 B/0fc1c039…と本返信22768 B/eb7b284b…から本二fileだけを修理した。既存1018票や公開P3/D/他fileは変更していない。
+
+source差分はselftest_resource_paths内のscratch-symlink-parent対照をtry/finallyで囲み、finallyでその一件のlink.unlink()を行う箇所だけである。拒否名と実path対照、全ほかfixture、全scratch/index/telemetryは維持する。通常Pの処理、算術、語順、resource JSON/CLI/三群名は変えない。成功・失敗のどちらでもこの試験symlinkだけを取り除き、REPORTの無言除外や全cleanupは導入しない。新source全文を読んでこの一箇所を旧文へ戻すと、直前252290 B版に全文一致することを文字列で照合した。ローカル実行/AST/新自己試験は行っていない。公開nested型の補足1022はこの最終source pinを参照する。
+
+AUDIT_1016_VERDICT: STAGE1_SOURCE_COMPLETE_STATIC_ONLY_RESOURCE_SELFTEST_AND_FULL_WORD_RUNTIME_PENDING

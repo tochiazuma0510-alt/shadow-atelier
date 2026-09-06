@@ -2615,6 +2615,62 @@ P新249192 B / 028a3cb48edeed8854d6f47ceb7f0de9ecc1d4b06ba7f8b56ef3c2bb9b76d7da�
 
 batchの正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
 
-CAMPAIGN_STATUS: FIXED_LAMBDA_BATCH_V1_CV9_2172_ACCEPTED_ROOT_METADATA_PASS; BATCH_RUN=34004423047/1; BATCH_STATUS=CROSS_CHECKED_LIMITED_9_SEPARATE_STATE_RANK1482_GEN8187; LAST_RUN=34004423047/1; LAST_COMMIT=81a1b22975308ae0ac628f97da447a008a1d087e; POSITIVE_READOUT_RUN=34001672135/1; POSITIVE_READOUT_STATUS=V4_UNKNOWN_RESOURCE_MEMORY_FULL_DIAGNOSTIC_ROOT_METADATA_PASS; POSITIVE_RESOURCE_STAGE1=P4_D4_FINAL_BOUNDARY_REPAIR_WF5_IMPLEMENTATION; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=34004423047/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1482; GENERATION=8187; CURRENT_CANDIDATE_RANK=1482; CANDIDATE_GENERATION=8187; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; BATCH_CV9=2172_LIMITED_9_CROSS_CHECKED_WITH_163_F8_89_ADDENDUM; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2172; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1_AND_F_FLB_1_SHARED_TCB_REGISTERED; VERIFIED=false
+## F8.91 — 全P差分読了・公開ABIの分離と最終source境界（2026-09-06 JST）
+
+工房2173のackを全文読了。F8.89のshared TCB登録をF-flb-1への処置として正式受理し、sigma/拒否数/時間の分母/継承source数の訂正、signed literalと算術規約の分離、同旧64/rank1450・固定lambdaによるk64新version設計に合意した。旧CV-9の本文をrootが上書きしない。工房はその追補と速達をcommit **9c09b31289c472e63e530d917fba10534e94ad5e** に記帳した。
+
+rootのF8.87–90/Delta624–627とTask1019は、指定三fileだけの記帳commit **d0747185a6f4447fd5bc3cb608223a27c67846b8** でpush済み。最初のstage集合照合は、速達一件が直前の工房commitで既に記帳済みのため不一致となりcommitせず停止した。実staged三pathを再確認して、その三件だけをcommitした。無関係なpathのreset/stageや新GHA起動はしていない。
+
+rootはP3からP4 252290 B / 0fc1c039d3ae076107585da88624c01656458c11d1d07df0054dcbec88fadeeaへの**全1406行差分**を読了した。TEMP差分は77455 B / 25759b52087e67df966213081baa237ae74fab0ea162be735093a1642c0ff2ae。二つの並列出力で切れた小区間も別読取で補完した。元WordDAGの全発行順と普通整数/全Ref/全親、独立空index再読、全零・反復edgeと到達条件、通常5400秒/7168 MiBを保持する。Pの64 MiBはcache payloadと二I/O bufferの合計設定で、Python管理objectや全process RSSは別の限界として明示されている。全常駐量の上界とはしない。
+
+1018最終票（25005 B / 77ad38fa44165e7bad1fad9ef8a8ce27485243ad5ad227d0a22c2e04a7b84f1d、全131行）と両作者最終票を全文読了した。1018はSTATIC_SOURCE_PASS_FOR_LIMITED_STAGE1で、短読/signal/RUNNER_TEMP/整数容量を静的閉鎖している。後続のroot/WF監査では、P第三群の拒否対照用symlinkが残り全REPORTのregular inventoryへ衝突する追加境界を発見した。作者はその**一時link一件だけ**をtry/finallyで解除し、拒否名・他fixture・全scratchを保存した。rootは最後の全差分を読了し、元通常P/数学/public schemaの変更がないことを確認した。旧1018は保存し、新1021にこの追加所見と修理を追補する。
+
+| 最終実file | bytes | SHA256 | LF |
+|---|---:|---|---:|
+| P4 | 252342 | f36e929ee303b968c519e0333d18b10d3c3e01d83b9ad8ec896949d5ca02dd77 | 4258 |
+| D4 | 232750 | 41d53b3779e26b04431a033877efbd315eb32b1d4538efa742bf900996db797b | 3679 |
+| reply1016 | 23959 | f6734e3d93a1a1d2e4173583562627a21d9e6e3eb63b52da1dcbee8a3c22d150 | 119 |
+| reply1017 | 15676 | f4c623564088f835bfbb2d3fc8085282d389d0a2dc02dd00ea5168448abd5a26 | 71 |
+
+全四fileと1018の実全bytes/SHA/CR0/BOMなし/finalLF/末尾空白0をrootで照合した。Dの最後の差分も新resource-selftestのcandidate=false一literalだけと確認した。新AST/新三群/本語GHA/全scratch実保存はまだ未実施である。
+
+公開Task1020（5052 B / a8422c1b43230126239c0ac8bd3e88017e4a9ac1a97ba552098df96332f1c9fa）は1019の仮共通字段をP実schemaへ訂正した。Pのold_full_suites_run/paths/paths_receipt/reference_sourceと、Dのold_success_suites/source_files/work_roots等を別のexact型で読む。Pに無い字段を作らず、metadataの違いを算術の欠品としない。同票のP pinは上記一時link修理前の記録で、実新wrapperは本節の最終pinを採る。新1022（2134 B / 8054b4925f258d0d96ef30c577877825973563a6e2f7116af9209c92e2913f22）でnested public型だけの追加票を自系作者へ委嘱し、他系私的本文の非共有を保つ。
+
+新1021（4144 B / ba809f16cf7cacef73e9c9a46cdb8312c6c5ac06b146faadf9952c4ee8b72980）で既存監査官がWF5を別監査中。新wrapperのD settingsで等値floatが整数dictとの==比較を通る点も、strict intと通常helperのreseal対照へ公開前修理する。新WF全最終本文/全差分/全public receipt joinの閉鎖は未完、実GHAはまだ発射しない。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseを維持する。
+
+## F8.92 — P公開nested型の読了・WF回帰対照の裁定（2026-09-06 JST）
+
+rootは公開1022の全245行（24414 B / 515bf6dd39a91c180169dfceac79825b909e9433d2e43771863b5ef5a54c276f）を読了し、実全bytes/SHA/CR0/BOMなし/finalLFを照合した。この票だけをWF作者へ公開し、P私的source/helper/1012/1016の非共有を維持する。Pの通常receiptと三つのselftest sessionを、Dの別型と混同しない。
+
+1020のfixture説明を明確化する。P fixture bindingはmodeとbasename producerだけで、raw3/16親は通常bindingとWFの全source/raw/親before-afterへ結ぶ。fixtureへ存在しないraw_sourcesを要求しない。paths_receiptは絶対path、fixtureごとのscratchはstore/word/pathsの別session、第二群のnormalized_pairと各fixtureのword bindingはnullableである。通常語の二完了index条件を、未完失敗対照を含むfixture index_statesへ移さない。全file hashとinner seal/session/index binding hashは別に認証する。
+
+rootはWF5草稿154408 B / ddc6df70770b2f6db5710d6aa69a737be6d9a596222a5ee1b7b85730a9da4309と旧WF4の**全974行差分**を読了した。TEMP差分70735 B / 8083fae7b326c80eb43a0507ce6e7dc0f46d44d2a8886e79f9d29897ad53065c。P二helperはこの草稿では公開票待ちの明示拒否であり、最終完了とはしない。D binding/top設定・新catalog/countのordinary整数と経過時間の非負有限/単調性を通常metadata helperへ結ぶ限定修理を作者へ返却した。新実selftest/AST/P/Dは未実行である。
+
+旧inventory_canaryの20拒否は原文を保持し、拡大REPORTの同じscanへ接続する回帰対照として今回も一回実行する。これはTask1019/1021の「変更入口に必要な範囲」へ含めるroot裁定であり、旧数学成功suiteの再走や新算術20群と数えない。新resource path12件・新公開型の対照とは区別し、実payload未回収の件数をPASSにしない。
+
+工房2173の合意範囲で、新Task1023 `sol/luna_task_1023_r07_fixed_lambda_k64_registration_design.md`を既存P作者へ委嘱した。同旧64/rank1450・同固定lambda・全15親からfresh k64/1/refill=falseの新versionを設計する静的便で、新source/WFはまだ作らない。選択境界と公開登録型の必要対照だけを提案させ、旧三群全再走や任意の採用数/時間を予告しない。正語資源WF5の閉鎖を並行優先する。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+## F8.93 — 正語資源第一段階の全静的閉鎖と初回投入条件（2026-09-06 JST）
+
+rootはWF草稿の初回全974行に続き、158000 B版の全292行差分、177955 B版の全251行差分、180591 B版の全153行差分と、最後の96 B一行追加を全て読了した。各TEMP差分SHAは順に852f7e9a1e075ab96119b3a5433c3621c9a08859026adea4dcaa7eced9ed3a06、5469fcdfdf1c4e3fcbb01289ab25c20c868fd43dfc0c35352cbe6095f7c5ed7c、7dc770c4e7c8c8268ca88087b799f27902fb8e3370cc9946c3df8856ed6ac606。旧WF4全文と保持部分の全text一致を含め、最終WF全2556行を覆った。P/Dの全source差分はF8.90–91の読了と最終pinを保持する。
+
+公開1024（3396 B / 6abc0b1900fbc41e3a6f6ad386b5c5fe231249680efefbc341d473e179fd3875）は、P sampleのexact型/0開始連番/成功末尾resource-session-PASS/最後のcache・indicesとresult同字段のcanonical一致を閉じた。D側のordinary整数/非負有限時間も通常helperへ接続済み。測定nullや途中indexを完成値へ補完せず、IO/fsync/予約量の後時点等値やsampleの失敗峰を推定しない。新算術suiteは追加していない。
+
+| 最終file | bytes | SHA256 | LF |
+|---|---:|---|---:|
+| WF5 | 180687 | a840cebcd0ba3f15ff2c31c13b0a09bacd140cb4c8e756466baafd052df8e436 | 2556 |
+| reply1019 | 14720 | 645902dd83518ef88dad318b3046409545a2d0fe05d1a8031cd8fa6351015fdf | 61 |
+| reply1021 | 18563 | bde3b90b1c6ac889b6303f47038ae0b569f2330d635c5368085bcef776251ca2 | 104 |
+| reply1023・別k64設計 | 27582 | 2909d04aac24a34271c39aaa9aef52b973852808bbc0ab554dcff31b74cb1334 | 177 |
+
+rootは1019全F1–F8/全表/末行、1021全F0–F11/全表/末行と全実pinを読了・照合し、**STATIC_WORKFLOW_PASS**を受理した。残必須修理なし。旧1018の一時symlink見落としは1021 F3の明示追補で閉じ、旧票を改変しない。作者1019 F4の列挙順については、実WFではinventory20件が全16 live親取得より前に走るという1021 F11の補足を採る。
+
+初回は旧64/rank1450/gen8155・全16親、P/D各新三群、旧inventory20回帰、新path12/型8、fresh P5400秒/7168 MiBと完全P13file後だけD10800秒/7168 MiB、全REPORT/partial/scratch/fixture/sourceのalways保全を固定する。新AST/試験/本走/実資源値/candidate/CV-9は本節時点で未実施。root単一brokerが指定17fileだけを作業branchへ公開し、marker [r07-positive-word-resource-v5-run] で一回投入する。実commit/runは観測後に別記する。
+
+v220の既存CR二文字はHEAD原本にもあり、今回追記前の全文prefixを保持したことをmetadataで確認した。新file/P/D/WFのCR0と区別し、巨大な旧進捗表の整形を混ぜない。
+
+別便の1023全177行を読了し、同旧64/固定lambdaのk64最小移行設計を受理した。新公開1025と実装1026/1027、監査1028を既存三担当へ委嘱し、未公開の次版として着手した。新二群だけを通常の登録/選択/保存readerへ結び、fresh selftest-rootで全fixtureを保存する。次版source/WFは今回正語releaseへ含めず、旧三群の全再走・k128・親差替え・任意の採用/時間予測を加えない。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+CAMPAIGN_STATUS: FIXED_LAMBDA_BATCH_V1_CV9_2172_ACCEPTED_ROOT_METADATA_PASS; BATCH_RUN=34004423047/1; BATCH_STATUS=CROSS_CHECKED_LIMITED_9_SEPARATE_STATE_RANK1482_GEN8187; LAST_RUN=34004423047/1; LAST_COMMIT=81a1b22975308ae0ac628f97da447a008a1d087e; POSITIVE_READOUT_RUN=34001672135/1; POSITIVE_READOUT_STATUS=V4_UNKNOWN_RESOURCE_MEMORY_FULL_DIAGNOSTIC_ROOT_METADATA_PASS; POSITIVE_RESOURCE_STAGE1=P4_D4_WF5_STATIC_WORKFLOW_PASS_READY_FOR_FIRST_GHA; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=34004423047/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1482; GENERATION=8187; CURRENT_CANDIDATE_RANK=1482; CANDIDATE_GENERATION=8187; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; BATCH_CV9=2172_LIMITED_9_CROSS_CHECKED_WITH_163_F8_89_ADDENDUM_ACCEPTED_2173; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2173; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1_AND_F_FLB_1_SHARED_TCB_REGISTERED_ACCEPTED_2173; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

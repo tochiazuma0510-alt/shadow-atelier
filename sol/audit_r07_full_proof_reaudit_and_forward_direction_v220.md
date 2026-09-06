@@ -23552,3 +23552,27 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 新D resource-selftestのcandidate=trueだけをfalseへ未公開修理する。P1016全91行も読了し、1018で見つかった普通整数decimal容量を厳密にUNKNOWN_RESOURCEへ分ける必須修理と通常power対照を指示。無関係ValueErrorはFAIL。P全最終差分/1018最終票は未完。
 - 新1019=6844 B / 5000e1015bad22c016323ff8e2359138c63afca7c83d8f93c0bb6d2f413c81c9を既存D作者へ委嘱、WF5/返信だけ。全16親/旧64、P5400/D10800・7168 MiB、全partial/scratch always保全、P13file完了後だけD一回。P3/D3小anchorのclosureを追加、旧成功suiteを再走しない。公開CLI/pinのみ共有し、全新source/WF監査後にGHAへ進む。
 - batch正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 628 — 2173正式ack・P/D全最終差分とWF公開型（2026-09-06 JST）
+
+- 工房2173はF8.89のshared TCB登録/実集計訂正/signed literalの射程/同旧64固定lambdaのk64設計を受理。速達は工房9c09b312…で先に記帳され、rootは残る指定三fileだけをd0747185a6f4447fd5bc3cb608223a27c67846b8でpushした（skip ci、新実験なし）。
+- rootはP3→P4全1406行差分と1018全131行・両作者最終票を読了。出力切詰めの小区間も補完。新通常語/Ref/全零・反復edge/同root独立再読と全11slot/80644を保持する限定第一段階の静的閉鎖。
+- 後続WF接続でP第三群の試験symlink残留を発見し、その一件だけfinally解除する最小修理を読了。最終P252342/f36e929e…、D232750/41d53b37…、reply1016=23959/f6734e3d…、1017=15676/f4c62356…（全pinは返信163 F8.91）。旧1018は保存、追加所見は1021で追補する。
+- 公開1020=a8422c1b…はP/D別selftest型へ訂正、1022=8054b492…でnested公開型だけの票を委嘱。新WF1021=ba809f16…も監査中、D設定の等値floatをstrict intの通常helper/対照で拒否する。作者間の私的本文非共有を維持する。
+- 新WF全最終監査/AST/新三群/本語GHA/全scratch実保存は未完。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+### Delta 629 — 公開P nested型とWFの回帰範囲を確定（2026-09-06 JST）
+
+- rootは1022全245行=24414 B / 515bf6dd39a91c180169dfceac79825b909e9433d2e43771863b5ef5a54c276fを読了し、実pin/EOLを照合。この公開票だけをWF作者へ配達、他系私的source/helperは非共有。
+- P fixtureは三別session・mode/basename producer binding、通常語だけraw3/16親へ結ぶ。絶対paths_receipt/nullable normalized_pair/未完fixture indexを実schema通り認証し、D型や通常P二完了indexを流用しない。1020の曖昧なfixture説明を明確化した。
+- WF5草稿154408/ddc6df70…と旧WF4の全974行差分をroot読了。P公開型接続・D普通整数/経過時間非負有限の最終修理と別監査1021は継続中。旧inventory20拒否は新REPORT境界への回帰対照として一回保持するroot裁定、旧数学suite再走とはしない。実新AST/試験/本走は未実施。
+- 新1023で同旧64/rank1450・同固定lambdaのk64新version事前登録を既存P作者へ静的設計委嘱。新source/WF/実k64はまだない。正語WF5閉鎖を並行優先する。
+- 正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+### Delta 630 — 正語WF5の全静的閉鎖・新k64限定実装（2026-09-06 JST）
+
+- rootはWF最終までの全974/292/251/153行差分と最後96 B一行を読了。最終WF180687 B / a840cebcd0ba3f15ff2c31c13b0a09bacd140cb4c8e756466baafd052df8e436 / LF2556。P/D最終全pinはF8.91のまま。
+- 1019全61行=14720/645902dd…、1021全104行=18563/bde3b90b…を全文読了し、STATIC_WORKFLOW_PASS・残必須修理なしを受理。公開1024=3396/6abc0b19…でP sample全型/連番/last PASS/cache・indices一致を閉じた。実inventory20はlive16親取得より前という実WF順序を明記。
+- 登録は全16親/旧64、P/D新3群ずつ・inventory20回帰/path12/型8、P5400/D10800・7168 MiB、fresh各一回・全partial保全。新AST/試験/本走/実資源値/candidateは未実施。指定17fileの公開後、実run/headを観測して追記する。
+- 1023全177行=27582/2909d04a…の同旧64/同lambda k64設計を読了。公開1025・独立実装1026/27・監査1028へ移行し、新二小群とfresh selftest-root全保全を固定。これらの未公開次版は今回正語releaseに含めない。
+- v220の既存CR2はHEAD原本と同じで全文prefix不変、今回差分は追記のみ。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。

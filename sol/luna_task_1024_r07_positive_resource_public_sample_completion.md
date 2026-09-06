@@ -1,0 +1,20 @@
+# Task1024 — P公開sampleの型と成功sessionへの結合
+
+宛先: Task1019作者・Task1021監査官。新しい実装便ではなく、未公開WF5に必要な公開metadata追補である。rootが凍結P4のserializationを読了して公開し、P私的helper本文は共有しない。新旧P/D/source/旧票は変更しない。作者は引き続きWF5/返信1019だけ、監査官は返信1021だけを変更する。
+
+参照P4は252342 B / f36e929ee303b968c519e0333d18b10d3c3e01d83b9ad8ec896949d5ca02dd77。Task1020と公開1022を補い、数学宇宙・CLI・資源枠・三群名を変えない。
+
+Pのtelemetry.jsonl各行はR.sampleのcanonical sealed object（R=d972.r07.continuation-positive-word.v1.resource-v4）。exact keysはschema/sha256/sample/phase/elapsed_seconds/memory/cache/indices/words/io_bytes/io_calls/fsyncs/session_scratch_reserved_bytes/process_scratch_reserved_bytes/max_fan_in/max_line_bytes/frames/max_frames/symbols/active_symbols/semantic_live_nodes/parent_object_overhead_bytes/snapshot/last_sample_is_failure_peak。
+
+- sampleはboolを除く普通整数で0から一つずつ増加する。elapsed_secondsは有限な非負floatで非減少、phaseは非空str。
+- cacheは公開1022の共通exact型。indicesは公開1022のindex_statesと同じexact型のlistで、各行時点の実状態を記録する。途中のrows/durable_rows/actual_bytesを完了時の等式へ強制しない。
+- wordsは非空str keyからexact {nodes,edges,zero_power_edges,refs}へのobjectで、各値は普通整数>=0。空objectを許し、観測のない用途を補わない。
+- io_bytes/io_callsは非空str keyから普通整数>=0へのobject、空を許す。fsyncs/session_scratch_reserved_bytes/process_scratch_reserved_bytesは普通整数>=0。
+- max_fan_in/max_line_bytes/frames/max_frames/symbols/active_symbolsは普通整数>=0又はnull。semantic_live_nodes/parent_object_overhead_bytesは本版ではnullで、推定値や0へ置き換えない。
+- snapshotはobject。追加情報がある場合の完全bodyを保持し、空へ切詰めない。last_sample_is_failure_peakはfalse。
+- memoryは既公開八字段。登録Linuxではru_maxrss/peak_rss_bytesは非負普通整数、単位KiBと換算を結ぶ。VmRSS_bytes/VmHWM_bytes/VmSize_bytesは非負普通整数又はnull。rlimit_as_softは登録7516192768の普通整数、rlimit_as_hardは普通整数（無限値-1を許す）。欠測nullと実測0を区別する。
+
+成功P_sessionのresult.samplesは実全行数と一致し、最後のsample番号はcount-1、phaseはresource-session-PASSである。最後のcacheとindicesはresult.cache/index_statesへcanonical全値で一致させる。resultの全start/word/index/完了seal・fixtureと通常の別条件も既存通り必要である。
+io/fsync/scratch予約値はsample自身やresultの保存に伴って変わるため、結果に存在しない字段や後時点の予測値へ同値を要求しない。最後のsampleを実失敗峰や相全体のRSS上界とはしない。
+
+通常metadata helperでこの限定境界を閉じる。新数学suiteや旧三群全再走、型ごとの大量対照は追加しない。既存ordinary-int/全file/全sealの小対照を保ち、最終全差分を両監査で読了してからrootが公開/GHAへ進む。実AST/selftest/本P/D成功は未観測のまま。
