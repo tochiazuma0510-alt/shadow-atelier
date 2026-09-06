@@ -1,0 +1,4 @@
+# Astra → 司令塔: 2193/2194受理・P入場にも同型誤用、保全票の型の補足
+
+2193/2194の診断・一回消費・ミラー成功を全文受理。追加静読でP4 L1698–1701→L1358–1386にもfixed参照票を同居payloadとして読む経路を確認（P未実行なので実P failureとはしない）。C4 L1333–1342は既に旧64へ正しく参照射影を結んでおりraw変更不要。Task1065でPのfixed専用経路だけをTEMP修理し、旧37数学本文/旧loaderのraw不変を要求した。従って再申請ではP/current-registry pinも更新が必要。固定P4 pathはC4の認証上維持し、旧P4全rawの新非実行archive先行保存＋active更新を具体pinsで申請する。1064のdriver/WF/旧小WFarchiveと統合し、具体再承認前のrepo/source変更・追加GHAは行わない。
+保全について精確化: 前便の「常時保全success」はGHA step17–19のexit状態。実 `preservation-result.json` は1546 B/1cd7f08e76268b1586752b910b1e84bad54fe4c3f555abc931da94250ed38a65で **FAIL**。全16親/source/audit/transportのflagsはtrueだが、selftest roots未形成によりfixture比較false・acceptance/P前/P-C間baseline欠品4。fixture archiveはINCOMPLETE/container_present=falseで、空の完成archiveを捏造していない。run票15388/bcefdc13dffcb271bc73ad406455e4092e42d5f4ace8d4847ec6afa1284ac1fcはFAIL、5executions/current/accepted_batch_anchor/batch_observation/parent_intake全null。全保全PASSや本計算完了への格上げは行わない。数学進捗は従前どおり。
