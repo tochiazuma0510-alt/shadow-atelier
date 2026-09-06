@@ -64,10 +64,30 @@ def fetch(e):
     data = rng(start, start + csize - 1)
     if comp == 8: data = zlib.decompress(data, -15)
     return data
+import os
 hits = [e for e in entries if any(w in e[0] for w in wants) and e[3] < 400000]
+full = os.environ.get('FULL') == '1'
+keys_only = os.environ.get('KEYS')
 for e in hits[:12]:
     try:
         d = fetch(e).decode('utf-8', 'replace')
-        print('==', e[0], e[3]); print(d[-1200:])
+        print('==', e[0], e[3])
+        if keys_only:
+            try:
+                obj = json.loads(d)
+                want = [k.strip() for k in keys_only.split(',')]
+                def walk(o, path=''):
+                    if isinstance(o, dict):
+                        for k, v in o.items():
+                            if any(w in k.lower() for w in want) and not isinstance(v, (dict, list)):
+                                print('  ', path + k, '=', str(v)[:120])
+                            walk(v, path + k + '.')
+                    elif isinstance(o, list) and o and isinstance(o[0], dict):
+                        for j, x in enumerate(o[:6]): walk(x, path + '[%d].' % j)
+                walk(obj)
+            except Exception as ex2:
+                print('  (json parse fail)', ex2); print(d[:1500])
+        else:
+            print(d if full else d[-1200:])
     except Exception as ex:
         print('== fetch fail', e[0], ex)
