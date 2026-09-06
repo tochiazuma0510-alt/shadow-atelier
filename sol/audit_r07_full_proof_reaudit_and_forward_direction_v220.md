@@ -23455,3 +23455,17 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 別途refinement ZIP51943596/0d4af347...全取得、実HEAD921/6bf3b4fc...全15keyにtarget字段なし。P1279のKeyError原因確定。1008に実HEAD/最終manifest全文と各全pinを公開し、監査官の別旧TEMP値とも一致。
 - 新D v3=176579/273f0283186ef30e6833d6b7e402140fcb8bf832a22dbc0146c73412672f8e2c。root全差分で二pathだけ、数学wire不変。新P/WFはまだ未凍結。
 - **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、登録済batch/正語親64/rank1450、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 614 — 原因/上界の訂正を相互確認、P修理差分とbatch WF準備（2026-09-06 JST）
+
+- root11fileを3f9fe2a8128f613a9b152b74fe0aac99daec3381で公開。工房2165/ack全文読了、真因訂正/48384上界/資源条件付き見積り/親64維持を確認。
+- 正語P v3全差分をroot読了。新D path残留一件を作者が公開前修理、P200658/bc51546ee1b2e73cff3a115947c817164199179b25699f90a7cae3283872e16e/LF3274。実fixture全HEAD/manifestとinstruction17/result14字段をPS metadata比較して一致。新helper/一群31拒否は静的のみ、WF v4接続中。
+- 995作者票14128/dbeb7eed...と1006票6491/b6f0c574...を全文読了。995新C169824/65aad639...は作者実装完了、最終監査/実GHA未完。正語D v3は二path差分だけでroot/1007読了済み。
+- Task1009=7166/35ee63d71ddb3e0b77f175f4668a249b496cfc38d1fefca39bbcb55cd2c3744a、新batch WFを既存C作者へ委嘱。公開ABI/pinだけ、P本文非共有、初回15親/64rank1450/fresh32/1/refill=falseを固定。
+- **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、A0 actual0/1、当該段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
+
+### Delta 615 — 正語修理の全静的閉鎖と WF v4 凍結（2026-09-06 JST）
+- rootは1005/1006/1007最終票を全文読了、実六file全pin一致。P200658/bc51546e...、D176579/273f0283...、WF112685/a4a43693...。WF marker一literal修理も全bytes逆置換で確認し、旧版不変。
+- 実HEAD15字段・全26段・最後のtarget結合と、本番helper直結の第五群31拒否を静的PASS。新P5/D3/20inventory/本P/D/全16親/64履歴/13語file/11slot/80644/全保全はGHAでこれから実行。実run/headはAPI観測後に記帳する。
+- Task1009の初回batch WFと別Task1010監査を既存二agentへ委嘱。P994残tail/996は並行、C995最終版への996必須指摘は閉鎖。全親64/rank1450/k32/1/refill=falseの登録を維持する。
+- **UNCHANGED**: 正式1482/gen8187（工房2164限定8条）、A0 actual0/1、当該階段1/6、grade2 NOT_DECIDED、その他A1–A5と未宣言境界、verified=false。
