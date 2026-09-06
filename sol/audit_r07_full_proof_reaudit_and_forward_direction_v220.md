@@ -23696,3 +23696,29 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - k64正式1514/8219・root全metadata PASS、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
 
 - Delta644追補: 独立1045最終15002/ed2f7394…/56行をroot全文読了してSTATIC_WORKFLOW_PASS受理、WF283886/6224c2ba…の実行前監査を閉じた。初回GHAへ進む裁定、実run/commitは生成後に記帳する。1047最終7654/db5b87f7…も全読了、envelope-v3をSHA guard後に実受領開始。1046最終15041/fbbe9840…は既読本文で凍結。
+
+### Delta 645 — k128初回GHA34023589045・実事前工程成功（2026-09-06 JST）
+
+- 指定15pathをcommit794c5e9f883cb5ff21b2ee087c1d4baa84ac6760（parent e23b25f4…）で09:04:00.6763916Z push。全pin/stage raw blob/index集合/親/commit pathを照合。保持22+歴史4 sourceの全26件は旧HEAD実raw bytesも一致。事前status3982行をTEMPへ保存、無関係差分はstageしない。
+- 実run34023589045/1・WF351445840・job101460518717、09:04:03Z push起動。同head当該WFは一件、追加dispatch/rerunなし。URL https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34023589045 。同旧64/1450/8155・同15親・128/1/no-refill。
+- source/runtime/ASTと全継承range/共有TCB票工程09:04:22Z success、15親保存09:06:05Z、受付09:06:12Z、metadata16工程09:06:16Z、P新二群09:06:20Z、C新二群09:06:27Zはいずれもsuccess。実payload全内容/拒否件数のroot受領は後段。通常P09:06:27Z in_progress、通常C/保全/最終票/artifactは未観測。
+- Task1048=5098/3542e5e0…で全k128 metadata受領器を準備。成功1038全保持＋registry/二票/歴史4copy/60range/全before-middle-afterを追加、artifact ID等は生成前で未登録、新正式CV9 pendingを固定。正語envelope-v3もroot実受領中。
+- k64正式1514/8219・root全metadata PASS、新k128rankは未観測。A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+### Delta 646 — 正語WF5全envelope九節PASSと未完成状態の確定（2026-09-06 JST）
+
+- positive-v5-envelope-reception-v3.json=267446 B/a0dbdb2f932ecedc39614d4e379430ab6c9d322ca7aea6765bc7383afdc5d05a、九節9PASS/exit0。08:59:49.6900547Z→09:08:35.8047308Z。受付candidate旗のstrict Boolean修理だけで実受領が閉じ、旧v2失敗票は保存。
+- 全ZIP1373772131 B/41c95c71…、406files/96dirs/3685457381 B、全source6/raw4/driver/runtime/4境界、16親tuple/受付metadata、現物旧64全30+10、20/12/8 canary/P-D各新3群、全partial REPORTと保存四未成立を合流。全16親payloadの今回再取得、source/AST/数学再演はfalse。
+- 空dir未回収は22境界別記録（重複含む）、末尾REPORT7dir/restored=false。未形成18file・境界と四保存義務を保持。元workflow failure/保存INCOMPLETE/語未完成/通常D未開始をPASSに昇格しない。resource-v3構造errors0/incomplete6と合わせ、P literal-DFS/deadline停止を確定。受領票の数学assurance全false。
+- k128本Pはrun34023589045/1で実行中。1048受領器に加えて1049（2077/e593546a…）の全ZIP展開器三行移植と1050（3109/3ad9d679…）の独立受領器監査を発注。新artifact actual tuple未生成、追加GHA/再試行/枠変更なし。
+- k64正式1514/8219・root全metadata PASS、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
+
+- Delta646訂正: 1049展開器の変更はmetadata三行ではなく実131/132の二行。artifact引数の133行は保持。追補済Task1049=2373/26744f33…、一般処理と全gate不変。
+
+### Delta 647 — 裁定2179–2180受領・k128 ZIP受領器完成（2026-09-06 JST）
+
+- staging前に司令塔HEAD4f811d1a8e516c67deb93f625391219ac7b3f0ecを検知、変更三pathとsnapshot803/65eb30e1…全文・状態帳実追加箇所を読了。root起動express934/a1081264…は同commitに収録済み。裁定2180はk64 root PASS/k128起動を受理、最新正式裁定を2180へ更新。
+- 正語ミラーrun34016522896/1・head d043f09f…はroot APIでcompleted/success、06:27:17Z→06:28:23Zを確認。ミラーassetの再downloadや数学成功の主張はしない。k128の実launch head794c5e9f…は不変。
+- 1049新ZIP展開器9632/1ce4ba41…/142行は旧全142行＋新二行差分をroot読了、作者最終5756/74c620a9…も全読了。全ZIP/entry/実file hash・path/type/capacity/fresh rootを保持。artifact実tupleは生成後にrootから渡す、実受領未実行。
+- 09:16:11Zのk128 job101460518717は通常P in_progress、事前完了13工程/failure0。1048受領器・1050独立監査を継続。正語のroot全envelope9PASSと資源errors0/incomplete6を元deadline/通常D未形成のまま保持。
+- 正式1514/8219、A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=falseを維持。
