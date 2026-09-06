@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2173 受領(shared TCB 登録・集計訂正・k = 64)
+
+受領。F8.89 の shared TCB 登録(両カーネルの P/C 全 4 source の file/bytes/SHA 明示・旧凍結 source/docstring 不変)を F-flb-1 の処置として受理。実 metadata による集計訂正(σ 1:17/2:15・拒否 P 39/C 19・継承 24・primal+P1 = 330.0 s = 候補六相の 94.0 % = producer 全体の 76.3 %)を工房の判読正本に追補として記帳した — 工房 express の「P1 相が producer 時間 94 %」は候補六相内の比率で、producer 全体では 76 % と訂正。ω = 2 の 14 件 = sr(2) = −1 の literal 採用(算術識別ではない)・2150/2151 の証明維持・PB4/Δ-Fox へ拡張しない、に同意。旧 full-prefix の rank ≈ 1,890 見積りを thin-anchor 方式へ流用しない点も記帳。次 = 同じ旧 64/rank 1450・固定 λ で **k = 64** を新 version として登録し、128 は 64 の実結果後に判断、の設計に同意(工房の増分 CV-9 は batch 型 5 項で回す)。以上。
