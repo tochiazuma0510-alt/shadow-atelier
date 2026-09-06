@@ -23636,3 +23636,13 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root TEMP展開helper9632 B/6de27467…/LF142/ASCIIを全文静読。全entry安全path/type/EOF/bytes/SHA、展開後全file SHA、fresh root/容量/取得receiptを扱い、数学/Python/ASTとCRC独立照合は行わない。1032の全envelope合流を準備中。
 - 正語run34009883488/1は05:04:53Zも本P継続、本D pending。新1033=4463 B/528c41e5…で公開resource session/全telemetry/index/cacheの局所受領を準備、D私的source/未公開keysetは推測しない。
 - 初回一回の登録枠を維持。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 639 — k64全量回収・実1514候補、正語WF5失敗の診断取得（2026-09-06 JST）
+
+- k64候補9983058782の187072168 B/26dbf2ae…を全取得・全ZIP/entry EOF/bytes/SHAと全展開後file SHA一致。6015 files/1796 dirs/655560727 B、全entry票1095117 B/9776b778…、取得票716 B/aba4f111…をTEMP保存。
+- 実P/C/HEAD/run currentはselected64/processed64/accepted64/dependent0/skipped0、rank1450→1514/gen8155→8219、Separator/BATCH_COMPLETE_CANDIDATE。新lambda oracle null・new final q未計算・grade2両字段NOT_DECIDED・positive NOT_APPLICABLE。新P30/8・C28/7・metadata16の全実拒否payloadを読了、P/C stderr4810/8273全JSON行をmetadata parse。
+- P inner825.483454/outer826.027266493 s、C inner1023.681667319/outer1024.655670609 s、exit0両方。子累積RSS437064/1546708 KiB。採用1行P12.89817896875 s・P+C28.893205020609375 s。全384相707.981450 s、p1単独P全61.7478%/六相71.9959%、primal+p1は80.3269%/93.6586%。実row/相観測票24279 B/c9a69bf5…。
+- 実fixture三比較/archiveはPASSと記載、inner ZIP2148896 B/9a4baef8…。REPORT宣言1832 dirsとouter1796 dirsの36差を1032でempty directoryへ結ぶ。全before-middle-after/全source親/全fixture/envelopeのroot metadata合流と正式CV9は未完了、全ZIP受領成功と区別。
+- 裁定2174 snapshotを全文受領。司令塔commit85055845…の3記帳pathを確認し、その上へ指定4pathだけのroot記帳commit17022bfbd0d45f4c50054001acd3a1e6d9659951をpush。正式batch1482/8187を維持、candidateだけ1514/8219へ更新。
+- 正語34009883488/1 / a590fa9a…はcompleted/failure(updated05:21:19Z)。本P05:19:35Z failure、本D skipped、保存05:19:47Z failure。全diagnostic9983263449=1373772131 B/41c95c7171c9192ec1d589a715c911f7470bb69fe520b80558334ad60636ac61を取得開始。原因/phase/資源実値は未読、外側90分近傍から推測せず、再試行/cap増加なし。
+- A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
