@@ -3030,6 +3030,69 @@ Lunaへ **Task1051 `sol/luna_task_1051_r07_dependent_fixture_next_batch_contract
 
 正式1578/8283（2187限定8条）、最新裁定2188。root1048全metadataはRUNNING、1051も静的作成中。A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=false、他v220 milestoneはF118から不変。
 
-CAMPAIGN_STATUS: K128_V3_CV9_2187_ACCEPTED_ROOT_RECEPTION_PENDING_POSITIVE_V5_TYPED_INCOMPLETE; BATCH_RUN=34004423047/1; BATCH_STATUS=CROSS_CHECKED_LIMITED_9_SEPARATE_STATE_RANK1482_GEN8187; LAST_RUN=34023589045/1; LAST_COMMIT=794c5e9f883cb5ff21b2ee087c1d4baa84ac6760; POSITIVE_READOUT_RUN=34009883488/1; POSITIVE_READOUT_STATUS=V5_DEADLINE_ROOT_FULL_ENVELOPE_9PASS_RESOURCE_TYPED_INCOMPLETE; POSITIVE_RESOURCE_STAGE1=RUN34009883488_RESOURCE_ERRORS0_INCOMPLETE6_ENVELOPE_V3_9PASS_EXIT0; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1,34001672135/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=34023589045/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1578; GENERATION=8283; CURRENT_CANDIDATE_RANK=1578; CANDIDATE_GENERATION=8283; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; BATCH_CV9=2172_LIMITED_9_CROSS_CHECKED_WITH_163_F8_89_ADDENDUM_ACCEPTED_2173; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2188; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1_AND_F_FLB_1_SHARED_TCB_REGISTERED_ACCEPTED_2173; K64_V2_STATUS=CV9_2176_LIMITED_9_ACCEPTED_RANK1514_GEN8219_ROOT_METADATA_PASS; K64_V2_RUN=34011731149/1; K64_V2_COMMIT=c2a8a6acd60c0cd859edd2e262cfce074b3acaf1; K128_V3_STATUS=CV9_2187_LIMITED_8_ACCEPTED_RANK1578_GEN8283_ROOT_METADATA_RUNNING; K128_V3_RUN=34023589045/1; K128_V3_COMMIT=794c5e9f883cb5ff21b2ee087c1d4baa84ac6760; VERIFIED=false
+## F8.120 — k128全metadata実受領PASS・取得側の残作業閉鎖（2026-09-06 JST）
+
+1048最終受領器 **108496 B / 6c2d922a9b564926f2d5de6a3572dbb6b100724f69eefa7423e0434136047e85** は、**10:22:06.9539847Z→11:43:33.8294203Z、exit0 / PASS_METADATA_ONLY** で完了した。最終票 `%TEMP%/shadow-atelier-audit163/k128-v3-run34023589045-root-metadata-v1.json` は **749800 B / 29bf1698a2eec8ec303db4c19bc9d438658f09d36ee28f9e907b951a1155541e**。rootは全票SHA、全主要字段、全36復元記録、静的60記述子/4kernelの全結果、歴史4file/4ledger/三suite参照、live全15親/API/pre-P接続、全五execution結合の実結果を読んだ。最初の復元表示と今回の大きいJSON表示の中央切詰めは、同pinの36 returned_pathを18件ずつ原文再表示し、全計画path一致/事前false/直後Exists trueまで補完した。未表示を読了として数えていない。
+
+| 実受領項目 | 値・射程 |
+| --- | --- |
+| 全artifact | 11437 files・3475 dirs・1267599138 uncompressed file bytes |
+| 認証済み空directory | 原3439＋新規36＝3475、既復元0。32件は全inner ZIP/REPORT/pre-P controls、4件はREPORT/pre-P controlsへ結合 |
+| output全量 | 6586 files・1164 dirs・1195418506 bytes |
+| file pin比較 | 69757件、参照重複込み6732804350 hashed bytes（unique総bytesではない） |
+| source/親 | 実source/raw24、全15親roster、実旧64の30 entry＋completion10 entry |
+| 候補 | selected=processed=accepted=128、dependent0、skipped[]、rank1578/gen8283 |
+| 工程 | 全候補768相＋選択3相＋最終1相＝772、全manifest/telemetry/測定値の比較完了 |
+| 実自己試験 | P[30,9]・C[28,8]、metadata陰性16件。1051の追加fixtureはこのrunに含まれない |
+| 静的継承 | 六source全EOF無gap/overlap、9不変領域×3＋2literal×3＋9変更領域×3＝60/60、正規化無し |
+| 共有TCB | 全4 raw範囲一致、shared kernel二本のcurrent_run_call_coverage=NOT_MEASUREDを保持 |
+| live/起動 | 15親・保存API27files・pre-P control参照64件、五start/五result＋P後C前＋最終保全を結合 |
+
+state **e793896e585bd0e540e25770359e8d36d1a84d69c012d88615e5ecffc02dfba9**、target **7868b7806a0dc41c2bda8a1c4c6a10d1cfa2c2e6968aadf561e93820f12053e1**、lambda **6a0fe9368f2ec7f28c4d8076e7d3184fb57322b9d0905a8e7c3c26b467bcee4e** は実GHA結果/裁定2187と一致。候補artifact9987222571の全ZIP **369233546 B / 781c9f467bd38305c524a0a2bf5b361f45e75bc4234d9cf6e891e01175db9e2e** はroot実再hash済みで、全entry展開票719/18aeadb7…、全entry pins2101151/520aefab…、先頭64全物理byte票33117/5354c266…を今回の完了へ結ぶ。
+
+rootが最終票の全772測定行をさらに純Decimal集計した結果、section/cochain/tree=11.508901/0.090087/0.236588秒、候補raw/source/primal/p1/B/reductionの各128件合計=13.573090/33.909175/308.767686/1023.650619/9.428212/30.653641秒、final=0.935975秒。全相計 **1432.753974秒**、P内部1622.716919秒との差 **189.962945秒** で、F118の工房fixed(128)≈189.963を独立な保存時計集計でも確認した。全772のEOF/Decimal非負/phase名一致/manifest一意も確認。群・source計算の再演ではなく資源metadataの集計である。
+
+再現対象のCLIは `audit-r07-k128-v3-metadata-v1.ps1 -ArtifactRoot <shadow-atelier-fixed-lambda-batch-v3-run34023589045-candidate-a1> -AcquisitionReceipt <k128-v3-run34023589045-root-acquisition-v1.json> -Old64Root <shadow-atelier-cegar-resume64-run33990567016-candidate-a1> -ReceiptPath <新規出力path>`。各入力root/取得票はF116のTEMP所在、実使用した出力pathと全pinは上記。既存出力を上書きせず、helper本体は作者/1050独立監査済みの凍結byteを用いた。
+
+**射程**: 内部canonical自己seal/歴史inventory digestの再生成なし、数学source/import/AST/GAP/reduction再演なし、歴史数学payload再取得false・歴史suite再走0。live自体にはaudit_materials字段が無く、実frozen driverの入場前呼出し/同launch/保存API/pre-P controlsからの間接接続と、各executionの直接bindingを区別する。helperのformal_CV9_pending=true/「未受領」はTask1048準備時の固定記述であり、現在の裁定2187/2188を上書きしない。helperは数学格付けを行わずcandidate/cross_checked/verifiedは全false。正式cross-checked（限定8条）は工房裁定に依存する。
+
+F117–119/Delta654–656・Task1051の三pathは **492d983145087ab609a5dad6030d12cb782762b2**（parent51e66552645f7f8437dcb6eeea5a3d12f551fbd2、skip ci）で **11:19:31.8953488Z** push済み。事前3970 status行をTEMP保存し、全working/index/commit raw pin・親・exact三path・index空を確認した。新研究GHAは起動していない。
+
+1051 P/C提案の全差分をroot読了し、基準本体への呼出しと従属/次独立遷移を静読した。さらに **Task1052（3091 B / 55e036ef02a05b6cf20f9b0f69f136c5a941021a1f1a01110024b80e4efc33a3）** を別Lunaへ配達。独立source監査稿8572/763ba10c…/61行はroot全文読了、required0だが、1051作者最終票読了を残してIN_PROGRESS。次案の静的監査と本runの取得完了は分ける。
+
+v220: **CLOSED=本runの取得/受領残件（metadataのみ）**、新actual数学矢印閉鎖は無し。**ADVANCED=正式1578/8283に全量取得証拠を付した**。**UNCHANGED=A0 actual0/1・当該階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED・verified=false**。最新2188、COMMON/cofinal lift/fake/Ihara未宣言。
+
+## F8.121 — DEPENDENT修理案1051/1052の静的最終受理・次parent設計（2026-09-06 JST）
+
+作者 **1051最終15586 B / 455e8dfcd2cac35fd428160eb98b8baee1799bf5879370912e39fef4e58347de / 77行**、独立 **1052最終9069 B / 59a5242162878218863239f8f0208a81801934f67292145dce44c0c7baf6c164 / 61行** をroot全文読了。STATIC_PROPOSAL_READY/STATIC_PASS、必須修理0を静的提案として受理する。TEMP P案 **220063 B / c5a8857ec48aec9d31117ab0762f90f41c3d1bb0f9184ef6dcb54b96e40fc3c0 / LF3570**、C案 **189505 B / 50bd49942a12ddb050a4d59c922fb22f725cbf16a84a4f97468e108654ea23b9 / LF2836** はroot途中の独自snapshotから不変。基準P3/C3の通常本体、登録、CLI、imports、既存拒否は不変で、全変更は新fixture/呼出し/scope/interfacesに限定されている。
+
+rootは両全差分に加え、Pのreduce/restore/publish/phase再読、Cのreduce/advance/compare_phase/compare_candidate_publication/CandidateFiles.object、両自己試験入口の実定義まで静読した。独立1052は保持下位reducer/normalize/target updateと全変更の逆復元も別途追い、基準全byte一致を確認した。紙上遷移はP初期1/7→2/8→2/8→3/9、C初期0/0→1/1→1/1→2/2。両系で非零従属は係数2で全零へ還元され、rank/gen/head/target/row/provenanceを保ちprocessed/dependentだけ進める。次独立rowのremainderは旧lambdaに対して零でも合法で、local offset1へ追加される。Pはlambda=None等を確認して通常list/bytes比較、Cはpacked/canonical/tupleによりnumpy曖昧真理値を避ける。
+
+陰性は陽性とは別に各一件。Pのlead null→0はreduction/telemetry/全file manifestを再sealし、実accept後のDEPENDENT専用restoreゲートだけを期待する。Cのoutcomeだけの再sealは正しいphaseを保ったまま実candidate比較で拒否し、advance前のstateを保つ。したがって提案P[30,10]/C[28,9]は既存拒否＋実陰性1件という設計で、陽性を拒否数へ算入していない。**未実行のためF-k64-1の実試験未完という限定は残す。** 新fixture両案は同一作者、前五相はsynthetic placeholder、保持shared TCBが残り、P出力をCが独立受領した証拠ではない。
+
+資料manifest `%TEMP%/shadow-atelier-audit163/task1051/proposal-pins.json` **4067 B / 0a21b08c70145fb83afa90b75207b1e30774f377b994c5cb59f8d420bf91505b** を全文読了し、全8資料の実bytes/全SHA/LF/CRをroot再計測して一致。全差分P13910/5c3233922057524ef798146b027378a4fec5af878e49aa689366ea0677766068、C13327/c8d0bd38a9f6e48c57f35a75d1842c4236f6cbc727036f1b2e574f650c53bb4b、edit-coverage1868/46a19e73…、static-plan/static-reviewも読了した。観測表609290/9558d9b1…は全hashを照合したが、7811行全ての人手読了は主張しない。1051のmetadata観測範囲とroot1048の全受領範囲を区別する。
+
+**次の設計判断は新lambda1578再oracle＋新一batch128を第一候補として維持する。** 1051 F8の六契約を条件付きで採用: 旧15親/1450 loaderを保持し、16番目batch-parentの全量/成功P-C/owner-source-start/公刊最終/全rowを別入場で認証する。P/Cそれぞれ別の二段loaderで128行を挿入順に取り込み、upstream64 steps、accepted batch128 rows、次packet processed0を区別する。新lambdaの全1578行零pairingと旧/現target各1、旧97＋新128の225項導出を測り、rho2はDERIVEDを維持する。新section/cochain/全54433 chord＋2auxは新lambdaで再計算する一方、受理済み旧Eの数学再演を省く範囲は明示する。次のa(n)は別parent/別lambdaの系列であり、旧roster cursorや独立率を流用しない。必要な実byte入力の存在は確認できたが、**新adapter/typed16親登録/新oracle/次workflowは未実装・未実行**である。
+
+rootでも実 `output/final/separator.json` **118079 B / 751a631bc4e6a87c4f5eb0e2a39b25a017e8d663bcf1f57941af71e453e8c636** を全hash＋typed字段で読み、anchor1450/final1578/target pairing各1/pivots0/導出Array225を受領した。これは保存metadataであり、上の次loaderの新たな数値再演ではない。全受領完了と静的修理/次契約を、速達 **3223 B / d61a50b534e2e506ceb4881930cfed50b2504ba0877442c8365259033dde51f7** で工房へ届けた。
+
+**v220表記補正**: F120/Delta657のCLOSEDという表現は受領作業の完了を指したが、v220 §20の数学矢印CLOSEDへは算入しない。今回の正式分類は **CLOSED=新たな数学矢印0、ADVANCED=全metadata受領完了＋DEPENDENT修理案静的PASS＋次parent契約、UNCHANGED=A0 actual0/1・当該階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED・verified=false**。正式rank1578/gen8283（裁定2187限定8条）、最新裁定2188。COMMON/cofinal lift/fake/Iharaは未宣言。
+
+## F8.122 — 裁定2189の受領完了承認・次段四要件を固定（2026-09-06 JST）
+
+司令塔 **7391c855d8209d46f7aec2dc769c88654ac701dd**（parent492d983145087ab609a5dad6030d12cb782762b2）の全五path差分を読了した。2189 snapshot **3745 B / f0e4b1c8205e208ac436b7bae2216cccb7f1a91695c565993963c90543bfba1c**、ack **1887 B / 6eb86bf2b83dc51c135799b82bab848a8410c2ac97245d936f301ab91d39e96c** をroot全文読了。速達3223/d61a50b5…は同commitへ原文不変で収録。工房はroot実metadata PASSでk128受領鎖を閉鎖し、保存時計差189.962945秒の独立一致を記帳した。1051/1052返信の実bytes/77・61行/全SHAも工房再計測で全一致。metadata票内の旧formal_CV9_pending固定記述と、現在の裁定2187/2188/2189の役割は合意済みである。
+
+次段の第一候補lambda1578再oracle＋新batch128に工房異議なし。後続の実装/登録/WFへ渡す要件を固定する。
+
+1. 静的受理したDEPENDENT陽性/別陰性を新P/C selftestへ実際に組み込み、literal件数P[30,10]/C[28,9]・全fixture保全を登録する。実runのP/C両selftestを受領するまでF-k64-1はOPEN。両fixture同一作者は次CV-9の限定候補に残す。
+2. lambda1578が全S1578を殺し、rho2へのpairing1が225項のDERIVED鎖から従うことを事前登録する。「最初の候補は独立」は**非零選定候補があり、最初の処理が完了し、親span零/選定raw非零pairingが実測で結ばれた場合**の予言として比較する。oracle無失敗で候補が無い場合はNOT_APPLICABLE、資源停止で未観測ならNOT_OBSERVEDとし、無理に候補存在や128採用を成功gateへ加えない。二本目以後の独立率は未予言。
+3. 旧1450 loaderのraw byte不変と、16番目batch-parentの全量/来歴/128行/225項認証をcertへ転記する。旧15親の承認と新16親の承認を同じreceipt型で取り違えず、P/C別adapterの静的監査・実受領を必要とする。
+4. 新oracleのfailed_count/first_failed_index/first_failed_edgeを旧 **36274/70/125** と、旧新lambda/state/親pinを添えて並べる。失敗集合のlambda依存性の新データであり、集合の単調減少やcursor前進を仮定しない。
+
+新WFの具体的実装/監査/push後、工房が計測と増分CV-9を担当する運用を保持する。本段階で新parent adapter/neworacle/新WFを実装した、または追加GHAを発射したとは主張しない。既存の研究runは **34023589045/1、commit794c5e9f883cb5ff21b2ee087c1d4baa84ac6760** 一回で、全量受領まで完了した。
+
+v220最新: **CLOSED=新数学矢印0、ADVANCED=正式rank1578/gen8283の全量受領完了・DEPENDENT案静的PASS・次段四要件固定、UNCHANGED=A0 actual0/1・当該階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED・verified=false**。正式数学格付けは2187限定8条、最新裁定2189。full A0/COMMON/cofinal lift/fake/Iharaは未宣言。
+
+CAMPAIGN_STATUS: K128_V3_CV9_2187_ACCEPTED_ROOT_METADATA_PASS_POSITIVE_V5_TYPED_INCOMPLETE; BATCH_RUN=34004423047/1; BATCH_STATUS=CROSS_CHECKED_LIMITED_9_SEPARATE_STATE_RANK1482_GEN8187; LAST_RUN=34023589045/1; LAST_COMMIT=794c5e9f883cb5ff21b2ee087c1d4baa84ac6760; POSITIVE_READOUT_RUN=34009883488/1; POSITIVE_READOUT_STATUS=V5_DEADLINE_ROOT_FULL_ENVELOPE_9PASS_RESOURCE_TYPED_INCOMPLETE; POSITIVE_RESOURCE_STAGE1=RUN34009883488_RESOURCE_ERRORS0_INCOMPLETE6_ENVELOPE_V3_9PASS_EXIT0; PREVIOUS_POSITIVE_FAILURE_RUNS=33995799635/1,33997745566/1,33999045563/1,34001672135/1; CONTROL96_RUN=33995829771/1; CONTROL96_STATUS=SUCCESS_CV9_2164_ACCEPTED_ROOT_METADATA_FULL_PASS; REGISTRATION_RUN=33995625884/1; REGISTRATION_COMMIT=95d9f63c135c038a18d75b47b941fa57a79ad67a; ORIGINAL_PRODUCER_RUN=33984832010/1; COMPLETION_PARENT_RUN=33988391926/1; ACCEPTED_PARENT_RUN=34023589045/1; REGISTERED_BATCH_AND_POSITIVE_PARENT_RUN=33990567016/1; CURRENT_ACCEPTED_RANK=1578; GENERATION=8283; CURRENT_CANDIDATE_RANK=1578; CANDIDATE_GENERATION=8283; GRADE2=NOT_DECIDED; A0_ACTUAL=0/1; RUNG_GRADES=1/6; CV9=2131_LIMITED_7_CROSS_CHECKED; BATCH_CV9=2172_LIMITED_9_CROSS_CHECKED_WITH_163_F8_89_ADDENDUM_ACCEPTED_2173; CONTINUATION_CV9=2164_LIMITED_8_CROSS_CHECKED; PREVIOUS_CONTINUATION_CV9=2154_LIMITED_8_CROSS_CHECKED; ORACLE_CV9=2138_LIMITED_8_WITH_F_SC3_CLOSED_2145; E_CV9=2143_LIMITED_7_CROSS_CHECKED; PAPER_CONVENTION=2144_SIGNED_REPRESENTATIVE_WITH_163_F8_54_ERRATUM_ACK_2151; CURRENT_RULING=2189; ORACLE_V2_FULL_SELFTEST=RUN33984832010_FOUR_TESTS_PASS_PAYLOAD_READ; OLD_SCAN_INDEPENDENCE=LIMITED_F_FO_1_AND_F_FLB_1_SHARED_TCB_REGISTERED_ACCEPTED_2173; K64_V2_STATUS=CV9_2176_LIMITED_9_ACCEPTED_RANK1514_GEN8219_ROOT_METADATA_PASS; K64_V2_RUN=34011731149/1; K64_V2_COMMIT=c2a8a6acd60c0cd859edd2e262cfce074b3acaf1; K128_V3_STATUS=CV9_2187_LIMITED_8_ACCEPTED_RANK1578_GEN8283_ROOT_METADATA_PASS; K128_V3_RUN=34023589045/1; K128_V3_COMMIT=794c5e9f883cb5ff21b2ee087c1d4baa84ac6760; VERIFIED=false
 
 AUDIT_163_VERDICT: 条件付き

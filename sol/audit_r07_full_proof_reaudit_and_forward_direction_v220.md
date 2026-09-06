@@ -23794,3 +23794,30 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - Task1051=4629/24b71775…を既存Lunaへ配達。現行P/Cを基準にTEMP候補と指定新返信のみ、実DEPENDENT陽性と独立した実陰性各1例の静的提案。陽性追加と拒否+1を区別。既存WF/GHA/数学本走は変更/実行しない。
 - 設計第一候補はlambda1578再oracle＋新batch128。新lambdaが親spanを殺し候補とのpairingが非零なら最初の候補はspan外、という条件付き理由で、既受理前置再処理を減らす。新parentのloader/row入力/登録の変更規模は1051調査中。実oracle未計算、二本目以後の独立性保証無し、新本走事前登録ではない。
 - v220内進捗: CLOSED=今回新actual閉鎖無し、ADVANCED=正式受理後の訂正閉鎖と次fixture/parent契約の準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false。正式1578/8283・最新2188、root全metadata/1051はRUNNING。
+
+### Delta 657 — k128全metadata実受領PASS（2026-09-06 JST）
+
+- 個別進捗: 1048凍結108496/6c2d922a…は10:22:06.9539847Z→11:43:33.8294203Z、exit0/PASS_METADATA_ONLY。最終票749800/29bf1698a2eec8ec303db4c19bc9d438658f09d36ee28f9e907b951a1155541e。全主要字段/全36復元記録/全静的60＋4/歴史4＋4/live/五execution結合をroot読了。表示切詰めは同pinの18件ずつ全returned_path/計画一致/事前false/直後Exists true再読で補完。
+- 全11437 files/3475 dirs/1267599138 B、元3439＋認証新規36・既復元0。output6586 files/1164 dirs/1195418506 B。file pin比較69757件・参照重複込み6732804350 B。実source/raw24/親15/旧64 entry30＋completion10、候補128/採用128/従属0/skipped[]/rank1578/gen8283、全772相比較完了。
+- 六source全EOF無gap/overlap、60全raw範囲・4kernel一致、歴史三suiteは既受領参照のみ。live全15親/API27files/control参照64、五start/五result/P後C前/最終保全を結合。実P拒否[30,9]/C[28,8]/metadata16。1051追加fixtureは現runに無い。
+- root全772行のDecimal資源時計集計で相合計1432.753974秒、P内部1622.716919秒との差189.962945秒。工房fixed(128)≈189.963と一致。群/source計算再演ではない。state e793896e…/target7868b780…/lambda6a0fe936…は正式裁定/実payloadと一致。
+- 全ZIP369233546/781c9f46…、取得票719/18aeadb7…、全entry pins2101151/520aefab…、先頭64全byte票33117/5354c266…を接続。helperのformal_CV9_pendingは準備時固定値であり2187/2188を上書きしない。数学再演/内部seal再生成/旧suite再走無し、metadata票はcandidate/cross_checked/verified全false。
+- F117–119/Delta654–656/1051の三pathを492d983145087ab609a5dad6030d12cb782762b2で11:19:31.8953488Z push済み、事前3970行・全raw pin/index/親/path監査済み。Task1052=3091/55e036ef…を別Lunaへ配達し、独立稿8572/763ba10c…をroot全文読了（required0・作者1051最終票待ち）。
+- v220内進捗: CLOSED=本run取得/受領残件のみ、新actual数学矢印閉鎖無し。ADVANCED=正式1578/8283に全量取得証拠を付す。UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false、COMMON/cofinal lift/fake/Ihara未宣言。最新2188。
+
+### Delta 658 — DEPENDENT修理案の静的PASS・次lambda1578親契約（2026-09-06 JST）
+
+- 個別進捗: 作者1051最終15586/455e8dfc…/77行、独立1052最終9069/59a52421…/61行をroot全文読了、STATIC_PROPOSAL_READY/STATIC_PASS、required0。P220063/c5a8857e…/LF3570・C189505/50bd4994…/LF2836は途中独自snapshotから不変。全差分と実定義をroot/独立担当が静読し、通常本体/登録/CLI/import/既存拒否不変を確認。
+- 紙上で独立→非零従属→次独立、P rank/gen1/7→2/8→2/8→3/9、C0/0→1/1→1/1→2/2。従属時の全物理状態不変・processed/dependentだけ進行・次offsetを確認。P全reduction再sealの非null lead、C candidateだけ再sealのoutcome矛盾を目的の実ゲート/advance前拒否へ接続。提案P[30,10]/C[28,9]は別陰性各1件で陽性を算入しない。未実行なのでF-k64-1実試験未完は維持。
+- proposal-pins4067/0a21b08c…を全文読了し全8資料bytes/SHA/LF/CR一致。全source差分/編集境界/短い静的メモを読了。観測表609290/9558d9b1…は全hashを照合したが7811行全人手読了とはしない。同一fixture作者/前五相synthetic/保持shared TCB/本走未実施を明記。
+- 設計第一候補は新lambda1578再oracle＋新batch128。旧15親/1450を維持し16番目batch-parentを別入場、P/C別二段loaderで128行/225導出を結び、全1578行零pairing/旧現target各1、新全54433 chord＋2auxを各自測る契約。a(n)は新parent/新lambdaの別系列。必要bytesは存在、新adapter/typed16親登録/新oracle/WFは未実装・未実行。root実separator118079/751a631b…もtyped225項/1578を確認。
+- 工房へ全受領PASS＋静的修理/次契約の速達3223/d61a50b5…を届けた。正式1578/8283・最新2188。実GHA34023589045/1/head794c5e9f…は一回、次run無し。
+- **分類補正**: Delta657のCLOSEDは受領作業完了の表現に限り、v220 §20の数学矢印CLOSEDへ算入しない。今回の正式分類は **CLOSED=新数学矢印0、ADVANCED=全metadata受領/静的修理/次契約、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。COMMON/cofinal lift/fake/Ihara未宣言。
+
+### Delta 659 — 裁定2189で受領閉鎖受理・次段四要件固定（2026-09-06 JST）
+
+- 個別進捗: 司令塔7391c855…（parent492d9831…）の全五path差分、2189 snapshot3745/f0e4b1c8…、ack1887/6eb86bf2…を全文読了。root速達3223/d61a50b5…は原文不変。工房は実metadata PASSでk128受領鎖を閉鎖、保存時計差189.962945秒の独立一致を受理。1051/1052最終票bytes/行数/全SHAも工房再計測一致。
+- 次段lambda1578再oracle＋新batch128に異議なし。四要件: ① DEPENDENT fixtureを新selftestへ実搭載しP[30,10]/C[28,9]、実PASSまでF-k64-1 OPEN ② 全S1578零/DERIVED rho2 pairing1と条件付き最初の独立予言を事前登録 ③ 旧1450 loader byte不変＋16番目親認証をcertへ転記 ④ 新oracle failed/first/edgeを旧36274/70/125とlambda/state pin付きで比較。
+- 最初の独立予言は非零候補/完了/親span零/選定raw非零pairingが結ばれた場合。候補無しはNOT_APPLICABLE、資源停止で未観測はNOT_OBSERVED。候補存在/128採用を強制gateにせず、二本目以後や失敗集合の単調性を仮定しない。新adapter/neworacle/WFは未実装・未実行。
+- 研究GHA34023589045/1/head794c5e9f…は一回、全量受領まで完了。最新2189、正式数学格付けは2187限定8条の1578/8283。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=全量受領・静的修理・次段四要件、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。full A0/COMMON/cofinal lift/fake/Ihara未宣言。
