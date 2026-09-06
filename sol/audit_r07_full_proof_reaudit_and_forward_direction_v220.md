@@ -23524,3 +23524,31 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - D1013=22384/5895b4e8...全88行、監査1014=18881/27743bc9...全108行読了。限定disk第一段階STATIC_PASS。全N/zero/反復edge/Ref意味/同root mod54/11slot/80644と一般Foxを保つ。
 - 公開1015=7560/ac06f699...、P1016=3166/d25b1031...、D1017=3611/e0a76547...を既存独立作者へ正式委嘱。cache合計64 MiB/行64 MiB/scratch16 GiB・minfree1 GiB、P5400秒/D10800秒・7168 MiB、fresh/no resume/全partial保全。旧canonical/DFS/Foxを保ち、巨大行/paused recipe/live Foxは残存限界としてUNKNOWN_RESOURCEを許す。
 - 新監査1018=3393/aaf3b00d...も開始。新source/新resource対照/新GHAは未完。全常駐量有界や完走は主張しない。正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 624 — 初回 batch GHA success、全候補の取得へ（2026-09-06 JST）
+
+- run34004423047/1 / head81a1b229...はcompleted/success、updated2026-09-06T01:56:40Z。候補9980697123=94677901/d21f9e0b...、診断9980698886=同bytes/a9352750...、両未失効。候補ZIP取得中で、P/C実stdout/新採用数/最終rank/時間/全保全本文はまだ未読。
+- 指定10fileの記帳commit25be37d58ac4fc24f8884f8ee11aeda6d11b4d1dをpush済み（skip ci、新実験なし）。P4/D4/1018は実装・監査中。
+- 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 625 — 全batch受領・裁定2172の別状態rank1482受理（2026-09-06 JST）
+
+- run34004423047/1 / head81a1b22975308ae0ac628f97da447a008a1d087e / artifact9980697123の全ZIP94677901/d21f9e0b…をroot取得一致。全1911file/326338251 B、output1690file/300dir/303300746 B、全15親/24source raw/実64段/五execution/32候補/196相を全metadata照合しPASS。受領証1671 B / 441df074376a5b852461e68e7d1bf80228195290a3db7b4a36978ee500704c89。ローカル算術なし。
+- 実selected32/processed32/independent32/dependent0、rank1450→1482/gen8155→8187、Separator/BATCH_COMPLETE_CANDIDATE。P432.436731秒/C551.331469486秒、両exit0。全新metadata16拒否、P三群7+6+26=39/C三群2+3+14=19拒否の実payloadを全文読了、全PASS。
+- 工房2172/CV-9全387行を読了し、batch状態をcross-checked限定9条で受理。state fc41c186…/target f5317e8d…/lambda0c2f6b2e…（全pinは返信163 F8.88）。control96同rankとは別状態、合算なし。正語/今回batchの登録親は旧64/run33990567016/1のまま。新lambda oracle未計算、rho2 DERIVED、旧1450行の第三再演等の限界は維持。
+- 正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他A1–A5と未宣言境界は不変、verified=false。
+
+### Delta 626 — 共有TCB登録・集計訂正と次の測定条件（2026-09-06 JST）
+
+- 返信163 F8.89を新しい証明書追補とし、vectorized_projection_chunk / sparse_adjointのP/C四全file pinを明示登録。凍結旧sourceを変更せず、同kernelの独立性を主張しない。第一kernelのP1荷重は確認、第二kernelの本run実呼出行は第三判読で未特定。
+- CV-9へ実metadata訂正: sigma1:17/2:15、実拒否P39/C19、Python継承19+新2/raw3=24。primal+P1=330.004454秒は六候補相351.018215秒の94.0135%、P全432.436731秒の76.3128%。時間値は独立算術照合の外。
+- omega2の14件はsr(2)=-1のliteral規約であり、-1対+2のQ2 source/物理値識別ではない。F8.52/F8.54・2150–2151の規約非依存証明を保持。PB4/全Delta-Foxへ拡張しない。
+- 旧rank約1890見積りの全履歴数値replay項を新batchへ流用しない。残るrank/k/全row直交/資源依存は未解消。次は同anchor1450・同lambdaでk64を新versionに事前登録する設計、128は64の実結果後に別判断。現k32の黙示再開なし。
+- P4/D4の全語/11slotを保持する資源第一段階の静的閉鎖を優先中。k64や新正語GHAはまだ未実行。A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
+
+### Delta 627 — D全差分読了・整数容量とselftest型の限定修理（2026-09-06 JST）
+
+- rootはD3→D4 f901dfbb…の全1541行差分と1017全71行を読了。全語/Ref/零・反復edge/全到達/remaining/11slot/80644と一般Foxを保持。既存短読・RUNNER_TEMP・signal再入の三修理を通常helper/対照で静的閉鎖。
+- 新D resource-selftestのcandidate=trueだけをfalseへ未公開修理する。P1016全91行も読了し、1018で見つかった普通整数decimal容量を厳密にUNKNOWN_RESOURCEへ分ける必須修理と通常power対照を指示。無関係ValueErrorはFAIL。P全最終差分/1018最終票は未完。
+- 新1019=6844 B / 5000e1015bad22c016323ff8e2359138c63afca7c83d8f93c0bb6d2f413c81c9を既存D作者へ委嘱、WF5/返信だけ。全16親/旧64、P5400/D10800・7168 MiB、全partial/scratch always保全、P13file完了後だけD一回。P3/D3小anchorのclosureを追加、旧成功suiteを再走しない。公開CLI/pinのみ共有し、全新source/WF監査後にGHAへ進む。
+- batch正式1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界は不変、verified=false。
