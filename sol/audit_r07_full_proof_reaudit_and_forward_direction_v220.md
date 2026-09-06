@@ -23621,3 +23621,18 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 実run34011731149/1 / head c2a8a6ac…は全15親04:32:41Z・実旧64受付04:32:47Z・metadata16回帰04:32:51Z・P新二群04:32:54Z・C新二群04:32:59Zに各工程success。
 - 本Pは04:32:59Z開始、04:35:06Z時点で実行中、本C pending。全stdout/実case/fixtureの全文はartifact未回収で未読。新採用数/rank/相測定/全C/ZIP保全/candidate/CV9は未観測、fresh一回の登録を維持。
 - 正語34009883488/1も同時刻APIで本P継続・本D pending。両runへresume/cap増加/別dispatchなし。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 637 — k64本P工程success・全C開始（2026-09-06 JST）
+
+- 実run34011731149/1 / head c2a8a6ac…は本P工程が04:46:46Z success、全P出力C前baselineが04:46:51Z success。本Cは04:46:51Z開始、04:47:40Z APIで実行中。全fixture ZIP/保全/最終gate pending、P実terminal/採用数/rank/相測定の全payloadは未回収。
+- 実run記録F98–99/Delta635–636は返信163/v220だけの記帳commit e2bf06fda4fa3bc821b5cfa3b5027ec8f985f5ebでpush済み、追加runなし。別自動lean-arith34011731253は04:33:59Z build success、dovetail34011730502はfailure/0 job。関連するA0 Lean完全証明の成果としない。
+- 新1032=4244/82416789…で公開protocolからの全metadata受領を準備。旧32/1482/固定file・相数を移さず、新artifact全pin/全保存/typed outcome/fixture ZIP/empty dirを読む。ローカル数学/AST/Pythonなし、実artifact値は取得後に登録。
+- 正語34009883488/1は04:42:42Zも本P継続・本D pending。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 638 — k64全C・全保全・候補upload成功、全量受領開始（2026-09-06 JST）
+
+- 実run34011731149/1 / head c2a8a6ac…はcompleted/success（run API updated05:04:55Z）。全C05:03:56Z、fixture ZIP全保存/再読05:04:00Z、全保全05:04:10Z、最終合流05:04:15Z、candidate05:04:34Z/diagnostic05:04:52Zに各工程success。
+- 実candidate9983058782=187072168 B/26dbf2aed33fa2275d4aaee7436839bcdb4025f2f20b903c30a28116eafca649、diagnostic9983062604=187072168 B/0fdc4cd71988b4466bbec7003b134a8ee492913c806440007dd905eea6dbbe4a。同run/head、未expire。candidate全ZIP取得開始、実採用数/rank/inner秒/全payload/受領PASS/正式CV9はまだ未読。
+- root TEMP展開helper9632 B/6de27467…/LF142/ASCIIを全文静読。全entry安全path/type/EOF/bytes/SHA、展開後全file SHA、fresh root/容量/取得receiptを扱い、数学/Python/ASTとCRC独立照合は行わない。1032の全envelope合流を準備中。
+- 正語run34009883488/1は05:04:53Zも本P継続、本D pending。新1033=4463 B/528c41e5…で公開resource session/全telemetry/index/cacheの局所受領を準備、D私的source/未公開keysetは推測しない。
+- 初回一回の登録枠を維持。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
