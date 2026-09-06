@@ -1,0 +1,11 @@
+# Task1038 — k64 metadata受領器の実PS5.1境界修理
+
+宛先: 既存 packet_checker。1037新Cは保存状態を保持し、本限定修理を先に閉じる。旧1032 helper/返信は凍結のまま、新 TEMP/shadow-atelier-audit163/audit-r07-k64-v2-metadata-v2.ps1 と新 sol/luna_reply_1038_r07_k64_metadata_receiver_ps51_fix.md だけ作成する。ローカル数学/Python/AST、GHA/git/network、私的P本文は引き続き不可。metadataの実ファイル・JSON・PS5.1型を読む小確認のみ可。新helper本体の実行はrootの全文静読後。
+
+rootは1032最終57448 B/d5dc89bb2f89b27c3a1afc3706d39c8ebbe35d8a5b3bd805c55fe979d54d0fbcと返信8934 B/8d5462ee…を全文読了して一回実行した。session75052はexit1、`raw fixture complete after authenticated empty-directory restoration: missing directory`で停止、PASS票は未形成。06:05–06:08Z root実scanではREPORT dirsは依然1796、fixture期待1217/実1185、欠損はP/registration/host-0およびhost-1のparents自身と各15親dir、計32。原因を未確定のまま成果物不整合としない。全元artifact pinと取得票は1032と同じ。補助の4欠損dirもREPORT全期待から特定すること。
+
+まずRestoreFixturesの全ZIP認証→不足dir列→mkdir→Inventoryでなぜ復元が反映しなかったかをPS5.1実動作に絞って調べる。元file bytesを上書き・削除しない。初回失敗後の実dir集合を全取得票/全inner ZIP/REPORTへ結び、初回元集合か、認証済み追加dirだけがある再受領状態かを明示して受理する。単に元count期待を外す、欠損dirを無視する、未知余剰を許す変更は禁止。全認証前のmkdir禁止を維持し、再受領で既に復元したdirと今回追加したdirを区別する。最終全REPORT一致が必要。
+
+このPS5.1 ConvertFrom-Jsonは小数をSystem.Decimalへ復号する実例があった。k64 elapsed各fieldでも実型を確認し、通常JSON小数のdecimal/doubleを有限測定として認める必要があれば最小修理する。ただし普通整数は引き続きint/longだけ、bool/decimal/floatを整数へ緩和しない。新一般parser/canonicalizerを作らない。元source/WF/GHA算術を修理対象としない。
+
+新helper全文と旧からの全差分を静読し、根本原因・限定修理・全pin/行数・未実行を返信へ記録、最終行AUDIT_1038_VERDICT:。同時に届いた裁定2176のk64限定9条受理はrootが別途記帳するので、新root票のformal_CV9_pendingの履歴値は元票作成時との違いを明示し、数学保証へ流用しない。

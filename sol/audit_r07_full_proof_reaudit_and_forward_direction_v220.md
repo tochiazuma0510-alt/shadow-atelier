@@ -23646,3 +23646,24 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 裁定2174 snapshotを全文受領。司令塔commit85055845…の3記帳pathを確認し、その上へ指定4pathだけのroot記帳commit17022bfbd0d45f4c50054001acd3a1e6d9659951をpush。正式batch1482/8187を維持、candidateだけ1514/8219へ更新。
 - 正語34009883488/1 / a590fa9a…はcompleted/failure(updated05:21:19Z)。本P05:19:35Z failure、本D skipped、保存05:19:47Z failure。全diagnostic9983263449=1373772131 B/41c95c7171c9192ec1d589a715c911f7470bb69fe520b80558334ad60636ac61を取得開始。原因/phase/資源実値は未読、外側90分近傍から推測せず、再試行/cap増加なし。
 - A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 640 — 全受領helper静読・同旧64起点k128の事前登録（2026-09-06 JST）
+
+- F102/Delta639とTask1034は指定3pathの記帳commit720cecf523a3fd63ceda5be369f7dc077b3b3f1fでpush済み。k64/正語の実runとlaunch headは不変。
+- k64受領helper57448 B/d5dc89bb…/LF641を全文静読。全inner ZIP/実file認証後だけ空dirを復元し、全15親/旧64の30+10票/24 source+raw/全六相・row・final/全REPORTを合流する。author返信freezeと実metadata実行待ち。
+- 正語資源helper1033=78114 B/654ba851…/LF1067、返信14242 B/91747301…を全文静読・freeze。全telemetry/session/index/cache/開始終了/typeを扱い、D未公開keysetと任意canonical JSONの再証明は主張しない。全envelope/16親/保存は別Task1034=4214 B/2ff716f0…で準備。
+- 正語失敗jobログ全64行10611 B/4850ad8d…を読了。always-preservation-incompleteを観測したが、本Pの詳細reason/phaseは未収録。全diagnostic ZIPは05:52:49Zに1184432128/1373772131 Bまで取得中。全payload前に原因を推定しない。
+- 新公開Task1035=7700 B/f6623768…、P1036/C1037でk128 v3を準備。同旧64/run33990567016・1450/8155・同15親・128/1/no-refill/fresh一回、同資源枠/通常全算術/全保存、ordinal0..127・sequence最大771を固定。実1514を親へ入れず、128独立を予告しない。全受領/全新source-WF静読・独立監査/最新CV9便確認後に新GHAへ進む。
+- 正式batch1482/8187・k64候補1514/8219はCV9待ち。A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 641 — 正式rank1514受理・正語deadline・受領器境界修理（2026-09-06 JST）
+
+- 裁定2175–2176/速達/正本549行48988 B/5b28ec64…を全文読了。司令塔commitfe85a6e9b758152796178ccc6ed36ce73c1adf97の6pathを確認。k64 run34011731149のrank1514/gen8219をcross-checked限定9条で正式受理。旧k32/control96とは別状態、実験の登録親は同旧64/1450/8155。
+- a(n)を固定lambda/初期span/順序の前置長に対する累積独立数とする。a(128)は未観測。auxは本番未発火だが新第二群にはP auxiliary-only/C first-auxiliary・second-auxiliaryがあり、正本の『新selftestにも無い』は訂正。DEPENDENT本番0・新二群未通過の限定は維持。
+- rootがk32/k64の先頭32 normalized-row全file bytes/SHAを追加照合して32/32一致。metadata票9068 B/c1061ceb…、数値再演なし。新速達batch2176_acceptance_and_scope_errataへ記帳。第三CV9の6抽出とroot追加の全32比較を区別。
+- 正語diagnostic9983263449の全ZIP1373772131 B/41c95c71…を05:57:18.9799594Z取得、全entry/実file EOF/SHA一致。406file/96dir/3685457381 B、取得票736 B/1d6d0fcd…、全entry票69746 B/2094e4f4…。
+- 実PはUNKNOWN_RESOURCE/literal-DFS/ResourceStop:literal-DFS:deadline、inner5400.275689 s/outer5402.03076 s/exit3。Dとrun-receiptは未形成。部分word3287182712 B/443dd41d…、未完成index8777434 rows/368652276 B、eof=false/root_id=null。全語完成・D成立に昇格しない。
+- 実preservation2669 B/b98ebfcb…はINCOMPLETE、D前baseline/word比較/D root/REPORT-before-Dの4未成立。16親/source unchangedはtrue。cap増加/resume/再試行なし。
+- root1032はfixture missing-dirで停止、元1796 dirsのまま、32+4の宣言空dirを新1038で認証・復元再読へ修理。root1033は失敗票95109 B/840fa57a…、PS5.1 Decimalの10型拒否と1inventory差。新1039は普通int境界を維持して小数型を修理、本Pの唯一の空dir index-receipts輸送欠落をINCOMPLETEへ分離。数学受理とroot全metadata PASSは別、後者は未完。
+- P3=209926/a286dca4…/3434行、C3=178914/1aebf6e4…/2695行、作者1036/1037と全差分をroot読了。新二群P30/9・C28/8の実成否はGHA待ち。新1040/1041/1042で旧算術試験継承の実pin/range/hashと共有TCB票を新WFへ転記し、別監査を閉じてからGHA。
+- F103記帳は司令塔新HEADをstaging前に検知して停止、新root commit未作成。正式最新1514/8219へ更新、A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。

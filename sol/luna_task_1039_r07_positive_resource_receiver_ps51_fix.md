@@ -1,0 +1,15 @@
+# Task1039 — 正語WF5資源metadata受領器の実PS5.1境界修理
+
+宛先: 既存 packet_producer。1036 P3と1033 helper/返信は凍結を維持する。新 TEMP/shadow-atelier-audit163/audit-r07-positive-v5-resource-metadata-v2.ps1 と新 sol/luna_reply_1039_r07_positive_resource_receiver_ps51_fix.md だけ作成する。ローカル数学/Python/AST・GHA/git/network・D私的source/返信は不可。公開metadataの実型・全file bytesの小確認だけ可、新helper本体はroot全文静読後にrootが実行。
+
+rootは1033最終78114 B/654ba851e96060401ebc231145aa112945e452b27b738595d866d8fdae98f85e/1067行と返信を全文読了し、完成rootに一回実行した。新失敗票 TEMP/shadow-atelier-audit163/positive-v5-run34009883488-root-resource-metadata-v1.json は95109 B/840fa57a1dda3e2a3622a7c4401ef025941e3524ec884b709e0fcc5ddd8689d5、exit1/FAIL_RESOURCE_METADATA、errors11/incomplete2。旧票を上書きしない。
+
+errorsの10件はjson_scalar_type（P_SELFTEST/D_SELFTEST/P execution、P fixture store/word/paths、P main、D fixture、D selftest top、八type票）、残り1件はresource_inventory_EOF。rootが実executions/P-receipt.jsonをConvertFrom-Jsonで読んだところwall_secondsの実型はSystem.Decimal、整数はSystem.Int32、UTCはSystem.Stringだった。Finite/Floatのdouble限定をPS5.1の実JSON小数型へ最小修理し、Intはint/longだけを維持する。128.0等をintへ変換しない。必要な各float契約を同様に点検する。新一般JSON parser/canonicalizerは追加しない。
+
+実artifact Root=C:/Users/81905/AppData/Local/Temp/shadow-atelier-positive-readout-v5-run34009883488-diagnostics-a1。全ZIP 1373772131 B/41c95c7171c9192ec1d589a715c911f7470bb69fe520b80558334ad60636ac61、artifact9983263449/run34009883488/1/head a590fa9a70322145f1c0688a8f14d2c9640b1bf3。全406 entry/files・96 dirs・3685457381 Bをrootが全entry EOF/SHAと実file SHAまで照合済み。取得票736 B/1d6d0fcd51bf13941cd55eff1559aa92ca5b0c78bc2a54efea73876e718ee32d。全entry票69746 B/2094e4f4275468694328de30faf91f47a25fb2b8dfb2842bba0a5368a75fe275。
+
+実P stdoutは514 B/664edc84e7fdaa94d87ed237052dce19694739122f5e189e66b1268ecd43d7e9、UNKNOWN_RESOURCE、literal-DFS、ResourceStop:literal-DFS:deadline、5400.275689 s、outer5402.03076 s/exit3。D未作成、run-receipt未作成。preservationはINCOMPLETE、errors4件はword-before-D欠損・word-unchanged-by-D不成立・output-D未作成・report-before-D欠損。16親とsource unchanged true。これは実資源停止であり、受領器の小数型拒否と区別する。
+
+resource_inventory_EOFの差は全宣言dir/file対全実集合から特定する。outer ZIPはempty dirを載せないため、実payload欠損・保存元空dir・helper誤集計を分ける。別1034全envelope担当と公開metadata範囲で連絡可。根拠なく欠損を無視・受理しない。mkdir等の修理が必要ならrootへ実差と根拠を送り、helperは勝手に取得rootへ書かない。適切なINCOMPLETEと構造FAILを分け、未知D keysetの非判定も維持する。
+
+新helper全文/旧版からの全差分を静読、根本原因・限定修理・全pin/行数・未実行を新返信に記録、最終行AUDIT_1039_VERDICT:。1036新Pはこれと混ぜて変更しない。

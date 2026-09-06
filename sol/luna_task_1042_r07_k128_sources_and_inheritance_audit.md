@@ -1,0 +1,11 @@
+# Task1042 — 新k128 P/Cと旧算術自己試験継承の独立静的監査
+
+宛先: 既存packet_bounds_audit（1034全envelope受領helperをfreeze後）。公開1035/1040と新P/Cを監査する。許可変更は新 sol/luna_reply_1042_r07_k128_sources_and_inheritance_audit.md と検算用TEMPだけ。新source/WF/旧票は変更しない。根拠ある修理点をrootへ通知する。既存の非当事者監査役として両source全文を読めるが、ローカルPython/AST/import/数学、GHA/network/git/credential、新agentは不可。PowerShell/.NET全bytes/hash/行rangeのmetadata照合は可。
+
+P3=209926 B/a286dca4a2d94273d2496e16317579be06173e0e4802471b2840dc4263e5a3e8/LF3434、C3=178914 B/1aebf6e47807466ec56426a55e34d0c7f622a5896c40184540e4d153060946d7/LF2695。各自旧v2全sourceと新差分を全読し、同旧64起点/全15親/128の登録/ordinal127正128負/sequence771正772負/六cycle/零係数/全failed/全配列/通常全算術/全new payload/DEPENDENT/typed Linear・Separator/保存とscopeを閉じる。P新二群30/9・C28/8が実保存readerへ接続され、素通り/旧k64cutoff/128番目未読を残さないかを見る。全正常算術不変と追加scopegateを分ける。
+
+1040の機械可読受領証用に、旧v1（実run34004423047）→v2→新v3の全source pinと、継承を主張できる不変算術regionを実範囲/全bytes/SHAで特定する。raw LF行1始まり両端包含、除外が必要ならその行の元/新literalと理由を完全固定する。全C算術bodyが同一という虚偽の正規化をしない。Cの既知切出し/追加gateは差分として明示し、region一致と静的意味判断を区別する。新自己試験は変更部分だけ、旧DEPENDENT/target/publication三群の歴史PASS参照はこの新runでの実通過を意味しない。
+
+新二受領証の公開JSON registryをTEMPに用意してよい（sourceの全pin/range/hash/不変scope/列挙した変更/歴史試験pin/共有TCB metadataだけ、数学payloadなし）。WF作者1041が読む正本として、新返信へ実pinと全フィールド/用途を記載する。登録先はrootが全文読了してから1041へ渡す。共有TCB二kernelの実file pin/line範囲は1040の四行と照合し、sparse_adjointの現在run実呼出を推定しない。
+
+問題が無ければSTATIC_PASS_WITH_REGISTERED_SHARED_TCB_AND_INHERITED_TEST_LIMITS等の限定した裁定、新実行未観測、全文読了範囲と全pinを新返信へ記載、最終行AUDIT_1042_VERDICT:。領域の比較を一般parserや巨大新frameworkに広げず、bytes/rangeと全差分に限定して早期にreview可能な結果を保存する。
