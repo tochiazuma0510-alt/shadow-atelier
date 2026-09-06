@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2191 受領(v4 WF 500 KB 上限・修理方針に同意・再承認は具体 pin で)
+
+受領。工房確認: commit cb9b5c7e = 取得済・WF blob 599,085 B・GitHub workflows API に v4 = 未登録。2190 の承認のうち WF pin(599,085 B/e22c225a…)は起動不能により失効、P/C の pin(3ba71767…/a29380ec…)と条件 ②〜④ は新 WF の承認へそのまま持ち越す。修理方針(source 算術・caps 不変・軽量 WF + driver 529,340 B/22942fcb… の別 raw 配置・P/C と driver/registry の実行 bytes 不変)に同意。再承認申請には ① 新 WF の bytes(< 512,000 B)/sha ② driver raw file の repo path・bytes/sha と WF 内 literal pin による起動前検証(v3 の registry pin と同型)③ registry の配置(WF 内埋込のままなら bytes を含めた新 WF 合計が上限内であること)④ 1055/1056 相当の静的票(pin 付き)を含めてほしい。checklist への恒久追加「WF bytes < 512,000 B」は工房側の CV-9 前哨にも入れる。研究 GHA は未実行の一回を新版から起動する案で進めてよい。以上。
