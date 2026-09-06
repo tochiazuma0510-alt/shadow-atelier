@@ -23589,3 +23589,21 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 実run34009883488/1 / head a590fa9a…で、全16親03:48:51Z・実64受付03:48:57Z・path境界03:48:58Z・新P/D三群ずつと公開型受領03:49:33Zに各工程success。
 - 本Pは03:49:33Z開始、03:50:15Z API時点で実行中。本Dはpending。各stdout/拒否case全文はartifact未回収で未読、P実終了/資源値・全語/全D/保全/candidateは未観測。
 - 全語/全11slot/80644・登録枠・fresh一回を維持。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+### Delta 633 — k64 source全読了・正対照修理・新WF準備（2026-09-06 JST）
+
+- 正語run34009883488/1 / head a590fa9a…は04:06:01Zも本P継続、本D pending。新payload/実資源値は未回収。F94–95/新1025–28の六pathは記帳commit648400a7c1f4b3dbab422a12a58b45610b210f91でpush済み、追加runなし。
+- rootはP全858行差分＋最後の二literal修理、C全991行差分＋最後509 Bを全読了。1028発見の新selection.json追加と旧inventory等値の矛盾は、completed treeだけの全不変と新外file全bytes照合を両立させる+10 B修理で静的閉鎖。通常数学/旧source不変。
+- 最終P208805/6626dbcad3400829baa0ac9f6ad00527ab1de002d253d41f39575f241f70d74e/LF3420、C177544/4ada8490ef931e639159b2c3522510b6fc2da82551daa9a7aa3f1a1970d0ca90/LF2675。reply1026全167行=17226/93455c51…、reply1027全42行=11452/5af0fff6…を全文読了、全実pin/CR0/BOMなし/finalLF/末尾WS0一致。
+- 新二群の拒否登録はP30/8・C28/7、正対照はP7/C8で別fixture、実機PASSは未観測。全親/固定lambda/全54433/2aux/8059と全算術・全保存を保持する。独立最終1028/新WF/実ASTと実走は残る。
+- 新1029/公開1030でk64 WF v2を既存C担当が準備。新REPORT/fresh selftest-root、metadata16回帰（旧数学再走0）、全15親/全24source/全受付/全P-C保存を継承。各fixture subtree全不変＋空dir/hiddenも全entry ZIPで保全し、P私的source/票は非共有。
+- k64の新runなし、同旧64/rank1450/gen8155からfresh一回を登録。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
+
+### Delta 634 — k64の全静的閉鎖・初回GHAの事前条件（2026-09-06 JST）
+
+- rootはsource監査1028全82行=16597/71faf15e…、WF作者1029全63行=10830/1417d292…、WF監査1031全82行=13835/786de34f…を全文読了し実pin/EOLを照合。STATIC_WORKFLOW_PASS_RUNTIME_PENDINGを受理、残required findingなし。
+- 新WFの全423/227/102行差分と最後+17 Bの一字段修理をroot読了。最終WF166471/887c779cfa7f00fb780cc8919e2b34140d05ef598038fe4d71e13a0aefa997d5/LF2314。adapter字段は実result.positive_readout、未形成nullへ結び、無条件pendingを除いた。旧WF/通常数学/試験数は不変。
+- 全fixtureのP前/C前/C後完全等値、空dir/hiddenを含む全entry ZIP/full stream/readback/元全scanを閉鎖。partialの全収録PASSと両完成rootのcandidate受付を分ける。全24source/rawの実pinもroot自身で一致確認。
+- 公開1030=3027/c22be119…/LF15、監査委嘱1031=3372/5f2628ff…/LF19。旧64/1450/8155・同lambda・15親・64/1/no-refill、metadata16回帰/旧数学0、P/C新二群、P5400/C10800/7168・fresh一回を固定。
+- branch/HEAD648400a7…/staged空を確認し、事前status3980行をTEMP保存。指定13pathだけ公開し、初回markerで一回投入する。新実commit/run/AST/試験/本走/candidate/CV9は観測後に追記する。
+- 正語run34009883488/1は04:22:59Zも本P継続・本D pending。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・共有TCB/未宣言境界・verified=falseは不変。
