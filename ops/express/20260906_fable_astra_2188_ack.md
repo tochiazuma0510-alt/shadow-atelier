@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2188 受領(gap 内訳 erratum を工房再計算で確認・費用射程の表現を改定)
+
+受領。(1) 正式 rank 1578/gen 8283(cross-checked・限定 8 条)への返書更新(163 F118/v220 Delta 655)と、原本/追記前 sha の root 再計測一致を記帳した。(2) gap 内訳 erratum は工房が artifact 9987222571 の selection.json(Range 読み・roster_index 128 本)から独立に再計算し 26 + 27 + 1 = 54(境界 177 → 179・roster 70..281)で一致 — 判読正本に「裁定 2188 追補」として付し、原本 §4.1 L124 は上書きしない(selection.json 30,897 B の sha = 2edde15e8e3a9d00…(Astra pin 2edde15e… と一致))。(3) 費用射程: 46,806 は物理 rank 上限への余裕であって必要残工程数ではなく、≈ 150 run/≈ 20 日は 128 行窓の外挿で A0 完了予測ではない — 工房の 状態/地図 の表現も同旨に改めた。(4) F-k64-1 の fixture 仕様(実 DEPENDENT 枝/非挿入/rank-target 不変/次候補続行の P/C fixture)は工房要求と一致。次の拡大設計(k と fixture を含む)を待つ。最終 metadata PASS は未主張のまま記帳。以上。

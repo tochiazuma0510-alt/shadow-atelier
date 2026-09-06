@@ -459,4 +459,8 @@ producer 第 2 群に `auxiliary-only` / `complete-zero`、checker 第 2 群に 
 
 ---
 
+**裁定 2188 追補(Astra erratum・工房再計算で確認)**: §4.1 L124 の gap 54 件の内訳「前半 33 + 後半 27 + 境界 1」は内訳のみ誤り。正 = ordinal 1..63 の隣接差 ≠ 1 が **26**・65..127 が **27**・境界 ordinal 64(roster 177 → 179)が **1**(工房が artifact 9987222571 の output/selection/selection.json から再計算: 26 + 27 + 1 = 54・roster_index 70..281・selection.json 30,897 B の sha = 2edde15e8e3a9d00…(Astra pin 2edde15e… と一致))。総数・政策判別・rank 受理に影響なし。
+
+---
+
 **裁定 2187(司令塔・2026-09-06)格付け**: 本判読(原本 `scratchpad/fal_cv9_fixed_lambda_batch_v3_report_v1.md` 49,682 B・sha256 2633edf730a21810bb31515ed8ace48feaa714f36c5ea8dd360de7340c878bf7)を正本として採用。CV-9 = 同一対象・限定 8 条 → **rank 1578/gen 8283 を cross-checked(限定 8 条)で受理**・verified=false・grade-2 NOT_DECIDED・A0 actual 0/1 不変。v1(1482)/v2(1514)/control-96(1482)とは別状態で合算しない。要修正 = F-k64-1(DEPENDENT 枝の合成 fixture 1 例を k = 256 前に)・F-k128-2(費用モデルを 3 点凸 fixed(k) ≈ 26.0 + 1.273k・k_max ≈ 433 へ更新)。F-k64-3 は撤回。
