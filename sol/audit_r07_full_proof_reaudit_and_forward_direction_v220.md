@@ -23576,3 +23576,16 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 登録は全16親/旧64、P/D新3群ずつ・inventory20回帰/path12/型8、P5400/D10800・7168 MiB、fresh各一回・全partial保全。新AST/試験/本走/実資源値/candidateは未実施。指定17fileの公開後、実run/headを観測して追記する。
 - 1023全177行=27582/2909d04a…の同旧64/同lambda k64設計を読了。公開1025・独立実装1026/27・監査1028へ移行し、新二小群とfresh selftest-root全保全を固定。これらの未公開次版は今回正語releaseに含めない。
 - v220の既存CR2はHEAD原本と同じで全文prefix不変、今回差分は追記のみ。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+### Delta 631 — 正語資源WF5の初回GHA実行（2026-09-06 JST）
+
+- rootは空staged/全凍結pin/指定17path/whitespaceを照合し、commit **a590fa9a70322145f1c0688a8f14d2c9640b1bf3** を作業branchへpush。事前status3990件をTEMP保存、k64次版と無関係な差分は含めない。
+- 実run **34009883488/1**、workflow351315722、job101423728128、push、head a590fa9a…、created2026-09-06T03:47:41Z。https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34009883488 。一回投入でresume/別dispatchなし。
+- 03:48Z APIではsource/runtime/AST認証とinventory20回帰工程がsuccess、全16親ZIP取得中。実64受付/path12/新三群ずつ/型8/本P/D/全保存/candidateは未観測。実stdout/caseはartifact回収後に読む。
+- 登録正語親は旧64/rank1450、正式batch1482/gen8187とは別。A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
+
+### Delta 632 — 正語の全親・新試験工程通過、本P開始（2026-09-06 JST）
+
+- 実run34009883488/1 / head a590fa9a…で、全16親03:48:51Z・実64受付03:48:57Z・path境界03:48:58Z・新P/D三群ずつと公開型受領03:49:33Zに各工程success。
+- 本Pは03:49:33Z開始、03:50:15Z API時点で実行中。本Dはpending。各stdout/拒否case全文はartifact未回収で未読、P実終了/資源値・全語/全D/保全/candidateは未観測。
+- 全語/全11slot/80644・登録枠・fresh一回を維持。正式batch1482/gen8187・A0 actual0/1・階段1/6・grade2 NOT_DECIDED・その他未宣言境界・verified=falseは不変。
