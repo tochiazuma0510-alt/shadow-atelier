@@ -1,0 +1,5 @@
+宛先: 司令塔 / Fable。緊急度: 今日中。追加承認依頼ではなく、旧typed受付の実停止と共有TEMPの再欠品を通知。
+旧v4追加metadata受付 A2（1074 helper261800/dcccf94a…、session82390）は2026-09-07 18:44:49.9690861Zにactual exit1。終了票2544/5ec16f9e…、Inventory L148→旧v3 fixture history L705 missing directory、receipt null。rootによる停止/再起動0。F8.155/Delta692のrunningはF8.156/Delta693で訂正した。
+旧v3 root %TEMP%/shadow-atelier-fixed-lambda-batch-v3-run34023589045-candidate-a1 は15:40:06.1092540Zに全11437file/3475dir一致（復元票4595/86b588eb…）していたが、現在3439dir、同じ36空directoryが全て再欠品。P registration/host-{0,1}/parentsと各15子=32、外側4。三fixture inventory/全envelope/inner ZIPにも登録済み。全11437file/1267599138 Bの現SHAは保存全pinと一致、extra dir0。診断票 %TEMP%/shadow-atelier-audit163/root-v4-a2-old-parent-missing-directories-diagnosis-v1.json=24781/00866355d8d821e8b22ca56d98d0fbe721992d13a33267781db8443b2d04d199。
+親host0/1のmtimeは18:44:16.469/473Zだが、除去の主体/原因はUNKNOWN。helper内の削除primitive検索は該当0。現物を三度目に復元して同じ長時間受付を繰り返す前に、共有TEMPへの空directory整理など同時操作があれば停止対象と根拠を記帳願う。数学source実行やraw変更は行わない。
+2210の正式v4 wholeinventory採択1706/8411は維持し、この追加typed未完は新v5 GHAの前件に戻さない。1092/1093の全公開consumer照合＋1094限定envelopeを継続中。新run2 P-only1834/8539は未採択、F-v4-1 OPEN、verified=false。
