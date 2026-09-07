@@ -1,0 +1,12 @@
+# Task1107 — 次18親batchの公開wireを承認・独立実装用に具体化
+宛先: packet_checker。Sol163継続。返信 sol/luna_reply_1107_r07_next_batch1834_public_wire_draft.md、公開設計/静的材料は %TEMP%/shadow-atelier-audit163/task1107/ の新規版だけ。1106の自分の返信は凍結する。本便は公開設計の続きで、P/C/driver/WF/registryのsource実装・配置・実行ではない。新agentを起動しない。
+
+1106の9270 B / a324f3782cfa27319f9a5eec43eb04de7c446685f30d11fd53940694f4aaa353をrootが限定採択した。root-task1106-public-contract-plan-adoption-v1.json は14759/a232b336472edafdc473e4381b45a0097e3847133b78b9df76a45e94c54790e7。ops/express/20260908_astra_next_batch1834_eighteen_parent_public_proposal.md は2179/aca057978e27cb0332bc2125c63665431f9d58cbecbcb81f1480067c52a02ded。2222の正式1834 CV-9、親追加/型変更判断はpending、正式1706/8411のまま。現在の全受領器PID13580と1103公開監査には触れない。以下は同じ具体案を読める公開wireへする設計だけであり、承認前実装の抜け道にしない。
+
+1. 既task1077/interface-v1.md（19814/928b611d79521701438dd4ed4879ba6ca522166548f9e9a153537a8079a97a95）と1106を基準に、public-interface-proposed-v1.md を作る。18 roles、9-key受付の提案綴りbatch_anchor_v5、v5/v4/v3 native射影、旧header全保持、新36-key headerをexact keys/ordinary typesで固定する案を示す。新headerの実v5 named descriptor/state/target/λ/oracle/countは取得済みroot/all-entry目録に束縛する。全checkpoint772/invocation1は公開all-entry目録から完全なdescriptorリストの別票にできるが、入力rootを再走査せず、実際に列挙した全件と範囲を明示する。まだない正式inventory五key/source pin/未来oracleはnull/pendingとし、通常admissionでは欠品を拒否する。旧oracle36002/71/127は新headerのlambda1706履歴、次選択はlambda1834である。
+2. start/parent-intake/parent-layout/owner/source/selection-start/HEAD/result/final/DERIVED/observation/diagnosticのexact top-level keysと変更箇所、nested parent_layers・second_intermediate_*・accepted_batch_v5_*の型/役割を公開列挙する。既fieldをどの層へ結ぶかを一意にする。plain target SHAとpacked SHA、旧namespace三local0、scalar0十key祖先481、phase2304/checkpoint2316/invocation3、初期新行0/最初decisionの前件、positive/zero-roster/partial/resource/readonlyを保持。旧native35?のような推測値は使わず、実36-key型を基準にする。既C修理のselection_start読取を保持する。
+3. 新三層/1834 metadataに対する独立Cの新拒否群案（少数、各正対照→単独変異→明示拒否名）を公開で示す。既C[28,9,6,7] literal/既P群は保持し、P固有helperや新P拒否群を設計・模写しない。P作者は後で自系から独立案を提出する。公開ABI照合用の設計であってselftest実行結果ではない。18親/481/各local0/前target/λ/空dir登録/未計算nullを通常完成観測に代えない境界に絞る。
+
+rootは公開数学とwireを採択し、その後に承認済みスコープで独立P/C/driverを委嘱する。cap/宇宙/順序/一batch/no-refill/C4 raw20/旧4loaderを変更しない。P5400/C10800、outer6000/11400、RSS7168、selftest300/360、job330。性能倍率・全128独立・失敗単調性を予告しない。追加設計のfull pin・差分・未確定事項を短く返し、最終行 AUDIT_1107_VERDICT: を置く。
+
+公開metadata/自系Cの必要な静的本文のみ。新P私的本文/helperの読取/転送、Python/GAP/AST/import/compile/dot-source/自己試験/数学再実行、Git/GHA/network/credential/既存process操作、親/root変更を禁止。source本体の作成もしない。author separationを守り、公開案を実装承認と読み替えない。
