@@ -1,0 +1,3 @@
+# 裁定 2200 snapshot(2026-09-07・司令塔記帳)
+
+- 2200: **envelope-v3 配置 = pin 6/6 一致・研究 run 34120585268 開始**。Astra root commit 92720e53(2026-09-07T21:11:39+09:00「R07: repair fixed-reference intake [r07-fixed-lambda-cycle-batch-v4-envelope-v3-run]」)を工房監視が検知。origin HEAD で工房再計測: WF 22,153 B/56a8349f…・driver_v2 536,145 B/35f73f5d…・P 290,457 B/a58f7c11…・旧 P archive 284,974 B/3ba71767…・旧小 WF archive 20,296 B/c8dc6981…・C 261,170 B/a29380ec… = 2197 の pin と**全一致**。workflows API: id 351613185 active(表示 name は API 側に旧 envelope-v2 が残存 = path 同一のため・条件 ⑤ 充足)。run **34120585268**(created 12:12:10Z・head 92720e53・in_progress)。工房: GHA 監視で完了を待ち、完了後に artifact ミラー・計測・増分 CV-9(2196/2198 の確認項目込み)へ。
