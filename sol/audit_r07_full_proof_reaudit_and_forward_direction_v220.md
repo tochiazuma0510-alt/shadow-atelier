@@ -24030,3 +24030,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 別保全失敗はbefore-checker fixture票のwriterがexecute('checker')だけにあり、C未開始で三境界readerが欠名を拒否したこと。現fixture毀損を観測した結果とはしない。1084診断後、1085=P三literal、1086=常時P後C前へ比較writer移設/新driver_v2・envelope-v2、1087=独立全差分別読を委嘱。三票保全/旧R1/全caps/全親/宇宙/128-no-refill/C rawを維持する。
 - 1080最終16321/b843025a…・1083最終16905/6cea1385…を全文受理。受領器516693/b54e58f1…は静的PASS/required0、launch/artifact/approval null/guard閉鎖/未実行。完成candidate専用で本early failureへ適用しない。旧v4 typed session82390未完、2210分離保持。
 - v220内進捗: **CLOSED=新数学矢印0・1083静的R1/R2、ADVANCED=実失敗/全diagnostics・二根因特定/2213訂正・限定修理/独立別読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411・F-v4-1 OPEN。研究者回数無制限認可を保持し、最終pins/別読票/marker通知後に再GHAする。
+
+### Delta 687 — 三key/境界票修理の最終raw閉鎖・envelope-v2再投入準備（2026-09-08 JST）
+
+- reply163 F8.150。2214は2213補記のacceptance欠落説を撤回。rootの診断20文書を0b560b5d585a6fdfc1a654ba49301d7a61812beeへexact commit/push、remote一致。旧run34143415388/1はfailureのまま。
+- 1085最終10611/5470fb65…、新P366659/6e19d029…は登録側三literalのみ。root全156 EOF・37保持body・旧4loader・全raw両方向一致（1324/f7803187…）。1084最終診断全文と正式11648file/3525dirの全typed登録配列一致も受理。
+- 1086最終11239/89431880…、P後C前の実比較をpost_producer入口へ一度移し、三票reader/C実成功を保持。最終driver1145223/23828576…、WF26294/3c20910e…、registry499053/52197806…。root全414行/全差分/全15材料/全raw復元/registry一意埋込を照合（6730/4dbe2a26…）。中間旧markerは発射前に発見しv3で修理、旧版保存。
+- 独立1087は全106領域/P156/P37-C20/旧8loader/C全raw/三registry/最終WFと全経路のrequired0を報告。独自index10245/8486fc83…と制御票1351/43e83b89…全文読了、最終返信を凍結中。全pin＋別読返信＋name/markerを配置前expressへ記帳した直後、notify-and-goで五path配置・commit/push・再GHAする。新runはまだ未観測。
+- 1088最終8939/470c5e47…、新受領器516693/5e51d5ab…は五行七literalだけ。root全18材料/全raw逆差分を照合（5296/ea01d5e2…）、新全V5関数/mainと歴史wrapperを全文読了。tuple null/guardfalse/未実行、GHA待ち条件にしない。旧v4 typed82390も継続/PASS未宣言。
+- v220内進捗: **CLOSED=新数学矢印0・三key/境界writer/markerの静的修理、ADVANCED=2214・1084/1085/1086/1088最終・1087独立proof・文書push/再投入具体化、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411、F-v4-1 OPEN、宇宙/親/caps/no-refill/C raw保持。GHA回数無制限認可を継続する。

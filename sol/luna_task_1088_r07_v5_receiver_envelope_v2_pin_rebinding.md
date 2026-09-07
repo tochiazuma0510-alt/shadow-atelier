@@ -1,0 +1,11 @@
+# Task1088 — Luna: 凍結v5受領器をenvelope v2公開pinsへ限定再結合
+
+宛先: packet_producer。1083/1085を最終凍結済みの既存担当として、rootのGHA配置と並行する限定metadata作業。返信 sol/luna_reply_1088_r07_v5_receiver_envelope_v2_pin_rebinding.md、全材料は TEMP/shadow-atelier-audit163/task1088 の新fileだけ。元1080/1083/1085 source・返信・親/旧受領中入力は変更しない。P/C私的body新規読取、Git/network/credential/Python/GAP/import/AST/compile、受領器/dot-source/fixture/cost実行、新agentは禁止。
+
+基点は1080作者最終 root-review-receiver-v5-guardclosed-v1.ps1 =516693 B / b54e58f1bc33df144a3c2e6b20dc14a8b963356b914028148a965a758c15dbb3、独立1083最終16905/6cea13851cdf19a792ad7a1f5c1de79bf0e779b0bbb41de10de11a9412f8429a。全bodyの静的採否は凍結し、二型修理も再変更しない。source pin/rangeの根拠は1085公開226557/261c0c6b39d8a600f041c0341181f78268db272efdb887430c7c144c058d34a6、新P366659/6e19d029c0f4aa55e39d24022008a29ab666c50bc52d5d086917f7dbc10cb99d。C336193/47cf2596e9e9dabaab89395f5274ce15b9443002922ba7bfdbca42022979de73は不変。
+
+1086最終公開WF/driver/registryを後着入力にし、新driver_v2 path/name envelope-v2、必要なsource/whole registry pinだけを新immutable受領器へ結合する。1086の境界writer移設は既存三比較票のschema/型/fixture内容を変えず、数学本文・helper一般型・cost関数・old main・旧60関数/全親・全ZIP・全実hashを変更する理由にならない。公開pins以外の変更が本当に必要なら実公開契約との不整合をrootへ先に報告する。1086 mutable draftを最終版扱いせず、作者固定snapshotを待つ間に使用箇所を静的棚卸しする。
+
+launch/artifact/approval=null、normal guard=falseを保持する。初走failed run34143415388/1のdiagnosticsを完成candidate入口へ適用しない。新runはまだ未登録で、後着実tupleの一箇所bindingは別指示とする。全typed旧v4受領未完と正式inventory受理済みの2210分離は保持する。受領器実行0で納品する。
+
+元全rawと新全rawの完全差分、全置換箇所と値の出典、forward/reverse全EOF再構成、全材料pin、既存sibling五fileの実pin保持を返す。WF/driver/registry bindingの最終公開票の全pinを添え、本文の追加差分0をrootが短く独立監査できる形にする。元未完成→正常guard開放や一般Same/PlainIntの変更を混ぜない。最終行 AUDIT_1088_VERDICT:。

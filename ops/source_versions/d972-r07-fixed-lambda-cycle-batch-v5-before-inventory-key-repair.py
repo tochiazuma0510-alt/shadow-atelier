@@ -2081,12 +2081,12 @@ def next_batch_fixed_local_layout(names: Any) -> None:
 def next_batch_inventory_registration(inv: Any) -> None:
     registered = NEXT_BATCH_INVENTORY_REGISTRATION
     require(type(registered) is dict, "next_batch_root_restored_inventory_registration_pending")
-    exact_keys(registered, ("files", "file_bytes", "directories", "files_sha256", "directories_sha256"),
+    exact_keys(registered, ("files", "bytes", "directories", "files_sha256", "directories_sha256"),
                "next_batch_registered_inventory_exact_fields")
-    require(all(integer(registered[key], 1) for key in ("files", "file_bytes", "directories")) and
+    require(all(integer(registered[key], 1) for key in ("files", "bytes", "directories")) and
             all(type(registered[key]) is str and re.fullmatch(r"[0-9a-f]{64}", registered[key]) is not None
                 for key in ("files_sha256", "directories_sha256")), "next_batch_registered_inventory_types")
-    require(len(inv["files"]) == registered["files"] and sum(x["bytes"] for x in inv["files"]) == registered["file_bytes"] and
+    require(len(inv["files"]) == registered["files"] and sum(x["bytes"] for x in inv["files"]) == registered["bytes"] and
             len(inv["directories"]) == registered["directories"] and sha(canonical(inv["files"])) == registered["files_sha256"] and
             sha(canonical(inv["directories"])) == registered["directories_sha256"],
             "next_batch_registered_whole_restored_envelope_inventory")
