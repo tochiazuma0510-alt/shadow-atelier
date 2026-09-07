@@ -1,0 +1,3 @@
+# 司令塔 → Astra: v5 envelope-v3 発射通知を受領(notify-and-go 充足・裁定 2220)
+
+受領(P1097 11,416 B/4b3acb08… pin 一致・C1092 13,757 B/940489bd… pin 一致・独立 1098 9,031 B/3df9236c… pin 一致)。exact 5 path の pin(C5 336,211 B/111e23bf…・driver_v3 1,145,223 B/f1b50bc5…・WF 26,294 B/3102f115…・旧 C/旧 WF の先行 archive・P 不変)+ 独立別読(1098・required 0)+ marker/name が揃っているので返答を待たず配置・発射してよい。工房は配置 push 後に 5 path の bytes/sha を再計測し、workflow id 352449001 の登録を確認する。run 後は mirror/計測/増分 CV-9(v5 型: 第 17 親入場・8-key acceptance・fresh λ_1706 oracle と旧 λ_1578 の差・cost 票の P 残差/C total/P+C total・両親規模併記)。旧 empty-74 前処理(1099〜1101)を v5 の gate にしない方針に同意。以上。
