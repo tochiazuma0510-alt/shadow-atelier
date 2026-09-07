@@ -24083,3 +24083,20 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 旧typed82390は**18:44:49.9690861Z actual exit1**。F8.155/Delta692のrunningを訂正し、終了票2544/5ec16f9e…を全文読了。Inventory L148/旧v3fixture history L705のmissing directory、receipt null。rootによる停止なし、再起動なし、数学FAILではない。
 - 15:40:06Zに全11437file/3475dir一致した旧v3の復元36空directoryが再び欠品。P registration二hostの32名は三比較inventory/全envelope/三archive inventory/inner ZIPにも登録済み、C欠品0。rootの全file再pin・集合診断は作成中、欠品の主体/原因はUNKNOWN。正式v4全inventory採択1706/8411と追加typed受付は2210どおり別扱い。
 - 公開P目録4513名→59形式をCへbodyなしprojection439405/cf3fd457…で共有。全consumer意味閉鎖はまだfalse。v220内進捗: **CLOSED=新数学矢印0、ADVANCED=実診断凍結/公開キー全突合/旧typed実停止の切り分け、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。
+
+### Delta 694 — envelope全raw受理・残余publicキー具体化・記帳push（2026-09-08 JST）
+
+- reply163 F8.157。F8.153–156/Delta690–693＋凍結材料exact14fileをcommit3be3f76394b48f4583d7ce5522c4651033deaa0c、parent eea7b752…、19:20:16Z push exit0/remote同SHA。全blob/raw一致（commit5943/17d57632…・push522/d9d36b2e…）。本source/WF変更0、新GHA0。
+- 1094最終11180/b725ce59…を全読。rootは全19材料/2532477 B、全driver106区間/105named body不変、三registry、driver3行/WF7行/registry2行の全raw逆差分を独立照合。WF414行全文・必要controlも別読。票7527/23feb2ee…、新driver1145223/f1b50bc5…・WF26294/3102f115…・registry499053/8792321d…。全17親/8key/caps/128-no-refill/三fixture/actual C success/always保全を保持した具体五path案、配置は未実行。
+- C140区間/旧4loader/保持20をroot全pin（1636/696f91ef…）、P公開59代表の全key/type/schema/raw＋37source範囲＋4513全名/59形式をroot独立照合（44592/d6dfe2cf…）。全publicキーgateはまだ未完。Pの四残義務を1097に具体化し、型/存在/guardを全分類、数学全意味再証明とは区別する。1095保留→Cの1098で独立WF、boundsの1096で新guardclosed受領器を進める。
+- 旧v3全11437file現SHA一致、missingは旧復元36空dirのみ、extra0（24781/00866355…）。2219全文受理、工房TEMP操作0・原因UNKNOWN・起動時冪等復元は提案段階。旧typed再起動0、正式v4採択と別扱い。
+- v220内進捗: **CLOSED=新数学矢印0・限定source/envelope差分、ADVANCED=全raw別読/公開schema照合/残余契約の具体化/記帳push、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。全P/C公開契約・独立WF・最終pin・通知後にGHA再実行、追加認可待ちなし。
+
+### Delta 695 — C全公開読み口の限定採択・受領器再結合・P残件の全ID対応（2026-09-08 JST）
+
+- reply163 F8.158。1092/1093/1096最終を全読、全57材料pin一致（24759/bf1b36d2…）。C336211/111e23bf…の一式修理は不変。
+- C全4819候補の分類ID/位置/128 source範囲、実147 JSON全pin/schema/top key/type、86 alias/309 keys/3676 nodesをroot独立照合。A027/A030はcheckerにも拡張一致、A048全18ID/19使用をcheckpoint/invocation別schemaへ結合。A004は自系saved_row_source構成とcaller/guardを別読し、保存batch-row全variantとの直積評価を根拠に使わない。追加source不具合なし。限定採択票13591/5105bcb0…全文読了、全数値再生ではない。
+- P1093全public契約未完を保持。1097は残207→具体110契約/ID重複欠落0へ前進（346766/a045de8a…）、全1000/literal/保持9payload最終joinは継続。1098独立WF最終返信待ち。
+- 1096新受領器516701/fd26b0e1…をroot全9行forward/reverse・96区間/94不変・旧60関数raw一致。launch/artifact=null、guardfalse、実行0。旧empty74名不在に対する1099全入力認証後の冪等復元helper準備は、新GHA発射の追加gateにしない。
+- 凍結34対象はworking raw/Git blobともhead3be3f763…で基準と全一致（13382/6ef70190…）。まだsource配置0/新run0。全P契約・独立WF・final pin・事前通知後にGHAを継続する。
+- v220内進捗: **CLOSED=新数学矢印0・C公開契約/受領器限定再結合、ADVANCED=P全ID対応/独立WF/空dir復元設計、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。P-only1834/8539は未採択。

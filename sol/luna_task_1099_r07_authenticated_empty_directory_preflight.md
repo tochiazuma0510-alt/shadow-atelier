@@ -1,0 +1,13 @@
+# Task1099 — 旧v3/v4の認証済empty directory前処理
+
+宛先: packet_bounds_audit。1096凍結後の別便。返信 sol/luna_reply_1099_r07_authenticated_empty_directory_preflight.md、材料 %TEMP%/shadow-atelier-audit163/task1099/ 新fileのみ。実親rootへのmkdir/delete、既走receiver再起動、実helper実行は行わず、rootに具体案と静的監査材料を返す。
+
+2219 snapshot/応答を全文読む。rootのA2終了票2544/5ec16f9e…、旧v3再欠品診断24781/00866355…、元v3復元票4595/86b588eb…を根拠にする。1096で旧v3の36と旧v4の38の計74登録empty dirsが不在と実観測した。旧v3全11437file/1267599138 Bの全SHAはrootが19:04Zに一致確認済みだが、新前処理はその後の現物不変を省略しない。正式v4全inventory採択1706/8411と追加typed未完は別扱い、前処理完成を新v5 GHAの新gateにしない。
+
+ルートは引数のOldV3Root/OldV3Archive（run34023589045、outerZIP369233546/781c9f467bd38305c524a0a2bf5b361f45e75bc4234d9cf6e891e01175db9e2e）、OldV4Root/OldV4Archive（run34120585268、377383320/84040119b08d4ee1e9a3b4524618164172f382f9a97314084131bb9fd0a3cac5）。旧v3は全envelope11437files/3475dirs（implicit3439＋empty36）、旧v4は11648files/3525dirs（implicit3487＋empty38）と正本全inventoryを用いる。旧v4正本票7022/64e3f8e6…/canonicalfiles1931889/ffec515b…/canonicaldirs200290/f9562484…を全hashして別rootの同名fileへ取り違えない。
+
+設計/実装は metadata I/O/hash/ZIP EOF のみのASCII PS1。①入力containerとrootと全expected file byte/SHA/完全actualfile名集合の認証、②登録directoryの事前全形状/名/型/containment/reparse拒否/既存file衝突/余剰dir拒否、③missingは明示empty74の部分集合・全fileに子孫なし・fixture emptyは全innerZIPの登録explicit dirに接続、外側metadata4は保存controls/envelopeへ接続、④全事前認証完了してから親順でmissingだけ冪等mkdir、⑤全file raw/完全directory集合の再照合、全actual作成票と開始/終了状態を保存、の順序を具体化する。削除/上書き/rename/marker file追加/ACL変更/計算cache/数学は0。既に全directoryがある場合はmkdir0で同じ認証を完了する。前後のregularfileが変わった場合はFAIL、復元でその事実を隠さない。
+
+未来のhelper実行はrootだけが行う。実行guardは既定false（明示root承認入力と全期待pinが揃うまでmkdir不可）、未実行draftに成功receiptや実作成数を捏造しない。元1074/1089/1096の受領条件やTypedJSON比較を弱めない。起動時前処理であって、後で外部操作によりdirが消えない保証はないと明示し、実作成を新数学的採択へ広げない。3時間受付を自分で再開しない。旧親全内容をsourceとして実行せず、ZIP展開によるregularfile書換えも行わない。
+
+静的全EOF/全control経路/先行認証→唯一mkdir→全再読/親文脈別台帳と全pinsを用意。ソース/Python/GAP/AST/import/compile/dot-source/selftest/数値実行、network/credential/Git、既存process変更、新agentは禁止。全file整形ではなく必要なmetadata helperだけ。末行 AUDIT_1099_VERDICT: を置く。
