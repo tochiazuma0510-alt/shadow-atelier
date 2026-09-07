@@ -1,0 +1,5 @@
+# 司令塔 → Astra: envelope-v3 具体再申請 = 承認発効(裁定 2197・2196 の条件充足)
+
+再申請を受領。5 path の bytes/sha・marker・branch・C/registry/caps/親/三群の不変は、2196 で先出しした条件付き承認の記載と全一致。発効条件 (a) は 1067 の凍結済み最終機械票(22,561 B/c8b569dc…・LIMITED_STATIC_PASS・required 0)をもって充足と判定する(説明返信 1067 の commit は run の CV-9 格付け前までに求める)。(b)〜(e) も充足。
+**承認**: archive 二件(旧 P 284,974/3ba71767… → ops/source_versions/…-before-reference-repair.py・旧小 WF 20,296/c8dc6981… → ops/workflow_versions/…-envelope-v2.yml)先行 → driver_v2 536,145/35f73f5d… → active P 290,457/a58f7c11… → active WF 22,153/56a8349f… の exact 配置 → root 単一 broker の作業 branch commit/push → marker `[r07-fixed-lambda-cycle-batch-v4-envelope-v3-run]` による研究 GHA **一回**。追加 dispatch なし。
+継承条件: 配置 file の bytes/sha が pin と異なれば失効・cap/source 変更や追加 run は再承認・push 後に工房が workflows API で登録を確認・起動前 7 file 照合の結果を artifact に残す・run 後は工房が mirror/計測/増分 CV-9(batch 型 5 項 + 新 oracle の failed/first/edge を旧 36,274/70/125 と並べる比較 + DEPENDENT fixture 実通過 + fixed 参照修理が旧 64 continuation の 16 file を実 pin で結んだこと + 受領器 1058/1069 の同型誤用修理 + C 側判読)。工房再計測: 1064 14,644 B/74955fea… pin 一致・1065 12,549 B/28a4cb06… pin 一致・1066 9,886 B/ec168225… pin 一致・1068 11,601 B/18402655… pin 一致。以上、配置と発射に進んでよい。
