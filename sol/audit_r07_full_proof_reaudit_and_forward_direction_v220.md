@@ -24143,3 +24143,19 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root限定採択6028/b936668c…を全文読了。通常file/元ZIP書込み0、登録空36+38以外のmkdir0、数学再演0。46178はhelperのfile hash counterで全I/O総計ではない。将来の外部削除防止は保証しない。
 - 旧typed v4は未完/単独再起動0。後着v5受領器のhistorical-v4全受領を省略せず、新GHA待ち条件にしない。run34161493396/1/head a5b456a9の独立C監視とartifact受領準備を継続。
 - v220内進捗: **CLOSED=新数学矢印0・登録空74の認証/限定復元/全after受領、ADVANCED=P工程success後の独立C継続/結果受領準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・旧typed未完・verified=false**。
+
+### Delta 701 — v5 envelope-v3本走全体success・候補artifact全ZIP取得へ（2026-09-08 JST）
+
+- reply163 F8.164。run **34161493396/1** / head **a5b456a973f8a917f3af386d327061a02a0cf900** / workflow352449001は **22:10:09Z success**。P21:05:02–21:33:28Z、C21:33:43–22:07:46Z。全26 step success、最終結合と候補/diagnostics uploadを含みfailure/skipped0。最終job6264/8ce78274…とrun API13862/986dfe66…に結合。
+- candidate **10034053256**、API宣言 **384961441 B / 72e19a87e3a4ca06daa3b1b9dc8a16e76778e6ce1d6bd3a57b25acea363602db**。diagnostics10034064913は同sizeだが別digest。artifact API1601/cfc6054d…全読。rootがcandidate全ZIP取得を開始したが、本節時点の全ZIP/全entry/実P/C JSON/比較件数/新rankは未受領。
+- 登録空74は22:05:04Zの名前再確認で全件存在/欠品0（22565/1c27c3b1…）。全file再hashや将来削除防止には読み替えない。Delta699–700の限定4pathはcommit11b2f03490b7362021987c24ad9d3ce21904500e、21:43:13.7343801Z push済み。
+- 次に全ZIP/全entryを受領し、1103の公開結果/費用監査、1102基点の実artifact結合、増分CV-9へ。GHA success単独で新数学格を上げない。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=本P/独立C/最終結合/GHA全体success・実candidate公開/全ZIP取得、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・旧typed未完・verified=false**。
+
+### Delta 702 — 実全11750 file受領・今回P/C 1834/8539一致の実観測（2026-09-08 JST）
+
+- reply163 F8.165。run34161493396/1 / head a5b456a973f8a917f3af386d327061a02a0cf900、candidate10034053256の全ZIP384961441 B /72e19a87…がAPIと一致。root全entry EOF/全SHA/展開後全file再hashを完了し、11750 files/3507 directories/1347269002 Bを受領。実取得票720/d669afa2…、全entry2159113/101e1a35…、全手渡し4939/0fa69175…。
+- 今回実P/CともPASS、rank **1834** /gen **8539**、selected/processed/accepted128/128/128、dependent0、C decisions/rows比較128、partial=false/durable_tail=null。PはSeparator/BATCH_COMPLETE_CANDIDATE。初読票15900/22adb9fb…に全14現物pin・16一致字段・全五execution exit0・metadata16/P[30,10,6,7]/C[28,9,6,7]全実testを結合。旧失敗P-onlyの再利用ではない。
+- 保存cost実字段: P1702.391124秒、selection11.831757000000001、六phase1411.6453159999999、final1.085957、P残差277.82809400000014、C2041.4255092800001、P+C3743.81663328。全776入力監査は1103で進行中。launcher時間と本体elapsedを分け、F-v4-1を自動閉鎖しない。新最終λのoracleはnull。
+- 1104のAPI期待値結合を全順逆raw/508592 B suffix/5 sibling/全12材料3717925 Bで限定採択。guardfalse版を上書きせず、全手渡し後に1105最終activation準備を開始した。旧単独typed再起動0、歴史v4完全scopeは新受領器で省略しない。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=今回P/C128件一致・観測candidate1834/8539・全11750 file受領・費用監査/activation準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・旧typed未完・verified=false**。CV-9と全typed受領は未了。
