@@ -1,0 +1,3 @@
+# 裁定 2212 snapshot(2026-09-08・司令塔記帳)
+
+- 2212: **v5 配置 = pin 4/4 一致・新 workflow 登録・研究 run 開始**。工房監視が origin の配置 push を検知: head 2751f894(2026-09-08T01:26:08+09:00 Advance fixed-lambda batch from rank 1706 [r07-fixed-lambda-cycle-batch-v5-envelope-v1-run])の 4 path bytes/sha = d972-r07-fixed-lambda-cycle-batch-v5.yml 一致/d972_r07_fixed_lambda_cycle_batch_v5.py 一致/check_d972_r07_fixed_lambda_cycle_batch_v5.py 一致/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v1.py 一致・workflows API 登録 id 352449001 active(監視実測)・run 34143415388(in_progress/-・created 2026-09-07T16:28:19Z・head 2751f894)。工房: GHA 監視で完了を待ち、完了後に mirror/計測/増分 CV-9(v5 型)へ。
