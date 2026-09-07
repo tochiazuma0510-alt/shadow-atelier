@@ -1,0 +1,17 @@
+# Task1076 — 次のfresh lambda_1706 batchに必要な親入場差分の棚卸し
+
+役割: Luna/producer作者。実装着手前の限定read-only設計課題。返信 `sol/luna_reply_1076_r07_parent1706_next_batch_surface_inventory.md`、末行 `AUDIT_1076_VERDICT:`。変更は指定返信と新TEMP/shadow-atelier-audit163/task1076のみ。repo source/WF/既存artifact/他便を変更しない。新agent/Git/GHA/network/credential/Python/import/AST/compile/GAP/数学実行禁止。自身のP3/P4本文と公開interface・metadataだけを読む。C私的本文は読まない。全受領器も実行しない。
+
+研究者はGHAを必要時に継続使用して進めるよう明示。2199で回数制限は撤廃されている。一方、親・数学宇宙・batch上限/no-refill・C4 raw・著者分離を変更する実配置/実発射は明示事前承認の対象。今回の課題は、現在の全受領/CV-9を待つ間に次の具体設計を先行して読み解くものであり、親1706の正式受理や新run承認を補わない。20分程度の静的棚卸しを目安にし、計算を始めない。
+
+今回の実run34120585268/1、head92720e5371164545259c3007cb11e951fa5e1686、candidate10020349387はGHA成功・root全ZIP/全11648entry EOF/SHA/readbackを通過した。全ZIP377383320 B/84040119b08d4ee1e9a3b4524618164172f382f9a97314084131bb9fd0a3cac5。実root TEMP/shadow-atelier-fixed-lambda-batch-v4-run34120585268-candidate-a1。P/C公開値は128 selected/processed/accepted、dependent0、rank1706/generation8411、state13c631c6dee46d4026e996f53370bcc202737f1082582b02271884593f902101、target954e1ba1a50e138a0577c27c285c21ed052f3491176d883f370e8a94d11b456a、lambda d036e848c46b563a5b0f683fb94afcbc759dc4bc402c6db14c82b172ccc0a653。今回のselectionはlambda_1578上の36104/74/131であり、新final lambda_1706は未走査。grade2両NOT_DECIDED/full_A0=false。2204/2205は先行値とroot公開値の一致までで、正式は1578/8283、CV-9とroot全metadata受領が進行中。
+
+source基点P4 = search/d972_r07_fixed_lambda_cycle_batch_v4.py 290457/a58f7c116558fdc430025a9e095d29d0b04e0f20c9295264fca58a4c13510d0a。C4全raw261170/a29380ec00876225cc618c7025d671a3da79aea3b31b829dedba13c59ba84633はopaque pinとしてのみ扱う。公開根拠は1053/1054/1055/1064/1065/1067と163の当該後半を参照。次の仮設範囲は元の8059 P1 rows・四characters・54433 chords＋2aux、fresh final lambda_1706、最大128候補/no-refill/max_batches1、同caps（P5400/C10800、outer6000/11400、RSS7168 MiB、job330min）とする。何かの実変更を既に承認されたと解釈しない。
+
+棚卸しの問い:
+1. v4の新128行を次の親として足すには、旧64 anchor・v3 batchの128行・v4 batchの128行をどの順序/名前/実fileで再構成し、どのsource関数/公開metadata契約が現在のv3親固定（schema、run tuple、row count、rank/generation、head、target plain/packed、manifest reference）なのか。実全treeから親候補に必要なファイルの所在とpinを記録する。自己申告stateだけを数学再演の代用にしない。
+2. 旧P3/P4の数学本体をraw保持できる境界と、親入場・旧row列・owner/bootstrap/projectionで新しい薄いlayerが必要な境界をsource位置に結ぶ。単なるv3→v4文字置換で正しいとしない。v4が内包/参照する前世代の128行を落とさないことを明示する。
+3. 次をversioned v5として設計する場合の最小の新親role集合・全旧tuple保持・公開source/registry/WF入場・受領器への波及をリスト化する。C側は独立作者の実装が必要な公開契約だけにし、C本文を推測しない。v4の元数学/新旧selftestを再走済みと扱わない。
+4. fresh lambda_1706を次のGHAで扱うために必要な未受領条件（CV-9、全metadata、実parent pins、次の具体WF承認）を、準備可能な静的作業から区別する。速度・採用率・失敗数の未来予測はしない。有限の全宇宙を勝手に狭めず、複数batchやbatch256・caps拡大へscopeを広げない。
+
+回答は具体的なsource line/file/pathと型付きmetadataの実値に支えた一枚の実装面マップを中心にする。source本文のコピーや新source生成を増やさず、実装可能な次の委嘱の入力が揃うところまでを閉じる。足りないものは未決とし、root本受領を妨げない。
