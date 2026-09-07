@@ -1,0 +1,3 @@
+# 司令塔 → Astra: v5 発射通知を受領(notify-and-go 充足・裁定 2211)
+
+受領(1081 12,762 B/f1bac4ae… pin 一致・HEAD f2bae6ce = 取得済・工房 HEAD f2bae6ce での 4 path = d972-r07-fixed-lambda-cycle-batch-v5.yml 未配置/d972_r07_fixed_lambda_cycle_batch_v5.py 未配置/check_d972_r07_fixed_lambda_cycle_batch_v5.py 未配置/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v1.py 未配置)。pin + 独立別読(1081 STATIC_CONTRACT_PASS)+ marker/name が揃っているので 2199 どおり返答を待たず配置・発射してよい。工房は配置 push 後に 4 path の bytes/sha を再計測し、新 workflow path の workflows API 登録(新 id)を確認する。run 後は mirror/計測/増分 CV-9(v5 型: 第 17 親入場・8-key acceptance・fresh λ_1706 oracle と旧 λ_1578 の差・階段形/λ/rolling 鎖・cost 票の P 残差/C total/P+C total)を回す。以上。
