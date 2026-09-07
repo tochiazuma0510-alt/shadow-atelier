@@ -1,0 +1,15 @@
+# Task1095 — envelope-v3 の独立な全raw/WF別読
+
+宛先: packet_producer（1094 driver/WF作者とは別人）。先に1093公開consumer全目録を完了・凍結する。本便の返信 sol/luna_reply_1095_r07_v5_envelope_v3_independent_audit.md、材料 %TEMP%/shadow-atelier-audit163/task1095/ の新fileのみ。root専任のrepo配置/Git/GHAは行わない。現在進行中1093の未解決を本便で代わりに閉じない。
+
+1094の固定材料: %TEMP%/shadow-atelier-audit163/task1094/review-snapshot-v1/。最終目録 final-material-manifest-v1.json=5730/ccc7d163c9137999da0364cd7322671ba25d59a4cb4ba6c24ce4743d6ff36dcc、self除外19file/2532477 B。全材料を実pinしてから読了する。候補driver1145223/f1b50bc529f08ad8654d775e2fce652334dfa8b325d3d2bcc27286aa09cb3f98、WF26294/3102f115c0d59d69d7ecc0b3941588b7fab5181e961b6399126a4e2516c4e969、current registry499053/8792321d9cdcf25244726050928ae7fbd0cce5812e4f6867fa303ffcb49caa73。新C336211/111e23bfe6a7b49b4b3a03a00f3b48345c3f75ab098f06efc18279e881555b19は1092作者固定rawで、自分で修理しない。
+
+基点は現deployed driver_v2 1145223/238285767c62b0377d1192bd264233252870e0a5cfb9906a75035c0de2139573、WF26294/3c20910e9fcce7cb8e05e234b7cbf8f1e329146a62613c6031dc8440d11431f7、C336193/47cf2596e9e9dabaab89395f5274ce15b9443002922ba7bfdbca42022979de73。P366659/6e19d029c0f4aa55e39d24022008a29ab666c50bc52d5d086917f7dbc10cb99dは全raw不変。作者の変更主張はdriver登録3行L2852/L3509/L5463・WF7行L2/11/145/146/150/152/170・registry2行L19/676のみ。raw全forward/reverse、driver全106EOF分割（module-prefixのみ変更/105 named bodies不変）、三registryの別役割と旧二全bytes不変を独立に確認する。C private数学本文は読まず、140全raw/旧4loaderと20bodyはopaque hash接続に限定する。公開一式 selected[selection_lambda_sha256]→records[selection_start][selection_lambda_sha256] の参照先訂正と比較条件保持はpublic所見で扱う。
+
+全WF414行を全文別読し、name-v3/新marker/branch、source+driver全pin、manifest固定、17親/8key、二128履歴層・353記録・3native層、metadata16/四群、three-fixture-before-Cの順序、actual C exit0のfinal条件、always保存・診断upload・candidate gate、全capsを現body不変と明示的に照合する。P5400/C10800・outer6000/11400・selftest300/360・RSS7168MiB・job330分・WF<500000B、fresh P/C・128/no-refill/新親やcacheに未採択P1834を使わない契約を維持する。必要な制御bodyを別読し、それ以外は全raw不変と既存監査への具体pinで閉じる。新数学独立性・call coverage・Lean verifiedへ広げない。
+
+exact五path票=新Cactive、新driver_v3、activeWF、旧C archive、旧WF-v2 archive。旧driver_v2/driver_v1/旧全sourceとWF archiveを保持する。archiveを親やTCBや実行closureに追加しない。全差分外不変と残るfinding/UNKNOWNを箇条書きで根拠付き記帳し、全材料pin付き独立受領票を返す。
+
+2199/2217/2218 notify-and-goと研究者GHA回数無制限認可が根拠。追加承認依頼は不要だが、1092/1093全consumer意味照合が未完ならlaunch-readyとはしない。自分の1093 P監査を独立に監査したとは主張しない。rootが全条件・最終pins・配置前expressを閉じて実行する。
+
+ローカルはraw文字列/typed JSON/hash/範囲だけ。source/helper/Python/GAP/AST/import/compile/dot-source/selftest/数学実行、network/credential/Git、既存process操作、新agentは禁止。末行 AUDIT_1095_VERDICT: を置く。

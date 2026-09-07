@@ -1,0 +1,15 @@
+# Task1092 — C5 親selectionキー契約の限定修理と公開consumer目録
+
+宛先: packet_checker（C5作者）。返信 sol/luna_reply_1092_r07_c5_parent_selection_key_contract_repair.md、全材料は %TEMP%/shadow-atelier-audit163/task1092/ の新file。1090は凍結保持し、本修理に速度改善案を混ぜない。
+
+裁定2217 snapshotとops/express/20260908_fable_astra_2217_v5_run2_checker_reject_diagnosis.mdを全文読む。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1はfailure。工房Range観測のC reason=KeyError selection_lambda_sha256、C5 L1995を発生箇所と推定（tracebackなし）。root全ZIP downloadは継続中、後着完全取得票までは新diagnosticsを開かない。候補値は未採択、正式1706/8411保持。2217は2199 notify-and-goに従うC5/P5の公開契約修理を明示授権した。実走/Git/networkはrootのみ。
+
+rootの独立静的観測: 現C5=336193/47cf2596e9e9dabaab89395f5274ce15b9443002922ba7bfdbca42022979de73、L1995がselected["selection_lambda_sha256"]を読む。selectedは第17親v4のoutput/selection/selection.json。rootの全取得済み旧親 %TEMP%/shadow-atelier-fixed-lambda-batch-v4-run34120585268-candidate-a1/ で同JSON=30909/181c87b906b2908e8d9d00e29faabf66bff673340e338bf18775e95150c3b4abの全topキーに同字段なし。output/selection/start.json=1038/00a6c7e54fa99b1e0d9c390005b02a0972785f2a3b576bb348cc3bb166ce7e2aには同字段あり、値6a0fe9368f2ec7f28c4d8076e7d3184fb57322b9d0905a8e7c3c26b467bcee4e。output/start.json=119074/9ee29d5af385f5cb4b884a441237d27d302e17a1d0c15099bc62ea4001008e25にも同値。新v5のstart λや親terminalの新λとは区別する。
+
+第一目的: 正式なλ_1578比較を保持し、L1995の参照先だけを既に認証された正しいv4 JSONへ接続する最小新snapshotを作る。どのrecords/変数がどの実path/schemaに結ばれ、全file pin→selection_start_sha256→共通binding→比較がどう閉じるかを示す。存在しない字段を追加するためにP/親を変更したり、get/defaultで検査を弱めたり、比較を削除したりしない。旧C5全rawを保持し、一般数学・旧C1..4 loader/kernel/宇宙/17親/8key/caps/no-refill/batch128/author separationは不変。全EOF範囲と全forward/reverse byte差分・変化外一致を保存。
+
+第二目的（2217必須）: C5全sourceの公開JSON consumerキーを機械列挙し、role/root/実JSON path/schema/変数・alias/key path/型/source行・範囲pinへ結んだ目録を作る。まず全文raw文字列走査によるliteral subscript/get/動的key使用の全候補を保存し、公開consumer、非JSONの内部辞書、継承opaque、要手読の動的参照を分類する。regex一致だけで全意味網羅を宣言しない。新第17親 readerと現v5 producer出力を読む全経路では、全consumerを必ず実親JSONまたはproducerの公開schemaに照合する。dynamic field tuple/loopを具体展開し、未解決があれば場所と理由を残す。rootがTask1093の独立producer公開票を後着させるので、P私的数学本文へ踏み込まない。
+
+新C private数学bodyは自分の領域として読めるが、P private本文は読まない。以前受理したP公開serializer/contract/範囲票だけを参照する。L1995以外に実契約不一致が見つかれば具体path/値/型と保持必要条件を報告し、意味を変える広い修理を勝手に追加しない。全consumer目録と照合済み範囲/未解決範囲を分け、static PASSと実数学PASSを混同しない。
+
+raw/typed JSON/bytes/hash/string範囲操作のみ。Python/GAP/AST/import/compile/dot-source/source実行/selftest/receiver実行・性能試験は禁止。Git/GHA/network/credential/source配置/既存process操作0、新agent0。必要な対照は今回実runの既存保存票・旧実親にpinして静的に読む。最終行 AUDIT_1092_VERDICT: を置く。rootが全差分・別読・配置前通知を閉じた後、必要なGHAで本P/Cを実行する。

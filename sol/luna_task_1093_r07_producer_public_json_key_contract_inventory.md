@@ -1,0 +1,15 @@
+# Task1093 — P5 公開JSONキーの全文機械目録と実親接続
+
+宛先: packet_producer（P5作者）。返信 sol/luna_reply_1093_r07_producer_public_json_key_contract_inventory.md、材料 %TEMP%/shadow-atelier-audit163/task1093/ に新規保存。1089はartifact null/guardfalseのまま凍結保持する。本便はP sourceを一切変更しない公開契約票。
+
+裁定2217 snapshotとops/express/20260908_fable_astra_2217_v5_run2_checker_reject_diagnosis.mdを全文読む。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1のCがKeyError selection_lambda_sha256で停止。工房のL1995発生箇所はtraceback未取得の推定。rootは旧v4の全取得済みselection.jsonの全topキーに同字段がなく、selection/start.jsonとoutput/start.jsonにはあることを独立に確認した。修理はC作者Task1092。正式parent1706/8411維持。2217の再発防止要求はP5/C5公開JSONの全consumerキーの機械列挙と照合。
+
+現P5=366659/6e19d029c0f4aa55e39d24022008a29ab666c50bc52d5d086917f7dbc10cb99dを全文raw文字列走査し、公開JSONのproducer側key集合とconsumer側参照の目録を作る。source実行/ASTではなく、literal key/subscript/get/dynamic-field tupleの全候補を機械列挙し、公開serializer、公開reader、非JSON内部dict、継承opaque、動的要手読へ分類する。regex一致だけを全意味網羅と扱わない。
+
+公開serializerごとに実root role/file/schema、出力key path/型（exact字段なのか可変mapなのか）、binding欄、source行/offset/bytes/SHAを登録する。条件分岐・dictionary merge・function wrapperで付加するkeyも明示。特に第17親v4 reader、新v5 start/selection-start/selection/result/HEAD/progress/checkpoint/phase metadataは全接続を追い、同名別root/schemaを混ぜない。自分のP private数学bodyは読めるが、C private本文へ踏み込まない。Cの未知期待値に合わせてproducer出力へ字段を増やさない。
+
+旧v4全実親root %TEMP%/shadow-atelier-fixed-lambda-batch-v4-run34120585268-candidate-a1/ をread-onlyに使える。旧selection.json=30909/181c87b906b2908e8d9d00e29faabf66bff673340e338bf18775e95150c3b4ab、selection/start.json=1038/00a6c7e54fa99b1e0d9c390005b02a0972785f2a3b576bb348cc3bb166ce7e2a、output/start.json=119074/9ee29d5af385f5cb4b884a441237d27d302e17a1d0c15099bc62ea4001008e25。後二者のselection_lambda_sha256=6a0fe9368f2ec7f28c4d8076e7d3184fb57322b9d0905a8e7c3c26b467bcee4e。producer完走報告だけから全schema契約の整合を推定しない。
+
+rootが新runの全ZIP取得/全entry展開を完了してhandoffするまでは新diagnostics/未完ZIPを開かない。受領後は実新JSONの型/全キーを公開schemaへ照合する対象に追加できる（失敗runの未採択candidate、数学再生なし）。意味不一致が見つかれば静的具体根拠を返し、旧親やPソースは変更しない。C作者へ渡せるpublic-only目録と、自分の全文機械候補/分類票を分ける。差分0のP全pin、公開項目の全照合/未解決範囲を厳密に区別し、未解決を0と捏造しない。
+
+許可はraw/typed JSON/文字列/範囲/hashのみ。Python/GAP/AST/import/compile/dot-source/source実行/selftest/receiver実行、Git/GHA/network/credential、process操作、新agentは禁止。旧1089/実親/source/出力は不変。最終行 AUDIT_1093_VERDICT: を置く。

@@ -24053,3 +24053,33 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - reply163 F8.152。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1は17:48:13Z時点in_progress。17親live17:44:34Z、8key intake17:45:04Z、metadata16対照17:45:22Z、P四群17:45:25Z、C四群17:45:32Zにsuccess。本Pは17:45:32Z開始、後続保全/Cはpending。実進捗票2306/3e820ac1…（元API5595/2797b11a…）全文読了。
 - 2216は配置後の新三path/保持C・旧driver/旧P・旧WF archiveの全7pin一致、同run/head/WF idを工房が確認。root監視18992と旧v4 typed82390は継続中。新selection/rank/本P-Cの実成功は未観測。
 - v220内進捗: **CLOSED=新数学矢印0、ADVANCED=全17親/受付/metadata16/P-C四群success・本P開始・2216、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。必要なGHAを回数制限なく継続する。
+
+### Delta 690 — 本P継続・1089実launch結合と受領準備（2026-09-08 JST）
+
+- reply163 F8.153。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1は18:08:33Zも本P進行中、C/成果物未観測。旧v4 typed82390/PID13988も継続。F151–152は文書commit172198872c5cbd70e28976106ba1b4df93f4699fへ記帳/push済み、旧prefix全raw/remote一致。
+- 1089中間9867/94dd6621…を全文受理。受領器516900/49601381…は実launch/承認2215と二commentの四行だけ。root全raw両方向復元/五sibling一致（3577/84ff1ced…）、全21材料を実hash、目録6584/35a6e483…全文読了。artifact null/guardfalse/実行0。
+- 旧v3/v4 ZIPを全実再hashし781c9f46…/84040119…へ一致。新run取得器9632/7547b376…はrun/head二literalだけ変更し全逆差分一致。実candidateのAPI/全ZIP/全展開の後だけ、1089の別snapshotへartifact四字段とguardを結ぶ。
+- 旧A2の新規再起動要求ではなく、将来v5受領器の歴史typed照合を省略しない意味を1089 F7で固定。1090は受領metadataの静的重複地図と将来案だけ、実装/実行/現在process変更0・GHA待ち条件追加0。
+- v220内進捗: **CLOSED=新数学矢印0・実launch静的接続、ADVANCED=1089受理/旧ZIP再hash/新run取得器/1090開始、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。
+
+### Delta 691 — envelope-v2 実failure・全診断取得と1091開始（2026-09-08 JST）
+
+- reply163 F8.154。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1は18:17:20Z更新でcompleted/failure。全17親/受付/metadata16/P-C四群success。本P wrapper14約30分後、C wrapper16を経てfinal21 failure、candidate22 skipped、diagnostics23 success。API continue-on-error表示からactual P/C exit=0を補完しない。
+- root停止票7572/3279b5ca…全文読了。diagnostics10029340951、ZIP API384805623/8947aa9b…の全取得をroot91691で開始、未完ZIPは開かない。実P/C終了票・stderr・rank・最初の停止理由は未受領。1091は公開実metadataと既読外側制御から原因/二次症状を分離する。1089はguardclosed保持。
+- 司令塔へ失敗実観測通知1143/81bd05e2…、追加承認待ち0。旧v4 typed82390は継続。v220内進捗: **CLOSED=新数学矢印0、ADVANCED=実failure識別/診断artifact/全取得開始/1091、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。実原因に基づく限定修理と必要なGHAを継続する。
+
+### Delta 692 — 全診断受領・C5公開JSON参照先修理と再実行準備（2026-09-08 JST）
+
+- reply163 F8.155。run34148667863/1/head3e7e1ccf1996dad15b9019de849cf61548c654d1のdiagnostics10029340951を全取得。ZIP384805623/8947aa9b…、11748 files/3507 dirs/1345237252 B、全entry EOF/hash・抽出後全file再hash。取得票707/6ca02490…、全entry2158818/6d536112…。root一次診断6268/1d8d8125…全文読了。
+- actual P exit0/C exit1、stdout/result全raw一致。P報告rank1834/gen8539・128/128は未採択。CはKeyError selection_lambda_sha256/FAIL/REJECTED・比較0・ranknull。保全PASS/29 flags全true・三fixture票PASSで前回二修理の実通過を確認。costはINCOMPLETE、保存P residual271.41173999999995秒等を完全P+C/原因判定へ流用しない。
+- λ役割を区別: 旧v4選択λ1578=6a0fe936…、新v5選択λ1706=d036e848…、P未採択final λ1834=b224f95d…。2217のb224をλ1706とする表現をexpress2048/a33ec7dc…で補正。正式1706/8411を維持する。
+- rootが旧親三JSONの全key/型/実pinを照合し、C5 L1995の参照先不一致を静的確定。1092候補336211/111e23bf…はrecords["selection_start"]への一行+18 B、root全逆差分一致（769/58181ad4…）。1093公開focus45929/b164fc47…を全文受理し、新三JSONの39/19/27 keyも実一致（1537/fb6766a2…）。全consumerは機械候補と意味分類を分けて継続、まだ全域PASSではない。1094は保持P/旧C4/全caps/17親/8key/no-refill/batch128のまま次envelope準備。全票/別読/最終pin/配置前通知後にGHAを再実行する。
+- 1090静的費用地図18047/05299e79…を限定受理。root全5材料/35範囲/元copy全bytes/四行逆差分再照合（5745/7db91ecd…）。再利用二案の安全前件・実原因・倍率はUNKNOWN、旧typed82390の停止/再起動/省略0。
+- v220内進捗: **CLOSED=新数学矢印0・前回二修理の実通過、ADVANCED=実全診断/C一行修理候補/公開契約全突合と次envelope準備/1090受理、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。2217のnotify-and-goとGHA回数無制限認可を保持。
+
+### Delta 693 — 1091凍結・2218と旧typedA2の実停止訂正（2026-09-08 JST）
+
+- reply163 F8.156。1091最終12707/d0aa3b78…を全F/全表/末行までroot読了。P実exit0/C実exit1、C公開key拒否・比較0、三票/29保全PASS、P-only1834/8539/cost INCOMPLETEを分離。2218を全文受理し、1092/1093全consumer照合＋1094限定修理＋別読＋全pin＋通知でGHAを継続する。
+- 旧typed82390は**18:44:49.9690861Z actual exit1**。F8.155/Delta692のrunningを訂正し、終了票2544/5ec16f9e…を全文読了。Inventory L148/旧v3fixture history L705のmissing directory、receipt null。rootによる停止なし、再起動なし、数学FAILではない。
+- 15:40:06Zに全11437file/3475dir一致した旧v3の復元36空directoryが再び欠品。P registration二hostの32名は三比較inventory/全envelope/三archive inventory/inner ZIPにも登録済み、C欠品0。rootの全file再pin・集合診断は作成中、欠品の主体/原因はUNKNOWN。正式v4全inventory採択1706/8411と追加typed受付は2210どおり別扱い。
+- 公開P目録4513名→59形式をCへbodyなしprojection439405/cf3fd457…で共有。全consumer意味閉鎖はまだfalse。v220内進捗: **CLOSED=新数学矢印0、ADVANCED=実診断凍結/公開キー全突合/旧typed実停止の切り分け、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。

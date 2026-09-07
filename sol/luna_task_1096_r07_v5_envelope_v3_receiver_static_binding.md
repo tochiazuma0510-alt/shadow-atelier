@@ -1,0 +1,13 @@
+# Task1096 — envelope-v3のmetadata受領器を閉じたまま限定更新
+
+宛先: packet_bounds_audit。1094作者返信/全材料を凍結した後で実施。返信 sol/luna_reply_1096_r07_v5_envelope_v3_receiver_static_binding.md、材料 %TEMP%/shadow-atelier-audit163/task1096/ の新fileだけ。既存1089/1094/旧artifact root・processは変更しない。
+
+既存1089受領器 task1089/root-review-receiver-v5-run34148667863-launch-bound-guardclosed-v1.ps1=516900/49601381a834c583071251288e7f9b94e9b1036b6f88e32262d1051a8dbee0e4、ASCII4626LF。これは失敗run34148667863に結んだ未実行guardclosed版であり、新runへその失敗tupleを引き継がない。1088=516693/5e51d5ab28459ae565a8ee61dd0ea1f6f7d0e1c579c8786f4c8277edf46a39b7、1083独立監査とrootの既往全一般body監査を保持する。旧三root認証/八key/metadata16/四群/三fixture/fullcost/no numerical replay/最終actual C successの条件は変更しない。
+
+1094固定新WF26294/3102f115c0d59d69d7ecc0b3941588b7fab5181e961b6399126a4e2516c4e969、driver1145223/f1b50bc529f08ad8654d775e2fce652334dfa8b325d3d2bcc27286aa09cb3f98、currentregistry499053/8792321d9cdcf25244726050928ae7fbd0cce5812e4f6867fa303ffcb49caa73、新C336211/111e23bfe6a7b49b4b3a03a00f3b48345c3f75ab098f06efc18279e881555b19を対応する固定pinだけに結ぶ。P366659/6e19d029c0f4aa55e39d24022008a29ab666c50bc52d5d086917f7dbc10cb99d、正式v4全inventory/全旧親/過去registry/WF/rawsourceは全保持。新driverRepoはsearch/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v3.py（1089 L3716が現v5の場所）。旧v4 driver_v2/history文脈に一括置換をしない。
+
+目安の差分: L14/28 comment、L30 current launch=null、L31 approvalは現2218のnotify-and-go（後の正式通知/launch版で実値に再結合）、L32/33 WF/driverpin、L60 Cpin、L61 currentregistrypin、L3716 currentv5driverpathのみ。L29artifactnull/L34guardfalseを保持。全出現を機械列挙し、旧/新文脈を記帳する。必要な差分が別にあれば根拠付きでrootに報告し、条件を緩めない。既存全一般bodyを再実装しない。
+
+current launch/artifactは未観測でnull。推測run/head/idを入れない。新full fresh GHAは1092/1093全consumer契約＋1094/独立別読/最終pin/配置前通知の後でrootが行う。この受領器を今実行しない。失敗diagnostics10029340951を成功candidate入力として結ばない。
+
+全raw forward/reverse差分、全EOF分割と不変一般body、変更literalの旧/新役割、九必須params、guard先行/危険body到達不可の静的確認、全script/meta/filepin目録と短い監査返信を返す。新hash/全bytes/ASCII LF、旧script/全親不変を実pinする。author数学本文とsource/helper/Python/GAP/AST/import/compile/dot-source/selftest実行、network/credential/Git、既存process操作は0。旧v4 A2がempty36再欠品で失敗した件の修理・再起動は本便に入れない。末行 AUDIT_1096_VERDICT: を置く。
