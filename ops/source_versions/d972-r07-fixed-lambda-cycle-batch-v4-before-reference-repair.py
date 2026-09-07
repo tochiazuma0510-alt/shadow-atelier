@@ -1387,88 +1387,6 @@ def batch_saved_manifest(root: Path, directory: str, kind: str, binding: Any,
     return value
 
 
-def batch_fixed_reference_manifest(admission: Any, binding: Any) -> Any:
-    root = admission["paths"]["batch-parent"]
-    old_root = admission["paths"]["continuation"]
-    acceptance = admission["acceptance"]
-    anchor = acceptance["anchor"]
-    manifest_name = "output/fixed/manifest.json"
-    value = old_batch_document(root, manifest_name, "fixed-manifest")
-    exact_keys(value, ("schema", "sha256", "owner_sha256", "source_sha256", "start_sha256",
-               "accepted_fixed_manifest", "accepted_geometry_stage_sha256", "files",
-               "fixed_values_independent_of_lambda"), "batch_fixed_reference_exact_keys")
-    batch_binding_matches(value, binding, ("owner_sha256", "source_sha256", "start_sha256"))
-    require(file_pin(safe_file(root, manifest_name), manifest_name) == acceptance["batch_anchor"]["fixed"],
-            "batch_fixed_reference_named_full_pin")
-    pin_type(value["accepted_fixed_manifest"])
-    require(canonical(value["accepted_fixed_manifest"]) == canonical(anchor["fixed"]) and
-            value["accepted_fixed_manifest"]["file"] == manifest_name and
-            file_pin(safe_file(old_root, manifest_name), manifest_name) == value["accepted_fixed_manifest"],
-            "batch_fixed_reference_registered_old64_manifest")
-    original = read_json(old_root, manifest_name)
-    check_seal(original)
-    exact_keys(original, ("schema", "sha256", "owner_sha256", "source_sha256", "scope",
-               "accepted_geometry_stage_sha256", "files", "fixed_values_independent_of_lambda"),
-               "batch_fixed_original_exact_keys")
-    require(original["schema"] == "d972.r07.complete-oracle-cegar-continuation.v1.fixed-manifest" and
-            canonical(original) == canonical(admission["anchor_objects"]["fixed"]),
-            "batch_fixed_original_schema_and_accepted_object")
-    batch_binding_matches(original, {"owner_sha256": anchor["owner"]["sha256"],
-                                      "source_sha256": anchor["source"]["sha256"]})
-    require(canonical(original["scope"]) == canonical(admission["anchor_objects"]["owner"]["scope"]) and
-            original["fixed_values_independent_of_lambda"] is True and
-            value["fixed_values_independent_of_lambda"] is True, "batch_fixed_original_scope_and_lambda_independence")
-    geometry_root, geometry_name = admission["paths"]["oracle"], "output/geometry/manifest.json"
-    geometry = read_json(geometry_root, geometry_name)
-    check_seal(geometry)
-    require(geometry["schema"] == "d972.r07.section-cochain-oracle.v1.stage-manifest" and
-            geometry["stage"] == "geometry" and type(original["accepted_geometry_stage_sha256"]) is str and
-            type(value["accepted_geometry_stage_sha256"]) is str and
-            value["accepted_geometry_stage_sha256"] == original["accepted_geometry_stage_sha256"] ==
-                file_pin(safe_file(geometry_root, geometry_name))["sha256"],
-            "batch_fixed_same_registered_oracle_geometry")
-    expected_names = ["basis.json", "bfs-order.u32", "canonical-index.json", "carry.u8", "chord-edges.u32",
-        "chord-tau.u8", "geometry.json", "next-pos.u32", "p1-exponent-residues.json", "parent-edge.u32",
-        "parent.u32", "phi.u32", "potential-tau.u8", "prev-pos.u32", "selected-chords.u32", "tag-fox.json"]
-    require(isinstance(original["files"], list) and len(original["files"]) == 16 and
-            isinstance(value["files"], list) and len(value["files"]) == 16, "batch_fixed_exact_sixteen_descriptors")
-    projected, names = [], []
-    json_count = 0
-    for entry in original["files"]:
-        exact_keys(entry, ("file", "bytes", "sha256", "dtype", "shape"), "batch_fixed_original_five_key_descriptor")
-        plain = {key: entry[key] for key in ("file", "bytes", "sha256")}
-        pin_type(plain)
-        name = entry["file"]
-        require("/" not in name and type(entry["dtype"]) is str, "batch_fixed_flat_typed_reference")
-        require(file_pin(safe_file(old_root, "output/fixed/" + name), name) == plain,
-                "batch_fixed_old64_payload_full_EOF_and_SHA:" + name)
-        if entry["dtype"] == "json":
-            require(entry["shape"] is None and name.endswith(".json"), "batch_fixed_JSON_null_shape")
-            obj = read_json(old_root, "output/fixed/" + name)
-            if isinstance(obj, dict) and "schema" in obj and "sha256" in obj:
-                check_seal(obj)
-            projected.append(plain)
-            json_count += 1
-        else:
-            pin_type(entry, binary=True)
-            require(entry["dtype"] in ("u8", "u32le"), "batch_fixed_original_binary_type")
-            expected_bytes = math.prod(entry["shape"]) * (4 if entry["dtype"] == "u32le" else 1)
-            require(entry["bytes"] == expected_bytes, "batch_fixed_original_binary_shape_EOF")
-            projected.append(copy.deepcopy(entry))
-        names.append(name)
-    require(names == expected_names and json_count == 5 and
-            canonical(value["files"]) == canonical(projected), "batch_fixed_JSON3_binary5_exact_projection")
-    folder = old_root / "output/fixed"
-    require({path.name for path in folder.iterdir()} == {"manifest.json", *expected_names} and
-            all(path.is_file() and not path.is_symlink() for path in folder.iterdir()),
-            "batch_fixed_original_manifest_and_sixteen_payload_EOF")
-    folder = root / "output/fixed"
-    require({path.name for path in folder.iterdir()} == {"manifest.json"} and
-            all(path.is_file() and not path.is_symlink() for path in folder.iterdir()),
-            "batch_fixed_reference_manifest_only_EOF")
-    return value
-
-
 def batch_loader_regions(parent_root: Path) -> list[Any]:
     current = Path(__file__).read_bytes()
     records = []
@@ -1777,7 +1695,8 @@ def authenticate_batch_parent(admission: Any) -> Any:
         with safe_file(root, "output/selection/tree/" + name).open("rb") as stream:
             first = stream.read(4)
         require(len(first) == 4 and int.from_bytes(first, "little") == expected_first, "batch_failed_array_first_saved_index")
-    fixed = batch_fixed_reference_manifest(admission, binding)
+    fixed = batch_saved_manifest(root, "output/fixed", "fixed-manifest", binding,
+                                 binding_keys=("owner_sha256", "source_sha256", "start_sha256"))
     require(fixed["fixed_values_independent_of_lambda"] is True and
             fixed["accepted_fixed_manifest"] == acceptance["anchor"]["fixed"], "batch_reuses_same_old_fixed_manifest")
     final = batch_saved_manifest(root, "output/final", "final-manifest", binding,

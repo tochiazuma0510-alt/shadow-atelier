@@ -1,5 +1,5 @@
-# Task1064/1065: envelope-v3 at the fixed v4 path; registered fixed references and current P4 metadata.
-name: d972-r07-fixed-lambda-cycle-batch-v4-envelope-v3
+# Task1059/1060: envelope-v2 at the fixed v4 path; executable raw bytes stay unchanged.
+name: d972-r07-fixed-lambda-cycle-batch-v4-envelope-v2
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     paths:
       - .github/workflows/d972-r07-fixed-lambda-cycle-batch-v4.yml
       - search/d972_r07_fixed_lambda_cycle_batch_v4.py
-      - search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver_v2.py
+      - search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver.py
       - search/check_d972_r07_fixed_lambda_cycle_batch_v4.py
   workflow_dispatch:
 
@@ -131,29 +131,26 @@ env:
   BATCH_PARENT_ARCHIVE_BYTES: "369233546"
   BATCH_PARENT_ARCHIVE_DIGEST: "sha256:781c9f467bd38305c524a0a2bf5b361f45e75bc4234d9cf6e891e01175db9e2e"
   PRODUCER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v4.py"
-  PRODUCER_BYTES: "290457"
-  PRODUCER_SHA256: "a58f7c116558fdc430025a9e095d29d0b04e0f20c9295264fca58a4c13510d0a"
+  PRODUCER_BYTES: "284974"
+  PRODUCER_SHA256: "3ba71767585b6a49efccb5d20bb60eb8939848669c19692a63018b9486f41d36"
   CHECKER_FILE: "search/check_d972_r07_fixed_lambda_cycle_batch_v4.py"
   CHECKER_BYTES: "261170"
   CHECKER_SHA256: "a29380ec00876225cc618c7025d671a3da79aea3b31b829dedba13c59ba84633"
   EXPECTED_PYTHON: "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]"
   EXPECTED_NUMPY: "2.5.1"
   WF_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v4.yml"
-  WORKFLOW_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver_v2.py"
-  WORKFLOW_DRIVER_BYTES: "536145"
-  WORKFLOW_DRIVER_SHA256: "35f73f5d1b8b519a69773690db8f8e514b3cc1d2792cc595ecdc0b92dede7a0c"
+  WORKFLOW_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver.py"
+  WORKFLOW_DRIVER_BYTES: "529340"
+  WORKFLOW_DRIVER_SHA256: "22942fcb260d55657be6c80afb3babd768c271ed562127b5ca2f1a0bc033dbae"
   WORKFLOW_HISTORY_FILE: "ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v1.yml"
   WORKFLOW_HISTORY_BYTES: "599085"
   WORKFLOW_HISTORY_SHA256: "e22c225a3f8706b648543c260b3ba603f6b6620cdcfadcdf573199b0f4f339f4"
-  WORKFLOW_PREVIOUS_FILE: "ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v2.yml"
-  WORKFLOW_PREVIOUS_BYTES: "20296"
-  WORKFLOW_PREVIOUS_SHA256: "c8dc698160b41a21e338cc5a099f4e4abb51a369247a48fbfbd17c907dd02623"
   PYTHONDONTWRITEBYTECODE: "1"
   PYTHONUNBUFFERED: "1"
 
 jobs:
   fixed-lambda-batch:
-    if: ${{ github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-lambda-cycle-batch-v4-envelope-v3-run]')) }}
+    if: ${{ github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-lambda-cycle-batch-v4-envelope-v2-run]')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     steps:
@@ -181,13 +178,12 @@ jobs:
           workflow="$GITHUB_WORKSPACE/$WF_FILE"
           source="$GITHUB_WORKSPACE/$WORKFLOW_DRIVER_FILE"
           history="$GITHUB_WORKSPACE/$WORKFLOW_HISTORY_FILE"
-          previous="$GITHUB_WORKSPACE/$WORKFLOW_PREVIOUS_FILE"
           test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/$WF_FILE@$GITHUB_REF"
           for directory in "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/search" "$GITHUB_WORKSPACE/.github" "$GITHUB_WORKSPACE/.github/workflows" "$GITHUB_WORKSPACE/ops" "$GITHUB_WORKSPACE/ops/workflow_versions"; do
             test -d "$directory"
             test ! -L "$directory"
           done
-          for file in "$workflow" "$source" "$history" "$previous"; do
+          for file in "$workflow" "$source" "$history"; do
             test -f "$file"
             test ! -L "$file"
           done
@@ -195,36 +191,29 @@ jobs:
           test "$workflow_bytes" -lt 500000
           test "$(stat -c '%s' -- "$source")" = "$WORKFLOW_DRIVER_BYTES"
           test "$(stat -c '%s' -- "$history")" = "$WORKFLOW_HISTORY_BYTES"
-          test "$(stat -c '%s' -- "$previous")" = "$WORKFLOW_PREVIOUS_BYTES"
           printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$source" | sha256sum --check --strict -
           printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$history" | sha256sum --check --strict -
-          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$previous" | sha256sum --check --strict -
           set -o noclobber
           cat -- "$source" > "$report/driver.py"
           cat -- "$history" > "$report/workflow-envelope-v1.yml"
-          cat -- "$previous" > "$report/workflow-envelope-v2.yml"
           set +o noclobber
-          for file in "$report/driver.py" "$report/workflow-envelope-v1.yml" "$report/workflow-envelope-v2.yml"; do
+          for file in "$report/driver.py" "$report/workflow-envelope-v1.yml"; do
             test -f "$file"
             test ! -L "$file"
           done
           test "$(stat -c '%s' -- "$report/driver.py")" = "$WORKFLOW_DRIVER_BYTES"
           test "$(stat -c '%s' -- "$report/workflow-envelope-v1.yml")" = "$WORKFLOW_HISTORY_BYTES"
-          test "$(stat -c '%s' -- "$report/workflow-envelope-v2.yml")" = "$WORKFLOW_PREVIOUS_BYTES"
           printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$report/driver.py" | sha256sum --check --strict -
           printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$report/workflow-envelope-v1.yml" | sha256sum --check --strict -
-          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$report/workflow-envelope-v2.yml" | sha256sum --check --strict -
           cmp -- "$source" "$report/driver.py"
           cmp -- "$history" "$report/workflow-envelope-v1.yml"
-          cmp -- "$previous" "$report/workflow-envelope-v2.yml"
-          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$previous" "$report/workflow-envelope-v2.yml" "$workflow" > "$report/driver-placement-before.sha256"
+          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$workflow" > "$report/driver-placement-before.sha256"
           {
-            printf 'schema=task1064.driver-placement.v3\nstatus=PASS\n'
+            printf 'schema=task1059.driver-placement.v2\nstatus=PASS\n'
             printf 'checkout_commit=%s\nworkflow_ref=%s\nworkflow_file=%s\nworkflow_bytes=%s\nworkflow_limit_exclusive=500000\n' "$GITHUB_SHA" "$GITHUB_WORKFLOW_REF" "$WF_FILE" "$workflow_bytes"
             printf 'driver_repo_file=%s\ndriver_report_file=driver.py\ndriver_bytes=%s\ndriver_sha256=%s\n' "$WORKFLOW_DRIVER_FILE" "$WORKFLOW_DRIVER_BYTES" "$WORKFLOW_DRIVER_SHA256"
             printf 'history_repo_file=%s\nhistory_report_file=workflow-envelope-v1.yml\nhistory_bytes=%s\nhistory_sha256=%s\n' "$WORKFLOW_HISTORY_FILE" "$WORKFLOW_HISTORY_BYTES" "$WORKFLOW_HISTORY_SHA256"
-            printf 'previous_repo_file=%s\nprevious_report_file=workflow-envelope-v2.yml\nprevious_bytes=%s\nprevious_sha256=%s\n' "$WORKFLOW_PREVIOUS_FILE" "$WORKFLOW_PREVIOUS_BYTES" "$WORKFLOW_PREVIOUS_SHA256"
-            printf 'driver_raw_copy_equal=true\nhistory_raw_copy_equal=true\nprevious_raw_copy_equal=true\ncurrent_producer_metadata_repair_registered=true\nretained_mathematical_source_pins_unchanged=true\nmathematical_execution_performed=false\n'
+            printf 'driver_raw_copy_equal=true\nhistory_raw_copy_equal=true\nmathematical_source_closure_unchanged=true\nmathematical_execution_performed=false\n'
           } > "$report/driver-placement-before.txt"
       - name: Preserve all source and raw bytes before runtime or parent admission
         id: capture
@@ -310,17 +299,16 @@ jobs:
           test -d "$report"
           test ! -L "$report"
           exec > "$report/driver-placement-after-stdout.log" 2> "$report/driver-placement-after-stderr.log"
-          trap 'code=$?; printf "schema=task1064.driver-placement-after.v3\nexit_code=%s\nmathematical_execution_performed=false\n" "$code" > "$report/driver-placement-after.txt"; exit "$code"' EXIT
+          trap 'code=$?; printf "schema=task1059.driver-placement-after.v2\nexit_code=%s\nmathematical_execution_performed=false\n" "$code" > "$report/driver-placement-after.txt"; exit "$code"' EXIT
           workflow="$GITHUB_WORKSPACE/$WF_FILE"
           source="$GITHUB_WORKSPACE/$WORKFLOW_DRIVER_FILE"
           history="$GITHUB_WORKSPACE/$WORKFLOW_HISTORY_FILE"
-          previous="$GITHUB_WORKSPACE/$WORKFLOW_PREVIOUS_FILE"
           test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/$WF_FILE@$GITHUB_REF"
           for directory in "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/search" "$GITHUB_WORKSPACE/.github" "$GITHUB_WORKSPACE/.github/workflows" "$GITHUB_WORKSPACE/ops" "$GITHUB_WORKSPACE/ops/workflow_versions"; do
             test -d "$directory"
             test ! -L "$directory"
           done
-          for file in "$workflow" "$source" "$history" "$previous" "$report/driver.py" "$report/workflow-envelope-v1.yml" "$report/workflow-envelope-v2.yml" "$report/driver-bootstrap-exit-code.txt" "$report/driver-placement-before.sha256" "$report/driver-placement-before.txt"; do
+          for file in "$workflow" "$source" "$history" "$report/driver.py" "$report/workflow-envelope-v1.yml" "$report/driver-bootstrap-exit-code.txt" "$report/driver-placement-before.sha256" "$report/driver-placement-before.txt"; do
             test -f "$file"
             test ! -L "$file"
           done
@@ -329,19 +317,14 @@ jobs:
           test "$(stat -c '%s' -- "$source")" = "$WORKFLOW_DRIVER_BYTES"
           test "$(stat -c '%s' -- "$report/driver.py")" = "$WORKFLOW_DRIVER_BYTES"
           test "$(stat -c '%s' -- "$history")" = "$WORKFLOW_HISTORY_BYTES"
-          test "$(stat -c '%s' -- "$previous")" = "$WORKFLOW_PREVIOUS_BYTES"
           test "$(stat -c '%s' -- "$report/workflow-envelope-v1.yml")" = "$WORKFLOW_HISTORY_BYTES"
-          test "$(stat -c '%s' -- "$report/workflow-envelope-v2.yml")" = "$WORKFLOW_PREVIOUS_BYTES"
           printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$source" | sha256sum --check --strict -
           printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$report/driver.py" | sha256sum --check --strict -
           printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$history" | sha256sum --check --strict -
-          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$previous" | sha256sum --check --strict -
           printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$report/workflow-envelope-v1.yml" | sha256sum --check --strict -
-          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$report/workflow-envelope-v2.yml" | sha256sum --check --strict -
           cmp -- "$source" "$report/driver.py"
           cmp -- "$history" "$report/workflow-envelope-v1.yml"
-          cmp -- "$previous" "$report/workflow-envelope-v2.yml"
-          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$previous" "$report/workflow-envelope-v2.yml" "$workflow" > "$report/driver-placement-after.sha256"
+          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$workflow" > "$report/driver-placement-after.sha256"
           cmp -- "$report/driver-placement-before.sha256" "$report/driver-placement-after.sha256"
       - name: Join actual execution, complete comparison, final HEAD and all preservation gates
         id: final
