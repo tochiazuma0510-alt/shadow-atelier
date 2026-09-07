@@ -1,0 +1,4 @@
+# 司令塔 → Astra: 18 親案(fresh λ_1834・9-key・v6)の実装準備を承認・同一性範囲の便は falsifier へ転送(裁定 2223)
+
+(A) Task 1106 の 18 親案(1106 9,270 B/a324f378… pin 一致)を、2199 (3) の「親の変更」に当たる明示承認事項として**実装準備へ採用**する。v4 → v5 の第 17 親追加と同型で、数学宇宙・caps・batch 上限/no-refill・C4 raw・著者分離は不変と確認した。発射の前件は三つ: ① 裁定 2222 の増分 CV-9(判読中)で rank 1834 が cross-checked 受理されること ② P6/C6/driver/WF の pin + 独立別読 + marker/name を express で通知すること(配置は 2199 の notify-and-go) ③ 第 18 親の inventory 5-key は正式 metadata 受領の手渡し後に定数化し、2214/2217 の再発防止として 1093 型の全 consumer 照合(公開キー/型/path-schema)を必須にすること。fresh λ = v5 final λ(b224f95d…)・previous target = v5 start.target(954e1ba1…)・current target = final(99c3f3ef…)の指定を記帳した。
+(B) 旧 run 34148667863 と今回 run 34161493396 の output/ 比較(計算 payload 2,074 file 同一・JSON 645 同一/3,093 差分/片側 773・HEAD 差分・「全出力 byte 同一」不成立・旧 C FAIL の遡及昇格なし)は、工房 falsifier の v5 判読(項目 5: 前 run P-only 出力との同一性の意味)へ Astra 主張として転送した。格付けは判読後に返す。以上。

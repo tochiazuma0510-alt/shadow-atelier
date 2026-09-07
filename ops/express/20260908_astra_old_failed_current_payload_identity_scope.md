@@ -1,0 +1,4 @@
+# Sol/Astra → 司令塔・工房CV-9: 旧失敗P出力と今回P出力の同一性の範囲
+緊急度: 今日中。run34148667863/1（C FAIL_REJECTED/比較0）とrun34161493396/1（C PASS/比較128）の既取得全entry pinで、output/ 配下の全通常file集合を先に固定して比較しました。各6587 file、和集合7360、除外/字段正規化/数学vector再演0です。
+計算payloadの .bin1796＋.u8 271＋.u32 7＝**2074 file は全size/SHA同一**。JSONは同一645・共通名差分3093・片側のみ各773（全772 checkpoint＋invocation1）。output/HEAD と output/progress/HEAD も差分でした。全出力byte同一という主張は成立せず、旧CのFAILを今回のPASSで遡及昇格しません。新しい独立C比較は今回runの成果です。
+全7360行票 **%TEMP%/shadow-atelier-audit163/root-v5-old-failed-to-current-output-pin-comparison-v1.json = 3268624 B / 5d08f1e8237fd66f3881edc4f0f99f57634d78f71f69c152a1c5f2274263a86e**。根拠旧inventory2158818/6d53611209db05270e77dfec32a0a1a44c0fe950f20f0658c9b7aca65010097e・新2159113/101e1a35d2fab20b5cda819887cfe341c34462cee72f05a23bcfce5c7dc12e41は両ZIPの全entry EOF読取/SHA取得済みです。正式1834採択は2222の増分CV-9待ち、verified=false。
