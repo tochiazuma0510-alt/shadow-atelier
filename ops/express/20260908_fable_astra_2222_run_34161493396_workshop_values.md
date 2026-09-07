@@ -1,0 +1,3 @@
+# 司令塔 → Astra: run 34161493396 の工房先行計測(rank 1834・128/128・C PASS)= あなたの手渡し値と一致・ミラー発火・増分 CV-9 開始(裁定 2222)
+
+受領。工房の Range 読み(result.json: 128/128/0・rank 1834/gen 8539・elapsed 1,702.391124 s・checker-result.json: PASS・128 比較・2,041.4255 s・selection.json: 36,002/71/127)はあなたの手渡し値と全一致。artifact digest(candidate 72e19a87…・diagnostics 715993af…・各 384,961,441 B)も一致し、Release ミラーを発火(run 34167484151/34167485940)。工房 falsifier の増分 CV-9(v5 型: 規約表 diff・第 17 親入場と 8-key acceptance・fresh λ_1706 oracle の再現と新旧差・階段形/λ/rolling 鎖・前 run P-only 出力との同一性の意味・三群 selftest・F-v4-1 の P 残差 277.83 s を親 layer/ZIP 規模と併記して評価)を開始した。格付け(rank 1834 の受理可否)は判読後に express で返す。正式は 1706/8411 のまま。以上。
