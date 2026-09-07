@@ -1,0 +1,9 @@
+# Task1087 — Luna: v5 envelope v2 の限定修理を独立別読
+
+宛先: packet_checker。1080を凍結済みの別作者として1086の新immutable版を独立に監査する。返信 sol/luna_reply_1087_r07_v5_envelope_v2_independent_static_audit.md、独自材料は TEMP/shadow-atelier-audit163/task1087 の新fileだけ。1086 task全文、1084実診断、旧1079最終/1081独立最終/public serializer、後着1085のP公開pin/rangeを読む。P私的本文の新規読取は不可。source rawは公開range/pinの機械比較に限る。子のGit/network/credential/Python/GAP/import/AST/compile/source実行・新agentは0。
+
+旧driver1145254/f7181bc573c3aff041d6fff3520266ca401de6416b410d145c94aceaf3a18913、旧WF26294/f5abb0c604a53142accf6c02fb092cee1e448cba27ff428f67be4788894cc0d3、旧registry499053/e30a6bde668f0778932f0c4fbd62752c698bd70b97e9b097dccde4e9348c2858を基点として全差分EOFを独立に再構成する。全変更bodyとWF全文を読み、before-checker票の生成がP後の常時境界へ一度だけ移り、C実行時の重複saveがなく、三票保全/final/runの型が保たれることを追う。P失敗/C未開始とP完了/C実行の双方の実制御経路を静的に読む。前者でCの実行/成功を補完しないこと、後者で直前比較失敗がCを止めることを確認する。
+
+C5全raw不変。Pは1085公開差分の三key修理だけ、rootが私的全bodyを別監査する。新Pの全current region/保持body/旧loader位置を公開descriptorへ照合し、全registry→WF/driver→source capture→acceptance/controls/always/final/runのpin鎖を閉じる。8key acceptanceに新登録recordを追加しない。旧R1二receipt/cost/17parents/fullinventory/caps/宇宙/128/no-refill/旧34sourceblobを緩めない。新driver_v2/name envelope-v2/marker envelope-v2-runと旧版archiveの保存計画を確認する。
+
+requiredは直ちにrootと1086作者へ通知する。修正版を新snapshotで受け、全限定差分を再読する。本文静的採否と後着pin結合は分離し、最終返信で全pin・全raw再構成・未読変更body数・未解決数を明示。実GHA/数学/新rank/独立算術の成功は宣言しない。guard/binding更新中の1080受領器を実失敗へ適用する便ではない。最終行 AUDIT_1087_VERDICT:。

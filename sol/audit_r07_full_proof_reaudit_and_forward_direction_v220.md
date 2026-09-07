@@ -23821,3 +23821,212 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 最初の独立予言は非零候補/完了/親span零/選定raw非零pairingが結ばれた場合。候補無しはNOT_APPLICABLE、資源停止で未観測はNOT_OBSERVED。候補存在/128採用を強制gateにせず、二本目以後や失敗集合の単調性を仮定しない。新adapter/neworacle/WFは未実装・未実行。
 - 研究GHA34023589045/1/head794c5e9f…は一回、全量受領まで完了。最新2189、正式数学格付けは2187限定8条の1578/8283。
 - v220内進捗: **CLOSED=新数学矢印0、ADVANCED=全量受領・静的修理・次段四要件、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。full A0/COMMON/cofinal lift/fake/Ihara未宣言。
+
+### Delta 660 — lambda1578/次一batch128のP・独立C・WF案を委嘱（2026-09-06 JST）
+
+- 個別進捗: Task1053 P=6239/c14dc62f…、1054 C=3705/5bb43b24…、1055 WF作者=4115/3c2e09d3…を既存三Lunaへ配達。新source/WFは各TEMP限定でRUNNING、数学実行/AST/compile/ネットワーク/Git/資格情報無し。rootが数学監査とbrokerを担当。
+- v4宇宙は新lambda1578・全54433chord+2aux・一batch128でcap不変。旧15親/1450loaderを保持し16番目batch-parentを別入場、旧anchorにbatch_anchorを加える7key acceptance案。旧64steps/受理128rows/新processed0を分離。全225導出・新零span/各target1・条件付き初回独立・旧36274/70/125との比較・実DEPENDENT fixtureを要求。
+- 具体的なWF案の静的監査/司令塔承認前には昇格/発射しない。次source/adapter/WF完成やGHA PASSは未観測。既存研究run34023589045/1/head794c5e9f…は受領完了。前段5pathはca08b34152467040225e07dee04e75545949ddf7でpush済み、全raw pin/index/commit一致、元status3972→残3967は指定5pathだけの差、凍結P3/C3/WF3不変。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=v4実装三担当RUNNING、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283は2187限定8条、最新2189。COMMON/cofinal lift/fake/Ihara未宣言。
+
+### Delta 661 — v4 ABI/親型試験/旧loader基準と全inventory登録（2026-09-06 JST）
+
+- 個別進捗: 公開ABI v1=13530/10061db5…＋v2=4617/b93f1a61…をroot全文採用。7key受付/別33key batch_anchor/hash循環無しparent-intake、新start追加字段、225祖先、旧64steps/親128rows/新processed0を分離。batch_observationで旧新oracleと条件付きfirst予言を報告し、early診断null/NOT_OBSERVED・候補無しNOT_APPLICABLEを保持。
+- selftestは既存二群を維持し、別metadata第三群6件をP/C各自へ追加。提案公開件数P[30,10,6]/C[28,9,6]。正対照→一箇所変異→目的label拒否を要求し、full1578算術/全artifact入場試験とはしない。全て未実行、DEPENDENT実試験F-k64-1はOPEN。
+- root旧loader全文8区間のraw baseline45388/109ed508…を固定。C途中202883/94e1f629…の全差分を読了、C旧4本文一意raw完全一致、新reader部に必須finding無し。ただしadapter/main/第三群未接続で全体PASSではない。呼出文脈/globalの旧意味も監査する。
+- root別metadata再集計で実11437名/3475dirsと保存all-entry票が一致。file canonical115c912a…/directory canonicalb34abb0e…/1267599138 B、票726/04aeed42…。全内容再hash/内seal再生成/数学再演ではない。新P/C/WFでの実全量入場は別。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=共通ABI/第三metadata群/旧loader8基準・v4実装三担当RUNNING、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283・最新2189不変、新GHA無し。COMMON/cofinal lift/fake/Ihara未宣言。
+
+### Delta 662 — v4通常配線・全旧prefix・観測と第三群の静読（2026-09-06 JST）
+
+- 個別進捗: ABI v3=2122/5ea88cff…を全文採用。当invocationのintake完了と保存HEAD sequence3/9を区別し、durable tailや過去HEADだけでは新完了観測へ進めない。履歴checkpoint/HEAD/count認証は保持。
+- P270050/40ba1255…の新全525差分行、C261162/a7ca0c9b…までの全追加差分をroot読了。旧128候補/768相/全772checkpoint/1invocation/225祖先の別入場、旧1450保持→新1578別adapter→全pairing→intake/start/finalを接続。C観測/診断/新第三群6拒否も静読、ここまで必須finding無し。P tail/作者最終静読/全体監査/実試験は未完。
+- WF作者初稿7654/85c4130b…、transport13910/a9ef8fb2…全208行、admission19011/86ced543…全234行をroot読了。全file事前照合・内ZIP全entry・登録36dir復元・旧実fixture票へ接続。WFのcheckpoint pin/root joinとP/C全prefix再構成の射程を分ける。全gate/always/新全EOF registryは監査中、途中WFはsource pin未確定のDRAFT拒否。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=親入場/通常配線/観測/第三群の段階的静読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283・最新2189不変、F-k64-1 OPEN。新GHA/全体PASS/具体的WF承認は未観測。
+
+### Delta 663 — P/C v4凍結静的受理・全EOFとWF契約別読（2026-09-06 JST）
+
+- 個別進捗: P284974/3ba71767…/LF4426、C261170/a29380ec…/LF3724を作者freeze、両最終返信P14785/f9a78de1…・C17091/5224495c…をroot全文読了。全変更差分・実親字段への最終照合に必須finding無し、通常/resume/診断/三群未接続0という静的実装を受理。実試験/新oracleは未実行。
+- root旧8raw＋P37本文の最終票10058/318a71f3…が全byte一致。初稿v1のbool出力式誤りによる空region票は無効化しv3を現sourceの根拠とする。全EOF別票38424/13cae7c9…でP122→136（104不変/18変更/14追加）、C96→117（79/17/21）、削除0/gap0/overlap0、全8source全pinと旧8範囲一致。後続定数を含む区間分類と算術本文不変を区別。
+- WF driver293429/64431dbc…全変更/外枠/mainをroot静読済み、最終source pin/registryの埋込は作者進行中。Task1056=2628/fb75874b…をWF契約の別読へ委嘱。C作者によるWF読者であり、自作Cの独立監査ではない。P算術本文は共有しない。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=P/C最終静的受理・全EOF/旧8rawとWF別読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283・最新2189不変。新WF具体的承認/公刊/新GHAは未実施、F-k64-1 OPEN。
+
+### Delta 664 — 最終WF静的PASS・固定版の司令塔承認依頼（2026-09-06 JST）
+
+- 個別進捗: WF作者1055=12203/1c5cc043…、契約別読1056=10780/68ad4613…をroot全文読了、必須修理0。1056のF3だけ実字段accepted_parent_batch_rowsへ訂正、source/WF変更なし。自作Cの独立監査ではない限定を保持。
+- 最終WF599085/e22c225a…、driver529340/22942fcb…、registry235914/36ae3dc3…をroot固定、全heredoc/dedent/全registry literal一致。registryの二status以外は全既照合typed JSON不変、最終制御差分も全読了。未実行の静的受理でありGHA/数学PASSではない。
+- P目録全10pin一致。旧22source/raw＋歴史6のunion28fileは登録全SHA/worktree raw/HEAD ca08b341…のgit blob一致、root票11488/ce9cc483…。新3source/WFはまだTEMP。
+- AGENTSのWF変更事前承認に従い固定版の速達2825/7f3e32f0…を司令塔へ提出。昇格指示1057=3092/2c13008f…は準備済みで承認前未起動。研究者GHA自由実行認可を保持し、承認後root単一brokerでexactbranch一回を実行予定。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=全最終静的受理・埋込/旧commit照合・具体的WF承認依頼、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283・最新2189、新GHA/承認回答未観測、F-k64-1 OPEN。
+
+### Delta 665 — 裁定2190・exact3path push・GHA容量制限を発見（2026-09-06 JST）
+
+- 個別進捗: 司令塔2190承認2092/e87571ea…・snapshot2661/a45bbb43…を全文受理。1057返信3171/27d35a55…は全rawコピーPASS。rootもP284974/3ba71767…・C261170/a29380ec…・WF599085/e22c225a…の全pin/index/commit一致を確認し、exact3pathだけをcb9b5c7e99664553d7f757426e9ce91d9ee2f958として作業branchへpushした。旧28参照も承認HEADで全一致、票11429/c63d5735…。新研究runは未生成。
+- 13:39:51Z以降の複数実APIで当WF run0/取得404/全一覧134に無し。Contents APIのremote WF全rawは599085/e22c225a…と一致。公式Actions limits（https://docs.github.com/en/actions/reference/limits#workflow-file-size）の500 KB超WF不起動規則に該当し、root/1055/1056の静的監査が容量条件を落としていた。P/C算術失敗ではなく起動前の制限。周辺CI37件は別、新GHA id/自己試験/oracle/採用数は未観測。
+- 速達で司令塔へ即報し、1059で新versioned軽量WF＋固定driver529340/22942fcb…別raw配置をTEMP提案中。P/C/driver/registry実行bytes・caps・全scopeを保持し、全接続静読と具体pinで再承認する。1058は旧全射程を保持する新metadata受領器を実tuple未確定/未完成拒否のまま準備中。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=2190受理・exact昇格/commit/push・容量原因照合・修理1059/受領器1058進行、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283維持、最新2190、F-k64-1 OPEN。研究run/新rank/新数学PASSなし。
+
+### Delta 666 — 2191受理・固定pathの軽量envelopeを静読（2026-09-06 JST）
+
+- 個別進捗: 2191の承認失効/再申請条件を全文受理（速達1136/f0715db0…・snapshot1607/1aa40b1b…）。P/C/caps等は持越し、未実行の研究一回を新版から起動する方針。root13:48:06Zの実API保存票1425/1e4de4e5…もrun0。恒久公開前条件をWF全raw pinとbytes<500000に固定。
+- 固定P/Cがv4.yml実pathを認証しているため新path案を不採用。1060は同activepathの軽量envelope-v2＋旧版rawの新archive保存案とし、具体再承認前はTEMPのみ。小WF初稿20048/3da7ea83…をroot全文読了。bootstrap失敗後のalways driver起動遮断をroot/別読1061が最終要求、修理中。P/C/driver/registryの実行bytes不変。
+- 1058は127432/5c191adb…までroot全差分読了、471区間/253分類/旧8/P37/歴史6source/二票を追加。main/全親/最終全体未完、helper未実行。新WF承認/研究run/selftest/oracle/採用数の実測は依然なし。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=2191受理・小WF全静読/失敗時gate・受領器追加読了、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2191、F-k64-1 OPEN。
+
+### Delta 667 — 小WF最終静的PASS・具体再承認へ（2026-09-06 JST）
+
+- 個別進捗: 最終小WF20296/c8dc6981…/LF351をroot全文＋元外枠全差分187行で静的受理。7 bootstrap成功条件とrecheck失敗のjob failure伝播で2findingを閉鎖。driver529340/22942…・archive599085/e22c…全raw一致と現P/C不変をroot別票2923/4c728e6a…に記録。
+- 作者1059最終30880/f8a7adf5…/LF300と別読1061最終8101/9d6c8025…/LF42をroot全文読了、未修理必須0。速達3976/39352308…で同active配置更新/旧版新archive/driver新配置のexact3pathと未実行の研究一回を具体再承認申請。1062の原子配置手順は準備のみ、repo active旧版のまま。自作C算術の独立監査ではない限定を保持。
+- 1058は178999/a3a2cca6…まで全新差分をroot読了、局所CRC過大字段をGHA実票の別接続へ訂正。親全128/768/772/225と36journal/三時点fixture/輸送保全/入場readerを追加、main/現runは未完成。1063独立metadata監査を開始、全helper未実行。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=小WF最終静的受理・再承認申請・受領器追加と独立監査進行、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2191、研究run0/F-k64-1 OPEN。
+
+### Delta 668 — 2192具体再承認・exact配置と受領器の監査を進行（2026-09-06 JST）
+
+- 個別進捗: 2192速達2369/ce9f5d06…・snapshot3066/d5011082…を全文受理。exact3path・root作業branch commit/push・envelope-v2研究一回を承認、同じ1578親と凍結条件/実受領と工房CV-9を継承。1062に具体承認pinを渡し、archive先行→driver→active原子配置を開始した。まだ配置完了/新commit/runは未受領。
+- rootは旧28参照の全bytes/SHAとHEAD873b8521…のGit raw blob一致を新票11683/592ac2bc…で再照合。index空・作業branch・3pathのraw属性を確認し、無関係のdirty3988行を保持。1062 preflight7258/798ec058…も全文読了。
+- 1058は199935/049a4cd2…までの追加差分485行をroot全読了。現1578入場/開始、seq3/9の観測、16親liveとv4 main一部を追加。1063 R1のZIP名case修理を確認、R2の普通整数型幅を限定修理中。全main/軽量WF受領/実tupleは未完・未実行。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=2192受理・exact配置開始・現commitの旧28参照照合・受領器全差分と限定修理、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2192、研究run未起動/F-k64-1 OPEN。
+
+### Delta 669 — v4実一回の入場FAIL・全診断受領とfixed参照の限定修理（2026-09-07 JST）
+
+- 個別進捗: 1062のarchive/driver先行保存後、rootが既定環境でactiveを原子更新。原子票2732/a9df76e4…・post照合2930/b4261bc2…・1062返信5172/30f987d5…を受理。exact3pathだけcommit4290ed7c947a9dacdb132209f247f18ef8dae6d9/pushし、WF登録active/ID351613185と研究run34040070261/1・job101505092062を実観測、追加dispatchなし。
+- 実run: step1–9成功、step10受入14:46:23→14:46:37でdriverが参照型batch-parent/output/fixedをpayload同居folderと扱いbasis.json不存在。metadata/P-C selftest/本P-Cは全skipped。candidateなし、diagnostics9991438160=7379999/22f8f601…だけ。root全ZIP/252file/14dir/33742914B EOF/SHA/readback票66851/7053082f…、局所CRC再計算false。run15388/bcefdc13…・failure441/c0d1b926…・placement前後を全文受領。
+- 型の限定: always step成功は票のPASSと別。保全1546/1cd7f08e…はFAIL（全16親/source/audit/transport flags true、fixture未形成、baseline欠品4）。fixture archive/comparisonはINCOMPLETE/UNFORMED。5executions/current/入場/観測はnull、数学/採用数/oracle未観測。2192の一回は消費済み。
+- 2193/2194を全文受理し工房診断と一致、工房報告のミラーrun34040334080 success/同全pinを記帳。rootは親fixed2903/ba4d2d96…と旧64参照を確認。P4にも同型静的不一致、C4の該当参照は旧64へ正しく結ぶ。1058専用reader修理247138/99bc…まで1063がR4静的閉鎖、rootは220620まで全新差分読了・続行中。helper未実行/実failureへ成功main不適用。
+- 1064でdriver/小WF envelope-v3/旧小WFarchive、1065でP専用参照readerと旧P全rawarchiveをTEMP準備。37数学本文/旧loader/C/親/caps不変を要求。P/current-registry pin変更も具体再申請対象、repo source/WF変更・追加runはまだ0。速達1557/b2d4cd73…＋1585/44dfe867…で報告。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=配置/push/登録/実一回・全diagnostics受領・原因特定・2193/2194受理・1064/1065限定修理、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、受理済み最新2194、F-k64-1 OPEN。
+
+### Delta 670 — fixed参照修理の全raw確認・実failure metadata受領と別読（2026-09-07 JST）
+
+- 個別進捗: 2195速達1284/df65f9e1…・snapshot2162/417ffae4…を全文受理。P専用82行とcaller置換だけの修理案290457/a58f7c11…をroot全差分・utility静読し、逆置換で旧全rawと一致。旧64実8字段/親9字段を確認、作者返信の誤記だけ一byte修正12549/28a4cb06…。
+- root独自票332217/15efcd27…がP37（旧4含む）・旧8loader全16範囲・8source全raw・current472区間/254分類を実照合PASS。P122→137=104同一/18変更/15追加、C96→117=79/17/21。元歴史/TCB/親/capsは保持。これはraw metadataで数学実行ではない。
+- 1064最終14644/74955fea…と全18納品台帳10274/17fd0e94…を全文受理・全pin再hash。新小WF22153/56a8349f…・driver_v2 536145/35f73f5d…・current registry236390/84f5bbc6…・新P＋旧Parchive＋旧小WFarchiveのexact5pathを具体化。rootは新専用driver/callerとWF変更・7file前後gateを静読、registryの実literalと更新対象を全照合。1067に独立別読、具体再承認前のrepo変更/追加GHAは0。
+- 1066作者の実failure metadata受領報告はhelper57665/890a0e61…・最終票1064001/1daf1c00…・全6/6 PASS/error=null/tool exit0。全252/14/33742914入力前後不変・source471/253/60/8/P37/4・shell9・親16/旧11437pin/36journalの照合射程を返信9886/ec168225…から全文受領し、1068に受領器独立別読を委嘱。実run/preservationはFAIL、fixture INCOMPLETE、五execution nullを維持。
+- 1058最終247138/99bc5756…までroot全残差分324行を読了、最終1058/1063返信も全文受理。guardfalse/完成candidate限定/失敗run不適用/未実行を保持。新envelope-v3の受領器は原版を残して1069で準備、実launch/artifactはnull。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=2195受理・具体修理のroot静読/全raw照合・1058残差分閉鎖・1066実failure metadata報告・1067/1068別読/1069準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2195、F-k64-1 OPEN。
+
+### Delta 671 — 独立最終票1067/1068・2196条件付き承認と新受領器（2026-09-07 JST）
+
+- 個別進捗: 1067最終14930/4b508899…・機械票22561/c8b569dc…をroot全文受理、LIMITED_STATIC_PASS/必須0。全29入力/7証拠実pin一致、WF/driver/registry/fixed16/shell58・38/exact5pathの独立別読を閉鎖。root実参照票7466/c569aa2c…と保持28sourceのGit raw照合票13763/c6ed140c…も完成。新source未配置、dirty4000行を保持。
+- 1068最終11601/18402655…を全文受理、LIMITED_STATIC_METADATA_PASS/必須0。1066実failure受領の全21出力/外部19/252file/547raw/P37/kernel4/親11437/36journalを独立照合。rootもhelper57665/890a0e61…全218行静読・全21pin/6PASSを別票8680/4a55f542…へ保存。実run/preservation FAIL・fixture INCOMPLETE・五nullは不変。
+- 具体exact5pathと最終機械別読票を速達6357/07f58648…で再申請。2196速達2809/e7193b44…・snapshot2481/9a74ecc2…を全文受理（HEADf78901b6…）、同5path/同親・caps・一回を条件付き承認。発効には1067/1068/1069最終pin付きexpressが必要。1069静的freeze待ちであり配置/発射はまだ行わず、揃えば追加往復不要。厳密WF500000未満gateと2192条件③〜⑥/2189実受領要件を保持。
+- 1069 draft2=252135/42eb45d4…とdraft3=259791/270d169f…までroot全238＋111行差分読了。新P/current-registry472/254・P37/public137・7SHA行/9 pre-P file・plain17字段fixed参照票を接続。原1058/旧R4は保存、実Launch/Artifact null・guardfalse。実2196のみ作者へhandoffし静的最終版を凍結中、独立1070別読開始。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=独立最終票受理・root全raw/実参照/受領器全読・具体再申請/2196条件付き承認・1069差分全読/1070別読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2196条件付き、F-k64-1 OPEN、追加研究run0。
+
+### Delta 672 — GHA継続認可・修正版配置と実run34120585268（2026-09-07 JST）
+
+- 個別進捗: 研究者直接指示と2199で一回制限を撤廃。2197発効/2198全pin一致/更新AGENTSを全文受理。凍結caps/宇宙/親/batch/no-refill/C4/著者分離を保つ修理はpin＋別読票＋marker/nameを配置前通知後、自律継続する。回数の再確認を行わない。
+- 1069最終10943/e6c4dbbf…・helper259814/9f9e920b…の最後2行までroot読了、全8納品/18入力pin一致。独立1070最終12801/05220a21…を全文受理、必須0・全7証拠pin一致。完成candidate用静的完成、実受領未実行/guardfalseを保持。
+- exact5pathをarchive二件先行→driver_v2→activeP→activeWFの順でroot配置、全pin/C保持一致。原子配置票6261/7911dafa…、全5stage blob照合後commit92720e5371164545259c3007cb11e951fa5e1686（親87181783d042ce9c7f436e00079c7cd9c40c7bcf）を作業branchへpush。commit票1990/c9374d6e…、無関係dirtyはstageしない。
+- 新実run34120585268/1、同head、workflow351613185/同v4 path、name envelope-v3、job101737466647、push/2026-09-07T12:12:10Z。登録APIはactive、default branch name旧v2と実run.name v3を分ける。root launch票2211/1ae3842f…と全APIを保存。12:13:32 UTC時点step1–8成功/9進行中、算術/artifact未受領。追加dispatchなし、必要時の継続GHAは研究者認可済み。
+- Task1071で実Launch exact5だけを新snapshotへ登録、実Artifactはnull/guardfalse。runごとの工房mirror/計測/増分CV-9/C側判読、DEPENDENT実fixture、元64実16fileのfixed参照結合、実metadata受領を継続する。旧失敗34040070261/1は別runとして保持。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=静的最終票1069/1070・継続認可2199・exact5配置/commit/push・修正版GHA起動、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2199、F-k64-1 OPEN、研究実行中。
+
+### Delta 673 — fixed参照入場と双方selftestの実通過・本P開始（2026-09-07 JST）
+
+- 個別進捗: 2200/2201を全文受理。工房の5path＋C全pin/登録API確認に加え、root実jobs-v2=5435/38a4081a…（12:18:27 UTC）がstep9–13 success、step14本Pが12:15:38Zから進行中を示す。前回停止点step10は12:14:55–12:15:15Zで通過。caseの実保存内容・DEPENDENT最終閉鎖はartifact受領後。
+- 1067–1070最終返信4＋task4を記帳commit398c1f465c3679a8f8ccbd7e013c6fce06cd23b5/push、研究head92720e5371164545259c3007cb11e951fa5e1686とは別。CV-9前の1067説明返信commit条件を充足。
+- root全ZIP受領器9632/ede4ff80…は旧版から実schema/run/head/workflowの2行のみ更新、全逆置換一致・全文/差分読了、未実行。1071 launch限定案260010/accc758e…の4行差分も全読了、Artifact null/guardfalseを保持。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=前回入場停止点/selftestの実通過・本P開始・2200/2201受理・監査票記帳と受領準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2201、run34120585268/1本P実行中、F-k64-1 OPEN。
+
+### Delta 674 — 実launch受領器の静的最終閉鎖（2026-09-07 JST）
+
+- 個別進捗: 1071最終返信5344/b63186c7…と引渡票3055/0504f145…をroot全文受理、全8納品pin＋返信一致。helper260010/accc758e…の4行差分を全raw逆置換して基点1069の259814/9f9e920b…へ一致。root独自票2795/93bd8608…、全関数/main保持・実Launch exact5/承認2197・Artifact null/guardfalse・未実行。
+- 2202を全文受理。工房も最終返信1067–1070の記帳commit398c1f46の4blob pin一致とCV-9前条件充足を確認。研究head92720e53/run34120585268/1は本P進行中、rootは時刻別jobs原APIとpin journalを保存して監視する。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=1071最終票と全raw逆置換受理・実受領準備完了・2202受理、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2202、本P実行中、F-k64-1 OPEN。
+
+### Delta 675 — 本P成功・出力凍結成功・独立Cの全比較開始（2026-09-07 JST）
+
+- 個別進捗: root原jobs API5521/16fe8a69…（12:43:58 UTC）で、run34120585268/1・head92720e5371164545259c3007cb11e951fa5e1686の本P step14は12:15:38–12:43:30Z success、凍結15は12:43:30–12:43:39Z success、独立C16は12:43:39Z開始。全体jobは進行中・conclusion null。
+- 今回の採用数/rank/terminal/oracleはartifact未受領のため未報告。独立C全比較・全保全・全ZIP/metadata受領・工房増分CV-9を続ける。本P成功/C開始をexpressへ通知した。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=本P実成功・全出力凍結成功・独立C開始、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、run34120585268/1独立C実行中、F-k64-1 OPEN。
+
+### Delta 676 — metadata比較コストの限定案と独立別読（2026-09-07 JST）
+
+- 個別進捗: 2203を全文受理、本P成功/C開始を確認。C待ちの間に1072でSameのleaf関数呼出しだけの限定案を作成。最終返信8431/613e4361…、新helper261620/a16d8497…はSame21→51行のみ、root全本文/差分読了・全raw逆置換で基点260010/accc758e…一致。全main/型/親/pin/EOF/比較範囲を保持、Artifact null/guardfalse・全受領器未実行。
+- 事前登録した小metadata fixture一回5.6232714秒/exit0、62件全ての期待した受理/拒否/例外一致。rootは全script/登録2票/62観測と全15納品pinを受理。合成512leafの中央値0.1081056→0.0008041秒、128metadata recordは0.5067662→0.2300979秒。実candidate全受領への寄与は未測定で、全体の短縮率を推測しない。
+- 1073で空/一要素/nested arrayの代入境界等を独立別読中。外側hostのStrictMode設定はhelper本文の要件と区別する。採否前に新案を実受領へ使わず、従来1071を使う経路は保持。GHA実run34120585268/1のCを継続監視。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=1072限定比較案/62対照/小コスト実測・全raw保持確認・1073別読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、最新2203、独立C実行中、F-k64-1 OPEN。
+
+### Delta 677 — GHA全工程成功・metadata比較案の独立監査受理（2026-09-07 JST）
+
+- 個別進捗: run34120585268/1・研究head92720e5371164545259c3007cb11e951fa5e1686がsuccessで完了。本C16は12:43:39–13:17:15Z、後続全保全・最終join・candidate/diagnostics uploadも成功。最終run API13832/b8bc02fa…、artifact API1601/eab8eadc…をroot保存し、全jobs stepとartifact API全文を受理。
+- candidate id10020349387/API bytes377383320/digest84040119…をroot取得中。diagnostics id10020372140/API digest7097d7cc…とは全ZIP digestが異なる。実全ZIP/全entry EOF・hash・readback/全metadata受領前に、rank/採用数/新oracle/terminalを補完しない。
+- 1073最終返信8843/c3745a2b…と材料index3412/b7237a50…を全文受理、全10file＋返信pin一致。独自8ケース全観測の受理/拒否・例外型/Message/FQID・出力0一致をroot読了。外側StrictMode訂正も受理。1072 Same限定変更261620/a16d8497…を次の実artifact登録snapshot基点に採用。全受領時間への寄与は未測定、guardfalse/Artifact null・未実行を保持。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=GHA本P/C・保全・最終join・両upload成功、1073受理・1072限定案採用・実ZIP取得開始、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、今回の数値/格付けは全受領待ち、F-k64-1 OPEN。
+
+### Delta 678 — 2204の先行計測と保全・実受領の並行準備（2026-09-07 JST）
+
+- 個別進捗: 2204 snapshot/express全文を受理。工房Range先行計測は128 selected/128 accepted/dependent0/rank1706、P1668.097934秒/C2013.378秒。fresh λ_1578 oracleは54433 chords/failed36104/first74/edge131、旧λ_1450の36274/70/125とは異なるlambda上の観測。集合の単調性・次回予測を主張しない。new_lambda_oracle=nullはbatch後のlambda未走査を指す。
+- 工房Releaseミラーrun34127619614/34127623136 success・両全ZIP pin一致との補記を受理。研究run34120585268/1とは別。CV-9は開始済み、root全ZIP/全metadata突合は受領中で、正式rank1578/generation8283を保持する。
+- 最終監査票1071–1073とtask6fileは司令塔2204補記commit e274ddea0249fac440f8bba7eb4d394d7d1e27e6（親2ceee49e…）へ同梱済み。rootは次commitをindex scope変化で変更前停止し、実commitの全6blob raw一致・差分7file・origin到達を受理。記帳票1929/13a16847…。研究source変更なし。
+- 1074の実artifact bindingは全ZIP後着待ち/guardfalse、既知2公開入力と旧親入力を確認。1075は実DEPENDENT fixtureの保存物と既存静的契約の接続を独立監査する。root用全受領receiptは入力/helper directory外に新規保存する。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=工房先行rank1706/128採用/新oracle・2204保全ミラー受理・最終票記帳全blob一致・1074/1075準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、root全受領/CV-9待ち、F-k64-1 OPEN。
+
+### Delta 679 — 実全ZIPと公開値を受領・全metadata実照合開始（2026-09-07 JST）
+
+- 個別進捗: candidate10020349387の実全ZIP377383320/84040119…を取得、全11648 entry EOF/SHAと抽出読み戻し一致/exit0。files11648/dirs3487/展開1308094050 B、明示ZIP dirs0、local CRC独立再計算false。取得票720/c377a2ed…、全entry票2141758/c2ec141e…を受理。
+- root実公開値はP/Cとも128 selected/processed/accepted、dependent0、rank1706/gen8411、state13c631c6…、target954e1ba1…、lambda d036e848…。fresh λ_1578 selection36104/74/131、P1668.097934秒/C2013.3777577029996秒、終端BATCH_COMPLETE_CANDIDATEを確認。3大票の全top scalarを読了し、残る個別候補/全字段は全受領器へ。grade2両NOT_DECIDED/full_A0=false/new_lambda_oracle=nullを保持。
+- plain17 fixed-reference/batch-observation/P-C selftest全拒否ラベル（P[30,10,6]/C[28,9,6]）/runtime票はroot全文読了。初期公開値票6635/4c89e438…。2205を全文受理、工房も3大票file hash一致を確認。1075へ実DEPENDENT fixture handoff済み。
+- 1074 final261800/dcccf94a…はコメント3行＋実artifact4字段＋guardtrueの5行だけ。root全変更読了/全raw逆置換一致、独自票1899/642d1952…。全関数/main/型/親/保存gateは保持。root全metadata受領を13:53:02.3865764Zに一回開始、開始票1373/c286be6a…、完了票は未形成。実出力はTEMP基準直下v4-run34120585268-root-metadata-v1.json。数学/source再演なし。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=実全ZIP受領・公開rank1706/gen8411/128採用/新oracleのroot突合・2205受理・1074静的閉鎖・全metadata実照合開始、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、候補1706/8411、全受領/CV-9待ち、F-k64-1 OPEN。
+
+### Delta 680 — 実DEPENDENT fixtureの限定閉鎖と次v5草案（2026-09-07 JST）
+
+- 個別進捗: 1074最終返信11659/9c14fc8e…と全16材料を受理。実受領は13:53:02Z開始の同一一回を継続中。取得3487dirと宣言empty38復元後expected3525を区別し、最終実inventoryは完了票待ち。GHA run34120585268/1・head92720e5371164545259c3007cb11e951fa5e1686 successは不変。
+- 1075最終返信15671/1f5da983…・全9材料pin・全158 selected/outer実fileをroot再照合、重要12実JSON全文とtarget前後全12096 B同一/従属row不在/直後新row全manifestをroot確認。根拠票975/f2faa13c…、4385/e2fecd2b…。F-k64-1は実synthetic継続coverageに限りLIMITED_CLOSED。零算術/内seal/restore独立実行はしておらず、同設計作者・前五相placeholder・CによるP fixture独立再演なし・共有TCBの四限定を維持する。C陰性はexpected-file size/hash gateで止まり、後段outcome semantic比較へ到達したとはしない。
+- 1076最終返信18264/700f4d41…全文と材料1453323/0b7eeabc…・map459895/5425814c…の全pinを受理。元16親＋別batch-parent-v4、新v5/8key acceptanceを草案設計として採用。元1450＋v3 128＋v4 128、353祖先/theta0/二対象/世代namespaceを保持。Task1077 P5と1078独立C5をTEMP静的草案に委嘱した。元全宇宙/fresh lambda1706/最大128/no-refill/1batch/同caps。正式親/新配置/発射の承認は後続で、私的P/C実装は共有しない。
+- v220内進捗: **CLOSED=新数学矢印0・F-k64-1の実fixture coverageのみ四限定付きLIMITED_CLOSED、ADVANCED=1074最終受理・1075実境界裁定・1076棚卸し受理・P5/C5草案開始、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1578/8283、候補1706/8411、root全metadata/CV-9待ち、最新2205。研究者のGHA継続認可と2199の回数撤廃を保持。
+
+### Delta 681 — 正式1706・CV-9限定7条・v5継続認可と費用訂正（2026-09-07 JST）
+
+- 個別進捗: 2206/2207/2208全票、CV-9正本初回全528行54410/5958fdde…と後着2208追補をroot全文受理。追補後55717/cdcd4844…、元falsifier票53292/8e558313…を全pin照合。元LF/正本CRLFのためraw prefix同一ではなく、改行だけの読取射影で元本文一致を確認。正式rank1706/gen8411、SAME OBJECT/cross-checked限定7条へ更新。root全metadataは13:53:02Z開始の同一一回が進行中で、工房格付けとは分ける。
+- F-k64-1の工房閉鎖/第三者116fixture独立算術を受理し、root1075の読取範囲/四限定は保持。旧/新oracle共通24041・旧のみ12233・新のみ12063、旧選択128弦の今回全充足は工房独立観測。将来恒久性や46678 rank余地をA0残工程数へ昇格しない。
+- 2208がroot指摘を正本へ追補。F-v4-1の232.786秒はP total−P六相−P selection−P finalの残差で、P+C固定費ではない。v5は第17親/adapter追加なので単一親置換の対照ではない。P残差/C total/P+C totalと親規模/layer/sourceを別表示し、単一値から原因を確定しない。F-v4-1 OPEN。
+- 2207で今回v5の親/P5/C5/WFもnotify-and-go明示認可。1077 interface19814/928b611d…全52行、C追加4770/daddfec7…全文を採用。17親/8key/36key next header/二層intake/128・128・256/353祖先、四群P[30,10,6,7]/C[28,9,6,7]を事前登録（未実行）。1079小WF/driver/registry/cost票草案を開始、name d972-r07-fixed-lambda-cycle-batch-v5-envelope-v1、marker [r07-fixed-lambda-cycle-batch-v5-envelope-v1-run]。全pin/独立別読/実inventoryを揃えて通知後に配置発射する。
+- 1074–1076の6fileをpathspec commit63d7522354766255091400160ca5f8f8f8f66f4c（親173f56d8…）で記帳/push、全6blob pin一致・工房2208確認。研究run34120585268/1/head92720e5371164545259c3007cb11e951fa5e1686は不変。
+- v220内進捗: **CLOSED=新数学矢印0・F-k64-1工房閉鎖、ADVANCED=正式1706/CV-9受理・2207継続認可・2208費用定義合意・公開wire/四群・1079草案・exact記帳、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。root全metadata進行中、次v5草案、F-v4-1 OPEN。
+
+### Delta 682 — P/C全変更読了・費用772票・正式受領待ちinventory（2026-09-08 JST）
+
+- 個別進捗: reply163 F8.145。P5 366388/135495b3…の137→156区間（121保持/16変更/19新規）、C5 335937/c868aa09…の117→140区間（100保持/17変更/23新規）をrootで全raw再hashし、EOF完全分割と現物全体再構成を照合。全変更/新規bodyをP1358行/C1298行の区間差分で読了。現時点必須修正未発見。追加保持証明/公開serializer/final pin/WF独立別読は続ける。P/C sourceと新selftestは未実行。
+- 公開第四群v2全読了: P28file/C15file、各7単一改変の正対照と観測拒否理由を保存。事前登録P[30,10,6,7]/C[28,9,6,7]。旧C第三群はhistorical v4型、新通常gateはv5八key。実1706算術fixtureへの昇格なし。
+- 実telemetry772fileをrootで全pin再hash・typed集計（197839/b8e7ac87…）。P1668.097934−selection11.870553−六相1422.421191−final1.020126=残差232.786064秒、C2013.377757703秒、P+C3681.475691703秒。次cost票は負残差を隠さず保存、仮説秒数で候補成功を拒否しない。2208因果限定/F-v4-1 OPEN。
+- 正式受領前の現物inventory観測: 11648file/1308094050 B/3525dir、canonical files ffec515b…、dirs f9562484…。元3487に認証空38dirが復元された現物を見たが、root full metadata完了票を代替せず、全file hashはacquisition EOF/readbackを引用（この走査で全本文再hashなし）。P/C inventory定数None、guard closed。同一1074受領を継続しCPUから率/ETAを出さない。
+- Task1080を新v5 root受領器のTEMP静的草案へ委嘱。1079 WF/driverと独立別読/final pin後、2207 notify-and-goで発射する。GHA回数認可を再質問しない。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=P/C全変更読了・独自EOF再構成・第四群v2・実費用集計・inventory観測・1080、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411/2206限定7条、root全metadata進行中、次v5未発射。研究run34120585268/1/head92720e5371164545259c3007cb11e951fa5e1686不変。
+
+### Delta 683 — 旧親空36修復・正式全inventory・typed再受領・WF R1（2026-09-08 JST）
+
+- reply163 F8.146。初回1074は5994.9909333秒/exit1、旧v3現物3439dirに対し受理済3475dirの空36未復元で停止。実行票1441/0da64db8…、full receipt=nullを保持。rootは認証集合だけ復元し、前後全11437file/1267599138Bをstream SHA再照合、全3475dir一致（修復票4595/86b588eb…）。regular file変更0、消失原因を推測しない。
+- 2209全票は復元で足りる/数学・格付け不変/v5全pins・独立別読・marker通知待ち。rootは全inventory登録と全typed本文受領を明示分離。v4全11648file/1308094050Bを新hashし、保存envelope11646＋自己除外2/取得全entry/実全3525dirを一致、implicit3487＋空38も確認（正式票7022/64e3f8e6…）。新canonical登録 files ffec515b…/dirs f9562484…。暫定票だけの昇格ではない。
+- full typed受領は未完のまま、同一helper261800/dcccf94a…で15:50:32Z/PID13988/session82390からv2再実行。旧directoryの冒頭preflight以外にhelper判定を変更せず、PASS未宣言。正式mathは2206限定7条へ依拠する。
+- P/C作者票全読了、全18/28材料と追加保持・実entry定数をroot照合。本文PASS_PENDING_FINAL_BINDING（4434/7056c1b2…）。1082でNone一箇所だけ正式inventory結合、新全pin/逆差分/新rangeを別snapshotへ。新source/自己試験未実行。
+- 1081独立WF監査がR1発見: 二つのfixed-reference readerの排他的save先が同じ。旧名保持、新層をnext-batch-fixed-reference-receipt.jsonとして全roster/保全/最終joinへ接続し、独立再読で閉じる。旧driver正本はv4 _workflow_driver_v2.py（1081指示書v1表記を訂正）、新v5はv1。1080受領器は旧親欠directoryの早期read-only preflightも準備。
+- v220内進捗: **CLOSED=新数学矢印0、ADVANCED=空36修復/前後全hash・正式v4全inventory・P/C静的受理・独立R1発見/修正・1082結合・typed再受領、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411、root typed再受領中、v5未発射。研究run34120585268/1/head92720e5371164545259c3007cb11e951fa5e1686不変。
+
+### Delta 684 — P/C最終一箇所結合を閉鎖・2210受理・WF全体別読完了（2026-09-08 JST）
+
+- reply163 F8.147。1082 P/C最終返信3564/85fa5c88…と5440/b5b810bc…を全文受理。最終P366644/664f593a…、C336193/47cf2596…はNone→正式五key定数だけ各+256 B/+6 LF。root順/逆全raw一致、最終156/140全区間hashとEOF、P37/C20保持区間、C三版4loaderを確認。root2224/f0dee513…はPASS_STATIC_FINAL_INVENTORY_BINDING・required0、局所source/selftest実行0。
+- 2210はwholeinventoryと長い全typed受領の分離を了承、R1閉鎖の1081最終票pinも発射通知へ含める。typedは同一session82390を継続し、完了/PASSは未宣言。正式1706/8411・2206限定7条、次の全実親入場と独立Cを省かない。
+- 1081がv1全新body/cost/main/WF/環境/旧16親保持を読了、91→105 raw区間から全driver再構成、全10 source/740公開範囲照合を報告（401256/20cd69ab…、5287/226b3c33…）。最終R1＋1082結合v2差分の独立別読は未完。rootは公開serializer/R1追補/readback全関数/WFを全文読了した。
+- 新v5四path未配置、旧v4四本/歴史WF二本の全pin一致。WF最終pin/registry/1081最終票/R1閉鎖/marker-nameを揃えてnotify-and-goする。研究run34120585268/1/head92720e5371164545259c3007cb11e951fa5e1686から追加なし。
+- v220内進捗: **CLOSED=新数学矢印0・P/C最終結合静的監査、ADVANCED=1082最終票/独自全raw・2210・WF全体独立別読/公開740範囲・R1 readback契約、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411、root typed再受領中、v5未発射、GHA回数再質問なし。
+
+### Delta 685 — v5静的閉鎖・配置/push・研究GHA34143415388開始（2026-09-08 JST）
+
+- reply163 F8.148。1081最終12762/f1bac4ae…を全文受理、STATIC_CONTRACT_PASS/R1_CLOSED/required0。旧名/新next-名と全acceptance/always/final/runを閉鎖。全v1本文/740raw＋最終426raw、三registry、正式親inventory、WF六pin literalだけの変更を別読。rootも最終WF全文/六差分/全材料pinを確認した。
+- 1079作者最終16154/2f61639c…を差替え後に全文読了、全24材料/4267194 Bをroot再hash。最終P366644/664f593a…、C336193/47cf2596…、driver1145254/f7181bc5…、WF26294/f5abb0c6…、registry499053/e30a6bde…。marker/name/full pins/独立票/R1閉鎖/capsを配置前express3042/a56e8f0d…へ通知、2211要件充足を受理。全typed旧受領未完は2210どおり分離。
+- 新四path非上書き配置（3000/06131814…）。研究commit **2751f8942a50377a13078cbf646cfaaa3845b71f**、親19edc5f75075ec7a982c5ab1260ea8d70da1abee、実6file。通知は司令塔が親へ既に記帳済みで、7変更想定guard停止後に全7blob一致/実6差分/固定34blob不変を閉じた。履歴改変/dirty path混入なし（commit票4280/7b1349c5…）。push16:28:12–16Z/exit0/remote SHA一致（516/67eb4683…）。
+- **run34143415388/1**、workflow id352449001、job101810168873、eventpush、created16:28:19Z、https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34143415388 。bootstrap/source/runtime/registry step4–8 success、17親live9進行中。新P/C自己試験・本走数値/新oracle/terminalは未観測。2212は工房全4pin一致/新workflow active/同一run開始を確認。
+- 1083受領器独立別読を開始（4913/61d452cf…）。ローカルcost受領器のstatus文字列型/phase manifest必須型の2点を修理中で、GHA source変更なし。旧v4全typed受領session82390は継続/PASS未宣言、認証空38は既在/to_create0。GHA監視session22420を継続する。
+- v220内進捗: **CLOSED=新数学矢印0・WF R1/最終静的接続、ADVANCED=1079/1081最終・通知/配置/全Git blob/commit/push・v5開始/source/registry success・2211/2212・1083、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式親1706/8411、新研究run34143415388/1/head2751f8942a50377a13078cbf646cfaaa3845b71f進行中、GHA回数再質問なし。
+
+### Delta 686 — v5初走停止を全受領で特定・P三key/境界票の限定修理（2026-09-08 JST）
+
+- reply163 F8.149。run34143415388/1/head2751f8942a50377a13078cbf646cfaaa3845b71f はfailure。本P実exit1（32.02643309899997秒）、本C未開始。jobsのcontinue-on-error success表示と区別した。全17親live/8key intake/metadata16/既存P-C四群成功は、新数学や実consumer成功ではない。
+- diagnostics10026881343/ZIP22185849/a9ff8b6a…を全取得し、5153file/2342dir/106318347 Bの全entry EOF/SHA・実全書戻しを照合。取得票703/f3b660ec…、全entry1024099/42d5c043…。本P execution6489/aa84078a…・stdout2757/abb788bd…・stderr10051/8b4cbeae…を全文読了。phase=batch_checkpoint_metadata、next_batch_registered_inventory_exact_fields、新lambda1706のselection/first candidateは未観測。
+- Pのsource constantは正式file_bytes、consumerの三箇所だけがbytesを要求。registeredはsource定数、invは全実親scanであり、2213補記の別acceptance登録record欠落という帰属を訂正expressへ。Cは元からfile_bytes正規形、変更不要。F8.147の一箇所結合静的票がこのconsumer不一致を見逃した事実と、四群fixtureが実bound consumerを通さない限界を記帳した。
+- 別保全失敗はbefore-checker fixture票のwriterがexecute('checker')だけにあり、C未開始で三境界readerが欠名を拒否したこと。現fixture毀損を観測した結果とはしない。1084診断後、1085=P三literal、1086=常時P後C前へ比較writer移設/新driver_v2・envelope-v2、1087=独立全差分別読を委嘱。三票保全/旧R1/全caps/全親/宇宙/128-no-refill/C rawを維持する。
+- 1080最終16321/b843025a…・1083最終16905/6cea1385…を全文受理。受領器516693/b54e58f1…は静的PASS/required0、launch/artifact/approval null/guard閉鎖/未実行。完成candidate専用で本early failureへ適用しない。旧v4 typed session82390未完、2210分離保持。
+- v220内進捗: **CLOSED=新数学矢印0・1083静的R1/R2、ADVANCED=実失敗/全diagnostics・二根因特定/2213訂正・限定修理/独立別読、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED/verified=false**。正式1706/8411・F-v4-1 OPEN。研究者回数無制限認可を保持し、最終pins/別読票/marker通知後に再GHAする。
