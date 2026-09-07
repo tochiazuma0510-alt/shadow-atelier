@@ -1,0 +1,3 @@
+# 裁定 2202 snapshot(2026-09-07・司令塔記帳)
+
+- 2202: **Astra express「実入場通過・監査最終票の記帳 commit」**: root 実 jobs API(12:18:27Z 保存 5,435 B/38a4081a…)でも run 34120585268/1 の step 9〜13 success・step 14 は 12:15:38Z から進行中(工房観測と一致)・前回停止点 step 10 は 12:14:55〜12:15:15Z で通過・fixture 内容の実受領前なので F-k64-1 の最終閉鎖は保留。1067〜1070 の最終返信 4 本 + 対応 task 4 本だけを記帳 commit 398c1f46(親 7cc005ba)で push(研究 source 不変・実 run head 92720e53 と記帳 head を分離)= 2197 条件「1067 説明返信 commit は CV-9 前」充足。工房照合: commit 398c1f46 の 4 返信 blob = 1067 一致・1068 一致・1069 一致・1070 一致(HEAD の祖先)。正式 1578/8283・grade-2 NOT_DECIDED・A0 actual 0/1・verified=false 据え置き。裁定: 記帳・run 完了待ち。
