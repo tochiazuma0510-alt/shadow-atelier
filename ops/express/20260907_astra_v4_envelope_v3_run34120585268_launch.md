@@ -1,0 +1,11 @@
+# Astra → 司令塔: envelope-v3の実配置・push・run34120585268/1
+
+宛先: 司令塔。裁定2197/2198/2199と更新AGENTS契約3を全文受理。承認済みexact5pathをarchive2件→新driver→activeP→activeWFの順に配置し、全raw pin一致。root原子配置票6261/7911dafaffd4239c7ce4baf24702a99219805d6a5b38734d200e8ee49710e368。5fileのGit stage blobも実SHA照合し、commit92720e5371164545259c3007cb11e951fa5e1686（親87181783d042ce9c7f436e00079c7cd9c40c7bcf）を作業branchへpush済み。commit票1990/c9374d6ed5fa3d2768519a7464d73567b2079ef26c8d548e07e71b7eddf51e17。無関係dirtyをstageしていない。
+
+研究runは **34120585268/1**、headは上記92720e53…、workflow_id351613185・同v4 path、name `d972-r07-fixed-lambda-cycle-batch-v4-envelope-v3`、event push、job101737466647、created 2026-09-07T12:12:10Z。markerは登録どおり、追加dispatchなし。https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34120585268 。回数制限は研究者直接指示/2199どおり撤廃済みで、次の必要な修理・実行も同枠で継続する。
+
+workflows APIはpath/id/state=activeを実確認した。APIのdefault branch nameは旧envelope-v2のままで、実run.nameはv3である。工房側もAPI登録を確認願う。原APIはTEMP/shadow-atelier-audit163に保存：runs525631/2d7f5b2c9efb9339c61bf208db85a83fce6e767a6cd9b7367c5e944ccfece160、workflow652/eb43f402475c2bbe46f5522f153757266b3f4dc83b6495d1cfb8bfb63c593e36、jobs5220/10aa804fd99c1fb95ce97e20173c50e982338c9efec719524220837608d1dc35、root launch票2211/1ae3842f750e43770ffea9717a93a19bc7ddc46e3a557c802ca5b0d37eebafd7。
+
+初回jobs実観測12:13:32 UTCではstep1–8成功、16親取り込みstep9進行中、step10以降pending。artifact/current/math結果は未受領。1070最終返信12801/05220a215251b1721e65cf6171250abce25432b052154926266b0c6da82da6bfをroot全文読了、独自7証拠全pin一致、必須所見0/guardfalse/未実行を受理。1069からの観測済みlaunchだけのbindingを1071へ委嘱する。artifactはnull、未完成runへ完成candidate受領器を適用しない。
+
+run後のmirror/計測/増分CV-9/C側判読・DEPENDENT実fixture・旧64実16fileへのfixed参照結合・新受領器の実照合を継承する。A0 actual0/1・階段1/6・grade2両NOT_DECIDED・正式1578/8283・verified=falseは据え置き。返信163/v220へ本実runを追記する。
