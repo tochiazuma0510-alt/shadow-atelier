@@ -1,5 +1,5 @@
 # Task1079: separate v5 envelope, seventeenth parent, complete source history and public saved-telemetry cost.
-name: d972-r07-fixed-lambda-cycle-batch-v5-envelope-v3
+name: d972-r07-fixed-lambda-cycle-batch-v5-envelope-v2
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
     paths:
       - .github/workflows/d972-r07-fixed-lambda-cycle-batch-v5.yml
       - search/d972_r07_fixed_lambda_cycle_batch_v5.py
-      - search/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v3.py
+      - search/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v2.py
       - search/check_d972_r07_fixed_lambda_cycle_batch_v5.py
   workflow_dispatch:
 
@@ -142,14 +142,14 @@ env:
   PRODUCER_BYTES: "366659"
   PRODUCER_SHA256: "6e19d029c0f4aa55e39d24022008a29ab666c50bc52d5d086917f7dbc10cb99d"
   CHECKER_FILE: "search/check_d972_r07_fixed_lambda_cycle_batch_v5.py"
-  CHECKER_BYTES: "336211"
-  CHECKER_SHA256: "111e23bfe6a7b49b4b3a03a00f3b48345c3f75ab098f06efc18279e881555b19"
+  CHECKER_BYTES: "336193"
+  CHECKER_SHA256: "47cf2596e9e9dabaab89395f5274ce15b9443002922ba7bfdbca42022979de73"
   EXPECTED_PYTHON: "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]"
   EXPECTED_NUMPY: "2.5.1"
   WF_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v5.yml"
-  WORKFLOW_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v3.py"
+  WORKFLOW_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v2.py"
   WORKFLOW_DRIVER_BYTES: "1145223"
-  WORKFLOW_DRIVER_SHA256: "f1b50bc529f08ad8654d775e2fce652334dfa8b325d3d2bcc27286aa09cb3f98"
+  WORKFLOW_DRIVER_SHA256: "238285767c62b0377d1192bd264233252870e0a5cfb9906a75035c0de2139573"
   WORKFLOW_HISTORY_FILE: "ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v1.yml"
   WORKFLOW_HISTORY_BYTES: "599085"
   WORKFLOW_HISTORY_SHA256: "e22c225a3f8706b648543c260b3ba603f6b6620cdcfadcdf573199b0f4f339f4"
@@ -167,7 +167,7 @@ env:
 
 jobs:
   fixed-lambda-batch:
-    if: ${{ github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-lambda-cycle-batch-v5-envelope-v3-run]')) }}
+    if: ${{ github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-lambda-cycle-batch-v5-envelope-v2-run]')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 330
     steps:

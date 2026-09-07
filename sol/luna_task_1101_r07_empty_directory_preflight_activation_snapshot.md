@@ -1,0 +1,11 @@
+# Task1101 — 空74 directory 前処理の実行用別版を限定準備
+
+宛先: Luna / packet_bounds_audit。1099 と独立1100はrootが全返信/全509行/最終全材料を読んで限定静的採択した。root票 %TEMP%/shadow-atelier-audit163/root-task1099-1100-static-adoption-v1.json = 14472 / 0305bfc35580868855ff2336f345fff1503b121c7a0b53b23c3739ea9efc1ca8。これは実前処理の成功票ではない。
+
+唯一のsource変更は、凍結1099 helper48090 / 38a756f12174738e5433750e403d3ee0b66b22e8f95d3c80ad1917532890fa8dのL14でtaskImplementationReadyをfalseからtrueへ置き換えること。旧fileを変えず、%TEMP%/shadow-atelier-audit163/task1101/ の新規ASCII PS1として保存する。残る全byteと509 LF、全32関数/MAIN、厳密root承認の全要件、全両親認証→before保存→限定mkdir→全after再読を保持する。コメントを含む二箇所目の変更も本便では不要。
+
+必要sibling4本を同task1101内へ新規全rawコピーし、各全bytes/SHAと元票を結ぶ。registered-v3-restoration-v1.json 4595/86b588eb3feaee2034235f8958e074d006f6926b4666cc119866cea4b242aaf6、registered-v4-inventory-v1.json 7022/64e3f8e6a434be335a88c1dee6efa4aae7b3d669faac28e704aefd0f8e3f4753、registered-v4-canonical-files-v1.json 1931889/ffec515b0a235ce2dd99770e51619252c725269970b71e32180be5f14cafaff5、registered-v4-canonical-directories-v1.json 200290/f9562484c91c05c517b50065d86e1a88f16af6b1e3198b1d0ba1adb645f9dc64。
+
+全raw forward/reverseで一箇所・1 byte短縮のみを証明し、全EOF再配置と保持関数不変、全final pinを返す。1100最終reply11212/0db7c717bc8de6c9343dbe857f57fc3ba0bf134d57968aa892fb797f0e30a1d7も全文読む。新versionの有効guardはrootに候補を返すためで、RootApproved switch・root自身が形成するexact全pin付き承認JSONが無ければ実行経路へ入れないことを明記する。
+
+作者は承認JSONを作らず、helper/fixture/AST/import/compile/dot-source/source/数学実行0、実親/root/archive/dir/file変更0、receiver再起動0、Git/network/credential/GHA/process操作0を維持する。新v5発射の追加gateにしない。旧74復元後に外部削除が起こらない保証を付け足さない。元1099/1100を上書きせず、返信は sol/luna_reply_1101_r07_empty_directory_preflight_activation_snapshot.md のみ、末行 AUDIT_1101_VERDICT:。

@@ -1992,7 +1992,7 @@ def authenticate_next_batch_parent_metadata(inputs: AcceptedInputs) -> dict[str,
     require(start["parent_intake_sha256"] == tree.by_name[paths["parent_intake"]]["sha256"] ==
             checked["parent_intake_sha256"], "next_batch_saved_intake_start_and_checker_file_join")
     same_json(checked["anchor_accepted_parent_batch_rows"], 128, "next_batch_saved_C4_parent_row_count")
-    same_json(records["selection_start"]["selection_lambda_sha256"], BATCH_PARENT_LAMBDA, "next_batch_old_oracle_is_native_lambda1578")
+    same_json(selected["selection_lambda_sha256"], BATCH_PARENT_LAMBDA, "next_batch_old_oracle_is_native_lambda1578")
     preservation = tree.json("preservation-result.json", True)
     check_document(preservation)
     require(preservation["status"] == "PASS" and preservation["errors"] == preservation["missing"] == [] and

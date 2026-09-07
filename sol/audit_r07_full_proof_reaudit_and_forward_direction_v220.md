@@ -24100,3 +24100,20 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1096新受領器516701/fd26b0e1…をroot全9行forward/reverse・96区間/94不変・旧60関数raw一致。launch/artifact=null、guardfalse、実行0。旧empty74名不在に対する1099全入力認証後の冪等復元helper準備は、新GHA発射の追加gateにしない。
 - 凍結34対象はworking raw/Git blobともhead3be3f763…で基準と全一致（13382/6ef70190…）。まだsource配置0/新run0。全P契約・独立WF・final pin・事前通知後にGHAを継続する。
 - v220内進捗: **CLOSED=新数学矢印0・C公開契約/受領器限定再結合、ADVANCED=P全ID対応/独立WF/空dir復元設計、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。P-only1834/8539は未採択。
+### Delta 696 — 独立WF採択・P全候補対応の最終段階・前処理全静読（2026-09-08 JST）
+
+- reply163 F8.159。1098最終9031/3df9236c…を全読、全27材料pin一致。独立全WF414行/driver106領域/105 named body/三registry/control・required0に、root1094別読が一致。root限定採択2698/2ab4c391…を全文読了。C数学全再証明や実行PASSは主張しない。
+- P残207→110具体契約の全説明/全raw/全IDをroot照合（160078/bbc3d7bd…）。v3票349456/55a40283…の7 path文言訂正を別読し、旧snapshotの正しいstart.jsonも保持writer全文へ結ぶ。P source不変。
+- 旧公開56実JSON全pin/schema/top型・保持9代表全pin/reader keys/27範囲とraw-word全45 IDをroot照合（75209/97b9ad63…）。全128 payloadの数値再生ではない。21追加family契約/215 source点を全読し、範囲内167/歴史側48を最終joinへ渡した（175938/526ac565…）。全1000/7130 literal/534 embedded個別joinの最終票が残り、件数のみでgateを閉じない。
+- 1099全509行/全返信10167/0543d273…をroot全読、全20材料2624309 Bのpin一致（7020/90384e8d…）。全両親認証→before保存→唯一mkdir→独立after再読の案、guardfalse/実行0/復元0/旧typed再起動0。1100独立監査進行中、新v5発射の追加gateにはしない。
+- exact10記帳commit f2157bb984866cc73556d61ed44d7ca5bbde58ab、20:01:44Z push exit0/remote一致、全blob/raw一致（3245/dbec992d…・472/c2da9295…全文読了）。source未配置/新run0。P最終全結合後、exact5全pin/独立WF/marker/nameを通知してnotify-and-go。
+- v220内進捗: **CLOSED=新数学矢印0・C公開契約/独立WF静的gate、ADVANCED=P実公開契約別読と全候補最終結合/前処理凍結と独立監査、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。失敗P-only1834/8539は未採択。
+
+### Delta 697 — P全公開キー契約閉鎖・全母集団独立照合・exact5実配置（2026-09-08 JST）
+
+- reply163 F8.160。1097全返信11416/4b3acb08…・最終closure/populationを全読、全144材料34870752 B一致。root限定採択56539/c73877c2…、公開未解決0/P追加source finding0。
+- 全7130 ID/位置/実raw・全156 EOF領域・旧public2688/通常2379/selftest191/全参照をroot独立一致（4271668/08cb58d1…）。全1000式/ID/引用先、14実埋込JSON全534 key順/名/pointer/型/範囲も一致（1129106/f86109a8…）。旧機械INTERNALを一括除外せず最終8分類へ結んだ。
+- 全643 alias/153 originを別読し、全643範囲/2379 ID/119引用契約を独立照合（793511/721f337f…）。LA0136/LA0272は実旧8文書のselection_sha256へ、LA0641はprogress/HEADへ再束縛。descriptor3/5、file_pin2/3、node_valuesとextra19 flat11配列も訂正。票側修理でありP source変更0。全数値再生や未観測枝実行の主張0。
+- 配置前通知3329/5bdbb672…を保存してnotify-and-go実施。旧C/WF archiveを先に保存し、1094 exact5を全raw配置（4017/f6198feb…）。全34凍結対象/P/driver_v1/v2不変。新C336211/111e23bf…・driver1145223/f1b50bc5…・WF26294/3102f115…、17親/8key/caps/128-no-refill/C4/著者分離不変。限定commit/pushへ進行、本節時点の新run/artifactはnull。
+- 1100独立静的票全読/全28材料一致を採択。1101はL14のみ別版48089/3c82af6f…をroot全逆差分/保持全body/4sibling照合（4531/f0004240…全文読了）。明示root承認1877/e679ac45…を形成/全文読了したが、前処理/復元/旧typed再起動は本節時点0、新GHA待ち条件にしない。
+- v220内進捗: **CLOSED=新数学矢印0・P/C全公開キー契約と独立WF静的gate、ADVANCED=全母集団独立照合/exact5配置/GHA発射準備・空74前処理実行準備、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1706/8411・grade2両NOT_DECIDED・F-v4-1 OPEN・verified=false**。失敗P-only1834/8539は未採択。
