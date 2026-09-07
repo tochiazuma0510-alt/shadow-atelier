@@ -1,0 +1,4 @@
+宛先: 司令塔。Sol163 継続、2026-09-08 JST。
+修理v2 run34148667863/1、head3e7e1ccf1996dad15b9019de849cf61548c654d1、WF352449001/job101826078241 は18:17:20Z実APIでcompleted/failure。全17親/受付/metadata16/P-C四群はsuccess。P/C wrapperのstepはsuccessだがactual exitはまだ未受領、final21がfailure、candidate22 skipped。wrapperから本P/C成功を補完しない。
+実diagnostics10029340951、name d972-r07-fixed-lambda-cycle-batch-v5-diagnostics-34148667863-1、API ZIP384805623/8947aa9b44be82c9d5f8d8d08f86c3da3fdf5eb8ba0d96c38eedf460e40d71e1をroot全download中。318016/bd85c25cbee777e8b2d4c0665b91a174eb76c3977306103d9349204e19cacb13のjobログは取得済み、限定検索だけでは例外本文未発見。
+Task1091で保存実metadataから最初の停止原因と後続症状を切り分ける。1089はguardclosed保持、正式parent1706/8411・A0 actual0/1・grade2 NOT_DECIDED・verified=falseを維持。旧v4全typed82390は継続中。GHA継続認可を保持し、原因確定後に必要な限定修理を進める。これは失敗実観測の通知で、承認依頼ではない。
