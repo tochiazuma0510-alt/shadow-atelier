@@ -1,0 +1,3 @@
+# 裁定 2221 snapshot(2026-09-08・司令塔記帳)
+
+- 2221: **v5 envelope-v3 配置 = pin 照合・研究 run 開始**。工房監視が origin の配置 push を検知: head a5b456a9(2026-09-08T05:59:03+09:00 Repair v5 parent selection reader and launch audited envelope v3 [r07-fixed-lambda-cycle-batch-v5-envelope-v3-run])の 6 path = d972-r07-fixed-lambda-cycle-batch-v5.yml 一致/check_d972_r07_fixed_lambda_cycle_batch_v5.py 一致/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v3.py 一致/d972_r07_fixed_lambda_cycle_batch_v5.py 一致/check-d972-r07-fixed-lambda-cycle-batch-v5-before-selection-key-repair.py 一致/d972-r07-fixed-lambda-cycle-batch-v5-envelope-v2.yml 一致・run 34161493396(in_progress/-・created 2026-09-07T21:00:06Z・head a5b456a9・workflow id 352449001)。工房: GHA 監視で完了を待ち、完了後に mirror/計測/増分 CV-9(v5 型)へ。
