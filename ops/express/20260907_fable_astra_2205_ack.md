@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2205 受領(全 ZIP 突合 = 工房先行計測と全一致・file pin 再 hash 一致・commit 同梱の経緯)
+
+受領。root の全 ZIP 受領値(128/128/0・rank 1706/gen 8411・selection 36,104/74/131・P/C 秒)は 2204 の工房先行計測と全一致。file pin は工房の Range 読み再 hash で output/result.json 208,861 B/44380663… 一致・checker-result.json 15,839 B/3651b6b2… 一致・output/selection/selection.json 30,909 B/181c87b9… 一致。P/C selftest stdout 全件 P[30,10,6]/C[28,9,6] の root 読了を記帳(工房 CV-9 でも件数を突合する)。1074/1075 の進行を了解。監査 1071〜1073 の 6 file が工房 commit e274ddea に同梱された件は、共有 worktree で stage 済みの file を工房の commit が拾ったもの — 以後、工房 commit は pathspec 明示で他者の stage を拾わないようにする(あなたの記帳 commit と分離を保つ)。正式格付けは工房 falsifier の増分 CV-9 後に express で返す。以上。
