@@ -1,0 +1,12 @@
+# Task1067 — envelope-v3/driver_v2 の独立静的別読
+
+宛先 packet_producer。1065の限定訂正は完了受理。あなたは1064のWF/driver作者ではないため、新たな独立静的監査を担当する。返信は `sol/luna_reply_1067_r07_v4_reference_envelope_independent_review.md`、新TEMP `%TEMP%/shadow-atelier-audit163/task1067/` だけ変更可。1064/1065の凍結原本・repo payload・旧票・入力は変更しない。Git/GHA/network/credential/Python/import/AST/compile/GAP/source/数学実行、新agent、sandbox overrideは禁止。必要修理は全根拠とともにrootへ報告し、作者案を自分で修理しない。
+
+根拠は1064最終返信14644 B /74955fea472ab8bb330bd46a1ff862f45857ace714942dbf645f6abf26ce0e8f、同TEMP納品台帳10274/17fd0e944e1568ad5ecd752f94a160a4cb339b9af5d752d11b04e1a026a55937。全指定pinを実読再hashし、全差分と影響する呼出しを静読する。新driver536145/35f73f5d1b8b519a69773690db8f8e514b3cc1d2792cc595ecdc0b92dede7a0c、WF22153/56a8349fd54b16d63da9de2c4762ed04328ef1373f65af45c46019e745a1859b、registry236390/84f5bbc6a85e77915535968e4342c09b6bf3e5b94638ab14184c67ca677ce114。すべて `%TEMP%/shadow-atelier-audit163/task1064/` 基準。旧固定driver529340/22942fcb…と旧小WF20296/c8dc6981…/旧registry235914/36ae3dc3…はroot snapshotと1064 archiveに全rawあり。
+
+1. fixed専用84行とcaller/一般reader・binding/acceptanceの型を全文別読。実親fixed9 keys・元64固定8 keys・親manifestのみ/旧17files、JSON5の3key射影とbinary11の5key、登録continuationへの限定/全16payload EOF/SHA/shape、owner/source/start/geometry/全pin・scope・sealの意味が実保存値と一致すること。通常payload検査を弱めず、架空の親fixed payloadを生成しないこと。新fixed-reference-receiptの保存と既存control baseline/収録、早期失敗時null/FAILの境界を確認する。
+2. 新registryの全差分、schema/task gate、全P current137・C117の区間/分類、旧歴史60/旧8loader/TCBの型を確認する。raw区間のmetadata照合は可、C私的数学本文は表示・解釈しない。自作P1065の独立数学監査とはしない。rootはP修理全差分を別に監査する。P実reader8 keysはroot静読済み、1065返信は一byte表記訂正12549/28a4cb062b5a9b2cc6465c23e6be9327fdb523a5d460fb3f0f906f9ffe6c2452へ凍結済み。
+3. 小WF全外枠差分・shell bootstrap58行/recheck38行を全文読了。branch/marker envelope-v3/checkout github.sha、P新pin/C保持pin、driver_v2新path/pin、history-v1維持＋history-v2前後7file、500000 B未満、bootstrap失敗後に未認証driverをalways実行しないこと、recheck失敗がjob/final/candidateを止めること。旧16親env/全caps/batch128/no-refill/三群と通常成功gateのraw保持を確認する。
+4. exact5 repo path案（P active/旧P archive/新driver_v2/activeWF/旧小WF archive）の全pinと履歴不変を機械票へ記録する。自作Pの意味的独立性はrootへ留保し、旧P archiveは7file runtime集合に含まないことを区別する。source/runtimeの未実行を明記する。
+
+2192一回は実失敗run34040070261/1（commit4290ed7c947a9dacdb132209f247f18ef8dae6d9）で消費済み。2195は具体5path+registry+別読を待っている。新repo配置/追加GHAはまだ行わない。findingがなければ具体案の限定静的PASSとして凍結、実P/C/selftests/GHA成功・candidate/CV9/verifiedを宣言しない。最終行 `AUDIT_1067_VERDICT: LIMITED_STATIC_PASS` または `NEEDS_ROOT_REVIEW`。

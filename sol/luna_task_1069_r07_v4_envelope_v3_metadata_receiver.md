@@ -1,0 +1,19 @@
+# Task1069 — envelope-v3の完成candidate受領器を新versionで準備
+
+宛先 packet_checker。1066完了と最終返信をrootが全文受理、独立別読は1068へ依頼した。あなたは旧1058受領器の別読担当1063として全文を読んだため、その凍結原本を保持し、新metadata受領器をTEMPで準備する。返信 `sol/luna_reply_1069_r07_v4_envelope_v3_metadata_receiver.md` と新TEMP `%TEMP%/shadow-atelier-audit163/task1069/` だけ変更可。原helper/票/repo payload/入力は不変、Git/GHA/network/credential/Python/import/AST/compile/GAP/source/数学/新helper実行・新agent/sandbox overrideは禁止。原P私的数学本文は不読、公開raw sourceはopaque range hashだけ扱う。新metadata helperはASCII PowerShell/.NET、実行者は全静読後のrootのみ。
+
+基点1058 `audit-r07-batch-v4-metadata-v1.ps1` =247138 B /99bc57568e9eb721050084e96c1cbfb5f870d4ecf084ca3a0ecf5ee8336da812（LF2329）。最終1058返信13468/41fec0811c4df79ec8e68d44881cf63ebe28844ed3a1f45281446970ca35fc78と1063最終15102/a3a4e977523f31e6814a780361ee82b64172ff13eb52091295d24706d6a2edf0を再確認する。rootは基点220620からの残差分を静読中。旧guard=false/failed run34040070261/1不適用は保持し、原版を上書き・実行しない。
+
+新具体案は1064/1065最終返信と台帳を全文確認。新WF22153/56a8349fd54b16d63da9de2c4762ed04328ef1373f65af45c46019e745a1859b、driver_v2 536145/35f73f5d1b8b519a69773690db8f8e514b3cc1d2792cc595ecdc0b92dede7a0c、registry v2 236390/84f5bbc6a85e77915535968e4342c09b6bf3e5b94638ab14184c67ca677ce114、P290457/a58f7c116558fdc430025a9e095d29d0b04e0f20c9295264fca58a4c13510d0a、C261170/a29380ec00876225cc618c7025d671a3da79aea3b31b829dedba13c59ba84633。いずれもTEMP task1064内、まだrepo配置/追加研究runなし。独立WF/driver別読1067中で、pin変更findingがあればrootが通知する。
+
+新小WF全368行とdriverの影響するpublic serializer、registry全metadataを読んで、完成candidate用1058 mainへ次を限定接続する。
+
+1. 新source/driver/WF/current registry v2の全pin/path/schema/task gate、472 current範囲/254分類、P122→137（同一104/変更18/追加15）・C96→117（79/17/21）へ正確に更新する。historical60・旧8loader・shared4/全source24/history6は保持、new currentを旧registryに無理に一致させない。
+2. 公開P37旧raw数学本文不変の新current範囲は task1065 `producer-body-inheritance-v1.json` 17587/768cbfec35dae2abc80cade25f184c626bef07a8fefb758383a8669e23a0ebed と `producer-current-regions-v2.json` 267079/b36818b41ab82ea33e2008e6db921e9cfb4138af472a473b47bbeac2eac063b9。新受領器は必要な公開静的入力を自身TEMPへCreateNew保存し、その実形・全pinを固定する。旧1058の14933票を新P currentのpinに読み替えない。37には旧4P loaderが含まれ、41独立とはしない。
+3. 起動前後shell9票はschema task1064.*v3、7 SHA行（driver2/巨大history-v1 2/旧小history-v2 2/activeWF1）へ接続。REPORTに追加したworkflow-envelope-v2.yml、実placement字段、pre-P control集合、最終全REPORTを新WFの実serializerに合わせる。旧Parchiveはrepo非実行履歴でruntime7fileには含まない。存在しないreceipt字段を要求しない。失敗runの5null argvからpathを作らない。
+4. 新driverの `batch-fixed-reference-receipt.json` 全schema/exact字段/false assurance/親reference/元64実manifest/geometry/JSON5binary11/両inventory/fullhash/受領順を読み、既存acceptance/control baseline/保存最終REPORTへ結ぶ。既存1058 R4専用参照readerの通常payload非緩和と全16旧payload EOF/shaを保持。実旧64 scope/schema8 keysと親/current9 keysを混同しない。新helperの成功main以外に架空の早期failure PASSを追加しない。
+5. 16親/旧64/別1578 batch親/225DERIVED/一batch128/refill=false/全資源caps/新3群2数学+1metadata/seq3と9の観測/未観測null/未保存歴史HEADの限定/CRC局所falseは保持。1066実failureは独立scopeの完了であり、この新候補mainへ入れない。
+
+実launch/具体承認裁定/候補artifact tupleは未形成。新helperではExpectedLaunch/Artifactをnull、ImplementationComplete=falseで保存し、推測のrunidやhashを埋めない。rootから実handoffが届いたら型付きliteralとAPI票の全pinへ結び、全差分を版ごとに保存する。helper実行はまだ不可。
+
+全raw bytes/SHA/LF/CR/ASCII/BOM/末尾、元247138からの全差分/完全逆置換と保持関数、追加入力pinを機械票に保存する。必須findingは早期にrootへ提示し、自作C算術の独立再監査・実P/C受領PASSとはしない。準備完了時は具体新pinでfreeze、最後 `AUDIT_1069_VERDICT: STATIC_ENVELOPE_V3_RECEIVER_GUARD_CLOSED` または `NEEDS_ROOT_REVIEW`。
