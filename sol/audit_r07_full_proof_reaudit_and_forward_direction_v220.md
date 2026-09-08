@@ -24393,3 +24393,13 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 正式受領は13:07:44Z PID19504 running、seq12465/13:06:33Zの旧v3 P fixture subtree全EOF/元directory試験後へ進んだ（root6782/8c373a79…）。typed/broker/OS終了票・正式inventory5は未形成。人の承認待ちではなくroot processの完了待ち。
 - 司令塔2233/2234を実4file差分と原状態prefix保持で読了（root1438/8c751dda…）。Delta724 exact3 commit/push **72786d8c1ac7f8aa5e15d34cb7bf7e800ce4f2cc**（1908/0611bb1d…・603/179ee1c0…）を記帳。
 - v220進捗: **CLOSED=P6実GHAと全成果物受領、P/C両自己試験、ADVANCED=正式受領旧v3 P fixture全EOF後、OPEN=正式inventory5/本走P/C/registry/driver/WF接続/GHA・Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 726 — 2026-09-08・正式受領fixed参照後、Q1450の引用境界を具体化
+
+- F8.189を追記。PID19504は13:33:04Z稼働、root6848/d4870759…を保存。旧v3 C fixture後を通過し、seq12471/13:29:52ZはR845/R2247の旧64実fixed参照Inventory後。範囲はoriginal-readonly-unleased-input、10556 leased scopeとは区別。typed/broker/OS終了・正式inventory5未形成、実process完了後に既定bindingへ進む。
+- P run34228241894/1・head da438cc76e58792324db5fb113cfc530edddda83、C run34220805430/1・head4e68cf23fe471623a67bcd7892a713978e7f1bc2の実全selftest受領採択を維持。重複再試験0、本走NOT_STARTED。追加の人の了承待ちを設けない。
+- Task1129 P/1130 C/1131公開採択証拠の三便を既存担当へ委嘱（3126/e8bc09ac…・2989/cae046d7…・3015/f57a06be…）。対象はQ1450一問、相手private不読、正式inventory5の既定最終bindingが優先、v6追加gate0。
+- root条件付き数学補題7875/ae68ea58…（記帳2170/1a142507…）を固定。全1450行とtarget1386/1450の両exact pairingを区別し、非零と値1/2、保存済み命題と現在作用/実計数を分離。相対target方程式が別採択された場合だけ両target値の一致を導く。具体E/Γ/変換/速度は未採択。
+- P/C途中報告は旧helper全体の省略を退け、元call occurrenceのdotだけを引用へ替える候補と、残すhash/型/拒否/進捗/後続返値を特定。最終票/root審査は継続中。1131は歴史採択のexact条項を調査、global PASS/rankから補完しない。
+- Delta725 exact2 commit/push **b52672c11645746b66da49d144fa4cc0729a6b0c** を記帳（1569/51688541…・603/e01a5222…）。
+- v220進捗: **CLOSED=P/C両selftestと1127公開binding採択を維持、ADVANCED=受領fixed参照後・Q1450条件付き数学と独立境界/採択証拠調査、OPEN=正式inventory5/本走結合/GHA・具体引用/Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
