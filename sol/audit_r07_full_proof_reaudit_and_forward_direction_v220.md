@@ -24276,3 +24276,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1115公開wire設計（6105/5ae5a249…）、1116 P相対鎖閉包（3493/c5ed6ae0…）、1117 C独立閉包（3732/20aa06c4…）を既存担当へ委嘱。設計のみ、新agent/私的P-C交換/数学実行0。v6への追加待ち条件ではない。
 - Delta713 commit **ce87943ab0b14f9a609e04bc80dcf57c0b6873e6**・normal push/remote exactを記帳。1112 PID19504はcurrent PREPARE中、seq7028/UTC04:47:09ZでC fixture全hash後の全dir存在。正式full typed/inventory5は未完。
 - v220進捗: **CLOSED=1111相対意味保存の条件付き紙上審査・P/C初期冷保存設計の比較、ADVANCED=保守的active鎖方針と1115–1117公開契約/自系閉包、OPEN=実変換/新TCB採用/全型付き受領/inventory5/最終binding/GHA、UNCHANGED=P6/C6/driver/WF静的監査完了、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 715 — 裁定2230・復元後v5全ファイル照合通過位置・Delta714公開確認（2026-09-08 JST）
+
+- reply163 F8.178。裁定2230のsnapshot/expressを全文受領。v6の静的閉鎖・1111条件付き相対意味保存を採り、冷保存のCURRENT_REDERIVED/ACCEPTED_CITED/OPEN_PREMISEと可用性A/Bを必須化。1115–1117をv6の追加待ち条件にせず、ユーザーのGHA包括認可を維持。実WF上限は500000 byte未満を保持。
+- 1112 PID19504の観測票 **9768/da817a7a…**。旧74復元票 **4277646/bfc9edbc…** のafterはv3全11437 file/3475 dir、v4全11648 file/3525 dirがPASS。current seq7030/UTC05:08:51Zは復元後の全file hash通過位置で全3547 dir＋rootの存在、seq7031/UTC05:15:42Zは元ZIP全entry EOF照合直前の存在を確認。旧typedやcurrent PREPARE自体の最終受領ではない。stderrは計画1＋mkdir40＝41情報行。正式inventory5/全typed/最終bindingは未完。
+- 親GHA API再照会票 **4071/c2f912af…**。run34161493396/1/head a5b456a973f8a917f3af386d327061a02a0cf900のsuccessとartifact10034053256/384961441 B/72e19a87…/expired=falseが一致。API可用性の観測で、追加payload照合や新dispatchではない。
+- Delta714 commit **16c92c340a17e8a32262939f5d40dfca37b720d2**、commit票3263/d9a09df7…。司令塔2230 commit **90b350ce868ffe4b0daff71e1df1f4c9428bbd30** の直接の親としてremote公開された。root pushはhead guardで前停止し、全7file/親/remoteを照合した公開票994/9245b0c4…を保存。root push成功とはしない。
+- 1115公開初稿の先行紙上審査で新wrapper positionとnative原index/rankを分離する精密化を返した。各native文法/rollingと実current検査/将来追加数値義務も区別。1115–1117の最終閉包/変換/TCB採用・性能はOPEN。
+- v220進捗: **CLOSED=2230受領とDelta714公開確認、ADVANCED=復元後v5全file hash通過位置から元ZIP全entry照合へ、OPEN=全typed/正式inventory5/最終binding/GHA・冷保存の具体契約/変換/可用性TCB、UNCHANGED=P6/C6/driver/WF静的監査完了、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
