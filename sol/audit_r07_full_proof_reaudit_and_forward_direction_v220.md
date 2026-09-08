@@ -24192,3 +24192,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - v6 18親/9key/k128/同caps一runの準備継続。1108 driverと1109 P6進行、1110 C6指示と祖先shape追補を形成。1107 root全791header/19実在familyを実pin照合済み、9か所のadded型修理と診断schema明記のv2を待つ。P第五群8件の独自公開案4240/f66cd1b0…採択・実装開始。最終wire/正式inventory/source全pin/1093全consumer/別読後に既notify-and-go。v7回転は同値性と削減仕事を分けて設計、k引上げは別事前登録。
 - 前Delta705 authorized7pathをcommit **04519b0d346c232548c06b1299493855ee5b9d44**、normal push完了/remote exactを記録（commit票2887/d7c9ee6a…、push票603/94149959…）。本追補で新数学run0。
 - v220内進捗: **CLOSED=F-v4-1（限定保持）・rank1834正式CV-9・1103公開監査、ADVANCED=正式1834/8539・v6 P6/driver準備とC6指示・費用射程2225、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、grade2両NOT_DECIDED・F-v5-1 OPEN計画所見・全typed/正式inventory/最終wireとsource別読継続・verified=false**。
+
+### Delta 707 — 1107公開wire採択・C6実装開始・prefix静的修理・回転案2226（2026-09-08 JST）
+
+- reply163 F8.170。1107本文v2全37249文字/F1–F12を全文読了、全20族keysetsを機械票へ照合、v1→v2の全構造差12件を確認して9配列型指摘を解消。正式wireは18親/9-key/start44/intake49/layout11/C-result50。未観測診断29-keyのv6 schemaを明記。
+- rootが最終12資料694594 B＋返信7611/ebc6b69c…を再hash、先行10材料688844 Bと30入力pinも再hash。公開採択票50133/f05a2b91…、最終採択 **8814/431c364f48095196a7890458582ba5c488d5b79206642fff4c9ce045e58d132f**。1110独立C6へ着手、共通wireをP6/driverへ配布。私的P/C source/helper/fixture共有0。
+- rootがP第五群の裸labelと接頭辞付き実例外の不一致を静読で発見。前F8.169の裸expected==observed条件だけ撤回。draft03→04（450877/013f5a6b…）の比較一行だけの修理を全raw正逆一致で確認し、公開ABI v2 **9866/747005258671d1e8028cd8b0788a0aa116ddaefc50464876a1d51b8f60556fb3** を採択。8case/旧4群/全path・原例外保存は不変。修理票7292/6c6892d4…、実selftest未観測。C8も裸expected_labelと実cycle_batch:+labelの完全一致を公開追補1591/741148a0…・root指示1400/bc561e1b…で固定。
+- 回転案 **Task1111=12428/d4a44d47c0ad6e1018aef7b0f782d5f7fb17cc48e909ef7ef2ef528a0ad9b3ac** を作成。基点15＋統合親1、順序付き全row identity・文脈付きDAG同型・逐次target sign・全証拠/空dir保全による条件付き同値性。省く再帰prefix重複と残るR/L/M依存を分け、cold pinだけの閉包切断・k引上げは別変更。2226速達913/870563d4…・snapshot2034/842d388c…を全文読了、工房数学者が独立審査開始（commit f7c2cff9…）。Astra側別読は1108完成後。現v6 18親/k128/capsは不変。
+- Delta706をcommit **ea79f8b2b39d24eeeed7e0eafa8d0ef361e23436**・normal push/remote exact（commit票2676/5a666ef3…、push票603/4b3380e6…）。新研究run0、正式run34161493396/1/heada5b456a9…/rank1834/gen8539不変。全typed PID13580/session59586継続・再起動0・正式inventory未着。最終全source pins/1093全consumer/別読/通知後に既notify-and-go。
+- v220内進捗: **CLOSED=1107公開wire/C8/9配列型修理・P prefix静的修理、ADVANCED=独立P6/C6/driver実装・1111条件付き案と2226並行審査、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN計画所見・typed/正式inventory/最終source consumer/実自己試験待ち・verified=false**。
