@@ -24338,3 +24338,15 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - GHA API再確認27513/21645684…（10:18:26Z）で正式run34161493396/1/head a5b456a9…/successとcandidate10034053256/384961441 B/digest72e19a87…/expired=falseを確認。直近20run未完了0はその範囲だけの観測。docs pushのskipped runを研究走行に数えず、新研究dispatch0。
 - Delta719 exact4 commit/push **18f434540c681c03abfcb43a902237c2ecc3ed5b**（commit2214/f4f368f2…、push603/b1abe2ae…）を記帳。
 - v220進捗: **CLOSED=1120/1121限定native登録の採択維持、ADVANCED=1122/1123 current用途個別化・1124受領残工程・条件付き引用cut境界・歴史v4 output Inventory、OPEN=正式inventory5/最終binding/GHA・全catalog/Γ/全内部閉包/実変換/引用条項/可用性TCB、UNCHANGED=v6静的採択/13最終結合位置/追加gate0、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 721 — 2026-09-08・受領残工程1124を採択、C6限定修理1125と受領不要の先行GHA準備1126
+
+- F8.184を追記。受領待ちはroot所有のローカルPID19504の終了で、人の返信待ちではない。seq10641/10:25:21Zで歴史v4 output全Inventory後、root観測6116/e1af994f…は10:39:48Z。typed/broker/OS票は未形成、10556lease記録を保持。全PREPAREと正式受領を分ける。
+- 1124最終返信10722/0c0b086b…を全文採択。root42666/09778de0…で3source/23 raw区間/全8旧材料217349 B、実journal先行10367781 Bと99完全行、seq10640/10641を独立結合。14段階/10callsite/6回収順とroot自身のserializer/親呼出し再読を接続。全receiverの再監査をしたとはしない。
+- OS monitor basenameをroot-task1112-directory-stability-process-end-v1.jsonに確定。最終目録4361/4041bc54…、全11材料234402 B、元返信全prefix保持は別root7678/008d5755…で一致。v3全親受領→v4残尾→current v5残尾→typed→broker解放/終了→OS終了→root正式5字段の順を保持。broker正常でもformal_inventory5=null。ETA/行内PCはUNKNOWN、1124追加gate0。
+- **C6の従前静的完了を具体的に訂正。** 第三親定数が8要素、保持helperは7要素で、通常全18親ループ/第三native launchの接続が失敗する静的不整合をroot独立確認（12353/6bed7e49…）。全10公開値は正しいが表現が不一致。現在の実GHA失敗ではなく、正式guard解除後の同call到達時の欠陥。新1125は4935/6ebe7b2a…、他保持本文を全面巻戻ししない。
+- 新C427740/a5c44972…の全3 raw差分・全文forward/reverse・新7値のartifact接続・独立18×10期待字段をroot53301/2be9eb6d…で照合。実helper正対照を既fixtureに追加し、旧拒否/28file/empty1と2 None/旧17定数/数学を保持。公開metadataのinterface1名追加は既driver型契約に適合。最終全保持/registry raw座標と実試験はPENDING。
+- v6用18artifact/14run/32 GETのroot票61944/2d8ff893…で全登録一致・期限切れ0。prepare＋4blockの元failureを保持し、API可用性をpayload/fulltypedへ昇格しない。既gap-runを全文読んでid322329646 activeを確認し、WF変更なしの先行C6 --selftest実行器1126（5002/e96cb651…）を準備。正式親受領不要の経路、実runtime/exit/全fixtureを保存する。新dispatchはまだ0。
+- 1122 P16caller/89 raw表v2と1123 C元62readerは審査/作業中、全native/Γ/runtime/input閉包/TCB/変換/引用/BはOPEN。設計全体はv6追加gate0。発見済みのsource不整合は限定修理して採択する。
+- Delta720 exact5 commit/push **b635b49a6d020d4461a7c04ee907d45f0e331aa7**を記帳（commit2556/8aec3101…、push603/6e7495ba…）。
+- v220進捗: **CLOSED=1124限定地図とOS保存先・全18親API登録接続、ADVANCED=1125 C6具体的不整合修理/差分審査・1126先行GHA準備・正式受領、OPEN=1125最終全材料/実試験・正式inventory5/本走binding/GHA・全catalog/Γ/内部閉包/実変換/引用/可用性TCB、UNCHANGED=P6/driver/WFの元静的採択とC6の修理範囲外・設計全体の追加gate0、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
