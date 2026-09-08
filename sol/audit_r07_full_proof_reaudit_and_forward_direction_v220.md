@@ -24434,3 +24434,13 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root5067/dd4f0232…でpacked3 D/E互逆と二段階A内容結合/B使用時array条件、条件付きuint64和上界193536を紙上固定。1133 P/1134 Cは作者納品済み、root全採択は未完で1135優先。
 - Delta728 exact3 commit/push **3fb1e538f03e5acb0f3948fca33af28398dc5b9a**（1909/e3634e16…・603/b2199f3c…、foreign32保存）を記帳。P/C GHA selftest採択維持、本走NOT_STARTED・追加GHA0。
 - v220進捗: **CLOSED=公開report wire1132・1112実FAILと解放票の回収・二段階operand紙上補題、ADVANCED=1135空keyset修理/1133・1134作者納品、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 730 — 2026-09-09・1135修理を採択、OS再起動後に正式受領を再開
+
+- F8.193。root35256/f517d302…でreceiver三行の空keyset修理、broker二箇所、全14 memberと保持13 member、全42小対照/原helperを採択。receiver524445/7022f2c8…、broker18563/4a34b93c…、closure3907/37fa3cc8…。前Deltaの草案段階から起動済みへ更新する。
+- 初回1135の旧PowerShell PID6684は終了票なしで中断。root12751/595498a4…、journal全7014行・open7008・close/end0。旧74準備PASSは保持するが全受領へ昇格せず、停止原因/OS exitはUNKNOWN。
+- 二回目の受領1764/監視1284も終了票なしで不在。root16807/cab0d55d…が主journal全2行、準備77 event・既存74、全source pin不変を確認。最終旧74/typed/broker/OS終了票は未形成。
+- OS情報は通常読取拒否後、許可された範囲で読み取った。root2392/02a28859…に実tool出力の来歴を固定。**03:09:28 JSTのWindows再起動**、event1074のOS Service pack計画再起動と6006→6005を確認。二回目の最終稼働と不在の間にOS再起動が入った。個別exitと初回の原因は補わない。
+- 同じ修理source/実親八入力を新session f37c871f25cc4b688ff9f61ebe5e876cへ再登録（10225/7581b9ba…）。全文読了済みmonitor6623/af352cfc…、静読票2268/7594efac…を使い、**04:19:35 JSTに受領PID7116・監視PID7328で再開**（起動5989/9ed23ded…）。PID guardはimage/開始時刻/元票と結合。正式inventory5は未形成、残時間は未確定。
+- 旧PID6684は番号再利用後svchostだったと説明を訂正。Delta729 exact6 commit/push **fdfba98d7fdb4ab1e70c29ce873f6a0bf8071c4c** を記帳、司令塔acbe878bの再開briefも全文受領。このrootが単一brokerを継続。foreign32保存、両selftest採択維持、本走NOT_STARTED・追加GHA0・人待ち追加0。
+- v220進捗: **CLOSED=1135修理のroot採択・二回目中断に介在したOS再起動の同定、ADVANCED=全範囲再受領PID7116、OPEN=正式inventory5/本走結合/GHA・1133/1134最終採択・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
