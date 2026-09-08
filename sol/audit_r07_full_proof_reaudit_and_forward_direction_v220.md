@@ -24224,3 +24224,15 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - v220内進捗: **CLOSED=P計器公開契約、ADVANCED=C別読/第五修理・typed安定化・全content重複測定、OPEN=全typed/正式inventory5・C修理採択・全P/C/外側consumer/最終pin/実selftest、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
 - 同Delta commit前追記: C計器v2/第五fixture v2をroot採択。全2版差分/全区間SHA/両側EOF再構成、31順/8case/28file/empty1/三namespace/v5 index353を確認。root票 **581036/fc3150cf742a0fec2c0a79e19e43b5968f4d7052dfdb6c9f22856b4a35bad652**。返信1109/1110を両全文読了し、P83材料201215854 B/C43材料42730398 Bを全再hash（root票85848/92153a28…）。全source/consumer意味採択は継続。
 - 新Task1113 **4669/e0fafbef2186dd3eeb2223ce9ae28a4f3ab023a633e21faf81c73e4bf3d131b2** でcold/active閉包と命題三分・変換/毎回監査を設計。2229速達982/3ead5484…/snapshot2280/d8c1be80…全文受領（commit25c68ff0…）。重複実測受理と冷保存優先を確認し、byte比からwalltime因果は同定しない。v6前件・継続GHA認可不変。
+
+### Delta 710 — directory保持付き全受信を再開・P/C全字句結合・冷保存1113設計受領（2026-09-08 JST）
+
+- reply163 F8.173。1112自作小対照の全36 journal/34 result/8handle閉鎖をroot照合。access1/share3中の空dir delete/rename拒否と解放後成功、先行DELETE handle時の取得拒否、access0では削除が通る反例を区別した。旧削除主体UNKNOWN、file内容不変・全OS操作防止は未主張。
+- 新receiver全13raw差分の正逆/両EOF、全14runtime/元11copyを独立照合し追加本文を全読。元typed/全file hash/ZIP EOF/serializerを保持し、PREPAREを分離、RECEIVEのmkdir禁止・前後journalを追加。root静的票 **40486/fd3b4aca6f5015f0afa4ed16b38f2d85fd83c67cf97cd79d53980c15e660a3f9**。
+- 二guardだけ変えた別activation snapshotを固定（票22083/1191f4f0…）。**UTC02:36:52.7020782Z、PID19504でroot metadata retry開始**。launch **4325/ac487e9fb73548f082b963821c2c4d15d1cf4b4c753559d0f812be6db97cc69b**。02:41:40Zは旧74全認証中、stderr0、monitor26112。旧74→v3/v4保持→現40→v5保持→元scope全typed→全handle閉鎖。最終typed/inventory5はNULL。
+- P6最終453749/75401d4d…から全8961 literal/1218 dynamicを独立再抽出、全ID/offset/行/各SHA/scopeを結合。18JSON全663keyのpointer/型と全旧156/新177rawを照合、143不変/13変更/21追加。root票 **10162024/0faca802d0ccab2211f8aba6957f0629576aed210e8d631cbfe3957d71f8dcff**。全consumer意味採択を先取りしない。
+- C6全6064を7regex/全sourceから再抽出、元140/現165raw＝128不変/12変更/25追加・全EOFを確認（票6260987/d825951e…）。分類の32 literal欄欠品を照会し、全32/既存10契約/全関数rawへ補票を結合、採択 **39514/422f94fcaf54344c1a38f09022adf71afbb698c80dd88a02fa6de8027a91d07e**。nullはoptional/guard免除ではない。rootのCP aliasによる自己一時コピー1件はpin/時刻確認後TEMPへ保全移動し解消（票1032/10189edb…）、既存file変更0。
+- 1113作者返信20389/9f464cbe…全文読了/全6材料pin一致（root票2950/ca9a44b5…）。22群・current/cited/open三分・全rolling/原順序/零・変換/毎run・12反例・H1/H2/H3を提示。現在も使うfixed/P1/全行をcoldに落とさず、旧pairing引用化時の旧flag継承を禁止。実変換/独立同値性/性能は未裁定、現v6不変。
+- Delta709 commit **dc3d9427cfb581a6e8bd4968f4a5c88f0a89a2bf**・normal push/remote exactを記帳（2813/cf3bb208…、603/3c8a335a…）。正式run34161493396/1/head a5b456a9…/1834/8539、新研究dispatch0。v6は最終consumer/typed inventory/driver pinを閉じて既notify-and-goで進める。
+- v220内進捗: **CLOSED=1112静的対策・C32記録欠品、ADVANCED=全受信再起動・全P/C字句/raw結合・1113設計受領、OPEN=全typed/inventory5・全consumer意味/外側最終pin/実selftest・冷保存独立同値性、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+- 同Delta commit前にTask1114 **4976/cd09ec5e1931cbd0a8f27a37470e0498e4b3855ff9cb1ca79372b095ce54d269** を独立C作者へ委嘱。C6実callerのcurrent閉包/過去検査引用条件を別設計、P1113私的本文共有0・現実装/数値/GHA0。
