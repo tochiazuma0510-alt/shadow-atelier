@@ -1,0 +1,451 @@
+{
+    "schema":  "task1126.C6-selftest-runner.registration.v1",
+    "checker":  {
+                    "file":  "search/check_d972_r07_fixed_lambda_cycle_batch_v6.py",
+                    "bytes":  427740,
+                    "sha256":  "a5c449721663940ed2155f90980eb7422999cbaa6af466512e95a0819cd02f58"
+                },
+    "checker_dependencies":  [
+                                 {
+                                     "file":  "search/check_d972_r07_actual_grade2_root_scalar_batch_v2.py",
+                                     "bytes":  119619,
+                                     "sha256":  "e0237d100c7fd3e8826ce6ab8896fa8aecf6c7e04da23a603a3d9305ea9eebb6"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_actual_root_seed_materializer_v3.py",
+                                     "bytes":  64626,
+                                     "sha256":  "eca60918eb943edddc321054f04b8547b3e88e5f7421f4de1e09ea04d7ca2701"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_complete_oracle_cegar_continuation_v2.py",
+                                     "bytes":  129557,
+                                     "sha256":  "e985b4ca3922fc4f89fe7c313d969bf4dd2b525fb92b4ee3ce3920888e6821e3"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_fixed_root_packet_loop_v2.py",
+                                     "bytes":  66251,
+                                     "sha256":  "5289253a82d942d71b1ec55505d08ab772b111f2ba08e301f67387eae19b23e5"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_full_origin_refinement_v1.py",
+                                     "bytes":  75083,
+                                     "sha256":  "1ee388c9cd39a43992bc9a6e075b087da3ae1672221a197719ea435d7d3529c2"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_rank1355_root_seed_scalars_v1.py",
+                                     "bytes":  36236,
+                                     "sha256":  "f3c7ca2586a3734334b7d9823316601d18ab1d36561c72aa2c23c2aedfca0e62"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_section_cochain_oracle_v1.py",
+                                     "bytes":  80740,
+                                     "sha256":  "2db166400dd819805f36b613993d4622e8365f04339ca7aef0371a28de71c967"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_section_cochain_oracle_v2.py",
+                                     "bytes":  84402,
+                                     "sha256":  "a44ce4baaa5c73a30b5b28a76a84589f0a661f11e029b7869868d4a88706880d"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_selected_cycle_materializer_v1.py",
+                                     "bytes":  103757,
+                                     "sha256":  "a6d52e0d12d97201f0a19f25c54e0924e3fbea89fefa3554727a7178881218b4"
+                                 },
+                                 {
+                                     "file":  "search/check_d972_r07_targeted_grade2_owner_generated_join_v15.py",
+                                     "bytes":  141770,
+                                     "sha256":  "8f718811c518f8d3e1d09de497b955d18c221e983391721068cc35be0000a662"
+                                 }
+                             ],
+    "workflow":  {
+                     "file":  ".github/workflows/gap-run.yml",
+                     "bytes":  13309,
+                     "sha256":  "0c2ba9089d7e43d9d34d43afa039618a354307037ddf9ea332535e43a70cecae"
+                 },
+    "wire_origin":  {
+                        "file":  "C:\\Users\\81905\\AppData\\Local\\Temp\\shadow-atelier-audit163\\task1125\\public-selftest-artifact-identity-contract-v1.json",
+                        "bytes":  25393,
+                        "sha256":  "e59e87cb9b5fbe9e399d46619bd9f37206d6afad6cd9a1018060c1002a89d071",
+                        "root_adoption":  "ROOT_STATIC_ADOPTED_RUNTIME_PENDING"
+                    },
+    "public_wire":  {
+                        "schema":  "task1125.public.C6-artifact-positive-and-selftest.v1",
+                        "status":  "STATIC_DECLARATION_GUARD_CLOSED_RUNTIME_PENDING",
+                        "source":  {
+                                       "file":  "C:\\Users\\81905\\AppData\\Local\\Temp\\shadow-atelier-audit163\\task1125\\search\\check_d972_r07_fixed_lambda_cycle_batch_v6.py",
+                                       "bytes":  427740,
+                                       "sha256":  "a5c449721663940ed2155f90980eb7422999cbaa6af466512e95a0819cd02f58"
+                                   },
+                        "canonical_repository_file":  "search/check_d972_r07_fixed_lambda_cycle_batch_v6.py",
+                        "success_stdout":  {
+                                               "schema":  "d972.r07.fixed-lambda-cycle-batch.v6.selftest",
+                                               "exact_top_keys":  [
+                                                                      "schema",
+                                                                      "sha256",
+                                                                      "status",
+                                                                      "tests",
+                                                                      "fixture_scope",
+                                                                      "production_interfaces_used",
+                                                                      "old_success_suites",
+                                                                      "actual_anchor_arithmetic_replayed",
+                                                                      "candidate",
+                                                                      "cross_checked",
+                                                                      "verified"
+                                                                  ],
+                                               "types":  {
+                                                             "schema":  "nonempty str exact schema",
+                                                             "sha256":  "str bare hex64 inner canonical unsigned-document seal, distinct from whole stdout file SHA",
+                                                             "status":  "str PASS",
+                                                             "tests":  "ordered list of exactly5 group dicts",
+                                                             "fixture_scope":  "nonempty str",
+                                                             "production_interfaces_used":  "ordered nonempty str list",
+                                                             "old_success_suites":  "ordinary int0",
+                                                             "actual_anchor_arithmetic_replayed":  "bool false",
+                                                             "candidate":  "bool false",
+                                                             "cross_checked":  "bool false",
+                                                             "verified":  "bool false"
+                                                         },
+                                               "group_exact_keys":  [
+                                                                        "name",
+                                                                        "status",
+                                                                        "rejected_cases"
+                                                                    ],
+                                               "group_types":  {
+                                                                   "name":  "registered str",
+                                                                   "status":  "str PASS",
+                                                                   "rejected_cases":  "ordered str list from each existing canary"
+                                                               },
+                                               "group_names":  [
+                                                                   "k128-version-registration-and-types",
+                                                                   "k128-full-roster-cutoff-and-restoration",
+                                                                   "batch-parent1578-admission-and-projection",
+                                                                   "batch-parent1706-two-layer-admission",
+                                                                   "batch-parent1834-three-layer-admission"
+                                                               ],
+                                               "rejection_counts":  [
+                                                                        28,
+                                                                        9,
+                                                                        6,
+                                                                        7,
+                                                                        8
+                                                                    ],
+                                               "production_interfaces_used":  [
+                                                                                  "artifact_identity",
+                                                                                  "check_third_native_parent_projection",
+                                                                                  "check_third_row_namespace",
+                                                                                  "check_third_ancestry_records",
+                                                                                  "check_third_previous_target",
+                                                                                  "check_third_selection_lambda_contract",
+                                                                                  "check_third_inventory_arrays",
+                                                                                  "check_third_unobserved_oracle",
+                                                                                  "check_registration",
+                                                                                  "check_acceptance_header",
+                                                                                  "check_executable_paths",
+                                                                                  "compare_root_records",
+                                                                                  "phase_at_sequence",
+                                                                                  "row_source",
+                                                                                  "compare_phase",
+                                                                                  "ProgressAudit",
+                                                                                  "invocation_records",
+                                                                                  "registered_basenames",
+                                                                                  "select_all_residuals",
+                                                                                  "witness_records",
+                                                                                  "batch_tree_payloads",
+                                                                                  "selection_record",
+                                                                                  "compare_selection_publication",
+                                                                                  "compare_candidate_roster",
+                                                                                  "CandidateFiles",
+                                                                                  "prepare_selftest_root",
+                                                                                  "BatchReductionState.reduce",
+                                                                                  "BatchReductionState.advance",
+                                                                                  "reduction_payloads",
+                                                                                  "accepted_row_record",
+                                                                                  "candidate_decision_record",
+                                                                                  "compare_candidate_publication",
+                                                                                  "check_parent_roles",
+                                                                                  "check_v4_acceptance_header",
+                                                                                  "check_batch_parent_header",
+                                                                                  "check_batch_current_projection",
+                                                                                  "check_saved_batch_target",
+                                                                                  "check_next_parent_roles",
+                                                                                  "check_next_row_namespace",
+                                                                                  "check_next_ancestry_shape",
+                                                                                  "check_next_ancestry_records",
+                                                                                  "check_next_previous_target",
+                                                                                  "check_next_fixed_local_names"
+                                                                              ],
+                                               "production_interfaces_change":  {
+                                                                                    "added":  [
+                                                                                                  "artifact_identity"
+                                                                                              ],
+                                                                                    "added_index":  0,
+                                                                                    "all_other_entries_and_order_unchanged":  true
+                                                                                },
+                                               "old_success_suites":  0,
+                                               "actual_anchor_arithmetic_replayed":  false,
+                                               "candidate":  false,
+                                               "cross_checked":  false,
+                                               "verified":  false
+                                           },
+                        "cli":  [
+                                    "--selftest",
+                                    "--selftest-root",
+                                    "\u003cfresh-absolute-TEMP-or-RUNNER_TEMP-root\u003e",
+                                    "--max-seconds",
+                                    "300",
+                                    "--max-memory-mib",
+                                    "7168"
+                                ],
+                        "call_flow":  [
+                                          {
+                                              "id":  "S01",
+                                              "lines":  [
+                                                            29,
+                                                            37
+                                                        ],
+                                              "path":  "module load",
+                                              "operation":  "Own registered checker path and retained source byte/hash gate, then retained modules import",
+                                              "formal_None_required":  false,
+                                              "limitation":  "Runtime dependencies and correct checkout source placement remain necessary; the isolated TEMP proposal directory alone is not an executable package"
+                                          },
+                                          {
+                                              "id":  "S02",
+                                              "lines":  [
+                                                            5649,
+                                                            5690
+                                                        ],
+                                              "path":  "main --selftest",
+                                              "operation":  "No acceptance/output/candidate/18parent paths, no blocks; 300 seconds and 7168 MiB; ordinary source runtime setup; prepare_selftest_root",
+                                              "formal_None_required":  false,
+                                              "limitation":  "No group-select flag; prior existing groups must complete before fifth"
+                                          },
+                                          {
+                                              "id":  "S03",
+                                              "lines":  [
+                                                            4780,
+                                                            4796
+                                                        ],
+                                              "path":  "prepare_selftest_root",
+                                              "operation":  "Fresh explicit absolute root, ordinary existing parent, symlink/junction guards, TEMP/RUNNER_TEMP containment and repository disjointness",
+                                              "formal_None_required":  false,
+                                              "limitation":  "Writes only fresh fixture root in later GHA"
+                                          },
+                                          {
+                                              "id":  "S04",
+                                              "lines":  [
+                                                            5599,
+                                                            5608
+                                                        ],
+                                              "path":  "selftest",
+                                              "operation":  "Existing registration/roster/parent1578/parent1706 groups, then third_batch_parent_admission_canary(root/parent1834)",
+                                              "formal_None_required":  false,
+                                              "limitation":  "Exception or resource limit before fifth means new positives not observed"
+                                          },
+                                          {
+                                              "id":  "S05",
+                                              "lines":  [
+                                                            5451,
+                                                            5497
+                                                        ],
+                                              "path":  "fifth existing first pair",
+                                              "operation":  "Save positive/negative metadata, read both through CandidateFiles, positive ordinary projection passes; negative reaches original exact c6 label, save/re-read actual rejection",
+                                              "formal_None_required":  false,
+                                              "limitation":  "Existing positive value has role-only parent objects and native17 projection"
+                                          },
+                                          {
+                                              "id":  "S06",
+                                              "lines":  [
+                                                            5499,
+                                                            5528
+                                                        ],
+                                              "path":  "new positive control",
+                                              "operation":  "Embed independent public expected18; compare ordered role list; re-read the same positive.json through CandidateFiles.json; normal projection check; call production artifact_identity for every role and same_json against all10 expected fields; unchanged full fixture file/hash pass",
+                                              "formal_None_required":  false,
+                                              "limitation":  "No acceptance constructor, inventory payload scan, API request or mathematics; 18 comparisons are implied by successful ordinary loop, not an added measured count field"
+                                          },
+                                          {
+                                              "id":  "S07",
+                                              "lines":  [
+                                                            5530,
+                                                            5596
+                                                        ],
+                                              "path":  "fifth remaining seven negative cases",
+                                              "operation":  "Unchanged cases/labels/count8/ledger and metadata return",
+                                              "formal_None_required":  false,
+                                              "limitation":  "No additional rejection name or fixture path"
+                                          },
+                                          {
+                                              "id":  "S08",
+                                              "lines":  [
+                                                            5609,
+                                                            5625
+                                                        ],
+                                              "path":  "top selftest result",
+                                              "operation":  "Require counts [28,9,6,7,8]; sealed v6.selftest exact11 top fields, three-field group records; artifact_identity added once to top production_interfaces_used",
+                                              "formal_None_required":  false,
+                                              "limitation":  "The interface list is top-level, not a field in the fifth group"
+                                          },
+                                          {
+                                              "id":  "S09",
+                                              "lines":  [
+                                                            5699,
+                                                            5717
+                                                        ],
+                                              "path":  "main exit",
+                                              "operation":  "Success serializes canonical selftest to stdout and returns0. Caught exceptions serialize checker-result with FAIL or UNKNOWN_RESOURCE and return1 or3; report_output_safe remains false in selftest",
+                                              "formal_None_required":  false,
+                                              "limitation":  "Do not accept failure stdout as a selftest PASS; no runtime result exists yet"
+                                          },
+                                          {
+                                              "id":  "N01",
+                                              "lines":  [
+                                                            264,
+                                                            265,
+                                                            686,
+                                                            687,
+                                                            721,
+                                                            2656,
+                                                            5691,
+                                                            5698
+                                                        ],
+                                              "path":  "normal current admission",
+                                              "operation":  "Both formal inventory/final P registration remain None. Only nonselftest branch calls check_actual and AcceptedInputs; native tree inventory also requires the formal value",
+                                              "formal_None_required":  true,
+                                              "limitation":  "Normal admission guard remains closed; this task does not bind or launch it"
+                                          }
+                                      ],
+                        "positive_fixture_file":  "parent1834/omit-v4-from-native17-projection/positive.json",
+                        "positive_artifact_comparisons":  18,
+                        "positive_fields_per_role":  10,
+                        "new_comparison_labels":  [
+                                                      "c6_parent1834_public_artifact_role_order",
+                                                      "c6_parent1834_registered_artifact_identity:\u003crole\u003e"
+                                                  ],
+                        "label_prefix":  "cycle_batch:",
+                        "new_labels_are_rejection_case_names":  false,
+                        "fifth_group_cases":  [
+                                                  {
+                                                      "case_name":  "omit-v4-from-native17-projection",
+                                                      "expected_label":  "c6_parent1834_native17_projection",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_native17_projection",
+                                                      "positive":  "parent1834/omit-v4-from-native17-projection/positive.json",
+                                                      "negative":  "parent1834/omit-v4-from-native17-projection/negative.json",
+                                                      "rejection":  "parent1834/omit-v4-from-native17-projection/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "alias-v5-local0-to-v4",
+                                                      "expected_label":  "c6_parent1834_local0_not_v4",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_local0_not_v4",
+                                                      "positive":  "parent1834/alias-v5-local0-to-v4/positive.json",
+                                                      "negative":  "parent1834/alias-v5-local0-to-v4/negative.json",
+                                                      "rejection":  "parent1834/alias-v5-local0-to-v4/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "alias-v5-local0-to-v3",
+                                                      "expected_label":  "c6_parent1834_local0_not_v3",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_local0_not_v3",
+                                                      "positive":  "parent1834/alias-v5-local0-to-v3/positive.json",
+                                                      "negative":  "parent1834/alias-v5-local0-to-v3/negative.json",
+                                                      "rejection":  "parent1834/alias-v5-local0-to-v3/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "drop-zero-from-complete481",
+                                                      "expected_label":  "c6_parent1834_complete481_zero_retained",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_complete481_zero_retained",
+                                                      "positive":  "parent1834/drop-zero-from-complete481/positive.json",
+                                                      "negative":  "parent1834/drop-zero-from-complete481/negative.json",
+                                                      "rejection":  "parent1834/drop-zero-from-complete481/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "previous-from-v5-start-previous",
+                                                      "expected_label":  "c6_parent1834_previous_is_v5_start_target",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_previous_is_v5_start_target",
+                                                      "positive":  "parent1834/previous-from-v5-start-previous/positive.json",
+                                                      "negative":  "parent1834/previous-from-v5-start-previous/negative.json",
+                                                      "rejection":  "parent1834/previous-from-v5-start-previous/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "lambda-source-is-completed-selection",
+                                                      "expected_label":  "c6_parent1834_lambda_selection_start_contract",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_lambda_selection_start_contract",
+                                                      "positive":  "parent1834/lambda-source-is-completed-selection/positive.json",
+                                                      "negative":  "parent1834/lambda-source-is-completed-selection/negative.json",
+                                                      "rejection":  "parent1834/lambda-source-is-completed-selection/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "registered-empty-directory-missing",
+                                                      "expected_label":  "c6_parent1834_registered_empty_directory_eof",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_registered_empty_directory_eof",
+                                                      "positive":  "parent1834/registered-empty-directory-missing/positive.json",
+                                                      "negative":  "parent1834/registered-empty-directory-missing/negative.json",
+                                                      "rejection":  "parent1834/registered-empty-directory-missing/rejection.json"
+                                                  },
+                                                  {
+                                                      "case_name":  "uncomputed-oracle-is-zero",
+                                                      "expected_label":  "c6_parent1834_unobserved_oracle_stays_null",
+                                                      "expected_observed_label":  "cycle_batch:c6_parent1834_unobserved_oracle_stays_null",
+                                                      "positive":  "parent1834/uncomputed-oracle-is-zero/positive.json",
+                                                      "negative":  "parent1834/uncomputed-oracle-is-zero/negative.json",
+                                                      "rejection":  "parent1834/uncomputed-oracle-is-zero/rejection.json"
+                                                  }
+                                              ],
+                        "rejection_keys":  [
+                                               "case_name",
+                                               "expected_label",
+                                               "observed_label",
+                                               "status"
+                                           ],
+                        "rejection_status":  "REJECTED_AS_EXPECTED",
+                        "supporting_files":  [
+                                                 "parent1834/lambda-source-is-completed-selection/output/selection/start.json",
+                                                 "parent1834/lambda-source-is-completed-selection/output/selection/selection.json",
+                                                 "parent1834/registered-empty-directory-missing/payload.bin",
+                                                 "parent1834/case-ledger.json"
+                                             ],
+                        "explicit_extra_directories":  [
+                                                           "parent1834/registered-empty-directory-missing/empty"
+                                                       ],
+                        "fifth_subtree_file_count":  28,
+                        "new_fixture_files":  0,
+                        "new_fixture_directories":  0,
+                        "new_rejection_names":  0,
+                        "new_test_groups":  0,
+                        "old_28_first_group_body_unchanged":  true,
+                        "all_old_negative_case_body_unchanged":  true,
+                        "old_negative_scope":  "dependent-outcome-resealed stops at expected-file size/hash before semantic outcome comparison; no retrospective strengthening",
+                        "content_pin_scope":  "The fifth case construction and all old negative bodies are unchanged. Existing other fixtures that embed this source pin naturally bind the new source; runtime file hashes are observed later and are not claimed equal to old-source runs.",
+                        "mathematical_positive_or_parent_admission_claim":  false,
+                        "full1834_admission_fixture":  false,
+                        "actual_full481_semantic_history_replayed":  false,
+                        "API_receipt_is_not_payload_admission":  true,
+                        "runtime_status":  "PENDING_ROOT_GHA",
+                        "source_execution":  0,
+                        "fixture_created":  false,
+                        "formal_inventory_None":  true,
+                        "final_P6_None":  true,
+                        "affected_public_consumers":  [
+                                                          "C source whole pin and all165 current offsets in registry",
+                                                          "old4/retained20 offset certificates retain raw hash",
+                                                          "selftest top production_interfaces_used exact array grows by one; its whole seal/stdout file pin change",
+                                                          "WF/runtime/source receipts must bind the proposed source whole pin; no workflow edit is made here",
+                                                          "fifth exact paths/28file/empty1/8purpose labels and group ABI unchanged",
+                                                          "Task1123 continues to reference frozen419541 source; new repair is a separate version"
+                                                      ]
+                    },
+    "runtime":  {
+                    "numpy":  "2.5.1",
+                    "main_python":  "3.13.15",
+                    "inner_seconds":  300,
+                    "outer_seconds":  360,
+                    "memory_mib":  7168,
+                    "venv_seconds":  60,
+                    "pip_seconds":  180,
+                    "probe_seconds":  30
+                },
+    "claims":  {
+                   "fullA0":  false,
+                   "candidate":  false,
+                   "cross_checked":  false,
+                   "verified":  false
+               }
+}
