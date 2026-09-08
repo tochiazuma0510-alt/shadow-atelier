@@ -24236,3 +24236,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - Delta709 commit **dc3d9427cfb581a6e8bd4968f4a5c88f0a89a2bf**・normal push/remote exactを記帳（2813/cf3bb208…、603/3c8a335a…）。正式run34161493396/1/head a5b456a9…/1834/8539、新研究dispatch0。v6は最終consumer/typed inventory/driver pinを閉じて既notify-and-goで進める。
 - v220内進捗: **CLOSED=1112静的対策・C32記録欠品、ADVANCED=全受信再起動・全P/C字句/raw結合・1113設計受領、OPEN=全typed/inventory5・全consumer意味/外側最終pin/実selftest・冷保存独立同値性、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
 - 同Delta commit前にTask1114 **4976/cd09ec5e1931cbd0a8f27a37470e0498e4b3855ff9cb1ca79372b095ce54d269** を独立C作者へ委嘱。C6実callerのcurrent閉包/過去検査引用条件を別設計、P1113私的本文共有0・現実装/数値/GHA0。
+
+### Delta 711 — P6/C6全公開consumer静的採択・保持付き現親準備・独立C冷保存設計（2026-09-08 JST）
+- reply163 F8.174。P全13変更diff/新native本文/34契約/153originを読み、全10179点=6900継承+3279新規を双方向結合。214alias中208は宣言origin全文一致、6は明示字句例外。root **5822149/7f69f015e34699fbadfe49c8353399992ccfcb4d804d691737154ae54bb596f3**。P全公開key/type/path/schema静的閉包を採択。
+- C全12変更diff/新helper/165関数意味を読了。6064点/4007旧全行一致、77実metadata全pin/47alias196key/11154対象node・13dynamic108keyを結合。rho追加2key・literal32補票・第五群専用scopeを個別に保持。root **3767192/4b884f85209940f045ce21c70255d31e2fa08040e15903e70fb75d90a5dc9202**。C全公開consumer静的閉包を採択、全数学payload再演や実run成功とはしない。
+- P37/C24（実body21）を三版実bytesで照合、P変更writer5/C公開20の計25集合555key occurrenceが1107 wireに一致。root **76330/9cfa3cfd85aeb534c558dd3c4655769a0947e06f1b4b7a4f185a8eb6a13241f4**。現P/C凍結source不変・None/guardfalse・selftest未実行。
+- 1112 PID19504は旧74認証復元/全afterを経て、UTC03:16:41.7089714Zにcurrent PREPARE開始（journal7014）。v3/v4全7008 handles保持、stderr0。現40/full typed/正式inventory5は未完。欠損主体UNKNOWN、全scopeを保持。
+- 独立C1114 reply22854/ed478ff0…全149行読了、8材料702544 Bの全pin一致。root受領 **3829/12fc5f0a1542d31299aa7ca009445fe785b9800077c8085949011126fee4987d**。18role/33群/42caller・current/cited/open・可用性TCB・20反例を設計。P1113とのroot対照/数学同値性/変換/性能は別審査、現v6待ち条件の追加なし。
+- Delta710 commit **1696fe699d82b9a4a3b08767b5b6252bb435bc5b**、normal push/remote exact、commit票2221/6895bec0…・push票603/8771c721…。新研究dispatch0、正式run34161493396/1/head a5b456a9…/1834/8539不変。外側全consumer/最終限定bindingを閉じ、既notify-and-goでGHAへ進む。
+- v220内進捗: **CLOSED=P6/C6全公開consumer静的閉包・三版保持/公開keyset、ADVANCED=旧74後の現親PREPARE・独立冷保存設計二系受領、OPEN=全typed/inventory5・外側全consumer/最終pin/実selftest・冷保存同値性、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
