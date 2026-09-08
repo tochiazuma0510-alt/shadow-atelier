@@ -24361,3 +24361,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - P1122最終納品: 16caller/14資産/9返値/54辺、旧D22/O12、OPEN11。返信14439/da0277f8…全文読了、完全目録23177/e8a38df6…・39材料1953641 Bのroot最終審査中。作者10source/703raw範囲のpin照合と本文読了141/参照123を区別。C1123残55個別reader作業へ復帰し、2951字句分類をcallgraph/Γ閉鎖へ昇格しない。
 - Delta721 exact5 commit/push **062a3676de80b422c787de3ea43afc17f77e33f3**を記帳（2527/9adf0b15…・603/14e20dc8…）。
 - v220進捗: **CLOSED=1125限定修理の全raw/公開値・1126実行器静的審査と配置/実dispatch、ADVANCED=受領v3 Inventory後・1122最終納品/1123個別reader、OPEN=先行GHA実結果/全artifact受領・正式inventory5/本走binding/GHA・全catalog/Γ/runtime閉包/実変換/引用/B/TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 723 — 2026-09-08・C6先行GHA全受領採択、P用途整理採択、本走修理接続を継続
+
+- F8.186を追記。先行selftest **[34220805430/1](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34220805430)**、head **4e68cf23fe471623a67bcd7892a713978e7f1bc2**はsuccess。実C **returncode0 / timeout false / error null / 6.529228367 s**、実Python **3.12.3** / NumPy **2.5.1**、全5群 **[28,9,6,7,8]**。本走Python3.13.15と同環境とはしない。
+- artifact10053714540 **5673592/6c2b3d6c…**を実download。root3118230/21453ddf…で外側全3422file entry/24516468 B、root2647270/d8ea79d8…で内側全5012 entry、実fixture3369file/17864023 B/1642dir/empty1、全実4subprocess・終了票・3inventory・全source前後pinを結合。隠しWF copy1本のupload省略を明記し、actual headのraw git blobで別受領。全ABI/8目的case/24参照pinはroot5130/80095bb5…で実CLR型を区別して再結合。**C6_PUBLIC_SELFTEST_PASS_ROOT_FULL_RECEIPT_ADOPTED**。18親実入場/1834数学/同環境本走/A0の代用ではない。
+- P1122はroot970645/ef51370e…で全39材料1953641 B・元42input・10source703raw/全198参照123固有・16caller14資産9返値54辺・旧D22/O12/OPEN11を結合し、**BOUNDED_SOURCE_STATIC_PURPOSE_DESIGN_ADOPTED_WITH_EXPLICIT_OPEN**。作者読了141/未読562とroot8追加本文精読を分離。未使用と証明されたfile集合は空、全hash/guard/alias/query同一性の義務を維持。
+- C1123最終返信16514/8bd41e4e…を全文読了。62reader＝55＋7/91成分/2951字句/165raw/2909固有、18材料33415491 B＋目録8837/763df6fe…のroot審査中。原C419541と採択修理427740を区別。Γ/catalog/TCB/B/実変換/実費用は未閉鎖。
+- Task1127 **3957/c7ed89c4…**で新C公開pin/165座標をregistry→driver→WFへ接続。全consumer再読で時間契約内の旧C source descriptor1箇所を発見、v2へ追随し正式binding位置を14項へ更新中。v1未採択・formal None/guard維持。Task1128 **4530/19ad937d…**でP6先行selftest外側も委嘱、既gap-run変更0、P公開ABIはP原文から確定、GHA未発射。
+- 正式受領PID19504は11:51:29Z running、seq10645/11:44:49Zの歴史v3 outerZIP全EOF/元試験後へ進んだ（root6722/2cfb46a7…）。typed/broker/OS終了票は未形成。人の了承待ちを追加せず、root processの完了後に正式inventory5→P/C/registry/driver/WFを最終接続する。
+- 司令塔2232速報の実exit/Python/第五数を速達1221/89bdd33c…で訂正し、2232補記/ack commit **f6f363615065b6e2a3099017f35041e605fdd4b4**で受理。Delta722 exact2 commit/push **2eb1dbf353d83c802d2ea839c4212dde68746716**（1520/e590e3d9…・603/0b77cd28…）を記帳。
+- v220進捗: **CLOSED=C6先行自己試験と実全receipt・P1122限定用途整理、ADVANCED=C1123最終納品・1127必要binding発見/修正・P1128先行GHA準備・正式受領v3 outerZIP後、OPEN=正式inventory5/本走binding/GHA・C1123root採択・Γ/catalog/runtime/実変換/引用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
