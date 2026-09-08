@@ -24350,3 +24350,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1122 P16caller/89 raw表v2と1123 C元62readerは審査/作業中、全native/Γ/runtime/input閉包/TCB/変換/引用/BはOPEN。設計全体はv6追加gate0。発見済みのsource不整合は限定修理して採択する。
 - Delta720 exact5 commit/push **b635b49a6d020d4461a7c04ee907d45f0e331aa7**を記帳（commit2556/8aec3101…、push603/6e7495ba…）。
 - v220進捗: **CLOSED=1124限定地図とOS保存先・全18親API登録接続、ADVANCED=1125 C6具体的不整合修理/差分審査・1126先行GHA準備・正式受領、OPEN=1125最終全材料/実試験・正式inventory5/本走binding/GHA・全catalog/Γ/内部閉包/実変換/引用/可用性TCB、UNCHANGED=P6/driver/WFの元静的採択とC6の修理範囲外・設計全体の追加gate0、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 722 — 2026-09-08・1125限定採択、1126静的採択と実GHA run34220805430
+
+- F8.185を追記。C1125の全165raw/162不変/3変更、保持24項21固有本文の旧v5→元C6→修理版同一、全18×10公開値/43interfaceをroot474770/c44bcf9f…で結合。全13材料1144923 B/最終返信はroot10585/cfb27ab2…で一致。C427740/a5c44972…を限定静的採択、旧原source/2 None/数学本文は保持。
+- 外側1126はroot32627/d1b33633…で全4本文/23raw区間/18定義/134字句行・公開ABI全typed・C11＋WF/全材料18件383927 Bを照合し採択。Python482行、既WF変更0。fresh RUNNER_TEMP、C300秒/RSS7168MiB・outer360秒、NumPy2.5.1・実Python版、全fixture/emptydir/ZIPと実目的labelを回収する。
+- exact8配置commit **429e3d7e588c421cad5abccc3ae14ab2ec790256**（root3166/08b234a1…）、続く司令塔記帳3fileの裁定2231 commit **4e68cf23fe471623a67bcd7892a713978e7f1bc2**を実発射headに接続。全source/旧WF不変、他32 tracked変更保持。通知2062/1b3b98bc…は配置前、返答待ちなし。
+- **先行selftest実GHA = [34220805430/1](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34220805430)、head4e68cf23fe471623a67bcd7892a713978e7f1bc2**。既gap-run322329646、script=search/d972_r07_C6_artifact_identity_selftest_gha_v1.g・preamble空・out=ci/out/task1126・20分・pquot=false、created11:27:41Z。実API初観測queued/null（13801/05552125…）、dispatch実exit0（1259/b5606ba5…）。同head既dispatch0を確認して1回発射。本走v6はNOT_STARTED、全親入場/A0/本走同環境の代用ではない。
+- PID19504は11:23:20Z running、seq10643/11:18:01Zの歴史v3全11437file/3475dir Inventory後へ進んだ（root6755/1ac764b7…）。v3全metadata/ZIP/rowの終了は未観測、typed/broker終了票なし。10556leaseを維持し本受領を継続、正式inventory5後のP→C→registry→driver→WF bindingを残す。
+- P1122最終納品: 16caller/14資産/9返値/54辺、旧D22/O12、OPEN11。返信14439/da0277f8…全文読了、完全目録23177/e8a38df6…・39材料1953641 Bのroot最終審査中。作者10source/703raw範囲のpin照合と本文読了141/参照123を区別。C1123残55個別reader作業へ復帰し、2951字句分類をcallgraph/Γ閉鎖へ昇格しない。
+- Delta721 exact5 commit/push **062a3676de80b422c787de3ea43afc17f77e33f3**を記帳（2527/9adf0b15…・603/14e20dc8…）。
+- v220進捗: **CLOSED=1125限定修理の全raw/公開値・1126実行器静的審査と配置/実dispatch、ADVANCED=受領v3 Inventory後・1122最終納品/1123個別reader、OPEN=先行GHA実結果/全artifact受領・正式inventory5/本走binding/GHA・全catalog/Γ/runtime閉包/実変換/引用/B/TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
