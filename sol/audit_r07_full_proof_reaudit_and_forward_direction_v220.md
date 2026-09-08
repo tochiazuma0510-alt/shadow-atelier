@@ -24265,3 +24265,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1112 PID19504はv3/v4全7008 handles保持のままv5登録空dir40件を復元。P fixture全hash前後を通過し、UTC04:38:03Z/seq7023でC fixture全hash前境界の1630dir＋root全存在を確認。stderr40行は復元記録。current PREPARE最終票・full typed/formal inventory5は未形成、主体UNKNOWN。
 - Delta712 commit **e182ca848ebe3ce42a6e798ab3e6016332004819**、normal push/remote exactを記帳。全typed/正式inventory到着後の最終限定bindingとnotify-and-goでGHAを継続。冷保存比較/同値性は独立に進める。
 - v220進捗: **CLOSED=P6/C6/driver/WF全consumerとcurrent registryの静的監査、ADVANCED=1108全納品・v5復元40/fixture照合・1111開始、OPEN=full typed/formal inventory5・最終限定binding・実selftest/GHA・冷保存比較/同値性、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 714 — 1111独立数学監査の条件付き採択・冷保存P/C設計対照・1115–1117（2026-09-08 JST）
+
+- reply163 F8.177。1111返信 **23748/b2782e3c…** 全119行と原案/Opus対応箇所を対照し、Γ・有限typed operand DAG・全record順/指数/native context・全relative target/rolling/保存契約の下で相対意味保存を採択。root受領票 **6292/c04f336f…**。数学実行/新cross-checked/Leanではない。
+- (iv)だけの再seal反例をR2全前件の反例とせず、鎖⇒総和の向きを保持。未来128mをΣ実a_iへ、candidate/採用local/globalを別索引へ改める。隣接零2段はtarget digest列だけで順序固定できず、record-wise原文・全リンクを要する。srによる段併合、hidden import、hash単射性、元ρ2/positiveの昇格を排除。
+- 最新λの全R pairingから異なる旧λのprefix pairingは出ない。旧命題を省けば引用へ移す。役割統合だけのΣR_i→R、m証言の必然消失、全walltime Θ(kR)・唯一性/成功run数は採らない。2228の要素数/下界と2229のwhole-file宇宙の射程を保持。
+- P22/C33依存・P active/cold/性能、C10命題/15callcut/20反例を全文比較。P74 range/C165全EOF/42caller、各16入力/C43凍結資料、C20型/二diagnostic/8・6-key/元fixed manifestを実結合。root票 **172012/387888d296ef3077761fb645375f9d189d33c15cbb4549b8c274fa28729dbce5**。最小TCB/file閉包や実変換成功は未証明。
+- 初期公開候補は全登録relative target/元rollingリンクと必要native body/境界をactive保持し、未列挙TCB fileはrole全体を保持。過去λ等の引用、元97/word/rho2の未決、今回の実再導出を分ける。cold(A)全raw再hash基準と(B)新storage TCBを区別。H1/H2/H3も別、初期H2にH3を混入しない。毎試行の新user許可という追加条件は採らず、既包括GHA認可/事前登録/通知経路を維持。
+- 1115公開wire設計（6105/5ae5a249…）、1116 P相対鎖閉包（3493/c5ed6ae0…）、1117 C独立閉包（3732/20aa06c4…）を既存担当へ委嘱。設計のみ、新agent/私的P-C交換/数学実行0。v6への追加待ち条件ではない。
+- Delta713 commit **ce87943ab0b14f9a609e04bc80dcf57c0b6873e6**・normal push/remote exactを記帳。1112 PID19504はcurrent PREPARE中、seq7028/UTC04:47:09ZでC fixture全hash後の全dir存在。正式full typed/inventory5は未完。
+- v220進捗: **CLOSED=1111相対意味保存の条件付き紙上審査・P/C初期冷保存設計の比較、ADVANCED=保守的active鎖方針と1115–1117公開契約/自系閉包、OPEN=実変換/新TCB採用/全型付き受領/inventory5/最終binding/GHA、UNCHANGED=P6/C6/driver/WF静的監査完了、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
