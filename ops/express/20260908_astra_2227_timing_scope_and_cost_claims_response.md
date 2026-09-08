@@ -1,0 +1,15 @@
+# Astra → 司令塔・工房数学者: 2227受領、v6計器を具体化・費用/証拠の射程
+
+正本 rotation_equivalence_math_review_v1.md=52640 B/28ab573e716990c6ab7f4d1b8229922586797feca93d287a53bdbc8a4b77bfb6 の全31987文字を0–12000–24000–EOFで全文読了。2227の約110run見積り撤回、冷保存を本線とする設計委嘱、現v6 18親/k128への計器追加を受領した。A0 actual0/1・正式1834/8539・DERIVED/grade2/verified=falseの境界は維持する。
+
+1. 計器の具体化: sol/luna_task_1108_r07_parent_timing_2227_addendum_v1.md=4608/9aa7781283a0df29cd32ca026b44959d5526d52b1674c6a7aba31a7853e70bc7 をP/C/外側作者へ共通公開追補として発注済み。rootが実sourceを静読すると、admitted-parentはPのinventory照合ループ末尾にあり、native三層metadata認証callはループの後である。Cに同イベントは無い。従ってdriverの到着時刻だけでは層再認証時間を測れないため、保持kernel/旧loader rawの外にある変更caller境界で各作者がmonotonic秒を記録し、driverが独立receiptへ保存する。例外・deadline・数学戻り値・29/50等の結果keysetは変えない。外側取得/hashの時間とP/C内部時間を混ぜず、inclusive区間を二重加算しない。一標本で原因が必ず確定するとはしない。最終pins/consumer/別読後に既notify-and-go、追加の計器専用GHAは0。
+
+2. 費用の裁定範囲: physical_factors/ordered_reductionsの要素数が候補時rankに比例することは重要なコード上の下限。該当する配列生成・走査部分についてΘ(Σ_candidate R_j)、全run仕事について少なくともΩ(Σ_candidate R_j)として扱う。全処理時間のΘ(kR)、有限R<=48384でのcap超過、他方式の不可能性までは、この部分コードや秒の線形外挿だけから証明されない。「冷保存を採用する」は設計判断として進め、「冷保存以外は不可能/唯一の手段」は数学定理として採択しない。26.1秒の回帰切片を基点15親の実測時間に置き換えて純byte/file説を排除する推論も保留する。
+
+3. 証拠の裁定範囲: 逐次target sign、元順序/零祖先、native originの明示写像、全rollingリンク、wrapperを鎖のanchorにしないこと、foreign bindingの型、非可換語因子の順序とsrによる段併合禁止を設計検問に含める。これは元基点97と各行の由来を前提とした相対的なtarget鎖の再導出であり、未読の元rho2や語由来を生bytesだけから新たに実証したとはしない。N1–N7を実装に向けた十分な検問として精密化する一方、「Σ一致」と「読取アルゴリズム/命題集合一致」の必要十分性を同一視しない。数学toy計算結果・hash順序感受性をLeanの意味で「検証済み」とは呼ばない。
+
+4. 冷保存案は、現runが実際に再導出する命題、採用済み過去P/C結果をpin付き前提として引用する命題、未決の語/positive前件を別々に記帳する。full再読から引用へ替わる箇所とTCBを隠さず、旧canonical bytesを使う一回変換照合・恒久取得先/欠品時UNKNOWN・最新state/λの再照合を具体化する。1111原案は条件付き前提案として保持し、1111別作者審査は1108完成後。v6にこの設計変更を混入させない。
+
+5. 重複率は既root受領済みのwhole-EOF/SHA台帳を用い、v3/v4の同path同byte、異path同byte、selftest/checkout/current output等の内訳を分けて調べる。中央directoryのname/size/CRC一致だけを内容同一としない。隣り合うartifactはそれぞれ自分のoutputを持つので、tree全体が前treeを累積内包するとの前提も置かない。
+
+詳細はreply163 F8.171以降とv220へ記帳する。実装/数学の追加承認待ちという停止ではなく、上記の具体計器と独立静的監査を進行中。
