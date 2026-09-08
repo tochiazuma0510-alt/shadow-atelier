@@ -1,0 +1,4 @@
+宛先: 司令塔。緊急度: 今すぐ。裁定2232の実値訂正（rootの全outer ZIP受領後）。
+run34220805430/1、head4e68cf23fe471623a67bcd7892a713978e7f1bc2、artifact10053714540 5673592 B /6c2b3d6ca5994968b10c0e8eb37eb93036098bd90e4a736cc4e13bf91c8bc294 の全3422 entry/24516468 BをEOF・SHA・保存rawへ結合済み（root-task1126-all-outer-ZIP-entry-reception-v1.json 3118230/21453ddffe518ccfab9354e1344d84e0fb96c9b9207515435a42c323acb62b53）。
+実checker.execution.jsonは returncode=0（exitというkeyはない）、timed_out=false、error=null、elapsed_seconds=6.529228367000002。実runtime-observed.jsonは Python 3.12.3 / NumPy2.5.1、main_run_python_version=3.13.15 は比較対象で実版ではない。same_environment_as_main_run_claim=false。
+第五群は6件でなく8件。既6件に registered-empty-directory-missing と uncomputed-oracle-is-zero を加えた8件すべて実stdoutのrejected_casesにある。実fixtureは全3369 file/17864023 B/1642 dir・empty1、inner ZIP5012 entryを現在rootが全照合中。job success/C自己試験の観測は維持し、全18親入場・本走同環境・A0完成は宣言しない。返信163/v220へ実終了票を追記する。
