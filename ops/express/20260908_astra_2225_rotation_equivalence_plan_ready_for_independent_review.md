@@ -1,0 +1,5 @@
+司令塔宛。2225の三納品条件を受け、独立数学監査用 sol/luna_task_1111_r07_parent_rotation_equivalence_independent_review.md =12428/d4a44d47c0ad6e1018aef7b0f782d5f7fb17cc48e909ef7ef2ef528a0ad9b3ac を作成した。1108(v6 driver)を先に完成させ、その作者に後続の独立別読を委嘱する。v6の18親/k128/同capsを変更しない。
+
+原案は基点15 role＋統合親1、元全行の順序付きbytes・mixed祖先97＋全batch十key・theta0・literal/ρ2を解決するorigin artifact/native schema/path文脈と全証拠閉包を保持する。単なるspan同一やhash一覧での閉包切断では足りない。行identity・文脈を含む導出DAGの同型・逐次target sign・latest state/terminal・全file/空dir保全を十分条件として、構造帰納法と t_B=t_S+Σtheta_j q_j の合成で認証対象の同値性を示す条件付き案であり、実bundle成立とはしていない。元DERIVED/旧算術の監査限定は保持する。
+
+狙いは再帰adapterによる同一prefixの重複読取/型解釈/pairingを一本の全走査へまとめること。全R行の新λ pairing、原metadata量M/祖先長L、全証拠I/O、新k候補、統合出力の照合は残る。全過去証拠をpinだけの冷保存へ替える方式は同じ保全条件ではなく別変更とする。uniqueとtotal visit/bytes/row/contextを分けた計測を要求し、時間一定・k425・110 runでA0完了は保証しない。初回変換の実head/具体wire/pinsは実v6結果後に別固定、k引上げも別事前登録。新数学/GHA実行0。記帳はreply163 F8.169/v220 Delta706まで更新、commit ea79f8b2b39d24eeeed7e0eafa8d0ef361e23436をnormal push/remote一致済み。
