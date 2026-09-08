@@ -24383,3 +24383,13 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 正式受領は12:49:31Z PID19504 running、seq12458でv3保存候補128件を通過、旧C fixture subtree全EOF前へ進んだ（root6761/5f7ddedb…）。typed/broker/OS終了は未観測。追加承認を待たず、実終了票→正式inventory5→P/C/registry/driver/WFの接続へ進む。
 - Delta723 exact6 commit/push **0a4f680ba1d07a7726cf5e115452c622f21664ee**（2941/72cb7064…・603/6aa585bf…）を記帳。
 - v220進捗: **CLOSED=C1123限定用途対応/正式scope補記・1127公開binding v2・P1128静的外側、ADVANCED=P6 GHA34228241894実行中・正式受領旧v3 fixture段階、OPEN=正式inventory5/本走接続/GHA・P実自己試験受領・Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 725 — 2026-09-08・P6 GHA全受領採択、P/C両自己試験の実通過が完了
+
+- F8.188を追記。[**34228241894/1**](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34228241894)、head **da438cc76e58792324db5fb113cfc530edddda83**、job102067593719は12:51:09Z success。実Pはreturncode0/timeout false/error null/**31.414692451 s**、Python3.12.3/NumPy2.5.1、全5群 **[30,10,6,7,8]**・61拒否・37interface。RSS測定なし、RLIMIT_AS7168MiBと300/360秒を維持。
+- 実artifact10056708452 **2870929/2e21ca89…**を全download。root1179527/f42b47c9…で外側1545file/20443908 B、root1218803/81b2dfeb…で全4subprocess/end/runtime/dispatch、全13＋4 source前後・全17commit blob・全17非隠しsource-copyを結合。今回はWF原文もupload/実全受領済み。
+- 内側ZIP1532619/75792d39…の全2219 entry＝1483file/15882999 B＋735dir＋root、全empty37（第五empty1）をEOF/SHA/mode/全原名で照合。全flat-copyとoriginal-name mapを合わせて受領し、原native loose treeの再配置とはしない。GHA CRC読取true/root独立CRC再計算false。
+- root705200/fa80e12b…でstdout exact11/inner seal・全61保存拒否・第五34file/8ledger/35descriptor参照/15正例3dir・元shape32/65/256・全1297JSON・全4終了marker/NUL argvを照合。旧群のsubstringと第五のexact-prefixed条件を区別。判定 **P6_PUBLIC_SELFTEST_PASS_ROOT_FULL_RECEIPT_ADOPTED**。C6先行採択と合わせP/C両自己試験の全受領が完了した。実18親入場/本走/A0への昇格はしない。
+- 正式受領は13:07:44Z PID19504 running、seq12465/13:06:33Zの旧v3 P fixture subtree全EOF/元directory試験後へ進んだ（root6782/8c373a79…）。typed/broker/OS終了票・正式inventory5は未形成。人の承認待ちではなくroot processの完了待ち。
+- 司令塔2233/2234を実4file差分と原状態prefix保持で読了（root1438/8c751dda…）。Delta724 exact3 commit/push **72786d8c1ac7f8aa5e15d34cb7bf7e800ce4f2cc**（1908/0611bb1d…・603/179ee1c0…）を記帳。
+- v220進捗: **CLOSED=P6実GHAと全成果物受領、P/C両自己試験、ADVANCED=正式受領旧v3 P fixture全EOF後、OPEN=正式inventory5/本走P/C/registry/driver/WF接続/GHA・Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
