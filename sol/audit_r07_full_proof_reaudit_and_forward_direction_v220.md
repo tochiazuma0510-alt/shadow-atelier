@@ -24403,3 +24403,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - P/C途中報告は旧helper全体の省略を退け、元call occurrenceのdotだけを引用へ替える候補と、残すhash/型/拒否/進捗/後続返値を特定。最終票/root審査は継続中。1131は歴史採択のexact条項を調査、global PASS/rankから補完しない。
 - Delta725 exact2 commit/push **b52672c11645746b66da49d144fa4cc0729a6b0c** を記帳（1569/51688541…・603/e01a5222…）。
 - v220進捗: **CLOSED=P/C両selftestと1127公開binding採択を維持、ADVANCED=受領fixed参照後・Q1450条件付き数学と独立境界/採択証拠調査、OPEN=正式inventory5/本走結合/GHA・具体引用/Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 727 — 2026-09-08・Q1450の具体引用条項とP/C境界を限定採択
+
+- F8.190を追記。1129 Pの全39入力/59範囲・実小8JSON（root23134/eb19cd6f…）、1130 Cの全34旧新region/30範囲（root89491/9faa48f9…）＋全29入力/追加16範囲/C11全9正文scopeとauthority（root40301/89592e6d…）を結合し、Q1450数値cutの限定設計を採択。全sourceの新規意味精読や実変換ではない。
+- P/Cとも実ordinary occurrenceのdot scalarだけが引用候補。現在の読取/型/hash/lead/三角性/target lead零/進捗・拒否・資源/返値/cache/cleanup/後続readerを残す。P/Cの評価順、過去の作業・今回P申告・今回Cの実計数を区別し、片側の引用で他方を0に書き換えない。現ACTIVE_KEEP、報告wire/effect実装はOPEN。
+- **裁定2172正本138–142の同Q1450測定条項を元全限定付き引用として採択**。lambda1450の全1450行pairing0、target1386/1450各exact1を明記。旧最終parent1449と開始1386、非零と1/2、零列hashと測定命題を混同しない。公開root票6722/ba94c0ca…を固定。
+- 根拠はk32 run34004423047/1・head81a1b22975308ae0ac628f97da447a008a1d087e、補強はv3 run34023589045/1・head794c5e9f883cb5ff21b2ee087c1d4baa84ac6760。root32993/e623bd29…が元JSONから42＋34全typed接続と旧97全字段/順序を照合。18抜粋は実322行＋末尾LFの空split1。共有kernel・単著harness・旧row第三読者未再現・rho2 DERIVEDを含む2172全9限定、元2154/2187の限定を保持。完全Γ/AcceptedClaim wire・実入力適用は未閉。
+- 最終root86259/41bd2dd2…で1129の19材料、1130の13材料、1131の16材料を全pin/JSON/実TEMP集合/返信末行へ結合。公開静的44入力は不変、可変v220/返信を分離し、旧検索71 hitは現原文とも一致。private相互共有0、数学/source再走0、v6追加gate0。
+- 正式受領PID19504は14:17:55Z稼働。root6796/d7df0732…、seq12621/14:17:54Zで歴史v4 row000072 manifest全EOF/元directory試験後へ進んだ。typed/broker/OS終了票・正式inventory5は未形成。人の了承待ちはなく、完了後に既定14位置結合と本走GHAを行う。P/C両selftest採択維持、追加GHA0、本走NOT_STARTED。
+- Delta726 exact5 commit/push **343c7a24f371f13f8f54e8674f7b8a549a5e24a2** を記帳（2583/5da550d2…・603/21aef897…・foreign32保存）。
+- v220進捗: **CLOSED=Q1450具体過去測定条項の限定引用・P/C境界設計監査、ADVANCED=正式受領v4行別工程、OPEN=正式inventory5/本走結合/GHA・現入力適用/Γ/catalog/実変換/report wire/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
