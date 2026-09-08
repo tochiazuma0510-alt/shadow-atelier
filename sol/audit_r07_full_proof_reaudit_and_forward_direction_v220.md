@@ -24414,3 +24414,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 正式受領PID19504は14:17:55Z稼働。root6796/d7df0732…、seq12621/14:17:54Zで歴史v4 row000072 manifest全EOF/元directory試験後へ進んだ。typed/broker/OS終了票・正式inventory5は未形成。人の了承待ちはなく、完了後に既定14位置結合と本走GHAを行う。P/C両selftest採択維持、追加GHA0、本走NOT_STARTED。
 - Delta726 exact5 commit/push **343c7a24f371f13f8f54e8674f7b8a549a5e24a2** を記帳（2583/5da550d2…・603/21aef897…・foreign32保存）。
 - v220進捗: **CLOSED=Q1450具体過去測定条項の限定引用・P/C境界設計監査、ADVANCED=正式受領v4行別工程、OPEN=正式inventory5/本走結合/GHA・現入力適用/Γ/catalog/実変換/report wire/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 728 — 2026-09-08・実作業計数の有限trace補題と公開wire委嘱、旧v4行別工程完了
+
+- F8.191を追記。root6069/140bb36d…で保存観測と実event列の単射からlower bound、閉じた範囲の全被覆からexactを導く紙上補題を固定。計算前incrementはattempt、return〜記帳間の中断は欠測となり得る。保存0やcited予定から実作業0を補わず、EXACT/LOWER_BOUND/UNKNOWNを区別する。第三独立性/Lean gradeとは別の意味。
+- Task1132公開wire設計（4334/2eaca3b6…）を既存担当へ委嘱。元P/C private不読、過去票・今回P・今回Cの所有者、全字段/型/reader/成立条件、4成功組合せ＋途中停止/欠品を具体化中。report→後成intake/startへのhash循環を避けるwriter順序を明示する。最終納品/root採択は未完、正式handback優先・v6追加gate0。
+- root公開exact keyset59548/9ec912b5…を追加。P timing12/C timing10、採択済1127 v2の現C sourceへ結合。歴史v5実intake41字段、現v6共有宣言49字段（8追加）を一致照合。P宣言[1450,1578,1706,1834]とC自身の実作業を別記、新実intake生成ではない。初回の手計数40/48は未形成guardで止め実集合へ訂正、source/親は不変。
+- 正式受領PID19504は14:39:20Z稼働。root6793/7fc2aba6…、seq12731/14:36:10Zでv4 row000127まで128行のmanifest全EOF/元directory試験後が揃った。v4全受領・現v5全受領の完了ではない。typed/broker/OS終了・formal5は未形成。正式配列hashのnative末尾LF規約も確認し、5字段先取り生成0。
+- Delta727 exact5 commit/push **862d9711c5512b59f01fc0daf34d75460451b01b**（2588/4e155759…・603/5864d94c…・foreign32保存）を記帳。P/C両selftest採択維持、追加GHA0、本走NOT_STARTED、人の了承待ち追加0。
+- v220進捗: **CLOSED=実作業観測の条件付き計数補題・公開timing/intake exact keyset、ADVANCED=公開wire1132・旧v4全128行の当該受領工程、OPEN=正式inventory5/本走結合/GHA・1132採択/実入力適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
