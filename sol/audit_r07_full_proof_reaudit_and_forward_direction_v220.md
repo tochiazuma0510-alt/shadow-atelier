@@ -24423,3 +24423,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 正式受領PID19504は14:39:20Z稼働。root6793/7fc2aba6…、seq12731/14:36:10Zでv4 row000127まで128行のmanifest全EOF/元directory試験後が揃った。v4全受領・現v5全受領の完了ではない。typed/broker/OS終了・formal5は未形成。正式配列hashのnative末尾LF規約も確認し、5字段先取り生成0。
 - Delta727 exact5 commit/push **862d9711c5512b59f01fc0daf34d75460451b01b**（2588/4e155759…・603/5864d94c…・foreign32保存）を記帳。P/C両selftest採択維持、追加GHA0、本走NOT_STARTED、人の了承待ち追加0。
 - v220進捗: **CLOSED=実作業観測の条件付き計数補題・公開timing/intake exact keyset、ADVANCED=公開wire1132・旧v4全128行の当該受領工程、OPEN=正式inventory5/本走結合/GHA・1132採択/実入力適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 729 — 2026-09-09・正式受領FAILを回収し空keyset修理へ、公開report wire採択
+
+- F8.192。1112 brokerは15:03:31ZにFAIL、元error seq14276/15:02:01Zは旧v4診断名の空keyset照合R1144→Fields。root61635/e63942ca…で最終journal24834行を連続照合、全10556 pathのopen/closeとheld集合一致、release_errors=[]、14 runtime凍結を確認。typed/formal5=NULL、PID19504終了。途中準備PASSを全受領へ昇格しない。
+- 子OS exit codeはUNKNOWN。補助monitorのMP名がMove-ItemProperty aliasへ解決し、終了票の形成で失敗したためである。broker FAIL/実throw・monitor自身exit1を子OS codeへ置換しない。新root起動では一意名と開始から保持したprocess handleで回収する。
+- Task1135（3996/4edc3f20…）を最優先委嘱。実v4 diagnostic object={}、二候補file不在に対し、旧キー列挙が空文字1個となるPS5.1挙動を作者42対照で確認。最小3行修理/全raw/新closureをrootが読んでから全範囲再起動する。今は草案段階、旧session凍結、数学失敗の主張0、追加の人待ち0。
+- 1132をroot採択（68998/b9325dcd…）。本文v3 26171/d7e534a5…、全14＋3置換順逆一致、全14材料269962 B、公開12入力/1127凍結3物不変。現49字段/歴史41字段/P12+C10 timing/Return5/8 reader影響を全対応。Native46の既厳密型はimportであり新nested型推測ではない。
+- metricは参照TraceSnapshotのENTRY→throughだけを量化。後の停止に旧checkpointを延ばすには実後境界の新snapshotが必要。UNKNOWN/LOWER_BOUND/EXACT、同owner根拠、P自己観測/C認証、実context→report→intake→後成startのDAGを閉じた紙上設計。4成功組合せ＋11停止例も読了。実report/計器/引用adapter/適用Γ/TCB/費用は未成立、v6追加gate0。
+- root5067/dd4f0232…でpacked3 D/E互逆と二段階A内容結合/B使用時array条件、条件付きuint64和上界193536を紙上固定。1133 P/1134 Cは作者納品済み、root全採択は未完で1135優先。
+- Delta728 exact3 commit/push **3fb1e538f03e5acb0f3948fca33af28398dc5b9a**（1909/e3634e16…・603/b2199f3c…、foreign32保存）を記帳。P/C GHA selftest採択維持、本走NOT_STARTED・追加GHA0。
+- v220進捗: **CLOSED=公開report wire1132・1112実FAILと解放票の回収・二段階operand紙上補題、ADVANCED=1135空keyset修理/1133・1134作者納品、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
