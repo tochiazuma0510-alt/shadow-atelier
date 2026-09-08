@@ -24296,3 +24296,13 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 1115作者最終返信5786/a5fced52…と全目録3484/4463d8cf…を受領。72型/489字段/506consumerは作者の最終報告で、root全表結合は次審査。1115–1119をv6の追加待ち条件にしない。
 - Delta715 commit **e8e0b8bba06497ede83bcd2c518e4fa146e3a6a2** のnormal push/remote exact記帳（commit1520/1e6513c6…、push603/889da29f…）。新研究run0。正式run34161493396/1/head a5b456a9…/1834/8539不変。元GHA包括認可・notify-and-go継続。
 - v220進捗: **CLOSED=v5 PREPARE受領・1116/1117保守的現用途案の限定審査、ADVANCED=全10556保持下の正式RECEIVE・公開1115最終受領・旧native1118/1119、OPEN=全typed/正式inventory5/最終binding/GHA・公開全表結合/全内部閉包/実変換/引用条項/可用性TCB、UNCHANGED=P6/C6/driver/WF静的監査完了、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 717 — 2026-09-08・旧native1118/1119の限定採択と1115表現修正、全文RECEIVEは取得台帳段階へ
+
+- F8.180を正本追記。P1118は原7 family、9原文130 raw区間、35登録JSON/2580 shape nodes/293341 typed occurrences・ordered target1770出現までroot独立照合。17材料57入力pin、旧109範囲不変。root147168/8d599e3f…・返信9862/4cc0e16d…。1770は二写しbase884＋seed各1の出現数で、新しい数学項数ではない。
+- C1119は11原文66範囲、39JSON/716直接字段型・全family39投影・root8 objectsを接続（root70738/1abb4fe7…）。追加27 metadata投影/physical reduction5405記録全型/descriptor-parent248/全58意味的metadata接続もroot再照合（20080/e97c98ef…、返信10331/fad80fb2…）。O1/O2の4関数のbyte一致をmodule全体一致に広げない。h/selfseal/target全object hashの再計算やvector等式照合は今回実行0。
+- native file SHA/selfseal/physical rolling/whole target/checkpoint SHA、base884疎配列/seed新operand/後続plain3字段/zero transitionを区別。C6→check_invocations→invocation_before_heads→read_checkpointの現在metadata依存を保持し、旧数値replay実行に読み替えない。全Γ/全内部import/原P1・actor/map/asset最小閉包はOPEN/ACTIVE_KEEP。1118/19は1116/17の旧native残件の限定閉鎖で、実cold変換採択ではない。
+- 1115 v1はroot全489字段/72型/506 consumerを独立結合（64009/fe631ba2…）。必須schema字段・暗黙chain値の表現欠落とcatalog/selector順序を指摘し限定v2を受領、全文/全54型差分/紙上8正例17反例まで審査。ただし全72変更consumerのread_scopeが一般説明へ退行したためv2未採択、v1/2保護の限定v3で三分法とCONVERSION/per-run・A/B現在cold再読取りを明示修正中。実native catalog/constants/selectors・実converter/TCBはOPEN。1115をv6追加gateにしない。
+- PID19504のmain RECEIVEはseq10607/06:46:32Z、実P/C fixturesからall eight acquisition ledgersのInventory後境界まで進行。06:53:48Z観測票6134/645d6e8a…、typed/final resultなし、10556 leaseは維持記録が根拠。PREPARE11750 files/1347269002 B/3547 dirs/全EOFは既採択、正式inventory5/最終bindingはPENDING。actor UNKNOWN、内容不変性や可用性への一般化なし。
+- Delta716 root commit/push **0e0d51ac9d041830b1926dcb2ba5d37a4f704bf5** を記帳（commit3239/9187db1e…、push603/690a3ac1…）。新研究run0、正式run34161493396/1/head a5b456a9…/1834/8539は不変。包括GHA認可・2230 notify-and-go・strict WF <500000継続。
+- v220進捗: **CLOSED=1118/1119原native限定契約のroot独立照合、ADVANCED=全typed RECEIVE/1115公開全表審査と表現・scope限定修正、OPEN=正式inventory5/最終binding/GHA・実catalog/Γ/全内部閉包/実変換/引用条項/可用性TCB、UNCHANGED=P6/C6/driver/WF静的監査完了、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
