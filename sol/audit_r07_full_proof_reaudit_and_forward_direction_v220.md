@@ -24372,3 +24372,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 正式受領PID19504は11:51:29Z running、seq10645/11:44:49Zの歴史v3 outerZIP全EOF/元試験後へ進んだ（root6722/2cfb46a7…）。typed/broker/OS終了票は未形成。人の了承待ちを追加せず、root processの完了後に正式inventory5→P/C/registry/driver/WFを最終接続する。
 - 司令塔2232速報の実exit/Python/第五数を速達1221/89bdd33c…で訂正し、2232補記/ack commit **f6f363615065b6e2a3099017f35041e605fdd4b4**で受理。Delta722 exact2 commit/push **2eb1dbf353d83c802d2ea839c4212dde68746716**（1520/e590e3d9…・603/0b77cd28…）を記帳。
 - v220進捗: **CLOSED=C6先行自己試験と実全receipt・P1122限定用途整理、ADVANCED=C1123最終納品・1127必要binding発見/修正・P1128先行GHA準備・正式受領v3 outerZIP後、OPEN=正式inventory5/本走binding/GHA・C1123root採択・Γ/catalog/runtime/実変換/引用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 724 — 2026-09-08・C62用途対応と本走binding採択、P6単独GHAを発射
+
+- F8.187を追記。C1123は全55返値用途/91成分/14role/9OPEN、root13311raw参照/2951字句/165区間、実51return文脈＋12選択本文を結合し、限定用途設計として採択。root957847/1744c62e…・36610/24ab2936…・最終859467/557b0646…。全165本文の新規意味精読とはしない。
+- 1123の旧family概要を正式字段scopeと混同しやすい表示を別版で補正。正式72/selected110を全照合し61全文一致・49対象外・11非選択、全599参照へ正式根拠を接続。v2→v1全838706 B復元、N11/K15全定義、U12全15引用も一致。Γ/catalog/最小TCB/実変換/費用/BはOPEN、v6追加gate0。
+- Task1127本走binding v2をroot37482/0d63cb16…で採択。current registry867287/8932a92a…、driver2277771/4904cb5c…、WF30603/59ddc40a…。23/4/4全raw差分、C165/retained24、driver131区間、正式14位置を結合。第14項は時間契約内のC source。P/歴史3registry/31順序/capsを保ち、本走WF未配置・formal None/Falseを維持。
+- P1128全37材料873623 B、root16366/92087f00…・core68775/a1b8f5f…で静的採択。新g17/sh56/py601行、全4raw復元、P公開37interface/61label/8tuple、13＋4 source pin、17grammar/73writerを結合。P自身の300/360秒・**RLIMIT_AS7168MiB**を記録し、前項RSS略記を訂正。隠しWF source-copyと全fixture transportを改善。
+- 審査済みP＋外側4を配置、exact7 commit/push **da438cc76e58792324db5fb113cfc530edddda83**、全17commit blob一致、foreign32 raw保持。既gap-runへの実POST後、[**34228241894/1**](https://github.com/tochiazuma0510-alt/shadow-atelier/actions/runs/34228241894)を12:49:06Z開始/in_progressとして実API13713/e2376789…で確認。P実成功/全artifact受領はこの観測では未完了。
+- 正式受領は12:49:31Z PID19504 running、seq12458でv3保存候補128件を通過、旧C fixture subtree全EOF前へ進んだ（root6761/5f7ddedb…）。typed/broker/OS終了は未観測。追加承認を待たず、実終了票→正式inventory5→P/C/registry/driver/WFの接続へ進む。
+- Delta723 exact6 commit/push **0a4f680ba1d07a7726cf5e115452c622f21664ee**（2941/72cb7064…・603/6aa585bf…）を記帳。
+- v220進捗: **CLOSED=C1123限定用途対応/正式scope補記・1127公開binding v2・P1128静的外側、ADVANCED=P6 GHA34228241894実行中・正式受領旧v3 fixture段階、OPEN=正式inventory5/本走接続/GHA・P実自己試験受領・Γ/catalog/実変換/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
