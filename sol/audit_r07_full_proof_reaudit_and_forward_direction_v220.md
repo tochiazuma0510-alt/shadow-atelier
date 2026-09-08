@@ -24327,3 +24327,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 親受領PID19504はv4全親Inventory/outer ZIP EOF/復元fixture全file hash後まで進行。最新seq10615/08:31:47Z、08:33:38Z観測6138/9de22039…、typed/final未生成、10556 lease記録維持。PREPARE11750 files/1347269002 B/3547 dirs/全EOFは既採択。正式inventory5と全typed受領は未完了のまま記帳する。
 - Delta718 exact4 commit/push **6f68839a5992775f24660fab7f0bd9419417f832**（commit2210/41fc6db0…、push603/00e211c8…）を記帳。追加研究run0、正式34161493396/1/head a5b456a9…/1834/8539 limited7、2230 notify-and-go継続。
 - v220進捗: **CLOSED=1120/1121の限定具体native登録・root原文書/期待値/公開scope照合、ADVANCED=v6最終結合13箇所・v4 fixture EOF後の全typed RECEIVE、OPEN=正式inventory5/最終binding/GHA・全catalog/Γ/全内部閉包/実変換/引用条項/可用性TCB、UNCHANGED=v6静的監査完了・追加gate0、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 720 — 2026-09-08・残current用途1122/1123・受領残工程1124と引用cutの条件
+
+- F8.183を追記。親受領PID19504は歴史v4の監査取得6台帳の全Inventory後（seq10639/09:49:41Z）から、同v4の実output全Inventory前（seq10640/10:19:21Z、L2232）へ進行。10:21:12Zのroot票6095/ffc5cce41d6e43cb68119bf9023558701e3644f0c27ab54e5497fc8f87ffbc99、CPU26742 s、typed/final未生成、10556 leaseの記録維持。保存callstackはイベント時点の位置であり現在PCとはしない。v5自身の先行監査と歴史v4/v3は別。
+- Task1122 P（5278/49359b93…）は既16 callerとasset境界、1123 C（5380/e32ec0c9…）は元62=既7＋残55の返値/alias/副作用/次consumerを具体化。入力事前登録・自系private分離、全source/数学実行0、旧票不変。型/全object hash/例外/guard/共有状態/hidden inputを含め、source-staticの保守閉包と最小TCBを混同しない。全native/Γ/runtimeの未決はOPEN/ACTIVE_KEEP。
+- Task1124（4430/0f8778db…）は同一稼働receiverの残v4/v3/current v5・正常/失敗/解放/OS終了・次のroot回収順を静読で地図にする。再起動/cache/scope短縮/旧PASS再利用は0。3便とも進行中・v6追加gate0、正式受領が届けば最終bindingを優先。
+- rootの条件付き補題7382/2cf2ff22f95f13b479cf126aa2a41192d29b42dcddb0599418b6d6705e3e89d6を固定。適切な依存上界とexact context/query/inputの採択cut、全current edge/妥当性/availability保持の下で、対応logical境界に到達した際のcurrent意味状態を帰納的に保存する。shared stateは別不変量を要す。直接未使用key/返値でも全hash・拒否・mutationへの用途を除外しない。
+- 意味結果保存とwalltime/cap到達点は別。実read/checked/時間/availability/実prefixを新runで記録し、旧値を注入しない。片側UNKNOWN_RESOURCEは完了同値へ昇格しない。Γ/全graph/全native/実変換/B/TCB/性能/A0はこの補題の結論ではない。5件の未実行反例を添え、公開条件だけをP/Cへ共有。
+- GHA API再確認27513/21645684…（10:18:26Z）で正式run34161493396/1/head a5b456a9…/successとcandidate10034053256/384961441 B/digest72e19a87…/expired=falseを確認。直近20run未完了0はその範囲だけの観測。docs pushのskipped runを研究走行に数えず、新研究dispatch0。
+- Delta719 exact4 commit/push **18f434540c681c03abfcb43a902237c2ecc3ed5b**（commit2214/f4f368f2…、push603/b1abe2ae…）を記帳。
+- v220進捗: **CLOSED=1120/1121限定native登録の採択維持、ADVANCED=1122/1123 current用途個別化・1124受領残工程・条件付き引用cut境界・歴史v4 output Inventory、OPEN=正式inventory5/最終binding/GHA・全catalog/Γ/全内部閉包/実変換/引用条項/可用性TCB、UNCHANGED=v6静的採択/13最終結合位置/追加gate0、A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
