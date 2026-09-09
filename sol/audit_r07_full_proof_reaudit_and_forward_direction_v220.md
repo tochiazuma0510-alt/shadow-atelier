@@ -24463,3 +24463,12 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root2050389/9bad8630…で全1563登録pin（driver1/runtime14/cost776/manifest772）、全776元JSON綴り/型/値/旧・案・oracle表をraw結合。元writer D9011–9103/D9703–9889・両oracle・実controls本文を読了。Lunaが整数係数からのnearest-even cost helperへ修理継続中、許容差/値別例外/省略なし。全入力と負対照・root別読後に新sessionを起動する。
 - Delta731 exact5 commit/push **9d1b26a536c79b37a967d964ff72d42e1c664381**（3797/e6d23d01…・foreign32保存）を記帳。正式typed/formal5=NULL・本走NOT_STARTED・追加GHA0・人待ち追加0。1133/1134限定設計と両GHA selftestの採択は保持。
 - v220進捗: **CLOSED=費用不一致の実再現と全入力raw結合・Parse案の棄却、ADVANCED=1136整数係数による数値変換修理、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 733 — 2026-09-09・費用変換v5採択、22:08 JSTに全範囲の正式受領を再起動
+
+- F8.196。root22110/0d24606b…でreceiver527244/d4ca1266…の33行helper＋変換一行、broker二箇所、closure14/保持13を全順逆rawと実pinへ結合し採択。Decimalの整数係数からnearest-evenを決め、元JSON Same/型/有限/符号/null/厳密数値比較/sum/受領scopeを保持する。
+- controls2714859/1a4f6fbf…の全776元入力と13集約をroot raw票/独立Python bitsへ接続し、数値27（必須24＋限界3）/sum17/比較8/改変17の全期待結果を一致照合。root4019/247002a0…で条件付き丸め補題を固定。System.Numerics実DLL133976/bda8cbe4…も照合し、native前件と一般JSON/fsum同値の未証明範囲を残す。
+- core採択後、付随文書の整形を待たず同一親八入力・全scopeで起動。activation10626/663755f7…、実起動5946/5d23f5a2…、**22:08:51 JST、受領PID5612/監視6392**。新session f7cb59463bc1430f80b5163f78263c21、16 sourceコピー同一。作者最終handbackは別途受領継続。
+- root進捗6773/dbf18dc6…は22:16:38 JSTに両元process identityと全14runtime不変を確認。主journal全2行/旧74準備STARTを捕捉、現在は全認証準備中。typed/formal5は未形成。watcher6654/2a84e46a…は開始時handle保持と実OS終了票優先保存を維持する。
+- Delta732 exact2 commit/push **d2b22565970096e933d12379e52138a7696e30b1**（3549/daf921df…・foreign32保存）を記帳。追加GHA0・本走NOT_STARTED、全正式受領→五字段→最終binding→GHA。人待ち追加0、両GHA selftest/1133・1134設計採択は保持。
+- v220進捗: **CLOSED=1136費用修理のcore source/全小対照採択、ADVANCED=新PID5612で全範囲正式受領を再開、OPEN=正式inventory5/本走結合/GHA・1136付随handback・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
