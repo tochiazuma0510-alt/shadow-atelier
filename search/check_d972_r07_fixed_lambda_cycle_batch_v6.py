@@ -261,8 +261,8 @@ FIXED_ARTIFACTS[THIRD_BATCH_ROLE] = (34161493396, "a5b456a973f8a917f3af386d32706
     "72e19a87e3a4ca06daa3b1b9dc8a16e76778e6ce1d6bd3a57b25acea363602db", "d972-r07-fixed-lambda-cycle-batch-v5.yml")
 # Formal restored EOF inventory and the final independent P6 source pin are
 # separate later bindings. An observed ZIP inventory does not open this guard.
-THIRD_BATCH_INVENTORY_REGISTRATION: dict[str, Any] | None = None
-CURRENT_PRODUCER_REGISTRATION: dict[str, Any] | None = None
+THIRD_BATCH_INVENTORY_REGISTRATION: dict[str, Any] | None = {"files":11750,"file_bytes":1347269002,"directories":3547,"files_sha256":"cd787746ac83526d5979ea70b8a7c6b2e325f43a7418f7e3e3359145841647b2","directories_sha256":"a5eb5b697fe0d8cac615eb94ff672d78450e36df7d0f5034b977af54bc11fa14"}
+CURRENT_PRODUCER_REGISTRATION: dict[str, Any] | None = {"file":"search/d972_r07_fixed_lambda_cycle_batch_v6.py","bytes":453972,"sha256":"c8a8b232acf581f0d43d26d9f6127b094235a46239ed13fcf5f73ae48d6b95a6"}
 THIRD_BATCH_ENTRY_PINS = {
     "acceptance.json": (6032243, "de0a5221ac513924161731d44427e1582976b184fbfe11bc44daf37c80f7c9e0"),
     "arithmetic-selftest-inheritance.json": (155192, "c9cd945bc0286f387a18029f3e9b32939f50264d371aa27c0a227e54a16db9cc"),
