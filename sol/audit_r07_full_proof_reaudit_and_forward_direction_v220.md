@@ -24455,3 +24455,11 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 公開strategy追補3758/5e71ec08…を採択。Occurrence形成前DIRECT選択、形成後CITE_REQUIRED暗黙fallback禁止。retryは別identityと既認可範囲を要し追加資源認可にしない。予定で実eventを消さず、元trace範囲の計数規約を保持。1132で公開report設計は供給済み、実adapter/全reader/停止効果/実観測はOPEN。
 - Delta730 exact2 commit/push **c5d85cf24f1cb195e50e77d743579962ed566f2a**（3616/98cbe17c…・foreign32保存）を記帳。両GHA selftest採択維持、本走NOT_STARTED・追加GHA0。正式受領/5字段/最終binding/GHAを優先し、引用設計を追加gateにしない。
 - v220進捗: **CLOSED=1135実FAIL/実OS終了/全解放の受領・1133/1134限定設計・公開strategy境界、ADVANCED=1136費用metadata原因調査と修理、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 732 — 2026-09-09・費用の元不一致を再現、Parse修理案を全776件で棄却
+
+- F8.195。実SameCostNumberV5を呼ぶ小metadata対照で、元receiverのselection/candidate-total二拒否を再現。Decimalからの旧double castが独立Pythonと1 ulp異なる。保存票全13集約/residualはPython JSON/math.fsumで一致し、保存票不整合は未観測。
+- Decimal文字列→Double.Parse一行案v4は全13集約が通っても、全776入力の000047/source=0.323296と000070/primal=2.397702で別の1 ulp差が出た。**FAIL_CONTROLS、未採択・未発射**。静読票22080/a271c532…は原文差の中間確認に限定し、全受領PASSへ昇格しない。
+- root2050389/9bad8630…で全1563登録pin（driver1/runtime14/cost776/manifest772）、全776元JSON綴り/型/値/旧・案・oracle表をraw結合。元writer D9011–9103/D9703–9889・両oracle・実controls本文を読了。Lunaが整数係数からのnearest-even cost helperへ修理継続中、許容差/値別例外/省略なし。全入力と負対照・root別読後に新sessionを起動する。
+- Delta731 exact5 commit/push **9d1b26a536c79b37a967d964ff72d42e1c664381**（3797/e6d23d01…・foreign32保存）を記帳。正式typed/formal5=NULL・本走NOT_STARTED・追加GHA0・人待ち追加0。1133/1134限定設計と両GHA selftestの採択は保持。
+- v220進捗: **CLOSED=費用不一致の実再現と全入力raw結合・Parse案の棄却、ADVANCED=1136整数係数による数値変換修理、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
