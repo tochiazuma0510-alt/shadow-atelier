@@ -24472,3 +24472,10 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - root進捗6773/dbf18dc6…は22:16:38 JSTに両元process identityと全14runtime不変を確認。主journal全2行/旧74準備STARTを捕捉、現在は全認証準備中。typed/formal5は未形成。watcher6654/2a84e46a…は開始時handle保持と実OS終了票優先保存を維持する。
 - Delta732 exact2 commit/push **d2b22565970096e933d12379e52138a7696e30b1**（3549/daf921df…・foreign32保存）を記帳。追加GHA0・本走NOT_STARTED、全正式受領→五字段→最終binding→GHA。人待ち追加0、両GHA selftest/1133・1134設計採択は保持。
 - v220進捗: **CLOSED=1136費用修理のcore source/全小対照採択、ADVANCED=新PID5612で全範囲正式受領を再開、OPEN=正式inventory5/本走結合/GHA・1136付随handback・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 734 — 2026-09-09・1136最終handback採択、現directoryの全認証準備へ
+
+- F8.197。root6795/c6e13120…で作者最終票21922/10a30240…と返信8426/8a54ac32…を全文受領。登録1572件（重複を含む）と不在1件、全変更byte ranges、14 runtime/core票を再照合し、付随handback待ちも閉鎖。追加試験/追加source/追加受領起動0。
+- 旧74準備は22:42:46 JSTにPASS（4242154/35a6ce9e…、create0/既存74）。22:47:47 JSTに現directory準備へ移行。root10927/041f1ef9…は22:57:07 JSTに受領5612/監視6392の元identityと主journal全7015行を確認。open7008・旧v3/v4 lease完了・PREPARE_CURRENT_DIRECTORIES。全typed/formal5は未形成。
+- Delta733 exact2 commit/push **0f8efc0c7a53e1ba66c59a290e0af492e79bfbe6**（3549/0eda3534…・foreign32保存）を記帳。本走は全正式受領→五字段→最終binding→GHA、追加の人待ち0・追加GHA0・両selftest採択維持。
+- v220進捗: **CLOSED=1136最終handback/root採択、ADVANCED=旧74準備PASS・現directory準備、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
