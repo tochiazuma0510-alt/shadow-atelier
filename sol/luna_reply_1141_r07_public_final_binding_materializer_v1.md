@@ -33,3 +33,19 @@ The actual preparation uses `plan`; the full typed receipt uses `directory_plan`
 After actual completion only, the helper can write canonical files/directories and one candidate JSON into a new immediate Task1141 child using CreateNew. Candidate output retains all input pins and actual counts/flags. It declares no root adoption or public completion receipt. Root independently joins original REPORT+self2 and judges formal scope; old74 authority pins are joined as metadata without reopening that preparation or any parent payload. No parent scan/restore/rehash, process operation, Git/GHA/network/credentials, private P/C read or automatic binder/launch occurs. V1 is preserved and unexecuted; v2 replaces canonical comparison with strict structural type comparison so canonical inventory array bytes are formed only after actual completion prerequisites. No new approval gate is added.
 
 TASK1141_VERDICT: PUBLIC_BINDER_AND_COMPLETION_COLLECTOR_SOURCE_PREPARED; COLLECTOR_AND_BINDER_UNEXECUTED; ACTUAL_COMPLETION_AND_ROOT_HANDBACK_PENDING
+
+Task1141 public-map normalization follow-up: SOURCE and exact mapping contract are prepared. No actual final maps, adoption values, normalized handback or dummy/formal values were created.
+
+| Artifact under Task1141 TEMP | Bytes | SHA-256 |
+| --- | ---: | --- |
+| normalize_public_author_maps_v1.py | 25539 | 1ad1b6997e0e9a028ff00d627ab584478e6610cf0b143385251c78c3ce97330c |
+| public-map-normalizer-contract-v1.json | 12485 | 7a197353262572e61db5dd58c9e3c02b574311e8eb5c56389bfd8b337762c153 |
+| public-map-normalizer-source-registration-v1.json | 5512 | d3db33084fb42c4c72a96ae7b15ccd4738b1aaae837a8c25cc1f69f0ee4e475c |
+
+The helper binds the actual root-pinned P/C public maps and final adoption JSON to the existing exact1141 public_bindings schema: source11 fields, region6 fields, all177/165 intervals, old_loader8/body57 slots and P native25 metadata. Historical descriptors, comparisons and annotations remain unchanged. It preserves the remaining four root handback fields and obtains C_expected_P from actual root C adoption at /expected_producer; /source and /author_public_metadata supply each root adoption join. P/C executable descriptors are never opened.
+
+P partial bodies character_counts402 B and run_candidates2487 B retain their adopted line intervals and exact shifted descriptors. C anchor_metadata2463 B remains a subsection of AcceptedInputs. C CR/BOM/final-LF flags inherit the frozen public registry and pinned one-line binding contract; no private-byte measurement is claimed. Actual completion/formal5/full40 roster/adoption truth remains root's judgment. Only after actual inputs, both complete serializations precede CreateNew of a normalized handback and mapping evidence in one fresh Task1141 child; there is no automatic binder invocation.
+
+All437 saved source LF were read statically. Root separately read and statically adopted the source/contract; no execution/import/AST/compile/selftest occurred. Existing binder v2 and collector v2 pins remain unchanged. No private P/C bodies or P/C binders, process, Git/GHA/network/credentials or parent payload operations were used. No new approval gate was added.
+
+TASK1141_VERDICT: PUBLIC_BINDER_COLLECTOR_AND_NORMALIZER_SOURCE_PREPARED; ALL_UNEXECUTED_BY_AUTHOR; ACTUAL_ROOT_COMPLETION_AND_FINAL_HANDOFF_PENDING
