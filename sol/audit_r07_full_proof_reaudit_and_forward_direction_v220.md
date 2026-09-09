@@ -24444,3 +24444,14 @@ reply966/967の範囲記述はこの最終sourceと一致する。新数値PASS�
 - 同じ修理source/実親八入力を新session f37c871f25cc4b688ff9f61ebe5e876cへ再登録（10225/7581b9ba…）。全文読了済みmonitor6623/af352cfc…、静読票2268/7594efac…を使い、**04:19:35 JSTに受領PID7116・監視PID7328で再開**（起動5989/9ed23ded…）。PID guardはimage/開始時刻/元票と結合。正式inventory5は未形成、残時間は未確定。
 - 旧PID6684は番号再利用後svchostだったと説明を訂正。Delta729 exact6 commit/push **fdfba98d7fdb4ab1e70c29ce873f6a0bf8071c4c** を記帳、司令塔acbe878bの再開briefも全文受領。このrootが単一brokerを継続。foreign32保存、両selftest採択維持、本走NOT_STARTED・追加GHA0・人待ち追加0。
 - v220進捗: **CLOSED=1135修理のroot採択・二回目中断に介在したOS再起動の同定、ADVANCED=全範囲再受領PID7116、OPEN=正式inventory5/本走結合/GHA・1133/1134最終採択・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
+
+### Delta 731 — 2026-09-09・費用照合FAILを回収して1136へ、P/C適用条件の限定設計採択
+
+- F8.194。1135の三回目は両準備PASS→全受領へ進んだ後、09-09T09:56:38Zに現v5費用aggregateのexact-double照合でFAIL。R3916→R4057→R4601、約14時間38分。root18808/c4d290f9…で全失敗票を回収。今回は実OS終了票1212/615c17b1…がexit1を元handleから保存した。
+- journal27632423/a1339b5c…の全26674行を連続照合、open/close/held各10556集合一致、boundary完了5548、failure1、release1、全14 runtime不変。typed/formal5=NULL、全解放済み。前DeltaのPID7116 RUNNING表示は失敗回収済みへ更新する。
+- Task1136（4744/1b394037…）をLuna metadata修理担当へ委嘱。失敗aggregate名/JSON原綴り/実型/IEEE bits/元writerを特定し、許容誤差やclampを使わず原因を分離する。長い全再受領より先に実費用入力と負対照の小試験を完了し、元全scopeのままroot別読後に再起動する。原因/修理結果はまだ未採択。
+- 1133 P/1134 Cの限定設計をroot採択（実結合90799/a89e21e3…、最終7811/ab9ddbba…）。全38入力、P45＋C27の全72原文範囲を実bytes/offset/行へ照合。P10材料178673 B、C8材料179463 B、両返信/目録/実TEMP集合を一致照合。Cの一部は旧原文区間の部分範囲として接続し、旧区間全体の同一性とはしない。
+- Pはbase全captureとrefinement後のcapture hash/rolling結合を区別、immutable rawからmutable array/list/DIGITSの使用時不変性を推論しない。Cは96行＋三operandの同capture経路と、元1354行の早いwhole hash→後のstream使用のOPENを分ける。fresh/writeable arrays、逐次cast、callbacks/alias、target lead零・row検査/stream/cache/deepcopy/後続比較を残す。全Γ/native/使用時適用は未閉。
+- 公開strategy追補3758/5e71ec08…を採択。Occurrence形成前DIRECT選択、形成後CITE_REQUIRED暗黙fallback禁止。retryは別identityと既認可範囲を要し追加資源認可にしない。予定で実eventを消さず、元trace範囲の計数規約を保持。1132で公開report設計は供給済み、実adapter/全reader/停止効果/実観測はOPEN。
+- Delta730 exact2 commit/push **c5d85cf24f1cb195e50e77d743579962ed566f2a**（3616/98cbe17c…・foreign32保存）を記帳。両GHA selftest採択維持、本走NOT_STARTED・追加GHA0。正式受領/5字段/最終binding/GHAを優先し、引用設計を追加gateにしない。
+- v220進捗: **CLOSED=1135実FAIL/実OS終了/全解放の受領・1133/1134限定設計・公開strategy境界、ADVANCED=1136費用metadata原因調査と修理、OPEN=正式inventory5/本走結合/GHA・operand実適用/Γ/catalog/report/effect実装/費用/B/最小TCB、UNCHANGED=A0 actual0/1・階段1/6、A1 4/4・A2 2/3・A3 3/3・A4 1/3・compact A5、正式1834/8539・grade2両NOT_DECIDED・F-v5-1 OPEN・verified=false**。
