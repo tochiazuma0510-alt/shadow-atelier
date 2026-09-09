@@ -40,12 +40,16 @@ jobs:
       PRODUCER: search/d972_dovetail_producer_v1.py
       CHECKER: search/check_d972_dovetail_v1.py
       GAP_WORKER: search/d972_dovetail_worker_v1.g
-      RUN_ROOT: ${{ runner.temp }}/d972-dovetail
       PIPELINE_WATCHDOG_SECONDS: "18000"
       PREFLIGHT_ONLY: ${{ github.event_name == 'workflow_dispatch' && inputs.preflight_only || false }}
       REQUESTED_SLICE_SECONDS: ${{ github.event_name == 'workflow_dispatch' && inputs.slice_seconds || '16800' }}
 
     steps:
+      - name: Set run root
+        shell: bash
+        run: |
+          printf 'RUN_ROOT=%s/d972-dovetail\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+
       - name: Check out the exact run commit
         uses: actions/checkout@v4
         with:
