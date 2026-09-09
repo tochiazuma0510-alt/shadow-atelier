@@ -1,0 +1,3 @@
+# 裁定 2236 snapshot(2026-09-10・司令塔記帳)
+
+- 2236: **v6 配置 = pin 4/4 一致・新 workflow 登録・研究 run 開始**。Astra root commit 866c87ea(2026-09-10T08:20:19+09:00「r07: bind formally received v5 parent and launch frozen v6 [r07-fixed-lambda-cycle-batch-v6-envelope-v1-run]」)で 4 file を配置。origin HEAD で工房再計測: WF 30,603 B/c02e1e39…・P6 453,972 B/c8a8b232…・C6 428,108 B/59d525f7…・driver_v1 2,281,118 B/88af646a… = 2235 の pin と**全一致**。workflows API: 新 path が **id 354456492 active** で登録(条件 ⑤ 充足)。run **34416548935**(event push・created 2026-09-09T23:21:16Z = 08:21 JST・head 866c87ea・in_progress)。工房: GHA 監視で完了を待ち、完了後に mirror/計測(役割別経過秒・P 残差・cost 票)/増分 CV-9(v6 型)へ。
