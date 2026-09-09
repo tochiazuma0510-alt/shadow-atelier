@@ -1,0 +1,3 @@
+# 裁定 2237 snapshot(2026-09-10・司令塔記帳)
+
+- 2237: **(a) Astra 診断「d972-dovetail.yml の push 即時 failure」= job-level env の context 違反 → 修正案を notify-and-go で承認・(b) v6 run 34416548935 = step 11〜13 success・step 14 本体 batch 実行中**。(a) `.github/workflows/d972-dovetail.yml` L43 の job-level `env.RUN_ROOT: ${{ runner.temp }}/d972-dovetail` は GitHub の context 制約(jobs.<job_id>.env で runner context は使えない・step の env/run/with では可)に違反(原本 60,829 B/21127ce2…・導入 commit fb2ad5cf)。失敗 run 34417020868(head 9331ebd0)は jobs 0/check-runs 0/name がパス表記 = job 開始前の validation failure と整合(API は validation エラー本文を返さず唯一の原因とは未断定・診断票 13,887 B/9f9d23e1…)。修正案 = job-level の RUN_ROOT 一行を外し最初の shell step で `printf 'RUN_ROOT=%s/d972-dovetail
