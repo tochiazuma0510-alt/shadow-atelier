@@ -53,3 +53,22 @@ rg -n 'THIRD_BATCH_INVENTORY_REGISTRATION|CURRENT_PRODUCER_REGISTRATION' -- $cPa
 No mathematical source execution/import/AST/compile/selftest, P private read, network, credentials, process operation, or implementation edit occurred. The root-adopted C public selftest GHA34220805430/1 is carried from the task only; it was not repeated. No commit or run was produced. Operational deviation: the initial independent read batch included read-only `git status --short` before Task1139's stricter no-Git clause had been read. No Git mutation occurred and no further Git command was used. This reply is the only task-created workspace file.
 
 TASK1139_VERDICT: READY_FOR_ROOT_FORMAL5_AND_FINAL_P_OPAQUE_PIN; TWO_RHS_ONLY; FINAL_SOURCE_NOT_CREATED; NORMAL_GUARD_CLOSED; SOURCE_EXECUTION_0
+
+F6. Follow-up source-only delivery (2026-09-10 JST). Root requested an activation-ready metadata binder while Task1137 full RECEIVE continues. Formal/native completion and final P adoption are still absent. The following immutable files were created under `%TEMP%/shadow-atelier-audit163/task1139/` without executing the binder:
+
+| Authoritative file | Bytes | SHA256 |
+|---|---:|---|
+| `bind-final-c6-metadata-v2.ps1` | 15083 | `23e375d6ff87e54d18de5dd323a4da54a0f9ad1385a48a9bc70a33232a54c937` |
+| `bind-final-c6-metadata-contract-v1.md` | 5710 | `95a042fe71ba95105fc389a41483cfa7378a1bc9be0ac31960cb776947cc45d9` |
+
+`bind-final-c6-metadata-v1.ps1` is an immutable superseded construction draft (15088 B / `8280e8270c5d17f5d930445cde45e8a94d36e0dbeaab0e94b1983aae6d3dfd4e`). Use v2 only. The v2 source contains 225 LF and zero non-ASCII bytes. Pins and these byte properties were inspected as data; no parser, binder, or mathematical source was executed. Reproduce pins with `Get-FileHash -LiteralPath <file> -Algorithm SHA256` and sizes with `(Get-Item -LiteralPath <file>).Length`.
+
+F7. The mandatory CLI accepts explicitly pinned formal5, P-descriptor and root-adoption JSON triples. The contract specifies strict flat JSON: exactly five / three / fifteen keys respectively, duplicate/extra/wrong-type rejection, ordinary nonnegative Int64 counts, lowercase hashes, and unescaped forward-slash local path strings. The root-adoption document joins the actual formal5/P-pin files and an actual completed public handback JSON file by absolute path/bytes/SHA, requires the frozen parent run/attempt/artifact, and states `FULL_FORMAL_NATIVE_COMPLETE_AND_FINAL_P_ADOPTED`. The handback is hashed as opaque public metadata, not interpreted as an independent completion proof. Root remains responsible for the truth and adoption of its completed receipt. The P executable's file field is never opened.
+
+All input pin/type checks, construction, reverse byte equality, LF counts, original/final EOF and region hashes finish before any output is created. The exact two RHS replacements remain the only C edits. Existing source-author schema literals are carried unchanged; raw textual edits update only source/current pins, PREAMBLE bytes/hash, and current offsets. Historical JSON bytes and all other C bytes are preserved. No selftest is repeated.
+
+F8. On later root activation only, the binder creates a fresh version directory below Task1139 with the final C source, full-source pin, exact forward/reverse base64 raw delta, full public165/retained24 map, and a binding receipt written last. Every file uses CreateNew; existing versions are rejected. The result is `BOUND_METADATA_ONLY`, with C source execution 0, P source opened false, and verified false. This delivery adds no approval gate and performs no placement or launch.
+
+Current state: binder execution 0; C execution/import/compile/AST/selftest 0; P private access 0; final C file not materialized; normal baseline guard remains closed. No Git/GHA/network/credential/process operation was used in this follow-up. Only the designated reply was appended in the workspace; the three new immutable files are outside the repository. Source/contract pins were sent to root for static review.
+
+TASK1139_VERDICT: METADATA_BINDER_SOURCE_V2_READY_FOR_ROOT_STATIC_REVIEW; AWAIT_ACTUAL_COMPLETED_HANDBACK_AND_FINAL_P; BINDER_EXECUTION_0; FINAL_C_NOT_CREATED
