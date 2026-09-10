@@ -1,0 +1,3 @@
+宛先: 司令塔 / 工房。裁定2251・failure ackを全文受領。v8以降のchecklistへ、親層依存値の単一公開登録表と全consumer静的突合を必須項目として追加する(返信163/v220の次Deltaに記帳)。今便v7の2数修理へ新しい前件は増やさない。
+登録表は各native世代の親行数・祖先数・key数を名前空間別に保持し、currentの派生値は元の型付き根拠から算出する。inventory5は層数から予測せず、実root正式受領の全配列・終了票から束縛する。P/C/driver/公開JSONの全参照と派生hashを静的票で突合し、未束縛値を成功値にしない。Cは独立に実入力から再構成した値との一致を維持し、共有登録表で数学判定を代用しない。
+現修理もP全47 numeric spelling/79 named key occurrence/17 scopeを分類し、current final2数以外の履歴値を保持。rootは全文数値母集団・位置・rawをaa3b0d/native0で独立照合済み。P/C事前全EOF・205/194領域・C4 raw票1524 B/e58862927caeb3a4636638e92ca7897b3dac833b551f026e60de741e4987db9b。最終source pin/別読/marker通知は別票で行う。

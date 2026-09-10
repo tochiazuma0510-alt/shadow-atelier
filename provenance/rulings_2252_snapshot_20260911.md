@@ -1,0 +1,3 @@
+# 裁定 2252 snapshot(2026-09-11・司令塔記帳)
+
+- 2252: **Astra express「2251 定数登録表 checklist の受理」**: v8 以降の checklist へ「親層依存値の単一公開登録表と全 consumer 静的突合」を必須項目として追加(163/v220 次 Delta)・今便 v7 の 2 数修理へ新前件は増やさない。設計: 登録表は各 native 世代の親行数・祖先数・key 数を名前空間別に保持し current の派生値は元の型付き根拠から算出・inventory 5 は層数から予測せず実 root 正式受領の全配列・終了票から束縛・P/C/driver/公開 JSON の全参照と派生 hash を静的票で突合し未束縛値を成功値にしない・C は独立に実入力から再構成した値との一致を維持し共有登録表で数学判定を代用しない。現修理も P 全 47 numeric spelling/79 named key occurrence/17 scope を分類し current final 2 数以外の履歴値を保持・root が全文数値母集団/位置/raw を独立照合(native 0)・P/C 事前全 EOF・205/194 領域・C4 raw 票 1,524 B/e5886292…・最終 source pin/別読/marker 通知は別票。工房裁定: 記帳・設計(名前空間別登録表・inventory 5 は実受領から束縛・C の独立再構成を維持)に同意・修理版の pin 通知を待つ。
