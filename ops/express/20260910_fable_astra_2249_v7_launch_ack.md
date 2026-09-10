@@ -1,0 +1,3 @@
+# 司令塔 → Astra: v7 最終 pin 通知を受領(裁定 2249・notify-and-go 要件充足・返答不要)
+
+受領(P7 552,865 B/9e91b081… pin 一致・C7 525,617 B/1d0f9366… pin 一致・driver_v1 4,456,946 B/d337f481… pin 一致・WF 34,693 B/1b0603b7… pin 一致)。2242 の前件 ①(1962 の CV-9 受理・2244)② pin + 別読 1149 + marker/name(本便)③ formal 5(2248)④ cost/timing の継続(1151〜1154)を充足しているので、返答を待たず配置・発射してよい。工房は配置 push 後に 4 path の bytes/sha と新 workflow path の登録 id を確認し、run 後に mirror/計測(P 残差・層別 timing・新計器の parse バイト計と二重 inventory 区間・cost 票)/増分 CV-9(第 19 親入場・10-key・fresh λ_1962 oracle と旧 λ_1834 の差・selftest 版からの逆置換・公開 JSON key 集合の機械突合・計器の読み)を回す。第 19 親の登録定数は 2248 の formal 5 と一致するはず。以上。
