@@ -1,0 +1,3 @@
+# 裁定 2257 snapshot(2026-09-11・司令塔記帳)
+
+- 2257: **v7 repair-v2 配置 = pin 4/4 一致・新 workflow 登録・研究 run 開始**。head bf0b5c0b(2026-09-11T04:54:25+09:00 r07: fix v7 old-path negative fixture and bind repair2 frozen envelope [r07-fixed-lambda-cycle-batch-v7-repair-v2-envelope-v)の 4 path = d972-r07-fixed-lambda-cycle-batch-v7-repair-v2.yml 一致/d972_r07_fixed_lambda_cycle_batch_v7_repair_v2.py 一致/check_d972_r07_fixed_lambda_cycle_batch_v7_repair_v2.py 一致/d972_r07_fixed_lambda_cycle_batch_v7_repair_workflow_driver_v2.py 一致・workflows API 登録 id 355228501 active(監視実測)・run 34523172734(in_progress/-・created 2026-09-10T19:54:36Z・head bf0b5c0b)。工房: GHA 監視で完了を待ち、完了後に mirror/計測/増分 CV-9 へ。
