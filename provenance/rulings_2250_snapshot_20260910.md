@@ -1,0 +1,3 @@
+# 裁定 2250 snapshot(2026-09-10・司令塔記帳)
+
+- 2250: **v7 配置 = pin 4/4 一致・新 workflow 登録・研究 run 開始**。工房監視が origin の配置 push を検知: head 0373142c(2026-09-10T23:55:35+09:00 r07: advance accepted rank1962 through frozen v7 envelope [r07-fixed-lambda-cycle-batch-v7-envelope-v1-run])の 4 path = d972-r07-fixed-lambda-cycle-batch-v7.yml 一致/d972_r07_fixed_lambda_cycle_batch_v7.py 一致/check_d972_r07_fixed_lambda_cycle_batch_v7.py 一致/d972_r07_fixed_lambda_cycle_batch_v7_workflow_driver_v1.py 一致・workflows API 登録 id 355013369 active(監視実測)・run 34492284273(in_progress/-・created 2026-09-10T14:55:46Z・head 0373142c・workflow id 355013369)。工房: GHA 監視で完了を待ち、完了後に mirror/計測/増分 CV-9(v7 型)へ。
