@@ -35,4 +35,28 @@ Root static review found that binder v1 searched CRLF guard literals although th
 
 Following root authorization during the read-only Task1169 connection audit, blueprint/input contract v5 register checker_final_source_adoption = root-task1164-final-C-repair2-source-adoption-v1.json, 2779 B / e2ea4e226c5cabe292a4d9188fac9cbec1cbc5ac86b9b3bb68bd0c9983e8adb5. This is the actual authority emitted by Task1169 for its retained C consumer scope, and now satisfies the existing1161 authority membership predicate. All ten receiver sources and binder v2 remain unchanged. The1169 missing final after-pin comparison was reported to root/Pauli for their independent repair; no1169 source was edited or executed by this author.
 
-AUDIT_1161_VERDICT: STATIC_SOURCE_COMPLETE_ACTUAL_BINDING_GUARDCLOSED
+Historical verdict at the preceding static handoff: STATIC_SOURCE_COMPLETE_ACTUAL_BINDING_GUARDCLOSED. The preceding text and manifest v4 describe that retained earlier version.
+
+Author static addendum after root's actual reception reports:
+
+The first actual attempt exposed one namespace error in Rows line196. Actual output/selection/selection.json stores failed_indices and failed_edges as tree-local names; output/selection/tree is their correct base. Selected witness descriptors remain output-relative. The witness-roster object itself has no failed_* fields. Rows v7 changes only that join base, preserves every other source byte, and has complete forward/reverse raw EOF equality.
+
+Final static materials under %TEMP%/shadow-atelier-audit163/task1161/:
+
+| Material | Bytes | SHA256 |
+| --- | ---: | --- |
+| source-template-v1/receive_current_rows_v7_v7.py | 39082 | 078a2a17fd370beb296e51ea19fa7baf1df9b82c6c177305034a2706ee56cc82 |
+| static-receiver-blueprint-v6.json | 38242 | d11c063f0a3fee8b5ba0d64b417af207dd22ea5f78dd7046483a2b7246d0d529 |
+| actual-binding-input-contract-v6.json | 16856 | b394528331e4ebc3a4f812a97b6ed8b5d06286aa06df02cd4c97fecff73d8418 |
+| rows-v6-v7-selection-descriptor-base-raw-diff-v1.patch | 946 | f4c078cb8058a6c17e9e9e707af008def13f5369adce036512300e15beeddade |
+| rows-v6-v7-selection-descriptor-base-repair-v2.json | 3699 | bd49122ce8479edbe147b7bab3bb460235879d587784b551bf096dcd89163811 |
+| rows-v7-all-reader-call-site-namespace-review-v1.json | 23869 | bea0ba14daef75cacba60748300ddc11a76d513ce0991bed6f7c084ffef5b0f1 |
+| rows-v7-all-join-site-actual-metadata-evidence-v1.json | 5390140 | d3ebdccb0b23a4f1bff094ffcc19c93774fda22a8400f6462b1ecfafcca01093 |
+
+The author reviewed all16 Reader.join and28 direct Reader.read call sites. Whole model pins and fresh before/after metadata pins cover913 public JSON documents /2912480 bytes and10937 descriptor joins. This includes all900 phase/row/final manifests with4515 payload descriptors,128 selected witness descriptors,772 telemetry descriptors, fixture ledgers and5399 intake-control descriptors. No additional base mismatch was found. This was a namespace and source review, not receiver or mathematical execution. The other nine receiver sources, static26 inputs, runtime113, stages and G01..G13 are unchanged. The two new registration files use compact JSON; their semantic diffs identify only the changed source/blueprint references. Repair receipt v2 corrects one explanatory sentence in v1 about the absent witness-roster fields; neither correction changes source behavior.
+
+Root notification, not an execution performed or independently re-adopted by this author: the repaired actual receiver completed all13 stages with original native exit0 (root tool85b1d2), and root tool3fb5b6 issued formal inventory5. Root reported9156 journal events,3622 directory handles and168 source/input handles closed. Root full adoption is15766689 bytes / eeb4d9f4426a0bceb57d0ffa48275afbc28c572f4ea409fbb427bc185969827a. Root-v7-formal-inventory5-v1.json is229 bytes / c44c63ef95459fa219291c266f787e74b9a435d1ac1d5cd7d603b93fb7c9097b: files12050, file_bytes1444771837, directories3613, files_sha256 efdff26c35ccb47d0ec0c113c74efd867f937594d8333d10f13e96f2d708b5cc, directories_sha25613013145d584b73e720edacdf89d1b6ba8bab8b78a357bc88e54c10442bced8c. This notification does not assign a new CV-9 or A0 mathematical grade.
+
+The prior7265-byte reply is retained as reply-before-native0-notification-addendum-v1.md. No source execution, replay, parent/process operation, Git/GHA or credential use was added for this addendum.
+
+AUDIT_1161_VERDICT: STATIC_ROWS_REPAIR_AND_ALL_CALL_SITE_REVIEW_COMPLETE_ROOT_NATIVE0_AND_FORMAL5_REPORTED_NO_AUTHOR_MATHEMATICAL_EXECUTION
