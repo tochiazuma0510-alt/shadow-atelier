@@ -1,17 +1,36 @@
-Task1161 partial static preparation, preserved before repair-v2 work.
+# Task1161 static source handoff
 
-The complete Task1161 instruction was read. No receiver, driver, mathematical source, P/C source, or selftest was executed, imported, parsed as AST, or compiled. No Git, GHA, credentials, network, parent tree, or existing process operation was performed.
+The complete finite current-v7 repair2 metadata receiver SOURCE is prepared. No receiver, producer, checker, mathematical source, binder, selftest, import, AST or compile was executed. No Git, GHA, network, credentials, parent-tree operations, process operations or new agents were used by this author. Only the designated reply and versioned Task1161 TEMP outputs were written.
 
-Saved under %TEMP%/shadow-atelier-audit163/task1161/:
+The current registered run is 34523172734 / attempt 1 / head bf0b5c0b6ee00736481575b98f50ac071fc97e28, workflow 355228501, repair-v2 envelope-v1. This identifies the root-dispatched run; it does not assert completion or candidate success. The failed repair1 and initial v7 candidate are not parents. Logical v7, the same 19 parents, accepted parent rank 1962 / generation 8667, k 128, max_batches 1 and no-refill remain fixed.
 
-- initial-complete-static-registration-v1.json: 6507 bytes; SHA256 e3e5f75f5117782690d7b48b6ef354791225ba547f4ff05ed1ad353a0a1ceafc.
-- initial-raw-kernel-reuse-v1.json: 2902 bytes; SHA256 cdb2a246a2e952b9a3f7f8257960b50c2bc0113666eeea58e9dd8de8f6307217.
-- source-template-v1/current_metadata_native_v4.py: whole raw copy of the successful Task1150 native kernel; 10917 bytes; SHA256 9de33697ff727ea4ae6a44f68265aaf1a587310ef5bd04a5c8d9d42946ad48b1.
-- source-template-v1/launch_current_formal_v4.ps1: whole raw copy of the successful Task1150 launcher; 10769 bytes; SHA256 7cdd60ccb21d14f0e73a3ce71ce8bc3cc79b851e49731eb95808fbc64b8a0679.
-- source-template-v1/current_metadata_common_v7.py: whole raw copy of the guardclosed Task1157 common module; 16152 bytes; SHA256 afe81a418971edbcda3da65181782777b59fa375a6bdfaac664ed137b43fe932.
+All paths below are relative to %TEMP%/shadow-atelier-audit163/task1161/.
 
-Actual input slots remain null, ACTUAL_INPUTS_BOUND remains False, and ACTUAL_MODEL_COUNTS remains None. The full current worker, evidence, rows, progress, fixtures, diagnostic adaptation, actual binding, and executable closure are not complete. This is not a completed receiver source handoff or a reception result.
+| Material | Bytes | SHA256 |
+| --- | ---: | --- |
+| static-receiver-blueprint-v4.json | 43982 | 36cd3d8d3fd6cdcedbf43769275764dc76ef77c04d6029bd772a4e59a4abd148 |
+| actual-binding-input-contract-v4.json | 18582 | 13bfab7ff3289d8c395345209a448b9203ee480799904f1d77618471a4efc48f |
+| bind_current_metadata_v7_v2.py | 13151 | ed18a11636c42f2ff4fabe3b1cd38fe582ee1c3b1b6edda9e38b8b3b990c766f |
+| all-source-raw-forward-reverse-and-ranges-v1.json | 144554 | 4ab72d72cd28d0d7b10d16739b5e3ebde752a99566cdbe6316fd550638b6f3fd |
+| thirteen-obligations-and-stage-contract-v1.json | 11510 | 0a1c0e7e8c0d4af824a2f4db634112f430446cc4e7e04294387ed0fb830bda61 |
+| retained-runtime-113-registration-v1.json | 26197 | a43881c21aa6d50d170f7cee48cfcd11bc86557070d9741ac8c3ad17ba294b58 |
 
-Root reported run 34518126217/1 at head 2f8ad063da52da90ed74fd230fb122f96ad79ec7: C selftest failed, and main P/C were skipped. These are root-reported observations, not observations from this child. No successful candidate or current formal inventory was inferred or bound. Root directed prioritizing the forthcoming repair-v2 public driver/WF work while retaining this unbound preparation. Public partial/resource writer contracts requested through root remain pending from Tasks1162/1163; no private implementation was opened to infer them.
+The blueprint holds all 10 source components, 25 fixed public JSON inputs and 113 previously registered runtime files. Runtime raw pins were freshly matched without execution or a new tree scan. All source versions remain preserved. Full byte-range forward/reverse construction matches EOF for every component; 129 lexical declaration ranges are recorded without AST. The Task1157 common and Task1150 native/launcher kernels remain raw identical. The future binder changes only the two registered common guard/count lines and raw-copies the other nine sources under final import basenames.
 
-AUDIT_1161_VERDICT: PARTIAL_STATIC_PREPARATION_PRESERVED_ACTUAL_UNBOUND_GUARDCLOSED_NO_RECEIVER_EXECUTION
+The current module versions are evidence v2, rows v6, progress v2, public v2, worker v2, root-adopted Task1167 fixtures and root-adopted Task1168 diagnostics v4. The diagnostics adoption 7982 B / 707201313e30b1d943ef9181a7d8c51222ed5c346eff465fc81cf9c058a9477d and both C assignment supplements are fixed inputs. The input contract specifies the exact 11-field diagnostic context and the independent old snapshot. The root four-loader public certificate 6176 B / 5114291133a478cc699a5536961b49c63e508840580fa244baa12677faaa2e6f is an additional fixed input for the actual Task1169 saved-certificate equality, retained through root runtime adoption.
+
+The 13 obligations map every retained predicate and current stage. All actually formed phases/checkpoints/rows are finite to the current prefix; complete-zero, dependent, resource/rejected, partial and final-publication tails remain distinct. HEAD16 is the checkpoint24 projection; physical HEAD24 is separate. Initial invocation compares every formed root; unformed expected hashes are typed but explicitly not compared. The complete branch retains all five whole-root joins. The actual start remains available to diagnostics when the seven initial roots are incomplete; Rows runs its initialized branch only after all seven roots.
+
+G06 keeps ordered trits, sources, zeros, signs and whole coefficient SHA. Individual u8 values, vectors, pairings and mathematical replay remain outside this receiver. Unknown recursive legacy JSON fields are not claimed structurally compared; root runtime adoption must assign their actual reached consumer scope and full raw dependencies. The independent accepted-v6 exports supply all expected1962 rows, old609 ancestry, old18 portable parents and the old observation; current values never construct those expectations.
+
+The raw filesystem/process guarantees remain: all current files before any authenticated mkdir, all files afterward, a third full final inventory, all omitted directories including nonleaf empty ancestors, fresh local lease membership/identity boundaries, typed output while handles remain held, reverse close with actual results, original failure and secondary errors preserved, and original process drain/Wait/ExitCode before source/input unlock. No previous lease interval is extended. Preparation is not formal reception.
+
+Actual binding is topological: (1) root supplies fully pinned actual JSON/model/root and the metadata whitelist; prepare writes fixed bound sources and finite input registration; (2) root adopts that exact source map and registration without the future TSV SHA; (3) closure joins explicit root JSON pointers and writes the complete source/runtime/input TSV; (4) root creates activation and launches. Artifact inputs are API metadata JSON pins, not raw ZIP inputs; actual outer ZIP D3/EOF/CRC/SHA remain in the independent root receipt. No automatic activation is implemented.
+
+All 13 prospective actual role values, new current counts/root, native exits, final root source adoption and formal inventory5 remain null/unbound in the contract. The common guard remains False/None. No new formal5, completion, A0 grade, candidate, cross-checked or verified result is issued here. Root's static review and actual input binding remain separate from this author source handoff.
+
+The exact final file inventory and this reply pin are in final-static-handoff-manifest-v3.json. The prior reply is preserved in reply-before-final-static-handoff-v1.md.
+
+Root static review found that binder v1 searched CRLF guard literals although the actual 16152-byte common has CR 0 / LF 342. Binder v2 changes only four escaped newline literals across three source lines to LF, including the replacement lines. The common and all ten receiver components are unchanged; no whole-file normalization occurred. Both real LF guards occur exactly once; both old CRLF searches occur zero times. The 865-byte raw patch and 1827-byte source repair receipt record forward/reverse EOF equality and the retained metadata-assembly error followed by correction. Neither binder version nor the receiver was executed. Input contract v4 and the raw-identical blueprint v4 are the active references.
+
+AUDIT_1161_VERDICT: STATIC_SOURCE_COMPLETE_ACTUAL_BINDING_GUARDCLOSED
