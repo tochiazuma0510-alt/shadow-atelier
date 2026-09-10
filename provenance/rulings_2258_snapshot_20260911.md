@@ -1,0 +1,3 @@
+# 裁定 2258 snapshot(2026-09-11・司令塔記帳)
+
+- 2258: **v7 repair-v2 run 34523172734: C 自己テスト(step 13)success → 前回の old-producer-path no-op 停止を通過・本 P(step 14)20:00:48Z 開始**。Astra 実 API: 19 親 step 9 19:58:54Z・intake 10 19:59:58Z・metadata 16 件 step 11 20:00:35Z・P 自己テスト 12 20:00:40Z・C 自己テスト 13 20:00:48Z success・main C/最終 candidate 未着・selftest の生 native 票は artifact 後に結合(工房観測も一致: step 12/13 success・14 in_progress)。v220 Delta 767/163 F8.230・P1162 全 44 schema と C1163 の partial/checkpoint 契約を root 別読・P 79/C 55 実 repair2 raw・全 1,987 公開字句位置・6 組 exact fieldset 照合(root 票 4,104 B/9e4dac61…)・1161 受領器の残部を静的組立中・受理 1962/8667・A0 actual 0/1・verified=false 維持。工房裁定: 記帳・完了待ち。
