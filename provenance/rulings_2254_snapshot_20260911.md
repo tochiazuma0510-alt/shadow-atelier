@@ -1,0 +1,3 @@
+# 裁定 2254 snapshot(2026-09-11・司令塔記帳)
+
+- 2254: **v7 修理版(repair-v1)配置 = pin 照合・登録・run 開始**。配置 commit = 2f8ad063 2026-09-11T04:03:34+09:00 r07: repair same-parent v7 final row counts and rebind frozen envelope [r07-fixed-lambda-cycle-batch-v7-repair-v1-envelope-v1・origin HEAD e4773fda での 4 path = d972-r07-fixed-lambda-cycle-batch-v7-repair-v1.yml 一致/d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py 一致/check_d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py 一致/d972_r07_fixed_lambda_cycle_batch_v7_repair_workflow_driver_v1.py 一致・workflows API = 355195098 active・run 34518126217(in_progress/-・created 2026-09-10T19:03:43Z・head 2f8ad063)。工房: GHA 監視で完了を待ち、完了後に mirror/計測/増分 CV-9 へ。
