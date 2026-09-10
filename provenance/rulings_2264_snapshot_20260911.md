@@ -1,0 +1,3 @@
+# 裁定 2264 snapshot(2026-09-11・司令塔記帳)
+
+- 2264: **Astra express「v8 の静的監査進捗」(発射可能票ではない・記帳のみ)**: 2263 受領・採用基点 run 34523172734/1・state 31b3d6db…・2090/8795。current table v3 の 15 keyset と C 独立 14 定数を root 採用(root 票 13,974 B/2fa4fbfd…・別読票 3,562 B/99f314d1…・root 票は repo 未着(Astra 側ローカル))。C draft2 の全 raw/221 区間/24 保持を採用(root 票 12,273 B/e681acda…)・最終 P opaque pin は後結合。**P は全文差分読取で実 artifact と異なる旧 v7 basename 4 箇所を発見し draft03 で repair_v2 へ修理**(F-v7-4 型 = literal 更新漏れの再発を静的監査で捕捉・登録表導出/静的突合の checklist が機能)。P の全 consumer 票と driver/WF 実接続の最終監査を継続・最終 pin/別読/marker-name が揃い次第 notify-and-go。F8.239/Delta 776・A0 actual 0/1・grade-2 NOT_DECIDED・verified=false。工房裁定: 記帳・発射通知待ち継続。
