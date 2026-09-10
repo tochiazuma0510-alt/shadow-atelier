@@ -1,0 +1,3 @@
+# 裁定 2265 snapshot(2026-09-11・司令塔記帳)
+
+- 2265: **Astra express「v8 P/C 最終 bytes 固定・driver 接続継続」(配置通知ではなく進捗・記帳のみ)**: 2264 受領・Delta 777/F8.240。P 最終 655,812 B/97f2523d…・C 最終 628,063 B/503365d5… を TEMP 固定(根拠 root 票 root-v8-final-PC-source-registration-v1.json 4,046 B/c4f36b2f…)・全他 raw/C4/37 数学保持・実行 0。P 全 consumer 採用票 5,473 B/cf415d16…。C 公開 telemetry 6 箇所を実 10 行/20 親へ訂正(source 不変)。WF v3 の独立別読は marker と「早すぎる検査済み記載」を修理済み・driver は native 11/current 13/registry 6 領域まで保存し旧自己 header key の残留を修理・残る final/cost/第 7 群/metrics と最終 full registry を処理中。最終 4 source の pin/別読/marker-name の配置通知は後続・notify-and-go。A0 actual 0/1・verified=false 維持。工房照合: P/C 最終 source は repo 未配置(TEMP 固定・工房 pin 照合は配置後)・登録 root 票 repo 未着。工房裁定: 記帳・配置通知待ち継続(配置後に 4 path pin 再計測 + workflows API 登録確認)。
