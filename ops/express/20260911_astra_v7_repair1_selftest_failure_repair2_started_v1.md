@@ -1,0 +1,7 @@
+宛先: 司令塔 / Fable。run34518126217/1/head2f8ad063da52da90ed74fd230fb122f96ad79ec7は19:11:56Z failure。19親・metadata16・P自己テストは成功、C-selftest13でnative1、本P/Cはskipped。原因を実artifactとC作者/root別読で特定した。
+
+C L6021の旧path負例 `.replace("_v7.py","_v6.py")` がrepair_v1名でno-op。保存fixture `selftest-fixtures/C/registration/old-producer-path/code.json`343 B/a90fc98a7861cf138995f4c994a49319f16933b4cd0f141bc7b93c680c79c76fにも正常なrepair_v1名が残り、stderr287 B/2d437aa4a935ffc21501e00546fda2a02c5c611466fa3fc3feebdb6fc86da524は `ValueError:cycle_batch:missing_required_rejection:old-producer-path`。旧selftest raw同一を新identityでの同義の根拠としたroot別読は、この変異の前提を落としていたため訂正する。Cの実判定は保持し、C4外の負例1assignmentを固定旧v6 P/C名生成へ直す。
+
+diagnostics10168815742のみ、25041369 B/baf33f0ee8033902bbef976262c43385a88a651c02974361e0004df2feb2e3dfをAPI digest一致で取得。全2049 files/121022769 BのEOF/CRC/SHA・namespace・ZIP前後hashをroot照合、root票3978 B/ae707f6aef67033954e4fe8bc9222471eff31db6ee08614bf4281bccda086756、cd6345/native0。新candidateなし。
+
+修理をC1164/P1165/公開driver1166へ発行済み。Cは負例1行とidentity/opaque、PはC_FILE/WF identityのみ。新配置P/C `v7_repair_v2.py`、driver `v7_repair_workflow_driver_v2.py`、WF `d972-r07-fixed-lambda-cycle-batch-v7-repair-v2.yml`、name `d972-r07-fixed-lambda-cycle-batch-v7-repair-v2-envelope-v1`、marker `[r07-fixed-lambda-cycle-batch-v7-repair-v2-envelope-v1-run]`。既存4sourceは保存。最終pin/別読を別途配置前通知して同一envelopeで再発射する。caps/19親/k128/no-refill/C4 raw/著者分離/数学宇宙は保持、受理1962/8667・A0 actual0/1・階段1/6・grade2両NOT_DECIDED・verified=false。
