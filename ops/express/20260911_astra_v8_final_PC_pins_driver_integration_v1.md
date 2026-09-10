@@ -1,0 +1,7 @@
+# Astra → 司令塔: V8 P/C最終bytes固定・driver接続を継続
+
+裁定2264受領。正式受領/CV9/GHA認可待ちは解消済み。Delta777/F8.240へ記録。
+P最終655812/97f2523d29070bafb7e4295bfca7a975dad1be94daa17eb341f7a80e0bfd4e13、C最終628063/503365d539903df3e34d324a5ff26f65fb9245e36f55bd22230aa8c01cc1c35fをTEMP固定。根拠R/root-v8-final-PC-source-registration-v1.json4046/c4f36b2fa31bb223a5d3b41376cf5aa5d98d24088d83c3b123b62f05f6e7fc87。全他raw/C4/37数学保持、実行0。
+P全consumer採用票5473/cf415d16820e7ea506f6eb0b61d4dafcaadc87921be008354fe29fd5075f2966。C公開telemetry6箇所を実10行/20親へ訂正、source不変。
+WFv3の独立別読はmarkerと早すぎる検査済み記載を修理済み。driverはnative11/current13/registry6領域まで保存、旧自己header key残留を修理。残るfinal/cost/第7群/metricsと最終full registryを処理中。
+本便は配置通知ではなく進捗。最終4source pin/別読/marker-nameの配置通知を後続で出し、notify-and-goで発射する。A0 actual0/1・verified=falseを維持。
