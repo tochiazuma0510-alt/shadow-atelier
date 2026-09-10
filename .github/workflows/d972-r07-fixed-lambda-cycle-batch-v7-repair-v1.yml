@@ -1,0 +1,503 @@
+# Task1160: same-parent logical-v7 repair envelope; actual repair sources bound.
+name: d972-r07-fixed-lambda-cycle-batch-v7-repair-v1-envelope-v1
+
+on:
+  push:
+    branches:
+      - sol/r07-explicit-lift-20260825
+    paths:
+      - .github/workflows/d972-r07-fixed-lambda-cycle-batch-v7-repair-v1.yml
+      - search/d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py
+      - search/d972_r07_fixed_lambda_cycle_batch_v7_repair_workflow_driver_v1.py
+      - search/check_d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+env:
+  REPOSITORY_ID: "1312092366"
+  P1_RUN: "33851744070"
+  P1_ATTEMPT: "1"
+  P1_HEAD: "6673eb2ea15ca6022acc2ddc5a8a204a0380172f"
+  P1_WORKFLOW: ".github/workflows/d972-r07-canonical-p1-dag-degree2-lift-v9.yml"
+  P1_ARTIFACT_ID: "9931437113"
+  P1_ARTIFACT_NAME: "task809-canonical-p1-degree2-lift-v9-33851744070-1"
+  P1_ARCHIVE_BYTES: "641518300"
+  P1_ARCHIVE_DIGEST: "sha256:6d6f2ec6eb7f1245b8e7d52645c710ecd519ae0cc442340237d1098c7fa63d5c"
+  TASK554_RUN: "33677346616"
+  TASK554_ATTEMPT: "1"
+  TASK554_HEAD: "22c6dddb43d107c05e65f53ad898823ae8ebe276"
+  TASK554_WORKFLOW: ".github/workflows/d972-r07-a0-first-rung-grade1-v3.yml"
+  TASK554_PREP_ID: "9865061266"
+  TASK554_PREP_NAME: "task554-grade1-v3-prepare-33677346616-1"
+  TASK554_PREP_BYTES: "204360988"
+  TASK554_PREP_DIGEST: "sha256:da8bfec6a03cac65de40ba8c4f79cde687fd2629edb3c3965fd972ecf96cc2f4"
+  TASK554_B0_ID: "9865238399"
+  TASK554_B0_NAME: "task554-grade1-v3-state-block-0-33677346616-1"
+  TASK554_B0_BYTES: "81729645"
+  TASK554_B0_DIGEST: "sha256:2a8e63a4270bf4052c7fd8763d7828fc17dd6b94c88854bacde1e94082cd5838"
+  TASK554_B1_ID: "9865242284"
+  TASK554_B1_NAME: "task554-grade1-v3-state-block-1-33677346616-1"
+  TASK554_B1_BYTES: "82259824"
+  TASK554_B1_DIGEST: "sha256:849321b79f0e3ea3c9a3f9c9dad43de2b3aaa571163456abc702476e322714fb"
+  TASK554_B2_ID: "9865193269"
+  TASK554_B2_NAME: "task554-grade1-v3-state-block-2-33677346616-1"
+  TASK554_B2_BYTES: "82200189"
+  TASK554_B2_DIGEST: "sha256:d2cdf8245d58a384bebfd516135e07930fe26c21c2c1cab130dfa6c3c7f2854d"
+  TASK554_B3_ID: "9865239848"
+  TASK554_B3_NAME: "task554-grade1-v3-state-block-3-33677346616-1"
+  TASK554_B3_BYTES: "82266526"
+  TASK554_B3_DIGEST: "sha256:87547101ede2fb48619a069de958c08cbb3cb0ee6c0990090234005aacd05b92"
+  TASK712_RUN: "33814194630"
+  TASK712_ATTEMPT: "1"
+  TASK712_HEAD: "5ff2c5a30b604536df12acba8801828a5a7e5fe0"
+  TASK712_WORKFLOW: ".github/workflows/d972-r07-grade2-maps-v4.yml"
+  TASK712_ARTIFACT_ID: "9915928157"
+  TASK712_ARTIFACT_NAME: "d972-r07-grade2-maps-v4-33814194630-1"
+  TASK712_ARCHIVE_BYTES: "22404961"
+  TASK712_ARCHIVE_DIGEST: "sha256:abedff074117bb779675021e9436c3a9973c577e247fe76a8314a2d4312ea858"
+  SEPARATOR_RUN: "33891714539"
+  SEPARATOR_ATTEMPT: "1"
+  SEPARATOR_HEAD: "7b7b9de20faaa3b8f26e331bb738b374f6f5708c"
+  SEPARATOR_WORKFLOW: ".github/workflows/d972-r07-grade2-physical-state-separator-v2.yml"
+  SEPARATOR_ARTIFACT_ID: "9944214057"
+  SEPARATOR_ARTIFACT_NAME: "d972-r07-grade2-physical-state-separator-v2-candidate-33891714539-1"
+  SEPARATOR_ARCHIVE_BYTES: "107195261"
+  SEPARATOR_ARCHIVE_DIGEST: "sha256:2d91e2e94ab7eb235805eb0f7c04ff87edef3954460d686f047d8abcfa99c017"
+  DELTA_RUN: "33946247365"
+  DELTA_ATTEMPT: "1"
+  DELTA_HEAD: "7f6dfaddf4150449e62a9b3e85def472fcb41c01"
+  DELTA_WORKFLOW: ".github/workflows/d972-r07-actual-seed30-materializer-v1.yml"
+  DELTA_ARTIFACT_ID: "9963533999"
+  DELTA_ARTIFACT_NAME: "d972-r07-actual-seed30-materializer-v1-candidate-33946247365-1"
+  DELTA_ARCHIVE_BYTES: "915410"
+  DELTA_ARCHIVE_DIGEST: "sha256:f9627416f0e920fa369f6bc6bb9bffa8c6b15674c0fb7ff37bbebaf77991ace6"
+  SEED34_RUN: "33956437467"
+  SEED34_ATTEMPT: "1"
+  SEED34_HEAD: "b9ae78b0950b186463849c3ec874f6474f359851"
+  SEED34_WORKFLOW: ".github/workflows/d972-r07-actual-root-seed-materializer-v3.yml"
+  SEED34_ARTIFACT_ID: "9966542166"
+  SEED34_ARTIFACT_NAME: "d972-r07-actual-root-seed-materializer-v3-candidate-33956437467-1"
+  SEED34_ARCHIVE_BYTES: "984053"
+  SEED34_ARCHIVE_DIGEST: "sha256:a4cb9f63a470636628d9ef02a5b5e55d90fe3b0a2c70f2012d32c9517d87defc"
+  PACKET_RUN: "33964709359"
+  PACKET_ATTEMPT: "1"
+  PACKET_HEAD: "fff114c41bd8748ad0e708919fe0820335c9cce8"
+  PACKET_WORKFLOW: ".github/workflows/d972-r07-fixed-root-packet-loop-v2.yml"
+  PACKET_ARTIFACT_ID: "9969090590"
+  PACKET_ARTIFACT_NAME: "d972-r07-fixed-root-packet-loop-v2-candidate-33964709359-1"
+  PACKET_ARCHIVE_BYTES: "1855391"
+  PACKET_ARCHIVE_DIGEST: "sha256:b15b07150d23a1a291fff387f23c8c13cf3ab5ada2b5f95f2a886b0bdf44a428"
+  REFINEMENT_RUN: "33971897879"
+  REFINEMENT_ATTEMPT: "1"
+  REFINEMENT_HEAD: "64475e1dfab1537a38d1b3131971bfed5fc3071c"
+  REFINEMENT_WORKFLOW: ".github/workflows/d972-r07-full-origin-checker-completion-v1.yml"
+  REFINEMENT_ARTIFACT_ID: "9971466432"
+  REFINEMENT_ARTIFACT_NAME: "d972-r07-full-origin-checker-completion-v1-candidate-33971897879-1"
+  REFINEMENT_ARCHIVE_BYTES: "51943596"
+  REFINEMENT_ARCHIVE_DIGEST: "sha256:0d4af3475ca62da1d7436246bd36109d380e0a463a713de1c1e3db69f90c9db8"
+  ORACLE_RUN: "33977701313"
+  ORACLE_ATTEMPT: "1"
+  ORACLE_HEAD: "bbce98d8f95a845f36fe89c0f507b9360792666f"
+  ORACLE_WORKFLOW: ".github/workflows/d972-r07-section-cochain-checker-completion-v1.yml"
+  ORACLE_ARTIFACT_ID: "9972829869"
+  ORACLE_ARTIFACT_NAME: "d972-r07-section-cochain-checker-completion-v1-candidate-33977701313-1"
+  ORACLE_ARCHIVE_BYTES: "2299772"
+  ORACLE_ARCHIVE_DIGEST: "sha256:1a5c8800af563493b95dd4166d20c2fe1b74449f5f7f15aa99278d9b1c1b878d"
+  E_RUN: "33981657987"
+  E_ATTEMPT: "1"
+  E_HEAD: "444c71c9e554ae8feb9c8ee54df57d3df19ed66f"
+  E_WORKFLOW: ".github/workflows/d972-r07-selected-cycle-materializer-v1.yml"
+  E_ARTIFACT_ID: "9973974150"
+  E_ARTIFACT_NAME: "d972-r07-selected-cycle-materializer-v1-candidate-33981657987-1"
+  E_ARCHIVE_BYTES: "2816692"
+  E_ARCHIVE_DIGEST: "sha256:884c039737cae9673c9e1d871c30713456c993b97f16a557e9c8c24078537f25"
+  CONTINUATION_RUN: "33990567016"
+  CONTINUATION_ATTEMPT: "1"
+  CONTINUATION_HEAD: "c57c976c6ba4a9d57c2bd3c7de2a09b0d3cedd70"
+  CONTINUATION_WORKFLOW: ".github/workflows/d972-r07-complete-oracle-cegar-resume64-v1.yml"
+  CONTINUATION_ARTIFACT_ID: "9977040548"
+  CONTINUATION_ARTIFACT_NAME: "d972-r07-complete-oracle-cegar-resume64-v1-candidate-33990567016-1"
+  CONTINUATION_ARCHIVE_BYTES: "304642285"
+  CONTINUATION_ARCHIVE_DIGEST: "sha256:a7ecd56dba33e35475d72486497b125fe983f4fb00a4fa91be813388373f5792"
+  BATCH_PARENT_RUN: "34023589045"
+  BATCH_PARENT_ATTEMPT: "1"
+  BATCH_PARENT_HEAD: "794c5e9f883cb5ff21b2ee087c1d4baa84ac6760"
+  BATCH_PARENT_WORKFLOW: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v3.yml"
+  BATCH_PARENT_ARTIFACT_ID: "9987222571"
+  BATCH_PARENT_ARTIFACT_NAME: "d972-r07-fixed-lambda-cycle-batch-v3-candidate-34023589045-1"
+  BATCH_PARENT_ARCHIVE_BYTES: "369233546"
+  BATCH_PARENT_ARCHIVE_DIGEST: "sha256:781c9f467bd38305c524a0a2bf5b361f45e75bc4234d9cf6e891e01175db9e2e"
+  NEXT_BATCH_PARENT_RUN: "34120585268"
+  NEXT_BATCH_PARENT_ATTEMPT: "1"
+  NEXT_BATCH_PARENT_HEAD: "92720e5371164545259c3007cb11e951fa5e1686"
+  NEXT_BATCH_PARENT_WORKFLOW: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v4.yml"
+  NEXT_BATCH_PARENT_ARTIFACT_ID: "10020349387"
+  NEXT_BATCH_PARENT_ARTIFACT_NAME: "d972-r07-fixed-lambda-cycle-batch-v4-candidate-34120585268-1"
+  NEXT_BATCH_PARENT_ARCHIVE_BYTES: "377383320"
+  NEXT_BATCH_PARENT_ARCHIVE_DIGEST: "sha256:84040119b08d4ee1e9a3b4524618164172f382f9a97314084131bb9fd0a3cac5"
+  BATCH_PARENT_V5_RUN: "34161493396"
+  BATCH_PARENT_V5_ATTEMPT: "1"
+  BATCH_PARENT_V5_HEAD: "a5b456a973f8a917f3af386d327061a02a0cf900"
+  BATCH_PARENT_V5_WORKFLOW: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v5.yml"
+  BATCH_PARENT_V5_ARTIFACT_ID: "10034053256"
+  BATCH_PARENT_V5_ARTIFACT_NAME: "d972-r07-fixed-lambda-cycle-batch-v5-candidate-34161493396-1"
+  BATCH_PARENT_V5_ARCHIVE_BYTES: "384961441"
+  BATCH_PARENT_V5_ARCHIVE_DIGEST: "sha256:72e19a87e3a4ca06daa3b1b9dc8a16e76778e6ce1d6bd3a57b25acea363602db"
+  BATCH_PARENT_V6_RUN: "34416548935"
+  BATCH_PARENT_V6_ATTEMPT: "1"
+  BATCH_PARENT_V6_HEAD: "866c87eaec6bca55d2578906c0f338cb34582373"
+  BATCH_PARENT_V6_WORKFLOW: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v6.yml"
+  BATCH_PARENT_V6_ARTIFACT_ID: "10131122423"
+  BATCH_PARENT_V6_ARTIFACT_NAME: "d972-r07-fixed-lambda-cycle-batch-v6-candidate-34416548935-1"
+  BATCH_PARENT_V6_ARCHIVE_BYTES: "393848401"
+  BATCH_PARENT_V6_ARCHIVE_DIGEST: "sha256:f00b171ee9c5dfec53aef2b502c8adc1bf4458c689fbad3606d47bfca6e71545"
+  PUBLIC_V7_FINAL_BINDING_READY: "true"
+  PRODUCER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py"
+  PRODUCER_BYTES: "552885"
+  PRODUCER_SHA256: "84d257701b1749804b2a4613283b7aab67f2cf14e53f11aa51cf9d3f3ddd82e5"
+  CHECKER_FILE: "search/check_d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py"
+  CHECKER_BYTES: "525657"
+  CHECKER_SHA256: "ccd572ee1f0cd2504521526fbfbf830a95197d99044870cf19c7a6cc0ffb67a7"
+  EXPECTED_PYTHON: "3.13.15 (main, Aug  6 2026, 02:15:18) [GCC 13.3.0]"
+  EXPECTED_NUMPY: "2.5.1"
+  WF_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v7-repair-v1.yml"
+  WORKFLOW_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v7_repair_workflow_driver_v1.py"
+  WORKFLOW_DRIVER_BYTES: "4457032"
+  WORKFLOW_DRIVER_SHA256: "786b012cb93f96a124c0aaf51f1a34e18ab1a787ec0729d7e30702d31912137a"
+  WORKFLOW_HISTORY_FILE: "ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v1.yml"
+  WORKFLOW_HISTORY_BYTES: "599085"
+  WORKFLOW_HISTORY_SHA256: "e22c225a3f8706b648543c260b3ba603f6b6620cdcfadcdf573199b0f4f339f4"
+  WORKFLOW_PREVIOUS_FILE: "ops/workflow_versions/d972-r07-fixed-lambda-cycle-batch-v4-envelope-v2.yml"
+  WORKFLOW_PREVIOUS_BYTES: "20296"
+  WORKFLOW_PREVIOUS_SHA256: "c8dc698160b41a21e338cc5a099f4e4abb51a369247a48fbfbd17c907dd02623"
+  WORKFLOW_PARENT_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v4.yml"
+  WORKFLOW_PARENT_BYTES: "22153"
+  WORKFLOW_PARENT_SHA256: "56a8349fd54b16d63da9de2c4762ed04328ef1373f65af45c46019e745a1859b"
+  WORKFLOW_PARENT_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v4_workflow_driver_v2.py"
+  WORKFLOW_PARENT_DRIVER_BYTES: "536145"
+  WORKFLOW_PARENT_DRIVER_SHA256: "35f73f5d1b8b519a69773690db8f8e514b3cc1d2792cc595ecdc0b92dede7a0c"
+  PYTHONDONTWRITEBYTECODE: "1"
+  PYTHONUNBUFFERED: "1"
+
+  WORKFLOW_PARENT_V5_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v5.yml"
+  WORKFLOW_PARENT_V5_BYTES: "26294"
+  WORKFLOW_PARENT_V5_SHA256: "3102f115c0d59d69d7ecc0b3941588b7fab5181e961b6399126a4e2516c4e969"
+  WORKFLOW_PARENT_V5_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v5_workflow_driver_v3.py"
+  WORKFLOW_PARENT_V5_DRIVER_BYTES: "1145223"
+  WORKFLOW_PARENT_V5_DRIVER_SHA256: "f1b50bc529f08ad8654d775e2fce652334dfa8b325d3d2bcc27286aa09cb3f98"
+  WORKFLOW_PARENT_V6_FILE: ".github/workflows/d972-r07-fixed-lambda-cycle-batch-v6.yml"
+  WORKFLOW_PARENT_V6_BYTES: "30603"
+  WORKFLOW_PARENT_V6_SHA256: "c02e1e391f99fbad59b5f91ccd5fb88d6b1f2a3f494bfe6e1006f75113115115"
+  WORKFLOW_PARENT_V6_DRIVER_FILE: "search/d972_r07_fixed_lambda_cycle_batch_v6_workflow_driver_v1.py"
+  WORKFLOW_PARENT_V6_DRIVER_BYTES: "2281118"
+  WORKFLOW_PARENT_V6_DRIVER_SHA256: "88af646a3ac524c75efb777ebdb5fcfb3391b03f652bb6ae518acac74ceccfc6"
+
+jobs:
+  fixed-lambda-batch:
+    if: ${{ github.ref == 'refs/heads/sol/r07-explicit-lift-20260825' && (github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[r07-fixed-lambda-cycle-batch-v7-repair-v1-envelope-v1-run]')) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13.15'
+      - name: Authenticate the frozen driver and archive before raw placement
+        id: bootstrap
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/fixed-lambda-batch-v7"
+          inputs="$RUNNER_TEMP/fixed-lambda-batch-v7-inputs"
+          test ! -e "$report"
+          test ! -L "$report"
+          test ! -e "$inputs"
+          test ! -L "$inputs"
+          mkdir "$report" "$inputs"
+          exec > "$report/driver-bootstrap-stdout.log" 2> "$report/driver-bootstrap-stderr.log"
+          trap 'code=$?; printf "%s\n" "$code" > "$report/driver-bootstrap-exit-code.txt"; exit "$code"' EXIT
+          test "$PUBLIC_V7_FINAL_BINDING_READY" = "true"
+          workflow="$GITHUB_WORKSPACE/$WF_FILE"
+          source="$GITHUB_WORKSPACE/$WORKFLOW_DRIVER_FILE"
+          history="$GITHUB_WORKSPACE/$WORKFLOW_HISTORY_FILE"
+          previous="$GITHUB_WORKSPACE/$WORKFLOW_PREVIOUS_FILE"
+          parent_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_FILE"
+          parent_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_DRIVER_FILE"
+          parent_v5_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V5_FILE"
+          parent_v6_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V6_FILE"
+          parent_v5_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V5_DRIVER_FILE"
+          parent_v6_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V6_DRIVER_FILE"
+          test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/$WF_FILE@$GITHUB_REF"
+          for directory in "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/search" "$GITHUB_WORKSPACE/.github" "$GITHUB_WORKSPACE/.github/workflows" "$GITHUB_WORKSPACE/ops" "$GITHUB_WORKSPACE/ops/workflow_versions"; do
+            test -d "$directory"
+            test ! -L "$directory"
+          done
+          for file in "$workflow" "$source" "$history" "$previous" "$parent_workflow" "$parent_driver" "$parent_v5_workflow" "$parent_v6_workflow" "$parent_v5_driver" "$parent_v6_driver"; do
+            test -f "$file"
+            test ! -L "$file"
+          done
+          workflow_bytes="$(stat -c '%s' -- "$workflow")"
+          test "$workflow_bytes" -lt 500000
+          test "$(stat -c '%s' -- "$source")" = "$WORKFLOW_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$history")" = "$WORKFLOW_HISTORY_BYTES"
+          test "$(stat -c '%s' -- "$previous")" = "$WORKFLOW_PREVIOUS_BYTES"
+          test "$(stat -c '%s' -- "$parent_workflow")" = "$WORKFLOW_PARENT_BYTES"
+          test "$(stat -c '%s' -- "$parent_driver")" = "$WORKFLOW_PARENT_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$parent_v5_workflow")" = "$WORKFLOW_PARENT_V5_BYTES"
+          test "$(stat -c '%s' -- "$parent_v6_workflow")" = "$WORKFLOW_PARENT_V6_BYTES"
+          test "$(stat -c '%s' -- "$parent_v5_driver")" = "$WORKFLOW_PARENT_V5_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$parent_v6_driver")" = "$WORKFLOW_PARENT_V6_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_SHA256" "$parent_v5_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_SHA256" "$parent_v6_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_DRIVER_SHA256" "$parent_v5_driver" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_DRIVER_SHA256" "$parent_v6_driver" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_SHA256" "$parent_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_DRIVER_SHA256" "$parent_driver" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$source" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$history" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$previous" | sha256sum --check --strict -
+          set -o noclobber
+          cat -- "$source" > "$report/driver.py"
+          cat -- "$history" > "$report/workflow-envelope-v1.yml"
+          cat -- "$previous" > "$report/workflow-envelope-v2.yml"
+          cat -- "$parent_workflow" > "$report/workflow-parent-v4.yml"
+          cat -- "$parent_driver" > "$report/workflow-parent-v4-driver.py"
+          cat -- "$parent_v5_workflow" > "$report/workflow-parent-v5.yml"
+          cat -- "$parent_v6_workflow" > "$report/workflow-parent-v6.yml"
+          cat -- "$parent_v5_driver" > "$report/workflow-parent-v5-driver.py"
+          cat -- "$parent_v6_driver" > "$report/workflow-parent-v6-driver.py"
+          set +o noclobber
+          for file in "$report/driver.py" "$report/workflow-envelope-v1.yml" "$report/workflow-envelope-v2.yml" "$report/workflow-parent-v4.yml" "$report/workflow-parent-v4-driver.py" "$report/workflow-parent-v5.yml" "$report/workflow-parent-v6.yml" "$report/workflow-parent-v5-driver.py" "$report/workflow-parent-v6-driver.py"; do
+            test -f "$file"
+            test ! -L "$file"
+          done
+          test "$(stat -c '%s' -- "$report/driver.py")" = "$WORKFLOW_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-envelope-v1.yml")" = "$WORKFLOW_HISTORY_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-envelope-v2.yml")" = "$WORKFLOW_PREVIOUS_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$report/driver.py" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$report/workflow-envelope-v1.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$report/workflow-envelope-v2.yml" | sha256sum --check --strict -
+          cmp -- "$source" "$report/driver.py"
+          cmp -- "$history" "$report/workflow-envelope-v1.yml"
+          cmp -- "$previous" "$report/workflow-envelope-v2.yml"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v4.yml")" = "$WORKFLOW_PARENT_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v4-driver.py")" = "$WORKFLOW_PARENT_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_SHA256" "$report/workflow-parent-v4.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_DRIVER_SHA256" "$report/workflow-parent-v4-driver.py" | sha256sum --check --strict -
+          cmp -- "$parent_workflow" "$report/workflow-parent-v4.yml"
+          cmp -- "$parent_driver" "$report/workflow-parent-v4-driver.py"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v5.yml")" = "$WORKFLOW_PARENT_V5_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v6.yml")" = "$WORKFLOW_PARENT_V6_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v5-driver.py")" = "$WORKFLOW_PARENT_V5_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v6-driver.py")" = "$WORKFLOW_PARENT_V6_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_SHA256" "$report/workflow-parent-v5.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_SHA256" "$report/workflow-parent-v6.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_DRIVER_SHA256" "$report/workflow-parent-v5-driver.py" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_DRIVER_SHA256" "$report/workflow-parent-v6-driver.py" | sha256sum --check --strict -
+          cmp -- "$parent_v5_workflow" "$report/workflow-parent-v5.yml"
+          cmp -- "$parent_v6_workflow" "$report/workflow-parent-v6.yml"
+          cmp -- "$parent_v5_driver" "$report/workflow-parent-v5-driver.py"
+          cmp -- "$parent_v6_driver" "$report/workflow-parent-v6-driver.py"
+          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$previous" "$report/workflow-envelope-v2.yml" "$parent_workflow" "$report/workflow-parent-v4.yml" "$parent_driver" "$report/workflow-parent-v4-driver.py" "$parent_v5_workflow" "$report/workflow-parent-v5.yml" "$parent_v5_driver" "$report/workflow-parent-v5-driver.py" "$parent_v6_workflow" "$report/workflow-parent-v6.yml" "$parent_v6_driver" "$report/workflow-parent-v6-driver.py" "$workflow" > "$report/driver-placement-before.sha256"
+          {
+            printf 'schema=task1149.driver-placement.v1\nstatus=PASS\n'
+            printf 'checkout_commit=%s\nworkflow_ref=%s\nworkflow_file=%s\nworkflow_bytes=%s\nworkflow_limit_exclusive=500000\n' "$GITHUB_SHA" "$GITHUB_WORKFLOW_REF" "$WF_FILE" "$workflow_bytes"
+            printf 'driver_repo_file=%s\ndriver_report_file=driver.py\ndriver_bytes=%s\ndriver_sha256=%s\n' "$WORKFLOW_DRIVER_FILE" "$WORKFLOW_DRIVER_BYTES" "$WORKFLOW_DRIVER_SHA256"
+            printf 'history_repo_file=%s\nhistory_report_file=workflow-envelope-v1.yml\nhistory_bytes=%s\nhistory_sha256=%s\n' "$WORKFLOW_HISTORY_FILE" "$WORKFLOW_HISTORY_BYTES" "$WORKFLOW_HISTORY_SHA256"
+            printf 'previous_repo_file=%s\nprevious_report_file=workflow-envelope-v2.yml\nprevious_bytes=%s\nprevious_sha256=%s\n' "$WORKFLOW_PREVIOUS_FILE" "$WORKFLOW_PREVIOUS_BYTES" "$WORKFLOW_PREVIOUS_SHA256"
+            printf 'driver_raw_copy_equal=true\nhistory_raw_copy_equal=true\nprevious_raw_copy_equal=true\nnew_v7_sources_and_current_registry_registered=true\nold_v4_workflow_and_driver_raw_copies_equal=true\nold_v5_workflow_and_driver_raw_copies_equal=true\nold_v6_workflow_and_driver_raw_copies_equal=true\nretained_dependency_pins_unchanged=true\nmathematical_execution_performed=false\n'
+          } > "$report/driver-placement-before.txt"
+      - name: Preserve all source and raw bytes before runtime or parent admission
+        id: capture
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" capture
+      - name: Install the exact accepted numerical runtime
+        shell: bash
+        run: python -m pip install --disable-pip-version-check 'numpy==2.5.1'
+      - name: Save all 21 executable and 3 raw sources and authenticate their exact runtime
+        id: source
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" source
+      - name: Authenticate registered raw source regions and record arithmetic inheritance and shared TCB
+        id: audit
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" audit
+      - name: Authenticate all 19 live parent tuples and preserve every ZIP entry
+        id: live
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" live
+      - name: Bind original64 and native v3/v4/v5/v6 batches in the exact ten-key acceptance
+        id: intake
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" intake
+      - name: Rerun the 16 metadata admission cases for the changed registration and REPORT
+        id: metadata
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" execute metadata
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" test-gate metadata
+      - name: Run producer two literal groups and registered parent metadata groups once
+        id: ptest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" execute producer-selftest
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" test-gate producer-selftest
+      - name: Run independent checker two literal groups and registered parent metadata groups once
+        id: ctest
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" execute checker-selftest
+          python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" test-gate checker-selftest
+      - name: Run one fresh fixed-lambda batch with 128 selected candidates at most
+        id: producer
+        continue-on-error: true
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" execute producer
+      - name: Freeze every producer output byte before any checker invocation
+        id: baseline
+        if: ${{ always() && steps.bootstrap.outcome == 'success' && steps.producer.outcome != 'skipped' }}
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" post-producer
+      - name: Independently compare the entire saved new selection and candidate prefix once
+        id: checker
+        if: ${{ always() && steps.bootstrap.outcome == 'success' && steps.baseline.outcome == 'success' && steps.baseline.outputs.checker == 'true' && steps.metadata.outcome == 'success' && steps.ptest.outcome == 'success' && steps.ctest.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" execute checker
+      - name: Always record parent caller intervals and account for every original stderr byte
+        id: parent_timing
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" parent-timing
+      - name: Always record the separate P residual, C total and parent-layer cost context
+        id: cost
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" cost
+      - name: Always archive and reread every fixture file and explicit directory entry
+        id: fixtures
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: timeout --signal=TERM --kill-after=30s 360s python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" fixtures
+      - name: Always preserve and compare all parents, source, intake and producer output
+        id: preserve
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
+        continue-on-error: true
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" preserve
+      - name: Always recheck checkout driver archive and copied raw bytes
+        id: envelope
+        if: ${{ always() && steps.bootstrap.outcome == 'success' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          report="$RUNNER_TEMP/fixed-lambda-batch-v7"
+          test -d "$report"
+          test ! -L "$report"
+          exec > "$report/driver-placement-after-stdout.log" 2> "$report/driver-placement-after-stderr.log"
+          trap 'code=$?; printf "schema=task1149.driver-placement-after.v1\nexit_code=%s\nmathematical_execution_performed=false\n" "$code" > "$report/driver-placement-after.txt"; exit "$code"' EXIT
+          workflow="$GITHUB_WORKSPACE/$WF_FILE"
+          source="$GITHUB_WORKSPACE/$WORKFLOW_DRIVER_FILE"
+          history="$GITHUB_WORKSPACE/$WORKFLOW_HISTORY_FILE"
+          previous="$GITHUB_WORKSPACE/$WORKFLOW_PREVIOUS_FILE"
+          parent_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_FILE"
+          parent_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_DRIVER_FILE"
+          parent_v5_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V5_FILE"
+          parent_v6_workflow="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V6_FILE"
+          parent_v5_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V5_DRIVER_FILE"
+          parent_v6_driver="$GITHUB_WORKSPACE/$WORKFLOW_PARENT_V6_DRIVER_FILE"
+          test "$GITHUB_WORKFLOW_REF" = "$GITHUB_REPOSITORY/$WF_FILE@$GITHUB_REF"
+          for directory in "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/search" "$GITHUB_WORKSPACE/.github" "$GITHUB_WORKSPACE/.github/workflows" "$GITHUB_WORKSPACE/ops" "$GITHUB_WORKSPACE/ops/workflow_versions"; do
+            test -d "$directory"
+            test ! -L "$directory"
+          done
+          for file in "$workflow" "$source" "$history" "$previous" "$report/driver.py" "$report/workflow-envelope-v1.yml" "$report/workflow-envelope-v2.yml" "$parent_workflow" "$parent_driver" "$report/workflow-parent-v4.yml" "$report/workflow-parent-v4-driver.py" "$parent_v5_workflow" "$parent_v6_workflow" "$parent_v5_driver" "$parent_v6_driver" "$report/workflow-parent-v5.yml" "$report/workflow-parent-v6.yml" "$report/workflow-parent-v5-driver.py" "$report/workflow-parent-v6-driver.py" "$report/driver-bootstrap-exit-code.txt" "$report/driver-placement-before.sha256" "$report/driver-placement-before.txt"; do
+            test -f "$file"
+            test ! -L "$file"
+          done
+          test "$(cat -- "$report/driver-bootstrap-exit-code.txt")" = '0'
+          test "$(stat -c '%s' -- "$workflow")" -lt 500000
+          test "$(stat -c '%s' -- "$source")" = "$WORKFLOW_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$report/driver.py")" = "$WORKFLOW_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$history")" = "$WORKFLOW_HISTORY_BYTES"
+          test "$(stat -c '%s' -- "$previous")" = "$WORKFLOW_PREVIOUS_BYTES"
+          test "$(stat -c '%s' -- "$parent_workflow")" = "$WORKFLOW_PARENT_BYTES"
+          test "$(stat -c '%s' -- "$parent_driver")" = "$WORKFLOW_PARENT_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$parent_v5_workflow")" = "$WORKFLOW_PARENT_V5_BYTES"
+          test "$(stat -c '%s' -- "$parent_v6_workflow")" = "$WORKFLOW_PARENT_V6_BYTES"
+          test "$(stat -c '%s' -- "$parent_v5_driver")" = "$WORKFLOW_PARENT_V5_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$parent_v6_driver")" = "$WORKFLOW_PARENT_V6_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_SHA256" "$parent_v5_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_SHA256" "$parent_v6_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_DRIVER_SHA256" "$parent_v5_driver" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_DRIVER_SHA256" "$parent_v6_driver" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_SHA256" "$parent_workflow" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_DRIVER_SHA256" "$parent_driver" | sha256sum --check --strict -
+          test "$(stat -c '%s' -- "$report/workflow-envelope-v1.yml")" = "$WORKFLOW_HISTORY_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-envelope-v2.yml")" = "$WORKFLOW_PREVIOUS_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$source" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_DRIVER_SHA256" "$report/driver.py" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$history" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$previous" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_HISTORY_SHA256" "$report/workflow-envelope-v1.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PREVIOUS_SHA256" "$report/workflow-envelope-v2.yml" | sha256sum --check --strict -
+          cmp -- "$source" "$report/driver.py"
+          cmp -- "$history" "$report/workflow-envelope-v1.yml"
+          cmp -- "$previous" "$report/workflow-envelope-v2.yml"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v4.yml")" = "$WORKFLOW_PARENT_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v4-driver.py")" = "$WORKFLOW_PARENT_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_SHA256" "$report/workflow-parent-v4.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_DRIVER_SHA256" "$report/workflow-parent-v4-driver.py" | sha256sum --check --strict -
+          cmp -- "$parent_workflow" "$report/workflow-parent-v4.yml"
+          cmp -- "$parent_driver" "$report/workflow-parent-v4-driver.py"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v5.yml")" = "$WORKFLOW_PARENT_V5_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v6.yml")" = "$WORKFLOW_PARENT_V6_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v5-driver.py")" = "$WORKFLOW_PARENT_V5_DRIVER_BYTES"
+          test "$(stat -c '%s' -- "$report/workflow-parent-v6-driver.py")" = "$WORKFLOW_PARENT_V6_DRIVER_BYTES"
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_SHA256" "$report/workflow-parent-v5.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_SHA256" "$report/workflow-parent-v6.yml" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V5_DRIVER_SHA256" "$report/workflow-parent-v5-driver.py" | sha256sum --check --strict -
+          printf '%s  %s\n' "$WORKFLOW_PARENT_V6_DRIVER_SHA256" "$report/workflow-parent-v6-driver.py" | sha256sum --check --strict -
+          cmp -- "$parent_v5_workflow" "$report/workflow-parent-v5.yml"
+          cmp -- "$parent_v6_workflow" "$report/workflow-parent-v6.yml"
+          cmp -- "$parent_v5_driver" "$report/workflow-parent-v5-driver.py"
+          cmp -- "$parent_v6_driver" "$report/workflow-parent-v6-driver.py"
+          sha256sum -- "$source" "$report/driver.py" "$history" "$report/workflow-envelope-v1.yml" "$previous" "$report/workflow-envelope-v2.yml" "$parent_workflow" "$report/workflow-parent-v4.yml" "$parent_driver" "$report/workflow-parent-v4-driver.py" "$parent_v5_workflow" "$report/workflow-parent-v5.yml" "$parent_v5_driver" "$report/workflow-parent-v5-driver.py" "$parent_v6_workflow" "$report/workflow-parent-v6.yml" "$parent_v6_driver" "$report/workflow-parent-v6-driver.py" "$workflow" > "$report/driver-placement-after.sha256"
+          cmp -- "$report/driver-placement-before.sha256" "$report/driver-placement-after.sha256"
+      - name: Join actual execution, complete comparison, final HEAD and all preservation gates
+        id: final
+        if: ${{ always() && steps.bootstrap.outcome == 'success' && steps.envelope.outcome == 'success' }}
+        shell: bash
+        run: python -B "$RUNNER_TEMP/fixed-lambda-batch-v7/driver.py" final
+      - name: Upload only a completely compared candidate
+        if: ${{ success() && steps.bootstrap.outcome == 'success' && steps.envelope.outcome == 'success' && steps.final.outputs.candidate == 'true' && steps.producer.outcome == 'success' && steps.checker.outcome == 'success' && steps.fixtures.outcome == 'success' && steps.preserve.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-fixed-lambda-cycle-batch-v7-repair-v1-candidate-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/fixed-lambda-batch-v7/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
+      - name: Always upload the same complete envelope including partial and hidden diagnostics
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: d972-r07-fixed-lambda-cycle-batch-v7-repair-v1-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/fixed-lambda-batch-v7/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 30
