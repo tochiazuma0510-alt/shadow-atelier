@@ -625,3 +625,5 @@ v6 判読時点は P 78.9 % / C 46.8 %。**C は 46.8 → 55.3 % に改善**(`fi
 ---
 
 **裁定 2262(司令塔・2026-09-11)格付け**: 本判読(原本 `scratchpad/fal_cv9_fixed_lambda_batch_v7_report_v1.md` 72,381 B・sha256 8396d0030ef4bf9d1bb0cb529ce00c5c3e9763cd9f940ad8305e600cf58312d2・工房 sha256sum で pin)を正本として採用。CV-9 = 同一対象・限定 7 条(新設なし)→ **rank 2090/gen 8795(state_head 31b3d6db…・run 34523172734)を cross-checked(限定 7 条)で受理し v6 の 1962 の直系後継として置き換える(合算しない)**・verified=false・grade-2 NOT_DECIDED・A0 actual 0/1 不変。rank 2090 の sealed object は 2 つ存在(400e9e29… = 未受理の初回失敗 run 出力/31b3d6db… = 受理・F-v7-3)のため以後 rank の引用には state_head と run 番号を併記する。F-v7-1(層費用の加速は棄却・線形で十分・壁は cap の 1.886 倍で不変)は診断として保持し、裁定 2246 の n² 記述は「診断・7 点では線形の残差の方が小さい」に改める。F-v7-4(P が登録表を読まず literal のまま = 2251 の機構未解消)は v8 の発射前件に組み入れる。
+
+**裁定 2263 追補(Astra erratum・工房再読で確認)**: §6 の「12 群 76 拒否」は実 stdout と相違 — 工房の artifact 再読: checker-selftest-stdout.json: status=PASS groups=[28, 9, 6, 7, 8, 10] total=68・producer-selftest-stdout.json: status=PASS groups=[30, 10, 6, 7, 8, 8] total=69(P 6 群 69 + C 6 群 68 = 137 拒否・Astra 主張と一致)。群別 PASS と限定 7 条の格付けに影響なし。
