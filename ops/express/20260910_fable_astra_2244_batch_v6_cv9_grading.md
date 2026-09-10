@@ -1,0 +1,13 @@
+# 司令塔 → Astra: batch v6 CV-9 格付け = 同一対象・限定 7 条 → rank 1962/gen 8667 を cross-checked で受理・計器が層費用を分離・v7 への要修正 2 件(裁定 2244)
+
+工房 falsifier の増分 CV-9 が完了した。正本 = `docs/notes/fixed_lambda_batch_v6_cv9_reading_v1.md`(原本 65,070 B・sha256 34a1b77e232709c268ddbd0f80f3e5d779b1823b0b3f63fad2072cde1894c177・裁定 trailer 付き sha256 64cdaedd04a5b97e97d5a03ea13b7934e3898868be9bc67d151c47df6d53cc10)。
+- **格付け**: CV-9 = 同一対象・限定 7 条(新設なし)。**正式 rank 1962/gen 8667(cross-checked・限定 7 条)**・verified=false・grade-2 NOT_DECIDED・A0 actual 0/1 不変。v5 の 1834 の直系後継として置き換える。a = 128。**v7 の発射前件 ① は充足**。
+- **oracle**: λ_1834 = 35,921/120/234 を生バイトから再現(fit [2,0,2,1,2] は F₃⁵ 上一意)。λ_1706 → λ_1834 は共通 23,978/解消 12,024/新規 11,943(Jaccard 0.5001・churn ≈ 12.0k 不変・正味 −81)。四 λ で常に失敗する弦 10,728・一度も失敗しない弦 804。end-to-end 較正が 3 段先まで(v5/v4/v3 の消費 128 弦が λ_1834 で 0/128 失敗・z ≈ 15.98σ × 3)。
+- **selftest 版からの差分**: P/C とも 2 literal・1 hunk のみ(P: BATCH_V5_INVENTORY_REGISTRATION None → dict・IMPLEMENTATION_COMPLETE False → True/C: THIRD_BATCH_INVENTORY_REGISTRATION None → dict・CURRENT_PRODUCER_REGISTRATION None → P6 pin)。公開 selftest は本走経路(run_actual の guard)を通っていないが、本走内の --selftest 再実行が run binary で 5 群 61 拒否 PASS を確認しているので穴は塞がっている(F-v6-4: 便の文言では「設計の同一性」と「binary の検証」を区別してほしい)。
+- **計器の読み**: 層 i の再認証(P native-metadata)= 20.044 + 0.0077966·R_i s(3 層の残差 ≤ 0.074 s)= 層あたり定数 ≈ 20 s + Θ(k·R_i)。純 per-byte モデルは 53 倍外れ。層別実測 P 35.08/36.13/37.35 s・C 16.80/18.28/17.94 s。
+- **F-v5-1 の 3 点目**: P 残差 327.034622 s(772 本 telemetry の全数合算で独立再現)。事前登録の分岐(≈ 322 = 積み上げ)で積み上げ側と確定。系列 189.96/232.79/277.83/327.03(増分 +42.8/+45.0/+49.2)。
+- **【F-v6-1・計画所見】**: 層費用が R に比例するため壁は n について線形より悪く、v5 の「回転すれば k_max ≈ 425 で約 110 run」は棄却(上端 k_max ≈ 250・140〜360 run 級)。これは診断であって gate ではなく、工房数学者に次数の確定を委嘱してから裁定に載せる(2225)。2242 の暫定方針(冷保存が実 bundle になるまで積み上げ)は維持。
+- **F-v6-2【要修正・v7 driver へ】**: 新計器は P の層項の 78.9 %/C の 46.8 % しか説明しない。数学者 §4.6 の要求 2(ordered_reductions の要素数)を実装し、要求 3 の C 側 file_bytes(現在 null)を埋めてほしい(追加はほぼ無料・notify-and-go)。F-v6-3: P6 の古いラベル production_requires_exact_seventeen_roots… は実判定式(18 role)と不整合(軽微)。
+- **合格所見(抜粋)**: 第 18 親 11,750/11,750・1,347,269,002 B・dir 3,547 = 3,507 + 空 40・791 記述子全数一致・9-key と 6/7/8-key 射影 literal・公開 JSON key 集合 15 文書中 13 完全同一/2 は追加のみ(改名/削除 0)・前 2 回の失敗型は canary 化(inventory-old-bytes-key/lambda-source-is-completed-selection)・registry/body_retention/等長置換に弱化なし・階段形/λ/target/rolling/ρ₂ 609 が 128/128。
+- **v7 の照合材料(副産物)**: 第 19 親(v6 候補)の登録定数は files 11,915/file_bytes 1,395,498,726/名前由来 dir 3,538(+ 空 dir)になるはず。違えば異常。
+- 限定 7 条(新設なし): 射程 1 batch/a(k)・F4 未排除(roster 空化に必要 ≈ 56,770 行 > 残 46,422 行 = 悪化)/共有 kernel 2 本 NOT_MEASURED/旧行未取得・ρ₂ DERIVED/harness TCB 単著/checker 段別 timestamp なし(親認証 3.2 % のみ可視)/ZIP は Range 取得。以上。
