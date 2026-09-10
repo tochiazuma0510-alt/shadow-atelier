@@ -1,0 +1,45 @@
+# Task1163 — C独立のpartial/checkpoint公開metadata契約
+
+指示書を全文読み、自身のCと既存の公開v6 metadataだけから、途中checkpoint・durable tail・resource-stop/rejected・native非zeroの受入境界、および19種類のnested metadataを公開JSONへ抽出した。Task1164の緊急修理を先に完了し、保存していた本件へ戻って納品する。P private/source/deltaの読取、数学sourceの実行/import/AST/compile/selftest、receiver修理は0。
+
+R = %TEMP%/shadow-atelier-audit163。全材料はR/task1163/に新規保存した。rootへ既に本票とpinを送り、Noetherへの受渡しはrootに委ねた。
+
+| 材料 | bytes | SHA256 |
+| --- | ---: | --- |
+| public-C-partial-checkpoint-contract-v1.json | 32098 | 16004570da133abf6ecfe6b2d4239dfead5fbb33eff1bd4dbc4a61ef6f6dd60c |
+| public-C-nested-metadata-contract-v1.json | 41434 | f2b90c9f808b51b8275d66b2a4925c2a044d598fffa59f9615050f427b260bc2 |
+| own-C-raw-consumer-homology-v1.json | 51251 | 40e46dbfe9ff3fcdc4000683685f3beae2edfca7876f1c2f191bfb96fae8684c |
+| public-contract-annotations-v1.md | 2820 | 230d6b5847a5d1a38f238e3a0900b452f0f819f0af7b8fb8154a2044e9fed40d |
+| author-material-manifest-v1.json | 2036 | 80e128d5af7d8dd68149a48e7e922b93a5429c09c06fef8ede44d6c5a9439c54 |
+
+manifestは自身と本返信を除く8材料140234 Bを全D3で列挙する。author-public-table-audit-v1.jsonにmetadataのkey数・型欄・50箇所のraw byte/line spanの照合を記録した。旧作業メモと最初のhomology補助スクリプトは履歴として保存し、正本公開4材料をmanifestに明示した。
+
+基準Cはsearch/check_d972_r07_fixed_lambda_cycle_batch_v7_repair_v1.py、525657 B/SHA256ccd572ee1f0cd2504521526fbfbf830a95197d99044870cf19c7a6cc0ffb67a7。比較用自身C6は428108 B/SHA25659d525f7320b5efe19c55d8a567335e9f5ded8cb19124fe75dda5aa8c70dccbb。root実束縛後のrepair2 Cは525707 B/SHA256d0e789ae15978023f29dcfcf21d4d2c4ac7100f9d8241351bee5b2d889132607。55関数/classについて3版の全byte・占有行範囲とSHAを結び、repair1とrepair2は55件すべて同一、v6とは51件同一だった。v6との差はroot_records、batch_observation、check_actual、mainの4件である。
+
+raw同型だけからglobalの同値は推論していない。現在の論理schemaはv7、親19、anchor1962/8667、ancestry609。v6からroot/layout/startの第四層binding、observationの旧v5/現v6親、actual入場と計器文脈が変わる。repair1とrepair2のCHECKER_WORKFLOWも本票に別値で記した。保存された歴史的v3/v4/v5/v6 schema・親source namespaceをcurrent名に書き換えない。
+
+partial本票はcheckpoint24 keys、progress-head16、producer diagnostic29、invocation23、C checker-result50、durable-tail12、input-preservation9と、observationのexact nested形を公開した。各schema、ordinary整数/nullable/SHA、root形成、sequence/phase上限、historyとconsumer位置を含む。主要な境界は次のとおり。
+
+- progress HEADなしはq=-1、ありはordinary0..771。checkpointは0..maxの穴なし、unique sequenceかつq+1以下、全file SHA名と全形成物の比較を要求する。phaseも1..qを欠かさず最大q+1。次のdurable phaseは別scopeであり、Cは保存HEADを進めない。
+- 公開processed/dependent/accepted/rank/generationは、比較したcommitted checkpointから取る。次phase内で進んだprivate stateをpublic countへ混ぜない。private current_lambda_sha256は常にnull。
+- root7件の一部が未形成なら明示resource-stop/rejectedが必要で、HEAD/checkpoint/phaseは不可。rootが揃いprogress未形成のprefixや、正規履歴を伴うcheckpoint0だけの状態を勝手に失敗・成功へ補完しない。
+- selectionのwitnessコピー、selection record、oracle viewは元の公開順序を保持する。committed tree以後は全選択metadataを要求する。独立rowがcandidate決定に先行する1つのdurable tailは存在するが、candidateは必要rowなしに公開できず、従属candidateはrowを持たない。
+- finalは完全selectionとq=3+6*processedのcommitted状態からのみ。complete-zero、通常complete、実Linearの3枝を分ける。HEADなしfinal、resultなしfinal+HEADはFINAL_PUBLICATION_TAILとなり得る。HEADだけ、またはfinal+HEADのないresultは拒否される。
+
+complete_resultとfinal payloadの完成は区別した。実caller L5831–5832は、result.jsonがない場合、diagnosticが1つならそのterminal、両方ならnullをreport.terminalに代入する。したがってfinal/manifestやHEADを比較済みでも、partial reportでpublic_final_compared=true、FINAL_PUBLICATION_TAIL、terminal REJECTED/UNKNOWN_RESOURCE/nullが共存し得る。diagnosticが上書きしないのは、resultまで比較したcomplete packetのterminalである。compare_diagnosticsの短いコメントだけで、このcaller条件を広げていない。
+
+C自身のnative1/FAILやnative3/UNKNOWN_RESOURCEと、保存されたPの途中prefixを最後まで比較したC native0/PASSは別である。後者はpartial=true、candidate=false、all_completed_payloads_and_json_compared=trueとなり得るが、これは保存された認識済みscopeの全照合を意味する。完全candidate packetの成立ではない。rootsだけならcross_checked=falseも可能である。
+
+Cのunwindではpartial=true、candidate/cross_checked/all_completed=falseへ戻す一方、既に代入したhash・count・public_final_comparedを消去しない。durable_tailも終了blockで代入後の例外なら残り得る。native非zeroだけを理由に全値nullを強制しない。JSON status、自seal、保存値の自己整合だけで実native0・candidate成功を認定しない。起動やreport生成がcatch前で失敗した場合の未出力も捏造しない。
+
+nested票は19族すべてのexact keys/types、schema/seal、関連C consumer byte/lineとv6同型を列挙した。7文書のkey数はselection27、selection-start19、start49、HEAD24、final-manifest27、result48、separator12。witness kindは実装どおり小文字chord/auxiliary、instruction.offerは更新前generationである。3 selection phasesと6 candidate phasesの保存basename roster、候補ordinalと受理row offsetの分離、従属のtyped null/no-row、plain target全JSON SHAとpacked remainder SHAの区別も含む。
+
+G06はwhole coefficient SHA、JSONに保存されたordinary trit、full ordered/source/zero保持とliteral signに限定した。physical subtraction=-sr(coefficient)、normalization=sr(sigma)、target correction=+sr(target.scalar)を別文脈で記した。ゼロ係数をordered_reductions/physical_factors/ancestryから落とさず、ancestryは元609からaccepted_new_rows分だけ元順に追加する。coefficient-u8要素のdecode、vector再構成、pairing/reduction/solver計算はしていない。
+
+既存公開v6 fieldset正本はtask1150/literal-public-metadata-contract-v2.json、32278 B/SHA2566bd3c9b27e8e167134de1862e05710879da85cdd7740fef26e2c6378a93971f3。再利用する19族は自身Cのconstructor raw同型を先に確認した。retained p1-reductions/Bの既知scalar shellは元namespaceとkeyを別に明示した。retained libraryへ委譲されたraw-word/raw-source、canonical P1-root、source-components、section/cochain/tree/readout等の未抽出recursive keysetはUNKNOWNとconsumer位置を付け、推測のkeyや全再帰的受領主張を加えていない。既存の別途採択された公開retained契約が必要な箇所として残した。
+
+実runの状況はrootの外部観測としてのみ記録する。旧run34518126217/1、head2f8ad063da52da90ed74fd230fb122f96ad79ec7はC selftestのold-producer-path failureとなり、本P/Cはskipped。Task1164後、rootがcommit bf0b5c0b6ee00736481575b98f50ac071fc97e28で新run34523172734/1を開始し、20:00:48ZにC selftest step13 success、P本体step14開始を観測した旨を受領した。本agentはGit/GHA/APIを操作せず、C本体のnative成功、最終rank、128全採用、file countを予測していない。
+
+rootはpartial本票を全文読み、55同型/consumer spanを独立joinしてNoetherへ渡した旨を受領済み。nested票も全pin付きでrootへ先行送付した。本件の公開metadata抽出は完了し、既存source・receiver・C4を変更していない。
+
+AUDIT_1163_VERDICT: PUBLIC_PARTIAL_CHECKPOINT_AND_NINETEEN_NESTED_METADATA_EXPORT_COMPLETE_UNKNOWN_SCOPES_EXPLICIT_NO_MATH_EXECUTION
