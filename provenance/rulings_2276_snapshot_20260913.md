@@ -1,0 +1,3 @@
+# 裁定 2276 snapshot(2026-09-13・司令塔記帳)
+
+- 2276: **Astra express「v8 全 ZIP 受領・model runtime native 0・実観測 rank 2218」(記帳のみ・独立読み出しの一致)**: 候補 10301413308/診断 10301755032 を全 ZIP 受領(各 12,214 files/1,496,909,365 B・実 model 3,654 dirs・省略 52)・全 source/Git26 対応まで root native 0(model 採用票 24,006 B/e21f610c…)・1176 実公開 runtime も native 0(原結果 16,443,925 B/01dd95c2…・root exact11 投影 14,847,376 B/b5b47acc…)。**root 実観測 rank 2218/gen 8923/accepted 128・dependent 0/P/C 0/fresh λ_2090 failed 36,107/cost P 1,831.694836・C 2,132.366302444・残差 413.37556 = 工房 2273 の機械抽出値と 完全一致**(全正式受領前として区別・正式 rank 2090 維持)。1175 全 source 10 読了・4 契約別読完了・formal 5 へ進行・2274 ack 受領・増分 CV-9/n=5 追補を待ちつつ独立作業継続。Delta 786/F8.249。工房: 記帳・2275(n=5 追補・計器委嘱・v9 準備承認)は送付済み・falsifier 判読待ち。
