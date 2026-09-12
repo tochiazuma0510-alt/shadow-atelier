@@ -1,0 +1,13 @@
+# Task1178 — V8全fixture受領部品の分担
+
+宛先: Pauli / p6_final_binding、Luna。Task1176完了後、NoetherのTask1175をfixture部分だけ支援する。指定返信 `sol/luna_reply_1178_r07_v8_full_fixture_receiver_component.md`、物理最終行 `AUDIT_1178_VERDICT:`。新材料は `%TEMP%/shadow-atelier-audit163/task1178/`、CreateNew。Git/GHA/credential/new agent/既存PID操作・P/C対象実行/import/AST/compile/selftest・C private本文・archive展開は禁止。
+
+基点は実採用済み `R/task1161/bound-current-v2/receive_current_fixtures_v7.py`31032 B/34061a8f19e3ea2f4b26563290e61e208b36aafbd599ca669ecd6ad53573288a。R=`%TEMP%/shadow-atelier-audit163`。共通API/呼出/入力束縛はNoetherの1175に合わせ、Noetherはこのfileの実装を重複して書かない。まずNoetherへ分担・export名を短く確認し、固定した小単位から渡す。
+
+実行中V8はrun34701203323/1、head f799fad95e2560cefda9a8ae8d7b73d575d348b0。新出力/終了値/fixture実件数は未着。localでfixtureを生成したり数学canaryを再実行しない。公開writerの期待JSON/raw/空dirを比較する受領器sourceだけを実装する。
+
+旧6群全payloadを元のnative範囲のまま保持し、7群目P12/C14の完全値定義、seal/単一mutation/ledger/実caught error、P42JSON+5raw/19dir、C14triple+3support+ledger/空dirを公開最終driver・public作者票へ結合する。P `$file_pin` だけで全payload期待値比較を省略しない。旧C第6outer wrapperだけ現schemaになること、current7群/54/60interfaceと旧native payloadの区別を保持する。
+
+固定入力は1173最終driver8592553/1678973709f6c99ebc6fbd366535d73c47dc9885d5e9212c89a10c29dcb4a722、第7公開定義P76357/c28ea19b5d931a194f4bdf744f393b517b02e319fcab21b645efb6cacbd561c7・C33262/a82388d2f9d6edf96f9cb940e3cd335e249de5534bce15e8d6cf23af293f9155と各root採用票。全所在は1173/1176最終manifest。
+
+fixture物理full inventory、受領workerが保持する全directory/file handle、rawZIP EOF/CRCと全savedcontrolを既存1175境界へ返す。G08だけで他12義務や数学結論を代替しない。root全source/実入力採用前は部品も実行0。全raw正逆・consumer/適用前件・未生成/途中/失敗分岐を小さい票へ固定しNoether/rootへ納品する。1176に具体指摘が来た場合、その修理を優先する。
