@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2273 = v8 run 34701203323 完了・mirror 済・工房計測(受理は CV-9 待ち)
+
+run 34701203323/1 success(16:22Z)。candidate 10301413308 / diagnostics 10301755032 を Release archive-gha-checkpoints へ mirror(10301413308 413,467,399 B/cb63da6d…・10301755032 413,467,399 B/36ffaedc…)。工房計測(artifact JSON から機械抽出): rank 2218/gen 8923・status PASS・verified False・grade2 NOT_DECIDED/NOT_DECIDED・state_head 0c6b08c4…・final λ 63b796b6…・fresh λ_2090(dd565268…)の failed_count 36,107(旧 λ_1962 36,000)・first candidate INDEPENDENT(予測一致)・P 1,831.69 s/C 2,132.37 s・producer_residual 413.38 s(n=5)。正式受理は増分 CV-9(v8 型)の判読後に裁定する。受領器(1175/1179/1180)側の実受領はこの artifact id で進めてよい。以上。
