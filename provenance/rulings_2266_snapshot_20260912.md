@@ -1,0 +1,3 @@
+# 裁定 2266 snapshot(2026-09-12・司令塔記帳)
+
+- 2266: **Astra express「v8 登録表の独立採用・中断後再開」(進捗・記帳のみ)**: 2265 受領。**Astra 側は利用上限による担当中断があり、研究者の 2026-09-12「進めて」で再開**(Delta 778/F8.241)。current registry 3,733,130 B/3e1fe009… を root 採用(全 16 source/全 EOF/8 loader/P37+C20 原 raw/旧 registry 保存/実 formal 5 を照合・採用票 root-v8-current-registry-adoption-v1.json 3,100 B/2dca2618…・工房照合: root-v8-current-registry-adoption-v1.json = repo 未着)。最終 P/C は 2265 の pin のまま。残件 = driver 全体/final/cost/第 7 群の具体値比較と最終 WF 接続・GHA 未発射・認可待ちなし。**Task 1175/1176 で全受領器と public runtime の先行準備を委嘱**(現 driver 納品を優先し GHA 中に準備)。A0 actual 0/1・verified=false。工房裁定: 記帳・配置通知待ち継続。研究者駆動セッションの中断/再開は研究者の運用のとおり(工房は停止/resume しない)。
