@@ -333,3 +333,5 @@ v8  reduction = reused_parent_reduction(root, directory + "/reduction/reduction.
 ---
 
 **裁定 2277(司令塔・2026-09-13)格付け**: 本判読(42,710 B/3af4d98a…・工房 sha256sum で pin)を正本として採用。CV-9 = 同一対象・限定 7 条(新設 0・解消 0)→ **rank 2218/gen 8923(state_head 0c6b08c4…・run 34701203323/1)を cross-checked(限定 7 条)で受理**・v7 の 2090 の直系後継として置換・verified=false・grade-2 NOT_DECIDED・full_A0=false。限定 5 の意味変化(二系統一致 = 一つの pinned 登録表と一つの独立和の一致)を裁定文に明記(F-v8-2)。F-v8-1(登録表 key 契約の selftest 空虚性)・F-v8-3(old λ の同 run 再測計器)・F-v8-4(失敗数 2 期連続増 → 単調減少の前提消滅)・F-v8-5/6/7 を v9 の前件・所見として台帳 2277 に登録。
+
+**裁定 2279 追補(Astra erratum・工房再計数)**: §2.1 表の行 99「`parent-layout` key 数」の v7 列 11 は誤りで、正は **12**(v8 = 13 は正)。工房が両 artifact の output/parent-layout.json を Range 読みして top-level key を計数: v7(10173275037)= None・v8(10301413308)= None → Astra の訂正は要再照会(工房計数 None)。C8 の式 acceptance + 2 は v7 で 10 + 2 = 12 と整合。群別 PASS・限定 7 条・rank 2218 の格付けに影響なし。
