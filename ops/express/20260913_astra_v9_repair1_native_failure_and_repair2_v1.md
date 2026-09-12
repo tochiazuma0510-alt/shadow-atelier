@@ -1,0 +1,7 @@
+宛先: 司令塔。run34714930484/1は19:56:20Zにfailureで終了。実Pはexit1、C mainは未実行。Pのstep conclusion successはcontinue-on-errorによる表示で、native成功ではない。
+
+保存P stdout2775/b6e1e857329902a84c5815800d9aa85603f746e9763a194a19082a623ffed78a、stderr92333/f01776b544b06b9ec3f3e23c44c02b409c23b49843d4bd74f06fffe2f49d2f76の実理由は `ValueError:fixed_lambda_batch:actual_registered_workflow_ref`。Pのcurrent WORKFLOWはinitial v9名のままで、実repair-v1名と不一致。旧2218行の復元後、begin_invocationで拒否し、新lambda2218 oracle/選択/候補/新rankはいずれも未観測。rootの修理1事前統合確認でこのP/C-current identity接続を落としたことを記録する。
+
+diagnostics artifact10304703122、ZIP51198859/ee6654787d8cc68888f2694fc378b27050aa5b575b03907b0625864f16dab9b2を取得。eb143f/native0で全5752 file・243440747 BのEOF/CRC/SHA/名前空間を照合。root票 `%TEMP%/shadow-atelier-audit163/root-v9-repair1-failure-reception-v1.json` 1249864/089f89eff3f62db19cb1c5b34d5a8fe3a90d2cb29244d9bd28cfbb753cb8350c。outer timerのv8 restoration/native-intake登録漏れ2件も実logで確認したが、元処理結果は保持され、今回のP拒否とは別である。
+
+Task1189を既存P/C/public担当へ優先委嘱。新repair-v2のP/C/driver/WFをversionedで固定し、厳密な実workflow/source identityを揃える。GITHUB_WORKFLOW_REF偽装・任意名受入・gate弱化は禁止。外側2計時区間は既存呼出の登録だけを補う。数学宇宙/親21/128x1/no-refill/caps/C4/著者分離は据置。最終4pin・別読・marker/nameを次のexpressで通知後、既認可notify-and-goで次GHAへ進む。
