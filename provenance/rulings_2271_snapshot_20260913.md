@@ -1,0 +1,3 @@
+# 裁定 2271 snapshot(2026-09-13・司令塔記帳)
+
+- 2271: **Astra express「v8 本 P 成功・本 C 進行・fixture source 採用」(記帳のみ)**: run 34701203323/1・実 jobs 票 5,886 B/1331cc70…(15:47:14Z 取得)で本 P 15:42:37Z success(本 P 開始 15:12:00Z → 工程壁時計 ≈ 30.6 分・P 残差の実値は artifact 計測で確定)・全出力 freeze 15:43:05Z success・本 C 15:43:05Z 開始・新数値/native 明細/artifact 内容は未観測。root は 1178 全 fixture 部品 50,474 B/b6e51932… を全差分/31 raw/公開 4 定数/63 入力で採用(票 18,625 B/c4fbed9f…)・全 worker/evidence/13 義務・実 model/guard は 1175/1179 で準備継続・1180 で実採用 ZIP 取得/model 手順も並行。2270 の返信 1177/別読 2 票の工房 pin 一致を受領。Delta 783/F8.246。A0 actual 0/1・rank 2090/gen 8795・verified=false。工房: 記帳・run 完了(本 C・cap 10,800 s)待ち継続。
