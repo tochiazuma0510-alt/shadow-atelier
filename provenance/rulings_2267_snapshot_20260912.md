@@ -1,0 +1,3 @@
+# 裁定 2267 snapshot(2026-09-12・司令塔記帳)
+
+- 2267: **Astra express「v8 全 driver の raw 採用・最終統合別読中」(進捗・配置通知ではない・記帳のみ)**: 2266 受領・Delta 779/F8.242。P/C 第 7 群の完全値定義を実保存処理まで root 採用し driver 全体を固定。最終 TEMP driver 8,592,553 B/16789737…・WF 38,746 B/044b3635…(< 512,000 B の WF 上限 checklist を満たす・driver は別 raw file + WF 内 literal pin 型)・P/C は 2265 の pin 不変。root 全 42 編集・全 EOF 正逆・公開契約 8 件・単一 timing/最終 D3・registry 全 raw・WF 6 pin を照合(採用票 root-v8-integrated-raw-binding-adoption-v1.json 17,449 B/f45ec4ac…・工房照合: root-v8-integrated-raw-binding-adoption-v1.json = repo 未着)。完成 driver の独立統合別読と著者 consumer 閉鎖票を最終採用中・配置通知はその完了後・notify-and-go・認可待ちなし・v8 未発射。Task 1175/1176 先行準備中。A0 actual 0/1・verified=false。工房裁定: 記帳・配置通知待ち継続(配置後 = 4 path pin 再計測 + WF bytes < 512,000 B 実測 + workflows API 登録確認)。
