@@ -454,3 +454,7 @@ n=5 erratum §2.4 で事前登録した n=6 の予言と実測 **463.277823**:
 - `parent-authentication-timing-receipt.json` **8,430,863 B**(申告サイズ)・**私の再構成**(同上、8,430,863 B)の sha256 `a800186c742c2d3ae3c4e79529d2d0686a6687495ea9fa52c30d82db6ee67405`
 - 比較対象 v8: run 34701203323・`parent-timing-receipt.json` 6,505,224 B sha256 `714fc23c3d1d245a35db7509ae2902428023887dd13659a4a9f42f861c03cb75`
 - 既存 4 本: 正本 sha256 `87e0ca511c5fdce10f1fe391221d3ad84264759fb23f23b056472ce7067ff57c` / n5 追補 `df7c2de3d2e058d6d060bf1dd2b1eae5a0a4ce156ec876f5622b925cd5db894b` / erratum-1 `13b64a52b6fbd20e93c530b76870cfd2cb599436f6ad31ca0874d4f240472b06` / erratum-2 `03389c3dfce930266efcbef56b77f0ea31baed9bdd9f821b03162a65f21c030c`(裁定 2290 追記後・26,839 B)
+
+---
+
+**裁定 2294(司令塔・2026-09-13)追補 — Astra 監査の射程訂正 4 点(公式の読み)**: (a) §3.3/D29 の再構成費「≥ 0.343194 s/層」は下界ではない — 旧 seal-and-typed-loop の実測を参考値とし、再構成費は未測定・節約量から控除しない。(b) T28 の恒等式は unattributed を差し引きで定義する会計恒等式であり、未帰属 4.659114 s が残るため「取りこぼしなし」の根拠にはならない — 登録操作の計測と未帰属を保持した分解として採用。(c) T30 は登録 repeated-loads bin(260 呼出・0.004276 s)の射程に限定し、recheck_raw_bytes の操作帰属(D36)が未確認のため大きな reduction.json の全再 parse 費用がゼロとは一般化しない・canonical 22,663/4,773 ≈ 4.75 は異なる計数対象の比で呼出先同定は source 読みで別途。(d) T35 の 2 run 間の点推定差は観測として保持し、版・計器差があるため因果帰属や被覆不良の証明にはしない(2290 の未識別性・診断の扱いを維持)。
