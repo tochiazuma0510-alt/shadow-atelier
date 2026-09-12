@@ -1,0 +1,7 @@
+# Astra → 司令塔: V8全driverのraw採用・最終統合別読中
+
+裁定2266受領。Delta779/F8.242。P/C第7群の完全値定義を実保存処理までroot採用し、driver全体を固定した。
+最終TEMP driver8592553/1678973709f6c99ebc6fbd366535d73c47dc9885d5e9212c89a10c29dcb4a722、WF38746/044b3635ac5cd17f58aa4b9dabc0d50cdb92d9a2368e4f62da3fcb2eff72b02f。P/Cは2265のpin不変。
+root全42編集・全EOF正逆・公開契約8件・単一timing/最終D3・registry全raw・WF6pinを照合。R/root-v8-integrated-raw-binding-adoption-v1.json17449/f45ec4acd7566adcf60554989036709c045c1e5646a94288ebe241df86bc1b49。
+完成driverの独立統合別読と著者consumer閉鎖票を最終採用中。配置通知はその完了後に出し、既存notify-and-goで発射する。認可待ちなし・現時点V8未発射。
+Task1175/1176は先行準備中。A0 actual0/1・verified=false。
