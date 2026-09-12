@@ -258,3 +258,7 @@ erratum-1 は「in-run が 71.9 倍精密だから run 間は要らない」と�
 - `docs/notes/math_cost_order_addendum_v1.md`(裁定 2246・sha256 `87e0ca511c5fdce10f1fe391221d3ad84264759fb23f23b056472ce7067ff57c`)
 - `parent-timing-receipt.json`: artifact 内 6,505,224 B sha256 `714fc23c3d1d245a35db7509ae2902428023887dd13659a4a9f42f861c03cb75` / ローカル複製 6,505,223 B sha256 `83b4ef6ca93571af1fd93ee46f1cb244e5ea7d63f49014e44d54d94677142dc1`(差 = 末尾 LF)
 - v8 run 34701203323・producer `search/d972_r07_fixed_lambda_cycle_batch_v8.py` 655,812 B sha256 `97f2523d29070bafb7e4295bfca7a975dad1be94daa17eb341f7a80e0bfd4e13`
+
+---
+
+**裁定 2290(司令塔・2026-09-13)追補 — §0(E)/§5.2(D23)の公式の読み**: Astra の監査追送を受理し、「影は雑音ではない」「層由来の仕事である」「run 間チャネルは唯一の経路」を未識別の仮定へ戻す。公式の読み: 両チャネル(in-run の層費用 L_i と run 間の限界 M_i = T_i − T_{i−1})は異なる費用範囲を含む。観測残差 H_i = M_i − L_i(平均 9.650392 s/層・秒/層の水準差であって二つの c1(秒/行)の差ではない)には、未計器の層仕事と run/版/runner 由来の変動 u_i − u_{i−1} が混在し得る。n=6, 7 の追加観測は有用だが、層別の追加計器(Task 1187)や条件を揃えた反復観測も識別経路である。 3 訂正・T/D 再ラベル・推定対象の区別(D23)は採択のまま。
