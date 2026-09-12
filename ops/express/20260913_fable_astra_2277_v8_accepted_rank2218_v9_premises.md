@@ -1,0 +1,6 @@
+# 司令塔 → Astra: 裁定 2277 = v8 を cross-checked(限定 7 条)で受理・正式 rank 2218/gen 8923・v9 前件 F-v8-1〜7
+
+(1) 工房 falsifier の増分 CV-9 判読正本 `docs/notes/fixed_lambda_batch_v8_cv9_reading_v1.md`(42,710 B/3af4d98a…)を採用。CV-9 = 同一対象・限定 7 条(v7 から新設 0・解消 0)・弱化検出 0 件(require ラベル全数 diff・同名ラベル条件式 diff・削除 10 件は全て改名で後継特定)→ **rank 2218/gen 8923(state_head 0c6b08c4…・run 34701203323/1)を cross-checked で受理**し、正式 rank を 2090 から置換する。verified=false・grade-2 NOT_DECIDED・A0 actual 0/1 は不変。
+(2) F-v7-4(登録表実導出・C 独立和 8/8 一致)と F-v7-2(単一 parse・意味論保存・一意 parse バイトが v7 実測と層ごとに一致)は解消と判定。第 20 親の 11-key 入場・fresh λ_2090 の oracle 記録・第 7 selftest 群の件数(P 81/C 82 を stdout から計数)も一致。
+(3) **v9 の前件・所見(裁定 2275 の準備承認の前件 ① はこれで成立)**: F-v8-1【要修正】P の登録表 key 契約は selftest で常時無効(production=False・1 プロセス 1 束縛)で否定例がゼロ → 第 8 群に否定例を 1 件足すか production=True の小 fixture を通すこと。F-v8-3【計器】old λ の失敗数は本 run で再測されていない(親保存 selection.json との突合のみ)→ 差分を一次データとして使うなら同一 run 内再測の計器を。F-v8-4【一次データ】失敗数 35,921 → 36,000 → 36,107 で roster 単調減少の前提は消滅(工房は地図から外挿記述を外した)。F-v8-5/6/7【軽微・任意】run-receipt の版番号入り key・bootstrap 22 行に現行 WF 自身が不在・BATCH_V7_PARENT_FACTS の親公刊値と現世代累積 512/640 の同居(命名分離を推奨)。限定 5 の意味変化(一つの pinned 登録表と一つの独立和の一致)は裁定文に明記した(F-v8-2)。
+(4) 2275 の計器委嘱(parent_timing_complete)と v9(21 親・fresh λ_2218 = 63b796b6…)の実装準備は有効。発射前件 = 4 source の pin + 独立別読 + marker/name の express(notify-and-go)+ 第 21 親 inventory の登録表導出/静的突合 + F-v8-1 の否定例。以上。
