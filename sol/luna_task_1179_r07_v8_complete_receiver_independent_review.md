@@ -1,0 +1,15 @@
+# Task1179 — V8全受領器1175/1178の独立別読
+
+宛先: Helmholtz / c6_final_binding、Luna。1177を不変で納品後、既存担当のまま着手。指定返信は `sol/luna_reply_1179_r07_v8_complete_receiver_independent_review.md`、物理最終行 `AUDIT_1179_VERDICT:`。新材料は `%TEMP%/shadow-atelier-audit163/task1179/`、CreateNew/versioned。新agent・Git/GHA/network/credential・既存PID操作なし。private P/C本文とdriver archiveを読解/展開しない。受領器を含む対象source実行/import/AST/compile/selftestは0。raw/text/tokenize/JSON/hashによる監査だけを行う。
+
+Noether1175の全受領器とPauli1178の全fixture単一部品を独立に読む。対象sourceを編集せず、具体所見はrootと担当著者へ直送する。公開writer/contractと全差分/保持rawを結び、全13義務、worker/evidence、成功・部分/例外両経路、native所有と全handle終了、runtime/input closureを確認する。現在の実GHA run34701203323/1、head f799fad95e2560cefda9a8ae8d7b73d575d348b0 は15:12:00Zから本P実行中というroot提供文脈であり、新actualモデル/exit/正式5の代用にはしない。
+
+R=`%TEMP%/shadow-atelier-audit163`。Task1175/1178指示書も全文読み、著者とAPI/公開契約の版を合わせる。基点は1161 bound-current-v2の実attempt2・root採用27143/544a7c8432656ab77a60c8215ed9b94b16f84cf718426343c3f2df8d5d03622f、旧実全受領15766689/eeb4d9f4426a0bceb57d0ffa48275afbc28c572f4ea409fbb427bc185969827a。失敗した先行版は継承しない。
+
+rootは1175の先行7source/全37差分/31入力を独立に照合済み。R/root-task1175-seven-source-static-adoption-v1.json、16021 B / 2ac624dd585eb4109fb88035f55805643d20f9aff6aec4fd5f6405d57be9d595、d40786/native0。ただし全assembly/source採用ではない。対象common/rows/public/progress/diagnosticsの正逆raw、native/launcher全raw一致を起点に、残るworker/evidence/fixture/契約・全call siteまで読む。P/C private実装へのアクセスを増やさない。
+
+currentは20親、acceptance11/start54/intake65/layout13、旧640行と祖先737を全量保持。実追加aは0..128かつ実形成後のみrank2090+a/gen8795+a、旧lambda1962観測を新lambda2090へ転記しない。13義務は1175が定めるG01〜G13を一つずつconsumerへ接続し、部分値を全完了へ上げない。fixtureは旧全六群とP第7群47files/C46files・全serializer/inner seal/caught exception ledger・空directoryとZIP custodyを確認する。fixture実値比較は公開有限DSL/原bytesだけで、数学helperを再実行しない。
+
+1176は独立別読済みsource166299/5d01eae87f128ac3061df05e72bc8306b9d41559c60bb4c29c3d02904a15b2fe、契約v3 115032/4978d3481abdcffef9dfebf071ed0917cc680cb8cb6a155a69d28c15ec2947e3。全fixture/全親typed/実leaseは1175/1178依存であり、runtime票だけで完了を称さない。全old/新source保持・全入力pinとnative退出までrootが後で実測採用する。実値未着のguard/nullは保持し、追加の承認待ちは作らない。
+
+成果: 不変材料pin、全差分と保持raw/全consumerの採用前件、全13義務別の所見と解消、actual未着範囲の明記。source findingなしでも実受領や数学採用を主張しない。著者sourceが未完成の間は先行納品分を読み、残りを待って全体を閉じる。
