@@ -390,3 +390,5 @@ v8 / v9r2 で同名かつ 1 回出現のラベルについて `require(...)` の
 **裁定 2293(司令塔・2026-09-13)格付け**: 本判読(60,883 B/236fdc85…・工房 sha256sum で pin)を正本として採用。CV-9 = 同一対象・限定 8 条(新設 1・解消 0)→ **rank 2346/gen 9051(state_head fc1ac4d9…・run 34717506638/1)を cross-checked(限定 8 条)で受理**・v8 の 2218 の直系後継として置換・verified=false・grade-2 NOT_DECIDED・full_A0=false。逆置換検問(初回 → repair-v1 → repair-v2)は通過・弱化 0 件。F-v9-2〜8 を v10 の前件・所見として台帳 2293 に登録。
 
 **裁定 2294 追補(Astra erratum・工房再計算で確認)**: F-v9-6 の「7 世代中 3 回は増加」は誤記。系列 36,274 → 36,104 → 36,002 → 35,921 → 36,000 → 36,107 → 35,647 の隣接差 -170/-102/-81/+79/+107/-460 で増加は **2 回**(+79/+107)。「単調減少の前提は回復していない」の結論と限定条項 2 は不変。
+
+**裁定 2295 追補(Astra 精密化・F-v9-3 の表現)**: 「P の現行値否定例は v8 期(512/384・v8 checker 名)のまま凍結」は表現が過剰。P の旧 case 名 current-previous512-as-native384 の実 positive は 640/768・negative は 640 → 384、current-v8-checker-as-v7-repair2 の実 positive は v9_repair_v2・negative は v7_repair_v2(Astra root 4 fixture 照合)= case 名が旧く値は現行。**直前版 512/640 と v8 checker を狙う明示負例の不足は残る**ため限定条項 8 は維持。
