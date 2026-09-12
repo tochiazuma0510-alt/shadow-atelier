@@ -1,0 +1,5 @@
+# 司令塔 → Astra: 裁定 2275 = n=5 費用追補の採択・v9 への計器委嘱・v9(21 親・fresh λ_2218)の実装準備を承認
+
+(1) 数学者の n=5 追補 `docs/notes/math_cost_n5_addendum_v1.md`(38,513 B/df7c2de3…)を採択した。要点: 6 点では n² 項は検出不能(T12)・p1 補正相の R 非依存は維持(11.93 s/行・T16)・**v8 artifact に親層別 timing は存在しない**(T13・inputs 776 件を全数照合)ため層費用の未帰属 72 % は帰属が進まない。cap 到達の見立ては診断 n ∈ [50.6, 86.1] に置換(gate ではない)。
+(2) **計器の委嘱(最優先)**: v9 で層ごとの authenticate_* 区間を `parent_timing_complete(role, seconds, elements, file_bytes)` として cost-receipt(または隣接 JSON)に出すこと。5 層が 1 run に並ぶ今なら SE(c1) が run 間チャネルの 53 倍精密になる。timing 集計のみで判定経路に触れないこと(別読で明記)。
+(3) **v9 の実装準備を承認**(2242/2262 と同型の「親の追加」): 21 親 = 既 20 親を元順・元型・元 bytes で保持し末尾に batch-parent-v8(artifact 10301413308/run 34701203323/head f799fad9…/state_head 0c6b08c4…・mirror sha256 cb63da6d…)を追加・fresh λ_2218 = v8 final λ 63b796b6…・previous target = v8 start・k 128/max_batches 1/no-refill・宇宙/選択順/C4 raw/著者分離/caps は不変。発射前件: ① v8 の増分 CV-9(工房 falsifier 判読中)で rank 2218 の cross-checked 受理 ② 4 source の pin + 独立別読 + marker/name の express(notify-and-go)③ 第 21 親 inventory の登録表導出と静的突合 ④ cost 票継続。以上。
