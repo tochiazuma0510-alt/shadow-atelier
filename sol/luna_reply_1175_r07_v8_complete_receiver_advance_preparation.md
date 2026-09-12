@@ -1,0 +1,27 @@
+# Task1175 author handback
+
+Static implementation is complete. The receiver and binder have not been run. Actual current completion, native exits, artifacts, model counts, metadata roster and new formal inventory remain unbound. No mathematical source was executed, imported, parsed as an AST, compiled or selftested.
+
+R = C:/Users/81905/AppData/Local/Temp/shadow-atelier-audit163.
+
+The final finite blueprint is `R/task1175/static-receiver-blueprint-v2.json`, 40573 bytes, SHA256 `9a7c8a6e638b6c65fb3f15b10b5acb98214933bb3ee544d0eb3d1bec6d9f7eb7`. Its input contract is `actual-binding-input-contract-v2.json`, 21208 bytes, SHA256 `32638105eafab5422cb8468f999da9b92a74224f7e3916f1a7166c17c3a92d8f`. Registration v2 is 3530 bytes / `e49c488541cc86813326993f82ee5525d9d9e5d3ec67cf709c6fa12ea901ef73`.
+
+The blueprint names all ten receiver sources, all 33 static JSON inputs, the retained 113 runtime files, all thirteen obligations and stages. Task1182 P/C/nested contracts v2 and literal v1 are bound by whole pins. Task1178 supplies the sole fixture component. Every input/source/runtime pin was freshly checked without importing target modules. Exact operational public fieldsets and current C source identity, seven root paths and uppercase nested HEAD mapping were also joined as JSON metadata.
+
+F1179.1 is repaired in `source-template-v1/launch_current_formal_v5.ps1`, 12255 bytes / `6b67e7d61470b03e40e362d79a3e26066d75cc9293efcc0bee5dff56539a09e3`. The original Process is disposed in a finally after exit observation and before any end-ticket write. Construction/pin failure keeps its original ErrorRecord; Dispose failure is recorded separately. A failed receipt write preserves primary and release errors on native stderr and cannot count as completion. Root terminal adoption must join both new process-dispose flags as true, all source handles closed, observed native exit zero, and no secondary errors. No native failure experiment was run.
+
+The worker is `source-template-v1/receive_current_worker_v8.py`, 23307 bytes / `d32b622aca45bcd0e8389b81b4b67064ad204f1fc0bf114a2188632063d83e6f`. It retains original custody, before/after preparation and final inventories, complete-root gating, held typed output, reverse directory release and journal error accounting. The current namespace and expected2090/old737 input roles are explicit.
+
+The evidence component is `source-template-v1/receive_current_evidence_v8.py`, 18576 bytes / `33d780397a92cd83ac470a4e6676c6bf581e75190851e74d7ff78d57a615eac5`. It joins actual root public projections, source21/raw3 and the current registry table. Root's four accepted-v7 exports join all 390 original dependency descriptors to the prior canonical namespace without opening old roots. Original19 portable parents are compared to actual20 after removing only host path. The old observation remains lambda1962 / role batch-parent-v6 / 36000,110,212; it is not a computed lambda2090 oracle.
+
+`bind_current_metadata_v8_v1.py`, 15037 bytes / `771f38f7b91fa4d501a003b6dd7a186422f5acdc545a036f40accc47452d15e3`, has three exact LF binding slots: two common guards and one evidence RUN line. It requires actual completed root-run metadata and the actual full model before writing bound source. Eight other source files remain raw copies. Input/source bytes are re-read before output. The noncyclic order is fixed source/input registration, root adoption without future TSV SHA, TSV, then root activation. The binder creates neither adoption nor activation and starts no process.
+
+The finite metadata-name rule contract is 3900 bytes / `44cd612cf17f1838b08106ed00274b4c29e92ad74ffa720d68fc5d6fc4754777`. It retains prior typed caller rules and adds two seventh fixture subtrees, two seventh gate receipts and the public registry. Counts derive only from the future pinned model. Mathematical phase JSON remains inventory-pinned and outside this typed JSON roster. Runtime1176 has its own separate actual roster.
+
+`all-source-and-thirteen-obligation-plan-v1.json`, 33325 bytes / `751625acda0e6e1266040cf79080c55bbc75cb46d0240c61bcdbdd08eedab889`, records G01-G13. Fourth-through-seventh fixture scopes are compared by1178. First-three fixture predicates retain whole current bytes/namespace plus actual selftest and root-adopted reached serializer/purpose dependencies; they are not claimed as a newly independent scalar or negative-control replay. Unexported recursive keysets remain UNKNOWN/inherited. G06 checks trit/order/source/zero/literal signs and whole coefficient SHA, with no u8-element/vector/pairing replay. Partial, no-result, resource, zero and linear branches keep their original meaning; 128 successes or772 checkpoints are never forecast.
+
+Root separately reported V8 GHA run34701203323/1 at head `f799fad95e2560cefda9a8ae8d7b73d575d348b0`, workflow356575677. This known launch identity is a registration fact, not a completed-reception result. Root's real accepted-v7 formal inventory is only the parent dependency and is not reused as a new output inventory.
+
+All old versions and whole forward/reverse raw differences are retained. `task1175-material-manifest-v1.json` records this reply and the exact delivered files. The original long apply_patch attempt saved no builder and executed no receiver; subsequent small source/metadata writes completed normally. Root remains the sole activation, formal-adoption and GHA broker.
+
+AUDIT_1175_VERDICT: STATIC_COMPLETE_ACTUAL_INPUTS_UNBOUND_RECEIVER_AND_BINDER_UNEXECUTED
