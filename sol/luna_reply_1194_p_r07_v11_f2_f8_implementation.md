@@ -51,4 +51,34 @@ F9の正味増分94938 Bは、case表4838、child/selftest9940、通常reader822
 
 残る本走・実runtime・新oracle・新candidate数・GHA配置はrootの別責務。本票はP独立sourceと公開契約の静的納品であり、数学的verified、A0完了、GHA成功を宣言しない。Task1194b公開受領小片は続行中。
 
-AUDIT_1194_P_VERDICT: P11_STATIC_IMPLEMENTATION_AND_PUBLIC_CONTRACTS_COMPLETE_ROOT_SOURCE_ONLY_ADOPTED_TARGET_EXECUTION_0_NEW_ORACLE_NULL_1194B_PUBLIC_GATE_CONTINUES
+Task1194b 追記。指示書を全文5cd136（再取得e731d2）で読み、第10公開受領の単一部品 `producer_parent2474_contract_fixture_gate(entry)` を `T/public-tenth-consumer-v1/v11_p_tenth_fixture_consumer_fragment_v1.py` に固定した。11207 B/cd288b3c45cc52187fb0c689467dbe2405b1399c779809327ac93c1a097d542e、165 LF/CR0/末尾LF、top-level defは1本。全文ca1f01/e731d2を自己別読した。最終P11 sourceと既存公開原典は変更していない。
+
+入口はexact2 `{root,selftest}`。rootは `fixture_root('producer')/'batch-parent-v10'`、selftestは上位が全exact11/fixed9/10群を受領する元の保存値。戻りは元ABIのtuple2 `(observed,case_rows)`、observedは元scanのexact2、case_rowsは14行・各exact15。第9の実物理rootは `root.parent/'batch-parent-v9'` であり、別名parent2346へ置換していない。第10は42 JSON=positive12＋negative input14＋rejection14＋scope/ledger2、17 directoryはroot自身を含み、scanのdescendant配列は16件である。
+
+公開完全値67404 B/863c79a1b97470028935a6029037652873efec29b43728e11197539a4efb1a1fだけから、全42ファイルのexact keys/types/scalar・generic seal・保存canonical raw・全14変異と拒否labelを照合する。DSLは `$variable`、`$file_pin`、positive専用 `$inventory` の3種類に限定した。外部変数はsource D3、registry D2、current checker D3、8登録metadata D3、元親deadlineの5種とchecker bytes/SHAの明示2射影のみ。`$file_pin` の参照先は登録42名に限定し、その完全値比較後に実rawをpinする。positive inventoryも12ファイルの既比較完全値から組み立てて実scanへ比較し、保存scopeの自己申告だけを根拠にしない。
+
+同じ第2子のsealed stdout exact17とtenth_groupを比較し、元checked_execution・第9変数からsource/registry/期限を取得する。Noetherの更新公開片 `R/task1194/public/v11_previous_children_and_ninth_scope_fragment_v1.py`、15877 B/068de14e0a61f0c428c8d475720d969d894f752b14a6c3bb6aace31cf8049bacのP変数2関数を全文05d392で別読した。元 `v10_p_ninth_variables(root,execution)` の署名/tuple2を維持し、唯一の `--registered-public-metadata-root` とtrusted固定root、全9変数/absolute型へ接続する。全F2値の通常入場、code_contractとregistry C11行の一致、元第8→第9全値gate、whole selftestは上位前件としてABIに明示した。第10自身も親/子のmetadata root、実8input、opaque C11 source、全fixtureとpositiveを前後比較する。C私有本文は読んでいない。
+
+元300秒親deadlineを共有し、新process・期限・caps・計算を追加しない。子native0は元親が保存したchild-executionからの観測であり、live Processを作者が再観測した値ではない。通常数学helper再実行、自己検査、target import/AST/compile、fixture生成、GHA、network、資格情報の利用は全て0。generic sealと拒否labelの照合は保存metadataの受領範囲であり、元数学predicateを再実行した主張ではない。
+
+第10部品の固定材料は同じ `T/public-tenth-consumer-v1` に保存した。
+
+| 材料 | bytes | SHA256 |
+| --- | ---: | --- |
+| public-tenth-consumer-origin-v1.json | 4945 | 3030137d3e4be904d7ff07eec820cfdf577ce2b5f7c03132cc3bc158c1beb736 |
+| public-tenth-consumer-all-raw-delta-v1.json | 24343 | ceb6d18602298e50e7a009a82c500b6c57fbfe016ef01f2a1372f3976f41d5a0 |
+| public-tenth-consumer-ABI-and-scope-v1.json | 7798 | 34b3c730375c3c8cbca5eb808ae88e9f0adf7263d826cca35633f42ba923d506 |
+| public-tenth-consumer-static-self-review-v1.json | 8480 | 2e7699cdb9cf6de3d18135760b80d977e5b9afc1f7e553836bad12d0d8b3448f |
+| public-tenth-consumer-material-manifest-v1.json | 4751 | 963c8335a02e8ca55f3042181cae2ccf6c596ac7b89cb71a71e7318fb14bd7e9 |
+
+基点は旧公開第9小片14953 B/274e9d2beac4dfaa703ac3d7319caa6f2c2275408968ec89c82d3c9066a6577cの元gate全原文。新第10全原文への9変更/8保持、全17区間の正逆と両EOFを閉じた。これは公開アルゴリズムの比較票であり、旧第9の変数/evaluator/gateを削除・置換するdriver patchではない。元の普通utility3409 B/a631c63e24f0f3ff04b4cc103ec69ae8a3e27dec733646b4ac23375d23e9fb7b、ordinary型helper1858 B/75199a81c7b93710e5f5d71aae5edfda26e03f0952505eab2dc3b0cdae33c8b5を同じABIで使用する。新部品の9機能区間、全14case名/実変異/目的gateと返値15fieldsを公開票へ固定した。
+
+有限authorは `author_public_tenth_consumer_closure_v1.py`、17997 B/fe474153d1618812c18370e43afe43d1555f13f2213ce8dbd017c8a51ea7a671。全文2ad580・pin05d392の確認後、9e1e3a/native0でmetadataだけを生成し、10登録入力の実全文前後不変を照合した。出力ABI/14case票を4866f4で全文別読した。sourceと5票をroot/Noetherへ送付済み。組立済driver、本走、実自己検査、rootの部品独立採用はこの作者票の結果として補っていない。
+
+Noetherからの追加依頼により、公開計器の `/P` と `/authentication/P`・`/operations/P` だけを自己最終原典とroot source-onlyへ別に照合した。入力は `R/task1194/public/v11-parent-timing-contract-bindings-v1.json`、12365 B/4e5d3de7677b0c4cf68b15d44074fafb47116c459896195a92f8138725b23630、および `v11-adjacent-timing-public-bindings-v1.json`、80572 B/9e98b1871f78313d72625debd8a42305de1c31aa35862c0d3b8ca1dc9d02f775。結果 `T/public-three-timing-bindings-review-v1.json` は21973 B/7c35190f96bf7ca354b56e5d114672be686236cd373b2b9a560ce1cde89b4201。
+
+通常41の全順序/exact12型/stage別null、authentication8/operation8、全74正常順のschema/TERMINAL/nullable stage射影、13公開原典/root参照と3current source辺が一致した。authenticationのcall-scope labelと、実eventにstageが無いためnormal-orderでnullになることを区別した。bindingはdomain全文を置き換えず、86357 B/d381e9586b2928bda85e60a9ce367367d8f9366fab4edd0713d0d09e56970917の原典全値をD3参照する。失敗/部分/null/OBSERVER_ERROR/元BaseException保持、未callと条件付き正常74の区別はその原典に残る。metadata fileのslash表記差は実保存値を保持し、同じWindows原典pathとbytes/SHAの一致として記録した。repo相対source_D3はexact一致である。全driver predicate/caller/F2/実runtimeをこの射影票が代行したとは記さない。
+
+この有限照合author10667 B/eaa836bf8124afe0f8a53ee700f4ab25f84a67f78aae23a1d15f8df1fc0304c1を全文3d6ae6・pin db7a7bで確認し、4f71cf/native0で実行した。4公開入力の前後全raw一致、新finding0、target実行0。両追加作業は静的納品として完了し、最終P11原bytesとroot source-only leafは不変のままNoether/rootへ引き渡した。
+
+AUDIT_1194_P_VERDICT: P11_STATIC_IMPLEMENTATION_PUBLIC_CONTRACTS_AND_1194B_PUBLIC_GATE_COMPLETE_ROOT_SOURCE_ONLY_ADOPTED_TARGET_EXECUTION_0_NEW_ORACLE_NULL
