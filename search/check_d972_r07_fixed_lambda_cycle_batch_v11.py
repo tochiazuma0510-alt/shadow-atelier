@@ -608,7 +608,7 @@ FIXED_ARTIFACTS[EIGHTH_BATCH_ROLE] = (34731988156, "785bd2d87f2b97452a7f0deb2085
     "d972-r07-fixed-lambda-cycle-batch-v10-candidate-34731988156-1", 448498707,
     "e5dabd802d8fe6d21ea67169e724e61239b5f1476a76648e981f05910d83d0d7", "d972-r07-fixed-lambda-cycle-batch-v10.yml")
 EIGHTH_BATCH_INVENTORY_REGISTRATION: dict[str, Any] | None = {"directories":3744,"directories_sha256":"a968226a73b22d0c23649f1e9c54092e9fd7d587ae9bb5ac073d490104f4627f","file_bytes":1673885307,"files":12590,"files_sha256":"25ae0f13a07826877a7c41e9744c2251aad6e6ff1fb864b33e20b72c7cd68c5a"}
-CURRENT_PRODUCER_REGISTRATION: dict[str, Any] | None = {"bytes":1129203,"file":"search/d972_r07_fixed_lambda_cycle_batch_v11.py","sha256":"2541428a88ebd99e549c8b810a1c7f9ad8d52aa9eaa82630ee67a2fd1fe5e97b"}
+CURRENT_PRODUCER_REGISTRATION: dict[str, Any] | None = {"bytes":1129263,"file":"search/d972_r07_fixed_lambda_cycle_batch_v11.py","sha256":"7ec45483543d189eaf42ba2ddf92fddbe58d05aac02d3070a23a833778401e7c"}
 EIGHTH_BATCH_ENTRY_PINS = {
     "acceptance.json": (17819829, "9b7b2188a8d0edee63a1db9f17d7e430f7653f437ab5cd74d8f0e25b3e1e4f0c"),
     "arithmetic-selftest-inheritance.json": (334869, "a833951e1dec3ca6694ffbc142b53dc6c8409d12a0ee6ca47c236c8205fb0119"),

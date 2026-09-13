@@ -11783,8 +11783,14 @@ def k128_registration_canary(root: Path) -> Any:
     k128_reject(root, "bool-resource",
         lambda: authenticate_registration(read_json(root, "bool-resource/registration.json"), args),
         "registered_limit_values", rejected)
-    old_acceptance = {"schema": "d972.r07.fixed-lambda-cycle-batch.v2.acceptance", "parents": [],
-                      "anchor": {}, "batch_anchor": {}, "next_batch_anchor": {}, "batch_anchor_v5": {}, "batch_anchor_v6": {}, "batch_anchor_v7": {}, "batch_anchor_v8": {}, "batch_anchor_v9": {}, "code": {}, "runtime": {}, "registration": registration}
+    acceptance_table = REGISTERED_PUBLIC_METADATA_CONTEXT["values"]["keysets"]
+    require(sha(canonical(acceptance_table)) == CURRENT_COUNT_INPUT_SHA256,
+            "k128_current_acceptance_registered_table")
+    acceptance_base = {key: {} for key in acceptance_table["current_exact_keys"]["acceptance"]}
+    acceptance_base.update({"schema": acceptance_table["current_schema"] + ".acceptance",
+                            "parents": [], "registration": registration})
+    old_acceptance = copy.deepcopy(acceptance_base)
+    old_acceptance["schema"] = "d972.r07.fixed-lambda-cycle-batch.v2.acceptance"
     write_once(root, "old-acceptance/input.json", canonical(old_acceptance))
     k128_reject(root, "old-acceptance",
         lambda: authenticate_acceptance(SimpleNamespace(acceptance=root / "old-acceptance/input.json")),
@@ -11808,9 +11814,9 @@ def k128_registration_canary(root: Path) -> Any:
     k128_reject(root, "old-owner-schema", lambda: read_json(root, "old-owner-schema/input.json", "owner"),
                "canonical_object_seal", rejected)
 
-    portable = {"schema": SCHEMA + ".acceptance",
-        "parents": [{"role": role, "artifact": {}, "files": [], "directories": []} for role in ROLES],
-        "anchor": {}, "batch_anchor": {}, "next_batch_anchor": {}, "batch_anchor_v5": {}, "batch_anchor_v6": {}, "batch_anchor_v7": {}, "batch_anchor_v8": {}, "batch_anchor_v9": {}, "code": {}, "runtime": copy.deepcopy(REGISTERED_RUNTIME), "registration": registration}
+    portable = copy.deepcopy(acceptance_base)
+    portable.update({"parents": [{"role": role, "artifact": {}, "files": [], "directories": []} for role in ROLES],
+                     "runtime": copy.deepcopy(REGISTERED_RUNTIME)})
     current_acceptances = []
     outputs = [root / "bootstrap-original/packet", root / "bootstrap-reroot/packet"]
     for index, output in enumerate(outputs):
