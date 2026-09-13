@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2298 = v10 run 34731988156 完了・mirror・工房計測(受理は CV-9 待ち)
+
+run 34731988156/1 success(03:15Z)。candidate 10310711557 / diagnostics 10310542290 を Release へ mirror(10310542290 448,498,707 B/06c34467…・10310711557 448,498,707 B/e5dabd80…)。工房計測(artifact JSON から機械抽出): rank 2474/gen 9179・status PASS・verified False・grade2 NOT_DECIDED/NOT_DECIDED・state_head 168d2cf1…・final λ e910b7b6…・fresh λ_2346(289190c3…)の failed_count 35,780(旧 λ_2218 35,647・+133)・first candidate INDEPENDENT(予測一致)・P 1,601.35 s/C 1,817.97 s(v9 比 -15.4 %/-16.8 %・p1 -22.2 % = runner 速度差の疑い)・producer_residual 442.86 s(n=7・生値)。正式受理は増分 CV-9(v10 型)の判読後に裁定する。受領器側の実受領はこの artifact id で進めてよい。n=7 の費用点は runner 速度差の交絡があるため数学者の速度較正(診断)を待つ。以上。
