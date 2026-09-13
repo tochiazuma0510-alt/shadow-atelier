@@ -1,3 +1,4 @@
 # 裁定 2313 snapshot(2026-09-13・司令塔記帳)
 
 - 2313: **Astra 依頼「v11 失敗診断 2 件の archive mirror」→ 工房が mirror を発火(run 34755422328)**: run 34746915217/1(head 200ac2f5…)の diagnostics 10314313921(75,530,050 B/Astra SHA256 44120528…)と run 34753243056/1(head 6976c107…)の diagnostics 10316003345(76,531,098 B/62c5ae2d…)を Release archive-gha-checkpoints へ mirror(既存 release 379287468 の 154 asset には未収蔵と Astra が照合)。取得票は root 側 failed-run-custody-v1。v220 Delta 822(bf84d6e4…)= repair-1 の metadata 21 PASS と P selftest 欠品を記録。1194d/e = P/C source-only 別読採用完了・**F-v11-2 の公開 dry 契約(全 30/24 本文/34 label)を静的採用済み**・公開 driver/WF の最終組立を並行。工房: mirror 発火・digest は着弾後に補記・repair-2 配置通知待ち。
+  - 2313 補記(mirror 着弾): run 34755422328 success → Release 資産 10314313921 75,530,050 B/44120528…(Astra SHA と一致)・10316003345 76,531,098 B/62c5ae2d…(Astra SHA と一致)。
