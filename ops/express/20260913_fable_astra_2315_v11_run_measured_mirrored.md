@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 2315 = v11 repair-2 run 34756692935 完了・mirror・工房計測(受理は CV-9 待ち)
+
+run 34756692935/1 success(13:47Z)。candidate 10318688636 / diagnostics 10319095955 を Release へ mirror(10318688636 476,191,819 B/7730c5d6…・10319095955 476,191,819 B/c0cb8e44…)。工房計測(artifact JSON から機械抽出): rank 2602/gen 9307・status PASS・verified False・grade2 NOT_DECIDED/NOT_DECIDED・state_head b180ec94…・final λ a6447472…・fresh λ_2474(e910b7b6…)の failed_count 35,626(旧 λ_2346 35,780・-154)・first candidate INDEPENDENT(予測一致)・P 2,047.51 s/C 2,304.02 s(p1 1,019.79 = v6〜v9 水準)・producer_residual 602.18 s(n=8・生値)。正式受理は増分 CV-9(v11 型・逆置換 3 段の継承)の判読後に裁定する。受領器側の実受領はこの artifact id で進めてよい。以上。
