@@ -437,3 +437,127 @@ C 第 9 群 `batch-parent2346-seven-layer-admission`(**20 件**)は `omit-v8-fro
 ---
 
 **裁定 2302(司令塔・2026-09-13)格付け**: 本判読(71,386 B/8df4f558…・工房 sha256sum で pin)を正本として採用。CV-9 = 同一対象・限定 8 条(新設 1 = 歴史 keyset の両側 literal・解消 1 = F-v9-3)→ **rank 2474/gen 9179(state_head 168d2cf1…・run 34731988156/1)を cross-checked(限定 8 条)で受理**・v9 の 2346 の直系後継として置換・verified=false・grade-2 NOT_DECIDED・full_A0=false。弱化 0 件。F-v10-1〜15 を v11 の前件・所見として台帳 2302 に登録(要修正 = F-v10-2 wire pin の実バイト拘束・F-v10-8 歴史 keyset の登録表導出・F-v10-11 CPU 型の telemetry)。識別実験の再走 34735785100 は数学採用外。
+
+---
+
+## 付録 C — 再走 34735785100 との同一数学照合(裁定 2302 の後に追記・2026-09-13)
+
+判読者: falsifier(非当事者)。**本体(§0〜§7・付録 A / B・裁定 2302 trailer)は一切編集していない。** 本付録は裁定 2300 の識別実験(同一 tree・同一 source 4 本・`workflow_dispatch`)の再走を、v5 / v7 判読と同じ「同一数学・別 seal」方式で照合したものである。
+
+### C.1 対象
+
+| | 元 run(数学採用) | 再走(timing 一次データのみ) |
+|---|---|---|
+| run / attempt | **34731988156 / 1** | **34735785100 / 1** |
+| head | `785bd2d87f2b97452a7f0deb2085afe4e7e56d95` | `ef82ac0aa95f9d3e54a6851fc5124c0a90cf2ef0`(**私が invocation 受領証の `launch` から読んだ**) |
+| candidate artifact | **10310711557**(448,498,707 B) | **10311982501**(**448,490,600 B** — 私が HEAD の Content-Length で実測) |
+| zip entry 数 | **12,590** | **12,590**(私が両方の central directory を読んで数えた) |
+| diagnostics | 10310542290 | 10311902780 |
+| source 4 本の pin | §1.1 の 4 本 | **不変**(WF / driver / P / C とも同一 sha — 再走は同一 tree) |
+
+mirror run 34739351619(Release archive-gha-checkpoints)は本付録の射程外(未確認)。
+
+### C.2 中央ディレクトリの全数比較(ZIP 全量 DL はしていない)
+
+方式: 両 artifact の EOCD → central directory を HTTP Range で取得し、**全 entry の `(name, uncompressed size, CRC32)` を突き合わせた**(私の実装)。CRC32 が一致すれば内容同一と扱う(size も併せて一致)。
+
+| 量 | 値 |
+|---|---:|
+| entry 数 | A 12,590 / B 12,590 |
+| 共通 name | **11,818** |
+| A のみ / B のみ の name | **772 / 772** |
+| 共通 name のうち `(size, CRC32)` **完全一致** | **8,656** |
+| 共通 name のうち相違 | **3,162** |
+
+### C.3 数値 payload はすべてバイト同一(**相違 0**)
+
+`output/{candidates,rows,final,selection}` 配下の数値 payload(拡張子 `.bin` / `.u8` / `.u32` と数値 JSON = `B.json` / `p1-roots.json` / `source-correction.json` / `p1-exponent-residues.json` / `p1-reductions.json` / `raw-word.json` / `raw-source.json` / `target.json` / `witness.json` / `tree.json` / `cochain.json` / `section.json` / `witness-roster.json` / `start.json`)を全数照合:
+
+**一致 3,359 / 相違 0。** 内訳(各 128 本ずつ・CRC32 まで一致):
+`reduction/coefficients.u8`・`reduction/physical-normalized.bin`・`reduction/physical-remainder.bin`・`reduction/target-before.bin`・`reduction/target-remainder.bin`・`reduction/target.json`・`witness.json`・`e/B/{B.json, physical-by-character.bin, physical-raw.bin}`・`e/p1/{p1-roots.json, source-correction.json, source-lower-remainder.bin, source-top-corrected.bin}`・`e/primal/{p1-coefficients.u8, p1-exponent-residues.json, p1-reductions.json}`・`e/raw/{raw-chain.bin, raw-word.json}`・`e/source/{raw-source.json, raw-source-aux.bin, raw-source-d0.bin, raw-source-d1.bin, raw-source-d2.bin}`(= 24 種 × 128 = 3,072)、`output/rows/*/physical-normalized.bin`・`output/rows/*/target.json`(256)、**`output/final/lambda.bin`・`output/final/target-remainder.bin`**(2)、`output/selection/{section 12 本, cochain 4 本, tree 12 本, start.json}`(29)。
+
+**最も直截な証拠**: 再走の `output/final/lambda.bin`(12,096 B)と `output/final/target-remainder.bin`(12,096 B)は元 run と **CRC32 まで同一** — 出力 λ と target 剰余は同じバイト列である。
+
+さらに `output/selection/tree/manifest.json` の `files` 配列(13 本)を両 run で突合したところ、**`basis-tau.u8` / `chord-residuals.u8` / `chord-tau.u8` / `chord-values.u8` / `failed-edges.u32` / `failed-indices.u32` / `fit.u8` / `potential-f.u8` / `potential-tau.u8` / `selected-chords.u32` / `tree.json` / `witness-roster.json` の 12 本は bytes と sha256 とも同一で、相違は `telemetry.json` 1 本のみ**(537 B → 538 B)であった。
+
+**大きい 2 文書も構造単位で照合した**(私が 809 KB / 806 KB を Range で取得し JSON として比較):
+
+| 文書 | bytes | top-level key 数 | 相違した key |
+|---|---:|---:|---|
+| `output/candidates/000000/reduction/physical-literal.json` | 809,355(両 run 同一) | 12 | **`selection_sha256` と自身の `sha256` の 2 個だけ** |
+| `output/candidates/000000/reduction/reduction.json` | 805,773(両 run 同一) | 27 | **`selection_sha256` / 自身の `sha256` / `state_head` の 3 個だけ** |
+
+⇒ **reduction.json と physical-literal.json の数値内容(残る 10 / 24 key)は完全一致。** 相違は seal 値のみ。
+
+### C.4 相違 3,162 件と名前差 1,544 件の全数分類
+
+| 区分 | 件数 | 中身 |
+|---|---:|---|
+| A `telemetry.json` | **772** | `elapsed_seconds` / `proc_io_before` / `proc_io_after` / `process_ru_maxrss_kib` — **計測値そのもの**(例: `final/telemetry.json` は 1.236487 s → 1.512257 s) |
+| B seal を担う公刊文書 | **1,674** | `manifest.json` / `instruction.json` / `oracle-view.json` / `reduction.json` / `physical-literal.json` / `selection.json` / `HEAD` / `result.json` / `checker-result.json`。実バイトで確認した相違 key は `sha256` / `selection_sha256` / `state_head` / `rolling_sha256` / `literal_sha256` / `phase_manifests` / `previous_phase_manifest_sha256` / `checkpoint_sha256` / `final_manifest_sha256` / `row_manifest_sha256` / `oracle_view_sha256` に限られた |
+| C ログ / stdout | **5** | `producer-stderr.log` / `checker-stderr.log` / `producer-stdout.json` / `checker-stdout.json` / `driver-placement-before.txt` |
+| D fixture zip | **5** | `selftest-fixtures.zip` と `ZIP-{positive, duplicate, casefold, traversal}.zip` |
+| E `parent-timing/outer/*` | **59** | 外側 59 区間の計測 receipt(59/59 とも OBSERVED は両 run 共通) |
+| F `selftest-fixtures/P/...` | **574** | P の合成 fixture。basename 別は `oracle-view.json` 513・`manifest.json` 24・`telemetry.json` 19・`selection.json` 7・`physical-literal.json` 3・`reduction.json` 3・`child-execution.json` 2・`instruction.json` 2・`positive-case.json` 1。**size が動いたのは 5 件で全部 `telemetry.json`**(秒の桁数)。**C 側 fixture 1,672 件は 1 件も相違していない** |
+| G run 受領証 / intake / gate | **73** | `run-receipt.json` / `runtime-observation.json` / `cost-receipt.json` / `acquired-parents/*` / `execution/*` / 3 計器受領証など(run 識別子・計測秒を持つ文書) |
+| **合計** | **3,162** | |
+
+名前差 1,544(片側 772 ずつ)の内訳: **content-addressed な checkpoint 名 1,542**(= 771 × 2)+ **invocation の uuid 名 2**(`328941e9…` ↔ `0d3fbcc6…`)。
+**checkpoint 772 本のうち 1 本だけ name が共通で、しかもバイト同一**(1,148 B・CRC32 `7d050607`)— 計測値が seal に入る前の最初の checkpoint である。**鎖は同一値から出発し、telemetry が封に入った時点で初めて分岐している。**
+
+### C.5 state_head の出所(5 段の連鎖・数学差ではない)
+
+私は source で鎖の定義を特定し、各段を実バイトで確認した。
+
+1. **計測秒が telemetry に入る** — `validate_telemetry` を通った `telemetry.json` が phase の payload に加えられる: **P10 L8968-8969** `atomic_write(pending, "telemetry.json", raw)` / `files.append(payload_descriptor("telemetry.json", raw, "json", None))`。すなわち **telemetry のバイトは phase manifest の `files` 記述子(bytes + sha256)として封に入る**。
+2. **phase manifest → selection.json** — `phase_manifest_body`(P10)は `{**binding, selection_sha256, candidate_ordinal, witness_sha256, phase, previous_phase_manifest_sha256, files, eof}`。C.3 の実測どおり `files` の 12/13 は同一で telemetry だけが違うため manifest の sha が変わり、`selection.json.phase_manifests`(= section / cochain / tree の manifest sha)が変わる。**selection.json の他の field は全て同一**(実バイトで確認: 相違は `phase_manifests` と自身の `sha256` のみ)。
+3. **selection.json のファイル hash = `selection_sha256`** — **私が実バイトを自分で hash して確認した**: 元 run は `sha256(selection.json 31,137 B) = 79229565ab1d4a4b26e972c3ae6a17104da9b48a0fcbc35bb997cb5dfa1988be`、再走は `= 1ba69de07766c85e9535b6c3203cc2aab79751dc01fc00e15f0a525ce309cf31`。これは両 run の `instruction.json` / `physical-literal.json` / `reduction.json` / `HEAD` が持つ `selection_sha256` の値と完全一致する。
+4. **`selection_sha256` は rolling 鎖の被 hash 本体に含まれる** — **P10 L2693-2695**:
+
+```
+body = {key: value for key, value in instruction.items() if key not in ("schema", "sha256", "rolling_sha256")}
+require(instruction["predecessor"] == state_head and
+        instruction["rolling_sha256"] == sha(bytes.fromhex(state_head) + canonical(body)),
+        "batch_saved_instruction_rolling_chain")
+```
+
+   除外されるのは `schema` / `sha256` / `rolling_sha256` の 3 key だけなので、**`selection_sha256` は 128 段すべての被 hash 入力である**。
+5. **最終の rolling が state_head** — **P10 L2754** `target_sha, state_head = target_after, instruction["rolling_sha256"]`、**L2788** `"reduction_state_head": last["state_head"] …`。公刊 `HEAD` / `result.json` / `progress/HEAD` / `final/manifest.json` の `state_head` はこの終端値である。
+
+**⇒ state_head は「計測秒を含む telemetry の封」を経由して定義されており、run ごとに必ず変わる。相違は「別 seal」で完全に説明され、数学差の疑いはない。** なお **C10 L1998-2002** が同じ鎖(`rolling_sha256 == sha(bytes.fromhex(rolling) + canonical(unsigned_instruction))`)を**独立に再計算**しており、両 run ともその checker が PASS している — つまり 2 つの state_head はそれぞれ独立に検算された別々の封である。
+
+### C.6 公刊値の同一 / 相違(私が両 run の実バイトで突合)
+
+| 量 | 判定 | 値 |
+|---|---|---|
+| rank / generation | **同一** | 2474 / 9179 |
+| accepted_new_rows / dependent / skipped | **同一** | 128 / 0 / [] |
+| status / terminal | **同一** | PASS / BATCH_COMPLETE_CANDIDATE |
+| **final λ** | **同一** | `e910b7b65d64b1450e2c9b8aad495488e34b643fc0c6f4a01af5b1a78abf4e36`(`lambda.bin` は CRC32 まで同一) |
+| target_remainder / start_sha256 | **同一** | `f10b60b8…` / `75753f2b…` |
+| fresh λ_2346 / failed / first failed | **同一** | `289190c3…` / **35,780** / edge 847・index 435 |
+| old λ_2218 / failed | **同一** | `63b796b6…` / 35,647 |
+| anchor rows | **同一** | 128 / 768 / 896 |
+| first_candidate | **同一** | expected = observed = INDEPENDENT・matches true |
+| checker | **同一(判定)** | PASS・accepted_rows_compared 128・candidate_decisions_compared 128 |
+| verified / full_A0 / grade-2 | **同一** | false / false / NOT_DECIDED |
+| **state_head** | **相違** | `168d2cf1004e…`(元)↔ **`97aa3dd5099c…`**(再走) |
+| 計測秒 | 相違(判読対象外) | P 1,601.35 → 2,036.30 s / C 1,817.97 → 2,340.77 s / P 残差 442.86 → 513.27 s |
+
+### C.7 結論
+
+**再走 34735785100 は rank 2474 の「第 2 の sealed object」であり、数学は元 run と同一である**(数値 payload 3,359 件がバイト同一・相違 0、λ と target 剰余は CRC32 まで一致、公開スカラーは state_head 以外すべて一致)。**相違は seal 値・計測秒・run 識別子(`launch.run` / `attempt` / `head`・invocation uuid・content-addressed な checkpoint 名)に限られ、その全数を §C.4 の 7 区分に分類して数え上げた(相違 3,162 + 名前差 1,544)。state_head の相違は §C.5 の 5 段の連鎖(telemetry → phase manifest → selection.json → `selection_sha256` → rolling → state_head)で説明され、数学差の疑いは検出できなかった。**
+
+**裁定 2300 のとおり、数学として採用するのは元 run 34731988156(state_head `168d2cf1004e…`)1 本のみであり、再走は timing の一次データとしてのみ扱う。** 費用差(P +434.95 s / C +522.80 s / P 残差 +70.41 s)は本判読の対象外である(数学者の領分・§7.1 の交絡の議論を参照)。
+
+**F-v10-14 の更新**: 「rank 2474 の sealed object は 1 つ」→ **「rank 2474 の sealed object は 2 つ(`168d2cf1004e…` / `97aa3dd5099c…`)。数学は同一・数学採用は前者 1 本のみ。rank の引用には必ず state_head を併記すること(F-v7-3 型の運用を継続)」**。
+
+### C.8 本付録の限界(正直な申告)
+
+- ZIP 全量 DL はしていない。同一性の根拠は **中央ディレクトリの `(name, size, CRC32)` 全数照合**(CRC32 は 32 bit なので暗号学的な衝突耐性は無い — 悪意ある改変の排除ではなく、同一生成過程の確認として読むこと)+ 実バイトを取得した文書の内容照合である。
+- 実バイトを取得して内容まで比較したのは両 run から各 11 文書(`output/HEAD`・`output/progress/HEAD`・`output/selection/selection.json`・`output/selection/tree/manifest.json`・`output/final/telemetry.json`・`output/candidates/000000/{manifest.json, oracle-view.json, reduction/instruction.json, reduction/physical-literal.json, reduction/reduction.json}`・`output/rows/000000/instruction.json`・invocation 受領証)であり、**残る相違はすべて `(size, CRC32)` の相違という事実と basename による分類にとどまる**。
+- 128 段の rolling 鎖を私が端から端まで再計算したわけではない(C.5 は定義の特定 + 1 段の実測)。両 run の鎖の整合は各 run の checker の PASS に依拠している。
+- mirror run 34739351619 と Release archive は確認していない。診断 artifact 10311902780 も読んでいない。
+- **この観点では「数学が違う」証拠も、seal 以外の説明を要する相違も見つけられなかった — 保証ではない。**
+
+**裁定 2307(司令塔・2026-09-13)追補 — 付録 C の採択**: 再走 34735785100 は rank 2474 の第 2 の sealed object・数学は同一(数値 payload 3,359 件が (size, CRC32) 一致・相違 0・公刊値全同一・相違は state_head のみ)・数学採用は元 run 34731988156 の 1 本。F-v10-14 を「seal 2 本・採用 1 本・rank 引用は state_head 併記」に更新。F-v10-16(新): state_head は telemetry を rolling 鎖の入力に含むため数学同一性の識別子にならない → telemetry を除いた math_head の併記を v11 以降の計器として提案。

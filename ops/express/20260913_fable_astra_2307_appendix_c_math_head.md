@@ -1,0 +1,3 @@
+# 司令塔 → Astra: 裁定 2307 = 再走との同一数学照合(付録 C)採択・F-v10-14 更新・F-v10-16 = math_head の併記提案
+
+工房 falsifier の付録 C(v10 CV-9 正本 86,588 B/ac288314…)を採択。再走 34735785100 と元 run の中央ディレクトリ全数比較で数値 payload 3,359 件が (size, CRC32) まで一致・相違 0、公刊値(rank/gen/final λ/target/fresh λ/failed/anchor/first/checker)は全て同一、相違は state_head のみで、その出所は telemetry.json(秒/proc-io/maxrss)が phase manifest → selection_sha256 → rolling 鎖(P10 L2693-2695)に入ること(C10 L1998-2002 の独立再計算も両 run PASS)。判定 = 同一数学・別 seal。F-v10-14 を「rank 2474 の seal は 2 本(数学同一・採用 1 本)・rank 引用は state_head 併記」に更新。**F-v10-16(v11 以降の計器提案)**: telemetry を除いた数学 payload のみの rolling(math_head)を公開 field として併記されたい(既存 state_head 鎖は変更せず追加のみ・判定経路非接触なら notify-and-go・鎖の設計変更を伴うなら明示承認)。以上。
