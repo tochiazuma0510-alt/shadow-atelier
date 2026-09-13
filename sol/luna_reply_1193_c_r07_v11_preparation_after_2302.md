@@ -110,3 +110,77 @@ core v1のaux2を単独値[2]とした転記はv2で「原2値domainの件数」
 作者のtarget/reader実行・import/AST/compile/selftest・P private読取・新agent・Git/GHA/network/credentials操作は0。設計票をF-v10-2/8修理完了、V11受領成功、verifiedまたは新数学採用とは称しない。
 
 AUDIT_1193_C_VERDICT:
+
+
+F1193.C.6 — 正式5値・親headerの到着と全8 snapshotのordinary caller名簿
+
+前節の未到着条件のうち、原V10正式5値と第23親の公開headerは解消した。原run34731988156/1・head785bd2d87f2b97452a7f0deb2085afe4e7e56d95だけを数学親とする。timing-only run34735785100は用いていない。rootが限定8条付きcross-checkedとして採用したrank2474/gen9179、A0実0/1、verified=falseを継承する。本追記はrootの数学採用を独自再実行した記録ではない。
+
+D=R/run34731988156-reception-v1、T=R/task1193/C。実在する新根拠は次の4点で、全D3をraw照合してJSONを読んだ。
+
+|材料|bytes|SHA256|
+|---|---:|---|
+|D/root-v10-formal-inventory5-v1.json|229|b2ead8b4b63e3ff76caa2ea1e98d6759bb7d38d619b5fa73bc009e108643536a|
+|D/root-v10-formal-and-cv9-mathematical-adoption-v1.json|1050634|7385f32671c0742cc91df1ffbf1ca2097b3c80ee21f82445aa4863b2ebc8c4a4|
+|R/task1193/P/batch-anchor-v10-proposed-from-actual-Q-v1.json（公開headerのみ）|156207|bb67a1eebd9d4b2850099940eaddf6afcd2b1835cdad7e67daa4173d1edf3820|
+|R/task1193/root-v10-parent-header-and-cv9-custody-adoption-v1.json|253098|802c9bef4dd59793b9b961439c0bf03a9fd57e5381a961db58649cf7edc6e99d|
+
+formal5はfiles=12590、file_bytes=1673885307、directories=3744、files_sha256=25ae0f13a07826877a7c41e9744c2251aad6e6ff1fb864b33e20b72c7cd68c5a、directories_sha256=a968226a73b22d0c23649f1e9c54092e9fd7d587ae9bb5ac073d490104f4627f。公開headerはexact36、accepted_schema=v10、rank2474/gen9179、state_head168d2cf1004ee6ace61fd082dedb21af41ff1047cf3a88482ed8170ad81786f9。新λ2474のoracleはnull、旧選定λ2346の実failure35780/index435/edge847は別である。保存nativeの768/896/993と、新親を受ける896/1024/1121を区別した。791実D3・7公開値・804入力前後pinの再構成はrootの受領範囲であり、このC追記がその全実読を重複したとは主張しない。
+
+F1193.C.7 — 120枠を普通の受入口へ結ぶ設計
+
+全8版v3..v10 × 15文書family=120枠を列挙した。既存C10にはv3..v9の7入口が実在し、v3は13 records family＋別readのacceptance、v4..v9は14 records family＋別readのacceptanceである。第8のnative-v10入口は既存seventh familyからの明示対応を記した未実装の計画である。v3 parent-intakeの1枠は、output/parent-intake.jsonの欠品を既受理全inventoryと結ぶ義務であり、欠測をordinary falseに補完するものではない。これによりsourceが要求するpresent枠は119、認証済みabsence枠は1となる。
+
+7既存入口はauthenticate_batch_parent_metadata、authenticate_next_batch_parent_metadata、authenticate_third_batch_parent_metadata、authenticate_fourth_batch_parent_metadata、authenticate_fifth_batch_parent_metadata、authenticate_sixth_batch_parent_metadata、authenticate_seventh_batch_parent_metadataであり、AcceptedInputs.__init__の実7呼出から辿った。対応するold/next/third/fourth/fifth/sixth/seventh_batch_jsonの全91実呼出、各入口の全path/suffix、別acceptance read、builderと後続旧再構成の境界を固定した。
+
+現在authoritativeなkeyset判定を持つ20関数・29 pattern行の移行先を明記した。
+
+|実在する判定|関数数|snapshotへの接続|
+|---|---:|---|
+|check_fifth/sixth/seventh_native_keysets|3|各14文書の期待表を該当版の登録済みviewへ|
+|check_v4..v9_acceptance_header|6|各版acceptanceの全keyset/schemaへ|
+|authenticate_batch_parent_metadata内v3 acceptance|1|v3 acceptanceの全keyset/schemaへ|
+|check_v6..v9_intake_header|4|各版parent-intakeの全keyset/schemaへ|
+|authenticate_next/third/fourth/fifth/sixth/seventh_fixed_reference内native fixed|6|各版fixed-manifestの全keysetへ|
+
+各records bundleは後続の普通処理へ渡す前に、その版の全登録familyを照合する。snapshot未登録・二重束縛・欠品・型違い・同数別key・schema違いは拒否し、受信文書のschemaを見て期待版を選ばない。current V11 14/69/89/16とnative V10 13/64/81/15を同時許容するgateにはしない。
+
+check_batch/next/third/fourth/fifth/sixth/seventh_parent_headerの7件と、check_third/fourth/fifth/sixth/seventh_selection_lambda_contractの5件は元々部分headerを受ける。ここでは登録済みschemaの参照だけを接続し、元の普通型・数値・禁止key・拒否labelを保持する。部分正対照へ全HEAD keysetを追加して旧試験を別の拒否へ逸らさない。全保存文書のexact keysetは普通入口で照合する。旧9群は同じordinary callbackを使い、snapshot用selftest専用cloneやglobal schema切替は作らない。
+
+原C10全291範囲をfresh照合し、7歴史namespace定数の全63出現とsource全130 key/set pattern行を分類した。130は述語数ではなく字句選択行数で、29移行予定行と101残置行に分かれる。C4の24名/21実体と旧native23の全raw、動的phase/row/checkpoint/invocation、元continuation fixed8・descriptor5、current型、数学・本文再構成の完全比較は保持する。残るliteralを移行済み・削除済みとはしない。全内容再構成の期待辞書は、snapshot header照合後も独立の値比較として残る。
+
+F1193.C.8 — 共通15 family名とCローカル名の明示alias
+
+rootのABI裁定に従い、共通正本pointerは /new_source_audit/schema_keyset_snapshots、semantic payloadはexact2、native_domainsは8、各entryはexact4、documentsは共通15名、各familyはexact3を保つ。Cローカル名を共通payloadへ重複登録しない。
+
+|Cローカル名|共通名|
+|---|---|
+|checker|checker-result|
+|fixed|fixed-manifest|
+|final_manifest|final-manifest|
+|parent_intake|parent-intake|
+|parent_layout|parent-layout|
+|progress_head|progress-head|
+|selection_start|selection-start|
+
+acceptance/head/result/owner/source/start/selection/separatorの8名は同名である。全15名のbijectionは自己readerの実suffixに一致する。map-v2のローカル名pointerは設計履歴として残し、map-v3は全120枠にlocal_family、common_family、semantic pointer、registry pointerを明示した。実sourceへのpointer座標は未実装であり、完成したと書かない。P登録表をCの数値authorityにする変更はない。
+
+F1193.C.9 — 最終設計材料と有限照合範囲
+
+現在有効な版は次のとおり。すべてT内CreateNewで保存し、前稿は不変にした。
+
+|材料|bytes|SHA256|
+|---|---:|---|
+|public-C11-independent-core-design-v4.json|24038|1e0e8fd4f6cb8e7c3929f5b9698ed65e074c88adedac9b8cfa2a61582a5fb2ee|
+|public-C11-F2-F8-snapshot-and-ordinary-connection-design-v4.json|16582|eb46a8853082bf8740d0f31be5b50fe4696613249eacdaa07ca7aca592994eb3|
+|public-C11-all-eight-snapshot-ordinary-caller-design-v3.json|266828|a4e3b0c59d2c6ea1634a32514cb225a3bcfdc5afb2010364c2f764dcec70b973|
+|public-C11-snapshot-family-alias-and-pointer-contract-v1.json|2851|2b4a0b28112ed474b72ef2225c752f94cece41a2452567e55ce500ad121b7085|
+|public-C11-all-eight-native-keyset-caller-evidence-v1.json|299385|555ce7a82cd982310582d4cb37c57aadeb4ca9bedd0230a071effff34708d0ba|
+|public-C11-design-handoff-manifest-v4.json|6334|a8867990c45648caab0c37f982c57f798b0ba8fb7e4051f886717441acd87604|
+|public-C11-formal-and-all-eight-caller-design-static-closure-v2.json|7084|2495eef07607b507fa1e8748e5a675833754914e88ddffa188cef162382a99a4|
+
+前出の最小13否定例と154イベント/元deadline設計は同じ実pinのままmanifestへ接続している。追加の静的照合では、公開source座標1442件/unique1185を既存C10 rawへ戻し、全7入口のpath/suffix、全120枠、20関数、全material D3を照合した。563 symbol referencesは定義・call token・observer登録・callback・注釈/公開labelを区別した字句票であり、ASTや実runtime到達証明とはしない。
+
+自己C10 sourceは870249 B / a21fd2b54958f84ea67e7b3a079893cff70544961005d6c79a0f6ff47e752ca8のまま。公開snapshot8のactual canonical値/sidecarはNoether/rootからの後着であり、未着を補っていない。rootから次の具体実装票が出るまで大型source生成0、target/reader実行・import/AST/compile/selftest0、P private/source/数値表の読取0、Git/network/資格情報操作0を維持した。ここで閉じたのは正式根拠を結んだ限定設計と実caller名簿であり、F-v10-8のsource実装完了やV11実測成功ではない。
+
+AUDIT_1193_C_VERDICT:
