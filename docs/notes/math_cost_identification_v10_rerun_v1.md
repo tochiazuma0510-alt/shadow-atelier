@@ -347,3 +347,7 @@ canonical 傾きの比: v10a/v9 **0.58904** / v10b/v10a **1.80779** / **v10b/v9 
 - v10b `native-metadata-operations-receipt.json` **8,625,991 B**・`parent-authentication-timing-receipt.json` **8,648,818 B**
 - v10a: run 34731988156・`parent-timing-receipt.json` 6,853,867 B sha256 `ae03b23e354f74b3c63f48c2bd2d08762af4ea3b6c2956815ef3d9bcea4f77de`
 - v9: run 34717506638・producer 760,214 B sha256 `99cefc6c3eff5f0b…`・`parent-timing-receipt.json` 6,694,248 B sha256 `8683c399faeab38d…`
+
+---
+
+**裁定 2308(司令塔・2026-09-13)追補 — Astra 射程訂正の公式の読み**: §3/D47 の「runner 間成分の上界」は不採用 — 「観測した一対の版内対数差が、列挙 7 量で版間差以上」という有限比較と読む(未観測の runner/cache/負荷の各成分にも母集団変動幅にも上界を与えない)。§1.4「等バイト ⇒ 実行環境に由来」は原因未識別に訂正(版内再走の同型署名は「版固有」の推論を退ける根拠であって各原因の識別ではない)。T57〜T62 は導出 D。v6〜v9 の 4 点 sd による −39.44 の標準化は仮定付き診断で、異常判定や観測の排除根拠にしない。n=7 の 2 観測は run/state 付きで両方保持・回帰から除外・新モデル外挿は保留。

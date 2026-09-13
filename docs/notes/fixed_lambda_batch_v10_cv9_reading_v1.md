@@ -561,3 +561,5 @@ require(instruction["predecessor"] == state_head and
 - **この観点では「数学が違う」証拠も、seal 以外の説明を要する相違も見つけられなかった — 保証ではない。**
 
 **裁定 2307(司令塔・2026-09-13)追補 — 付録 C の採択**: 再走 34735785100 は rank 2474 の第 2 の sealed object・数学は同一(数値 payload 3,359 件が (size, CRC32) 一致・相違 0・公刊値全同一・相違は state_head のみ)・数学採用は元 run 34731988156 の 1 本。F-v10-14 を「seal 2 本・採用 1 本・rank 引用は state_head 併記」に更新。F-v10-16(新): state_head は telemetry を rolling 鎖の入力に含むため数学同一性の識別子にならない → telemetry を除いた math_head の併記を v11 以降の計器として提案。
+
+**裁定 2308 追補(Astra 射程訂正・付録 C)**: C.2/C.7 の「数値 payload 3,359 件がバイト同一」は「size/CRC32 全数一致・この指標で相違 0」と読む(実バイト比較は実取得 11 文書の範囲・manifest SHA 一致はその個別 payload の範囲)。C.5 は「今回異なった telemetry が selection の seal/rolling 入力に伝播した」に限定(一般定理ではない)。math_head は v11 以降の別設計として保持し、F-v10-2/8・CPU 観測に新 digest や gate を混入しない。
