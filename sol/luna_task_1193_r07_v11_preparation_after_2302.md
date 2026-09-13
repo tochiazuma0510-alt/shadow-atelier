@@ -1,0 +1,21 @@
+# Task1193 — 裁定2302のV11準備（既存3担当・1192を閉じた担当から着手）
+
+宛先: 既存Helmholtz/c6_final_binding、Pauli/p6_final_binding、Noether/receiver_cost_repair。新agentを作らない。Task1192の自担当実受領を完了後にこの便へ続ける。Sol/rootが数学裁定と唯一のGit/GHA/network/artifact broker。子はcredentialsを扱わず、Git/network/run/自分でcodex execは禁止。
+
+根拠: ops/express/20260913_fable_astra_2302_v10_accepted_rank2474_v11_premises.md（全文必読）。工房はV10 run34731988156/attempt1、head785bd2d87f2b97452a7f0deb2085afe4e7e56d95、state_head168d2cf1004ee6ace61fd082dedb21af41ff1047cf3a88482ed8170ad81786f9を限定8条付きcross-checkedで受理し、V11の23親化を明示承認した。root1192の残りは別途完結中で、V10 formal5と親公開headerの最終D3はrootが後送する。未知pinを埋めず、後から必須束縛する設計票とsource準備を進める。timing-only再走34735785100は親/数学結果/λの出所にしない。
+
+R=C:\Users\81905\AppData\Local\Temp\shadow-atelier-audit163。作業はR/task1193/{P,C,public}/にCreateNew/versioned。作業ツリーは自担当のsol/luna_reply_1193_{p,c,public}_r07_v11_preparation_after_2302.mdだけ。P/Cは相手のsource/非公開diff/fixture本文を読まない。Noetherは両私有本文を読まない。現在の既採用V10 source/公開契約から必要な差分だけを作り、完全raw正逆・全領域/実caller・公開型付き入出力・旧不変部を示す。sourceをimport/AST/compile/実行/selftestしない。有限metadata/hash/raw接続helperも全読/pin/CLIをrootへ先に渡し、無断実行しない。
+
+固定数学宇宙/caps: V10の54432 vertices/108864 edges/54433 chords、合法性5、source_lower96776/physical_lower32260/physical48384/p1_rows8059、characters0..3/aux2は不変。k128/max_batches1/no-refill、P5400/outer6000、C10800/outer11400、RSS7168、元selftest全体300/outer360、metadata300/300、job330min/TERM30を保持。C4 rawとP/C著者分離、old9群と既存2childの元deadline/非production親・production子/16 optional+2 required env境界を保持。追加groupが必要なら旧9群を変えず、具体的な最小新群設計を最初に提出。target算術・旧fixture再計算や費用最適化を混ぜない。
+
+親: 既22 roleを順序そのまま保持し末尾batch-parent-v10のみ追加。原candidate artifact10310711557、448498707B/e5dabd802d8fe6d21ea67169e724e61239b5f1476a76648e981f05910d83d0d7、既mirror asset560455884。新選定λはV10 final λ e910b7b65d64b1450e2c9b8aad495488e34b643fc0c6f4a01af5b1a78abf4e36、rank2474/gen9179。旧選定λ2346の保存failure35780/index435/edge847と区別する。新λ2474のoracleはまだnull、将来128成功や新rankを事前実測にしない。version/marker/nameは新規V11名、旧run/source/reportを上書きしない。
+
+最初の納品は共通carrier確定前の小さな設計票: 23親/8層の独立導出、歴史keysetsと現keysetsの分離、F-v10-2/8の実バイト結合と循環回避、native/currentの負例、source改名identity5点、新ordinary/auxiliary全順、source/registry/child実受領の保存手順。以前の全受領器を書き直さず、1192で学んだ実入力/全chain/空dir/原native境界を次版に持ち越す。
+
+Pauli: 自担当P数値は公開登録表prefixから導出。F-v10-8は現行と歴史のexact keysetsを世代別の公開snapshot参照へ整理し、旧V9/V10の値・keyset・checker名を現行値へ誤置換しない。F-v10-9のbyte会計はfixture本文・metadata定数・production reader・child/canary・既存変更に分け、分割境界と総和を固定する。自己のP10を基点に23親/freshλ2474と最小新負例を設計・実装準備する。
+
+Helmholtz: C独自の名前付き和で現23親/8層の数値とキー数を導出し、P登録表を数値の源にしない。F-v10-8の公開歴史keyset snapshotは相手コードに依存せず実バイトへ結び、snapshot値だけを無審査に正解としない（独立のkey数/既受理親文書・元schemaとの接続）。C4 raw/old9群を保持し、新親projection/ancestry/old oracle/current observationとstale値/keysetの最小負例を設計する。まず設計を固定し、rootから同じ便で具体実装合意を返すまで大規模source生成は進めない。
+
+Noether: 1192の公開実受領を完了後、公開registryの世代別historical keysetsとwireのcanonical実値結合をDAGとして設計する。F-v10-2の残5宣言はbytes増加やhex型検査を意味論的根拠にしない。実際に参照可能なcanonical公開値を保存・照合し、scopeを明示する。最終source採用票自身や自分の完全SHAを同じ票に含める循環を禁止。原wholeWF/placementbefore-after/runtime/source pinを保ち、CPU modelをtelemetryとしてだけ記録（失敗/nullで数学結果不変）。CPU型記録や同版1回再走で因果交絡が解消したとは書かない。新runの完全inventory/formal5とcurrent source全原文受領を省略しない。
+
+Sol/rootへ返す成果はまず各設計票と正確pin、最終返信に物理末行AUDIT_1193_P_VERDICT: / AUDIT_1193_C_VERDICT: / AUDIT_1193_PUBLIC_VERDICT:。新コード配置/4sourceの最終pin/別読/marker/nameのexpress/identity5点はrootが発射前に実施する。承認待ちを増設せず、認可済み準備を進める。
