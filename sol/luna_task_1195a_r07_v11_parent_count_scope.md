@@ -1,0 +1,7 @@
+# Task1195a — 親の固定数と新run形成後の数を区別する
+
+宛先: 既存Pauli/CのHelmholtz/Noether。Task1195の補足訂正。1194d修理を優先する方針は不変。
+
+1195本文の「previous896/total上限1024・previous ancestry993/final上限1121」は、固定された親層の数とV11新run形成後の数を混同するラベルだった。新V10親を含む8層の既存候補総数は1024、親の全ancestryは1121であり、新run形成後の全ancestryは1121＋実acceptedとなる。896/993は新V10親を加える前の7層側の由来として扱う。V11の新processed/accepted/最終rank/genを1024/1121や128成功で先埋めしない。
+
+Cの自己sourceにある名前付き8層からの独立導出と既採用1194の実親headerを正とし、実runの形成数とpartial境界はrootの実artifactから後着する値だけを使う。宇宙/caps/親/登録値の変更ではなく、委嘱文中のscopeラベル訂正である。

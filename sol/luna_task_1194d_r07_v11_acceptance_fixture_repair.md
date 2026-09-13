@@ -1,0 +1,21 @@
+# Task1194d — P の current acceptance fixture を修理し同じ V11 で再実行する
+
+宛先: 既存 Pauli/P、Helmholtz/C、Noether/public。新agentなし。Task1195受領準備を保持し、本修理を優先する。root/Solが数学裁定・別読と唯一のGit/GHA/network broker。研究者の継続認可および2199/2310/2311のnotify-and-go内で、caps・数学宇宙・親・batch/no-refill・C4 raw・著者分離を変えずに進む。再承認待ちを設けない。
+
+実run34753243056/1/head6976c1074508a0735cd6525a91eca52f1d71279cはmetadata11を通過し、P selftest12でnative1、final22は下流失敗。P/C本走は未開始。root実終端票 R/run34753243056-reception-v1/completed-v1-observation.json1996 B/0c83e707089da82f3b8adbea0a59e6b3395d921657f6d2680c6b46a58d744c69。diagnostics10316003345/76531098 B/62c5ae2dcdd58188ed97772d0951e92c1971da57b1ae6f4204d8b4de20791a3aをrootが取得中。Rangeで得た実memberはR/run34753243056-range-failure-v1/に保存済み（全ZIP digestの確認は別途）。
+
+P公開失敗根拠: producer-selftest-stderr.log3865 B/27b4f1ca32d0df0e19d92f4dbfa51ddaa7aec09dc404b43c8e2ac896c671b9d6、stdout2864 B/de77d67f6334e26c901821c5c26cf04642042bb961352d9b2074fba62d4df88c、execution/producer-selftest-result.json10787 B/5fb140d8396198579226a1564b8a4554ace1aedddb013a2a19c1fc4287f49b6f。root全文440d17/e922c6、result投影1c8045。elapsed3.0581010639999704秒、outer_terminated=false、300/360は維持。P私有箇所のあるtrace本文はPauli/rootだけが読む。C/Noetherは以下の公開分類とrootの採用票を使う。
+
+原因: k128_registration_canary の old-acceptance は old schema を拒否する new_batch_acceptance_schema を期待するが、fixtureが新規 batch_anchor_v10 を欠いた旧13-key shapeのため、通常authenticate_acceptanceのacceptance_fourteen_plain_keysで先に拒否される。rootは27ec8cでauthenticate_acceptance/k128_reject/k128_registration_canaryの全文を読み、同関数のportableにも同じ欠落を確認した。current_key_contractと通常keys/schemaの述語・順序は維持し、期待理由を手前の違うgateへ変更しない。
+
+Pauli: 自担当P1129203 B/2541428a88ebd99e549c8b810a1c7f9ad8d52aa9eaa82630ee67a2fd1fe5e97bを基点に、旧schema拒否とcurrent portableの合成入力が現登録14-key shapeを持つ最小修理をする。まず上記2 literalにbatch_anchor_v10を追加する必要性と、同型のcurrent fixture全体を有限に点検。歴史的旧世代13-key文書まで一括変更しない。通常判定/登録数表/旧expected gateとcase数/元2child/absolute300は不変。k128_registration_canaryとretained source分類の関係を明記し、変更したcurrent合成fixture bodyをraw不変とは呼ばない。旧歴史原典/旧自己検査の意味/C4を保持し、本便のcurrent fixture修理として差分を明示する。Psourceの完全正逆差分、公開source-only採用に必要なopaque D3、自己公開timing/interface等のsource pin/rangeだけの正確な後着差分を提出する。
+
+Helmholtz: C949977 B/e7b703468c993939d66b0544b0b290bd489c0ac12af31883fd4967435aae3ee6を基点に、同じ公開分類がC自担当のcurrent合成acceptance fixtureにも影響しないかread-onlyで点検する。P私有source/diff/fixtureは不可。新Pのopaque D3が来た後、C自身が必要なP pinの再結合のみを行う。実C独立述語/C4/原親/名前付き和/ケースを変えない。別の具体欠陥が見つかった場合は先にrootへ報告し、無関係な修理を混ぜない。C source-only採用と自己公開metadataのsource/range後着差分を用意する。
+
+Noether: 1194cで採用した修理driver63186337 B/4ca7c1a3600e8d632627ecbc9ef3682f1ff6b328a9ca67326c2f34b57c765dbfとWF69995 B/c0eb15b2b905fc89e4d509657aa522bfae7e6aa7bb0aeedab07af1e23ae5c8aaを基点とする。P/C私有本文は読まない。新opaque sourceとroot source-only leafが来た順に、必要な公開metadata/registry/source-region記述/carrier/source/WF pinを既存author手順の有限差分で結ぶ。P修理により変更を要する保存fixtureの公開期待値/受領部品があれば、Pauli公開差分から同じ意味で更新する。source→root source-only leaf→canonical6＋不変history2→registry→driver→WF→rootclosureのDAGを保持し、自己/future hashの循環を作らない。通過済みcanary理由修理の4 editとexact5理由、その他通常driver述語/保存条件は保持する。
+
+全員: 作業先 R/task1194d/{P,C,public}/ をCreateNew/versioned。自担当返信 sol/luna_reply_1194d_{p,c,public}_r07_v11_acceptance_fixture_repair.md、物理最終行はAUDIT_1194D_P_VERDICT: / AUDIT_1194D_C_VERDICT: / AUDIT_1194D_PUBLIC_VERDICT:。新sourceはTEMPのみ、実配備はrootが同じV11 pathに行う。自身の有限text/JSON/raw/hash組立helperは全文自読とpin後に可。対象source/receiverのimport・AST・compile・実行/selftest、数学再計算、Git/network/credentialsは禁止。sourceと小さい全正逆差分を先行納品し、root別読中に残る後着票を完成させる。旧全source/全CV9/全親受領の再作成をしない。
+
+不変: WF path/name/marker、実親V10 rank2474/gen9179/state168d2cf1…、fresh λ2474 e910b7b6…（oracle未観測）、23親/8層、P5400/6000・C10800/11400・RSS7168・metadata300/300・元2child/absolute300・job330min/TERM30・k128/max_batches1/no-refill・数学宇宙・C4 raw・著者分離。旧keysetを新keysetへ偽装したり、通常readerをselftest専用cloneへ替えたりしない。
+
+rootが全差分の別読とsource-only leafを順次発行し、最後に変更/不変の実pin・別読票・同marker/nameをexpress通知して配置・GHA再発射する。実成功/A0完了は事前に宣言しない。
